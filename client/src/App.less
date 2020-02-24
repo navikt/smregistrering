@@ -1,27 +1,21 @@
 @pdf-width: 45%;
 @menu-width: 15%;
-@navbarHeight: 5.5rem;
+@navbarHeight: 5.6rem; // TODO: This is not accurate
 
 .menu-container {
     width: @menu-width;
-    position: fixed;
 }
 
 .form-container {
     flex-grow: 1;
-    height: 5000px;
-    padding-right: @pdf-width;
-    padding-left: @menu-width;
+    overflow: auto;
 }
 
 .pdf-container {
     width: @pdf-width;
-    height: calc(100vh - @navbarHeight);
-    position: fixed;
-    right: 0;
 }
 
 .content-container {
     display: flex;
-    padding-top: @navbarHeight;
+    max-height: calc(100vh - @navbarHeight);
 }
