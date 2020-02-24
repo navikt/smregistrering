@@ -20,14 +20,27 @@
     "react-scripts": "3.4.0",
     "typescript": "^3.7.5"
   },
+  "devDependencies": {
+    "import-sort-style-renke": "^6.0.0",
+    "prettier": "^1.19.1",
+    "prettier-plugin-import-sort": "0.0.3"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint 'src/**/**.{ts,tsx,js,jsx}'",
+    "format": "prettier --write 'src/**/**.{ts,tsx,js,jsx}'"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "importSort": {
+    ".js, .jsx, .ts, .tsx": {
+      "style": "renke",
+      "parser": "typescript"
+    }
   },
   "browserslist": {
     "production": [
