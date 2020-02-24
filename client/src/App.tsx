@@ -2,6 +2,8 @@ import './App.less';
 
 import React from 'react';
 
+import Form from './components/Form/Form';
+import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
 
 const App = () => {
@@ -9,8 +11,12 @@ const App = () => {
         <>
             <Navbar />
             <div className="content-container">
-                <div className="menu">menu</div>
-                <div className="form">form</div>
+                <div className="menu-container">
+                    <Menu />
+                </div>
+                <div className="form-container">
+                    <Form />
+                </div>
                 <div className="pdf-container">
                     <object
                         width="100%"
