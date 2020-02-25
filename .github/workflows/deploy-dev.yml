@@ -17,13 +17,18 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - name: Install deps
+      - name: Install dependencies for server
         run: |
           npm install
+        working-directory: ./server
       - name: Run tests for server
         run: |
           npm run test
         working-directory: ./server
+      - name: Install dependencies for client
+        run: |
+          npm install
+        working-directory: ./client
       - name: Run tests for client
         env:
           CI: true
