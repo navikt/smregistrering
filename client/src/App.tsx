@@ -17,7 +17,6 @@ export enum SectionTitle {
     TIL_ARBEIDSGIVER = 'Melding til arbeidsgiver',
     TILBAKEDATERING = 'Tilbakedatering',
     BEKREFTELSE = 'Bekreftelse',
-    REGISTRER_SYKMELDINGEN = 'Registrer sykmeldingen',
 }
 
 export type Section = {
@@ -58,34 +57,29 @@ const App = () => {
             title: SectionTitle.FRISKMELDING_PROGNOSE,
         },
         [SectionTitle.ARBEIDSEVNE]: {
-            index: 6,
+            index: 7,
             ref: useRef<HTMLDivElement>(null),
             title: SectionTitle.ARBEIDSEVNE,
         },
         [SectionTitle.TIL_NAV]: {
-            index: 7,
+            index: 8,
             ref: useRef<HTMLDivElement>(null),
             title: SectionTitle.TIL_NAV,
         },
         [SectionTitle.TIL_ARBEIDSGIVER]: {
-            index: 8,
+            index: 9,
             ref: useRef<HTMLDivElement>(null),
             title: SectionTitle.TIL_ARBEIDSGIVER,
         },
         [SectionTitle.TILBAKEDATERING]: {
-            index: 9,
+            index: 11,
             ref: useRef<HTMLDivElement>(null),
             title: SectionTitle.TILBAKEDATERING,
         },
         [SectionTitle.BEKREFTELSE]: {
-            index: 10,
+            index: 12,
             ref: useRef<HTMLDivElement>(null),
             title: SectionTitle.BEKREFTELSE,
-        },
-        [SectionTitle.REGISTRER_SYKMELDINGEN]: {
-            index: 11,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.REGISTRER_SYKMELDINGEN,
         },
     };
 

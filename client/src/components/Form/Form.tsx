@@ -72,7 +72,6 @@ const Form = ({ sections }: FormProps) => {
                 <SectionHeader section={sections[SectionTitle.TIL_ARBEIDSGIVER]} />
                 <SectionHeader section={sections[SectionTitle.TILBAKEDATERING]} />
                 <SectionHeader section={sections[SectionTitle.BEKREFTELSE]} />
-                <SectionHeader section={sections[SectionTitle.REGISTRER_SYKMELDINGEN]} />
             </Panel>
         </>
     );
