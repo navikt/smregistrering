@@ -1,8 +1,11 @@
 import React from 'react';
 
+import FormHeader from './components/FormHeader';
+
 const Form = () => {
     return (
-        <div>
+        <>
+            <FormHeader />
             <div>form</div>
             <div>form</div>
             <div>form</div>
@@ -131,7 +134,7 @@ const Form = () => {
             <div>form</div>
             <div>form</div>
             <div>form</div>
-        </div>
+        </>
     );
 };
 
