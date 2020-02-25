@@ -37,7 +37,7 @@ jobs:
         working-directory: ./client
       - name: Build server
         run: |
-          npm run build
+          npm run compile
         working-directory: ./server
       - name: Build client
         run: |
