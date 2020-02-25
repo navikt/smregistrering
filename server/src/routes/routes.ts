@@ -1,0 +1,102 @@
+import authUtils from "../auth/utils";
+import config from "../config";
+import express, { Request, Response, NextFunction } from "express";
+import path from "path";
+import passport from "passport";
+import reverseProxy from "../proxy/reverse-proxy";
+import { decode } from "jsonwebtoken";
+
+const router = express.Router();
+
+const ensureAuthenticated = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.isAuthenticated() && authUtils.hasValidAccessToken(req)) {
+    next();
+  } else {
+    if (req.session && req.query.oppgaveid) {
+      req.session.redirectTo = req.url;
+    }
+    res.redirect("/login");
+  }
+};
+
+const setup = (authClient: any) => {
+  // Unprotected
+  router.get("/is_alive", (_req, res) => res.send("Alive"));
+  router.get("/is_ready", (_req, res) => res.send("Ready"));
+
+  router.get(
+    "/login",
+    passport.authenticate("azureOidc", { failureRedirect: "/login" })
+  );
+  router.use(
+    "/callback",
+    passport.authenticate("azureOidc", { failureRedirect: "/login" }),
+    (req, res) => {
+      if (req.session?.redirectTo) {
+        res.redirect(req.session.redirectTo);
+      } else {
+        res.redirect("/");
+      }
+    }
+  );
+
+  router.use(ensureAuthenticated);
+
+  // Protected
+  router.use("/", express.static(path.join(__dirname, "build")));
+
+  router.get("/user", (req: Request, res: Response) => {
+    try {
+      if (!req.user) {
+        throw new Error("Did not find user object attached to request");
+      } else {
+        const accessToken = req.user.tokenSets?.self.access_token;
+        if (!accessToken) {
+          throw new Error("Did not find token object attached to request");
+        } else {
+          const userName = decode(accessToken, { complete: true });
+          if (!userName) {
+            throw new Error("Could not decode token to get user information");
+          } else {
+            res.status(200).send((userName as any).name); // TODO: er det ferdt å type opp denne responsen?
+          }
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json(error);
+    }
+  });
+
+  router.get("/logout", (req: Request, res: Response) => {
+    req.logOut();
+    req.session?.destroy(error => {
+      if (!error) {
+        if (config.azureAd.logoutRedirectUri) {
+          res
+            .status(200)
+            .send("logged out")
+            .redirect(config.azureAd.logoutRedirectUri);
+        } else {
+          res.status(200).send("logged out");
+        }
+      } else {
+        res.status(500).send("Could not log out due to a server error");
+      }
+    });
+  });
+
+  reverseProxy.setup(router, authClient);
+
+  router.use("/*", (req, res) => {
+    res.status(404).send("Not found");
+  });
+
+  return router;
+};
+
+export default { setup };
