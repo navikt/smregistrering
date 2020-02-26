@@ -10,7 +10,7 @@ COPY ./server/package.json ./server/
 
 RUN pwd
 # Change working directory to the server
-WORKDIR /server
+WORKDIR /var/server/server
 
 # Install dependencies for server
 RUN npm install
