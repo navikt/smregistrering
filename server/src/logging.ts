@@ -7,6 +7,7 @@ const setupLogging = (server: Application) => {
     morganBody(server);
   } else {
     morgan("common");
+    // TODO: filter requests that are useful to log
   }
 };
 
