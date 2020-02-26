@@ -1,37 +1,11 @@
 import './Menu.less';
 
-import Lenke from 'nav-frontend-lenker';
-import React, { RefObject } from 'react';
+import React from 'react';
 import { Systemtittel } from 'nav-frontend-typografi';
 
+import MenuLink from './MenuLink';
 import Panel from '../Panel/Panel';
-import { Section, Sections } from '../../App';
-
-const scrollToRef = (ref: RefObject<HTMLDivElement>) => {
-    if (!ref.current) {
-        return null;
-    }
-    ref.current.scrollIntoView({ behavior: 'smooth' });
-};
-
-type MenuLinkProps = {
-    section: Section;
-};
-
-const MenuLink = ({ section }: MenuLinkProps) => {
-    return (
-        <Lenke
-            className="menu-link"
-            href=""
-            onClick={e => {
-                e.preventDefault();
-                scrollToRef(section.ref);
-            }}
-        >
-            {section.title}
-        </Lenke>
-    );
-};
+import { Sections } from '../../App';
 
 type MenuProps = {
     sections: Sections;
