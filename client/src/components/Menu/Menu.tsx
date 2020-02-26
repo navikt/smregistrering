@@ -9,7 +9,6 @@ import { Section, Sections } from '../../App';
 
 const scrollToRef = (ref: RefObject<HTMLDivElement>) => {
     if (!ref.current) {
-        console.log('cannot scroll', ref);
         return null;
     }
     ref.current.scrollIntoView({ behavior: 'smooth' });
