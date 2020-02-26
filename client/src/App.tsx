@@ -3,6 +3,7 @@ import './App.less';
 import React, { RefObject, useRef } from 'react';
 
 import Form from './components/Form/Form';
+import FormSubmit from './components/Form/components/FormSubmit';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
 
@@ -92,6 +93,7 @@ const App = () => {
                 </div>
                 <div className="form-container">
                     <Form sections={sections} />
+                    <FormSubmit />
                 </div>
                 <div className="pdf-container">
                     <object
