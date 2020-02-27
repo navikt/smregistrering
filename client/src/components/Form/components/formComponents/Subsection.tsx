@@ -8,7 +8,6 @@ type Subsection = {
 };
 
 const Subsection = ({ sectionIdentifier, children, underline = true }: Subsection) => {
-    console.log(underline);
     return (
         <div className="subsection">
             <Element className="form-margin-bottom">{sectionIdentifier}</Element>

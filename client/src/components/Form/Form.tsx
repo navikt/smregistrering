@@ -42,28 +42,26 @@ const Form = ({ sections }: FormProps) => {
         <Panel>
             <FormHeader />
             <IntroSection>
-                <Columns>
-                    <Column>
-                        <Input
-                            className="form-margin-bottom"
-                            label={<EtikettLiten>Fødselsdato (11 siffer)</EtikettLiten>}
-                        />
-                        <Input label={<EtikettLiten>Startdato for legemeldt fravær</EtikettLiten>} />
-                    </Column>
-                    <Column />
-                </Columns>
+                <Input
+                    className="form-margin-bottom half"
+                    label={<EtikettLiten>Fødselsdato (11 siffer)</EtikettLiten>}
+                />
+                <Input
+                    className="form-margin-bottom half"
+                    label={<EtikettLiten>Startdato for legemeldt fravær</EtikettLiten>}
+                />
             </IntroSection>
             <SectionContainer section={sections[SectionTitle.PASIENTOPPLYSNINGER]}>
                 <Columns>
                     <Column>
                         <Input className="form-margin-bottom" label={<Element>1.1.1 Etternavn</Element>} />
-
-                        <Input className="form-margin-bottom" label={<Element>1.3 Telefon</Element>} />
                     </Column>
                     <Column>
                         <Input className="form-margin-bottom" label={<Element>1.1.2 Fornavn</Element>} />
                     </Column>
                 </Columns>
+
+                <Input className="form-margin-bottom half" label={<Element>1.3 Telefon</Element>} />
 
                 <Input className="form-margin-bottom" label={<Element>1.4 Navn på pasientens fastlege</Element>} />
             </SectionContainer>
@@ -170,51 +168,255 @@ const Form = ({ sections }: FormProps) => {
                 expanded={expanded[SectionTitle.MULIGHET_FOR_ARBEID]}
                 setExpanded={() => expandSection(SectionTitle.MULIGHET_FOR_ARBEID)}
             >
-                <p>filler</p>
-                <p>filler</p>
-                <p>filler</p>
+                <Subsection sectionIdentifier="4.1">
+                    <Checkbox
+                        checked={true}
+                        label="Pasienten kan benytte avventende sykmelding"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && (
+                        <>
+                            <div>"periodevalg 4.1.1 f.o.m., 4.1.2 t.o.m."</div>
+                            <Textarea
+                                maxLength={0}
+                                value=""
+                                onChange={() => console.log('textarea')}
+                                label={<Element>4.1.3 Innspill til arbeidsgiver om tilrettelegging</Element>}
+                            />
+                        </>
+                    )}
+                </Subsection>
+                <Subsection sectionIdentifier="4.2">
+                    <Checkbox
+                        checked={true}
+                        label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && (
+                        <>
+                            <div>"periodevalg 4.2.1 f.o.m., 4.2.2 t.o.m."</div>
+                            <Input
+                                className="form-margin-bottom half"
+                                label={<Element>4.2.3 Oppgi grad for sykmelding</Element>}
+                            />
+                        </>
+                    )}
+
+                    <Element>4.2.4</Element>
+                    <Checkbox
+                        checked={false}
+                        label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
+                        onChange={() => console.log('checkbox')}
+                    />
+                </Subsection>
+
+                <Subsection sectionIdentifier="4.3">
+                    <Checkbox
+                        checked={true}
+                        label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && (
+                        <>
+                            <div>"periodevalg 4.3.1 f.o.m., 4.3.2 t.o.m."</div>
+                            <Element>4.3.3</Element>
+                            <Checkbox
+                                checked={false}
+                                label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
+                                onChange={() => console.log('checkbox')}
+                            />
+                            <Element>4.3.4</Element>
+                            <Checkbox
+                                checked={false}
+                                label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
+                                onChange={() => console.log('checkbox')}
+                            />
+                        </>
+                    )}
+                </Subsection>
+
+                <Subsection sectionIdentifier="4.4">
+                    <Checkbox
+                        checked={true}
+                        label="Pasienten kan ikke være i arbeid på behandlingsdager"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && (
+                        <>
+                            <div>"periodevalg 4.4.1 f.o.m., 4.4.2 t.o.m."</div>
+
+                            <Input
+                                className="form-margin-bottom half"
+                                label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
+                            />
+                        </>
+                    )}
+                </Subsection>
+
+                <Subsection sectionIdentifier="4.5" underline={false}>
+                    <Checkbox
+                        checked={true}
+                        label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && <div>"periodevalg 4.4.1 f.o.m., 4.4.2 t.o.m."</div>}
+                </Subsection>
             </SectionContainer>
             <SectionContainer section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}>
-                <p>filler</p>
-                <p>filler</p>
-                <p>filler</p>
+                <Subsection sectionIdentifier="5.1" underline={false}>
+                    <Checkbox
+                        checked={true}
+                        label="Pasienten er 100 prosent arbeidsfør etter denne perioden"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && (
+                        <Textarea
+                            maxLength={0}
+                            value=""
+                            onChange={() => console.log('textarea')}
+                            label={<Element>5.1.1 Beskrive eventuelle hensyn som må tas på arbeidsplassen</Element>}
+                        />
+                    )}
+                </Subsection>
             </SectionContainer>
             <SectionContainer
                 section={sections[SectionTitle.ARBEIDSEVNE]}
                 expanded={expanded[SectionTitle.ARBEIDSEVNE]}
                 setExpanded={() => expandSection(SectionTitle.ARBEIDSEVNE)}
             >
-                <p>filler</p>
-                <p>filler</p>
-                <p>filler</p>
+                <Subsection sectionIdentifier="7.1">
+                    <Checkbox
+                        checked={true}
+                        label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && (
+                        <Textarea
+                            maxLength={0}
+                            value=""
+                            onChange={() => console.log('textarea')}
+                            label={<Element>Beskriv</Element>}
+                        />
+                    )}
+                </Subsection>
+
+                <Subsection sectionIdentifier="7.2">
+                    <Checkbox checked={true} label="Tiltak i regi av NAV" onChange={() => console.log('checkbox')} />
+                    {true && (
+                        <Textarea
+                            maxLength={0}
+                            value=""
+                            onChange={() => console.log('textarea')}
+                            label={<Element>Beskriv. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)</Element>}
+                        />
+                    )}
+                </Subsection>
+
+                <Subsection sectionIdentifier="7.3" underline={false}>
+                    <Checkbox
+                        checked={true}
+                        label="Eventuelle andre innspill til NAV"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && (
+                        <Textarea
+                            maxLength={0}
+                            value=""
+                            onChange={() => console.log('textarea')}
+                            label={<Element>Beskriv</Element>}
+                        />
+                    )}
+                </Subsection>
             </SectionContainer>
             <SectionContainer
                 section={sections[SectionTitle.TIL_NAV]}
                 expanded={expanded[SectionTitle.TIL_NAV]}
                 setExpanded={() => expandSection(SectionTitle.TIL_NAV)}
             >
-                <p>filler</p>
-                <p>filler</p>
-                <p>filler</p>
+                <Subsection sectionIdentifier="8.1" underline={false}>
+                    <Checkbox
+                        checked={true}
+                        label="Ønskes bistand fra NAV nå?"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && (
+                        <Textarea
+                            maxLength={0}
+                            value=""
+                            onChange={() => console.log('textarea')}
+                            label={<Element>Begrunn nærmere</Element>}
+                        />
+                    )}
+                </Subsection>
             </SectionContainer>
             <SectionContainer
                 section={sections[SectionTitle.TIL_ARBEIDSGIVER]}
                 expanded={expanded[SectionTitle.TIL_ARBEIDSGIVER]}
                 setExpanded={() => expandSection(SectionTitle.TIL_ARBEIDSGIVER)}
             >
-                <p>filler</p>
-                <p>filler</p>
-                <p>filler</p>
+                <Subsection sectionIdentifier="9.1" underline={false}>
+                    <Checkbox
+                        checked={true}
+                        label="Andre innspill til arbeidsgiver"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && (
+                        <Textarea
+                            maxLength={0}
+                            value=""
+                            onChange={() => console.log('textarea')}
+                            label={<Element>Andre innspill til arbeidsgiver</Element>}
+                        />
+                    )}
+                </Subsection>
             </SectionContainer>
             <SectionContainer section={sections[SectionTitle.TILBAKEDATERING]}>
-                <p>filler</p>
-                <p>filler</p>
-                <p>filler</p>
+                <Subsection sectionIdentifier="11.1" underline={false}>
+                    <Checkbox
+                        checked={true}
+                        label="Er sykmelding tilbakedatert?"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && <div>"datovalg Oppgi dato for dokumenterbar kontakt med pasienten"</div>}
+                </Subsection>
+
+                <Subsection sectionIdentifier="11.2" underline={false}>
+                    <Checkbox
+                        checked={true}
+                        label="Pasienten har ikke kunnet ivareta egne interesser"
+                        onChange={() => console.log('checkbox')}
+                    />
+                    {true && (
+                        <Textarea
+                            maxLength={0}
+                            value=""
+                            onChange={() => console.log('textarea')}
+                            label={<Element>Begrunn</Element>}
+                        />
+                    )}
+                </Subsection>
             </SectionContainer>
             <SectionContainer section={sections[SectionTitle.BEKREFTELSE]}>
-                <p>filler</p>
-                <p>filler</p>
-                <p>filler</p>
+                <Subsection sectionIdentifier="12.1" underline={false}>
+                    <Checkbox
+                        checked={false}
+                        label="Pasienten er kjent eller har vist legitimasjon"
+                        onChange={() => console.log('checkbox')}
+                    />
+                </Subsection>
+
+                <Input className="form-margin-bottom" label={<Element>12.2 Sykmelders navn</Element>} />
+
+                <Columns>
+                    <Column>
+                        <Input className="form-margin-bottom" label={<Element>12.4 HPR-nummer</Element>} />
+                    </Column>
+                    <Column>
+                        <Input className="form-margin-bottom" label={<Element>12.5 Telefon</Element>} />
+                    </Column>
+                </Columns>
+
+                <Input className="form-margin-bottom" label={<Element>12.6 Adresse</Element>} />
             </SectionContainer>
         </Panel>
     );
