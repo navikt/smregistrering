@@ -1,14 +1,12 @@
 import './Form.less';
 
 import React, { useState } from 'react';
-import { Checkbox, Input, Select, Textarea, TextareaControlled } from 'nav-frontend-skjema';
+import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
 import { Element, EtikettLiten } from 'nav-frontend-typografi';
 
-import Column from './components/formComponents/Column';
-import Columns from './components/formComponents/Columns';
 import FormHeader from './components/FormHeader';
-import IntroSection from './components/formComponents/IntroSection';
 import Panel from '../Panel/Panel';
+import Row from './components/formComponents/Row';
 import SectionContainer from './components/SectionContainer';
 import Subsection from './components/formComponents/Subsection';
 import { SectionTitle, Sections } from '../../App';
@@ -41,7 +39,7 @@ const Form = ({ sections }: FormProps) => {
     return (
         <Panel>
             <FormHeader />
-            <IntroSection>
+            <div className="form-margin-bottom section-content">
                 <Input
                     className="form-margin-bottom half"
                     label={<EtikettLiten>Fødselsdato (11 siffer)</EtikettLiten>}
@@ -50,16 +48,12 @@ const Form = ({ sections }: FormProps) => {
                     className="form-margin-bottom half"
                     label={<EtikettLiten>Startdato for legemeldt fravær</EtikettLiten>}
                 />
-            </IntroSection>
+            </div>
             <SectionContainer section={sections[SectionTitle.PASIENTOPPLYSNINGER]}>
-                <Columns>
-                    <Column>
-                        <Input className="form-margin-bottom" label={<Element>1.1.1 Etternavn</Element>} />
-                    </Column>
-                    <Column>
-                        <Input className="form-margin-bottom" label={<Element>1.1.2 Fornavn</Element>} />
-                    </Column>
-                </Columns>
+                <Row>
+                    <Input label={<Element>1.1.1 Etternavn</Element>} />
+                    <Input label={<Element>1.1.2 Fornavn</Element>} />
+                </Row>
 
                 <Input className="form-margin-bottom half" label={<Element>1.3 Telefon</Element>} />
 
@@ -84,35 +78,23 @@ const Form = ({ sections }: FormProps) => {
             </SectionContainer>
             <SectionContainer section={sections[SectionTitle.DIAGNOSE]}>
                 <Element className="form-margin-bottom">3.1 Hoveddiagnose</Element>
-                <Columns>
-                    <Column>
-                        <Select className="form-margin-bottom" label={<Element>3.1.1 Kodesystem</Element>}>
-                            <option value="system1">ICPC-2</option>
-                            <option value="system2">ICD-10</option>
-                        </Select>
-                    </Column>
-                    <Column>
-                        <Input className="form-margin-bottom" label={<Element>3.1.2 Kode</Element>} />
-                    </Column>
-                    <Column>
-                        <Input className="form-margin-bottom" label={<Element>3.1.3 Kode</Element>} />
-                    </Column>
-                </Columns>
+                <Row>
+                    <Select className="form-margin-bottom" label={<Element>3.1.1 Kodesystem</Element>}>
+                        <option value="system1">ICPC-2</option>
+                        <option value="system2">ICD-10</option>
+                    </Select>
+                    <Input className="form-margin-bottom" label={<Element>3.1.2 Kode</Element>} />
+                    <Input className="form-margin-bottom" label={<Element>3.1.3 Kode</Element>} />
+                </Row>
                 <Element className="form-margin-bottom">3.2 Bidiagnose</Element>
-                <Columns>
-                    <Column>
-                        <Select className="form-margin-bottom" label={<Element>3.2.1 Kodesystem</Element>}>
-                            <option value="system1">ICPC-2</option>
-                            <option value="system2">ICD-10</option>
-                        </Select>
-                    </Column>
-                    <Column>
-                        <Input className="form-margin-bottom" label={<Element>3.2.2 Kode</Element>} />
-                    </Column>
-                    <Column>
-                        <Input className="form-margin-bottom" label={<Element>3.2.3 Kode</Element>} />
-                    </Column>
-                </Columns>
+                <Row>
+                    <Select className="form-margin-bottom" label={<Element>3.2.1 Kodesystem</Element>}>
+                        <option value="system1">ICPC-2</option>
+                        <option value="system2">ICD-10</option>
+                    </Select>
+                    <Input className="form-margin-bottom" label={<Element>3.2.2 Kode</Element>} />
+                    <Input className="form-margin-bottom" label={<Element>3.2.3 Kode</Element>} />
+                </Row>
                 <hr />
                 <Subsection sectionIdentifier="3.3">
                     <Checkbox
@@ -407,14 +389,10 @@ const Form = ({ sections }: FormProps) => {
 
                 <Input className="form-margin-bottom" label={<Element>12.2 Sykmelders navn</Element>} />
 
-                <Columns>
-                    <Column>
-                        <Input className="form-margin-bottom" label={<Element>12.4 HPR-nummer</Element>} />
-                    </Column>
-                    <Column>
-                        <Input className="form-margin-bottom" label={<Element>12.5 Telefon</Element>} />
-                    </Column>
-                </Columns>
+                <Row>
+                    <Input className="form-margin-bottom" label={<Element>12.4 HPR-nummer</Element>} />
+                    <Input className="form-margin-bottom" label={<Element>12.5 Telefon</Element>} />
+                </Row>
 
                 <Input className="form-margin-bottom" label={<Element>12.6 Adresse</Element>} />
             </SectionContainer>
