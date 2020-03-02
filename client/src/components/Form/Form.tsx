@@ -1,12 +1,15 @@
 import './Form.less';
+import './components/formComponents/Flatpickr.less';
 
 import React, { useState } from 'react';
 import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
 import { Element, EtikettLiten } from 'nav-frontend-typografi';
 
+import DatePicker from './components/formComponents/DatePicker';
 import FormHeader from './components/FormHeader';
 import FormLabel from './components/formComponents/FormLabel';
 import Panel from '../Panel/Panel';
+import RangePicker from './components/formComponents/RangePicker';
 import Row from './components/formComponents/Row';
 import SectionContainer from './components/SectionContainer';
 import Subsection from './components/formComponents/Subsection';
@@ -40,6 +43,15 @@ const Form = ({ sections }: FormProps) => {
     return (
         <Panel>
             <FormHeader />
+
+            <div className="form-margin-bottom section-content">
+                <RangePicker />
+            </div>
+
+            <div className="form-margin-bottom section-content">
+                <DatePicker />
+            </div>
+
             <div className="form-margin-bottom section-content">
                 <Input
                     className="form-margin-bottom half"
@@ -163,6 +175,7 @@ const Form = ({ sections }: FormProps) => {
                     {true && (
                         <>
                             <div>"periodevalg 4.1.1 f.o.m., 4.1.2 t.o.m."</div>
+                            <RangePicker />
                             <Textarea
                                 maxLength={0}
                                 value=""

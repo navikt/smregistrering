@@ -12,8 +12,10 @@
         "@types/node": "^12.12.28",
         "@types/react": "^16.9.22",
         "@types/react-dom": "^16.9.5",
+        "@types/react-flatpickr": "^3.8.1",
         "classnames": "^2.2.6",
         "craco-less": "^1.15.0",
+        "flatpickr": "^4.6.3",
         "lodash.throttle": "^4.1.1",
         "nav-frontend-chevron": "^1.0.10",
         "nav-frontend-chevron-style": "^0.3.5",
@@ -32,6 +34,7 @@
         "prop-types": "^15.7.2",
         "react": "^16.13.0",
         "react-dom": "^16.12.0",
+        "react-flatpickr": "^3.10.0",
         "react-scripts": "3.4.0",
         "typescript": "^3.7.5"
     },
