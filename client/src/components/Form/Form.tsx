@@ -45,14 +45,6 @@ const Form = ({ sections }: FormProps) => {
             <FormHeader />
 
             <div className="form-margin-bottom section-content">
-                <RangePicker />
-            </div>
-
-            <div className="form-margin-bottom section-content">
-                <DatePicker />
-            </div>
-
-            <div className="form-margin-bottom section-content">
                 <Input
                     className="form-margin-bottom half"
                     label={<EtikettLiten>Fødselsdato (11 siffer)</EtikettLiten>}
@@ -174,8 +166,12 @@ const Form = ({ sections }: FormProps) => {
                     <br />
                     {true && (
                         <>
-                            <div>"periodevalg 4.1.1 f.o.m., 4.1.2 t.o.m."</div>
-                            <RangePicker />
+                            <RangePicker
+                                labelFrom="4.1.1 f.o.m."
+                                labelTo="4.1.2 t.o.m."
+                                value={[]}
+                                onChange={newDates => console.log(newDates)}
+                            />
                             <Textarea
                                 maxLength={0}
                                 value=""
@@ -194,7 +190,12 @@ const Form = ({ sections }: FormProps) => {
                     <br />
                     {true && (
                         <>
-                            <div>"periodevalg 4.2.1 f.o.m., 4.2.2 t.o.m."</div>
+                        <RangePicker
+                                labelFrom="4.2.1 f.o.m."
+                                labelTo="4.2.2 t.o.m."
+                                value={[]}
+                                onChange={newDates => console.log(newDates)}
+                            />
                             <Input
                                 className="form-margin-bottom half"
                                 label={<Element>4.2.3 Oppgi grad for sykmelding</Element>}
@@ -219,7 +220,12 @@ const Form = ({ sections }: FormProps) => {
                     <br />
                     {true && (
                         <>
-                            <div>"periodevalg 4.3.1 f.o.m., 4.3.2 t.o.m."</div>
+                        <RangePicker
+                                labelFrom="4.3.1 f.o.m."
+                                labelTo="4.3.2 t.o.m."
+                                value={[]}
+                                onChange={newDates => console.log(newDates)}
+                            />
                             <Element>4.3.3</Element>
                             <Checkbox
                                 checked={false}
@@ -245,7 +251,12 @@ const Form = ({ sections }: FormProps) => {
                     <br />
                     {true && (
                         <>
-                            <div>"periodevalg 4.4.1 f.o.m., 4.4.2 t.o.m."</div>
+                        <RangePicker
+                                labelFrom="4.4.1 f.o.m."
+                                labelTo="4.4.2 t.o.m."
+                                value={[]}
+                                onChange={newDates => console.log(newDates)}
+                            />
 
                             <Input
                                 className="form-margin-bottom half"
@@ -262,7 +273,13 @@ const Form = ({ sections }: FormProps) => {
                         onChange={() => console.log('checkbox')}
                     />
                     <br />
-                    {true && <div>"periodevalg 4.4.1 f.o.m., 4.4.2 t.o.m."</div>}
+                    {true && 
+                        <RangePicker
+                                labelFrom="4.4.1 f.o.m."
+                                labelTo="4.4.2 t.o.m."
+                                value={[]}
+                                onChange={newDates => console.log(newDates)}
+                            />}
                 </Subsection>
             </SectionContainer>
             <SectionContainer section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}>
@@ -387,7 +404,11 @@ const Form = ({ sections }: FormProps) => {
                         onChange={() => console.log('checkbox')}
                     />
                     <br />
-                    {true && <div>"datovalg Oppgi dato for dokumenterbar kontakt med pasienten"</div>}
+                    {true && <DatePicker
+                                label="Oppgi dato for dokumenterbar kontakt med pasienten"
+                                value={undefined}
+                                onChange={newDates => console.log(newDates)}
+                            />}
                 </Subsection>
 
                 <Subsection sectionIdentifier="11.2" underline={false}>
