@@ -5,6 +5,7 @@ import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
 import { Element, EtikettLiten } from 'nav-frontend-typografi';
 
 import FormHeader from './components/FormHeader';
+import FormLabel from './components/formComponents/FormLabel';
 import Panel from '../Panel/Panel';
 import Row from './components/formComponents/Row';
 import SectionContainer from './components/SectionContainer';
@@ -77,7 +78,7 @@ const Form = ({ sections }: FormProps) => {
                 <Input className="form-margin-bottom half" label={<Element>2.4 Stillingsprosent</Element>} />
             </SectionContainer>
             <SectionContainer section={sections[SectionTitle.DIAGNOSE]}>
-                <Element className="form-margin-bottom">3.1 Hoveddiagnose</Element>
+                <FormLabel label="3.1 Hoveddiagnose" />
                 <Row>
                     <Select className="form-margin-bottom" label={<Element>3.1.1 Kodesystem</Element>}>
                         <option value="system1">ICPC-2</option>
@@ -86,7 +87,7 @@ const Form = ({ sections }: FormProps) => {
                     <Input className="form-margin-bottom" label={<Element>3.1.2 Kode</Element>} />
                     <Input className="form-margin-bottom" label={<Element>3.1.3 Kode</Element>} />
                 </Row>
-                <Element className="form-margin-bottom">3.2 Bidiagnose</Element>
+                <FormLabel label="3.2 Bidiagnose" />
                 <Row>
                     <Select className="form-margin-bottom" label={<Element>3.2.1 Kodesystem</Element>}>
                         <option value="system1">ICPC-2</option>
@@ -102,6 +103,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Annen lovfestet fraværsgrunn § 8-4, 3. ledd oppgis hvis relevant"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <>
                             <Input
@@ -132,6 +134,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Sykmeldingen kan skyldes en yrkesskade / yrkessykdom"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <Input className="form-margin-bottom half" label={<Element>3.6 Eventuell skadedato</Element>} />
                     )}
@@ -156,6 +159,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Pasienten kan benytte avventende sykmelding"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <>
                             <div>"periodevalg 4.1.1 f.o.m., 4.1.2 t.o.m."</div>
@@ -174,6 +178,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <>
                             <div>"periodevalg 4.2.1 f.o.m., 4.2.2 t.o.m."</div>
@@ -198,6 +203,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <>
                             <div>"periodevalg 4.3.1 f.o.m., 4.3.2 t.o.m."</div>
@@ -223,6 +229,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Pasienten kan ikke være i arbeid på behandlingsdager"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <>
                             <div>"periodevalg 4.4.1 f.o.m., 4.4.2 t.o.m."</div>
@@ -241,6 +248,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && <div>"periodevalg 4.4.1 f.o.m., 4.4.2 t.o.m."</div>}
                 </Subsection>
             </SectionContainer>
@@ -251,6 +259,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Pasienten er 100 prosent arbeidsfør etter denne perioden"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <Textarea
                             maxLength={0}
@@ -272,6 +281,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <Textarea
                             maxLength={0}
@@ -284,6 +294,7 @@ const Form = ({ sections }: FormProps) => {
 
                 <Subsection sectionIdentifier="7.2">
                     <Checkbox checked={true} label="Tiltak i regi av NAV" onChange={() => console.log('checkbox')} />
+                    <br />
                     {true && (
                         <Textarea
                             maxLength={0}
@@ -300,6 +311,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Eventuelle andre innspill til NAV"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <Textarea
                             maxLength={0}
@@ -321,6 +333,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Ønskes bistand fra NAV nå?"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <Textarea
                             maxLength={0}
@@ -342,6 +355,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Andre innspill til arbeidsgiver"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <Textarea
                             maxLength={0}
@@ -359,6 +373,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Er sykmelding tilbakedatert?"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && <div>"datovalg Oppgi dato for dokumenterbar kontakt med pasienten"</div>}
                 </Subsection>
 
@@ -368,6 +383,7 @@ const Form = ({ sections }: FormProps) => {
                         label="Pasienten har ikke kunnet ivareta egne interesser"
                         onChange={() => console.log('checkbox')}
                     />
+                    <br />
                     {true && (
                         <Textarea
                             maxLength={0}

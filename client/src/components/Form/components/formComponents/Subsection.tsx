@@ -1,5 +1,8 @@
+import './Subsection.less';
+
 import React from 'react';
-import { Element } from 'nav-frontend-typografi';
+
+import FormLabel from './FormLabel';
 
 type Subsection = {
     sectionIdentifier: string;
@@ -10,9 +13,9 @@ type Subsection = {
 const Subsection = ({ sectionIdentifier, children, underline = true }: Subsection) => {
     return (
         <div className="subsection">
-            <Element className="form-margin-bottom">{sectionIdentifier}</Element>
+            <FormLabel label={sectionIdentifier} />
             {children}
-            {underline && <hr />}
+            {underline && <hr className="subsection-hr" />}
         </div>
     );
 };
