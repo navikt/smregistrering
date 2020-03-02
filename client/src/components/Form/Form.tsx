@@ -190,7 +190,7 @@ const Form = ({ sections }: FormProps) => {
                     <br />
                     {true && (
                         <>
-                        <RangePicker
+                            <RangePicker
                                 labelFrom="4.2.1 f.o.m."
                                 labelTo="4.2.2 t.o.m."
                                 value={[]}
@@ -220,7 +220,7 @@ const Form = ({ sections }: FormProps) => {
                     <br />
                     {true && (
                         <>
-                        <RangePicker
+                            <RangePicker
                                 labelFrom="4.3.1 f.o.m."
                                 labelTo="4.3.2 t.o.m."
                                 value={[]}
@@ -251,7 +251,7 @@ const Form = ({ sections }: FormProps) => {
                     <br />
                     {true && (
                         <>
-                        <RangePicker
+                            <RangePicker
                                 labelFrom="4.4.1 f.o.m."
                                 labelTo="4.4.2 t.o.m."
                                 value={[]}
@@ -273,13 +273,14 @@ const Form = ({ sections }: FormProps) => {
                         onChange={() => console.log('checkbox')}
                     />
                     <br />
-                    {true && 
+                    {true && (
                         <RangePicker
-                                labelFrom="4.4.1 f.o.m."
-                                labelTo="4.4.2 t.o.m."
-                                value={[]}
-                                onChange={newDates => console.log(newDates)}
-                            />}
+                            labelFrom="4.4.1 f.o.m."
+                            labelTo="4.4.2 t.o.m."
+                            value={[]}
+                            onChange={newDates => console.log(newDates)}
+                        />
+                    )}
                 </Subsection>
             </SectionContainer>
             <SectionContainer section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}>
@@ -404,11 +405,13 @@ const Form = ({ sections }: FormProps) => {
                         onChange={() => console.log('checkbox')}
                     />
                     <br />
-                    {true && <DatePicker
-                                label="Oppgi dato for dokumenterbar kontakt med pasienten"
-                                value={undefined}
-                                onChange={newDates => console.log(newDates)}
-                            />}
+                    {true && (
+                        <DatePicker
+                            label="Oppgi dato for dokumenterbar kontakt med pasienten"
+                            value={undefined}
+                            onChange={newDates => console.log(newDates)}
+                        />
+                    )}
                 </Subsection>
 
                 <Subsection sectionIdentifier="11.2" underline={false}>
