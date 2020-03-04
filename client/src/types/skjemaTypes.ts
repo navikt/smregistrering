@@ -74,6 +74,13 @@ type GradertSykmelding = {
     reisetilskudd?: boolean;
 };
 
+export enum FullSykmeldingField {
+    SYKMELDT = 'sykmeldt',
+    SYKMELDT_PERIODE = 'sykmeldtPeriode',
+    MEDISINSKE_AARSAKER = 'medisinskeAarsaker',
+    ARBEIDSFORHOLD = 'arbeidsforhold',
+}
+
 type FullSykmelding = {
     sykmeldt?: boolean;
     sykmeldtPeriode: Date[];

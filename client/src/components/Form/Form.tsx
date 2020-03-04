@@ -17,6 +17,7 @@ import {
     ArbeidsgiverField,
     AvventendeSykmeldingField,
     FieldValues,
+    FullSykmeldingField,
     GradertSykmeldingField,
     HarArbeidsgiver,
     MedisinskVurderingField,
@@ -558,32 +559,84 @@ const Form = ({ sections }: FormProps) => {
 
                 <Subsection sectionIdentifier="4.3">
                     <Checkbox
-                        checked={true}
+                        checked={
+                            mulighetForArbeid[MulighetForArbeidField.FULL_SYKMELDING][FullSykmeldingField.SYKMELDT]
+                        }
                         label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMulighetForArbeid(state => ({
+                                ...state,
+                                [MulighetForArbeidField.FULL_SYKMELDING]: {
+                                    ...state[MulighetForArbeidField.FULL_SYKMELDING],
+                                    [FullSykmeldingField.SYKMELDT]: !state[MulighetForArbeidField.FULL_SYKMELDING][
+                                        FullSykmeldingField.SYKMELDT
+                                    ],
+                                },
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {mulighetForArbeid[MulighetForArbeidField.FULL_SYKMELDING][FullSykmeldingField.SYKMELDT] && (
                         <>
                             <RangePicker
                                 labelFrom="4.3.1 f.o.m."
                                 labelTo="4.3.2 t.o.m."
-                                value={[]}
-                                onChange={newDates => console.log(newDates)}
+                                value={
+                                    mulighetForArbeid[MulighetForArbeidField.FULL_SYKMELDING][
+                                        FullSykmeldingField.SYKMELDT_PERIODE
+                                    ]
+                                }
+                                onChange={newDates =>
+                                    setMulighetForArbeid(state => ({
+                                        ...state,
+                                        [MulighetForArbeidField.FULL_SYKMELDING]: {
+                                            ...state[MulighetForArbeidField.FULL_SYKMELDING],
+                                            [FullSykmeldingField.SYKMELDT_PERIODE]: newDates,
+                                        },
+                                    }))
+                                }
                             />
                             <Element className="form-label">4.3.3</Element>
                             <Checkbox
                                 className="form-margin-bottom"
-                                checked={false}
+                                checked={
+                                    mulighetForArbeid[MulighetForArbeidField.FULL_SYKMELDING][
+                                        FullSykmeldingField.MEDISINSKE_AARSAKER
+                                    ]
+                                }
                                 label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
-                                onChange={() => console.log('checkbox')}
+                                onChange={() =>
+                                    setMulighetForArbeid(state => ({
+                                        ...state,
+                                        [MulighetForArbeidField.FULL_SYKMELDING]: {
+                                            ...state[MulighetForArbeidField.FULL_SYKMELDING],
+                                            [FullSykmeldingField.MEDISINSKE_AARSAKER]: !state[
+                                                MulighetForArbeidField.FULL_SYKMELDING
+                                            ][FullSykmeldingField.MEDISINSKE_AARSAKER],
+                                        },
+                                    }))
+                                }
                             />
                             <Element className="form-label">4.3.4</Element>
                             <Checkbox
                                 className="form-margin-bottom"
-                                checked={false}
+                                checked={
+                                    mulighetForArbeid[MulighetForArbeidField.FULL_SYKMELDING][
+                                        FullSykmeldingField.ARBEIDSFORHOLD
+                                    ]
+                                }
                                 label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
-                                onChange={() => console.log('checkbox')}
+                                onChange={() =>
+                                    setMulighetForArbeid(state => ({
+                                        ...state,
+                                        [MulighetForArbeidField.FULL_SYKMELDING]: {
+                                            ...state[MulighetForArbeidField.FULL_SYKMELDING],
+                                            [FullSykmeldingField.ARBEIDSFORHOLD]: !state[
+                                                MulighetForArbeidField.FULL_SYKMELDING
+                                            ][FullSykmeldingField.ARBEIDSFORHOLD],
+                                        },
+                                    }))
+                                }
                             />
                         </>
                     )}
