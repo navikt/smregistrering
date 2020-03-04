@@ -48,10 +48,16 @@ type MedisinskVurdering = {
     [MedisinskVurderingField.SKJERMET_FRA_PASIENT]?: boolean;
 };
 
+export enum AvventendeSykmeldingField {
+    AVVENTENDE = 'avventende',
+    AVVENTENDE_PERIODE = 'avventendePeriode',
+    INNSPILL_TIL_ARBEIDSGIVER = 'innspillTilArbeidsgiver',
+}
+
 type AvventendeSykmelding = {
-    avventende?: boolean;
-    avventendePeriode: Date[];
-    innspillTilArbeidsgiver?: string;
+    [AvventendeSykmeldingField.AVVENTENDE]?: boolean;
+    [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: Date[];
+    [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]?: string;
 };
 
 type GradertSykmelding = {
@@ -78,6 +84,14 @@ type Reisetilskudd = {
     fulltArbeid?: boolean;
     arbeidsPeriode: Date[];
 };
+
+export enum MulighetForArbeidField {
+    AVVENTENDE_SYKMELDING = 'avventendeSykmelding',
+    GRADERT_SYKMELDING = 'gradertSykmelding',
+    FULL_SYKMELDING = 'fullSykmelding',
+    BEHANDLING = 'behandling',
+    REISETILSKUDD = 'reisetilskudd',
+}
 
 type MulighetForArbeid = {
     avventendeSykmelding: AvventendeSykmelding;
@@ -157,7 +171,7 @@ export enum SchemaField {
     SYKETILFELLESTARTDATO = 'syketilfelleStartDato',
     LEGE_NAVN = 'legenavn',
     ARBEIDSGIVER = 'arbeidsgiver',
-    MEDISINKSVURDERING = 'medisinskVurdering',
+    MEDISINSKVURDERING = 'medisinskVurdering',
     MULIGHET_FOR_ARBEID = 'mulighetForArbeid',
     FRISKMELDING = 'friskmelding',
     ARBEIDSEVNE = 'arbeidsevne',
@@ -174,7 +188,7 @@ export type FieldValues = {
     [SchemaField.SYKETILFELLESTARTDATO]?: Date;
     [SchemaField.LEGE_NAVN]?: string;
     [SchemaField.ARBEIDSGIVER]: Arbeidsgiver;
-    [SchemaField.MEDISINKSVURDERING]: MedisinskVurdering;
+    [SchemaField.MEDISINSKVURDERING]: MedisinskVurdering;
     [SchemaField.MULIGHET_FOR_ARBEID]: MulighetForArbeid;
     [SchemaField.FRISKMELDING]: Friskmelding;
     [SchemaField.ARBEIDSEVNE]: Arbeidsevne;

@@ -15,10 +15,12 @@ import SectionContainer from './components/SectionContainer';
 import Subsection from './components/formComponents/Subsection';
 import {
     ArbeidsgiverField,
+    AvventendeSykmeldingField,
     FieldValues,
     HarArbeidsgiver,
     MedisinskVurderingField,
     MetadataField,
+    MulighetForArbeidField,
     SchemaField,
 } from '../../types/skjemaTypes';
 import { SectionTitle, Sections } from '../../App';
@@ -38,7 +40,7 @@ const initialSchema: FieldValues = {
         [ArbeidsgiverField.YRKESBETEGNELSE]: undefined,
         [ArbeidsgiverField.STILLINGSPROSENT]: undefined,
     },
-    [SchemaField.MEDISINKSVURDERING]: {
+    [SchemaField.MEDISINSKVURDERING]: {
         [MedisinskVurderingField.HOVEDDIAGNOSE]: {
             system: undefined,
             kode: undefined,
@@ -53,30 +55,30 @@ const initialSchema: FieldValues = {
         [MedisinskVurderingField.YRKESSKADE_DATO]: undefined,
         [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: false,
     },
-    mulighetForArbeid: {
-        avventendeSykmelding: {
-            avventende: false,
-            avventendePeriode: [],
-            innspillTilArbeidsgiver: undefined,
+    [SchemaField.MULIGHET_FOR_ARBEID]: {
+        [MulighetForArbeidField.AVVENTENDE_SYKMELDING]: {
+            [AvventendeSykmeldingField.AVVENTENDE]: false,
+            [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: [],
+            [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: undefined,
         },
-        gradertSykmelding: {
+        [MulighetForArbeidField.GRADERT_SYKMELDING]: {
             gradert: false,
             gradertPeriode: [],
             grad: undefined,
             reisetilskudd: false,
         },
-        fullSykmelding: {
+        [MulighetForArbeidField.FULL_SYKMELDING]: {
             sykmeldt: false,
             sykmeldtPeriode: [],
             medisinskeAarsaker: false,
             arbeidsforhold: false,
         },
-        behandling: {
+        [MulighetForArbeidField.BEHANDLING]: {
             kanArbeide: false,
             behandlingsPeriode: [],
             antallDager: undefined,
         },
-        reisetilskudd: {
+        [MulighetForArbeidField.REISETILSKUDD]: {
             fulltArbeid: false,
             arbeidsPeriode: [],
         },
@@ -139,7 +141,8 @@ const Form = ({ sections }: FormProps) => {
     );
     const [legenavn, setLegenavn] = useState(initialSchema[SchemaField.LEGE_NAVN]);
     const [arbeidsgiver, setArbeidsgiver] = useState(initialSchema[SchemaField.ARBEIDSGIVER]);
-    const [medisinskvurdering, setMedisinskvurdering] = useState(initialSchema[SchemaField.MEDISINKSVURDERING]);
+    const [medisinskvurdering, setMedisinskvurdering] = useState(initialSchema[SchemaField.MEDISINSKVURDERING]);
+    const [mulighetForArbeid, setMulighetForArbeid] = useState(initialSchema[SchemaField.MULIGHET_FOR_ARBEID]);
 
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
         [SectionTitle.MULIGHET_FOR_ARBEID]: true,
@@ -161,6 +164,7 @@ const Form = ({ sections }: FormProps) => {
     console.log('legenavn', legenavn);
     console.log('arbeidsgiver', arbeidsgiver);
     console.log('medisinskvurdering', medisinskvurdering);
+    console.log('mulighetForArbeid', mulighetForArbeid);
     console.groupEnd();
 
     return (
@@ -317,7 +321,7 @@ const Form = ({ sections }: FormProps) => {
                         onChange={() =>
                             setMedisinskvurdering(state => ({
                                 ...state,
-                                [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: !medisinskvurdering[
+                                [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: !state[
                                     MedisinskVurderingField.ANNEN_FRAVAERSARSAK
                                 ],
                             }))
@@ -358,9 +362,7 @@ const Form = ({ sections }: FormProps) => {
                         onChange={() =>
                             setMedisinskvurdering(state => ({
                                 ...state,
-                                [MedisinskVurderingField.SVANGERSKAP]: !medisinskvurdering[
-                                    MedisinskVurderingField.SVANGERSKAP
-                                ],
+                                [MedisinskVurderingField.SVANGERSKAP]: !state[MedisinskVurderingField.SVANGERSKAP],
                             }))
                         }
                     />
@@ -373,9 +375,7 @@ const Form = ({ sections }: FormProps) => {
                         onChange={() =>
                             setMedisinskvurdering(state => ({
                                 ...state,
-                                [MedisinskVurderingField.YRKESSKADE]: !medisinskvurdering[
-                                    MedisinskVurderingField.YRKESSKADE
-                                ],
+                                [MedisinskVurderingField.YRKESSKADE]: !state[MedisinskVurderingField.YRKESSKADE],
                             }))
                         }
                     />
@@ -401,7 +401,7 @@ const Form = ({ sections }: FormProps) => {
                         onChange={() =>
                             setMedisinskvurdering(state => ({
                                 ...state,
-                                [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: !medisinskvurdering[
+                                [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: !state[
                                     MedisinskVurderingField.SKJERMET_FRA_PASIENT
                                 ],
                             }))
@@ -416,23 +416,63 @@ const Form = ({ sections }: FormProps) => {
             >
                 <Subsection sectionIdentifier="4.1">
                     <Checkbox
-                        checked={true}
+                        checked={
+                            mulighetForArbeid[MulighetForArbeidField.AVVENTENDE_SYKMELDING][
+                                AvventendeSykmeldingField.AVVENTENDE
+                            ]
+                        }
                         label="Pasienten kan benytte avventende sykmelding"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMulighetForArbeid(state => ({
+                                ...state,
+                                [MulighetForArbeidField.AVVENTENDE_SYKMELDING]: {
+                                    ...state[MulighetForArbeidField.AVVENTENDE_SYKMELDING],
+                                    [AvventendeSykmeldingField.AVVENTENDE]: !state[
+                                        MulighetForArbeidField.AVVENTENDE_SYKMELDING
+                                    ][AvventendeSykmeldingField.AVVENTENDE],
+                                },
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {mulighetForArbeid[MulighetForArbeidField.AVVENTENDE_SYKMELDING][
+                        AvventendeSykmeldingField.AVVENTENDE
+                    ] && (
                         <>
                             <RangePicker
                                 labelFrom="4.1.1 f.o.m."
                                 labelTo="4.1.2 t.o.m."
-                                value={[]}
-                                onChange={newDates => console.log(newDates)}
+                                value={
+                                    mulighetForArbeid[MulighetForArbeidField.AVVENTENDE_SYKMELDING][
+                                        AvventendeSykmeldingField.AVVENTENDE_PERIODE
+                                    ]
+                                }
+                                onChange={newDates =>
+                                    setMulighetForArbeid(state => ({
+                                        ...state,
+                                        [MulighetForArbeidField.AVVENTENDE_SYKMELDING]: {
+                                            ...state[MulighetForArbeidField.AVVENTENDE_SYKMELDING],
+                                            [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: newDates,
+                                        },
+                                    }))
+                                }
                             />
                             <Textarea
                                 maxLength={0}
-                                value=""
-                                onChange={() => console.log('textarea')}
+                                value={
+                                    mulighetForArbeid[MulighetForArbeidField.AVVENTENDE_SYKMELDING][
+                                        AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER
+                                    ] || ''
+                                }
+                                onChange={({ target: { value } }) =>
+                                    setMulighetForArbeid(state => ({
+                                        ...state,
+                                        [MulighetForArbeidField.AVVENTENDE_SYKMELDING]: {
+                                            ...state[MulighetForArbeidField.AVVENTENDE_SYKMELDING],
+                                            [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: value,
+                                        },
+                                    }))
+                                }
                                 label={<Element>4.1.3 Innspill til arbeidsgiver om tilrettelegging</Element>}
                             />
                         </>
