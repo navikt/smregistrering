@@ -68,10 +68,10 @@ export enum GradertSykmeldingField {
 }
 
 type GradertSykmelding = {
-    gradert?: boolean;
-    gradertPeriode: Date[];
-    grad?: string;
-    reisetilskudd?: boolean;
+    [GradertSykmeldingField.GRADERT]?: boolean;
+    [GradertSykmeldingField.GRADERT_PERIODE]: Date[];
+    [GradertSykmeldingField.GRAD]?: string;
+    [GradertSykmeldingField.REISETILSKUDD]?: boolean;
 };
 
 export enum FullSykmeldingField {
@@ -82,21 +82,32 @@ export enum FullSykmeldingField {
 }
 
 type FullSykmelding = {
-    sykmeldt?: boolean;
-    sykmeldtPeriode: Date[];
-    medisinskeAarsaker?: boolean;
-    arbeidsforhold?: boolean;
+    [FullSykmeldingField.SYKMELDT]?: boolean;
+    [FullSykmeldingField.SYKMELDT_PERIODE]: Date[];
+    [FullSykmeldingField.MEDISINSKE_AARSAKER]?: boolean;
+    [FullSykmeldingField.ARBEIDSFORHOLD]?: boolean;
 };
+
+export enum BehandlingField {
+    KAN_ARBEIDE = 'kanArbeide',
+    BEHANDLINGSPERIODE = 'behandlingsPeriode',
+    ANTALL_DAGER = 'antallDager',
+}
 
 type Behandling = {
-    kanArbeide?: boolean;
-    behandlingsPeriode: Date[];
-    antallDager?: number;
+    [BehandlingField.KAN_ARBEIDE]?: boolean;
+    [BehandlingField.BEHANDLINGSPERIODE]: Date[];
+    [BehandlingField.ANTALL_DAGER]?: number;
 };
 
+export enum ReisetilskuddField {
+    FULLT_ARBEID = 'fulltArbeid',
+    ARBEIDSPERIODE = 'arbeidsPeriode',
+}
+
 type Reisetilskudd = {
-    fulltArbeid?: boolean;
-    arbeidsPeriode: Date[];
+    [ReisetilskuddField.FULLT_ARBEID]?: boolean;
+    [ReisetilskuddField.ARBEIDSPERIODE]: Date[];
 };
 
 export enum MulighetForArbeidField {

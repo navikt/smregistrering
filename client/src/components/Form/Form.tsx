@@ -16,6 +16,7 @@ import Subsection from './components/formComponents/Subsection';
 import {
     ArbeidsgiverField,
     AvventendeSykmeldingField,
+    BehandlingField,
     FieldValues,
     FullSykmeldingField,
     GradertSykmeldingField,
@@ -23,6 +24,7 @@ import {
     MedisinskVurderingField,
     MetadataField,
     MulighetForArbeidField,
+    ReisetilskuddField,
     SchemaField,
 } from '../../types/skjemaTypes';
 import { SectionTitle, Sections } from '../../App';
@@ -644,22 +646,54 @@ const Form = ({ sections }: FormProps) => {
 
                 <Subsection sectionIdentifier="4.4">
                     <Checkbox
-                        checked={true}
+                        checked={mulighetForArbeid[MulighetForArbeidField.BEHANDLING][BehandlingField.KAN_ARBEIDE]}
                         label="Pasienten kan ikke være i arbeid på behandlingsdager"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMulighetForArbeid(state => ({
+                                ...state,
+                                [MulighetForArbeidField.BEHANDLING]: {
+                                    ...state[MulighetForArbeidField.BEHANDLING],
+                                    [BehandlingField.KAN_ARBEIDE]: !state[MulighetForArbeidField.BEHANDLING][
+                                        BehandlingField.KAN_ARBEIDE
+                                    ],
+                                },
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {mulighetForArbeid[MulighetForArbeidField.BEHANDLING][BehandlingField.KAN_ARBEIDE] && (
                         <>
                             <RangePicker
                                 labelFrom="4.4.1 f.o.m."
                                 labelTo="4.4.2 t.o.m."
-                                value={[]}
-                                onChange={newDates => console.log(newDates)}
+                                value={
+                                    mulighetForArbeid[MulighetForArbeidField.BEHANDLING][
+                                        BehandlingField.BEHANDLINGSPERIODE
+                                    ]
+                                }
+                                onChange={newDates =>
+                                    setMulighetForArbeid(state => ({
+                                        ...state,
+                                        [MulighetForArbeidField.BEHANDLING]: {
+                                            ...state[MulighetForArbeidField.BEHANDLING],
+                                            [BehandlingField.BEHANDLINGSPERIODE]: newDates,
+                                        },
+                                    }))
+                                }
                             />
 
                             <Input
                                 className="form-margin-bottom half"
+                                type="number"
+                                onChange={({ target: { value } }) =>
+                                    setMulighetForArbeid(state => ({
+                                        ...state,
+                                        [MulighetForArbeidField.BEHANDLING]: {
+                                            ...state[MulighetForArbeidField.BEHANDLING],
+                                            [BehandlingField.ANTALL_DAGER]: Number(value),
+                                        },
+                                    }))
+                                }
                                 label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
                             />
                         </>
@@ -668,17 +702,41 @@ const Form = ({ sections }: FormProps) => {
 
                 <Subsection sectionIdentifier="4.5" underline={false}>
                     <Checkbox
-                        checked={true}
+                        checked={
+                            mulighetForArbeid[MulighetForArbeidField.REISETILSKUDD][ReisetilskuddField.FULLT_ARBEID]
+                        }
                         label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMulighetForArbeid(state => ({
+                                ...state,
+                                [MulighetForArbeidField.REISETILSKUDD]: {
+                                    ...state[MulighetForArbeidField.REISETILSKUDD],
+                                    [ReisetilskuddField.FULLT_ARBEID]: !state[MulighetForArbeidField.REISETILSKUDD][
+                                        ReisetilskuddField.FULLT_ARBEID
+                                    ],
+                                },
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {mulighetForArbeid[MulighetForArbeidField.REISETILSKUDD][ReisetilskuddField.FULLT_ARBEID] && (
                         <RangePicker
-                            labelFrom="4.4.1 f.o.m."
-                            labelTo="4.4.2 t.o.m."
-                            value={[]}
-                            onChange={newDates => console.log(newDates)}
+                            labelFrom="4.5.1 f.o.m."
+                            labelTo="4.5.2 t.o.m."
+                            value={
+                                mulighetForArbeid[MulighetForArbeidField.REISETILSKUDD][
+                                    ReisetilskuddField.ARBEIDSPERIODE
+                                ]
+                            }
+                            onChange={newDates =>
+                                setMulighetForArbeid(state => ({
+                                    ...state,
+                                    [MulighetForArbeidField.REISETILSKUDD]: {
+                                        ...state[MulighetForArbeidField.REISETILSKUDD],
+                                        [ReisetilskuddField.ARBEIDSPERIODE]: newDates,
+                                    },
+                                }))
+                            }
                         />
                     )}
                 </Subsection>
