@@ -353,29 +353,59 @@ const Form = ({ sections }: FormProps) => {
 
                 <Subsection sectionIdentifier="3.4">
                     <Checkbox
-                        checked={false}
+                        checked={medisinskvurdering[MedisinskVurderingField.SVANGERSKAP]}
                         label="Sykdommen er svangerskapsrelatert"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMedisinskvurdering(state => ({
+                                ...state,
+                                [MedisinskVurderingField.SVANGERSKAP]: !medisinskvurdering[
+                                    MedisinskVurderingField.SVANGERSKAP
+                                ],
+                            }))
+                        }
                     />
                 </Subsection>
 
                 <Subsection sectionIdentifier="3.5">
                     <Checkbox
-                        checked={true}
+                        checked={medisinskvurdering[MedisinskVurderingField.YRKESSKADE]}
                         label="Sykmeldingen kan skyldes en yrkesskade / yrkessykdom"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMedisinskvurdering(state => ({
+                                ...state,
+                                [MedisinskVurderingField.YRKESSKADE]: !medisinskvurdering[
+                                    MedisinskVurderingField.YRKESSKADE
+                                ],
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
-                        <Input className="form-margin-bottom half" label={<Element>3.6 Eventuell skadedato</Element>} />
+                    {medisinskvurdering[MedisinskVurderingField.YRKESSKADE] && (
+                        <DatePicker
+                            label="3.6 Eventuell skadedato"
+                            value={medisinskvurdering[MedisinskVurderingField.YRKESSKADE_DATO]}
+                            onChange={newDates =>
+                                setMedisinskvurdering(state => ({
+                                    ...state,
+                                    [MedisinskVurderingField.YRKESSKADE_DATO]: newDates,
+                                }))
+                            }
+                        />
                     )}
                 </Subsection>
 
                 <Subsection sectionIdentifier="3.7" underline={false}>
                     <Checkbox
-                        checked={false}
+                        checked={medisinskvurdering[MedisinskVurderingField.SKJERMET_FRA_PASIENT]}
                         label="Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMedisinskvurdering(state => ({
+                                ...state,
+                                [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: !medisinskvurdering[
+                                    MedisinskVurderingField.SKJERMET_FRA_PASIENT
+                                ],
+                            }))
+                        }
                     />
                 </Subsection>
             </SectionContainer>
