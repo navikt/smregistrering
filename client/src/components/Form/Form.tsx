@@ -17,6 +17,7 @@ import {
     ArbeidsgiverField,
     AvventendeSykmeldingField,
     FieldValues,
+    GradertSykmeldingField,
     HarArbeidsgiver,
     MedisinskVurderingField,
     MetadataField,
@@ -480,21 +481,54 @@ const Form = ({ sections }: FormProps) => {
                 </Subsection>
                 <Subsection sectionIdentifier="4.2">
                     <Checkbox
-                        checked={true}
+                        checked={
+                            mulighetForArbeid[MulighetForArbeidField.GRADERT_SYKMELDING][GradertSykmeldingField.GRADERT]
+                        }
                         label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMulighetForArbeid(state => ({
+                                ...state,
+                                [MulighetForArbeidField.GRADERT_SYKMELDING]: {
+                                    ...state[MulighetForArbeidField.GRADERT_SYKMELDING],
+                                    [GradertSykmeldingField.GRADERT]: !state[MulighetForArbeidField.GRADERT_SYKMELDING][
+                                        GradertSykmeldingField.GRADERT
+                                    ],
+                                },
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {mulighetForArbeid[MulighetForArbeidField.GRADERT_SYKMELDING][GradertSykmeldingField.GRADERT] && (
                         <>
                             <RangePicker
                                 labelFrom="4.2.1 f.o.m."
                                 labelTo="4.2.2 t.o.m."
-                                value={[]}
-                                onChange={newDates => console.log(newDates)}
+                                value={
+                                    mulighetForArbeid[MulighetForArbeidField.GRADERT_SYKMELDING][
+                                        GradertSykmeldingField.GRADERT_PERIODE
+                                    ]
+                                }
+                                onChange={newDates =>
+                                    setMulighetForArbeid(state => ({
+                                        ...state,
+                                        [MulighetForArbeidField.GRADERT_SYKMELDING]: {
+                                            ...state[MulighetForArbeidField.GRADERT_SYKMELDING],
+                                            [GradertSykmeldingField.GRADERT_PERIODE]: newDates,
+                                        },
+                                    }))
+                                }
                             />
                             <Input
                                 className="form-margin-bottom half"
+                                onChange={({ target: { value } }) =>
+                                    setMulighetForArbeid(state => ({
+                                        ...state,
+                                        [MulighetForArbeidField.GRADERT_SYKMELDING]: {
+                                            ...state[MulighetForArbeidField.GRADERT_SYKMELDING],
+                                            [GradertSykmeldingField.GRAD]: value,
+                                        },
+                                    }))
+                                }
                                 label={<Element>4.2.3 Oppgi grad for sykmelding</Element>}
                             />
                         </>
@@ -502,9 +536,23 @@ const Form = ({ sections }: FormProps) => {
 
                     <Element className="form-label">4.2.4</Element>
                     <Checkbox
-                        checked={false}
+                        checked={
+                            mulighetForArbeid[MulighetForArbeidField.GRADERT_SYKMELDING][
+                                GradertSykmeldingField.REISETILSKUDD
+                            ]
+                        }
                         label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMulighetForArbeid(state => ({
+                                ...state,
+                                [MulighetForArbeidField.GRADERT_SYKMELDING]: {
+                                    ...state[MulighetForArbeidField.GRADERT_SYKMELDING],
+                                    [GradertSykmeldingField.REISETILSKUDD]: !state[
+                                        MulighetForArbeidField.GRADERT_SYKMELDING
+                                    ][GradertSykmeldingField.REISETILSKUDD],
+                                },
+                            }))
+                        }
                     />
                 </Subsection>
 

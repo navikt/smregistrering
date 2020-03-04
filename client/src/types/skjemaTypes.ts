@@ -60,6 +60,13 @@ type AvventendeSykmelding = {
     [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]?: string;
 };
 
+export enum GradertSykmeldingField {
+    GRADERT = 'gradert',
+    GRADERT_PERIODE = 'gradertPeriode',
+    GRAD = 'grad',
+    REISETILSKUDD = 'reisetilskudd',
+}
+
 type GradertSykmelding = {
     gradert?: boolean;
     gradertPeriode: Date[];
