@@ -18,6 +18,18 @@ type Arbeidsgiver = {
     stillingsprosent?: number;
 };
 
+export enum MedisinskVurderingField {
+    HOVEDDIAGNOSE = 'hoveddiagnose',
+    BIDIAGNOSER = 'bidiagnoser',
+    ANNEN_FRAVAERSARSAK = 'annenFravaersArsak',
+    LOVFESTET_FRAVAERSGRUNN = 'lovfestetFravaersgrunn',
+    BESKRIV_FRAVAER = 'beskrivFravaeret',
+    SVANGERSKAP = 'svangerskap',
+    YRKESSKADE = 'yrkesskade',
+    YRKESSKADE_DATO = 'yrkesskadeDato',
+    SKJERMET_FRA_PASIENT = 'skjermetFraPasient',
+}
+
 type Diagnose = {
     system?: string;
     kode?: string;
@@ -25,13 +37,15 @@ type Diagnose = {
 };
 
 type MedisinskVurdering = {
-    hoveddiagnose: Diagnose;
-    bidiagnoser: Diagnose[];
-    annenFravaersArsak?: boolean;
-    svangerskap?: boolean;
-    yrkesskade?: boolean;
-    yrkesskadeDato?: Date;
-    skjermetFraPasient?: boolean;
+    [MedisinskVurderingField.HOVEDDIAGNOSE]: Diagnose;
+    [MedisinskVurderingField.BIDIAGNOSER]: Diagnose[];
+    [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]?: boolean;
+    [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]?: string;
+    [MedisinskVurderingField.BESKRIV_FRAVAER]?: string;
+    [MedisinskVurderingField.SVANGERSKAP]?: boolean;
+    [MedisinskVurderingField.YRKESSKADE]?: boolean;
+    [MedisinskVurderingField.YRKESSKADE_DATO]?: Date;
+    [MedisinskVurderingField.SKJERMET_FRA_PASIENT]?: boolean;
 };
 
 type AvventendeSykmelding = {

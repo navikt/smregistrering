@@ -13,7 +13,14 @@ import RangePicker from './components/formComponents/RangePicker';
 import Row from './components/formComponents/Row';
 import SectionContainer from './components/SectionContainer';
 import Subsection from './components/formComponents/Subsection';
-import { ArbeidsgiverField, FieldValues, HarArbeidsgiver, MetadataField, SchemaField } from '../../types/skjemaTypes';
+import {
+    ArbeidsgiverField,
+    FieldValues,
+    HarArbeidsgiver,
+    MedisinskVurderingField,
+    MetadataField,
+    SchemaField,
+} from '../../types/skjemaTypes';
 import { SectionTitle, Sections } from '../../App';
 
 const initialSchema: FieldValues = {
@@ -31,18 +38,20 @@ const initialSchema: FieldValues = {
         [ArbeidsgiverField.YRKESBETEGNELSE]: undefined,
         [ArbeidsgiverField.STILLINGSPROSENT]: undefined,
     },
-    medisinskVurdering: {
-        hoveddiagnose: {
+    [SchemaField.MEDISINKSVURDERING]: {
+        [MedisinskVurderingField.HOVEDDIAGNOSE]: {
             system: undefined,
             kode: undefined,
             tekst: undefined,
         },
-        bidiagnoser: [],
-        annenFravaersArsak: false,
-        svangerskap: false,
-        yrkesskade: false,
-        yrkesskadeDato: undefined,
-        skjermetFraPasient: false,
+        [MedisinskVurderingField.BIDIAGNOSER]: [],
+        [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: false,
+        [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]: undefined,
+        [MedisinskVurderingField.BESKRIV_FRAVAER]: undefined,
+        [MedisinskVurderingField.SVANGERSKAP]: false,
+        [MedisinskVurderingField.YRKESSKADE]: false,
+        [MedisinskVurderingField.YRKESSKADE_DATO]: undefined,
+        [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: false,
     },
     mulighetForArbeid: {
         avventendeSykmelding: {
@@ -130,6 +139,7 @@ const Form = ({ sections }: FormProps) => {
     );
     const [legenavn, setLegenavn] = useState(initialSchema[SchemaField.LEGE_NAVN]);
     const [arbeidsgiver, setArbeidsgiver] = useState(initialSchema[SchemaField.ARBEIDSGIVER]);
+    const [medisinskvurdering, setMedisinskvurdering] = useState(initialSchema[SchemaField.MEDISINKSVURDERING]);
 
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
         [SectionTitle.MULIGHET_FOR_ARBEID]: true,
@@ -150,6 +160,7 @@ const Form = ({ sections }: FormProps) => {
     console.log('syketilfelleStartDato', syketilfelleStartDato);
     console.log('legenavn', legenavn);
     console.log('arbeidsgiver', arbeidsgiver);
+    console.log('medisinskvurdering', medisinskvurdering);
     console.groupEnd();
 
     return (
@@ -160,8 +171,8 @@ const Form = ({ sections }: FormProps) => {
                 <FnrInput
                     className="form-margin-bottom half"
                     onChange={({ target: { value } }) =>
-                        setMetadata(oldMetadata => ({
-                            ...oldMetadata,
+                        setMetadata(state => ({
+                            ...state,
                             [MetadataField.PERSONNUMMER]: value,
                         }))
                     }
@@ -179,8 +190,8 @@ const Form = ({ sections }: FormProps) => {
                 <Row>
                     <Input
                         onChange={({ target: { value } }) =>
-                            setMetadata(oldMetadata => ({
-                                ...oldMetadata,
+                            setMetadata(state => ({
+                                ...state,
                                 [MetadataField.ETTERNAVN]: value,
                             }))
                         }
@@ -189,8 +200,8 @@ const Form = ({ sections }: FormProps) => {
                     />
                     <Input
                         onChange={({ target: { value } }) =>
-                            setMetadata(oldMetadata => ({
-                                ...oldMetadata,
+                            setMetadata(state => ({
+                                ...state,
                                 [MetadataField.FORNAVN]: value,
                             }))
                         }
@@ -203,8 +214,8 @@ const Form = ({ sections }: FormProps) => {
                     className="form-margin-bottom half"
                     type="tel"
                     onChange={({ target: { value } }) =>
-                        setMetadata(oldMetadata => ({
-                            ...oldMetadata,
+                        setMetadata(state => ({
+                            ...state,
                             [MetadataField.TELEFON]: value,
                         }))
                     }
@@ -222,13 +233,13 @@ const Form = ({ sections }: FormProps) => {
                 <Select
                     onChange={({ target: { value } }) => {
                         if (value === '0') {
-                            setArbeidsgiver(oldArbeidsgiver => ({
-                                ...oldArbeidsgiver,
+                            setArbeidsgiver(state => ({
+                                ...state,
                                 [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
                             }));
                         } else {
-                            setArbeidsgiver(oldArbeidsgiver => ({
-                                ...oldArbeidsgiver,
+                            setArbeidsgiver(state => ({
+                                ...state,
                                 [ArbeidsgiverField.HAR_ARBEIDSGIVER]: value as HarArbeidsgiver,
                             }));
                         }
@@ -249,8 +260,8 @@ const Form = ({ sections }: FormProps) => {
                     className="form-margin-bottom"
                     type="text"
                     onChange={({ target: { value } }) =>
-                        setArbeidsgiver(oldArbeidsgiver => ({
-                            ...oldArbeidsgiver,
+                        setArbeidsgiver(state => ({
+                            ...state,
                             [ArbeidsgiverField.NAVN]: value,
                         }))
                     }
@@ -260,8 +271,8 @@ const Form = ({ sections }: FormProps) => {
                     className="form-margin-bottom"
                     type="text"
                     onChange={({ target: { value } }) =>
-                        setArbeidsgiver(oldArbeidsgiver => ({
-                            ...oldArbeidsgiver,
+                        setArbeidsgiver(state => ({
+                            ...state,
                             [ArbeidsgiverField.YRKESBETEGNELSE]: value,
                         }))
                     }
@@ -271,8 +282,8 @@ const Form = ({ sections }: FormProps) => {
                     className="form-margin-bottom half"
                     type="number"
                     onChange={({ target: { value } }) =>
-                        setArbeidsgiver(oldArbeidsgiver => ({
-                            ...oldArbeidsgiver,
+                        setArbeidsgiver(state => ({
+                            ...state,
                             [ArbeidsgiverField.STILLINGSPROSENT]: Number(value),
                         }))
                     }
@@ -301,21 +312,39 @@ const Form = ({ sections }: FormProps) => {
                 <hr />
                 <Subsection sectionIdentifier="3.3">
                     <Checkbox
-                        checked={true}
+                        checked={medisinskvurdering[MedisinskVurderingField.ANNEN_FRAVAERSARSAK]}
                         label="Annen lovfestet fraværsgrunn § 8-4, 3. ledd oppgis hvis relevant"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMedisinskvurdering(state => ({
+                                ...state,
+                                [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: !medisinskvurdering[
+                                    MedisinskVurderingField.ANNEN_FRAVAERSARSAK
+                                ],
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {medisinskvurdering[MedisinskVurderingField.ANNEN_FRAVAERSARSAK] && (
                         <>
                             <Input
                                 className="form-margin-bottom half"
+                                onChange={({ target: { value } }) =>
+                                    setMedisinskvurdering(state => ({
+                                        ...state,
+                                        [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]: value,
+                                    }))
+                                }
                                 label={<Element>3.3.1 Lovfestet fraværsgrunn</Element>}
                             />
                             <Textarea
                                 maxLength={0}
-                                value=""
-                                onChange={() => console.log('textarea')}
+                                value={medisinskvurdering[MedisinskVurderingField.BESKRIV_FRAVAER] || ''}
+                                onChange={({ target: { value } }) =>
+                                    setMedisinskvurdering(state => ({
+                                        ...state,
+                                        [MedisinskVurderingField.BESKRIV_FRAVAER]: value,
+                                    }))
+                                }
                                 label={<Element>3.3.2 Beskriv fravær (valgfritt)</Element>}
                             />
                         </>
