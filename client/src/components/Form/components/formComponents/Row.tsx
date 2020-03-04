@@ -17,8 +17,8 @@ type RowProps = {
 const Row = ({ children }: RowProps) => {
     return (
         <div className="row">
-            {children.map(child => (
-                <RowElement>{child}</RowElement>
+            {children.map((child, index) => (
+                <RowElement key={index.toString()}>{child}</RowElement>
             ))}
         </div>
     );

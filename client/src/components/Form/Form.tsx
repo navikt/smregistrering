@@ -2,7 +2,7 @@ import './Form.less';
 import './components/formComponents/Flatpickr.less';
 
 import React, { useState } from 'react';
-import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
+import { Checkbox, FnrInput, Input, Select, Textarea } from 'nav-frontend-skjema';
 import { Element, EtikettLiten } from 'nav-frontend-typografi';
 
 import DatePicker from './components/formComponents/DatePicker';
@@ -13,7 +13,105 @@ import RangePicker from './components/formComponents/RangePicker';
 import Row from './components/formComponents/Row';
 import SectionContainer from './components/SectionContainer';
 import Subsection from './components/formComponents/Subsection';
+import { ArbeidsgiverField, FieldValues, HarArbeidsgiver, MetadataField, SchemaField } from '../../types/skjemaTypes';
 import { SectionTitle, Sections } from '../../App';
+
+const initialSchema: FieldValues = {
+    [SchemaField.METADATA]: {
+        [MetadataField.PERSONNUMMER]: undefined,
+        [MetadataField.TELEFON]: undefined,
+        [MetadataField.ETTERNAVN]: undefined,
+        [MetadataField.FORNAVN]: undefined,
+    },
+    [SchemaField.SYKETILFELLESTARTDATO]: undefined,
+    [SchemaField.LEGE_NAVN]: undefined,
+    [SchemaField.ARBEIDSGIVER]: {
+        [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
+        [ArbeidsgiverField.NAVN]: undefined,
+        [ArbeidsgiverField.YRKESBETEGNELSE]: undefined,
+        [ArbeidsgiverField.STILLINGSPROSENT]: undefined,
+    },
+    medisinskVurdering: {
+        hoveddiagnose: {
+            system: undefined,
+            kode: undefined,
+            tekst: undefined,
+        },
+        bidiagnoser: [],
+        annenFravaersArsak: false,
+        svangerskap: false,
+        yrkesskade: false,
+        yrkesskadeDato: undefined,
+        skjermetFraPasient: false,
+    },
+    mulighetForArbeid: {
+        avventendeSykmelding: {
+            avventende: false,
+            avventendePeriode: [],
+            innspillTilArbeidsgiver: undefined,
+        },
+        gradertSykmelding: {
+            gradert: false,
+            gradertPeriode: [],
+            grad: undefined,
+            reisetilskudd: false,
+        },
+        fullSykmelding: {
+            sykmeldt: false,
+            sykmeldtPeriode: [],
+            medisinskeAarsaker: false,
+            arbeidsforhold: false,
+        },
+        behandling: {
+            kanArbeide: false,
+            behandlingsPeriode: [],
+            antallDager: undefined,
+        },
+        reisetilskudd: {
+            fulltArbeid: false,
+            arbeidsPeriode: [],
+        },
+    },
+    friskmelding: {
+        arbeidsfoerEtterPeriode: false,
+        hensynPaArbeidsplassen: undefined,
+    },
+    arbeidsevne: {
+        tilretteleggingArbeidsplass: {
+            tilrettelegging: false,
+            beskriv: undefined,
+        },
+        tiltakNav: {
+            tiltakNav: false,
+            beskriv: undefined,
+        },
+        innspillNav: {
+            innspill: false,
+            beskriv: undefined,
+        },
+    },
+    meldingTilNav: {
+        bistand: false,
+        begrunn: undefined,
+    },
+    meldingTilArbeidsgiver: {
+        innspill: false,
+        beskriv: undefined,
+    },
+    tilbakedatering: {
+        erTilbakedatert: false,
+        datoTilbakedatering: undefined,
+        kanIkkeIvaretaInteresser: false,
+        begrunn: undefined,
+    },
+    bekreftelse: {
+        legitimert: false,
+        sykmeldersNavn: undefined,
+        hpr: undefined,
+        telefon: undefined,
+        adresse: undefined,
+    },
+};
 
 type FormProps = {
     sections: Sections;
@@ -26,6 +124,13 @@ type ExpandableSections =
     | SectionTitle.TIL_ARBEIDSGIVER;
 
 const Form = ({ sections }: FormProps) => {
+    const [metadata, setMetadata] = useState(initialSchema[SchemaField.METADATA]);
+    const [syketilfelleStartDato, setSyketilfelleStartDato] = useState(
+        initialSchema[SchemaField.SYKETILFELLESTARTDATO],
+    );
+    const [legenavn, setLegenavn] = useState(initialSchema[SchemaField.LEGE_NAVN]);
+    const [arbeidsgiver, setArbeidsgiver] = useState(initialSchema[SchemaField.ARBEIDSGIVER]);
+
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
         [SectionTitle.MULIGHET_FOR_ARBEID]: true,
         [SectionTitle.ARBEIDSEVNE]: true,
@@ -40,46 +145,139 @@ const Form = ({ sections }: FormProps) => {
         }));
     };
 
+    console.group('STATE');
+    console.log('metadata', metadata);
+    console.log('syketilfelleStartDato', syketilfelleStartDato);
+    console.log('legenavn', legenavn);
+    console.log('arbeidsgiver', arbeidsgiver);
+    console.groupEnd();
+
     return (
         <Panel>
             <FormHeader />
 
             <div className="form-margin-bottom section-content">
-                <Input
+                <FnrInput
                     className="form-margin-bottom half"
-                    label={<EtikettLiten>Fødselsdato (11 siffer)</EtikettLiten>}
+                    onChange={({ target: { value } }) =>
+                        setMetadata(oldMetadata => ({
+                            ...oldMetadata,
+                            [MetadataField.PERSONNUMMER]: value,
+                        }))
+                    }
+                    onValidate={valid => console.log(valid)}
+                    label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
                 />
-                <Input
-                    className="form-margin-bottom half"
-                    label={<EtikettLiten>Startdato for legemeldt fravær</EtikettLiten>}
+
+                <DatePicker
+                    label="Startdato for legemeldt fravær"
+                    value={syketilfelleStartDato}
+                    onChange={newDates => setSyketilfelleStartDato(newDates)}
                 />
             </div>
             <SectionContainer section={sections[SectionTitle.PASIENTOPPLYSNINGER]}>
                 <Row>
-                    <Input label={<Element>1.1.1 Etternavn</Element>} />
-                    <Input label={<Element>1.1.2 Fornavn</Element>} />
+                    <Input
+                        onChange={({ target: { value } }) =>
+                            setMetadata(oldMetadata => ({
+                                ...oldMetadata,
+                                [MetadataField.ETTERNAVN]: value,
+                            }))
+                        }
+                        type="text"
+                        label={<Element>1.1.1 Etternavn</Element>}
+                    />
+                    <Input
+                        onChange={({ target: { value } }) =>
+                            setMetadata(oldMetadata => ({
+                                ...oldMetadata,
+                                [MetadataField.FORNAVN]: value,
+                            }))
+                        }
+                        type="text"
+                        label={<Element>1.1.2 Fornavn</Element>}
+                    />
                 </Row>
 
-                <Input className="form-margin-bottom half" label={<Element>1.3 Telefon</Element>} />
+                <Input
+                    className="form-margin-bottom half"
+                    type="tel"
+                    onChange={({ target: { value } }) =>
+                        setMetadata(oldMetadata => ({
+                            ...oldMetadata,
+                            [MetadataField.TELEFON]: value,
+                        }))
+                    }
+                    label={<Element>1.3 Telefon</Element>}
+                />
 
-                <Input className="form-margin-bottom" label={<Element>1.4 Navn på pasientens fastlege</Element>} />
+                <Input
+                    className="form-margin-bottom"
+                    type="text"
+                    onChange={({ target: { value } }) => setLegenavn(value)}
+                    label={<Element>1.4 Navn på pasientens fastlege</Element>}
+                />
             </SectionContainer>
             <SectionContainer section={sections[SectionTitle.ARBEIDSGIVER]}>
-                <Select className="form-margin-bottom" label={<Element>2.1 Pasienten har</Element>}>
+                <Select
+                    onChange={({ target: { value } }) => {
+                        if (value === '0') {
+                            setArbeidsgiver(oldArbeidsgiver => ({
+                                ...oldArbeidsgiver,
+                                [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
+                            }));
+                        } else {
+                            setArbeidsgiver(oldArbeidsgiver => ({
+                                ...oldArbeidsgiver,
+                                [ArbeidsgiverField.HAR_ARBEIDSGIVER]: value as HarArbeidsgiver,
+                            }));
+                        }
+                    }}
+                    className="form-margin-bottom"
+                    label={<Element>2.1 Pasienten har</Element>}
+                >
                     <option value="0">Velg</option>
-                    <option value="1">En arbeidsgiver</option>
-                    <option value="2">Flere arbeidsgivere</option>
-                    <option value="3">Ingen arbeidsgiver</option>
+                    {Object.entries(HarArbeidsgiver).map(([key, value]) => {
+                        return (
+                            <option key={key} value={key}>
+                                {value}
+                            </option>
+                        );
+                    })}
                 </Select>
                 <Input
                     className="form-margin-bottom"
+                    type="text"
+                    onChange={({ target: { value } }) =>
+                        setArbeidsgiver(oldArbeidsgiver => ({
+                            ...oldArbeidsgiver,
+                            [ArbeidsgiverField.NAVN]: value,
+                        }))
+                    }
                     label={<Element>2.2 Arbeidsgiver for denne sykmeldingen</Element>}
                 />
                 <Input
                     className="form-margin-bottom"
+                    type="text"
+                    onChange={({ target: { value } }) =>
+                        setArbeidsgiver(oldArbeidsgiver => ({
+                            ...oldArbeidsgiver,
+                            [ArbeidsgiverField.YRKESBETEGNELSE]: value,
+                        }))
+                    }
                     label={<Element>2.3 Yrke/stilling for dette arbeidsforholdet</Element>}
                 />
-                <Input className="form-margin-bottom half" label={<Element>2.4 Stillingsprosent</Element>} />
+                <Input
+                    className="form-margin-bottom half"
+                    type="number"
+                    onChange={({ target: { value } }) =>
+                        setArbeidsgiver(oldArbeidsgiver => ({
+                            ...oldArbeidsgiver,
+                            [ArbeidsgiverField.STILLINGSPROSENT]: Number(value),
+                        }))
+                    }
+                    label={<Element>2.4 Stillingsprosent</Element>}
+                />
             </SectionContainer>
             <SectionContainer section={sections[SectionTitle.DIAGNOSE]}>
                 <FormLabel label="3.1 Hoveddiagnose" />
@@ -203,7 +401,7 @@ const Form = ({ sections }: FormProps) => {
                         </>
                     )}
 
-                    <Element>4.2.4</Element>
+                    <Element className="form-label">4.2.4</Element>
                     <Checkbox
                         checked={false}
                         label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
@@ -226,14 +424,16 @@ const Form = ({ sections }: FormProps) => {
                                 value={[]}
                                 onChange={newDates => console.log(newDates)}
                             />
-                            <Element>4.3.3</Element>
+                            <Element className="form-label">4.3.3</Element>
                             <Checkbox
+                                className="form-margin-bottom"
                                 checked={false}
                                 label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
                                 onChange={() => console.log('checkbox')}
                             />
-                            <Element>4.3.4</Element>
+                            <Element className="form-label">4.3.4</Element>
                             <Checkbox
+                                className="form-margin-bottom"
                                 checked={false}
                                 label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
                                 onChange={() => console.log('checkbox')}
@@ -434,6 +634,7 @@ const Form = ({ sections }: FormProps) => {
             <SectionContainer section={sections[SectionTitle.BEKREFTELSE]}>
                 <Subsection sectionIdentifier="12.1" underline={false}>
                     <Checkbox
+                        className="form-margin-bottom"
                         checked={false}
                         label="Pasienten er kjent eller har vist legitimasjon"
                         onChange={() => console.log('checkbox')}

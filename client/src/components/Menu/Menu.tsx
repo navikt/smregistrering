@@ -22,7 +22,7 @@ const Menu = ({ sections }: MenuProps) => {
                 </div>
                 <div className="menu-link-container">
                     {sectionValues.map(section => (
-                        <MenuLink section={section} />
+                        <MenuLink key={section.index} section={section} />
                     ))}
                 </div>
             </Panel>

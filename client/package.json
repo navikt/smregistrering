@@ -15,6 +15,7 @@
         "@types/react-flatpickr": "^3.8.1",
         "classnames": "^2.2.6",
         "craco-less": "^1.15.0",
+        "dayjs": "^1.8.21",
         "flatpickr": "^4.6.3",
         "lodash.throttle": "^4.1.1",
         "nav-frontend-chevron": "^1.0.10",
