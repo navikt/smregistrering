@@ -14,18 +14,27 @@ import Row from './components/formComponents/Row';
 import SectionContainer from './components/SectionContainer';
 import Subsection from './components/formComponents/Subsection';
 import {
+    ArbeidsevneField,
     ArbeidsgiverField,
     AvventendeSykmeldingField,
     BehandlingField,
+    BekreftelseField,
     FieldValues,
+    FriskmeldingField,
     FullSykmeldingField,
     GradertSykmeldingField,
     HarArbeidsgiver,
+    InnspillNavField,
     MedisinskVurderingField,
+    MeldingTilArbeidsgiverField,
+    MeldingTilNavField,
     MetadataField,
     MulighetForArbeidField,
     ReisetilskuddField,
     SchemaField,
+    TilbakedateringField,
+    TilretteleggingArbeidsplassField,
+    TiltakNavField,
 } from '../../types/skjemaTypes';
 import { SectionTitle, Sections } from '../../App';
 
@@ -66,65 +75,65 @@ const initialSchema: FieldValues = {
             [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: undefined,
         },
         [MulighetForArbeidField.GRADERT_SYKMELDING]: {
-            gradert: false,
-            gradertPeriode: [],
-            grad: undefined,
-            reisetilskudd: false,
+            [GradertSykmeldingField.GRADERT]: false,
+            [GradertSykmeldingField.GRADERT_PERIODE]: [],
+            [GradertSykmeldingField.GRAD]: undefined,
+            [GradertSykmeldingField.REISETILSKUDD]: false,
         },
         [MulighetForArbeidField.FULL_SYKMELDING]: {
-            sykmeldt: false,
-            sykmeldtPeriode: [],
-            medisinskeAarsaker: false,
-            arbeidsforhold: false,
+            [FullSykmeldingField.SYKMELDT]: false,
+            [FullSykmeldingField.SYKMELDT_PERIODE]: [],
+            [FullSykmeldingField.MEDISINSKE_AARSAKER]: false,
+            [FullSykmeldingField.ARBEIDSFORHOLD]: false,
         },
         [MulighetForArbeidField.BEHANDLING]: {
-            kanArbeide: false,
-            behandlingsPeriode: [],
-            antallDager: undefined,
+            [BehandlingField.KAN_ARBEIDE]: false,
+            [BehandlingField.BEHANDLINGSPERIODE]: [],
+            [BehandlingField.ANTALL_DAGER]: undefined,
         },
         [MulighetForArbeidField.REISETILSKUDD]: {
-            fulltArbeid: false,
-            arbeidsPeriode: [],
+            [ReisetilskuddField.FULLT_ARBEID]: false,
+            [ReisetilskuddField.ARBEIDSPERIODE]: [],
         },
     },
-    friskmelding: {
-        arbeidsfoerEtterPeriode: false,
-        hensynPaArbeidsplassen: undefined,
+    [SchemaField.FRISKMELDING]: {
+        [FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE]: false,
+        [FriskmeldingField.HENSYN_PA_ARBEIDSPLASSEN]: undefined,
     },
-    arbeidsevne: {
-        tilretteleggingArbeidsplass: {
-            tilrettelegging: false,
-            beskriv: undefined,
+    [SchemaField.ARBEIDSEVNE]: {
+        [ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS]: {
+            [TilretteleggingArbeidsplassField.TILRETTELEGGING]: false,
+            [TilretteleggingArbeidsplassField.BESKRIV]: undefined,
         },
-        tiltakNav: {
-            tiltakNav: false,
-            beskriv: undefined,
+        [ArbeidsevneField.TILTAK_NAV]: {
+            [TiltakNavField.TILTAK_NAV]: false,
+            [TiltakNavField.BESKRIV]: undefined,
         },
-        innspillNav: {
-            innspill: false,
-            beskriv: undefined,
+        [ArbeidsevneField.INNSPILL_NAV]: {
+            [InnspillNavField.INNSPILL]: false,
+            [InnspillNavField.BESKRIV]: undefined,
         },
     },
-    meldingTilNav: {
-        bistand: false,
-        begrunn: undefined,
+    [SchemaField.MELDING_TIL_NAV]: {
+        [MeldingTilNavField.BISTAND]: false,
+        [MeldingTilNavField.BEGRUNN]: undefined,
     },
-    meldingTilArbeidsgiver: {
-        innspill: false,
-        beskriv: undefined,
+    [SchemaField.MELDING_TIL_ARBEIDSGIVER]: {
+        [MeldingTilArbeidsgiverField.INNSPILL]: false,
+        [MeldingTilArbeidsgiverField.BESKRIV]: undefined,
     },
-    tilbakedatering: {
-        erTilbakedatert: false,
-        datoTilbakedatering: undefined,
-        kanIkkeIvaretaInteresser: false,
-        begrunn: undefined,
+    [SchemaField.TILBAKEDATERING]: {
+        [TilbakedateringField.ER_TILBAKEDATERT]: false,
+        [TilbakedateringField.DATO_TILBAKEDATERING]: undefined,
+        [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]: false,
+        [TilbakedateringField.BEGRUNN]: undefined,
     },
-    bekreftelse: {
-        legitimert: false,
-        sykmeldersNavn: undefined,
-        hpr: undefined,
-        telefon: undefined,
-        adresse: undefined,
+    [SchemaField.BEKREFTELSE]: {
+        [BekreftelseField.LEGITIMERT]: false,
+        [BekreftelseField.SYKMELDERS_NAVN]: undefined,
+        [BekreftelseField.HPR]: undefined,
+        [BekreftelseField.TELEFON]: undefined,
+        [BekreftelseField.ADRESSE]: undefined,
     },
 };
 
@@ -147,6 +156,14 @@ const Form = ({ sections }: FormProps) => {
     const [arbeidsgiver, setArbeidsgiver] = useState(initialSchema[SchemaField.ARBEIDSGIVER]);
     const [medisinskvurdering, setMedisinskvurdering] = useState(initialSchema[SchemaField.MEDISINSKVURDERING]);
     const [mulighetForArbeid, setMulighetForArbeid] = useState(initialSchema[SchemaField.MULIGHET_FOR_ARBEID]);
+    const [friskmelding, setFriskmelding] = useState(initialSchema[SchemaField.FRISKMELDING]);
+    const [arbeidsevne, setArbeidsevne] = useState(initialSchema[SchemaField.ARBEIDSEVNE]);
+    const [meldingTilNav, setMeldingTilNav] = useState(initialSchema[SchemaField.MELDING_TIL_NAV]);
+    const [meldingTilArbeidsgiver, setMeldingTilArbeidsgiver] = useState(
+        initialSchema[SchemaField.MELDING_TIL_ARBEIDSGIVER],
+    );
+    const [tilbakedatering, setTilbakedatering] = useState(initialSchema[SchemaField.TILBAKEDATERING]);
+    const [bekreftelse, setBekreftelse] = useState(initialSchema[SchemaField.BEKREFTELSE]);
 
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
         [SectionTitle.MULIGHET_FOR_ARBEID]: true,
@@ -169,6 +186,12 @@ const Form = ({ sections }: FormProps) => {
     console.log('arbeidsgiver', arbeidsgiver);
     console.log('medisinskvurdering', medisinskvurdering);
     console.log('mulighetForArbeid', mulighetForArbeid);
+    console.log('friskmelding', friskmelding);
+    console.log('arbeidsevne', arbeidsevne);
+    console.log('meldingTilNav', meldingTilNav);
+    console.log('meldingTilArbeidsgiver', meldingTilArbeidsgiver);
+    console.log('tilbakedatering', tilbakedatering);
+    console.log('bekreftelse', bekreftelse);
     console.groupEnd();
 
     return (
@@ -744,16 +767,28 @@ const Form = ({ sections }: FormProps) => {
             <SectionContainer section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}>
                 <Subsection sectionIdentifier="5.1" underline={false}>
                     <Checkbox
-                        checked={true}
+                        checked={friskmelding[FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE]}
                         label="Pasienten er 100 prosent arbeidsfør etter denne perioden"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setFriskmelding(state => ({
+                                ...state,
+                                [FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE]: !state[
+                                    FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE
+                                ],
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {friskmelding[FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE] && (
                         <Textarea
                             maxLength={0}
-                            value=""
-                            onChange={() => console.log('textarea')}
+                            value={friskmelding[FriskmeldingField.HENSYN_PA_ARBEIDSPLASSEN] || ''}
+                            onChange={({ target: { value } }) =>
+                                setFriskmelding(state => ({
+                                    ...state,
+                                    [FriskmeldingField.HENSYN_PA_ARBEIDSPLASSEN]: value,
+                                }))
+                            }
                             label={<Element>5.1.1 Beskrive eventuelle hensyn som må tas på arbeidsplassen</Element>}
                         />
                     )}
@@ -766,29 +801,79 @@ const Form = ({ sections }: FormProps) => {
             >
                 <Subsection sectionIdentifier="7.1">
                     <Checkbox
-                        checked={true}
+                        checked={
+                            arbeidsevne[ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS][
+                                TilretteleggingArbeidsplassField.TILRETTELEGGING
+                            ]
+                        }
                         label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setArbeidsevne(state => ({
+                                ...state,
+                                [ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS]: {
+                                    ...state[ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS],
+                                    [TilretteleggingArbeidsplassField.TILRETTELEGGING]: !state[
+                                        ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS
+                                    ][TilretteleggingArbeidsplassField.TILRETTELEGGING],
+                                },
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {arbeidsevne[ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS][
+                        TilretteleggingArbeidsplassField.TILRETTELEGGING
+                    ] && (
                         <Textarea
                             maxLength={0}
-                            value=""
-                            onChange={() => console.log('textarea')}
+                            value={
+                                arbeidsevne[ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS][
+                                    TilretteleggingArbeidsplassField.BESKRIV
+                                ] || ''
+                            }
+                            onChange={({ target: { value } }) =>
+                                setArbeidsevne(state => ({
+                                    ...state,
+                                    [ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS]: {
+                                        ...state[ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS],
+                                        [TilretteleggingArbeidsplassField.BESKRIV]: value,
+                                    },
+                                }))
+                            }
                             label={<Element>Beskriv</Element>}
                         />
                     )}
                 </Subsection>
 
                 <Subsection sectionIdentifier="7.2">
-                    <Checkbox checked={true} label="Tiltak i regi av NAV" onChange={() => console.log('checkbox')} />
+                    <Checkbox
+                        checked={arbeidsevne[ArbeidsevneField.TILTAK_NAV][TiltakNavField.TILTAK_NAV]}
+                        label="Tiltak i regi av NAV"
+                        onChange={() =>
+                            setArbeidsevne(state => ({
+                                ...state,
+                                [ArbeidsevneField.TILTAK_NAV]: {
+                                    ...state[ArbeidsevneField.TILTAK_NAV],
+                                    [TiltakNavField.TILTAK_NAV]: !state[ArbeidsevneField.TILTAK_NAV][
+                                        TiltakNavField.TILTAK_NAV
+                                    ],
+                                },
+                            }))
+                        }
+                    />
                     <br />
-                    {true && (
+                    {arbeidsevne[ArbeidsevneField.TILTAK_NAV][TiltakNavField.TILTAK_NAV] && (
                         <Textarea
                             maxLength={0}
-                            value=""
-                            onChange={() => console.log('textarea')}
+                            value={arbeidsevne[ArbeidsevneField.TILTAK_NAV][TiltakNavField.BESKRIV] || ''}
+                            onChange={({ target: { value } }) =>
+                                setArbeidsevne(state => ({
+                                    ...state,
+                                    [ArbeidsevneField.TILTAK_NAV]: {
+                                        ...state[ArbeidsevneField.TILTAK_NAV],
+                                        [TiltakNavField.BESKRIV]: value,
+                                    },
+                                }))
+                            }
                             label={<Element>Beskriv. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)</Element>}
                         />
                     )}
@@ -796,16 +881,34 @@ const Form = ({ sections }: FormProps) => {
 
                 <Subsection sectionIdentifier="7.3" underline={false}>
                     <Checkbox
-                        checked={true}
+                        checked={arbeidsevne[ArbeidsevneField.INNSPILL_NAV][InnspillNavField.INNSPILL]}
                         label="Eventuelle andre innspill til NAV"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setArbeidsevne(state => ({
+                                ...state,
+                                [ArbeidsevneField.INNSPILL_NAV]: {
+                                    ...state[ArbeidsevneField.INNSPILL_NAV],
+                                    [InnspillNavField.INNSPILL]: !state[ArbeidsevneField.INNSPILL_NAV][
+                                        InnspillNavField.INNSPILL
+                                    ],
+                                },
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {arbeidsevne[ArbeidsevneField.INNSPILL_NAV][InnspillNavField.INNSPILL] && (
                         <Textarea
                             maxLength={0}
-                            value=""
-                            onChange={() => console.log('textarea')}
+                            value={arbeidsevne[ArbeidsevneField.INNSPILL_NAV][InnspillNavField.BESKRIV] || ''}
+                            onChange={({ target: { value } }) =>
+                                setArbeidsevne(state => ({
+                                    ...state,
+                                    [ArbeidsevneField.INNSPILL_NAV]: {
+                                        ...state[ArbeidsevneField.INNSPILL_NAV],
+                                        [InnspillNavField.BESKRIV]: value,
+                                    },
+                                }))
+                            }
                             label={<Element>Beskriv</Element>}
                         />
                     )}
@@ -818,16 +921,26 @@ const Form = ({ sections }: FormProps) => {
             >
                 <Subsection sectionIdentifier="8.1" underline={false}>
                     <Checkbox
-                        checked={true}
+                        checked={meldingTilNav[MeldingTilNavField.BISTAND]}
                         label="Ønskes bistand fra NAV nå?"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMeldingTilNav(state => ({
+                                ...state,
+                                [MeldingTilNavField.BISTAND]: !state[MeldingTilNavField.BISTAND],
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {meldingTilNav[MeldingTilNavField.BISTAND] && (
                         <Textarea
                             maxLength={0}
-                            value=""
-                            onChange={() => console.log('textarea')}
+                            value={meldingTilNav[MeldingTilNavField.BEGRUNN] || ''}
+                            onChange={({ target: { value } }) =>
+                                setMeldingTilNav(state => ({
+                                    ...state,
+                                    [MeldingTilNavField.BEGRUNN]: value,
+                                }))
+                            }
                             label={<Element>Begrunn nærmere</Element>}
                         />
                     )}
@@ -840,16 +953,26 @@ const Form = ({ sections }: FormProps) => {
             >
                 <Subsection sectionIdentifier="9.1" underline={false}>
                     <Checkbox
-                        checked={true}
+                        checked={meldingTilArbeidsgiver[MeldingTilArbeidsgiverField.INNSPILL]}
                         label="Andre innspill til arbeidsgiver"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setMeldingTilArbeidsgiver(state => ({
+                                ...state,
+                                [MeldingTilArbeidsgiverField.INNSPILL]: !state[MeldingTilArbeidsgiverField.INNSPILL],
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {meldingTilArbeidsgiver[MeldingTilArbeidsgiverField.INNSPILL] && (
                         <Textarea
                             maxLength={0}
-                            value=""
-                            onChange={() => console.log('textarea')}
+                            value={meldingTilArbeidsgiver[MeldingTilArbeidsgiverField.BESKRIV] || ''}
+                            onChange={({ target: { value } }) =>
+                                setMeldingTilArbeidsgiver(state => ({
+                                    ...state,
+                                    [MeldingTilArbeidsgiverField.BESKRIV]: value,
+                                }))
+                            }
                             label={<Element>Andre innspill til arbeidsgiver</Element>}
                         />
                     )}
@@ -858,32 +981,54 @@ const Form = ({ sections }: FormProps) => {
             <SectionContainer section={sections[SectionTitle.TILBAKEDATERING]}>
                 <Subsection sectionIdentifier="11.1" underline={false}>
                     <Checkbox
-                        checked={true}
+                        checked={tilbakedatering[TilbakedateringField.ER_TILBAKEDATERT]}
                         label="Er sykmelding tilbakedatert?"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setTilbakedatering(state => ({
+                                ...state,
+                                [TilbakedateringField.ER_TILBAKEDATERT]: !state[TilbakedateringField.ER_TILBAKEDATERT],
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {tilbakedatering[TilbakedateringField.ER_TILBAKEDATERT] && (
                         <DatePicker
                             label="Oppgi dato for dokumenterbar kontakt med pasienten"
-                            value={undefined}
-                            onChange={newDates => console.log(newDates)}
+                            value={tilbakedatering[TilbakedateringField.DATO_TILBAKEDATERING]}
+                            onChange={newDate =>
+                                setTilbakedatering(state => ({
+                                    ...state,
+                                    [TilbakedateringField.DATO_TILBAKEDATERING]: newDate,
+                                }))
+                            }
                         />
                     )}
                 </Subsection>
 
                 <Subsection sectionIdentifier="11.2" underline={false}>
                     <Checkbox
-                        checked={true}
+                        checked={tilbakedatering[TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]}
                         label="Pasienten har ikke kunnet ivareta egne interesser"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setTilbakedatering(state => ({
+                                ...state,
+                                [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]: !state[
+                                    TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER
+                                ],
+                            }))
+                        }
                     />
                     <br />
-                    {true && (
+                    {tilbakedatering[TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER] && (
                         <Textarea
                             maxLength={0}
-                            value=""
-                            onChange={() => console.log('textarea')}
+                            value={tilbakedatering[TilbakedateringField.BEGRUNN] || ''}
+                            onChange={({ target: { value } }) =>
+                                setTilbakedatering(state => ({
+                                    ...state,
+                                    [TilbakedateringField.BEGRUNN]: value,
+                                }))
+                            }
                             label={<Element>Begrunn</Element>}
                         />
                     )}
@@ -893,20 +1038,61 @@ const Form = ({ sections }: FormProps) => {
                 <Subsection sectionIdentifier="12.1" underline={false}>
                     <Checkbox
                         className="form-margin-bottom"
-                        checked={false}
+                        checked={bekreftelse[BekreftelseField.LEGITIMERT]}
                         label="Pasienten er kjent eller har vist legitimasjon"
-                        onChange={() => console.log('checkbox')}
+                        onChange={() =>
+                            setBekreftelse(state => ({
+                                ...state,
+                                [BekreftelseField.LEGITIMERT]: !state[BekreftelseField.LEGITIMERT],
+                            }))
+                        }
                     />
                 </Subsection>
 
-                <Input className="form-margin-bottom" label={<Element>12.2 Sykmelders navn</Element>} />
+                <Input
+                    className="form-margin-bottom"
+                    onChange={({ target: { value } }) =>
+                        setBekreftelse(state => ({
+                            ...state,
+                            [BekreftelseField.SYKMELDERS_NAVN]: value,
+                        }))
+                    }
+                    label={<Element>12.2 Sykmelders navn</Element>}
+                />
 
                 <Row>
-                    <Input className="form-margin-bottom" label={<Element>12.4 HPR-nummer</Element>} />
-                    <Input className="form-margin-bottom" label={<Element>12.5 Telefon</Element>} />
+                    <Input
+                        className="form-margin-bottom"
+                        onChange={({ target: { value } }) =>
+                            setBekreftelse(state => ({
+                                ...state,
+                                [BekreftelseField.HPR]: value,
+                            }))
+                        }
+                        label={<Element>12.4 HPR-nummer</Element>}
+                    />
+                    <Input
+                        className="form-margin-bottom"
+                        onChange={({ target: { value } }) =>
+                            setBekreftelse(state => ({
+                                ...state,
+                                [BekreftelseField.TELEFON]: value,
+                            }))
+                        }
+                        label={<Element>12.5 Telefon</Element>}
+                    />
                 </Row>
 
-                <Input className="form-margin-bottom" label={<Element>12.6 Adresse</Element>} />
+                <Input
+                    className="form-margin-bottom"
+                    onChange={({ target: { value } }) =>
+                        setBekreftelse(state => ({
+                            ...state,
+                            [BekreftelseField.ADRESSE]: value,
+                        }))
+                    }
+                    label={<Element>12.6 Adresse</Element>}
+                />
             </SectionContainer>
         </Panel>
     );

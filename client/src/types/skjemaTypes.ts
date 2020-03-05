@@ -119,62 +119,113 @@ export enum MulighetForArbeidField {
 }
 
 type MulighetForArbeid = {
-    avventendeSykmelding: AvventendeSykmelding;
-    gradertSykmelding: GradertSykmelding;
-    fullSykmelding: FullSykmelding;
-    behandling: Behandling;
-    reisetilskudd: Reisetilskudd;
+    [MulighetForArbeidField.AVVENTENDE_SYKMELDING]: AvventendeSykmelding;
+    [MulighetForArbeidField.GRADERT_SYKMELDING]: GradertSykmelding;
+    [MulighetForArbeidField.FULL_SYKMELDING]: FullSykmelding;
+    [MulighetForArbeidField.BEHANDLING]: Behandling;
+    [MulighetForArbeidField.REISETILSKUDD]: Reisetilskudd;
 };
+
+export enum FriskmeldingField {
+    ARBEIDSFOER_ETTER_PERIODE = 'arbeidsfoerEtterPeriode',
+    HENSYN_PA_ARBEIDSPLASSEN = 'hensynPaArbeidsplassen',
+}
 
 type Friskmelding = {
-    arbeidsfoerEtterPeriode?: boolean;
-    hensynPaArbeidsplassen?: string;
+    [FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE]?: boolean;
+    [FriskmeldingField.HENSYN_PA_ARBEIDSPLASSEN]?: string;
 };
+
+export enum TilretteleggingArbeidsplassField {
+    TILRETTELEGGING = 'tilrettelegging',
+    BESKRIV = 'beskriv',
+}
 
 type TilretteleggingArbeidsplass = {
-    tilrettelegging?: boolean;
-    beskriv?: string;
+    [TilretteleggingArbeidsplassField.TILRETTELEGGING]?: boolean;
+    [TilretteleggingArbeidsplassField.BESKRIV]?: string;
 };
+
+export enum TiltakNavField {
+    TILTAK_NAV = 'tiltakNav',
+    BESKRIV = 'beskriv',
+}
 
 type TiltakNav = {
-    tiltakNav?: boolean;
-    beskriv?: string;
+    [TiltakNavField.TILTAK_NAV]?: boolean;
+    [TiltakNavField.BESKRIV]?: string;
 };
+
+export enum InnspillNavField {
+    INNSPILL = 'innspill',
+    BESKRIV = 'beskriv',
+}
 
 type InnspillNav = {
-    innspill?: boolean;
-    beskriv?: string;
+    [InnspillNavField.INNSPILL]?: boolean;
+    [InnspillNavField.BESKRIV]?: string;
 };
+
+export enum ArbeidsevneField {
+    TILRETTELEGGING_ARBEIDSPLASS = 'tilretteleggingArbeidsplass',
+    TILTAK_NAV = 'tiltakNav',
+    INNSPILL_NAV = 'innspillNav',
+}
 
 type Arbeidsevne = {
-    tilretteleggingArbeidsplass: TilretteleggingArbeidsplass;
-    tiltakNav: TiltakNav;
-    innspillNav: InnspillNav;
+    [ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS]: TilretteleggingArbeidsplass;
+    [ArbeidsevneField.TILTAK_NAV]: TiltakNav;
+    [ArbeidsevneField.INNSPILL_NAV]: InnspillNav;
 };
+
+export enum MeldingTilNavField {
+    BISTAND = 'bistand',
+    BEGRUNN = 'begrunn',
+}
 
 type MeldingTilNav = {
-    bistand?: boolean;
-    begrunn?: string;
+    [MeldingTilNavField.BISTAND]?: boolean;
+    [MeldingTilNavField.BEGRUNN]?: string;
 };
+
+export enum MeldingTilArbeidsgiverField {
+    INNSPILL = 'innspill',
+    BESKRIV = 'beskriv',
+}
 
 type MeldingTilArbeidsgiver = {
-    innspill?: boolean;
-    beskriv?: string;
+    [MeldingTilArbeidsgiverField.INNSPILL]?: boolean;
+    [MeldingTilArbeidsgiverField.BESKRIV]?: string;
 };
+
+export enum TilbakedateringField {
+    ER_TILBAKEDATERT = 'erTilbakedatert',
+    DATO_TILBAKEDATERING = 'datoTilbakedatering',
+    KAN_IKKE_IVARETA_INTERESSER = 'kanIkkeIvaretaInteresser',
+    BEGRUNN = 'begrunn',
+}
 
 type Tilbakedatering = {
-    erTilbakedatert?: boolean;
-    datoTilbakedatering?: Date;
-    kanIkkeIvaretaInteresser?: boolean;
-    begrunn?: string;
+    [TilbakedateringField.ER_TILBAKEDATERT]?: boolean;
+    [TilbakedateringField.DATO_TILBAKEDATERING]?: Date;
+    [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]?: boolean;
+    [TilbakedateringField.BEGRUNN]?: string;
 };
 
+export enum BekreftelseField {
+    LEGITIMERT = 'legitimert',
+    SYKMELDERS_NAVN = 'sykmeldersNavn',
+    HPR = 'hpr',
+    TELEFON = 'telefon',
+    ADRESSE = 'adresse',
+}
+
 type Bekreftelse = {
-    legitimert?: boolean;
-    sykmeldersNavn?: string;
-    hpr?: string;
-    telefon?: string;
-    adresse?: string;
+    [BekreftelseField.LEGITIMERT]?: boolean;
+    [BekreftelseField.SYKMELDERS_NAVN]?: string;
+    [BekreftelseField.HPR]?: string;
+    [BekreftelseField.TELEFON]?: string;
+    [BekreftelseField.ADRESSE]?: string;
 };
 
 export enum MetadataField {
