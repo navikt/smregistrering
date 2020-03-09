@@ -25,7 +25,7 @@ const getVaultCredential = (path: string) => {
       return credentail;
     } catch (error) {
       console.error(`Could not get vault credentials for path: '${path}'`);
-      process.exit(1);
+      //process.exit(1);
     }
   }
 };

@@ -5,6 +5,7 @@ import path from "path";
 import passport from "passport";
 import reverseProxy from "../proxy/reverse-proxy";
 import { decode } from "jsonwebtoken";
+import { Client } from "openid-client";
 
 const router = express.Router();
 
@@ -23,7 +24,7 @@ const ensureAuthenticated = async (
   }
 };
 
-const setup = (authClient: any) => {
+const setup = (authClient: Client) => {
   // Unprotected
   router.get("/is_alive", (_req, res) => res.send("Alive"));
   router.get("/is_ready", (_req, res) => res.send("Ready"));
