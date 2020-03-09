@@ -63,7 +63,7 @@ const setup = (authClient: Client) => {
           if (!userName) {
             throw new Error("Could not decode token to get user information");
           } else {
-            res.status(200).send((userName as any).name); // TODO: er det ferdt å type opp denne responsen?
+            res.status(200).send((userName as any).name); // TODO: er det verdt å type opp denne responsen?
           }
         }
       }

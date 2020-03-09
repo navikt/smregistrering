@@ -6,7 +6,7 @@ const setupLogging = (server: Application) => {
   if (process.env.NODE_ENV === "development") {
     morganBody(server);
   } else {
-    morgan("common");
+    server.use(morgan("common"));
     // TODO: filter requests that are useful to log
   }
 };
