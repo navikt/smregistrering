@@ -57,7 +57,7 @@ const stripTrailingSlash = (str: string): string =>
   str.endsWith("/") ? str.slice(0, -1) : str;
 
 const setup = (router: Router, authClient: Client) => {
-  config.reverseProxy.apis.forEach((api, index) => {
+  config.reverseProxy().apis.forEach((api, index) => {
     if (api.url) {
       router.use(`/${api.path}/*`, proxy(api.url, options(api, authClient)));
     } else {

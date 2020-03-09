@@ -139,4 +139,4 @@ const loadReverseProxyConfig = () => {
   return config;
 };
 
-export default { server, azureAd, reverseProxy: reverseProxyConfig(), redis };
+export default { server, azureAd, reverseProxy: reverseProxyConfig, redis };
