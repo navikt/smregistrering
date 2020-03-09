@@ -48,7 +48,7 @@ const setup = (authClient: Client) => {
   router.use(ensureAuthenticated);
 
   // Protected
-  router.use("/", express.static(path.join(__dirname, "build")));
+  router.use("/", express.static(path.join(__dirname, "../../../client/build")));
 
   router.get("/user", (req: Request, res: Response) => {
     try {
@@ -63,6 +63,7 @@ const setup = (authClient: Client) => {
           if (!userName) {
             throw new Error("Could not decode token to get user information");
           } else {
+            console.log(userName);
             res.status(200).send((userName as any).name); // TODO: er det verdt å type opp denne responsen?
           }
         }
