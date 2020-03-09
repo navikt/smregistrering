@@ -4,7 +4,6 @@ import path from "path";
 if (process.env.NODE_ENV === "development") {
   console.log("Loading environmentvariables from .env file");
   require("dotenv/config");
-  //console.log(process.env);
 }
 
 const envVar = (name: string, required = true) => {
@@ -34,18 +33,14 @@ const server = {
   host: envVar("HOST", false) || "localhost",
   port: envVar("PORT", false) || 3000,
   proxy: envVar("HTTP_PROXY", false), // optional, only set if requests to Azure AD must be performed through a corporate proxy (i.e. traffic to login.microsoftonline.com is blocked by the firewall)
-  sessionKey:
-    getVaultCredential("/var/run/secrets/nais.io/vault/session_key") ||
-    "test-key", // should be set to a random key of significant length for signing session ID cookies
+  sessionKey: envVar("SESSION_KEY") || "",
   cookieName: "smregistrering"
 };
 
 const azureAd = {
   discoveryUrl: envVar("AAD_DISCOVERY_URL") || "",
-  clientId:
-    getVaultCredential("/secrets/azuread/smregistrering/client_id") || "",
-  clientSecret:
-    getVaultCredential("/secrets/azuread/smregistrering/client_secret") || "",
+  clientId: envVar("CLIENT_ID") || "",
+  clientSecret: envVar("CLIENT_SECRET") || "",
   redirectUri: envVar("AAD_REDIRECT_URL") || "",
   logoutRedirectUri: envVar("AAD_LOGOUT_REDIRECT_URL", false) || "",
   tokenEndpointAuthMethod: "client_secret_post",
@@ -53,11 +48,10 @@ const azureAd = {
   responseMode: "query"
 };
 
-//console.log(azureAd);
-
 const redis = {
   host:
-    envVar("REDIS_HOST", false) || "smregistrering-redis.default.svc.nais.local",
+    envVar("REDIS_HOST", false) ||
+    "smregistrering-redis.default.svc.nais.local",
   port: 6379,
   password: envVar("REDIS_PASSWORD", false)
 };
@@ -123,10 +117,7 @@ const loadReverseProxyConfig = () => {
       config = {
         apis: [
           {
-            clientId:
-              getVaultCredential(
-                "/secrets/azuread/smregistrering-backend/client_id"
-              ) || "",
+            clientId: envVar("DOWNSTREAM_API_CLIENT_ID", false) || "1234",
             path: envVar("DOWNSTREAM_API_PATH", false) || "backend",
             url: envVar("DOWNSTREAM_API_URL", false) || ".",
             scopes: scopes ? scopes.split(",") : []
