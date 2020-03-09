@@ -37,15 +37,15 @@ const server = {
   sessionKey:
     getVaultCredential("/var/run/secrets/nais.io/vault/session_key") ||
     "test-key", // should be set to a random key of significant length for signing session ID cookies
-  cookieName: "syfosmmanuell"
+  cookieName: "smregistrering"
 };
 
 const azureAd = {
   discoveryUrl: envVar("AAD_DISCOVERY_URL") || "",
   clientId:
-    getVaultCredential("/secrets/azuread/syfosmmanuell/client_id") || "",
+    getVaultCredential("/secrets/azuread/smregistrering/client_id") || "",
   clientSecret:
-    getVaultCredential("/secrets/azuread/syfosmmanuell/client_secret") || "",
+    getVaultCredential("/secrets/azuread/smregistrering/client_secret") || "",
   redirectUri: envVar("AAD_REDIRECT_URL") || "",
   logoutRedirectUri: envVar("AAD_LOGOUT_REDIRECT_URL", false) || "",
   tokenEndpointAuthMethod: "client_secret_post",
@@ -57,7 +57,7 @@ const azureAd = {
 
 const redis = {
   host:
-    envVar("REDIS_HOST", false) || "syfosmmanuell-redis.default.svc.nais.local",
+    envVar("REDIS_HOST", false) || "smregistrering-redis.default.svc.nais.local",
   port: 6379,
   password: envVar("REDIS_PASSWORD", false)
 };
@@ -125,7 +125,7 @@ const loadReverseProxyConfig = () => {
           {
             clientId:
               getVaultCredential(
-                "/secrets/azuread/syfosmmanuell-backend/client_id"
+                "/secrets/azuread/smregistrering-backend/client_id"
               ) || "",
             path: envVar("DOWNSTREAM_API_PATH", false) || "backend",
             url: envVar("DOWNSTREAM_API_URL"),
