@@ -91,7 +91,7 @@ const setup = (authClient: Client) => {
     });
   });
 
-  reverseProxy.setup(router, authClient);
+  //reverseProxy.setup(router, authClient);
 
   router.use("/*", (req, res) => {
     res.status(404).send("Not found");
