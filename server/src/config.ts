@@ -4,7 +4,7 @@ import path from "path";
 if (process.env.NODE_ENV === "development") {
   console.log("Loading environmentvariables from .env file");
   require("dotenv/config");
-  console.log(process.env);
+  //console.log(process.env);
 }
 
 const envVar = (name: string, required = true) => {
@@ -32,7 +32,7 @@ const getVaultCredential = (path: string) => {
 
 const server = {
   host: envVar("HOST", false) || "localhost",
-  port: envVar("PORT", false) || 3000,
+  port: envVar("PORT", false) || 3001,
   proxy: envVar("HTTP_PROXY", false), // optional, only set if requests to Azure AD must be performed through a corporate proxy (i.e. traffic to login.microsoftonline.com is blocked by the firewall)
   sessionKey:
     getVaultCredential("/var/run/secrets/nais.io/vault/session_key") ||
