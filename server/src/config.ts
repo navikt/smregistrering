@@ -128,7 +128,7 @@ const loadReverseProxyConfig = () => {
                 "/secrets/azuread/smregistrering-backend/client_id"
               ) || "",
             path: envVar("DOWNSTREAM_API_PATH", false) || "backend",
-            url: envVar("DOWNSTREAM_API_URL"),
+            url: envVar("DOWNSTREAM_API_URL", false),
             scopes: scopes ? scopes.split(",") : []
           }
         ]
