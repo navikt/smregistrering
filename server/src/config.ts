@@ -35,7 +35,7 @@ const server = {
   port: envVar("PORT", false) || 3000,
   proxy: envVar("HTTP_PROXY", false), // optional, only set if requests to Azure AD must be performed through a corporate proxy (i.e. traffic to login.microsoftonline.com is blocked by the firewall)
   sessionKey:
-    getVaultCredential("/secrets/default/syfosmmanuell/session_key") ||
+    getVaultCredential("/var/run/secrets/nais.io/vault/session_key") ||
     "test-key", // should be set to a random key of significant length for signing session ID cookies
   cookieName: "syfosmmanuell"
 };
