@@ -45,11 +45,15 @@ const setup = (authClient: Client) => {
     }
   );
 
+  // Static page
+  router.use(
+    "/",
+    express.static(path.join(__dirname, "../../../client/build"))
+  );
+
   router.use(ensureAuthenticated);
 
-  // Protected
-  router.use("/", express.static(path.join(__dirname, "../../../client/build")));
-
+  // Protected routes
   router.get("/user", (req: Request, res: Response) => {
     try {
       if (!req.user) {
@@ -59,12 +63,11 @@ const setup = (authClient: Client) => {
         if (!accessToken) {
           throw new Error("Did not find token object attached to request");
         } else {
-          const userName = decode(accessToken, { complete: true });
-          if (!userName) {
+          const decodedToken = decode(accessToken, { complete: true });
+          if (!decodedToken) {
             throw new Error("Could not decode token to get user information");
           } else {
-            console.log(userName);
-            res.status(200).send((userName as any).name); // TODO: er det verdt å type opp denne responsen?
+            res.status(200).send((decodedToken as any).payload.name); // TODO: er det verdt å type opp denne responsen?
           }
         }
       }

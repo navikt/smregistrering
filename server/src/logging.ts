@@ -6,7 +6,12 @@ const setupLogging = (server: Application) => {
   if (process.env.NODE_ENV === "development") {
     morganBody(server);
   } else {
-    server.use(morgan("common"));
+    server.use(
+      morgan("common", {
+        skip: (req, _res) =>
+          req.originalUrl === "/is_alive" || req.originalUrl === "/is_ready"
+      })
+    );
     // TODO: filter requests that are useful to log
   }
 };
