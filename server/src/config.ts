@@ -15,7 +15,7 @@ const envVar = (name: string, required = true) => {
 };
 
 const server = {
-  host: envVar('HOST') || 'localhost',
+  host: envVar('HOST', false) || 'localhost',
   port: envVar('PORT', false) || 3000,
   proxy: envVar('HTTP_PROXY', false), // optional, only set if requests to Azure AD must be performed through a corporate proxy (i.e. traffic to login.microsoftonline.com is blocked by the firewall)
   sessionKey: envVar('SESSION_KEY') || '',
