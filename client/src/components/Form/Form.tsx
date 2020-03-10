@@ -11,8 +11,11 @@ import Panel from '../Panel/Panel';
 import ArbeidsevneSection, {
     Arbeidsevne,
     ArbeidsevneField,
+    InnspillNav,
     InnspillNavField,
+    TilretteleggingArbeidsplass,
     TilretteleggingArbeidsplassField,
+    TiltakNav,
     TiltakNavField,
 } from './components/formSections/ArbeidsevneSection';
 import ArbeidsgiverSection, { Arbeidsgiver, ArbeidsgiverField } from './components/formSections/ArbeidsgiverSection';
@@ -31,12 +34,17 @@ import MeldingTilNavSection, {
     MeldingTilNavField,
 } from './components/formSections/MeldingTilNavSection';
 import MulighetForArbeidSection, {
+    AvventendeSykmelding,
     AvventendeSykmeldingField,
+    Behandling,
     BehandlingField,
+    FullSykmelding,
     FullSykmeldingField,
+    GradertSykmelding,
     GradertSykmeldingField,
     MulighetForArbeid,
     MulighetForArbeidField,
+    Reisetilskudd,
     ReisetilskuddField,
 } from './components/formSections/MulighetForArbeidSection';
 import PasientopplysningerSection, {
@@ -50,134 +58,92 @@ import TilbakedateringSection, {
 import { SectionTitle, Sections } from '../../App';
 
 export enum SchemaField {
-    METADATA = 'metadata',
     SYKETILFELLESTARTDATO = 'syketilfelleStartDato',
     LEGE_NAVN = 'legenavn',
-    ARBEIDSGIVER = 'arbeidsgiver',
-    MEDISINSKVURDERING = 'medisinskVurdering',
-    MULIGHET_FOR_ARBEID = 'mulighetForArbeid',
-    FRISKMELDING = 'friskmelding',
-    ARBEIDSEVNE = 'arbeidsevne',
-    MELDING_TIL_NAV = 'meldingTilNav',
-    MELDING_TIL_ARBEIDSGIVER = 'meldingTilArbeidsgiver',
-    TILBAKEDATERING = 'tilbakedatering',
-    BEKREFTELSE = 'bekreftelse',
 }
 
-// Her er det tatt et bevisst valg for å gå bort fra den faktiske sykmeldingmodellen for å forenkle utvikling av forms
-// Tanken er å type form på enklest mulig måte, og så skrive en mapping-funksjon som bygger opp den faktiske sykmeldingsmodellen i ettertid
 export type FieldValues = {
-    [SchemaField.METADATA]: Metadata;
     [SchemaField.SYKETILFELLESTARTDATO]?: Date;
     [SchemaField.LEGE_NAVN]?: string;
-    [SchemaField.ARBEIDSGIVER]: Arbeidsgiver;
-    [SchemaField.MEDISINSKVURDERING]: MedisinskVurdering;
-    [SchemaField.MULIGHET_FOR_ARBEID]: MulighetForArbeid;
-    [SchemaField.FRISKMELDING]: Friskmelding;
-    [SchemaField.ARBEIDSEVNE]: Arbeidsevne;
-    [SchemaField.MELDING_TIL_NAV]: MeldingTilNav;
-    [SchemaField.MELDING_TIL_ARBEIDSGIVER]: MeldingTilArbeidsgiver;
-    [SchemaField.TILBAKEDATERING]: Tilbakedatering;
-    [SchemaField.BEKREFTELSE]: Bekreftelse;
 };
 
-const initialSchema: FieldValues = {
-    [SchemaField.METADATA]: {
-        [MetadataField.PERSONNUMMER]: undefined,
-        [MetadataField.TELEFON]: undefined,
-        [MetadataField.ETTERNAVN]: undefined,
-        [MetadataField.FORNAVN]: undefined,
-    },
+const initialSchema: Partial<Metadata &
+    Arbeidsgiver &
+    Arbeidsevne &
+    MedisinskVurdering &
+    AvventendeSykmelding &
+    GradertSykmelding &
+    FullSykmelding &
+    Behandling &
+    Reisetilskudd &
+    Friskmelding &
+    TilretteleggingArbeidsplass &
+    TiltakNav &
+    InnspillNav &
+    MeldingTilNav &
+    Tilbakedatering &
+    Bekreftelse &
+    FieldValues> = {
+    [MetadataField.PERSONNUMMER]: undefined,
+    [MetadataField.TELEFON]: undefined,
+    [MetadataField.ETTERNAVN]: undefined,
+    [MetadataField.FORNAVN]: undefined,
     [SchemaField.SYKETILFELLESTARTDATO]: undefined,
     [SchemaField.LEGE_NAVN]: undefined,
-    [SchemaField.ARBEIDSGIVER]: {
-        [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
-        [ArbeidsgiverField.NAVN]: undefined,
-        [ArbeidsgiverField.YRKESBETEGNELSE]: undefined,
-        [ArbeidsgiverField.STILLINGSPROSENT]: undefined,
+    [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
+    [ArbeidsgiverField.NAVN]: undefined,
+    [ArbeidsgiverField.YRKESBETEGNELSE]: undefined,
+    [ArbeidsgiverField.STILLINGSPROSENT]: undefined,
+    [MedisinskVurderingField.HOVEDDIAGNOSE]: {
+        system: undefined,
+        kode: undefined,
+        tekst: undefined,
     },
-    [SchemaField.MEDISINSKVURDERING]: {
-        [MedisinskVurderingField.HOVEDDIAGNOSE]: {
-            system: undefined,
-            kode: undefined,
-            tekst: undefined,
-        },
-        [MedisinskVurderingField.BIDIAGNOSER]: [],
-        [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: false,
-        [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]: undefined,
-        [MedisinskVurderingField.BESKRIV_FRAVAER]: undefined,
-        [MedisinskVurderingField.SVANGERSKAP]: false,
-        [MedisinskVurderingField.YRKESSKADE]: false,
-        [MedisinskVurderingField.YRKESSKADE_DATO]: undefined,
-        [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: false,
-    },
-    [SchemaField.MULIGHET_FOR_ARBEID]: {
-        [MulighetForArbeidField.AVVENTENDE_SYKMELDING]: {
-            [AvventendeSykmeldingField.AVVENTENDE]: false,
-            [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: [],
-            [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: undefined,
-        },
-        [MulighetForArbeidField.GRADERT_SYKMELDING]: {
-            [GradertSykmeldingField.GRADERT]: false,
-            [GradertSykmeldingField.GRADERT_PERIODE]: [],
-            [GradertSykmeldingField.GRAD]: undefined,
-            [GradertSykmeldingField.REISETILSKUDD]: false,
-        },
-        [MulighetForArbeidField.FULL_SYKMELDING]: {
-            [FullSykmeldingField.SYKMELDT]: false,
-            [FullSykmeldingField.SYKMELDT_PERIODE]: [],
-            [FullSykmeldingField.MEDISINSKE_AARSAKER]: false,
-            [FullSykmeldingField.ARBEIDSFORHOLD]: false,
-        },
-        [MulighetForArbeidField.BEHANDLING]: {
-            [BehandlingField.KAN_ARBEIDE]: false,
-            [BehandlingField.BEHANDLINGSPERIODE]: [],
-            [BehandlingField.ANTALL_DAGER]: undefined,
-        },
-        [MulighetForArbeidField.REISETILSKUDD]: {
-            [ReisetilskuddField.FULLT_ARBEID]: false,
-            [ReisetilskuddField.ARBEIDSPERIODE]: [],
-        },
-    },
-    [SchemaField.FRISKMELDING]: {
-        [FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE]: false,
-        [FriskmeldingField.HENSYN_PA_ARBEIDSPLASSEN]: undefined,
-    },
-    [SchemaField.ARBEIDSEVNE]: {
-        [ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS]: {
-            [TilretteleggingArbeidsplassField.TILRETTELEGGING]: false,
-            [TilretteleggingArbeidsplassField.BESKRIV]: undefined,
-        },
-        [ArbeidsevneField.TILTAK_NAV]: {
-            [TiltakNavField.TILTAK_NAV]: false,
-            [TiltakNavField.BESKRIV]: undefined,
-        },
-        [ArbeidsevneField.INNSPILL_NAV]: {
-            [InnspillNavField.INNSPILL]: false,
-            [InnspillNavField.BESKRIV]: undefined,
-        },
-    },
-    [SchemaField.MELDING_TIL_NAV]: {
-        [MeldingTilNavField.BISTAND]: false,
-        [MeldingTilNavField.BEGRUNN]: undefined,
-    },
-    [SchemaField.MELDING_TIL_ARBEIDSGIVER]: {
-        [MeldingTilArbeidsgiverField.INNSPILL]: false,
-        [MeldingTilArbeidsgiverField.BESKRIV]: undefined,
-    },
-    [SchemaField.TILBAKEDATERING]: {
-        [TilbakedateringField.ER_TILBAKEDATERT]: false,
-        [TilbakedateringField.DATO_TILBAKEDATERING]: undefined,
-        [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]: false,
-        [TilbakedateringField.BEGRUNN]: undefined,
-    },
-    [SchemaField.BEKREFTELSE]: {
-        [BekreftelseField.LEGITIMERT]: false,
-        [BekreftelseField.SYKMELDERS_NAVN]: undefined,
-        [BekreftelseField.HPR]: undefined,
-        [BekreftelseField.TELEFON]: undefined,
-        [BekreftelseField.ADRESSE]: undefined,
-    },
+    [MedisinskVurderingField.BIDIAGNOSER]: [],
+    [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: false,
+    [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]: undefined,
+    [MedisinskVurderingField.BESKRIV_FRAVAER]: undefined,
+    [MedisinskVurderingField.SVANGERSKAP]: false,
+    [MedisinskVurderingField.YRKESSKADE]: false,
+    [MedisinskVurderingField.YRKESSKADE_DATO]: undefined,
+    [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: false,
+    [AvventendeSykmeldingField.AVVENTENDE]: false,
+    [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: [],
+    [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: undefined,
+    [GradertSykmeldingField.GRADERT]: false,
+    [GradertSykmeldingField.GRADERT_PERIODE]: [],
+    [GradertSykmeldingField.GRAD]: undefined,
+    [GradertSykmeldingField.REISETILSKUDD]: false,
+    [FullSykmeldingField.SYKMELDT]: false,
+    [FullSykmeldingField.SYKMELDT_PERIODE]: [],
+    [FullSykmeldingField.MEDISINSKE_AARSAKER]: false,
+    [FullSykmeldingField.ARBEIDSFORHOLD]: false,
+    [BehandlingField.KAN_ARBEIDE]: false,
+    [BehandlingField.BEHANDLINGSPERIODE]: [],
+    [BehandlingField.ANTALL_DAGER]: undefined,
+    [ReisetilskuddField.FULLT_ARBEID]: false,
+    [ReisetilskuddField.ARBEIDSPERIODE]: [],
+    [FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE]: false,
+    [FriskmeldingField.HENSYN_PA_ARBEIDSPLASSEN]: undefined,
+    [TilretteleggingArbeidsplassField.TILRETTELEGGING]: false,
+    [TilretteleggingArbeidsplassField.BESKRIV]: undefined,
+    [TiltakNavField.TILTAK_NAV]: false,
+    [TiltakNavField.BESKRIV]: undefined,
+    [InnspillNavField.INNSPILL]: false,
+    [InnspillNavField.BESKRIV]: undefined,
+    [MeldingTilNavField.BISTAND]: false,
+    [MeldingTilNavField.BEGRUNN]: undefined,
+    [MeldingTilArbeidsgiverField.INNSPILL]: false,
+    [MeldingTilArbeidsgiverField.BESKRIV]: undefined,
+    [TilbakedateringField.ER_TILBAKEDATERT]: false,
+    [TilbakedateringField.DATO_TILBAKEDATERING]: undefined,
+    [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]: false,
+    [TilbakedateringField.BEGRUNN]: undefined,
+    [BekreftelseField.LEGITIMERT]: false,
+    [BekreftelseField.SYKMELDERS_NAVN]: undefined,
+    [BekreftelseField.HPR]: undefined,
+    [BekreftelseField.TELEFON]: undefined,
+    [BekreftelseField.ADRESSE]: undefined,
 };
 
 type FormProps = {
@@ -191,22 +157,7 @@ export type ExpandableSections =
     | SectionTitle.TIL_ARBEIDSGIVER;
 
 const Form = ({ sections }: FormProps) => {
-    const [metadata, setMetadata] = useState(initialSchema[SchemaField.METADATA]);
-    const [syketilfelleStartDato, setSyketilfelleStartDato] = useState(
-        initialSchema[SchemaField.SYKETILFELLESTARTDATO],
-    );
-    const [legenavn, setLegenavn] = useState(initialSchema[SchemaField.LEGE_NAVN]);
-    const [arbeidsgiver, setArbeidsgiver] = useState(initialSchema[SchemaField.ARBEIDSGIVER]);
-    const [medisinskvurdering, setMedisinskvurdering] = useState(initialSchema[SchemaField.MEDISINSKVURDERING]);
-    const [mulighetForArbeid, setMulighetForArbeid] = useState(initialSchema[SchemaField.MULIGHET_FOR_ARBEID]);
-    const [friskmelding, setFriskmelding] = useState(initialSchema[SchemaField.FRISKMELDING]);
-    const [arbeidsevne, setArbeidsevne] = useState(initialSchema[SchemaField.ARBEIDSEVNE]);
-    const [meldingTilNav, setMeldingTilNav] = useState(initialSchema[SchemaField.MELDING_TIL_NAV]);
-    const [meldingTilArbeidsgiver, setMeldingTilArbeidsgiver] = useState(
-        initialSchema[SchemaField.MELDING_TIL_ARBEIDSGIVER],
-    );
-    const [tilbakedatering, setTilbakedatering] = useState(initialSchema[SchemaField.TILBAKEDATERING]);
-    const [bekreftelse, setBekreftelse] = useState(initialSchema[SchemaField.BEKREFTELSE]);
+    const [schema, setSchema] = useState(initialSchema);
 
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
         [SectionTitle.MULIGHET_FOR_ARBEID]: true,
@@ -223,18 +174,7 @@ const Form = ({ sections }: FormProps) => {
     };
 
     console.groupCollapsed('STATE');
-    console.log('metadata', metadata);
-    console.log('syketilfelleStartDato', syketilfelleStartDato);
-    console.log('legenavn', legenavn);
-    console.log('arbeidsgiver', arbeidsgiver);
-    console.log('medisinskvurdering', medisinskvurdering);
-    console.log('mulighetForArbeid', mulighetForArbeid);
-    console.log('friskmelding', friskmelding);
-    console.log('arbeidsevne', arbeidsevne);
-    console.log('meldingTilNav', meldingTilNav);
-    console.log('meldingTilArbeidsgiver', meldingTilArbeidsgiver);
-    console.log('tilbakedatering', tilbakedatering);
-    console.log('bekreftelse', bekreftelse);
+    console.log('schema', schema);
     console.groupEnd();
 
     return (
@@ -245,7 +185,7 @@ const Form = ({ sections }: FormProps) => {
                 <FnrInput
                     className="form-margin-bottom half"
                     onChange={({ target: { value } }) =>
-                        setMetadata(state => ({
+                        setSchema(state => ({
                             ...state,
                             [MetadataField.PERSONNUMMER]: value,
                         }))
@@ -256,66 +196,54 @@ const Form = ({ sections }: FormProps) => {
 
                 <DatePicker
                     label="Startdato for legemeldt fravær"
-                    value={syketilfelleStartDato}
-                    onChange={newDates => setSyketilfelleStartDato(newDates)}
+                    value={schema[SchemaField.SYKETILFELLESTARTDATO]}
+                    onChange={newDates =>
+                        setSchema(state => ({ ...state, [SchemaField.SYKETILFELLESTARTDATO]: newDates }))
+                    }
                 />
             </div>
-            <PasientopplysningerSection
-                section={sections[SectionTitle.PASIENTOPPLYSNINGER]}
-                setMetadata={setMetadata}
-                setLegenavn={setLegenavn}
-            />
-            <ArbeidsgiverSection section={sections[SectionTitle.ARBEIDSGIVER]} setArbeidsgiver={setArbeidsgiver} />
-            <DiagnoseSection
-                section={sections[SectionTitle.DIAGNOSE]}
-                setMedisinskvurdering={setMedisinskvurdering}
-                medisinskvurdering={medisinskvurdering}
-            />
+            <PasientopplysningerSection section={sections[SectionTitle.PASIENTOPPLYSNINGER]} setSchema={setSchema} />
+            <ArbeidsgiverSection section={sections[SectionTitle.ARBEIDSGIVER]} setSchema={setSchema} />
+            <DiagnoseSection section={sections[SectionTitle.DIAGNOSE]} setSchema={setSchema} schema={schema} />
             <MulighetForArbeidSection
                 section={sections[SectionTitle.MULIGHET_FOR_ARBEID]}
                 expanded={expanded[SectionTitle.MULIGHET_FOR_ARBEID]}
                 expandSection={() => expandSection(SectionTitle.MULIGHET_FOR_ARBEID)}
-                setMulighetForArbeid={setMulighetForArbeid}
-                mulighetForArbeid={mulighetForArbeid}
+                setSchema={setSchema}
+                schema={schema}
             />
             <FriskmeldingSection
                 section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}
-                setFriskmelding={setFriskmelding}
-                friskmelding={friskmelding}
+                setSchema={setSchema}
+                schema={schema}
             />
             <ArbeidsevneSection
                 section={sections[SectionTitle.ARBEIDSEVNE]}
                 expanded={expanded[SectionTitle.ARBEIDSEVNE]}
                 expandSection={() => expandSection(SectionTitle.ARBEIDSEVNE)}
-                setArbeidsevne={setArbeidsevne}
-                arbeidsevne={arbeidsevne}
+                setSchema={setSchema}
+                schema={schema}
             />
             <MeldingTilNavSection
                 section={sections[SectionTitle.TIL_NAV]}
                 expanded={expanded[SectionTitle.TIL_NAV]}
                 expandSection={() => expandSection(SectionTitle.TIL_NAV)}
-                setMeldingTilNav={setMeldingTilNav}
-                meldingTilNav={meldingTilNav}
+                setSchema={setSchema}
+                schema={schema}
             />
             <MeldingTilArbeidsgiverSection
                 section={sections[SectionTitle.TIL_ARBEIDSGIVER]}
                 expanded={expanded[SectionTitle.TIL_ARBEIDSGIVER]}
                 expandSection={() => expandSection(SectionTitle.TIL_ARBEIDSGIVER)}
-                setMeldingTilArbeidsgiver={setMeldingTilArbeidsgiver}
-                meldingTilArbeidsgiver={meldingTilArbeidsgiver}
+                setSchema={setSchema}
+                schema={schema}
             />
-
             <TilbakedateringSection
                 section={sections[SectionTitle.TILBAKEDATERING]}
-                setTilbakedatering={setTilbakedatering}
-                tilbakedatering={tilbakedatering}
+                setSchema={setSchema}
+                schema={schema}
             />
-
-            <BekreftelseSection
-                section={sections[SectionTitle.BEKREFTELSE]}
-                setBekreftelse={setBekreftelse}
-                bekreftelse={bekreftelse}
-            />
+            <BekreftelseSection section={sections[SectionTitle.BEKREFTELSE]} setSchema={setSchema} schema={schema} />
         </Panel>
     );
 };

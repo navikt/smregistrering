@@ -5,7 +5,16 @@ import { Element } from 'nav-frontend-typografi';
 import RangePicker from '../formComponents/RangePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
+import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
+import { Arbeidsgiver } from './ArbeidsgiverSection';
+import { Bekreftelse } from './BekreftelseSection';
+import { FieldValues } from '../../Form';
+import { Friskmelding } from './FriskmeldingSection';
+import { MedisinskVurdering } from './DiagnoseSection';
+import { MeldingTilNav } from './MeldingTilNavSection';
+import { Metadata } from './PasientopplysningerSection';
 import { Section } from '../../../../App';
+import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum AvventendeSykmeldingField {
     AVVENTENDE = 'avventende',
@@ -13,7 +22,7 @@ export enum AvventendeSykmeldingField {
     INNSPILL_TIL_ARBEIDSGIVER = 'innspillTilArbeidsgiver',
 }
 
-type AvventendeSykmelding = {
+export type AvventendeSykmelding = {
     [AvventendeSykmeldingField.AVVENTENDE]?: boolean;
     [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: Date[];
     [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]?: string;
@@ -26,7 +35,7 @@ export enum GradertSykmeldingField {
     REISETILSKUDD = 'reisetilskudd',
 }
 
-type GradertSykmelding = {
+export type GradertSykmelding = {
     [GradertSykmeldingField.GRADERT]?: boolean;
     [GradertSykmeldingField.GRADERT_PERIODE]: Date[];
     [GradertSykmeldingField.GRAD]?: string;
@@ -40,7 +49,7 @@ export enum FullSykmeldingField {
     ARBEIDSFORHOLD = 'arbeidsforhold',
 }
 
-type FullSykmelding = {
+export type FullSykmelding = {
     [FullSykmeldingField.SYKMELDT]?: boolean;
     [FullSykmeldingField.SYKMELDT_PERIODE]: Date[];
     [FullSykmeldingField.MEDISINSKE_AARSAKER]?: boolean;
@@ -53,7 +62,7 @@ export enum BehandlingField {
     ANTALL_DAGER = 'antallDager',
 }
 
-type Behandling = {
+export type Behandling = {
     [BehandlingField.KAN_ARBEIDE]?: boolean;
     [BehandlingField.BEHANDLINGSPERIODE]: Date[];
     [BehandlingField.ANTALL_DAGER]?: number;
@@ -64,7 +73,7 @@ export enum ReisetilskuddField {
     ARBEIDSPERIODE = 'arbeidsPeriode',
 }
 
-type Reisetilskudd = {
+export type Reisetilskudd = {
     [ReisetilskuddField.FULLT_ARBEID]?: boolean;
     [ReisetilskuddField.ARBEIDSPERIODE]: Date[];
 };
@@ -88,77 +97,92 @@ export type MulighetForArbeid = {
 type MulighetForArbeidSectionProps = {
     section: Section;
     expanded: boolean;
-    setMulighetForArbeid: (value: React.SetStateAction<MulighetForArbeid>) => void;
+    setSchema: (
+        value: React.SetStateAction<
+            Partial<
+                Metadata &
+                    Arbeidsgiver &
+                    Arbeidsevne &
+                    MedisinskVurdering &
+                    AvventendeSykmelding &
+                    GradertSykmelding &
+                    FullSykmelding &
+                    Behandling &
+                    Reisetilskudd &
+                    Friskmelding &
+                    TilretteleggingArbeidsplass &
+                    TiltakNav &
+                    InnspillNav &
+                    MeldingTilNav &
+                    Tilbakedatering &
+                    Bekreftelse &
+                    FieldValues
+            >
+        >,
+    ) => void;
+    schema: Partial<
+        Metadata &
+            Arbeidsgiver &
+            Arbeidsevne &
+            MedisinskVurdering &
+            AvventendeSykmelding &
+            GradertSykmelding &
+            FullSykmelding &
+            Behandling &
+            Reisetilskudd &
+            Friskmelding &
+            TilretteleggingArbeidsplass &
+            TiltakNav &
+            InnspillNav &
+            MeldingTilNav &
+            Tilbakedatering &
+            Bekreftelse &
+            FieldValues
+    >;
     expandSection: () => void;
-    mulighetForArbeid: MulighetForArbeid;
 };
 
 const MulighetForArbeidSection = ({
     section,
     expanded,
     expandSection,
-    setMulighetForArbeid,
-    mulighetForArbeid,
+    setSchema,
+    schema,
 }: MulighetForArbeidSectionProps) => {
     return (
         <SectionContainer section={section} expanded={expanded} setExpanded={expandSection}>
             <Subsection sectionIdentifier="4.1">
                 <Checkbox
-                    checked={
-                        mulighetForArbeid[MulighetForArbeidField.AVVENTENDE_SYKMELDING][
-                            AvventendeSykmeldingField.AVVENTENDE
-                        ]
-                    }
+                    checked={schema[AvventendeSykmeldingField.AVVENTENDE]}
                     label="Pasienten kan benytte avventende sykmelding"
                     onChange={() =>
-                        setMulighetForArbeid(state => ({
+                        setSchema(state => ({
                             ...state,
-                            [MulighetForArbeidField.AVVENTENDE_SYKMELDING]: {
-                                ...state[MulighetForArbeidField.AVVENTENDE_SYKMELDING],
-                                [AvventendeSykmeldingField.AVVENTENDE]: !state[
-                                    MulighetForArbeidField.AVVENTENDE_SYKMELDING
-                                ][AvventendeSykmeldingField.AVVENTENDE],
-                            },
+                            [AvventendeSykmeldingField.AVVENTENDE]: !state[AvventendeSykmeldingField.AVVENTENDE],
                         }))
                     }
                 />
                 <br />
-                {mulighetForArbeid[MulighetForArbeidField.AVVENTENDE_SYKMELDING][
-                    AvventendeSykmeldingField.AVVENTENDE
-                ] && (
+                {schema[AvventendeSykmeldingField.AVVENTENDE] && (
                     <>
                         <RangePicker
                             labelFrom="4.1.1 f.o.m."
                             labelTo="4.1.2 t.o.m."
-                            value={
-                                mulighetForArbeid[MulighetForArbeidField.AVVENTENDE_SYKMELDING][
-                                    AvventendeSykmeldingField.AVVENTENDE_PERIODE
-                                ]
-                            }
+                            value={schema[AvventendeSykmeldingField.AVVENTENDE_PERIODE] || []}
                             onChange={newDates =>
-                                setMulighetForArbeid(state => ({
+                                setSchema(state => ({
                                     ...state,
-                                    [MulighetForArbeidField.AVVENTENDE_SYKMELDING]: {
-                                        ...state[MulighetForArbeidField.AVVENTENDE_SYKMELDING],
-                                        [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: newDates,
-                                    },
+                                    [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: newDates,
                                 }))
                             }
                         />
                         <Textarea
                             maxLength={0}
-                            value={
-                                mulighetForArbeid[MulighetForArbeidField.AVVENTENDE_SYKMELDING][
-                                    AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER
-                                ] || ''
-                            }
+                            value={schema[AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER] || ''}
                             onChange={({ target: { value } }) =>
-                                setMulighetForArbeid(state => ({
+                                setSchema(state => ({
                                     ...state,
-                                    [MulighetForArbeidField.AVVENTENDE_SYKMELDING]: {
-                                        ...state[MulighetForArbeidField.AVVENTENDE_SYKMELDING],
-                                        [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: value,
-                                    },
+                                    [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: value,
                                 }))
                             }
                             label={<Element>4.1.3 Innspill til arbeidsgiver om tilrettelegging</Element>}
@@ -168,52 +192,35 @@ const MulighetForArbeidSection = ({
             </Subsection>
             <Subsection sectionIdentifier="4.2">
                 <Checkbox
-                    checked={
-                        mulighetForArbeid[MulighetForArbeidField.GRADERT_SYKMELDING][GradertSykmeldingField.GRADERT]
-                    }
+                    checked={schema[GradertSykmeldingField.GRADERT]}
                     label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
                     onChange={() =>
-                        setMulighetForArbeid(state => ({
+                        setSchema(state => ({
                             ...state,
-                            [MulighetForArbeidField.GRADERT_SYKMELDING]: {
-                                ...state[MulighetForArbeidField.GRADERT_SYKMELDING],
-                                [GradertSykmeldingField.GRADERT]: !state[MulighetForArbeidField.GRADERT_SYKMELDING][
-                                    GradertSykmeldingField.GRADERT
-                                ],
-                            },
+                            [GradertSykmeldingField.GRADERT]: !state[GradertSykmeldingField.GRADERT],
                         }))
                     }
                 />
                 <br />
-                {mulighetForArbeid[MulighetForArbeidField.GRADERT_SYKMELDING][GradertSykmeldingField.GRADERT] && (
+                {schema[GradertSykmeldingField.GRADERT] && (
                     <>
                         <RangePicker
                             labelFrom="4.2.1 f.o.m."
                             labelTo="4.2.2 t.o.m."
-                            value={
-                                mulighetForArbeid[MulighetForArbeidField.GRADERT_SYKMELDING][
-                                    GradertSykmeldingField.GRADERT_PERIODE
-                                ]
-                            }
+                            value={schema[GradertSykmeldingField.GRADERT_PERIODE] || []}
                             onChange={newDates =>
-                                setMulighetForArbeid(state => ({
+                                setSchema(state => ({
                                     ...state,
-                                    [MulighetForArbeidField.GRADERT_SYKMELDING]: {
-                                        ...state[MulighetForArbeidField.GRADERT_SYKMELDING],
-                                        [GradertSykmeldingField.GRADERT_PERIODE]: newDates,
-                                    },
+                                    [GradertSykmeldingField.GRADERT_PERIODE]: newDates,
                                 }))
                             }
                         />
                         <Input
                             className="form-margin-bottom half"
                             onChange={({ target: { value } }) =>
-                                setMulighetForArbeid(state => ({
+                                setSchema(state => ({
                                     ...state,
-                                    [MulighetForArbeidField.GRADERT_SYKMELDING]: {
-                                        ...state[MulighetForArbeidField.GRADERT_SYKMELDING],
-                                        [GradertSykmeldingField.GRAD]: value,
-                                    },
+                                    [GradertSykmeldingField.GRAD]: value,
                                 }))
                             }
                             label={<Element>4.2.3 Oppgi grad for sykmelding</Element>}
@@ -223,21 +230,12 @@ const MulighetForArbeidSection = ({
 
                 <Element className="form-label">4.2.4</Element>
                 <Checkbox
-                    checked={
-                        mulighetForArbeid[MulighetForArbeidField.GRADERT_SYKMELDING][
-                            GradertSykmeldingField.REISETILSKUDD
-                        ]
-                    }
+                    checked={schema[GradertSykmeldingField.REISETILSKUDD]}
                     label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
                     onChange={() =>
-                        setMulighetForArbeid(state => ({
+                        setSchema(state => ({
                             ...state,
-                            [MulighetForArbeidField.GRADERT_SYKMELDING]: {
-                                ...state[MulighetForArbeidField.GRADERT_SYKMELDING],
-                                [GradertSykmeldingField.REISETILSKUDD]: !state[
-                                    MulighetForArbeidField.GRADERT_SYKMELDING
-                                ][GradertSykmeldingField.REISETILSKUDD],
-                            },
+                            [GradertSykmeldingField.REISETILSKUDD]: !state[GradertSykmeldingField.REISETILSKUDD],
                         }))
                     }
                 />
@@ -245,80 +243,52 @@ const MulighetForArbeidSection = ({
 
             <Subsection sectionIdentifier="4.3">
                 <Checkbox
-                    checked={mulighetForArbeid[MulighetForArbeidField.FULL_SYKMELDING][FullSykmeldingField.SYKMELDT]}
+                    checked={schema[FullSykmeldingField.SYKMELDT]}
                     label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
                     onChange={() =>
-                        setMulighetForArbeid(state => ({
+                        setSchema(state => ({
                             ...state,
-                            [MulighetForArbeidField.FULL_SYKMELDING]: {
-                                ...state[MulighetForArbeidField.FULL_SYKMELDING],
-                                [FullSykmeldingField.SYKMELDT]: !state[MulighetForArbeidField.FULL_SYKMELDING][
-                                    FullSykmeldingField.SYKMELDT
-                                ],
-                            },
+                            [FullSykmeldingField.SYKMELDT]: !state[FullSykmeldingField.SYKMELDT],
                         }))
                     }
                 />
                 <br />
-                {mulighetForArbeid[MulighetForArbeidField.FULL_SYKMELDING][FullSykmeldingField.SYKMELDT] && (
+                {schema[FullSykmeldingField.SYKMELDT] && (
                     <>
                         <RangePicker
                             labelFrom="4.3.1 f.o.m."
                             labelTo="4.3.2 t.o.m."
-                            value={
-                                mulighetForArbeid[MulighetForArbeidField.FULL_SYKMELDING][
-                                    FullSykmeldingField.SYKMELDT_PERIODE
-                                ]
-                            }
+                            value={schema[FullSykmeldingField.SYKMELDT_PERIODE] || []}
                             onChange={newDates =>
-                                setMulighetForArbeid(state => ({
+                                setSchema(state => ({
                                     ...state,
-                                    [MulighetForArbeidField.FULL_SYKMELDING]: {
-                                        ...state[MulighetForArbeidField.FULL_SYKMELDING],
-                                        [FullSykmeldingField.SYKMELDT_PERIODE]: newDates,
-                                    },
+                                    [FullSykmeldingField.SYKMELDT_PERIODE]: newDates,
                                 }))
                             }
                         />
                         <Element className="form-label">4.3.3</Element>
                         <Checkbox
                             className="form-margin-bottom"
-                            checked={
-                                mulighetForArbeid[MulighetForArbeidField.FULL_SYKMELDING][
-                                    FullSykmeldingField.MEDISINSKE_AARSAKER
-                                ]
-                            }
+                            checked={schema[FullSykmeldingField.MEDISINSKE_AARSAKER]}
                             label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
                             onChange={() =>
-                                setMulighetForArbeid(state => ({
+                                setSchema(state => ({
                                     ...state,
-                                    [MulighetForArbeidField.FULL_SYKMELDING]: {
-                                        ...state[MulighetForArbeidField.FULL_SYKMELDING],
-                                        [FullSykmeldingField.MEDISINSKE_AARSAKER]: !state[
-                                            MulighetForArbeidField.FULL_SYKMELDING
-                                        ][FullSykmeldingField.MEDISINSKE_AARSAKER],
-                                    },
+                                    [FullSykmeldingField.MEDISINSKE_AARSAKER]: !state[
+                                        FullSykmeldingField.MEDISINSKE_AARSAKER
+                                    ],
                                 }))
                             }
                         />
                         <Element className="form-label">4.3.4</Element>
                         <Checkbox
                             className="form-margin-bottom"
-                            checked={
-                                mulighetForArbeid[MulighetForArbeidField.FULL_SYKMELDING][
-                                    FullSykmeldingField.ARBEIDSFORHOLD
-                                ]
-                            }
+                            checked={schema[FullSykmeldingField.ARBEIDSFORHOLD]}
                             label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
                             onChange={() =>
-                                setMulighetForArbeid(state => ({
+                                setSchema(state => ({
                                     ...state,
-                                    [MulighetForArbeidField.FULL_SYKMELDING]: {
-                                        ...state[MulighetForArbeidField.FULL_SYKMELDING],
-                                        [FullSykmeldingField.ARBEIDSFORHOLD]: !state[
-                                            MulighetForArbeidField.FULL_SYKMELDING
-                                        ][FullSykmeldingField.ARBEIDSFORHOLD],
-                                    },
+                                    [FullSykmeldingField.ARBEIDSFORHOLD]: !state[FullSykmeldingField.ARBEIDSFORHOLD],
                                 }))
                             }
                         />
@@ -328,36 +298,26 @@ const MulighetForArbeidSection = ({
 
             <Subsection sectionIdentifier="4.4">
                 <Checkbox
-                    checked={mulighetForArbeid[MulighetForArbeidField.BEHANDLING][BehandlingField.KAN_ARBEIDE]}
+                    checked={schema[BehandlingField.KAN_ARBEIDE]}
                     label="Pasienten kan ikke være i arbeid på behandlingsdager"
                     onChange={() =>
-                        setMulighetForArbeid(state => ({
+                        setSchema(state => ({
                             ...state,
-                            [MulighetForArbeidField.BEHANDLING]: {
-                                ...state[MulighetForArbeidField.BEHANDLING],
-                                [BehandlingField.KAN_ARBEIDE]: !state[MulighetForArbeidField.BEHANDLING][
-                                    BehandlingField.KAN_ARBEIDE
-                                ],
-                            },
+                            [BehandlingField.KAN_ARBEIDE]: !state[BehandlingField.KAN_ARBEIDE],
                         }))
                     }
                 />
                 <br />
-                {mulighetForArbeid[MulighetForArbeidField.BEHANDLING][BehandlingField.KAN_ARBEIDE] && (
+                {schema[BehandlingField.KAN_ARBEIDE] && (
                     <>
                         <RangePicker
                             labelFrom="4.4.1 f.o.m."
                             labelTo="4.4.2 t.o.m."
-                            value={
-                                mulighetForArbeid[MulighetForArbeidField.BEHANDLING][BehandlingField.BEHANDLINGSPERIODE]
-                            }
+                            value={schema[BehandlingField.BEHANDLINGSPERIODE] || []}
                             onChange={newDates =>
-                                setMulighetForArbeid(state => ({
+                                setSchema(state => ({
                                     ...state,
-                                    [MulighetForArbeidField.BEHANDLING]: {
-                                        ...state[MulighetForArbeidField.BEHANDLING],
-                                        [BehandlingField.BEHANDLINGSPERIODE]: newDates,
-                                    },
+                                    [BehandlingField.BEHANDLINGSPERIODE]: newDates,
                                 }))
                             }
                         />
@@ -366,12 +326,9 @@ const MulighetForArbeidSection = ({
                             className="form-margin-bottom half"
                             type="number"
                             onChange={({ target: { value } }) =>
-                                setMulighetForArbeid(state => ({
+                                setSchema(state => ({
                                     ...state,
-                                    [MulighetForArbeidField.BEHANDLING]: {
-                                        ...state[MulighetForArbeidField.BEHANDLING],
-                                        [BehandlingField.ANTALL_DAGER]: Number(value),
-                                    },
+                                    [BehandlingField.ANTALL_DAGER]: Number(value),
                                 }))
                             }
                             label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
@@ -382,35 +339,25 @@ const MulighetForArbeidSection = ({
 
             <Subsection sectionIdentifier="4.5" underline={false}>
                 <Checkbox
-                    checked={mulighetForArbeid[MulighetForArbeidField.REISETILSKUDD][ReisetilskuddField.FULLT_ARBEID]}
+                    checked={schema[ReisetilskuddField.FULLT_ARBEID]}
                     label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
                     onChange={() =>
-                        setMulighetForArbeid(state => ({
+                        setSchema(state => ({
                             ...state,
-                            [MulighetForArbeidField.REISETILSKUDD]: {
-                                ...state[MulighetForArbeidField.REISETILSKUDD],
-                                [ReisetilskuddField.FULLT_ARBEID]: !state[MulighetForArbeidField.REISETILSKUDD][
-                                    ReisetilskuddField.FULLT_ARBEID
-                                ],
-                            },
+                            [ReisetilskuddField.FULLT_ARBEID]: !state[ReisetilskuddField.FULLT_ARBEID],
                         }))
                     }
                 />
                 <br />
-                {mulighetForArbeid[MulighetForArbeidField.REISETILSKUDD][ReisetilskuddField.FULLT_ARBEID] && (
+                {schema[ReisetilskuddField.FULLT_ARBEID] && (
                     <RangePicker
                         labelFrom="4.5.1 f.o.m."
                         labelTo="4.5.2 t.o.m."
-                        value={
-                            mulighetForArbeid[MulighetForArbeidField.REISETILSKUDD][ReisetilskuddField.ARBEIDSPERIODE]
-                        }
+                        value={schema[ReisetilskuddField.ARBEIDSPERIODE] || []}
                         onChange={newDates =>
-                            setMulighetForArbeid(state => ({
+                            setSchema(state => ({
                                 ...state,
-                                [MulighetForArbeidField.REISETILSKUDD]: {
-                                    ...state[MulighetForArbeidField.REISETILSKUDD],
-                                    [ReisetilskuddField.ARBEIDSPERIODE]: newDates,
-                                },
+                                [ReisetilskuddField.ARBEIDSPERIODE]: newDates,
                             }))
                         }
                     />

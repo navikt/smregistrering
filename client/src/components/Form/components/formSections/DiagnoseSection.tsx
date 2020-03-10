@@ -7,7 +7,22 @@ import FormLabel from '../formComponents/FormLabel';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
+import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
+import { Arbeidsgiver } from './ArbeidsgiverSection';
+import {
+    AvventendeSykmelding,
+    Behandling,
+    FullSykmelding,
+    GradertSykmelding,
+    Reisetilskudd,
+} from './MulighetForArbeidSection';
+import { Bekreftelse } from './BekreftelseSection';
+import { FieldValues } from '../../Form';
+import { Friskmelding } from './FriskmeldingSection';
+import { MeldingTilNav } from './MeldingTilNavSection';
+import { Metadata } from './PasientopplysningerSection';
 import { Section } from '../../../../App';
+import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum MedisinskVurderingField {
     HOVEDDIAGNOSE = 'hoveddiagnose',
@@ -41,11 +56,51 @@ export type MedisinskVurdering = {
 
 type DiagnoseSectionProps = {
     section: Section;
-    setMedisinskvurdering: (value: React.SetStateAction<MedisinskVurdering>) => void;
-    medisinskvurdering: MedisinskVurdering;
+    setSchema: (
+        value: React.SetStateAction<
+            Partial<
+                Metadata &
+                    Arbeidsgiver &
+                    Arbeidsevne &
+                    MedisinskVurdering &
+                    AvventendeSykmelding &
+                    GradertSykmelding &
+                    FullSykmelding &
+                    Behandling &
+                    Reisetilskudd &
+                    Friskmelding &
+                    TilretteleggingArbeidsplass &
+                    TiltakNav &
+                    InnspillNav &
+                    MeldingTilNav &
+                    Tilbakedatering &
+                    Bekreftelse &
+                    FieldValues
+            >
+        >,
+    ) => void;
+    schema: Partial<
+        Metadata &
+            Arbeidsgiver &
+            Arbeidsevne &
+            MedisinskVurdering &
+            AvventendeSykmelding &
+            GradertSykmelding &
+            FullSykmelding &
+            Behandling &
+            Reisetilskudd &
+            Friskmelding &
+            TilretteleggingArbeidsplass &
+            TiltakNav &
+            InnspillNav &
+            MeldingTilNav &
+            Tilbakedatering &
+            Bekreftelse &
+            FieldValues
+    >;
 };
 
-const DiagnoseSection = ({ section, setMedisinskvurdering, medisinskvurdering }: DiagnoseSectionProps) => {
+const DiagnoseSection = ({ section, setSchema, schema }: DiagnoseSectionProps) => {
     return (
         <SectionContainer section={section}>
             <FormLabel label="3.1 Hoveddiagnose" />
@@ -69,10 +124,10 @@ const DiagnoseSection = ({ section, setMedisinskvurdering, medisinskvurdering }:
             <hr />
             <Subsection sectionIdentifier="3.3">
                 <Checkbox
-                    checked={medisinskvurdering[MedisinskVurderingField.ANNEN_FRAVAERSARSAK]}
+                    checked={schema[MedisinskVurderingField.ANNEN_FRAVAERSARSAK]}
                     label="Annen lovfestet fraværsgrunn § 8-4, 3. ledd oppgis hvis relevant"
                     onChange={() =>
-                        setMedisinskvurdering(state => ({
+                        setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: !state[
                                 MedisinskVurderingField.ANNEN_FRAVAERSARSAK
@@ -81,12 +136,12 @@ const DiagnoseSection = ({ section, setMedisinskvurdering, medisinskvurdering }:
                     }
                 />
                 <br />
-                {medisinskvurdering[MedisinskVurderingField.ANNEN_FRAVAERSARSAK] && (
+                {schema[MedisinskVurderingField.ANNEN_FRAVAERSARSAK] && (
                     <>
                         <Input
                             className="form-margin-bottom half"
                             onChange={({ target: { value } }) =>
-                                setMedisinskvurdering(state => ({
+                                setSchema(state => ({
                                     ...state,
                                     [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]: value,
                                 }))
@@ -95,9 +150,9 @@ const DiagnoseSection = ({ section, setMedisinskvurdering, medisinskvurdering }:
                         />
                         <Textarea
                             maxLength={0}
-                            value={medisinskvurdering[MedisinskVurderingField.BESKRIV_FRAVAER] || ''}
+                            value={schema[MedisinskVurderingField.BESKRIV_FRAVAER] || ''}
                             onChange={({ target: { value } }) =>
-                                setMedisinskvurdering(state => ({
+                                setSchema(state => ({
                                     ...state,
                                     [MedisinskVurderingField.BESKRIV_FRAVAER]: value,
                                 }))
@@ -110,10 +165,10 @@ const DiagnoseSection = ({ section, setMedisinskvurdering, medisinskvurdering }:
 
             <Subsection sectionIdentifier="3.4">
                 <Checkbox
-                    checked={medisinskvurdering[MedisinskVurderingField.SVANGERSKAP]}
+                    checked={schema[MedisinskVurderingField.SVANGERSKAP]}
                     label="Sykdommen er svangerskapsrelatert"
                     onChange={() =>
-                        setMedisinskvurdering(state => ({
+                        setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.SVANGERSKAP]: !state[MedisinskVurderingField.SVANGERSKAP],
                         }))
@@ -123,22 +178,22 @@ const DiagnoseSection = ({ section, setMedisinskvurdering, medisinskvurdering }:
 
             <Subsection sectionIdentifier="3.5">
                 <Checkbox
-                    checked={medisinskvurdering[MedisinskVurderingField.YRKESSKADE]}
+                    checked={schema[MedisinskVurderingField.YRKESSKADE]}
                     label="Sykmeldingen kan skyldes en yrkesskade / yrkessykdom"
                     onChange={() =>
-                        setMedisinskvurdering(state => ({
+                        setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.YRKESSKADE]: !state[MedisinskVurderingField.YRKESSKADE],
                         }))
                     }
                 />
                 <br />
-                {medisinskvurdering[MedisinskVurderingField.YRKESSKADE] && (
+                {schema[MedisinskVurderingField.YRKESSKADE] && (
                     <DatePicker
                         label="3.6 Eventuell skadedato"
-                        value={medisinskvurdering[MedisinskVurderingField.YRKESSKADE_DATO]}
+                        value={schema[MedisinskVurderingField.YRKESSKADE_DATO]}
                         onChange={newDates =>
-                            setMedisinskvurdering(state => ({
+                            setSchema(state => ({
                                 ...state,
                                 [MedisinskVurderingField.YRKESSKADE_DATO]: newDates,
                             }))
@@ -149,10 +204,10 @@ const DiagnoseSection = ({ section, setMedisinskvurdering, medisinskvurdering }:
 
             <Subsection sectionIdentifier="3.7" underline={false}>
                 <Checkbox
-                    checked={medisinskvurdering[MedisinskVurderingField.SKJERMET_FRA_PASIENT]}
+                    checked={schema[MedisinskVurderingField.SKJERMET_FRA_PASIENT]}
                     label="Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1"
                     onChange={() =>
-                        setMedisinskvurdering(state => ({
+                        setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: !state[
                                 MedisinskVurderingField.SKJERMET_FRA_PASIENT

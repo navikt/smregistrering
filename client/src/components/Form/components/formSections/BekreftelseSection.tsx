@@ -5,7 +5,22 @@ import { Element } from 'nav-frontend-typografi';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
+import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
+import { Arbeidsgiver } from './ArbeidsgiverSection';
+import {
+    AvventendeSykmelding,
+    Behandling,
+    FullSykmelding,
+    GradertSykmelding,
+    Reisetilskudd,
+} from './MulighetForArbeidSection';
+import { FieldValues } from '../../Form';
+import { Friskmelding } from './FriskmeldingSection';
+import { MedisinskVurdering } from './DiagnoseSection';
+import { MeldingTilNav } from './MeldingTilNavSection';
+import { Metadata } from './PasientopplysningerSection';
 import { Section } from '../../../../App';
+import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum BekreftelseField {
     LEGITIMERT = 'legitimert',
@@ -25,20 +40,60 @@ export type Bekreftelse = {
 
 type BekreftelseSectionProps = {
     section: Section;
-    setBekreftelse: (value: React.SetStateAction<Bekreftelse>) => void;
-    bekreftelse: Bekreftelse;
+    setSchema: (
+        value: React.SetStateAction<
+            Partial<
+                Metadata &
+                    Arbeidsgiver &
+                    Arbeidsevne &
+                    MedisinskVurdering &
+                    AvventendeSykmelding &
+                    GradertSykmelding &
+                    FullSykmelding &
+                    Behandling &
+                    Reisetilskudd &
+                    Friskmelding &
+                    TilretteleggingArbeidsplass &
+                    TiltakNav &
+                    InnspillNav &
+                    MeldingTilNav &
+                    Tilbakedatering &
+                    Bekreftelse &
+                    FieldValues
+            >
+        >,
+    ) => void;
+    schema: Partial<
+        Metadata &
+            Arbeidsgiver &
+            Arbeidsevne &
+            MedisinskVurdering &
+            AvventendeSykmelding &
+            GradertSykmelding &
+            FullSykmelding &
+            Behandling &
+            Reisetilskudd &
+            Friskmelding &
+            TilretteleggingArbeidsplass &
+            TiltakNav &
+            InnspillNav &
+            MeldingTilNav &
+            Tilbakedatering &
+            Bekreftelse &
+            FieldValues
+    >;
 };
 
-const BekreftelseSection = ({ section, setBekreftelse, bekreftelse }: BekreftelseSectionProps) => {
+const BekreftelseSection = ({ section, setSchema, schema }: BekreftelseSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="12.1" underline={false}>
                 <Checkbox
                     className="form-margin-bottom"
-                    checked={bekreftelse[BekreftelseField.LEGITIMERT]}
+                    checked={schema[BekreftelseField.LEGITIMERT]}
                     label="Pasienten er kjent eller har vist legitimasjon"
                     onChange={() =>
-                        setBekreftelse(state => ({
+                        setSchema(state => ({
                             ...state,
                             [BekreftelseField.LEGITIMERT]: !state[BekreftelseField.LEGITIMERT],
                         }))
@@ -49,7 +104,7 @@ const BekreftelseSection = ({ section, setBekreftelse, bekreftelse }: Bekreftels
             <Input
                 className="form-margin-bottom"
                 onChange={({ target: { value } }) =>
-                    setBekreftelse(state => ({
+                    setSchema(state => ({
                         ...state,
                         [BekreftelseField.SYKMELDERS_NAVN]: value,
                     }))
@@ -61,7 +116,7 @@ const BekreftelseSection = ({ section, setBekreftelse, bekreftelse }: Bekreftels
                 <Input
                     className="form-margin-bottom"
                     onChange={({ target: { value } }) =>
-                        setBekreftelse(state => ({
+                        setSchema(state => ({
                             ...state,
                             [BekreftelseField.HPR]: value,
                         }))
@@ -71,7 +126,7 @@ const BekreftelseSection = ({ section, setBekreftelse, bekreftelse }: Bekreftels
                 <Input
                     className="form-margin-bottom"
                     onChange={({ target: { value } }) =>
-                        setBekreftelse(state => ({
+                        setSchema(state => ({
                             ...state,
                             [BekreftelseField.TELEFON]: value,
                         }))
@@ -83,7 +138,7 @@ const BekreftelseSection = ({ section, setBekreftelse, bekreftelse }: Bekreftels
             <Input
                 className="form-margin-bottom"
                 onChange={({ target: { value } }) =>
-                    setBekreftelse(state => ({
+                    setSchema(state => ({
                         ...state,
                         [BekreftelseField.ADRESSE]: value,
                     }))

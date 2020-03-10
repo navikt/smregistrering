@@ -5,6 +5,21 @@ import { Element } from 'nav-frontend-typografi';
 import DatePicker from '../formComponents/DatePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
+import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
+import { Arbeidsgiver } from './ArbeidsgiverSection';
+import {
+    AvventendeSykmelding,
+    Behandling,
+    FullSykmelding,
+    GradertSykmelding,
+    Reisetilskudd,
+} from './MulighetForArbeidSection';
+import { Bekreftelse } from './BekreftelseSection';
+import { FieldValues } from '../../Form';
+import { Friskmelding } from './FriskmeldingSection';
+import { MedisinskVurdering } from './DiagnoseSection';
+import { MeldingTilNav } from './MeldingTilNavSection';
+import { Metadata } from './PasientopplysningerSection';
 import { Section } from '../../../../App';
 
 export enum TilbakedateringField {
@@ -23,31 +38,71 @@ export type Tilbakedatering = {
 
 type TilbakedateringSectionProps = {
     section: Section;
-    setTilbakedatering: (value: React.SetStateAction<Tilbakedatering>) => void;
-    tilbakedatering: Tilbakedatering;
+    setSchema: (
+        value: React.SetStateAction<
+            Partial<
+                Metadata &
+                    Arbeidsgiver &
+                    Arbeidsevne &
+                    MedisinskVurdering &
+                    AvventendeSykmelding &
+                    GradertSykmelding &
+                    FullSykmelding &
+                    Behandling &
+                    Reisetilskudd &
+                    Friskmelding &
+                    TilretteleggingArbeidsplass &
+                    TiltakNav &
+                    InnspillNav &
+                    MeldingTilNav &
+                    Tilbakedatering &
+                    Bekreftelse &
+                    FieldValues
+            >
+        >,
+    ) => void;
+    schema: Partial<
+        Metadata &
+            Arbeidsgiver &
+            Arbeidsevne &
+            MedisinskVurdering &
+            AvventendeSykmelding &
+            GradertSykmelding &
+            FullSykmelding &
+            Behandling &
+            Reisetilskudd &
+            Friskmelding &
+            TilretteleggingArbeidsplass &
+            TiltakNav &
+            InnspillNav &
+            MeldingTilNav &
+            Tilbakedatering &
+            Bekreftelse &
+            FieldValues
+    >;
 };
 
-const TilbakedateringSection = ({ section, setTilbakedatering, tilbakedatering }: TilbakedateringSectionProps) => {
+const TilbakedateringSection = ({ section, setSchema, schema }: TilbakedateringSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="11.1" underline={false}>
                 <Checkbox
-                    checked={tilbakedatering[TilbakedateringField.ER_TILBAKEDATERT]}
+                    checked={schema[TilbakedateringField.ER_TILBAKEDATERT]}
                     label="Er sykmelding tilbakedatert?"
                     onChange={() =>
-                        setTilbakedatering(state => ({
+                        setSchema(state => ({
                             ...state,
                             [TilbakedateringField.ER_TILBAKEDATERT]: !state[TilbakedateringField.ER_TILBAKEDATERT],
                         }))
                     }
                 />
                 <br />
-                {tilbakedatering[TilbakedateringField.ER_TILBAKEDATERT] && (
+                {schema[TilbakedateringField.ER_TILBAKEDATERT] && (
                     <DatePicker
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
-                        value={tilbakedatering[TilbakedateringField.DATO_TILBAKEDATERING]}
+                        value={schema[TilbakedateringField.DATO_TILBAKEDATERING]}
                         onChange={newDate =>
-                            setTilbakedatering(state => ({
+                            setSchema(state => ({
                                 ...state,
                                 [TilbakedateringField.DATO_TILBAKEDATERING]: newDate,
                             }))
@@ -58,10 +113,10 @@ const TilbakedateringSection = ({ section, setTilbakedatering, tilbakedatering }
 
             <Subsection sectionIdentifier="11.2" underline={false}>
                 <Checkbox
-                    checked={tilbakedatering[TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]}
+                    checked={schema[TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]}
                     label="Pasienten har ikke kunnet ivareta egne interesser"
                     onChange={() =>
-                        setTilbakedatering(state => ({
+                        setSchema(state => ({
                             ...state,
                             [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]: !state[
                                 TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER
@@ -70,12 +125,12 @@ const TilbakedateringSection = ({ section, setTilbakedatering, tilbakedatering }
                     }
                 />
                 <br />
-                {tilbakedatering[TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER] && (
+                {schema[TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER] && (
                     <Textarea
                         maxLength={0}
-                        value={tilbakedatering[TilbakedateringField.BEGRUNN] || ''}
+                        value={schema[TilbakedateringField.BEGRUNN] || ''}
                         onChange={({ target: { value } }) =>
-                            setTilbakedatering(state => ({
+                            setSchema(state => ({
                                 ...state,
                                 [TilbakedateringField.BEGRUNN]: value,
                             }))

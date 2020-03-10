@@ -3,7 +3,22 @@ import { Element } from 'nav-frontend-typografi';
 import { Input, Select } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
+import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
+import {
+    AvventendeSykmelding,
+    Behandling,
+    FullSykmelding,
+    GradertSykmelding,
+    Reisetilskudd,
+} from './MulighetForArbeidSection';
+import { Bekreftelse } from './BekreftelseSection';
+import { FieldValues } from '../../Form';
+import { Friskmelding } from './FriskmeldingSection';
+import { MedisinskVurdering } from './DiagnoseSection';
+import { MeldingTilNav } from './MeldingTilNavSection';
+import { Metadata } from './PasientopplysningerSection';
 import { Section } from '../../../../App';
+import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum HarArbeidsgiver {
     EN_ARBEIDSGIVER = 'Én arbeidsgiver',
@@ -27,21 +42,43 @@ export type Arbeidsgiver = {
 
 type ArbeidsgiverSectionProps = {
     section: Section;
-    setArbeidsgiver: (value: React.SetStateAction<Arbeidsgiver>) => void;
+    setSchema: (
+        value: React.SetStateAction<
+            Partial<
+                Metadata &
+                    Arbeidsgiver &
+                    Arbeidsevne &
+                    MedisinskVurdering &
+                    AvventendeSykmelding &
+                    GradertSykmelding &
+                    FullSykmelding &
+                    Behandling &
+                    Reisetilskudd &
+                    Friskmelding &
+                    TilretteleggingArbeidsplass &
+                    TiltakNav &
+                    InnspillNav &
+                    MeldingTilNav &
+                    Tilbakedatering &
+                    Bekreftelse &
+                    FieldValues
+            >
+        >,
+    ) => void;
 };
 
-const ArbeidsgiverSection = ({ section, setArbeidsgiver }: ArbeidsgiverSectionProps) => {
+const ArbeidsgiverSection = ({ section, setSchema }: ArbeidsgiverSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Select
                 onChange={({ target: { value } }) => {
                     if (value === '0') {
-                        setArbeidsgiver(state => ({
+                        setSchema(state => ({
                             ...state,
                             [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
                         }));
                     } else {
-                        setArbeidsgiver(state => ({
+                        setSchema(state => ({
                             ...state,
                             [ArbeidsgiverField.HAR_ARBEIDSGIVER]: value as HarArbeidsgiver,
                         }));
@@ -63,7 +100,7 @@ const ArbeidsgiverSection = ({ section, setArbeidsgiver }: ArbeidsgiverSectionPr
                 className="form-margin-bottom"
                 type="text"
                 onChange={({ target: { value } }) =>
-                    setArbeidsgiver(state => ({
+                    setSchema(state => ({
                         ...state,
                         [ArbeidsgiverField.NAVN]: value,
                     }))
@@ -74,7 +111,7 @@ const ArbeidsgiverSection = ({ section, setArbeidsgiver }: ArbeidsgiverSectionPr
                 className="form-margin-bottom"
                 type="text"
                 onChange={({ target: { value } }) =>
-                    setArbeidsgiver(state => ({
+                    setSchema(state => ({
                         ...state,
                         [ArbeidsgiverField.YRKESBETEGNELSE]: value,
                     }))
@@ -85,7 +122,7 @@ const ArbeidsgiverSection = ({ section, setArbeidsgiver }: ArbeidsgiverSectionPr
                 className="form-margin-bottom half"
                 type="number"
                 onChange={({ target: { value } }) =>
-                    setArbeidsgiver(state => ({
+                    setSchema(state => ({
                         ...state,
                         [ArbeidsgiverField.STILLINGSPROSENT]: Number(value),
                     }))

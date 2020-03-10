@@ -4,7 +4,22 @@ import { Input } from 'nav-frontend-skjema';
 
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
+import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
+import { Arbeidsgiver } from './ArbeidsgiverSection';
+import {
+    AvventendeSykmelding,
+    Behandling,
+    FullSykmelding,
+    GradertSykmelding,
+    Reisetilskudd,
+} from './MulighetForArbeidSection';
+import { Bekreftelse } from './BekreftelseSection';
+import { FieldValues, SchemaField } from '../../Form';
+import { Friskmelding } from './FriskmeldingSection';
+import { MedisinskVurdering } from './DiagnoseSection';
+import { MeldingTilNav } from './MeldingTilNavSection';
 import { Section } from '../../../../App';
+import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum MetadataField {
     PERSONNUMMER = 'personnummer',
@@ -22,17 +37,38 @@ export type Metadata = {
 
 type PasientopplysningerProps = {
     section: Section;
-    setMetadata: (value: React.SetStateAction<Metadata>) => void;
-    setLegenavn: (value: React.SetStateAction<string | undefined>) => void;
+    setSchema: (
+        value: React.SetStateAction<
+            Partial<
+                Metadata &
+                    Arbeidsgiver &
+                    Arbeidsevne &
+                    MedisinskVurdering &
+                    AvventendeSykmelding &
+                    GradertSykmelding &
+                    FullSykmelding &
+                    Behandling &
+                    Reisetilskudd &
+                    Friskmelding &
+                    TilretteleggingArbeidsplass &
+                    TiltakNav &
+                    InnspillNav &
+                    MeldingTilNav &
+                    Tilbakedatering &
+                    Bekreftelse &
+                    FieldValues
+            >
+        >,
+    ) => void;
 };
 
-const PasientopplysningerSection = ({ section, setMetadata, setLegenavn }: PasientopplysningerProps) => {
+const PasientopplysningerSection = ({ section, setSchema }: PasientopplysningerProps) => {
     return (
         <SectionContainer section={section}>
             <Row>
                 <Input
                     onChange={({ target: { value } }) =>
-                        setMetadata(state => ({
+                        setSchema(state => ({
                             ...state,
                             [MetadataField.ETTERNAVN]: value,
                         }))
@@ -42,7 +78,7 @@ const PasientopplysningerSection = ({ section, setMetadata, setLegenavn }: Pasie
                 />
                 <Input
                     onChange={({ target: { value } }) =>
-                        setMetadata(state => ({
+                        setSchema(state => ({
                             ...state,
                             [MetadataField.FORNAVN]: value,
                         }))
@@ -56,7 +92,7 @@ const PasientopplysningerSection = ({ section, setMetadata, setLegenavn }: Pasie
                 className="form-margin-bottom half"
                 type="tel"
                 onChange={({ target: { value } }) =>
-                    setMetadata(state => ({
+                    setSchema(state => ({
                         ...state,
                         [MetadataField.TELEFON]: value,
                     }))
@@ -67,7 +103,7 @@ const PasientopplysningerSection = ({ section, setMetadata, setLegenavn }: Pasie
             <Input
                 className="form-margin-bottom"
                 type="text"
-                onChange={({ target: { value } }) => setLegenavn(value)}
+                onChange={({ target: { value } }) => setSchema(state => ({ ...state, [SchemaField.LEGE_NAVN]: value }))}
                 label={<Element>1.4 Navn på pasientens fastlege</Element>}
             />
         </SectionContainer>

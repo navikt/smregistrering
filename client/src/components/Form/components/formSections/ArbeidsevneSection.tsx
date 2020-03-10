@@ -4,14 +4,29 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
+import { Arbeidsgiver } from './ArbeidsgiverSection';
+import {
+    AvventendeSykmelding,
+    Behandling,
+    FullSykmelding,
+    GradertSykmelding,
+    Reisetilskudd,
+} from './MulighetForArbeidSection';
+import { Bekreftelse } from './BekreftelseSection';
+import { FieldValues } from '../../Form';
+import { Friskmelding } from './FriskmeldingSection';
+import { MedisinskVurdering } from './DiagnoseSection';
+import { MeldingTilNav } from './MeldingTilNavSection';
+import { Metadata } from './PasientopplysningerSection';
 import { Section } from '../../../../App';
+import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum TilretteleggingArbeidsplassField {
     TILRETTELEGGING = 'tilrettelegging',
     BESKRIV = 'beskriv',
 }
 
-type TilretteleggingArbeidsplass = {
+export type TilretteleggingArbeidsplass = {
     [TilretteleggingArbeidsplassField.TILRETTELEGGING]?: boolean;
     [TilretteleggingArbeidsplassField.BESKRIV]?: string;
 };
@@ -21,7 +36,7 @@ export enum TiltakNavField {
     BESKRIV = 'beskriv',
 }
 
-type TiltakNav = {
+export type TiltakNav = {
     [TiltakNavField.TILTAK_NAV]?: boolean;
     [TiltakNavField.BESKRIV]?: string;
 };
@@ -31,7 +46,7 @@ export enum InnspillNavField {
     BESKRIV = 'beskriv',
 }
 
-type InnspillNav = {
+export type InnspillNav = {
     [InnspillNavField.INNSPILL]?: boolean;
     [InnspillNavField.BESKRIV]?: string;
 };
@@ -48,61 +63,79 @@ export type Arbeidsevne = {
     [ArbeidsevneField.INNSPILL_NAV]: InnspillNav;
 };
 
-type ArbeidsevneSectionProps = {
+export type ArbeidsevneSectionProps = {
     section: Section;
     expanded: boolean;
-    setArbeidsevne: (value: React.SetStateAction<Arbeidsevne>) => void;
+    setSchema: (
+        value: React.SetStateAction<
+            Partial<
+                Metadata &
+                    Arbeidsgiver &
+                    Arbeidsevne &
+                    MedisinskVurdering &
+                    AvventendeSykmelding &
+                    GradertSykmelding &
+                    FullSykmelding &
+                    Behandling &
+                    Reisetilskudd &
+                    Friskmelding &
+                    TilretteleggingArbeidsplass &
+                    TiltakNav &
+                    InnspillNav &
+                    MeldingTilNav &
+                    Tilbakedatering &
+                    Bekreftelse &
+                    FieldValues
+            >
+        >,
+    ) => void;
+    schema: Partial<
+        Metadata &
+            Arbeidsgiver &
+            Arbeidsevne &
+            MedisinskVurdering &
+            AvventendeSykmelding &
+            GradertSykmelding &
+            FullSykmelding &
+            Behandling &
+            Reisetilskudd &
+            Friskmelding &
+            TilretteleggingArbeidsplass &
+            TiltakNav &
+            InnspillNav &
+            MeldingTilNav &
+            Tilbakedatering &
+            Bekreftelse &
+            FieldValues
+    >;
     expandSection: () => void;
-    arbeidsevne: Arbeidsevne;
 };
 
-const ArbeidsevneSection = ({
-    section,
-    expanded,
-    expandSection,
-    setArbeidsevne,
-    arbeidsevne,
-}: ArbeidsevneSectionProps) => {
+const ArbeidsevneSection = ({ section, expanded, expandSection, setSchema, schema }: ArbeidsevneSectionProps) => {
     return (
         <SectionContainer section={section} expanded={expanded} setExpanded={expandSection}>
             <Subsection sectionIdentifier="7.1">
                 <Checkbox
-                    checked={
-                        arbeidsevne[ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS][
-                            TilretteleggingArbeidsplassField.TILRETTELEGGING
-                        ]
-                    }
+                    checked={schema[TilretteleggingArbeidsplassField.TILRETTELEGGING]}
                     label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
                     onChange={() =>
-                        setArbeidsevne(state => ({
+                        setSchema(state => ({
                             ...state,
-                            [ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS]: {
-                                ...state[ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS],
-                                [TilretteleggingArbeidsplassField.TILRETTELEGGING]: !state[
-                                    ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS
-                                ][TilretteleggingArbeidsplassField.TILRETTELEGGING],
-                            },
+                            [TilretteleggingArbeidsplassField.TILRETTELEGGING]: !state[
+                                TilretteleggingArbeidsplassField.TILRETTELEGGING
+                            ],
                         }))
                     }
                 />
                 <br />
-                {arbeidsevne[ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS][
-                    TilretteleggingArbeidsplassField.TILRETTELEGGING
-                ] && (
+                {schema[TilretteleggingArbeidsplassField.TILRETTELEGGING] && (
                     <Textarea
                         maxLength={0}
-                        value={
-                            arbeidsevne[ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS][
-                                TilretteleggingArbeidsplassField.BESKRIV
-                            ] || ''
-                        }
+                        value={schema[TilretteleggingArbeidsplassField.BESKRIV] || ''}
                         onChange={({ target: { value } }) =>
-                            setArbeidsevne(state => ({
+                            setSchema(state => ({
                                 ...state,
-                                [ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS]: {
-                                    ...state[ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS],
-                                    [TilretteleggingArbeidsplassField.BESKRIV]: value,
-                                },
+                                [TilretteleggingArbeidsplassField.BESKRIV]: value,
                             }))
                         }
                         label={<Element>Beskriv</Element>}
@@ -112,32 +145,24 @@ const ArbeidsevneSection = ({
 
             <Subsection sectionIdentifier="7.2">
                 <Checkbox
-                    checked={arbeidsevne[ArbeidsevneField.TILTAK_NAV][TiltakNavField.TILTAK_NAV]}
+                    checked={schema[TiltakNavField.TILTAK_NAV]}
                     label="Tiltak i regi av NAV"
                     onChange={() =>
-                        setArbeidsevne(state => ({
+                        setSchema(state => ({
                             ...state,
-                            [ArbeidsevneField.TILTAK_NAV]: {
-                                ...state[ArbeidsevneField.TILTAK_NAV],
-                                [TiltakNavField.TILTAK_NAV]: !state[ArbeidsevneField.TILTAK_NAV][
-                                    TiltakNavField.TILTAK_NAV
-                                ],
-                            },
+                            [TiltakNavField.TILTAK_NAV]: !state[TiltakNavField.TILTAK_NAV],
                         }))
                     }
                 />
                 <br />
-                {arbeidsevne[ArbeidsevneField.TILTAK_NAV][TiltakNavField.TILTAK_NAV] && (
+                {schema[TiltakNavField.TILTAK_NAV] && (
                     <Textarea
                         maxLength={0}
-                        value={arbeidsevne[ArbeidsevneField.TILTAK_NAV][TiltakNavField.BESKRIV] || ''}
+                        value={schema[TiltakNavField.BESKRIV] || ''}
                         onChange={({ target: { value } }) =>
-                            setArbeidsevne(state => ({
+                            setSchema(state => ({
                                 ...state,
-                                [ArbeidsevneField.TILTAK_NAV]: {
-                                    ...state[ArbeidsevneField.TILTAK_NAV],
-                                    [TiltakNavField.BESKRIV]: value,
-                                },
+                                [TiltakNavField.BESKRIV]: value,
                             }))
                         }
                         label={<Element>Beskriv. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)</Element>}
@@ -147,32 +172,24 @@ const ArbeidsevneSection = ({
 
             <Subsection sectionIdentifier="7.3" underline={false}>
                 <Checkbox
-                    checked={arbeidsevne[ArbeidsevneField.INNSPILL_NAV][InnspillNavField.INNSPILL]}
+                    checked={schema[InnspillNavField.INNSPILL]}
                     label="Eventuelle andre innspill til NAV"
                     onChange={() =>
-                        setArbeidsevne(state => ({
+                        setSchema(state => ({
                             ...state,
-                            [ArbeidsevneField.INNSPILL_NAV]: {
-                                ...state[ArbeidsevneField.INNSPILL_NAV],
-                                [InnspillNavField.INNSPILL]: !state[ArbeidsevneField.INNSPILL_NAV][
-                                    InnspillNavField.INNSPILL
-                                ],
-                            },
+                            [InnspillNavField.INNSPILL]: !state[InnspillNavField.INNSPILL],
                         }))
                     }
                 />
                 <br />
-                {arbeidsevne[ArbeidsevneField.INNSPILL_NAV][InnspillNavField.INNSPILL] && (
+                {schema[InnspillNavField.INNSPILL] && (
                     <Textarea
                         maxLength={0}
-                        value={arbeidsevne[ArbeidsevneField.INNSPILL_NAV][InnspillNavField.BESKRIV] || ''}
+                        value={schema[InnspillNavField.BESKRIV] || ''}
                         onChange={({ target: { value } }) =>
-                            setArbeidsevne(state => ({
+                            setSchema(state => ({
                                 ...state,
-                                [ArbeidsevneField.INNSPILL_NAV]: {
-                                    ...state[ArbeidsevneField.INNSPILL_NAV],
-                                    [InnspillNavField.BESKRIV]: value,
-                                },
+                                [InnspillNavField.BESKRIV]: value,
                             }))
                         }
                         label={<Element>Beskriv</Element>}

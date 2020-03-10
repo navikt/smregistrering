@@ -4,7 +4,23 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
+import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
+import { Arbeidsgiver } from './ArbeidsgiverSection';
+import {
+    AvventendeSykmelding,
+    Behandling,
+    FullSykmelding,
+    GradertSykmelding,
+    Reisetilskudd,
+} from './MulighetForArbeidSection';
+import { Bekreftelse } from './BekreftelseSection';
+import { FieldValues } from '../../Form';
+import { Friskmelding } from './FriskmeldingSection';
+import { MedisinskVurdering } from './DiagnoseSection';
+import { MeldingTilNav } from './MeldingTilNavSection';
+import { Metadata } from './PasientopplysningerSection';
 import { Section } from '../../../../App';
+import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum MeldingTilArbeidsgiverField {
     INNSPILL = 'innspill',
@@ -19,38 +35,78 @@ export type MeldingTilArbeidsgiver = {
 type MeldingTilArbeidsgiverSectionProps = {
     section: Section;
     expanded: boolean;
-    setMeldingTilArbeidsgiver: (value: React.SetStateAction<MeldingTilArbeidsgiver>) => void;
+    setSchema: (
+        value: React.SetStateAction<
+            Partial<
+                Metadata &
+                    Arbeidsgiver &
+                    Arbeidsevne &
+                    MedisinskVurdering &
+                    AvventendeSykmelding &
+                    GradertSykmelding &
+                    FullSykmelding &
+                    Behandling &
+                    Reisetilskudd &
+                    Friskmelding &
+                    TilretteleggingArbeidsplass &
+                    TiltakNav &
+                    InnspillNav &
+                    MeldingTilNav &
+                    Tilbakedatering &
+                    Bekreftelse &
+                    FieldValues
+            >
+        >,
+    ) => void;
+    schema: Partial<
+        Metadata &
+            Arbeidsgiver &
+            Arbeidsevne &
+            MedisinskVurdering &
+            AvventendeSykmelding &
+            GradertSykmelding &
+            FullSykmelding &
+            Behandling &
+            Reisetilskudd &
+            Friskmelding &
+            TilretteleggingArbeidsplass &
+            TiltakNav &
+            InnspillNav &
+            MeldingTilNav &
+            Tilbakedatering &
+            Bekreftelse &
+            FieldValues
+    >;
     expandSection: () => void;
-    meldingTilArbeidsgiver: MeldingTilArbeidsgiver;
 };
 
 const MeldingTilArbeidsgiverSection = ({
     section,
     expanded,
     expandSection,
-    setMeldingTilArbeidsgiver,
-    meldingTilArbeidsgiver,
+    setSchema,
+    schema,
 }: MeldingTilArbeidsgiverSectionProps) => {
     return (
         <SectionContainer section={section} expanded={expanded} setExpanded={expandSection}>
             <Subsection sectionIdentifier="9.1" underline={false}>
                 <Checkbox
-                    checked={meldingTilArbeidsgiver[MeldingTilArbeidsgiverField.INNSPILL]}
+                    checked={schema[MeldingTilArbeidsgiverField.INNSPILL]}
                     label="Andre innspill til arbeidsgiver"
                     onChange={() =>
-                        setMeldingTilArbeidsgiver(state => ({
+                        setSchema(state => ({
                             ...state,
                             [MeldingTilArbeidsgiverField.INNSPILL]: !state[MeldingTilArbeidsgiverField.INNSPILL],
                         }))
                     }
                 />
                 <br />
-                {meldingTilArbeidsgiver[MeldingTilArbeidsgiverField.INNSPILL] && (
+                {schema[MeldingTilArbeidsgiverField.INNSPILL] && (
                     <Textarea
                         maxLength={0}
-                        value={meldingTilArbeidsgiver[MeldingTilArbeidsgiverField.BESKRIV] || ''}
+                        value={schema[MeldingTilArbeidsgiverField.BESKRIV] || ''}
                         onChange={({ target: { value } }) =>
-                            setMeldingTilArbeidsgiver(state => ({
+                            setSchema(state => ({
                                 ...state,
                                 [MeldingTilArbeidsgiverField.BESKRIV]: value,
                             }))
