@@ -4,18 +4,18 @@ import { Input } from 'nav-frontend-skjema';
 
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
-import { SchemaField, SchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../App';
 
 export enum MetadataField {
-    PERSONNUMMER = 'personnummer',
+    LEGE_NAVN = 'legenavn',
     TELEFON = 'telefon',
     ETTERNAVN = 'etternavn',
     FORNAVN = 'fornavn',
 }
 
 export type Metadata = {
-    [MetadataField.PERSONNUMMER]?: string;
+    [MetadataField.LEGE_NAVN]?: string;
     [MetadataField.TELEFON]?: string;
     [MetadataField.ETTERNAVN]?: string;
     [MetadataField.FORNAVN]?: string;
@@ -24,29 +24,37 @@ export type Metadata = {
 type PasientopplysningerProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    errors: ErrorSchemaType;
+    validate: (name: keyof SchemaType, value: SchemaType[keyof SchemaType]) => void;
 };
 
-const PasientopplysningerSection = ({ section, setSchema }: PasientopplysningerProps) => {
+const PasientopplysningerSection = ({ section, setSchema, errors, validate }: PasientopplysningerProps) => {
     return (
         <SectionContainer section={section}>
             <Row>
                 <Input
-                    onChange={({ target: { value } }) =>
+                    onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
                             [MetadataField.ETTERNAVN]: value,
-                        }))
-                    }
+                        }));
+
+                        validate(MetadataField.ETTERNAVN, value);
+                    }}
+                    feil={errors[MetadataField.ETTERNAVN]}
                     type="text"
                     label={<Element>1.1.1 Etternavn</Element>}
                 />
                 <Input
-                    onChange={({ target: { value } }) =>
+                    onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
                             [MetadataField.FORNAVN]: value,
-                        }))
-                    }
+                        }));
+
+                        validate(MetadataField.FORNAVN, value);
+                    }}
+                    feil={errors[MetadataField.FORNAVN]}
                     type="text"
                     label={<Element>1.1.2 Fornavn</Element>}
                 />
@@ -55,19 +63,24 @@ const PasientopplysningerSection = ({ section, setSchema }: PasientopplysningerP
             <Input
                 className="form-margin-bottom half"
                 type="tel"
-                onChange={({ target: { value } }) =>
+                onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
                         [MetadataField.TELEFON]: value,
-                    }))
-                }
+                    }));
+                    validate(MetadataField.TELEFON, value);
+                }}
+                feil={errors[MetadataField.TELEFON]}
                 label={<Element>1.3 Telefon</Element>}
             />
 
             <Input
                 className="form-margin-bottom"
                 type="text"
-                onChange={({ target: { value } }) => setSchema(state => ({ ...state, [SchemaField.LEGE_NAVN]: value }))}
+                feil={errors[MetadataField.LEGE_NAVN]}
+                onChange={({ target: { value } }) =>
+                    setSchema(state => ({ ...state, [MetadataField.LEGE_NAVN]: value }))
+                }
                 label={<Element>1.4 Navn på pasientens fastlege</Element>}
             />
         </SectionContainer>

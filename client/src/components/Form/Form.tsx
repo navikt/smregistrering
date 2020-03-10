@@ -53,14 +53,14 @@ import TilbakedateringSection, {
 } from './components/formSections/TilbakedateringSection';
 import { SectionTitle, Sections } from '../../App';
 
-export enum SchemaField {
+export enum OtherField {
+    PERSONNUMMER = 'personnummer',
     SYKETILFELLESTARTDATO = 'syketilfelleStartDato',
-    LEGE_NAVN = 'legenavn',
 }
 
-export type FieldValues = {
-    [SchemaField.SYKETILFELLESTARTDATO]?: Date;
-    [SchemaField.LEGE_NAVN]?: string;
+export type Other = {
+    [OtherField.PERSONNUMMER]?: string;
+    [OtherField.SYKETILFELLESTARTDATO]?: Date;
 };
 
 export type SchemaType = Partial<
@@ -80,16 +80,16 @@ export type SchemaType = Partial<
         MeldingTilNav &
         Tilbakedatering &
         Bekreftelse &
-        FieldValues
+        Other
 >;
 
 const initialSchema: SchemaType = {
-    [MetadataField.PERSONNUMMER]: undefined,
+    [OtherField.SYKETILFELLESTARTDATO]: undefined,
+    [OtherField.PERSONNUMMER]: undefined,
     [MetadataField.TELEFON]: undefined,
     [MetadataField.ETTERNAVN]: undefined,
     [MetadataField.FORNAVN]: undefined,
-    [SchemaField.SYKETILFELLESTARTDATO]: undefined,
-    [SchemaField.LEGE_NAVN]: undefined,
+    [MetadataField.LEGE_NAVN]: undefined,
     [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
     [ArbeidsgiverField.NAVN]: undefined,
     [ArbeidsgiverField.YRKESBETEGNELSE]: undefined,
@@ -146,6 +146,10 @@ const initialSchema: SchemaType = {
     [BekreftelseField.ADRESSE]: undefined,
 };
 
+export type ErrorSchemaType = { [key in keyof SchemaType]: string | undefined };
+
+export type ValidationType = { [key in keyof SchemaType]: (value: any) => string | undefined };
+
 type FormProps = {
     sections: Sections;
 };
@@ -158,7 +162,7 @@ export type ExpandableSections =
 
 const Form = ({ sections }: FormProps) => {
     const [schema, setSchema] = useState(initialSchema);
-
+    const [errors, setErrors] = useState<ErrorSchemaType>({});
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
         [SectionTitle.MULIGHET_FOR_ARBEID]: true,
         [SectionTitle.ARBEIDSEVNE]: true,
@@ -173,6 +177,62 @@ const Form = ({ sections }: FormProps) => {
         }));
     };
 
+    const validation: ValidationType = {
+        [MetadataField.TELEFON]: (value: string | undefined) => {
+            if (!value) {
+                return 'Telefonnummer må være definert';
+            }
+
+            // https://begrep.difi.no/Felles/mobiltelefonnummer
+            if (!value.match('^\\+?[- _0-9]+$')) {
+                return 'Telefonnummeret er ikke på et gyldig format';
+            }
+
+            return undefined;
+        },
+        [MetadataField.ETTERNAVN]: (value: string | undefined) => {
+            if (!value) {
+                return 'etternavn må være def';
+            }
+
+            if (!value.match('^\\+?[- _0-9]+$')) {
+                return 'etternavn er ikke på et gyldig format';
+            }
+
+            return undefined;
+        },
+        [MetadataField.FORNAVN]: (value: string | undefined) => {
+            if (value && !schema[MetadataField.ETTERNAVN]) {
+                return 'Etternavn må defineres for at fornavn skal kunne fylles';
+            }
+
+            return undefined;
+        },
+    };
+
+    const validate = (name: keyof SchemaType, value: SchemaType[keyof SchemaType]) => {
+        const validationFunction = validation[name];
+
+        let error: string | undefined = undefined;
+
+        if (validationFunction) {
+            error = validationFunction(value);
+        }
+
+        setErrors(state => ({ ...state, [name]: error }));
+    };
+
+    const validateAll = () => {
+        const keys = Object.keys(validation);
+
+        keys.forEach(key => {
+            // TODO: Can this casting be avoided?
+            // https://github.com/microsoft/TypeScript/pull/12253#issuecomment-263132208
+            const value = schema[key as keyof SchemaType];
+            validate(key as keyof SchemaType, value);
+        });
+    };
+
     console.groupCollapsed('STATE');
     console.log('schema', schema);
     console.groupEnd();
@@ -181,13 +241,15 @@ const Form = ({ sections }: FormProps) => {
         <Panel>
             <FormHeader />
 
+            <button onClick={validateAll}>validate all</button>
+
             <div className="form-margin-bottom section-content">
                 <FnrInput
                     className="form-margin-bottom half"
                     onChange={({ target: { value } }) =>
                         setSchema(state => ({
                             ...state,
-                            [MetadataField.PERSONNUMMER]: value,
+                            [OtherField.PERSONNUMMER]: value,
                         }))
                     }
                     onValidate={valid => console.log(valid)}
@@ -196,13 +258,18 @@ const Form = ({ sections }: FormProps) => {
 
                 <DatePicker
                     label="Startdato for legemeldt fravær"
-                    value={schema[SchemaField.SYKETILFELLESTARTDATO]}
+                    value={schema[OtherField.SYKETILFELLESTARTDATO]}
                     onChange={newDates =>
-                        setSchema(state => ({ ...state, [SchemaField.SYKETILFELLESTARTDATO]: newDates }))
+                        setSchema(state => ({ ...state, [OtherField.SYKETILFELLESTARTDATO]: newDates }))
                     }
                 />
             </div>
-            <PasientopplysningerSection section={sections[SectionTitle.PASIENTOPPLYSNINGER]} setSchema={setSchema} />
+            <PasientopplysningerSection
+                section={sections[SectionTitle.PASIENTOPPLYSNINGER]}
+                setSchema={setSchema}
+                errors={errors}
+                validate={validate}
+            />
             <ArbeidsgiverSection section={sections[SectionTitle.ARBEIDSGIVER]} setSchema={setSchema} />
             <DiagnoseSection section={sections[SectionTitle.DIAGNOSE]} setSchema={setSchema} schema={schema} />
             <MulighetForArbeidSection
