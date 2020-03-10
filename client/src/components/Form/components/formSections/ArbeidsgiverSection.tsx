@@ -3,22 +3,8 @@ import { Element } from 'nav-frontend-typografi';
 import { Input, Select } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
-import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
-import {
-    AvventendeSykmelding,
-    Behandling,
-    FullSykmelding,
-    GradertSykmelding,
-    Reisetilskudd,
-} from './MulighetForArbeidSection';
-import { Bekreftelse } from './BekreftelseSection';
-import { FieldValues } from '../../Form';
-import { Friskmelding } from './FriskmeldingSection';
-import { MedisinskVurdering } from './DiagnoseSection';
-import { MeldingTilNav } from './MeldingTilNavSection';
-import { Metadata } from './PasientopplysningerSection';
+import { SchemaType } from '../../Form';
 import { Section } from '../../../../App';
-import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum HarArbeidsgiver {
     EN_ARBEIDSGIVER = 'Én arbeidsgiver',
@@ -42,29 +28,7 @@ export type Arbeidsgiver = {
 
 type ArbeidsgiverSectionProps = {
     section: Section;
-    setSchema: (
-        value: React.SetStateAction<
-            Partial<
-                Metadata &
-                    Arbeidsgiver &
-                    Arbeidsevne &
-                    MedisinskVurdering &
-                    AvventendeSykmelding &
-                    GradertSykmelding &
-                    FullSykmelding &
-                    Behandling &
-                    Reisetilskudd &
-                    Friskmelding &
-                    TilretteleggingArbeidsplass &
-                    TiltakNav &
-                    InnspillNav &
-                    MeldingTilNav &
-                    Tilbakedatering &
-                    Bekreftelse &
-                    FieldValues
-            >
-        >,
-    ) => void;
+    setSchema: (value: React.SetStateAction<SchemaType>) => void;
 };
 
 const ArbeidsgiverSection = ({ section, setSchema }: ArbeidsgiverSectionProps) => {

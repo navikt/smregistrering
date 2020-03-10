@@ -5,21 +5,7 @@ import { Element } from 'nav-frontend-typografi';
 import DatePicker from '../formComponents/DatePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
-import { Arbeidsgiver } from './ArbeidsgiverSection';
-import {
-    AvventendeSykmelding,
-    Behandling,
-    FullSykmelding,
-    GradertSykmelding,
-    Reisetilskudd,
-} from './MulighetForArbeidSection';
-import { Bekreftelse } from './BekreftelseSection';
-import { FieldValues } from '../../Form';
-import { Friskmelding } from './FriskmeldingSection';
-import { MedisinskVurdering } from './DiagnoseSection';
-import { MeldingTilNav } from './MeldingTilNavSection';
-import { Metadata } from './PasientopplysningerSection';
+import { SchemaType } from '../../Form';
 import { Section } from '../../../../App';
 
 export enum TilbakedateringField {
@@ -38,48 +24,8 @@ export type Tilbakedatering = {
 
 type TilbakedateringSectionProps = {
     section: Section;
-    setSchema: (
-        value: React.SetStateAction<
-            Partial<
-                Metadata &
-                    Arbeidsgiver &
-                    Arbeidsevne &
-                    MedisinskVurdering &
-                    AvventendeSykmelding &
-                    GradertSykmelding &
-                    FullSykmelding &
-                    Behandling &
-                    Reisetilskudd &
-                    Friskmelding &
-                    TilretteleggingArbeidsplass &
-                    TiltakNav &
-                    InnspillNav &
-                    MeldingTilNav &
-                    Tilbakedatering &
-                    Bekreftelse &
-                    FieldValues
-            >
-        >,
-    ) => void;
-    schema: Partial<
-        Metadata &
-            Arbeidsgiver &
-            Arbeidsevne &
-            MedisinskVurdering &
-            AvventendeSykmelding &
-            GradertSykmelding &
-            FullSykmelding &
-            Behandling &
-            Reisetilskudd &
-            Friskmelding &
-            TilretteleggingArbeidsplass &
-            TiltakNav &
-            InnspillNav &
-            MeldingTilNav &
-            Tilbakedatering &
-            Bekreftelse &
-            FieldValues
-    >;
+    setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    schema: SchemaType;
 };
 
 const TilbakedateringSection = ({ section, setSchema, schema }: TilbakedateringSectionProps) => {

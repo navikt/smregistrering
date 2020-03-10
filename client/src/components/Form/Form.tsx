@@ -10,7 +10,6 @@ import FormHeader from './components/FormHeader';
 import Panel from '../Panel/Panel';
 import ArbeidsevneSection, {
     Arbeidsevne,
-    ArbeidsevneField,
     InnspillNav,
     InnspillNavField,
     TilretteleggingArbeidsplass,
@@ -26,7 +25,6 @@ import DiagnoseSection, {
 } from './components/formSections/DiagnoseSection';
 import FriskmeldingSection, { Friskmelding, FriskmeldingField } from './components/formSections/FriskmeldingSection';
 import MeldingTilArbeidsgiverSection, {
-    MeldingTilArbeidsgiver,
     MeldingTilArbeidsgiverField,
 } from './components/formSections/MeldingTilArbeidsgiverSection';
 import MeldingTilNavSection, {
@@ -42,8 +40,6 @@ import MulighetForArbeidSection, {
     FullSykmeldingField,
     GradertSykmelding,
     GradertSykmeldingField,
-    MulighetForArbeid,
-    MulighetForArbeidField,
     Reisetilskudd,
     ReisetilskuddField,
 } from './components/formSections/MulighetForArbeidSection';
@@ -67,23 +63,27 @@ export type FieldValues = {
     [SchemaField.LEGE_NAVN]?: string;
 };
 
-const initialSchema: Partial<Metadata &
-    Arbeidsgiver &
-    Arbeidsevne &
-    MedisinskVurdering &
-    AvventendeSykmelding &
-    GradertSykmelding &
-    FullSykmelding &
-    Behandling &
-    Reisetilskudd &
-    Friskmelding &
-    TilretteleggingArbeidsplass &
-    TiltakNav &
-    InnspillNav &
-    MeldingTilNav &
-    Tilbakedatering &
-    Bekreftelse &
-    FieldValues> = {
+export type SchemaType = Partial<
+    Metadata &
+        Arbeidsgiver &
+        Arbeidsevne &
+        MedisinskVurdering &
+        AvventendeSykmelding &
+        GradertSykmelding &
+        FullSykmelding &
+        Behandling &
+        Reisetilskudd &
+        Friskmelding &
+        TilretteleggingArbeidsplass &
+        TiltakNav &
+        InnspillNav &
+        MeldingTilNav &
+        Tilbakedatering &
+        Bekreftelse &
+        FieldValues
+>;
+
+const initialSchema: SchemaType = {
     [MetadataField.PERSONNUMMER]: undefined,
     [MetadataField.TELEFON]: undefined,
     [MetadataField.ETTERNAVN]: undefined,

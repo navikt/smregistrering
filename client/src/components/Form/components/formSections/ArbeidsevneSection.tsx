@@ -4,22 +4,8 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { Arbeidsgiver } from './ArbeidsgiverSection';
-import {
-    AvventendeSykmelding,
-    Behandling,
-    FullSykmelding,
-    GradertSykmelding,
-    Reisetilskudd,
-} from './MulighetForArbeidSection';
-import { Bekreftelse } from './BekreftelseSection';
-import { FieldValues } from '../../Form';
-import { Friskmelding } from './FriskmeldingSection';
-import { MedisinskVurdering } from './DiagnoseSection';
-import { MeldingTilNav } from './MeldingTilNavSection';
-import { Metadata } from './PasientopplysningerSection';
+import { SchemaType } from '../../Form';
 import { Section } from '../../../../App';
-import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum TilretteleggingArbeidsplassField {
     TILRETTELEGGING = 'tilrettelegging',
@@ -66,48 +52,8 @@ export type Arbeidsevne = {
 export type ArbeidsevneSectionProps = {
     section: Section;
     expanded: boolean;
-    setSchema: (
-        value: React.SetStateAction<
-            Partial<
-                Metadata &
-                    Arbeidsgiver &
-                    Arbeidsevne &
-                    MedisinskVurdering &
-                    AvventendeSykmelding &
-                    GradertSykmelding &
-                    FullSykmelding &
-                    Behandling &
-                    Reisetilskudd &
-                    Friskmelding &
-                    TilretteleggingArbeidsplass &
-                    TiltakNav &
-                    InnspillNav &
-                    MeldingTilNav &
-                    Tilbakedatering &
-                    Bekreftelse &
-                    FieldValues
-            >
-        >,
-    ) => void;
-    schema: Partial<
-        Metadata &
-            Arbeidsgiver &
-            Arbeidsevne &
-            MedisinskVurdering &
-            AvventendeSykmelding &
-            GradertSykmelding &
-            FullSykmelding &
-            Behandling &
-            Reisetilskudd &
-            Friskmelding &
-            TilretteleggingArbeidsplass &
-            TiltakNav &
-            InnspillNav &
-            MeldingTilNav &
-            Tilbakedatering &
-            Bekreftelse &
-            FieldValues
-    >;
+    setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    schema: SchemaType;
     expandSection: () => void;
 };
 

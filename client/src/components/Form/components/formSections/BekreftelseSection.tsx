@@ -5,22 +5,8 @@ import { Element } from 'nav-frontend-typografi';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
-import { Arbeidsgiver } from './ArbeidsgiverSection';
-import {
-    AvventendeSykmelding,
-    Behandling,
-    FullSykmelding,
-    GradertSykmelding,
-    Reisetilskudd,
-} from './MulighetForArbeidSection';
-import { FieldValues } from '../../Form';
-import { Friskmelding } from './FriskmeldingSection';
-import { MedisinskVurdering } from './DiagnoseSection';
-import { MeldingTilNav } from './MeldingTilNavSection';
-import { Metadata } from './PasientopplysningerSection';
+import { SchemaType } from '../../Form';
 import { Section } from '../../../../App';
-import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum BekreftelseField {
     LEGITIMERT = 'legitimert',
@@ -40,48 +26,8 @@ export type Bekreftelse = {
 
 type BekreftelseSectionProps = {
     section: Section;
-    setSchema: (
-        value: React.SetStateAction<
-            Partial<
-                Metadata &
-                    Arbeidsgiver &
-                    Arbeidsevne &
-                    MedisinskVurdering &
-                    AvventendeSykmelding &
-                    GradertSykmelding &
-                    FullSykmelding &
-                    Behandling &
-                    Reisetilskudd &
-                    Friskmelding &
-                    TilretteleggingArbeidsplass &
-                    TiltakNav &
-                    InnspillNav &
-                    MeldingTilNav &
-                    Tilbakedatering &
-                    Bekreftelse &
-                    FieldValues
-            >
-        >,
-    ) => void;
-    schema: Partial<
-        Metadata &
-            Arbeidsgiver &
-            Arbeidsevne &
-            MedisinskVurdering &
-            AvventendeSykmelding &
-            GradertSykmelding &
-            FullSykmelding &
-            Behandling &
-            Reisetilskudd &
-            Friskmelding &
-            TilretteleggingArbeidsplass &
-            TiltakNav &
-            InnspillNav &
-            MeldingTilNav &
-            Tilbakedatering &
-            Bekreftelse &
-            FieldValues
-    >;
+    setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    schema: SchemaType;
 };
 
 const BekreftelseSection = ({ section, setSchema, schema }: BekreftelseSectionProps) => {

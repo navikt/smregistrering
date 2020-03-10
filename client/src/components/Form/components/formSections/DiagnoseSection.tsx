@@ -7,22 +7,8 @@ import FormLabel from '../formComponents/FormLabel';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { Arbeidsevne, InnspillNav, TilretteleggingArbeidsplass, TiltakNav } from './ArbeidsevneSection';
-import { Arbeidsgiver } from './ArbeidsgiverSection';
-import {
-    AvventendeSykmelding,
-    Behandling,
-    FullSykmelding,
-    GradertSykmelding,
-    Reisetilskudd,
-} from './MulighetForArbeidSection';
-import { Bekreftelse } from './BekreftelseSection';
-import { FieldValues } from '../../Form';
-import { Friskmelding } from './FriskmeldingSection';
-import { MeldingTilNav } from './MeldingTilNavSection';
-import { Metadata } from './PasientopplysningerSection';
+import { SchemaType } from '../../Form';
 import { Section } from '../../../../App';
-import { Tilbakedatering } from './TilbakedateringSection';
 
 export enum MedisinskVurderingField {
     HOVEDDIAGNOSE = 'hoveddiagnose',
@@ -56,48 +42,8 @@ export type MedisinskVurdering = {
 
 type DiagnoseSectionProps = {
     section: Section;
-    setSchema: (
-        value: React.SetStateAction<
-            Partial<
-                Metadata &
-                    Arbeidsgiver &
-                    Arbeidsevne &
-                    MedisinskVurdering &
-                    AvventendeSykmelding &
-                    GradertSykmelding &
-                    FullSykmelding &
-                    Behandling &
-                    Reisetilskudd &
-                    Friskmelding &
-                    TilretteleggingArbeidsplass &
-                    TiltakNav &
-                    InnspillNav &
-                    MeldingTilNav &
-                    Tilbakedatering &
-                    Bekreftelse &
-                    FieldValues
-            >
-        >,
-    ) => void;
-    schema: Partial<
-        Metadata &
-            Arbeidsgiver &
-            Arbeidsevne &
-            MedisinskVurdering &
-            AvventendeSykmelding &
-            GradertSykmelding &
-            FullSykmelding &
-            Behandling &
-            Reisetilskudd &
-            Friskmelding &
-            TilretteleggingArbeidsplass &
-            TiltakNav &
-            InnspillNav &
-            MeldingTilNav &
-            Tilbakedatering &
-            Bekreftelse &
-            FieldValues
-    >;
+    setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    schema: SchemaType;
 };
 
 const DiagnoseSection = ({ section, setSchema, schema }: DiagnoseSectionProps) => {
