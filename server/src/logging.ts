@@ -12,7 +12,6 @@ const setupLogging = (server: Application) => {
           req.originalUrl === "/is_alive" || req.originalUrl === "/is_ready"
       })
     );
-    // TODO: filter requests that are useful to log
   }
 };
 

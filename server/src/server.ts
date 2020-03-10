@@ -28,7 +28,7 @@ async function startApp() {
     // cors policy
     server.use(cors);
 
-    // setup passport en restore session if it exists
+    // setup passport and restore session if it exists
     server.use(passport.initialize());
     server.use(passport.session());
 

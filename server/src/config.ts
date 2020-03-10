@@ -14,23 +14,8 @@ const envVar = (name: string, required = true) => {
   return process.env[name];
 };
 
-const getVaultCredential = (path: string) => {
-  let credentail;
-  if (process.env.NODE_ENV === "development") {
-    return envVar(path.replace(/([-/])/g, ""), false); // Only for dev. get variable from .env without "/" og "-" in the env-var-name
-  } else {
-    try {
-      credentail = fs.readFileSync(path, "utf8");
-      return credentail;
-    } catch (error) {
-      console.error(`Could not get vault credentials for path: '${path}'`);
-      //process.exit(1);
-    }
-  }
-};
-
 const server = {
-  host: envVar("HOST", false) || "localhost",
+  host: envVar("HOST") || "localhost",
   port: envVar("PORT", false) || 3000,
   proxy: envVar("HTTP_PROXY", false), // optional, only set if requests to Azure AD must be performed through a corporate proxy (i.e. traffic to login.microsoftonline.com is blocked by the firewall)
   sessionKey: envVar("SESSION_KEY") || "",
@@ -42,7 +27,7 @@ const azureAd = {
   clientId: envVar("CLIENT_ID") || "",
   clientSecret: envVar("CLIENT_SECRET") || "",
   redirectUri: envVar("AAD_REDIRECT_URL") || "",
-  logoutRedirectUri: envVar("AAD_LOGOUT_REDIRECT_URL", false) || "",
+  logoutRedirectUri: envVar("AAD_LOGOUT_REDIRECT_URL", false),
   tokenEndpointAuthMethod: "client_secret_post",
   responseTypes: ["code"],
   responseMode: "query"
