@@ -1,12 +1,12 @@
-import express from "express";
-import config from "./config";
-import setupLogging from "./logging";
-import cors from "./cors";
-import helmet from "helmet";
-import passport from "passport";
-import azure from "./auth/azure";
-import routes from "./routes/routes";
-import session from "./session";
+import express from 'express';
+import config from './config';
+import setupLogging from './logging';
+import cors from './cors';
+import helmet from 'helmet';
+import passport from 'passport';
+import azure from './auth/azure';
+import routes from './routes/routes';
+import session from './session';
 
 const server = express();
 const PORT = config.server.port;
@@ -35,7 +35,7 @@ async function startApp() {
     // initialize azure client and azure passport strategy
     const azureAuthClient = await azure.client();
     const azureOidcStrategy = azure.strategy(azureAuthClient);
-    passport.use("azureOidc", azureOidcStrategy);
+    passport.use('azureOidc', azureOidcStrategy);
 
     // serialize the req.user, and save to session
     passport.serializeUser((user, done) => done(null, user));
@@ -43,12 +43,12 @@ async function startApp() {
     passport.deserializeUser((user, done) => done(null, user));
 
     // setup routes
-    server.use("/", routes.setup(azureAuthClient));
+    server.use('/', routes.setup(azureAuthClient));
 
     // start server
     server.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
   } catch (error) {
-    console.error("Error during startup", error);
+    console.error('Error during startup', error);
   }
 }
 

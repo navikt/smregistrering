@@ -1,37 +1,37 @@
-import config from "./config";
-import redis from "redis";
-import session from "express-session";
-import { Application } from "express";
+import config from './config';
+import redis from 'redis';
+import session from 'express-session';
+import { Application } from 'express';
 
 const SESSION_MAX_AGE_MILLISECONDS = 60 * 60 * 1000;
 
 const setup = (server: Application) => {
-  server.set("trust proxy", 1);
+  server.set('trust proxy', 1);
   // TODO: setup Redis
   if (true /* process.env.NODE_ENV === "development" */) {
     server.use(
       session({
         cookie: {
           maxAge: SESSION_MAX_AGE_MILLISECONDS,
-          sameSite: "lax"
+          sameSite: 'lax',
         },
         secret: config.server.sessionKey,
         name: config.server.cookieName,
         resave: false,
-        saveUninitialized: true
-      })
+        saveUninitialized: true,
+      }),
     );
   } else {
-    const RedisStore = require("connect-redis")(session);
+    const RedisStore = require('connect-redis')(session);
 
     const client = redis.createClient(config.redis.port, config.redis.host);
 
     client.unref();
-    client.on("error", console.log);
+    client.on('error', console.log);
 
     const store = new RedisStore({
       client: client,
-      disableTouch: true
+      disableTouch: true,
     });
 
     server.use(
@@ -40,14 +40,14 @@ const setup = (server: Application) => {
           maxAge: SESSION_MAX_AGE_MILLISECONDS,
           secure: true,
           httpOnly: true,
-          sameSite: "lax"
+          sameSite: 'lax',
         },
         name: config.server.cookieName,
         saveUninitialized: true,
         secret: config.server.sessionKey,
         store: store,
-        resave: false
-      })
+        resave: false,
+      }),
     );
   }
 };
