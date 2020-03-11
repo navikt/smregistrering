@@ -37,7 +37,7 @@
         "react-dom": "^16.12.0",
         "react-flatpickr": "^3.10.0",
         "react-scripts": "3.4.0",
-        "typescript": "^3.7.5"
+        "typescript": "^3.8.3"
     },
     "devDependencies": {
         "import-sort-style-renke": "^6.0.0",
