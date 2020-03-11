@@ -7,8 +7,7 @@ const SESSION_MAX_AGE_MILLISECONDS = 60 * 60 * 1000;
 
 const setup = (server: Application) => {
   server.set('trust proxy', 1);
-  // TODO: setup Redis
-  if (true /* process.env.NODE_ENV === "development" */) {
+  if (process.env.NODE_ENV === "development") {
     server.use(
       session({
         cookie: {
