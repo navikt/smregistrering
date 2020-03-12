@@ -26,9 +26,10 @@ type PasientopplysningerProps = {
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     errors: ErrorSchemaType;
     validate: (name: keyof SchemaType, value: SchemaType[keyof SchemaType]) => void;
+    schema: SchemaType;
 };
 
-const PasientopplysningerSection = ({ section, setSchema, errors, validate }: PasientopplysningerProps) => {
+const PasientopplysningerSection = ({ section, setSchema, errors, validate, schema }: PasientopplysningerProps) => {
     return (
         <SectionContainer section={section}>
             <Row>
@@ -41,6 +42,7 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate }: Pa
 
                         validate(MetadataField.ETTERNAVN, value);
                     }}
+                    onFocus={() => validate(MetadataField.ETTERNAVN, schema[MetadataField.ETTERNAVN])}
                     feil={errors[MetadataField.ETTERNAVN]}
                     type="text"
                     label={<Element>1.1.1 Etternavn</Element>}

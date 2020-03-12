@@ -268,6 +268,7 @@ const Form = ({ sections }: FormProps) => {
                 section={sections[SectionTitle.PASIENTOPPLYSNINGER]}
                 setSchema={setSchema}
                 errors={errors}
+                schema={schema}
                 validate={validate}
             />
             <ArbeidsgiverSection section={sections[SectionTitle.ARBEIDSGIVER]} setSchema={setSchema} />
