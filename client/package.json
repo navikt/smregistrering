@@ -42,7 +42,8 @@
     "devDependencies": {
         "import-sort-style-renke": "^6.0.0",
         "prettier": "^1.19.1",
-        "prettier-plugin-import-sort": "0.0.3"
+        "prettier-plugin-import-sort": "0.0.3",
+        "yet-another-fetch-mock": "^3.4.0"
     },
     "scripts": {
         "start": "craco start",
