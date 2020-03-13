@@ -70,6 +70,7 @@ const reverseProxyConfig = () => {
       console.log(`Could not read config: '${error}'`);
     }
   }
+
   if (!config) {
     if (reverseProxy.jsonConfig) {
       console.log(`Loading reverse proxy config from DOWNSTREAM_APIS_CONFIG`);
@@ -89,6 +90,7 @@ const reverseProxyConfig = () => {
     }
   }
 
+  // Ensure that the config has all neccessary properties:
   if (config) {
     config.apis.forEach((entry, index) => {
       if (!entry.path) {
