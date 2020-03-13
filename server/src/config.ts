@@ -6,41 +6,89 @@ if (process.env.NODE_ENV === 'development') {
   require('dotenv/config');
 }
 
-const envVar = (name: string, required = true) => {
-  if (!process.env[name] && required) {
-    console.error(`Missing required environment variable '${name}'`);
-    process.exit(1);
-  }
-  return process.env[name];
-};
-
 const server = {
-  host: envVar('HOST', false) || 'localhost',
-  port: envVar('PORT', false) || 3000,
-  proxy: envVar('HTTP_PROXY', false), // optional, only set if requests to Azure AD must be performed through a corporate proxy (i.e. traffic to login.microsoftonline.com is blocked by the firewall)
-  sessionKey: envVar('SESSION_KEY') || '',
+  host: process.env['HOST'] || 'localhost',
+  port: process.env['PORT'] || 3000,
+  proxy: process.env['HTTP_PROXY'], // optional, only set if requests to Azure AD must be performed through a corporate proxy (i.e. traffic to login.microsoftonline.com is blocked by the firewall)
+  sessionKey: process.env['SESSION_KEY'],
   cookieName: 'smregistrering',
 };
 
 const azureAd = {
-  discoveryUrl: envVar('AAD_DISCOVERY_URL') || '',
-  clientId: envVar('CLIENT_ID') || '',
-  clientSecret: envVar('CLIENT_SECRET') || '',
-  redirectUri: envVar('AAD_REDIRECT_URL') || '',
-  logoutRedirectUri: envVar('AAD_LOGOUT_REDIRECT_URL', false),
+  discoveryUrl: process.env['AAD_DISCOVERY_URL'],
+  clientId: process.env['CLIENT_ID'],
+  clientSecret: process.env['CLIENT_SECRET'],
+  redirectUri: process.env['AAD_REDIRECT_URL'],
+  logoutRedirectUri: process.env['AAD_LOGOUT_REDIRECT_URL'],
   tokenEndpointAuthMethod: 'client_secret_post',
   responseTypes: ['code'],
   responseMode: 'query',
 };
 
 const redis = {
-  host: envVar('REDIS_HOST', false) || 'smregistrering-redis.default.svc.nais.local',
+  host: process.env['REDIS_HOST'] || 'smregistrering-redis.default.svc.nais.local',
   port: 6379,
-  password: envVar('REDIS_PASSWORD', false),
+  password: process.env['REDIS_PASSWORD'],
 };
 
+const reverseProxy = {
+  configPath: process.env['DOWNSTREAM_APIS_CONFIG_PATH'],
+  jsonConfig: process.env['DOWNSTREAM_APIS_CONFIG'],
+  clientId: process.env['DOWNSTREAM_API_CLIENT_ID'],
+  path: process.env['DOWNSTREAM_API_PATH'],
+  url: process.env['DOWNSTREAM_API_URL'],
+  scopes: process.env['DOWNSTREAM_API_SCOPES'],
+};
+
+const ensureMandatoryEnvVars = () => {
+  if (!server.sessionKey || !azureAd.clientId || !azureAd.clientSecret || !azureAd.redirectUri) {
+    console.error('Missing mandatory environment variable');
+    process.exit(1);
+  }
+};
+
+ensureMandatoryEnvVars();
+
+export interface Api {
+  clientId: string | undefined;
+  path: string | undefined;
+  url: string | undefined;
+  scopes: string[];
+}
+
+interface ReverseProxyConfig {
+  apis: Api[];
+}
+
 const reverseProxyConfig = () => {
-  const config = loadReverseProxyConfig();
+  let config: ReverseProxyConfig | undefined = undefined;
+  if (reverseProxy.configPath) {
+    try {
+      console.log(`Loading reverse proxy config from '${reverseProxy.configPath}'`);
+      config = JSON.parse(fs.readFileSync(path.resolve(reverseProxy.configPath), 'utf-8'));
+    } catch (error) {
+      console.log(`Could not read config: '${error}'`);
+    }
+  }
+  if (!config) {
+    if (reverseProxy.jsonConfig) {
+      console.log(`Loading reverse proxy config from DOWNSTREAM_APIS_CONFIG`);
+      config = JSON.parse(reverseProxy.jsonConfig);
+    } else {
+      console.log(`Loading reverse proxy config from DOWNSTREAM_API_* [CLIENT_ID, PATH, URL]`);
+      config = {
+        apis: [
+          {
+            clientId: reverseProxy.clientId,
+            path: reverseProxy.path,
+            url: reverseProxy.url,
+            scopes: reverseProxy.scopes ? reverseProxy.scopes.split(',') : [],
+          },
+        ],
+      };
+    }
+  }
+
   if (config) {
     config.apis.forEach((entry, index) => {
       if (!entry.path) {
@@ -61,52 +109,6 @@ const reverseProxyConfig = () => {
     console.error('Could not load config (was empty)');
     process.exit(1);
   }
-};
-
-export interface Api {
-  clientId: string | undefined;
-  path: string | undefined;
-  url: string | undefined;
-  scopes: string[];
-}
-
-interface ReverseProxyConfig {
-  apis: Api[];
-}
-
-const loadReverseProxyConfig = () => {
-  const configPath = envVar('DOWNSTREAM_APIS_CONFIG_PATH', false);
-  let config: ReverseProxyConfig | null = null;
-  if (configPath) {
-    try {
-      console.log(`Loading reverse proxy config from '${configPath}' (defined by DOWNSTREAM_APIS_CONFIG_PATH)`);
-      config = JSON.parse(fs.readFileSync(path.resolve(configPath), 'utf-8'));
-    } catch (err) {
-      console.log(`Could not read config: '${err}'`);
-    }
-  }
-  if (!config) {
-    const jsonConfig = envVar('DOWNSTREAM_APIS_CONFIG', false);
-    if (jsonConfig) {
-      console.log(`Loading reverse proxy config from DOWNSTREAM_APIS_CONFIG`);
-      config = JSON.parse(jsonConfig);
-    } else {
-      console.log(`Loading reverse proxy config from DOWNSTREAM_API_* [CLIENT_ID, PATH, URL]`);
-      const scopes = envVar('DOWNSTREAM_API_SCOPES', false);
-      config = {
-        apis: [
-          {
-            clientId: envVar('DOWNSTREAM_API_CLIENT_ID', false) || '1234',
-            path: envVar('DOWNSTREAM_API_PATH', false) || 'backend',
-            url: envVar('DOWNSTREAM_API_URL', false) || '.',
-            scopes: scopes ? scopes.split(',') : [],
-          },
-        ],
-      };
-    }
-  }
-  console.log(config);
-  return config;
 };
 
 export default { server, azureAd, reverseProxy: reverseProxyConfig, redis };
