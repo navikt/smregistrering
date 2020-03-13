@@ -27,10 +27,10 @@ const setup = (server: Application) => {
       const client = redis.createClient(config.redis.port, config.redis.host);
 
       client.unref();
-      client.on('error', () => {
-        reject();
+      client.on('error', error => {
+        reject(error);
       });
-      client.on('ready', () => {
+      client.on('connect', () => {
         resolve();
       });
 
