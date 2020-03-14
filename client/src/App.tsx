@@ -1,6 +1,6 @@
 import './App.less';
 
-import React, { RefObject, useRef } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 
 import Form from './components/Form/Form';
 import FormSubmit from './components/Form/components/FormSubmit';
@@ -30,7 +30,46 @@ export type Sections = {
     [key in SectionTitle]: Section;
 };
 
+type DiagnosekodeDataContent = {
+    code: string;
+    text: string;
+};
+
+type DiagnosekodeData = {
+    ICD10: DiagnosekodeDataContent[];
+    ICPC2: DiagnosekodeDataContent[];
+};
+
+type Diagnosekode = {
+    code: string;
+    text: string;
+    system: string;
+};
+
+export type Diagnosekoder = {
+    icd10: Diagnosekode[];
+    icpc2: Diagnosekode[];
+};
+
 const App = () => {
+    const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder>({
+        icd10: [],
+        icpc2: [],
+    });
+
+    useEffect(() => {
+        fetch('backend.com/diagnosekoder')
+            .then(response => {
+                return response.json();
+            })
+            .then((reponseData: DiagnosekodeData) => {
+                const { ICD10, ICPC2 } = reponseData;
+                const ICD10codes: Diagnosekode[] = ICD10.map(data => ({ ...data, system: 'icd10' }));
+                const ICPC2codes: Diagnosekode[] = ICPC2.map(data => ({ ...data, system: 'icd10' }));
+                setDiagnosekoder({ icd10: ICD10codes, icpc2: ICPC2codes });
+            });
+    }, []);
+
     const sections: Sections = {
         [SectionTitle.PASIENTOPPLYSNINGER]: {
             index: 1,
@@ -92,7 +131,7 @@ const App = () => {
                     <Menu sections={sections} />
                 </div>
                 <div className="form-container">
-                    <Form sections={sections} />
+                    <Form sections={sections} diagnosekoder={diagnosekoder} />
                     <FormSubmit />
                 </div>
                 <div className="pdf-container">

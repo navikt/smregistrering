@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
 import DatePicker from '../formComponents/DatePicker';
 import FormLabel from '../formComponents/FormLabel';
 import Row from '../formComponents/Row';
+import SearchableInput from '../formComponents/SearchableInput';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
+import { Diagnosekoder, Section } from '../../../../App';
 import { SchemaType } from '../../Form';
-import { Section } from '../../../../App';
 
 export enum MedisinskVurderingField {
     HOVEDDIAGNOSE = 'hoveddiagnose',
@@ -44,28 +45,31 @@ type DiagnoseSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
+    diagnosekoder: Diagnosekoder;
 };
 
-const DiagnoseSection = ({ section, setSchema, schema }: DiagnoseSectionProps) => {
+const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: DiagnoseSectionProps) => {
+    console.log(diagnosekoder);
+
     return (
         <SectionContainer section={section}>
             <FormLabel label="3.1 Hoveddiagnose" />
             <Row>
                 <Select className="form-margin-bottom" label={<Element>3.1.1 Kodesystem</Element>}>
-                    <option value="system1">ICPC-2</option>
-                    <option value="system2">ICD-10</option>
+                    <option value="icpc2">ICPC-2</option>
+                    <option value="icd10">ICD-10</option>
                 </Select>
-                <Input className="form-margin-bottom" label={<Element>3.1.2 Kode</Element>} />
-                <Input className="form-margin-bottom" label={<Element>3.1.3 Kode</Element>} />
+                <SearchableInput system={'icd10'} diagnosekoder={diagnosekoder} label={<Element>3.1.2 Kode</Element>} />
+                <Input className="form-margin-bottom" label={<Element>3.1.3 Tekst</Element>} />
             </Row>
             <FormLabel label="3.2 Bidiagnose" />
             <Row>
                 <Select className="form-margin-bottom" label={<Element>3.2.1 Kodesystem</Element>}>
-                    <option value="system1">ICPC-2</option>
-                    <option value="system2">ICD-10</option>
+                    <option value="icpc2">ICPC-2</option>
+                    <option value="icd10">ICD-10</option>
                 </Select>
                 <Input className="form-margin-bottom" label={<Element>3.2.2 Kode</Element>} />
-                <Input className="form-margin-bottom" label={<Element>3.2.3 Kode</Element>} />
+                <Input className="form-margin-bottom" label={<Element>3.2.3 Tekst</Element>} />
             </Row>
             <hr />
             <Subsection sectionIdentifier="3.3">

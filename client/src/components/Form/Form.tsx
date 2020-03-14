@@ -51,7 +51,7 @@ import TilbakedateringSection, {
     Tilbakedatering,
     TilbakedateringField,
 } from './components/formSections/TilbakedateringSection';
-import { SectionTitle, Sections } from '../../App';
+import { Diagnosekoder, SectionTitle, Sections } from '../../App';
 
 export enum OtherField {
     PERSONNUMMER = 'personnummer',
@@ -152,6 +152,7 @@ export type ValidationType = { [key in keyof SchemaType]: (value: any) => string
 
 type FormProps = {
     sections: Sections;
+    diagnosekoder: Diagnosekoder;
 };
 
 export type ExpandableSections =
@@ -160,7 +161,7 @@ export type ExpandableSections =
     | SectionTitle.TIL_NAV
     | SectionTitle.TIL_ARBEIDSGIVER;
 
-const Form = ({ sections }: FormProps) => {
+const Form = ({ sections, diagnosekoder }: FormProps) => {
     const [schema, setSchema] = useState(initialSchema);
     const [errors, setErrors] = useState<ErrorSchemaType>({});
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
@@ -272,7 +273,12 @@ const Form = ({ sections }: FormProps) => {
                 validate={validate}
             />
             <ArbeidsgiverSection section={sections[SectionTitle.ARBEIDSGIVER]} setSchema={setSchema} />
-            <DiagnoseSection section={sections[SectionTitle.DIAGNOSE]} setSchema={setSchema} schema={schema} />
+            <DiagnoseSection
+                section={sections[SectionTitle.DIAGNOSE]}
+                setSchema={setSchema}
+                schema={schema}
+                diagnosekoder={diagnosekoder}
+            />
             <MulighetForArbeidSection
                 section={sections[SectionTitle.MULIGHET_FOR_ARBEID]}
                 expanded={expanded[SectionTitle.MULIGHET_FOR_ARBEID]}
