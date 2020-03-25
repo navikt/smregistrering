@@ -16,7 +16,7 @@ async function startApp() {
     setupLogging(server);
 
     // setup session
-    session.setup(server);
+    await session.setup(server);
 
     // parse http body as json an attach to req object
     server.use(express.json());
