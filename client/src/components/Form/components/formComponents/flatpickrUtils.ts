@@ -5,7 +5,7 @@ export const flatpickrLocale: CustomLocale = {
     firstDayOfWeek: 1,
     weekdays: {
         shorthand: ['søn', 'man', 'tirs', 'ons', 'tors', 'fre', 'lør'],
-        longhand: ['søndag', 'mandag', 'tirsadg', 'onsdag', 'torsdag', 'fredag', 'lørdag'],
+        longhand: ['søndag', 'mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'],
     },
     months: {
         shorthand: ['jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'des'],
