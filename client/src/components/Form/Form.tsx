@@ -162,7 +162,7 @@ export type ExpandableSections =
     | SectionTitle.TIL_ARBEIDSGIVER;
 
 const Form = ({ sections, diagnosekoder }: FormProps) => {
-    const [schema, setSchema] = useState(initialSchema);
+    const [schema, setSchema] = useState<SchemaType>(initialSchema);
     const [errors, setErrors] = useState<ErrorSchemaType>({});
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
         [SectionTitle.MULIGHET_FOR_ARBEID]: true,

@@ -1,11 +1,14 @@
 import './App.less';
 
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
+import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 
 import Form from './components/Form/Form';
 import FormSubmit from './components/Form/components/FormSubmit';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
+import { ManuellOppgave } from './types/ManuellOppgave';
 
 export enum SectionTitle {
     PASIENTOPPLYSNINGER = 'Pasientopplysninger',
@@ -56,6 +59,7 @@ const App = () => {
         icd10: [],
         icpc2: [],
     });
+    const [manuellOppgave, setManuellOppgave] = useState<ManuellOppgave | undefined>(undefined);
 
     useEffect(() => {
         fetch('backend.com/diagnosekoder')
@@ -67,6 +71,12 @@ const App = () => {
                 const ICD10codes: Diagnosekode[] = ICD10.map(data => ({ ...data, system: 'icd10' }));
                 const ICPC2codes: Diagnosekode[] = ICPC2.map(data => ({ ...data, system: 'icd10' }));
                 setDiagnosekoder({ icd10: ICD10codes, icpc2: ICPC2codes });
+            });
+        fetch('backend.com/manuellOppgave')
+            .then(res => res.json())
+            .then((responseData: ManuellOppgave) => {
+                const manuellOppgave = new ManuellOppgave(responseData);
+                setManuellOppgave(manuellOppgave);
             });
     }, []);
 
@@ -123,6 +133,15 @@ const App = () => {
         },
     };
 
+    if (!manuellOppgave) {
+        return (
+            <div className="spinner-container">
+                <NavFrontendSpinner />
+                <Systemtittel>Vennligst vent mens oppgaven laster</Systemtittel>
+            </div>
+        );
+    }
+
     return (
         <>
             <Navbar />
@@ -135,14 +154,18 @@ const App = () => {
                     <FormSubmit />
                 </div>
                 <div className="pdf-container">
-                    <object
-                        width="100%"
-                        height="100%"
-                        type="application/pdf"
-                        data="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-                    >
-                        Visning av sykmelding-pdf krever en plugin
-                    </object>
+                    {manuellOppgave?.pdfPapirSmRegistrering ? (
+                        <object
+                            width="100%"
+                            height="100%"
+                            type="application/pdf"
+                            data={'data:application/pdf;base64,' + manuellOppgave?.pdfPapirSmRegistrering}
+                        >
+                            Visning av sykmelding-pdf krever en plugin
+                        </object>
+                    ) : (
+                        <Normaltekst style={{ paddingTop: '4rem' }}>PDF missing</Normaltekst>
+                    )}
                 </div>
             </div>
         </>
