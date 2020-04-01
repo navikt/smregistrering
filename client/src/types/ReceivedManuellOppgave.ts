@@ -7,7 +7,7 @@ export class ManuellOppgave {
     sykmeldingId: string;
     oppgaveid: number;
     ferdigstilt: boolean;
-    pdfPapirSmRegistrering?: string; // Base64 ecoded string
+    pdfPapirSmRegistrering?: string; // Base64 encoded string
 
     constructor(manuellOppgaveData: any) {
         this.journalpostId = manuellOppgaveData.journalpostId ? manuellOppgaveData.journalpostId : undefined;
