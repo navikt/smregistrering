@@ -1,7 +1,7 @@
 import './Form.less';
 import './components/formComponents/Flatpickr.less';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { EtikettLiten } from 'nav-frontend-typografi';
 import { FnrInput } from 'nav-frontend-skjema';
 
@@ -52,6 +52,8 @@ import TilbakedateringSection, {
     TilbakedateringField,
 } from './components/formSections/TilbakedateringSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
+import { ReceivedManuellOppgave } from '../../types/ReceivedManuellOppgave';
+import { RegistrertManuellSykmelding } from '../../types/RegistrertManuellSykmelding';
 import { SectionTitle, Sections } from '../../types/Section';
 
 export enum OtherField {
@@ -84,67 +86,69 @@ export type SchemaType = Partial<
         Other
 >;
 
-const initialSchema: SchemaType = {
-    [OtherField.SYKETILFELLESTARTDATO]: undefined,
-    [OtherField.PERSONNUMMER]: undefined,
-    [MetadataField.TELEFON]: undefined,
-    [MetadataField.ETTERNAVN]: undefined,
-    [MetadataField.FORNAVN]: undefined,
-    [MetadataField.LEGE_NAVN]: undefined,
-    [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
-    [ArbeidsgiverField.NAVN]: undefined,
-    [ArbeidsgiverField.YRKESBETEGNELSE]: undefined,
-    [ArbeidsgiverField.STILLINGSPROSENT]: undefined,
-    [MedisinskVurderingField.HOVEDDIAGNOSE]: {
-        system: undefined,
-        kode: undefined,
-        tekst: undefined,
-    },
-    [MedisinskVurderingField.BIDIAGNOSER]: [],
-    [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: false,
-    [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]: undefined,
-    [MedisinskVurderingField.BESKRIV_FRAVAER]: undefined,
-    [MedisinskVurderingField.SVANGERSKAP]: false,
-    [MedisinskVurderingField.YRKESSKADE]: false,
-    [MedisinskVurderingField.YRKESSKADE_DATO]: undefined,
-    [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: false,
-    [AvventendeSykmeldingField.AVVENTENDE]: false,
-    [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: [],
-    [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: undefined,
-    [GradertSykmeldingField.GRADERT]: false,
-    [GradertSykmeldingField.GRADERT_PERIODE]: [],
-    [GradertSykmeldingField.GRAD]: undefined,
-    [GradertSykmeldingField.REISETILSKUDD]: false,
-    [FullSykmeldingField.SYKMELDT]: false,
-    [FullSykmeldingField.SYKMELDT_PERIODE]: [],
-    [FullSykmeldingField.MEDISINSKE_AARSAKER]: false,
-    [FullSykmeldingField.ARBEIDSFORHOLD]: false,
-    [BehandlingField.KAN_ARBEIDE]: false,
-    [BehandlingField.BEHANDLINGSPERIODE]: [],
-    [BehandlingField.ANTALL_DAGER]: undefined,
-    [ReisetilskuddField.FULLT_ARBEID]: false,
-    [ReisetilskuddField.ARBEIDSPERIODE]: [],
-    [FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE]: false,
-    [FriskmeldingField.HENSYN_PA_ARBEIDSPLASSEN]: undefined,
-    [TilretteleggingArbeidsplassField.TILRETTELEGGING]: false,
-    [TilretteleggingArbeidsplassField.BESKRIV]: undefined,
-    [TiltakNavField.TILTAK_NAV]: false,
-    [TiltakNavField.BESKRIV]: undefined,
-    [InnspillNavField.INNSPILL]: false,
-    [InnspillNavField.BESKRIV]: undefined,
-    [MeldingTilNavField.BISTAND]: false,
-    [MeldingTilNavField.BEGRUNN]: undefined,
-    [MeldingTilArbeidsgiverField.INNSPILL]: false,
-    [MeldingTilArbeidsgiverField.BESKRIV]: undefined,
-    [TilbakedateringField.ER_TILBAKEDATERT]: false,
-    [TilbakedateringField.DATO_TILBAKEDATERING]: undefined,
-    [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]: false,
-    [TilbakedateringField.BEGRUNN]: undefined,
-    [BekreftelseField.LEGITIMERT]: false,
-    [BekreftelseField.SYKMELDERS_NAVN]: undefined,
-    [BekreftelseField.HPR]: undefined,
-    [BekreftelseField.TELEFON]: undefined,
-    [BekreftelseField.ADRESSE]: undefined,
+const getInitialSchema = (oppgave: ReceivedManuellOppgave): SchemaType => {
+    return {
+        [OtherField.SYKETILFELLESTARTDATO]: undefined,
+        [OtherField.PERSONNUMMER]: oppgave.fnr,
+        [MetadataField.TELEFON]: undefined,
+        [MetadataField.ETTERNAVN]: undefined,
+        [MetadataField.FORNAVN]: undefined,
+        [MetadataField.LEGE_NAVN]: undefined,
+        [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
+        [ArbeidsgiverField.NAVN]: undefined,
+        [ArbeidsgiverField.YRKESBETEGNELSE]: undefined,
+        [ArbeidsgiverField.STILLINGSPROSENT]: undefined,
+        [MedisinskVurderingField.HOVEDDIAGNOSE]: {
+            system: undefined,
+            kode: undefined,
+            tekst: undefined,
+        },
+        [MedisinskVurderingField.BIDIAGNOSER]: [],
+        [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: false,
+        [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]: undefined,
+        [MedisinskVurderingField.BESKRIV_FRAVAER]: undefined,
+        [MedisinskVurderingField.SVANGERSKAP]: false,
+        [MedisinskVurderingField.YRKESSKADE]: false,
+        [MedisinskVurderingField.YRKESSKADE_DATO]: undefined,
+        [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: false,
+        [AvventendeSykmeldingField.AVVENTENDE]: false,
+        [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: [],
+        [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: undefined,
+        [GradertSykmeldingField.GRADERT]: false,
+        [GradertSykmeldingField.GRADERT_PERIODE]: [],
+        [GradertSykmeldingField.GRAD]: undefined,
+        [GradertSykmeldingField.REISETILSKUDD]: false,
+        [FullSykmeldingField.SYKMELDT]: false,
+        [FullSykmeldingField.SYKMELDT_PERIODE]: [],
+        [FullSykmeldingField.MEDISINSKE_AARSAKER]: false,
+        [FullSykmeldingField.ARBEIDSFORHOLD]: false,
+        [BehandlingField.KAN_ARBEIDE]: false,
+        [BehandlingField.BEHANDLINGSPERIODE]: [],
+        [BehandlingField.ANTALL_DAGER]: undefined,
+        [ReisetilskuddField.FULLT_ARBEID]: false,
+        [ReisetilskuddField.ARBEIDSPERIODE]: [],
+        [FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE]: false,
+        [FriskmeldingField.HENSYN_PA_ARBEIDSPLASSEN]: undefined,
+        [TilretteleggingArbeidsplassField.TILRETTELEGGING]: false,
+        [TilretteleggingArbeidsplassField.BESKRIV]: undefined,
+        [TiltakNavField.TILTAK_NAV]: false,
+        [TiltakNavField.BESKRIV]: undefined,
+        [InnspillNavField.INNSPILL]: false,
+        [InnspillNavField.BESKRIV]: undefined,
+        [MeldingTilNavField.BISTAND]: false,
+        [MeldingTilNavField.BEGRUNN]: undefined,
+        [MeldingTilArbeidsgiverField.INNSPILL]: false,
+        [MeldingTilArbeidsgiverField.BESKRIV]: undefined,
+        [TilbakedateringField.ER_TILBAKEDATERT]: false,
+        [TilbakedateringField.DATO_TILBAKEDATERING]: undefined,
+        [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]: false,
+        [TilbakedateringField.BEGRUNN]: undefined,
+        [BekreftelseField.LEGITIMERT]: false,
+        [BekreftelseField.SYKMELDERS_NAVN]: undefined,
+        [BekreftelseField.HPR]: undefined,
+        [BekreftelseField.TELEFON]: undefined,
+        [BekreftelseField.ADRESSE]: undefined,
+    };
 };
 
 export type ErrorSchemaType = { [key in keyof SchemaType]: string | undefined };
@@ -153,6 +157,7 @@ export type ValidationType = { [key in keyof SchemaType]: (value: any) => string
 
 type FormProps = {
     sections: Sections;
+    oppgave: ReceivedManuellOppgave;
     diagnosekoder: Diagnosekoder;
 };
 
@@ -162,8 +167,8 @@ export type ExpandableSections =
     | SectionTitle.TIL_NAV
     | SectionTitle.TIL_ARBEIDSGIVER;
 
-const Form = ({ sections, diagnosekoder }: FormProps) => {
-    const [schema, setSchema] = useState<SchemaType>(initialSchema);
+const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
+    const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
     const [errors, setErrors] = useState<ErrorSchemaType>({});
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
         [SectionTitle.MULIGHET_FOR_ARBEID]: true,
@@ -248,6 +253,7 @@ const Form = ({ sections, diagnosekoder }: FormProps) => {
             <div className="form-margin-bottom section-content">
                 <FnrInput
                     className="form-margin-bottom half"
+                    defaultValue={schema.personnummer}
                     onChange={({ target: { value } }) =>
                         setSchema(state => ({
                             ...state,

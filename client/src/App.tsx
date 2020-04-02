@@ -102,7 +102,8 @@ const App = () => {
     if (error) {
         return (
             <div className="error-container">
-                <Systemtittel>Error</Systemtittel>
+                <Systemtittel>En feil oppsto</Systemtittel>
+                <Normaltekst>{error.message}</Normaltekst>
             </div>
         );
     }
@@ -116,6 +117,10 @@ const App = () => {
         );
     }
 
+    if (!manuellOppgave) {
+        return null;
+    }
+
     return (
         <>
             <Navbar />
@@ -124,7 +129,7 @@ const App = () => {
                     <Menu sections={sections} />
                 </div>
                 <div className="form-container">
-                    <Form sections={sections} diagnosekoder={diagnosekoder} />
+                    <Form sections={sections} oppgave={manuellOppgave} diagnosekoder={diagnosekoder} />
                     <FormSubmit />
                 </div>
                 <div className="pdf-container">
