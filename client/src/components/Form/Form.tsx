@@ -1,7 +1,7 @@
 import './Form.less';
 import './components/formComponents/Flatpickr.less';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { EtikettLiten } from 'nav-frontend-typografi';
 import { FnrInput } from 'nav-frontend-skjema';
 
@@ -53,7 +53,6 @@ import TilbakedateringSection, {
 } from './components/formSections/TilbakedateringSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
 import { ReceivedManuellOppgave } from '../../types/ReceivedManuellOppgave';
-import { RegistrertManuellSykmelding } from '../../types/RegistrertManuellSykmelding';
 import { SectionTitle, Sections } from '../../types/Section';
 
 export enum OtherField {
