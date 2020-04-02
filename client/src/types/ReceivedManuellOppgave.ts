@@ -1,4 +1,4 @@
-export class ManuellOppgave {
+export class ReceivedManuellOppgave {
     journalpostId?: string;
     fnr?: string;
     aktorId?: string;
@@ -9,17 +9,17 @@ export class ManuellOppgave {
     ferdigstilt: boolean;
     pdfPapirSmRegistrering?: string; // Base64 encoded string
 
-    constructor(manuellOppgaveData: any) {
-        this.journalpostId = manuellOppgaveData.journalpostId ? manuellOppgaveData.journalpostId : undefined;
-        this.fnr = manuellOppgaveData.fnr ? manuellOppgaveData.fnr : undefined;
-        this.aktorId = manuellOppgaveData.aktorId ? manuellOppgaveData.aktorId : undefined;
-        this.dokumentInfoId = manuellOppgaveData.dokumentInfoId ? manuellOppgaveData.dokumentInfoId : undefined;
-        this.datoOpprettet = manuellOppgaveData.datoOpprettet ? new Date(manuellOppgaveData.datoOpprettet) : undefined;
-        this.sykmeldingId = manuellOppgaveData.sykmeldingId;
-        this.oppgaveid = manuellOppgaveData.oppgaveid;
-        this.ferdigstilt = manuellOppgaveData.ferdigstilt;
-        this.pdfPapirSmRegistrering = manuellOppgaveData.pdfPapirSmRegistrering
-            ? manuellOppgaveData.pdfPapirSmRegistrering
+    constructor(dataObject: any) {
+        this.journalpostId = dataObject.journalpostId ? dataObject.journalpostId : undefined;
+        this.fnr = dataObject.fnr ? dataObject.fnr : undefined;
+        this.aktorId = dataObject.aktorId ? dataObject.aktorId : undefined;
+        this.dokumentInfoId = dataObject.dokumentInfoId ? dataObject.dokumentInfoId : undefined;
+        this.datoOpprettet = dataObject.datoOpprettet ? new Date(dataObject.datoOpprettet) : undefined;
+        this.sykmeldingId = dataObject.sykmeldingId;
+        this.oppgaveid = dataObject.oppgaveid;
+        this.ferdigstilt = dataObject.ferdigstilt;
+        this.pdfPapirSmRegistrering = dataObject.pdfPapirSmRegistrering
+            ? dataObject.pdfPapirSmRegistrering
             : undefined;
     }
 }

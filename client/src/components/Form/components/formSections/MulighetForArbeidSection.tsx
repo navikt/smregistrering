@@ -6,7 +6,7 @@ import RangePicker from '../formComponents/RangePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { SchemaType } from '../../Form';
-import { Section } from '../../../../App';
+import { Section } from '../../../../types/Section';
 
 export enum AvventendeSykmeldingField {
     AVVENTENDE = 'avventende',

@@ -5,7 +5,7 @@ import { Input } from 'nav-frontend-skjema';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import { ErrorSchemaType, SchemaType } from '../../Form';
-import { Section } from '../../../../App';
+import { Section } from '../../../../types/Section';
 
 export enum MetadataField {
     LEGE_NAVN = 'legenavn',

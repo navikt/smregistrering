@@ -4,7 +4,7 @@ import { Input, Select } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
 import { SchemaType } from '../../Form';
-import { Section } from '../../../../App';
+import { Section } from '../../../../types/Section';
 
 export enum HarArbeidsgiver {
     EN_ARBEIDSGIVER = 'Én arbeidsgiver',

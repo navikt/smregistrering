@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Element } from 'nav-frontend-typografi';
 import { Input } from 'nav-frontend-skjema';
 
-import { Diagnosekoder } from '../../../../App';
+import { Diagnosekoder } from '../../../../types/Diagnosekode';
 
 type SearchableInputProps = {
     system: keyof Diagnosekoder;

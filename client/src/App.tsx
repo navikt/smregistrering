@@ -1,82 +1,48 @@
 import './App.less';
 
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import React, { RefObject, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 
 import Form from './components/Form/Form';
 import FormSubmit from './components/Form/components/FormSubmit';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
-import { ManuellOppgave } from './types/ManuellOppgave';
-
-export enum SectionTitle {
-    PASIENTOPPLYSNINGER = 'Pasientopplysninger',
-    ARBEIDSGIVER = 'Arbeidsgiver',
-    DIAGNOSE = 'Diagnose',
-    MULIGHET_FOR_ARBEID = 'Mulighet for arbeid',
-    FRISKMELDING_PROGNOSE = 'Friskmelding/prognose',
-    ARBEIDSEVNE = 'Hva skal til for å bedre arbeidsevnen',
-    TIL_NAV = 'Melding til NAV',
-    TIL_ARBEIDSGIVER = 'Melding til arbeidsgiver',
-    TILBAKEDATERING = 'Tilbakedatering',
-    BEKREFTELSE = 'Bekreftelse',
-}
-
-export type Section = {
-    index: number;
-    ref: RefObject<HTMLDivElement>;
-    title: SectionTitle;
-};
-
-export type Sections = {
-    [key in SectionTitle]: Section;
-};
-
-type DiagnosekodeDataContent = {
-    code: string;
-    text: string;
-};
-
-type DiagnosekodeData = {
-    ICD10: DiagnosekodeDataContent[];
-    ICPC2: DiagnosekodeDataContent[];
-};
-
-type Diagnosekode = {
-    code: string;
-    text: string;
-    system: string;
-};
-
-export type Diagnosekoder = {
-    icd10: Diagnosekode[];
-    icpc2: Diagnosekode[];
-};
+import { Diagnosekoder } from './types/Diagnosekode';
+import { ReceivedManuellOppgave } from './types/ReceivedManuellOppgave';
+import { SectionTitle, Sections } from './types/Section';
+import { getDiagnosekoder, getOppgave } from './utils/fetchUtils';
 
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder>({
         icd10: [],
         icpc2: [],
     });
-    const [manuellOppgave, setManuellOppgave] = useState<ManuellOppgave | undefined>(undefined);
+    const [manuellOppgave, setManuellOppgave] = useState<ReceivedManuellOppgave | undefined>(undefined);
+    const [error, setError] = useState<Error | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        fetch('backend.com/diagnosekoder')
-            .then(response => {
-                return response.json();
+        setIsLoading(true);
+        // Bruker Promise.all siden vi ønsker å vente på alle kall før bruker kan starte registrering
+        Promise.all([getDiagnosekoder(), getOppgave()])
+            .then(([_diagnosekoder, _oppgave]) => {
+                try {
+                    const diagnosekoder = new Diagnosekoder(_diagnosekoder);
+                    setDiagnosekoder(diagnosekoder);
+
+                    const manuellOppgave = new ReceivedManuellOppgave(_oppgave);
+                    setManuellOppgave(manuellOppgave);
+                } catch (error) {
+                    console.error('Error parsing data');
+                    throw error;
+                }
             })
-            .then((reponseData: DiagnosekodeData) => {
-                const { ICD10, ICPC2 } = reponseData;
-                const ICD10codes: Diagnosekode[] = ICD10.map(data => ({ ...data, system: 'icd10' }));
-                const ICPC2codes: Diagnosekode[] = ICPC2.map(data => ({ ...data, system: 'icd10' }));
-                setDiagnosekoder({ icd10: ICD10codes, icpc2: ICPC2codes });
-            });
-        fetch('backend.com/manuellOppgave')
-            .then(res => res.json())
-            .then((responseData: ManuellOppgave) => {
-                const manuellOppgave = new ManuellOppgave(responseData);
-                setManuellOppgave(manuellOppgave);
+            .catch(error => {
+                setError(error);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
@@ -133,7 +99,15 @@ const App = () => {
         },
     };
 
-    if (!manuellOppgave) {
+    if (error) {
+        return (
+            <div className="error-container">
+                <Systemtittel>Error</Systemtittel>
+            </div>
+        );
+    }
+
+    if (isLoading) {
         return (
             <div className="spinner-container">
                 <NavFrontendSpinner />

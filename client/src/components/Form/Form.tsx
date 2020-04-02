@@ -51,7 +51,8 @@ import TilbakedateringSection, {
     Tilbakedatering,
     TilbakedateringField,
 } from './components/formSections/TilbakedateringSection';
-import { Diagnosekoder, SectionTitle, Sections } from '../../App';
+import { Diagnosekoder } from '../../types/Diagnosekode';
+import { SectionTitle, Sections } from '../../types/Section';
 
 export enum OtherField {
     PERSONNUMMER = 'personnummer',
