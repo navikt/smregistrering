@@ -1,4 +1,4 @@
-export class ReceivedManuellOppgave {
+export class PrefilledData {
     journalpostId?: string;
     fnr?: string;
     aktorId?: string;
@@ -10,6 +10,7 @@ export class ReceivedManuellOppgave {
     pdfPapirSmRegistrering?: string; // Base64 encoded string
 
     constructor(dataObject: any) {
+        console.log(dataObject);
         this.journalpostId = dataObject.journalpostId ? dataObject.journalpostId : undefined;
         this.fnr = dataObject.fnr ? dataObject.fnr : undefined;
         this.aktorId = dataObject.aktorId ? dataObject.aktorId : undefined;
@@ -18,8 +19,6 @@ export class ReceivedManuellOppgave {
         this.sykmeldingId = dataObject.sykmeldingId;
         this.oppgaveid = dataObject.oppgaveid;
         this.ferdigstilt = dataObject.ferdigstilt;
-        this.pdfPapirSmRegistrering = dataObject.pdfPapirSmRegistrering
-            ? dataObject.pdfPapirSmRegistrering
-            : undefined;
+        this.pdfPapirSmRegistrering = dataObject.pdfPapirSmRegistrering ? dataObject.pdfPapirSmRegistrering : undefined;
     }
 }

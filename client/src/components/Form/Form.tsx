@@ -52,7 +52,7 @@ import TilbakedateringSection, {
     TilbakedateringField,
 } from './components/formSections/TilbakedateringSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
-import { ReceivedManuellOppgave } from '../../types/ReceivedManuellOppgave';
+import { PrefilledData } from '../../types/PrefilledData';
 import { SectionTitle, Sections } from '../../types/Section';
 
 export enum OtherField {
@@ -85,10 +85,10 @@ export type SchemaType = Partial<
         Other
 >;
 
-const getInitialSchema = (oppgave: ReceivedManuellOppgave): SchemaType => {
+const getInitialSchema = (prefilledData: PrefilledData): SchemaType => {
     return {
         [OtherField.SYKETILFELLESTARTDATO]: undefined,
-        [OtherField.PERSONNUMMER]: oppgave.fnr,
+        [OtherField.PERSONNUMMER]: prefilledData.fnr,
         [MetadataField.TELEFON]: undefined,
         [MetadataField.ETTERNAVN]: undefined,
         [MetadataField.FORNAVN]: undefined,
@@ -156,7 +156,7 @@ export type ValidationType = { [key in keyof SchemaType]: (value: any) => string
 
 type FormProps = {
     sections: Sections;
-    oppgave: ReceivedManuellOppgave;
+    prefilledData: PrefilledData;
     diagnosekoder: Diagnosekoder;
 };
 
@@ -166,8 +166,8 @@ export type ExpandableSections =
     | SectionTitle.TIL_NAV
     | SectionTitle.TIL_ARBEIDSGIVER;
 
-const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
-    const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
+const Form = ({ sections, prefilledData, diagnosekoder }: FormProps) => {
+    const [schema, setSchema] = useState<SchemaType>(getInitialSchema(prefilledData));
     const [errors, setErrors] = useState<ErrorSchemaType>({});
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
         [SectionTitle.MULIGHET_FOR_ARBEID]: true,

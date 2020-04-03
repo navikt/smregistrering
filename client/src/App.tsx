@@ -9,16 +9,13 @@ import FormSubmit from './components/Form/components/FormSubmit';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
 import { Diagnosekoder } from './types/Diagnosekode';
-import { ReceivedManuellOppgave } from './types/ReceivedManuellOppgave';
+import { PrefilledData } from './types/PrefilledData';
 import { SectionTitle, Sections } from './types/Section';
 import { getDiagnosekoder, getOppgave } from './utils/fetchUtils';
 
 const App = () => {
-    const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder>({
-        icd10: [],
-        icpc2: [],
-    });
-    const [manuellOppgave, setManuellOppgave] = useState<ReceivedManuellOppgave | undefined>(undefined);
+    const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
+    const [prefilledData, setPrefilledData] = useState<PrefilledData | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -26,17 +23,9 @@ const App = () => {
         setIsLoading(true);
         // Bruker Promise.all siden vi ønsker å vente på alle kall før bruker kan starte registrering
         Promise.all([getDiagnosekoder(), getOppgave()])
-            .then(([_diagnosekoder, _oppgave]) => {
-                try {
-                    const diagnosekoder = new Diagnosekoder(_diagnosekoder);
-                    setDiagnosekoder(diagnosekoder);
-
-                    const manuellOppgave = new ReceivedManuellOppgave(_oppgave);
-                    setManuellOppgave(manuellOppgave);
-                } catch (error) {
-                    console.error('Error parsing data');
-                    throw error;
-                }
+            .then(([_diagnosekoder, _prefilledData]) => {
+                setDiagnosekoder(new Diagnosekoder(_diagnosekoder));
+                setPrefilledData(new PrefilledData(_prefilledData));
             })
             .catch(error => {
                 setError(error);
@@ -117,7 +106,7 @@ const App = () => {
         );
     }
 
-    if (!manuellOppgave) {
+    if (!prefilledData || !diagnosekoder) {
         return null;
     }
 
@@ -129,16 +118,16 @@ const App = () => {
                     <Menu sections={sections} />
                 </div>
                 <div className="form-container">
-                    <Form sections={sections} oppgave={manuellOppgave} diagnosekoder={diagnosekoder} />
+                    <Form sections={sections} prefilledData={prefilledData} diagnosekoder={diagnosekoder} />
                     <FormSubmit />
                 </div>
                 <div className="pdf-container">
-                    {manuellOppgave?.pdfPapirSmRegistrering ? (
+                    {prefilledData?.pdfPapirSmRegistrering ? (
                         <object
                             width="100%"
                             height="100%"
                             type="application/pdf"
-                            data={'data:application/pdf;base64,' + manuellOppgave?.pdfPapirSmRegistrering}
+                            data={'data:application/pdf;base64,' + prefilledData?.pdfPapirSmRegistrering}
                         >
                             Visning av sykmelding-pdf krever en plugin
                         </object>
