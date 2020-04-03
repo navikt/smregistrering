@@ -2,7 +2,7 @@ import FetchMock, { MiddlewareUtils } from 'yet-another-fetch-mock';
 
 import ICD10 from './icd10.json';
 import ICPC2 from './icpc2.json';
-import manuellOppgave from './manuellOppgave.json';
+import prefilledData from './prefilledData.json';
 
 const mock = FetchMock.configure({
     enableFallback: true, // default: true
@@ -10,5 +10,5 @@ const mock = FetchMock.configure({
 });
 
 mock.get('backend.com/diagnosekoder', { ICD10, ICPC2 });
-mock.get('backend.com/manuellOppgave', manuellOppgave);
+mock.get('backend.com/manuellOppgave', prefilledData);
 mock.get('https://syfosmmanuell.nais.preprod.local/user', 'Testbruker');

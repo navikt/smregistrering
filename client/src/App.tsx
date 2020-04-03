@@ -11,7 +11,7 @@ import Navbar from './components/Navbar/Navbar';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { PrefilledData } from './types/PrefilledData';
 import { SectionTitle, Sections } from './types/Section';
-import { getDiagnosekoder, getOppgave } from './utils/fetchUtils';
+import { getDiagnosekoder, getPrefilledData } from './utils/fetchUtils';
 
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
@@ -22,7 +22,7 @@ const App = () => {
     useEffect(() => {
         setIsLoading(true);
         // Bruker Promise.all siden vi ønsker å vente på alle kall før bruker kan starte registrering
-        Promise.all([getDiagnosekoder(), getOppgave()])
+        Promise.all([getDiagnosekoder(), getPrefilledData()])
             .then(([_diagnosekoder, _prefilledData]) => {
                 setDiagnosekoder(new Diagnosekoder(_diagnosekoder));
                 setPrefilledData(new PrefilledData(_prefilledData));
