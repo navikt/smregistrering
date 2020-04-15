@@ -6,7 +6,7 @@ import DatePicker from '../formComponents/DatePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { SchemaType } from '../../Form';
-import { Section } from '../../../../App';
+import { Section } from '../../../../types/Section';
 
 export enum TilbakedateringField {
     ER_TILBAKEDATERT = 'erTilbakedatert',

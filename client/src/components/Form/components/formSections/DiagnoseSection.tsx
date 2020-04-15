@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
@@ -8,8 +8,9 @@ import Row from '../formComponents/Row';
 import SearchableInput from '../formComponents/SearchableInput';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { Diagnosekoder, Section } from '../../../../App';
+import { Diagnosekoder } from '../../../../types/Diagnosekode';
 import { SchemaType } from '../../Form';
+import { Section } from '../../../../types/Section';
 
 export enum MedisinskVurderingField {
     HOVEDDIAGNOSE = 'hoveddiagnose',

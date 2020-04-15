@@ -3,7 +3,7 @@ import './Menu.less';
 import Lenke from 'nav-frontend-lenker';
 import React, { RefObject } from 'react';
 
-import { Section } from '../../App';
+import { Section } from '../../types/Section';
 
 const scrollToRef = (ref: RefObject<HTMLDivElement>) => {
     if (!ref.current) {

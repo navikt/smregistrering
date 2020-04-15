@@ -4,7 +4,7 @@ import NavFrontendChevron from 'nav-frontend-chevron';
 import React from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 
-import { Section } from '../../../App';
+import { Section } from '../../../types/Section';
 
 type SectionHeaderProps = {
     section: Section;

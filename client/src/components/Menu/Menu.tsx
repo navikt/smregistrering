@@ -5,7 +5,7 @@ import { Systemtittel } from 'nav-frontend-typografi';
 
 import MenuLink from './MenuLink';
 import Panel from '../Panel/Panel';
-import { Sections } from '../../App';
+import { Sections } from '../../types/Section';
 
 type MenuProps = {
     sections: Sections;

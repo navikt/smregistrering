@@ -1,72 +1,37 @@
 import './App.less';
 
-import React, { RefObject, useEffect, useRef, useState } from 'react';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import React, { useEffect, useRef, useState } from 'react';
+import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 
 import Form from './components/Form/Form';
 import FormSubmit from './components/Form/components/FormSubmit';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
-
-export enum SectionTitle {
-    PASIENTOPPLYSNINGER = 'Pasientopplysninger',
-    ARBEIDSGIVER = 'Arbeidsgiver',
-    DIAGNOSE = 'Diagnose',
-    MULIGHET_FOR_ARBEID = 'Mulighet for arbeid',
-    FRISKMELDING_PROGNOSE = 'Friskmelding/prognose',
-    ARBEIDSEVNE = 'Hva skal til for å bedre arbeidsevnen',
-    TIL_NAV = 'Melding til NAV',
-    TIL_ARBEIDSGIVER = 'Melding til arbeidsgiver',
-    TILBAKEDATERING = 'Tilbakedatering',
-    BEKREFTELSE = 'Bekreftelse',
-}
-
-export type Section = {
-    index: number;
-    ref: RefObject<HTMLDivElement>;
-    title: SectionTitle;
-};
-
-export type Sections = {
-    [key in SectionTitle]: Section;
-};
-
-type DiagnosekodeDataContent = {
-    code: string;
-    text: string;
-};
-
-type DiagnosekodeData = {
-    ICD10: DiagnosekodeDataContent[];
-    ICPC2: DiagnosekodeDataContent[];
-};
-
-type Diagnosekode = {
-    code: string;
-    text: string;
-    system: string;
-};
-
-export type Diagnosekoder = {
-    icd10: Diagnosekode[];
-    icpc2: Diagnosekode[];
-};
+import { Diagnosekoder } from './types/Diagnosekode';
+import { PrefilledData } from './types/PrefilledData';
+import { SectionTitle, Sections } from './types/Section';
+import { getDiagnosekoder, getPrefilledData } from './utils/fetchUtils';
 
 const App = () => {
-    const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder>({
-        icd10: [],
-        icpc2: [],
-    });
+    const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
+    const [prefilledData, setPrefilledData] = useState<PrefilledData | undefined>(undefined);
+    const [error, setError] = useState<Error | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        fetch('backend.com/diagnosekoder')
-            .then(response => {
-                return response.json();
+        setIsLoading(true);
+        // Bruker Promise.all siden vi ønsker å vente på alle kall før bruker kan starte registrering
+        Promise.all([getDiagnosekoder(), getPrefilledData()])
+            .then(([_diagnosekoder, _prefilledData]) => {
+                setDiagnosekoder(new Diagnosekoder(_diagnosekoder));
+                setPrefilledData(new PrefilledData(_prefilledData));
             })
-            .then((reponseData: DiagnosekodeData) => {
-                const { ICD10, ICPC2 } = reponseData;
-                const ICD10codes: Diagnosekode[] = ICD10.map(data => ({ ...data, system: 'icd10' }));
-                const ICPC2codes: Diagnosekode[] = ICPC2.map(data => ({ ...data, system: 'icpc2' }));
-                setDiagnosekoder({ icd10: ICD10codes, icpc2: ICPC2codes });
+            .catch(error => {
+                setError(error);
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     }, []);
 
@@ -123,6 +88,28 @@ const App = () => {
         },
     };
 
+    if (error) {
+        return (
+            <div className="error-container">
+                <Systemtittel>En feil oppsto</Systemtittel>
+                <Normaltekst>{error.message}</Normaltekst>
+            </div>
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <div className="spinner-container">
+                <NavFrontendSpinner />
+                <Systemtittel>Vennligst vent mens oppgaven laster</Systemtittel>
+            </div>
+        );
+    }
+
+    if (!prefilledData || !diagnosekoder) {
+        return null;
+    }
+
     return (
         <>
             <Navbar />
@@ -131,18 +118,22 @@ const App = () => {
                     <Menu sections={sections} />
                 </div>
                 <div className="form-container">
-                    <Form sections={sections} diagnosekoder={diagnosekoder} />
+                    <Form sections={sections} prefilledData={prefilledData} diagnosekoder={diagnosekoder} />
                     <FormSubmit />
                 </div>
                 <div className="pdf-container">
-                    <object
-                        width="100%"
-                        height="100%"
-                        type="application/pdf"
-                        data="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
-                    >
-                        Visning av sykmelding-pdf krever en plugin
-                    </object>
+                    {prefilledData?.pdfPapirSmRegistrering ? (
+                        <object
+                            width="100%"
+                            height="100%"
+                            type="application/pdf"
+                            data={'data:application/pdf;base64,' + prefilledData?.pdfPapirSmRegistrering}
+                        >
+                            Visning av sykmelding-pdf krever en plugin
+                        </object>
+                    ) : (
+                        <Normaltekst style={{ paddingTop: '4rem' }}>PDF missing</Normaltekst>
+                    )}
                 </div>
             </div>
         </>

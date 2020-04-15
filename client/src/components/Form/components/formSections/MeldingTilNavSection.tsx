@@ -5,7 +5,7 @@ import { Element } from 'nav-frontend-typografi';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { SchemaType } from '../../Form';
-import { Section } from '../../../../App';
+import { Section } from '../../../../types/Section';
 
 export enum MeldingTilNavField {
     BISTAND = 'bistand',
