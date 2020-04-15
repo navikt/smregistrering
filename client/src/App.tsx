@@ -65,7 +65,7 @@ const App = () => {
             .then((reponseData: DiagnosekodeData) => {
                 const { ICD10, ICPC2 } = reponseData;
                 const ICD10codes: Diagnosekode[] = ICD10.map(data => ({ ...data, system: 'icd10' }));
-                const ICPC2codes: Diagnosekode[] = ICPC2.map(data => ({ ...data, system: 'icd10' }));
+                const ICPC2codes: Diagnosekode[] = ICPC2.map(data => ({ ...data, system: 'icpc2' }));
                 setDiagnosekoder({ icd10: ICD10codes, icpc2: ICPC2codes });
             });
     }, []);
