@@ -23,7 +23,7 @@ const App = () => {
     useEffect(() => {
         setIsLoading(true);
         // Bruker Promise.all siden vi ønsker å vente på alle kall før bruker kan starte registrering
-        Promise.all([getDiagnosekoder(), getOppgave()])
+        Promise.all([getDiagnosekoder(), getOppgave('test')])
             .then(([_diagnosekoder, _oppgave]) => {
                 setDiagnosekoder(new Diagnosekoder(_diagnosekoder));
                 setOppgave(_oppgave);

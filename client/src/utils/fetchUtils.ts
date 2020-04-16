@@ -7,8 +7,8 @@ export const getDiagnosekoder = (): Promise<DiagnosekodeData> => {
     return fetch('backend.com/diagnosekoder').then(response => response.json());
 };
 
-export const getOppgave = (): Promise<Oppgave> => {
-    return fetch('backend.com/manuellOppgave')
+export const getOppgave = (oppgaveId: string): Promise<Oppgave> => {
+    return fetch(`/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=${oppgaveId}`)
         .then(response => response.json())
-        .then(iotsPromise.decode(Oppgave));
+        .then(json => iotsPromise.decode(Oppgave, json));
 };
