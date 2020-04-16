@@ -13,8 +13,12 @@ export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
 };
 
 export const getOppgave = (): Promise<Oppgave> => {
-    const oppgaveid = getOppgaveidFromUrlQueryParameter();
-    return fetch(`/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=${oppgaveid}`)
-        .then(response => response.json())
-        .then(oppgaveRaw => iotsPromise.decode(Oppgave, oppgaveRaw));
+    try {
+        const oppgaveid = getOppgaveidFromUrlQueryParameter();
+        return fetch(`/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=${oppgaveid}`)
+            .then(response => response.json())
+            .then(oppgaveRaw => iotsPromise.decode(Oppgave, oppgaveRaw));
+    } catch (error) {
+        return Promise.reject(error);
+    }
 };
