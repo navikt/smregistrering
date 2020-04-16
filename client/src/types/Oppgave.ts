@@ -1,57 +1,45 @@
-import * as t from 'io-ts';
+import * as iots from 'io-ts';
 import { either } from 'fp-ts/lib/Either';
 
 // represents a Date from an ISO string
-const DateFromString = new t.Type<Date, string, unknown>(
+const DateFromString = new iots.Type<Date, string, unknown>(
     'DateFromString',
-    (u): u is Date => u instanceof Date,
-    (u, c) =>
-        either.chain(t.string.validate(u, c), s => {
-            const d = new Date(s);
-            return isNaN(d.getTime()) ? t.failure(u, c) : t.success(d);
+    (input: unknown): input is Date => input instanceof Date,
+    (input, context) =>
+        either.chain(iots.string.validate(input, context), str => {
+            const date = new Date(str);
+            return isNaN(date.getTime()) ? iots.failure(input, context) : iots.success(date);
         }),
-    a => a.toISOString(),
+    date => date.toISOString(),
 );
 
 // represents a base64 encoded PDF
-const Base64Pdf = new t.Type<string, string, unknown>(
+const Base64Pdf = new iots.Type<string, string, unknown>(
     'Base64Pdf',
     (input: unknown): input is string => typeof input === 'string',
     (input, context) =>
-        either.chain(t.string.validate(input, context), s => {
+        either.chain(iots.string.validate(input, context), str => {
             const b64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/; // regex for all valid b64 character combinations
-            return b64regex.test(s) && atob(s).includes('%PDF') ? t.success(s) : t.failure(input, context);
+            return b64regex.test(str) && atob(str).includes('%PDF') ? iots.success(str) : iots.failure(input, context);
         }),
-    t.identity,
+    iots.identity,
 );
 
-// represents a fødselsnummer that is a string an 11 characters long
-const FnrFromString = new t.Type<string, string, unknown>(
-    'FnrFromString',
-    (input: unknown): input is string => typeof input === 'string',
-    (input, context) =>
-        either.chain(t.string.validate(input, context), s => {
-            const lenghtFnr = 11;
-            return s.length === lenghtFnr ? t.success(s) : t.failure(input, context);
-        }),
-    t.identity,
-);
-
-const RequiredProps = t.type({
-    sykmeldingId: t.string,
-    oppgaveid: t.string,
-    ferdigstilt: t.boolean,
+const RequiredProps = iots.type({
+    sykmeldingId: iots.string,
+    oppgaveid: iots.string,
+    ferdigstilt: iots.boolean,
     pdfPapirSmRegistrering: Base64Pdf,
 });
 
-const OptionalProps = t.partial({
-    journalpostId: t.string,
-    fnr: FnrFromString,
-    aktorId: t.string,
-    dokumentInfoId: t.string,
+const OptionalProps = iots.partial({
+    journalpostId: iots.string,
+    fnr: iots.string,
+    aktorId: iots.string,
+    dokumentInfoId: iots.string,
     datoOpprettet: DateFromString,
 });
 
-export const Oppgave = t.intersection([RequiredProps, OptionalProps]);
+export const Oppgave = iots.intersection([RequiredProps, OptionalProps]);
 
-export type Oppgave = t.TypeOf<typeof Oppgave>;
+export type Oppgave = iots.TypeOf<typeof Oppgave>;

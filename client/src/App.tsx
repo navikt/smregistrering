@@ -1,6 +1,6 @@
 import './App.less';
 
-import * as tPromise from 'io-ts-promise';
+import * as iotsPromise from 'io-ts-promise';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import React, { useEffect, useRef, useState } from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
@@ -29,7 +29,7 @@ const App = () => {
                 setOppgave(_oppgave);
             })
             .catch(error => {
-                if (tPromise.isDecodeError(error)) {
+                if (iotsPromise.isDecodeError(error)) {
                     setError(new Error('Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet'));
                 } else {
                     setError(new Error('Henting av data feilet grunnet nettverksfeil'));
