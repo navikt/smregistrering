@@ -12,7 +12,7 @@ import Navbar from './components/Navbar/Navbar';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { SectionTitle, Sections } from './types/Section';
-import { getDiagnosekoder, getOppgave } from './utils/fetchUtils';
+import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
 
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
