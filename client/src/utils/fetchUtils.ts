@@ -1,4 +1,3 @@
-import * as t from 'io-ts';
 import * as tPromise from 'io-ts-promise';
 
 import { DiagnosekodeData } from '../types/Diagnosekode';
