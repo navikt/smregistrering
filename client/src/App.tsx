@@ -12,7 +12,8 @@ import Navbar from './components/Navbar/Navbar';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { SectionTitle, Sections } from './types/Section';
-import { getDiagnosekoder, getOppgave } from './utils/fetchUtils';
+import { UrlError } from './utils/urlUtils';
+import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
 
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
@@ -22,15 +23,16 @@ const App = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        // Bruker Promise.all siden vi ønsker å vente på alle kall før bruker kan starte registrering
         Promise.all([getDiagnosekoder(), getOppgave()])
             .then(([_diagnosekoder, _oppgave]) => {
-                setDiagnosekoder(new Diagnosekoder(_diagnosekoder));
+                setDiagnosekoder(_diagnosekoder);
                 setOppgave(_oppgave);
             })
             .catch(error => {
                 if (iotsPromise.isDecodeError(error)) {
                     setError(new Error('Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet'));
+                } else if (error instanceof UrlError) {
+                    setError(new Error('Henting av oppgave feilet grunnet feil med lenken'));
                 } else {
                     setError(new Error('Henting av data feilet grunnet nettverksfeil'));
                 }

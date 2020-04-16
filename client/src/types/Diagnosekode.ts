@@ -1,27 +1,14 @@
-export type DiagnosekodeDataContent = {
-    code: string;
-    text: string;
-};
+import * as iots from 'io-ts';
 
-export type DiagnosekodeData = {
-    ICD10: DiagnosekodeDataContent[];
-    ICPC2: DiagnosekodeDataContent[];
-};
+export const Diagnosekode = iots.type({
+    code: iots.string,
+    text: iots.string,
+});
 
-export type Diagnosekode = {
-    code: string;
-    text: string;
-    system: string;
-};
+export const Diagnosekoder = iots.type({
+    icd10: iots.array(Diagnosekode),
+    icpc2: iots.array(Diagnosekode),
+});
 
-export class Diagnosekoder {
-    icd10: Diagnosekode[];
-    icpc2: Diagnosekode[];
-
-    constructor(diagnosekoder: DiagnosekodeData) {
-        const ICD10codes: Diagnosekode[] = diagnosekoder.ICD10.map(data => ({ ...data, system: 'icd10' }));
-        const ICPC2codes: Diagnosekode[] = diagnosekoder.ICPC2.map(data => ({ ...data, system: 'icd10' }));
-        this.icd10 = ICD10codes;
-        this.icpc2 = ICPC2codes;
-    }
-}
+export type Diagnosekode = iots.TypeOf<typeof Diagnosekode>;
+export type Diagnosekoder = iots.TypeOf<typeof Diagnosekoder>;

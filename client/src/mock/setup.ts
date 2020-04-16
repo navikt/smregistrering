@@ -10,5 +10,5 @@ const mock = FetchMock.configure({
 });
 
 mock.get('backend.com/diagnosekoder', { ICD10, ICPC2 });
-mock.get('backend.com/manuellOppgave', oppgave);
+mock.get('/api/v1/hentPapirSykmeldingManuellOppgave/', oppgave);
 mock.get('https://syfosmmanuell.nais.preprod.local/user', 'Testbruker');
