@@ -1,5 +1,6 @@
 import './App.less';
 
+import * as tPromise from 'io-ts-promise';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import React, { useEffect, useRef, useState } from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
@@ -9,26 +10,31 @@ import FormSubmit from './components/Form/components/FormSubmit';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
 import { Diagnosekoder } from './types/Diagnosekode';
-import { PrefilledData } from './types/PrefilledData';
+import { Oppgave } from './types/Oppgave';
 import { SectionTitle, Sections } from './types/Section';
-import { getDiagnosekoder, getPrefilledData } from './utils/fetchUtils';
+import { getDiagnosekoder, getOppgave } from './utils/fetchUtils';
 
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
-    const [prefilledData, setPrefilledData] = useState<PrefilledData | undefined>(undefined);
+    const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         setIsLoading(true);
         // Bruker Promise.all siden vi ønsker å vente på alle kall før bruker kan starte registrering
-        Promise.all([getDiagnosekoder(), getPrefilledData()])
-            .then(([_diagnosekoder, _prefilledData]) => {
+        Promise.all([getDiagnosekoder(), getOppgave()])
+            .then(([_diagnosekoder, _oppgave]) => {
                 setDiagnosekoder(new Diagnosekoder(_diagnosekoder));
-                setPrefilledData(new PrefilledData(_prefilledData));
+                setOppgave(_oppgave);
             })
             .catch(error => {
-                setError(error);
+                if (tPromise.isDecodeError(error)) {
+                    setError(new Error('Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet'));
+                } else {
+                    setError(new Error('Henting av data feilet grunnet nettverksfeil'));
+                }
+                console.error(error);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -106,7 +112,7 @@ const App = () => {
         );
     }
 
-    if (!prefilledData || !diagnosekoder) {
+    if (!oppgave || !diagnosekoder) {
         return null;
     }
 
@@ -118,16 +124,16 @@ const App = () => {
                     <Menu sections={sections} />
                 </div>
                 <div className="form-container">
-                    <Form sections={sections} prefilledData={prefilledData} diagnosekoder={diagnosekoder} />
+                    <Form sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
                     <FormSubmit />
                 </div>
                 <div className="pdf-container">
-                    {prefilledData?.pdfPapirSmRegistrering ? (
+                    {oppgave.pdfPapirSmRegistrering ? (
                         <object
                             width="100%"
                             height="100%"
                             type="application/pdf"
-                            data={'data:application/pdf;base64,' + prefilledData?.pdfPapirSmRegistrering}
+                            data={'data:application/pdf;base64,' + oppgave.pdfPapirSmRegistrering}
                         >
                             Visning av sykmelding-pdf krever en plugin
                         </object>
