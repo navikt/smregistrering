@@ -18,31 +18,30 @@ const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: Api) =>
       } else {
         console.error('Could not resolve token from tokenSets');
       }
+    }
+    if (req.user) {
+      authClient
+        .grant({
+          grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+          client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+          requested_token_use: 'on_behalf_of',
+          scope: createOnBehalfOfScope(api),
+          assertion: req.user.tokenSets?.self.access_token,
+        })
+        .then((tokenSet) => {
+          if (req.user?.tokenSets) {
+            req.user.tokenSets.proxy = tokenSet;
+            resolve(tokenSet.access_token);
+          } else {
+            throw new Error('Token set was not attached to user object');
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          reject(err);
+        });
     } else {
-      if (req.user) {
-        authClient
-          .grant({
-            grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-            client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-            requested_token_use: 'on_behalf_of',
-            scope: createOnBehalfOfScope(api),
-            assertion: req.user.tokenSets?.self.access_token,
-          })
-          .then((tokenSet) => {
-            if (req.user?.tokenSets) {
-              req.user.tokenSets.proxy = tokenSet;
-              resolve(tokenSet.access_token);
-            } else {
-              throw new Error('Token set was not attached to user object');
-            }
-          })
-          .catch((err) => {
-            console.error(err);
-            reject(err);
-          });
-      } else {
-        console.error('User object not attached to request');
-      }
+      console.error('User object not attached to request');
     }
   });
 };
