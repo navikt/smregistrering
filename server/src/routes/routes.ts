@@ -65,13 +65,10 @@ const setup = (authClient: Client) => {
 
   router.get('/logout', (req: Request, res: Response) => {
     req.logOut();
-    req.session?.destroy(error => {
+    req.session?.destroy((error) => {
       if (!error) {
         if (config.azureAd.logoutRedirectUri) {
-          res
-            .status(200)
-            .send('logged out')
-            .redirect(config.azureAd.logoutRedirectUri);
+          res.status(200).send('logged out').redirect(config.azureAd.logoutRedirectUri);
         } else {
           res.status(200).send('logged out');
         }
