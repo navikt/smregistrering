@@ -38,6 +38,8 @@ spec:
     paths:
       - kvPath: /azuread/data/dev/creds/smregistrering
         mountPath: /secrets/azuread/smregistrering
+      - kvPath: /azuread/data/dev/creds/smregistrering-backend
+        mountPath: /secrets/azuread/smregistrering-backend
       - kvPath: /kv/preprod/fss/smregistrering/default
         mountPath: /var/run/secrets/nais.io/vault
   webproxy: true
@@ -48,11 +50,11 @@ spec:
       value: https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/v2.0/.well-known/openid-configuration
     - name: AAD_REDIRECT_URL
       value: https://smregistrering.nais.preprod.local/callback
-    #- name: DOWNSTREAM_API_PATH
-    #  value: backend
-    #- name: DOWNSTREAM_API_URL
-    #  value: http://smregistrering-backend/
-    #- name: REDIS_HOST
-    #  value: smregistrering-redis.default.svc.nais.local
-    #- name: REDIS_PORT
-    #  value: '6379'
+    - name: DOWNSTREAM_API_PATH
+      value: backend
+    - name: DOWNSTREAM_API_URL
+      value: http://smregistrering-backend/
+    - name: REDIS_HOST
+      value: smregistrering-redis.default.svc.nais.local
+    - name: REDIS_PORT
+      value: '6379'
