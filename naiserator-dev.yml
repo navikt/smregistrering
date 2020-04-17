@@ -46,6 +46,10 @@ spec:
   ingresses:
     - "https://smregistrering.nais.preprod.local"
   env:
+    - name: HOST
+      value: https://smregistrering.nais.preprod.local
+    - name: PORT
+      value: '3000'
     - name: AAD_DISCOVERY_URL
       value: https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/v2.0/.well-known/openid-configuration
     - name: AAD_REDIRECT_URL

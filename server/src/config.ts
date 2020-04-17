@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const server = {
-  host: process.env['HOST'] || 'localhost',
+  host: process.env['HOST'],
   port: process.env['PORT'] || 3000,
   proxy: process.env['HTTP_PROXY'], // optional, only set if requests to Azure AD must be performed through a corporate proxy (i.e. traffic to login.microsoftonline.com is blocked by the firewall)
   sessionKey: process.env['SESSION_KEY'],
