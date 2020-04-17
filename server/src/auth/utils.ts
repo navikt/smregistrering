@@ -11,8 +11,8 @@ const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: Api) =>
       const tokenSets = getTokenSetsFromSession(req);
       console.log('tokenSets:');
       console.log(tokenSets);
-      if (api.clientId && tokenSets?.proxy[Number(api.clientId)].access_token) {
-        console.log(`api.clientId: ${api.clientId}`);
+      console.log(`api.clientId: ${api.clientId}`);
+      if (api.clientId && tokenSets?.proxy && tokenSets?.proxy[Number(api.clientId)].access_token) {
         resolve(tokenSets?.proxy[Number(api.clientId)].access_token);
       } else {
         console.error('Could not resolve token from tokenSets');
