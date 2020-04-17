@@ -51,8 +51,8 @@ ensureMandatoryEnvVars();
 
 export interface Api {
   clientId: string;
-  path: string | undefined;
-  url: string | undefined;
+  path: string;
+  url: string;
   scopes: string[];
 }
 

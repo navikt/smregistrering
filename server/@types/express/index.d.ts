@@ -2,7 +2,7 @@ import passport from 'passport';
 import express from 'express';
 import { TokenSet, IdTokenClaims } from 'openid-client';
 
-interface _TokenSet {
+interface TokenSets {
   self: TokenSet;
   proxy: TokenSet;
 }
@@ -25,14 +25,14 @@ declare global {
       DOWNSTREAM_APIS_CONFIG_PATH?: string;
       DOWNSTREAM_APIS_CONFIG?: string;
       DOWNSTREAM_API_CLIENT_ID: string;
-      DOWNSTREAM_API_PATH?: string;
-      DOWNSTREAM_API_URL?: string;
+      DOWNSTREAM_API_PATH: string;
+      DOWNSTREAM_API_URL: string;
       DOWNSTREAM_API_SCOPES?: string;
     }
   }
   namespace Express {
     interface User {
-      tokenSets?: _TokenSet;
+      tokenSets?: TokenSets;
       claims: IdTokenClaims;
     }
   }

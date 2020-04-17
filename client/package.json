@@ -52,7 +52,7 @@
         "yet-another-fetch-mock": "^3.4.0"
     },
     "scripts": {
-        "start": "craco start",
+        "start": "PORT=4000 craco start",
         "build": "craco build",
         "test": "craco test",
         "lint": "eslint 'src/**/**.{ts,tsx,js,jsx}'",

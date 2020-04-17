@@ -9,10 +9,6 @@ const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: Api) =>
     console.log('hasValidAccessTOken: ' + hasValidAccessToken(req, api.clientId));
     if (hasValidAccessToken(req, api.clientId)) {
       const tokenSets = getTokenSetsFromSession(req);
-      console.log('tokenSets:');
-      console.log(tokenSets);
-      console.log(`api.clientId: ${api.clientId}`);
-      //tokenSets?.proxy.some((ts) => ts[api.clientId] !== undefined);
       if (api.clientId && tokenSets?.proxy && tokenSets?.proxy?.access_token) {
         resolve(tokenSets?.proxy?.access_token);
       } else {

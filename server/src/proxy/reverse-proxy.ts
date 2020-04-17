@@ -1,12 +1,12 @@
 import authUtils from '../auth/utils';
-import config from '../config';
+import config, { Api } from '../config';
 import proxy, { ProxyOptions } from 'express-http-proxy';
 import url from 'url';
 import { Router, Request } from 'express';
 import { RequestOptions } from 'http';
 import { Client } from 'openid-client';
 
-const options = (api: any, authClient: Client): ProxyOptions => ({
+const options = (api: Api, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts: RequestOptions, req: Request) => {
     return new Promise<RequestOptions>((resolve, reject) =>
