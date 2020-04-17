@@ -81,8 +81,7 @@ const setup = (authClient: Client) => {
     });
   });
 
-  // TODO: Reverse proxy setup when API backend is ready
-  //reverseProxy.setup(router, authClient);
+  reverseProxy.setup(router, authClient);
 
   router.use('/*', (req, res) => {
     res.status(404).send('Not found');
