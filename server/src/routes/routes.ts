@@ -34,10 +34,10 @@ const setup = (authClient: Client) => {
     }
   });
 
+  router.use(ensureAuthenticated);
+
   // Static page
   router.use('/', express.static(path.join(__dirname, '../../../client/build')));
-
-  router.use(ensureAuthenticated);
 
   // Protected routes
   router.get('/user', (req: Request, res: Response) => {
