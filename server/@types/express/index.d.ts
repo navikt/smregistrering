@@ -4,7 +4,7 @@ import { TokenSet, IdTokenClaims } from 'openid-client';
 
 interface _TokenSet {
   self: TokenSet;
-  proxy: TokenSet[];
+  proxy: TokenSet;
 }
 
 declare global {
@@ -24,7 +24,7 @@ declare global {
       REDIS_PASSWORD?: string;
       DOWNSTREAM_APIS_CONFIG_PATH?: string;
       DOWNSTREAM_APIS_CONFIG?: string;
-      DOWNSTREAM_API_CLIENT_ID?: string;
+      DOWNSTREAM_API_CLIENT_ID: string;
       DOWNSTREAM_API_PATH?: string;
       DOWNSTREAM_API_URL?: string;
       DOWNSTREAM_API_SCOPES?: string;

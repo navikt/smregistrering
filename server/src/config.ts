@@ -50,7 +50,7 @@ const ensureMandatoryEnvVars = () => {
 ensureMandatoryEnvVars();
 
 export interface Api {
-  clientId: string | undefined;
+  clientId: string;
   path: string | undefined;
   url: string | undefined;
   scopes: string[];

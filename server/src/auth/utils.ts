@@ -12,8 +12,9 @@ const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: Api) =>
       console.log('tokenSets:');
       console.log(tokenSets);
       console.log(`api.clientId: ${api.clientId}`);
-      if (api.clientId && tokenSets?.proxy && tokenSets?.proxy[Number(api.clientId)].access_token) {
-        resolve(tokenSets?.proxy[Number(api.clientId)].access_token);
+      //tokenSets?.proxy.some((ts) => ts[api.clientId] !== undefined);
+      if (api.clientId && tokenSets?.proxy && tokenSets?.proxy?.access_token) {
+        resolve(tokenSets?.proxy?.access_token);
       } else {
         console.error('Could not resolve token from tokenSets');
       }
@@ -29,7 +30,7 @@ const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: Api) =>
           })
           .then((tokenSet) => {
             if (req.user?.tokenSets) {
-              req.user.tokenSets.proxy[Number(api.clientId)] = tokenSet;
+              req.user.tokenSets.proxy = tokenSet;
               resolve(tokenSet.access_token);
             } else {
               throw new Error('Token set was not attached to user object');
