@@ -1,4 +1,4 @@
-import config, { Config } from '../config';
+import { Config } from '../config';
 import tunnel from 'tunnel';
 
 const httpProxyAgent = (config: Config) => {
