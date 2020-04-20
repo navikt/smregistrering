@@ -14,7 +14,7 @@ const DateFromString = new iots.Type<Date, string, unknown>(
 );
 
 // represents a base64 encoded PDF
-const Base64Pdf = new iots.Type<string, string, unknown>(
+/* const Base64Pdf = new iots.Type<string, string, unknown>(
     'Base64Pdf',
     (input: unknown): input is string => typeof input === 'string',
     (input, context) =>
@@ -23,12 +23,12 @@ const Base64Pdf = new iots.Type<string, string, unknown>(
             return b64regex.test(str) && atob(str).includes('%PDF') ? iots.success(str) : iots.failure(input, context);
         }),
     iots.identity,
-);
+); */
 
 const RequiredProps = iots.type({
     sykmeldingId: iots.string,
     oppgaveid: iots.number,
-    pdfPapirSmRegistrering: Base64Pdf,
+    pdfPapirSykmelding: iots.string,
 });
 
 const OptionalProps = iots.partial({
