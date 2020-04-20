@@ -31,11 +31,11 @@ const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: Reverse
           console.error(err);
           reject(err);
         });
-    } else {
-      const error = new Error('The request does not contain a valid access token');
-      console.error(error);
-      reject(error);
     }
+    
+    const error = new Error('The request does not contain a valid access token');
+    console.error(error);
+    reject(error);
   });
 };
 
@@ -46,15 +46,8 @@ const formatClientIdScopeForV2Clients = (clientId: string): string => appendDefa
 const createOnBehalfOfScope = (api: ReverseProxy): string => {
   if (api.scopes) {
     return `${api.scopes.join(' ')}`;
-  } else {
-    if (api.clientId) {
-      return `${formatClientIdScopeForV2Clients(api.clientId)}`;
-    } else {
-      console.error('api.clientId not found');
-      // TODO:  Return default scope or end process?
-      process.exit(1);
-    }
   }
+  return `${formatClientIdScopeForV2Clients(api.clientId)}`;
 };
 
 const hasValidAccessToken = (req: Request, key: 'self' | 'proxy') => {
