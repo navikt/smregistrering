@@ -1,4 +1,4 @@
-import authUtils from '../auth/utils';
+import { hasValidAccessToken } from '../auth/utils';
 import { Config } from '../config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
@@ -10,7 +10,7 @@ import { Client } from 'openid-client';
 const router = express.Router();
 
 const ensureAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
-  if (req.isAuthenticated() && authUtils.hasValidAccessToken(req, 'self')) {
+  if (req.isAuthenticated() && hasValidAccessToken(req, 'self')) {
     next();
   } else {
     if (req.session && req.query.oppgaveid) {

@@ -1,5 +1,5 @@
-import authUtils from '../auth/utils';
-import config, { Api, Config } from '../config';
+import { getOnBehalfOfAccessToken } from '../auth/utils';
+import { Config } from '../config';
 import proxy, { ProxyOptions } from 'express-http-proxy';
 import url from 'url';
 import { Router, Request } from 'express';
@@ -11,7 +11,7 @@ const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts: RequestOptions, req: Request) => {
     return new Promise<RequestOptions>((resolve, reject) =>
-      authUtils.getOnBehalfOfAccessToken(authClient, req, api).then(
+      getOnBehalfOfAccessToken(authClient, req, api).then(
         (access_token) => {
           if (proxyReqOpts && proxyReqOpts.headers) {
             proxyReqOpts.headers['Authorization'] = `Bearer ${access_token}`;
@@ -34,7 +34,7 @@ const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
     if (urlFromRequest.pathname) {
       pathFromRequest = urlFromRequest.pathname.replace(`/${api.path}/`, '/');
     } else {
-      console.error('Error replacing downstream proxy prefix til "/"');
+      console.error('Error replacing downstream proxy prefix to "/"');
     }
 
     const queryString = urlFromRequest.query;
@@ -54,16 +54,6 @@ const setup = (router: Router, authClient: Client, config: Config) => {
   const { path, url } = config.reverseProxy;
 
   router.use(`/${path}/*`, proxy(url, options(config.reverseProxy, authClient)));
-  /* 
-  config.reverseProxy.apis.forEach((api, index) => {
-    if (api.url) {
-      router.use(`/${api.path}/*`, proxy(api.url, options(api, authClient)));
-    } else {
-      console.error(
-        `Could not setup proxy because of missing url property on object "config.reverseProxy.apis" at index: ${index}`,
-      );
-    }
-  }); */
 };
 
 export default { setup };

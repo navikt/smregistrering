@@ -2,7 +2,7 @@ import { TokenSet, Client } from 'openid-client';
 import { Request } from 'express';
 import { ReverseProxy } from '../types/Config';
 
-const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: ReverseProxy): Promise<string> => {
+export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: ReverseProxy): Promise<string> => {
   return new Promise((resolve, reject) => {
     // check if request has has valid api access token
     if (hasValidAccessToken(req, 'proxy')) {
@@ -32,14 +32,14 @@ const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: Reverse
           reject(err);
         });
     }
-    
+
     const error = new Error('The request does not contain a valid access token');
     console.error(error);
     reject(error);
   });
 };
 
-const appendDefaultScope = (scope: string): string => `${scope}/.default`;
+export const appendDefaultScope = (scope: string): string => `${scope}/.default`;
 
 const formatClientIdScopeForV2Clients = (clientId: string): string => appendDefaultScope(`api://${clientId}`);
 
@@ -50,7 +50,7 @@ const createOnBehalfOfScope = (api: ReverseProxy): string => {
   return `${formatClientIdScopeForV2Clients(api.clientId)}`;
 };
 
-const hasValidAccessToken = (req: Request, key: 'self' | 'proxy') => {
+export const hasValidAccessToken = (req: Request, key: 'self' | 'proxy') => {
   const tokenSets = req.user?.tokenSets;
   if (!tokenSets) {
     return false;
@@ -59,10 +59,4 @@ const hasValidAccessToken = (req: Request, key: 'self' | 'proxy') => {
     return false;
   }
   return new TokenSet(tokenSets[key]).expired() === false;
-};
-
-export default {
-  getOnBehalfOfAccessToken,
-  appendDefaultScope,
-  hasValidAccessToken,
 };
