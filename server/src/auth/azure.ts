@@ -3,6 +3,7 @@ import authUtils from './utils';
 import config, { Config } from '../config';
 import httpProxy from '../proxy/http-proxy';
 import httpProxyAgent from '../proxy/http-proxy';
+import { User } from '../types/User';
 
 const client = async (config: Config) => {
   // see https://github.com/panva/node-openid-client/blob/master/docs/README.md#customizing-individual-http-requests
@@ -28,11 +29,11 @@ const strategy = (client: Client, config: Config) => {
     if (tokenSet.expired()) {
       return done(null, false);
     }
-    const user = {
-      tokenSets: {
-        [authUtils.tokenSetSelfId]: tokenSet,
-      },
+    const user: User = {
       claims: tokenSet.claims(),
+      tokenSets: {
+        self: tokenSet,
+      },
     };
     return done(null, user);
   };

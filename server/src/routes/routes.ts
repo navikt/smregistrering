@@ -10,7 +10,7 @@ import { Client } from 'openid-client';
 const router = express.Router();
 
 const ensureAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
-  if (req.isAuthenticated() && authUtils.hasValidAccessToken(req)) {
+  if (req.isAuthenticated() && authUtils.hasValidAccessToken(req, 'self')) {
     next();
   } else {
     if (req.session && req.query.oppgaveid) {
@@ -63,7 +63,7 @@ const setup = (authClient: Client, config: Config) => {
     }
   });
 
-/*   router.get('/logout', (req: Request, res: Response) => {
+  /*   router.get('/logout', (req: Request, res: Response) => {
     req.logOut();
     req.session?.destroy((error) => {
       if (!error) {
