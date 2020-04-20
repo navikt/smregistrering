@@ -131,7 +131,12 @@ const App = () => {
                 </div>
                 <div className="pdf-container">
                     {oppgave.pdfPapirSykmelding ? (
-                        <object width="100%" height="100%" type="application/pdf" data={oppgave.pdfPapirSykmelding}>
+                        <object
+                            width="100%"
+                            height="100%"
+                            type="application/pdf"
+                            data={'data:application/pdf,' + oppgave.pdfPapirSykmelding}
+                        >
                             Visning av sykmelding-pdf krever en plugin
                         </object>
                     ) : (
