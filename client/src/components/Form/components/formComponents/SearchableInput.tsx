@@ -1,29 +1,37 @@
 import './SearchableInput.less';
 
-import React, { useState } from 'react';
-import { Element } from 'nav-frontend-typografi';
+import React, { useEffect, useState } from 'react';
 import { Input } from 'nav-frontend-skjema';
 
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
 
 type SearchableInputProps = {
-    system: keyof Diagnosekoder;
+    system?: keyof Diagnosekoder;
     diagnosekoder: Diagnosekoder;
     label: JSX.Element;
 };
 
+const MAXIMUM_VISIBLE_CODES = 5;
+
 const SearchableInput = ({ system, diagnosekoder, label }: SearchableInputProps) => {
-    const [input, setInput] = useState<string>('a');
+    const [input, setInput] = useState<string>('');
+
+    useEffect(() => {
+        // system updated
+        setInput('');
+    }, [system]);
 
     console.log(system);
+
+    if (!system) {
+        return <Input value="" disabled label={label} />;
+    }
 
     const diagnoses = diagnosekoder[system];
 
     const results = diagnoses.filter(diagnosis =>
         diagnosis.code.toLocaleLowerCase().startsWith(input.toLocaleLowerCase()),
     );
-
-    const MAXIMUM_VISIBLE_CODES = 5;
 
     const visibleResults = results.length > MAXIMUM_VISIBLE_CODES ? results.slice(0, MAXIMUM_VISIBLE_CODES) : results;
 

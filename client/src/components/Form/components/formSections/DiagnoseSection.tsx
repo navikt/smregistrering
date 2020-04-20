@@ -24,10 +24,16 @@ export enum MedisinskVurderingField {
     SKJERMET_FRA_PASIENT = 'skjermetFraPasient',
 }
 
-type Diagnose = {
-    system?: string;
-    kode?: string;
-    tekst?: string;
+export enum DiagnoseField {
+    SYSTEM = 'system',
+    KODE = 'kode',
+    TEKST = 'tekst',
+}
+
+export type Diagnose = {
+    [DiagnoseField.SYSTEM]?: string;
+    [DiagnoseField.KODE]?: string;
+    [DiagnoseField.TEKST]?: string;
 };
 
 export type MedisinskVurdering = {
@@ -52,15 +58,38 @@ type DiagnoseSectionProps = {
 const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: DiagnoseSectionProps) => {
     console.log(diagnosekoder);
 
+    const hoveddiagnose = schema[MedisinskVurderingField.HOVEDDIAGNOSE];
+    const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
+        hoveddiagnose && (hoveddiagnose[DiagnoseField.SYSTEM] as keyof Diagnosekoder);
+
+    console.log(hoveddiagnose, hoveddiagnoseSystem);
+
     return (
         <SectionContainer section={section}>
             <FormLabel label="3.1 Hoveddiagnose" />
             <Row>
-                <Select className="form-margin-bottom" label={<Element>3.1.1 Kodesystem</Element>}>
+                <Select
+                    className="form-margin-bottom"
+                    onChange={({ target: { value } }) =>
+                        setSchema(state => ({
+                            ...state,
+                            [MedisinskVurderingField.HOVEDDIAGNOSE]: {
+                                ...state[MedisinskVurderingField.HOVEDDIAGNOSE],
+                                [DiagnoseField.SYSTEM]: value,
+                            },
+                        }))
+                    }
+                    label={<Element>3.1.1 Kodesystem</Element>}
+                >
+                    <option value={undefined}>Velg kodesystem</option>
                     <option value="icpc2">ICPC-2</option>
                     <option value="icd10">ICD-10</option>
                 </Select>
-                <SearchableInput system={'icd10'} diagnosekoder={diagnosekoder} label={<Element>3.1.2 Kode</Element>} />
+                <SearchableInput
+                    system={hoveddiagnoseSystem}
+                    diagnosekoder={diagnosekoder}
+                    label={<Element>3.1.2 Kode</Element>}
+                />
                 <Input className="form-margin-bottom" label={<Element>3.1.3 Tekst</Element>} />
             </Row>
             <FormLabel label="3.2 Bidiagnose" />

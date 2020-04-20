@@ -20,6 +20,7 @@ import ArbeidsevneSection, {
 import ArbeidsgiverSection, { Arbeidsgiver, ArbeidsgiverField } from './components/formSections/ArbeidsgiverSection';
 import BekreftelseSection, { Bekreftelse, BekreftelseField } from './components/formSections/BekreftelseSection';
 import DiagnoseSection, {
+    DiagnoseField,
     MedisinskVurdering,
     MedisinskVurderingField,
 } from './components/formSections/DiagnoseSection';
@@ -98,9 +99,9 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
         [ArbeidsgiverField.YRKESBETEGNELSE]: undefined,
         [ArbeidsgiverField.STILLINGSPROSENT]: undefined,
         [MedisinskVurderingField.HOVEDDIAGNOSE]: {
-            system: undefined,
-            kode: undefined,
-            tekst: undefined,
+            [DiagnoseField.SYSTEM]: undefined,
+            [DiagnoseField.KODE]: undefined,
+            [DiagnoseField.TEKST]: undefined,
         },
         [MedisinskVurderingField.BIDIAGNOSER]: [],
         [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: false,
