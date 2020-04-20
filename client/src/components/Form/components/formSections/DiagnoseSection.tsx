@@ -86,11 +86,17 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                     <option value="icd10">ICD-10</option>
                 </Select>
                 <SearchableInput
+                    value={hoveddiagnose && hoveddiagnose[DiagnoseField.KODE]}
                     system={hoveddiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
+                    setSchema={setSchema}
                 />
-                <Input className="form-margin-bottom" label={<Element>3.1.3 Tekst</Element>} />
+                <Input
+                    className="form-margin-bottom"
+                    label={<Element>3.1.3 Tekst</Element>}
+                    value={hoveddiagnose ? hoveddiagnose[DiagnoseField.TEKST] : ''}
+                />
             </Row>
             <FormLabel label="3.2 Bidiagnose" />
             <Row>
