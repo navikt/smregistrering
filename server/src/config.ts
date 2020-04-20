@@ -8,12 +8,6 @@ if (process.env.NODE_ENV === 'development') {
   require('dotenv/config');
 }
 
-export interface Api {
-  clientId: string;
-  path: string;
-  url: string;
-  scopes: string[];
-}
 export interface Config {
   server: Server;
   azureAd: AzureAd;
@@ -50,13 +44,6 @@ const loadConfig = async (): Promise<Config> => {
     url: process.env['DOWNSTREAM_API_URL'],
     scopes: process.env['DOWNSTREAM_API_SCOPES'],
   });
-
-/*   const reverseProxy: Api = {
-    clientId: reverseProxyConfig.clientId,
-    path: reverseProxyConfig.path,
-    url: reverseProxyConfig.url,
-    scopes: reverseProxyConfig.scopes ? reverseProxyConfig.scopes.split(',') : [],
-  }; */
 
   return { server, azureAd, redis, reverseProxy };
 };
