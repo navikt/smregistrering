@@ -28,7 +28,7 @@ const Base64Pdf = new iots.Type<string, string, unknown>(
 const RequiredProps = iots.type({
     sykmeldingId: iots.string,
     oppgaveid: iots.number,
-    pdfPapirSykmelding: Base64Pdf,
+    pdfPapirSykmelding: iots.string,
 });
 
 const OptionalProps = iots.partial({
