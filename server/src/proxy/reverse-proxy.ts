@@ -1,17 +1,18 @@
 import authUtils from '../auth/utils';
-import config, { Api } from '../config';
+import config, { Api, Config } from '../config';
 import proxy, { ProxyOptions } from 'express-http-proxy';
 import url from 'url';
 import { Router, Request } from 'express';
 import { RequestOptions } from 'http';
 import { Client } from 'openid-client';
+import { ReverseProxy } from '../types/Config';
 
-const options = (api: Api, authClient: Client): ProxyOptions => ({
+const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts: RequestOptions, req: Request) => {
     return new Promise<RequestOptions>((resolve, reject) =>
       authUtils.getOnBehalfOfAccessToken(authClient, req, api).then(
-        access_token => {
+        (access_token) => {
           if (proxyReqOpts && proxyReqOpts.headers) {
             proxyReqOpts.headers['Authorization'] = `Bearer ${access_token}`;
             resolve(proxyReqOpts);
@@ -19,7 +20,7 @@ const options = (api: Api, authClient: Client): ProxyOptions => ({
             throw new Error('Could not set Authorization header for proxy request');
           }
         },
-        error => reject(error),
+        (error) => reject(error),
       ),
     );
   },
@@ -49,8 +50,12 @@ const options = (api: Api, authClient: Client): ProxyOptions => ({
 
 const stripTrailingSlash = (str: string): string => (str.endsWith('/') ? str.slice(0, -1) : str);
 
-const setup = (router: Router, authClient: Client) => {
-  config.reverseProxy().apis.forEach((api, index) => {
+const setup = (router: Router, authClient: Client, config: Config) => {
+  const { path, url } = config.reverseProxy;
+
+  router.use(`/${path}/*`, proxy(url, options(config.reverseProxy, authClient)));
+  /* 
+  config.reverseProxy.apis.forEach((api, index) => {
     if (api.url) {
       router.use(`/${api.path}/*`, proxy(api.url, options(api, authClient)));
     } else {
@@ -58,7 +63,7 @@ const setup = (router: Router, authClient: Client) => {
         `Could not setup proxy because of missing url property on object "config.reverseProxy.apis" at index: ${index}`,
       );
     }
-  });
+  }); */
 };
 
 export default { setup };

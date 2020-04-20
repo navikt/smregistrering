@@ -1,10 +1,11 @@
 import { TokenSet, Client } from 'openid-client';
 import { Request } from 'express';
 import { Api } from '../config';
+import { ReverseProxy } from '../types/Config';
 
 const tokenSetSelfId = 'self';
 
-const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: Api) => {
+const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: ReverseProxy) => {
   return new Promise((resolve, reject) => {
     console.log('hasValidAccessTOken: ' + hasValidAccessToken(req, api.clientId));
     if (hasValidAccessToken(req, api.clientId)) {
@@ -46,7 +47,7 @@ const appendDefaultScope = (scope: string): string => `${scope}/.default`;
 
 const formatClientIdScopeForV2Clients = (clientId: string): string => appendDefaultScope(`api://${clientId}`);
 
-const createOnBehalfOfScope = (api: Api): string => {
+const createOnBehalfOfScope = (api: ReverseProxy): string => {
   if (api.scopes && api.scopes.length > 0) {
     return `${api.scopes.join(' ')}`;
   } else {

@@ -1,5 +1,5 @@
 import authUtils from '../auth/utils';
-import config from '../config';
+import config, { Config } from '../config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import passport from 'passport';
@@ -20,7 +20,7 @@ const ensureAuthenticated = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
-const setup = (authClient: Client) => {
+const setup = (authClient: Client, config: Config) => {
   // Unprotected
   router.get('/is_alive', (_req, res) => res.send('Alive'));
   router.get('/is_ready', (_req, res) => res.send('Ready'));
@@ -63,7 +63,7 @@ const setup = (authClient: Client) => {
     }
   });
 
-  router.get('/logout', (req: Request, res: Response) => {
+/*   router.get('/logout', (req: Request, res: Response) => {
     req.logOut();
     req.session?.destroy((error) => {
       if (!error) {
@@ -76,9 +76,9 @@ const setup = (authClient: Client) => {
         res.status(500).send('Could not log out due to a server error');
       }
     });
-  });
+  }); */
 
-  reverseProxy.setup(router, authClient);
+  reverseProxy.setup(router, authClient, config);
 
   router.use('/*', (req, res) => {
     res.status(404).send('Not found');
