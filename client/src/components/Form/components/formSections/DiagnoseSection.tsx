@@ -1,6 +1,6 @@
 import React from 'react';
 import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 
 import DatePicker from '../formComponents/DatePicker';
 import FormLabel from '../formComponents/FormLabel';
@@ -56,13 +56,9 @@ type DiagnoseSectionProps = {
 };
 
 const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: DiagnoseSectionProps) => {
-    console.log(diagnosekoder);
-
     const hoveddiagnose = schema[MedisinskVurderingField.HOVEDDIAGNOSE];
     const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
         hoveddiagnose && (hoveddiagnose[DiagnoseField.SYSTEM] as keyof Diagnosekoder);
-
-    console.log(hoveddiagnose, hoveddiagnoseSystem);
 
     return (
         <SectionContainer section={section}>
@@ -74,8 +70,9 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                         setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.HOVEDDIAGNOSE]: {
-                                ...state[MedisinskVurderingField.HOVEDDIAGNOSE],
                                 [DiagnoseField.SYSTEM]: value,
+                                [DiagnoseField.KODE]: '',
+                                [DiagnoseField.TEKST]: '',
                             },
                         }))
                     }
@@ -92,11 +89,12 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                     label={<Element>3.1.2 Kode</Element>}
                     setSchema={setSchema}
                 />
-                <Input
-                    className="form-margin-bottom"
-                    label={<Element>3.1.3 Tekst</Element>}
-                    value={hoveddiagnose ? hoveddiagnose[DiagnoseField.TEKST] : ''}
-                />
+                <div>
+                    <Element>3.1.3 Tekst</Element>
+                    <Normaltekst style={{ marginTop: '8px' }}>
+                        {hoveddiagnose && hoveddiagnose[DiagnoseField.TEKST] ? hoveddiagnose[DiagnoseField.TEKST] : '-'}
+                    </Normaltekst>
+                </div>
             </Row>
             <FormLabel label="3.2 Bidiagnose" />
             <Row>
