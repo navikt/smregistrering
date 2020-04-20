@@ -1,7 +1,6 @@
 import { custom, Issuer, Strategy, TokenSet, ClientMetadata, Client } from 'openid-client';
 import authUtils from './utils';
-import config, { Config } from '../config';
-import httpProxy from '../proxy/http-proxy';
+import { Config } from '../config';
 import httpProxyAgent from '../proxy/http-proxy';
 import { User } from '../types/User';
 

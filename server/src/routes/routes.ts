@@ -1,5 +1,5 @@
 import authUtils from '../auth/utils';
-import config, { Config } from '../config';
+import { Config } from '../config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import passport from 'passport';
@@ -34,27 +34,23 @@ const setup = (authClient: Client, config: Config) => {
     }
   });
 
+  // Protected routes
   router.use(ensureAuthenticated);
 
   // Static page
   router.use('/', express.static(path.join(__dirname, '../../../client/build')));
 
-  // Protected routes
   router.get('/user', (req: Request, res: Response) => {
     try {
-      if (!req.user) {
-        throw new Error('Did not find user object attached to request');
+      const accessToken = req.user?.tokenSets.self.access_token;
+      if (!accessToken) {
+        throw new Error('Did not find token object attached to request');
       } else {
-        const accessToken = req.user.tokenSets?.self.access_token;
-        if (!accessToken) {
-          throw new Error('Did not find token object attached to request');
+        const decodedToken = decode(accessToken, { complete: true });
+        if (!decodedToken) {
+          throw new Error('Could not decode token to get user information');
         } else {
-          const decodedToken = decode(accessToken, { complete: true });
-          if (!decodedToken) {
-            throw new Error('Could not decode token to get user information');
-          } else {
-            res.status(200).send((decodedToken as any).payload.name); // TODO: er det verdt å type opp denne responsen?
-          }
+          res.status(200).send((decodedToken as any).payload.name); // TODO: er det verdt å type opp denne responsen?
         }
       }
     } catch (error) {
@@ -63,7 +59,7 @@ const setup = (authClient: Client, config: Config) => {
     }
   });
 
-  /*   router.get('/logout', (req: Request, res: Response) => {
+  router.get('/logout', (req: Request, res: Response) => {
     req.logOut();
     req.session?.destroy((error) => {
       if (!error) {
@@ -76,7 +72,7 @@ const setup = (authClient: Client, config: Config) => {
         res.status(500).send('Could not log out due to a server error');
       }
     });
-  }); */
+  });
 
   reverseProxy.setup(router, authClient, config);
 
