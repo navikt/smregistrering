@@ -26,8 +26,11 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
           console.log('received Tokenset:');
           console.log(tokenSet);
           if (req.user) {
+            console.log('user object found');
             req.user.tokenSets.proxy = tokenSet;
             resolve(tokenSet.access_token);
+          } else {
+            console.log('user object not found');
           }
         })
         .catch((err) => {
