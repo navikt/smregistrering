@@ -60,6 +60,11 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
     const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
         hoveddiagnose && (hoveddiagnose[DiagnoseField.SYSTEM] as keyof Diagnosekoder);
 
+    const bidiagnoser = schema[MedisinskVurderingField.BIDIAGNOSER];
+    const bidiagnose = bidiagnoser && bidiagnoser.length === 1 ? bidiagnoser[0] : undefined;
+    const bidiagnoseSystem: keyof Diagnosekoder | undefined =
+        bidiagnose && (bidiagnose[DiagnoseField.SYSTEM] as keyof Diagnosekoder);
+
     return (
         <SectionContainer section={section}>
             <FormLabel label="3.1 Hoveddiagnose" />
@@ -87,7 +92,16 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                     system={hoveddiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
-                    setSchema={setSchema}
+                    onChange={(code: string, text: string) =>
+                        setSchema(state => ({
+                            ...state,
+                            [MedisinskVurderingField.HOVEDDIAGNOSE]: {
+                                ...state[MedisinskVurderingField.HOVEDDIAGNOSE],
+                                [DiagnoseField.KODE]: code,
+                                [DiagnoseField.TEKST]: text,
+                            },
+                        }))
+                    }
                 />
                 <div>
                     <Element>3.1.3 Tekst</Element>
@@ -98,12 +112,50 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
             </Row>
             <FormLabel label="3.2 Bidiagnose" />
             <Row>
-                <Select className="form-margin-bottom" label={<Element>3.2.1 Kodesystem</Element>}>
+                <Select
+                    className="form-margin-bottom"
+                    onChange={({ target: { value } }) =>
+                        setSchema(state => ({
+                            ...state,
+                            [MedisinskVurderingField.BIDIAGNOSER]: [
+                                {
+                                    [DiagnoseField.SYSTEM]: value,
+                                    [DiagnoseField.KODE]: '',
+                                    [DiagnoseField.TEKST]: '',
+                                },
+                            ],
+                        }))
+                    }
+                    label={<Element>3.2.1 Kodesystem</Element>}
+                >
+                    <option value={undefined}>Velg kodesystem</option>
                     <option value="icpc2">ICPC-2</option>
                     <option value="icd10">ICD-10</option>
                 </Select>
-                <Input className="form-margin-bottom" label={<Element>3.2.2 Kode</Element>} />
-                <Input className="form-margin-bottom" label={<Element>3.2.3 Tekst</Element>} />
+                <SearchableInput
+                    value={bidiagnose && bidiagnose[DiagnoseField.KODE]}
+                    system={bidiagnoseSystem}
+                    diagnosekoder={diagnosekoder}
+                    label={<Element>3.2.2 Kode</Element>}
+                    onChange={(code: string, text: string) =>
+                        setSchema(state => ({
+                            ...state,
+                            [MedisinskVurderingField.BIDIAGNOSER]: [
+                                {
+                                    [DiagnoseField.SYSTEM]: bidiagnoseSystem,
+                                    [DiagnoseField.KODE]: code,
+                                    [DiagnoseField.TEKST]: text,
+                                },
+                            ],
+                        }))
+                    }
+                />
+                <div>
+                    <Element>3.2.3 Tekst</Element>
+                    <Normaltekst style={{ marginTop: '8px' }}>
+                        {bidiagnose && bidiagnose[DiagnoseField.TEKST] ? bidiagnose[DiagnoseField.TEKST] : '-'}
+                    </Normaltekst>
+                </div>
             </Row>
             <hr />
             <Subsection sectionIdentifier="3.3">

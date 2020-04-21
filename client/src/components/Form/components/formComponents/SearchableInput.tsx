@@ -3,21 +3,19 @@ import './SearchableInput.less';
 import React, { useEffect, useState } from 'react';
 import { Input } from 'nav-frontend-skjema';
 
-import { DiagnoseField, MedisinskVurderingField } from '../formSections/DiagnoseSection';
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
-import { SchemaType } from '../../Form';
 
 type SearchableInputProps = {
     system?: keyof Diagnosekoder;
     diagnosekoder: Diagnosekoder;
     label: JSX.Element;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    onChange: (code: string, text: string) => void;
     value: string | undefined;
 };
 
 const MAXIMUM_VISIBLE_CODES = 5;
 
-const SearchableInput = ({ system, diagnosekoder, label, setSchema, value }: SearchableInputProps) => {
+const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: SearchableInputProps) => {
     const [input, setInput] = useState<string | undefined>(undefined);
 
     useEffect(() => {
@@ -50,16 +48,7 @@ const SearchableInput = ({ system, diagnosekoder, label, setSchema, value }: Sea
                     {visibleResults.map(result => (
                         <div
                             className="search-result"
-                            onClick={() =>
-                                setSchema(state => ({
-                                    ...state,
-                                    [MedisinskVurderingField.HOVEDDIAGNOSE]: {
-                                        ...state[MedisinskVurderingField.HOVEDDIAGNOSE],
-                                        [DiagnoseField.KODE]: result.code,
-                                        [DiagnoseField.TEKST]: result.text,
-                                    },
-                                }))
-                            }
+                            onClick={() => onChange(result.code, result.text)}
                             key={result.code}
                         >
                             {result.code}
