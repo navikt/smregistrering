@@ -1,11 +1,11 @@
-import config from './config';
+import { Config } from './config';
 import redis from 'redis';
 import session from 'express-session';
 import { Application } from 'express';
 
 const SESSION_MAX_AGE_MILLISECONDS = 60 * 60 * 1000;
 
-const setup = (server: Application) => {
+const setup = (server: Application, config: Config): Promise<null> => {
   return new Promise((resolve, reject) => {
     server.set('trust proxy', 1);
     if (process.env.NODE_ENV === 'development') {
@@ -27,7 +27,7 @@ const setup = (server: Application) => {
       const client = redis.createClient(config.redis.port, config.redis.host);
 
       client.unref();
-      client.on('error', error => {
+      client.on('error', (error) => {
         reject(error);
       });
       client.on('connect', () => {
