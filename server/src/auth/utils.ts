@@ -12,6 +12,7 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
     }
 
     // request new access token
+    console.log('hasValidAccessToken: ' + hasValidAccessToken(req, 'self'));
     if (hasValidAccessToken(req, 'self')) {
       authClient
         .grant({
@@ -22,6 +23,8 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
           assertion: req.user?.tokenSets?.self.access_token,
         })
         .then((tokenSet) => {
+          console.log('received Tokenset:');
+          console.log(tokenSet);
           if (req.user) {
             req.user.tokenSets.proxy = tokenSet;
             resolve(tokenSet.access_token);
@@ -31,11 +34,11 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
           console.error(err);
           reject(err);
         });
+    } else {
+      const error = new Error('The request does not contain a valid access token');
+      console.error(error);
+      reject(error);
     }
-
-    const error = new Error('The request does not contain a valid access token');
-    console.error(error);
-    reject(error);
   });
 };
 
@@ -51,7 +54,6 @@ const createOnBehalfOfScope = (api: ReverseProxy): string => {
 };
 
 export const hasValidAccessToken = (req: Request, key: 'self' | 'proxy') => {
-  console.log(req.user);
   const tokenSets = req.user?.tokenSets;
   if (!tokenSets) {
     return false;
