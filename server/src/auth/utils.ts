@@ -1,4 +1,4 @@
-import { TokenSet, Client } from 'openid-client';
+import { TokenSet, Client, GrantBody } from 'openid-client';
 import { Request } from 'express';
 import { ReverseProxy } from '../types/Config';
 
@@ -14,14 +14,17 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
     // request new access token
     console.log('hasValidAccessToken: ' + hasValidAccessToken(req, 'self'));
     if (hasValidAccessToken(req, 'self')) {
+      const grantBody: GrantBody = {
+        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+        requested_token_use: 'on_behalf_of',
+        scope: createOnBehalfOfScope(api),
+        assertion: req.user?.tokenSets.self.access_token,
+      };
+      console.log('grantbody: ');
+      console.log(grantBody);
       authClient
-        .grant({
-          grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-          client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-          requested_token_use: 'on_behalf_of',
-          scope: createOnBehalfOfScope(api),
-          assertion: req.user?.tokenSets?.self.access_token,
-        })
+        .grant(grantBody)
         .then((tokenSet) => {
           console.log('received Tokenset:');
           console.log(tokenSet);
@@ -34,6 +37,7 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
           }
         })
         .catch((err) => {
+          console.log('Error getting api token');
           console.error(err);
           reject(err);
         });
