@@ -9,8 +9,8 @@ import { ReverseProxy } from '../types/Config';
 
 const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
-  proxyReqOptDecorator: (proxyReqOpts: RequestOptions, req: Request) => 
-     new Promise<RequestOptions>((resolve, reject) =>
+  proxyReqOptDecorator: (proxyReqOpts: RequestOptions, req: Request) => {
+    return new Promise<RequestOptions>((resolve, reject) =>
       getOnBehalfOfAccessToken(authClient, req, api).then(
         (access_token) => {
           console.log('access_token: ' + access_token);
@@ -24,7 +24,7 @@ const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
         (error) => reject(error),
       ),
     );
-  ,
+  },
   proxyReqPathResolver: (req: Request) => {
     const urlFromApi = url.parse(api.url);
     const pathFromApi = urlFromApi.pathname === '/' ? '' : urlFromApi.pathname;
