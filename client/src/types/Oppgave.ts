@@ -12,17 +12,6 @@ const DateFromString = new iots.Type<Date, string, unknown>(
         }),
     date => date.toISOString(),
 );
-/* 
-// represents a base64 encoded PDF
-const PdfFromString = new iots.Type<string, string, unknown>(
-    'PdfFromString',
-    (input: unknown): input is string => typeof input === 'string',
-    (input, context) =>
-        either.chain(iots.string.validate(input, context), str =>
-            str.includes('%PDF') ? iots.success(str) : iots.failure(input, context),
-        ),
-    iots.identity,
-); */
 
 // represents a base64 encoded PDF
 const Base64Pdf = new iots.Type<string, string, unknown>(
