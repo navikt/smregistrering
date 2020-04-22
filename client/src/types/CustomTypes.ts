@@ -13,6 +13,17 @@ export const DateFromString = new iots.Type<Date, string, unknown>(
     date => date.toISOString(),
 );
 
+// converts string ot number
+export const NumberFromString = new iots.Type<number, string, unknown>(
+    'StringFronProcessEnv',
+    (input): input is number => typeof input === 'string' && isNaN(parseInt(input)),
+    (input, context) =>
+        typeof input === 'string' && isNaN(parseInt(input))
+            ? iots.success(parseInt(input))
+            : iots.failure(input, context),
+    output => output.toString(),
+);
+
 // represents a base64 encoded PDF
 export const Base64Pdf = new iots.Type<string, string, unknown>(
     'Base64Pdf',

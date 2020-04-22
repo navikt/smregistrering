@@ -9,6 +9,30 @@ export enum MedisinskArsakType {
     ANNET = 'ANNET',
 }
 
+export enum ArbeidsrelatertArsakType {
+    MANGLENDE_TILRETTELEGGING = 'MANGLENDE_TILRETTELEGGING',
+    ANNET = 'ANNET',
+}
+
+export enum AnnenFraverGrunn {
+    GODKJENT_HELSEINSTITUSJON = 'GODKJENT_HELSEINSTITUSJON',
+    BEHANDLING_FORHINDRER_ARBEID = 'BEHANDLING_FORHINDRER_ARBEID',
+    ARBEIDSRETTET_TILTAK = 'ARBEIDSRETTET_TILTAK',
+    MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND = 'MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND',
+    NODVENDIG_KONTROLLUNDENRSOKELSE = 'NODVENDIG_KONTROLLUNDENRSOKELSE',
+    SMITTEFARE = 'SMITTEFARE',
+    ABORT = 'ABORT',
+    UFOR_GRUNNET_BARNLOSHET = 'UFOR_GRUNNET_BARNLOSHET',
+    DONOR = 'DONOR',
+    BEHANDLING_STERILISERING = 'BEHANDLING_STERILISERING',
+}
+
+export enum HarArbeidsgiver {
+    EN_ARBEIDSGIVER = 'EN_ARBEIDSGIVER',
+    FLERE_ARBEIDSGIVERE = 'FLERE_ARBEIDSGIVERE',
+    INGEN_ARBEIDSGIVER = 'INGEN_ARBEIDSGIVER',
+}
+
 const MedisinskArsak = iots.intersection([
     iots.type({
         arsak: iots.union([
@@ -20,11 +44,6 @@ const MedisinskArsak = iots.intersection([
         beskrivelse: iots.string,
     }),
 ]);
-
-export enum ArbeidsrelatertArsakType {
-    MANGLENDE_TILRETTELEGGING = 'MANGLENDE_TILRETTELEGGING',
-    ANNET = 'ANNET',
-}
 
 const ArbeidsrelatertArsak = iots.intersection([
     iots.type({
@@ -72,19 +91,6 @@ const Diagnose = iots.type({
     tekst: iots.string,
 });
 
-export enum AnnenFraverGrunn {
-    GODKJENT_HELSEINSTITUSJON = 'GODKJENT_HELSEINSTITUSJON',
-    BEHANDLING_FORHINDRER_ARBEID = 'BEHANDLING_FORHINDRER_ARBEID',
-    ARBEIDSRETTET_TILTAK = 'ARBEIDSRETTET_TILTAK',
-    MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND = 'MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND',
-    NODVENDIG_KONTROLLUNDENRSOKELSE = 'NODVENDIG_KONTROLLUNDENRSOKELSE',
-    SMITTEFARE = 'SMITTEFARE',
-    ABORT = 'ABORT',
-    UFOR_GRUNNET_BARNLOSHET = 'UFOR_GRUNNET_BARNLOSHET',
-    DONOR = 'DONOR',
-    BEHANDLING_STERILISERING = 'BEHANDLING_STERILISERING',
-}
-
 const AnnenFraversArsak = iots.intersection([
     iots.type({
         grunn: iots.union([
@@ -109,12 +115,6 @@ const MedisinskVurdering = iots.intersection([
         annenFraversArsak: AnnenFraversArsak,
     }),
 ]);
-
-export enum HarArbeidsgiver {
-    EN_ARBEIDSGIVER = 'EN_ARBEIDSGIVER',
-    FLERE_ARBEIDSGIVERE = 'FLERE_ARBEIDSGIVERE',
-    INGEN_ARBEIDSGIVER = 'INGEN_ARBEIDSGIVER',
-}
 
 const Arbeidsgiver = iots.intersection([
     iots.type({
