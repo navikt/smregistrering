@@ -21,7 +21,7 @@ const setup = (server: Application, config: Config): Promise<null> => {
           saveUninitialized: true,
         }),
       );
-      resolve();
+      return resolve();
     } else {
       const RedisStore = require('connect-redis')(session);
       const client = redis.createClient(config.redis.port, config.redis.host);
@@ -31,7 +31,7 @@ const setup = (server: Application, config: Config): Promise<null> => {
         reject(error);
       });
       client.on('connect', () => {
-        resolve();
+        return resolve();
       });
 
       const store = new RedisStore({
