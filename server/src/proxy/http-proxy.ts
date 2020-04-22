@@ -1,14 +1,11 @@
-import config from '../config';
+import { Config } from '../config';
 import tunnel from 'tunnel';
 
-const agent = () => {
+const httpProxyAgent = (config: Config) => {
   const proxyUri = config.server.proxy;
   if (proxyUri) {
     console.log(`Proxying requests via ${proxyUri} for openid-client`);
-    const hostPort = proxyUri
-      .replace('https://', '')
-      .replace('http://', '')
-      .split(':', 2);
+    const hostPort = proxyUri.replace('https://', '').replace('http://', '').split(':', 2);
     return tunnel.httpsOverHttp({
       proxy: {
         host: hostPort[0],
@@ -21,4 +18,4 @@ const agent = () => {
   }
 };
 
-export default { agent: agent() };
+export default httpProxyAgent;

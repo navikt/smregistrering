@@ -1,5 +1,5 @@
-import authUtils from '../auth/utils';
-import config from '../config';
+import { hasValidAccessToken } from '../auth/azureUtils';
+import { Config } from '../config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import passport from 'passport';
@@ -10,7 +10,7 @@ import { Client } from 'openid-client';
 const router = express.Router();
 
 const ensureAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
-  if (req.isAuthenticated() && authUtils.hasValidAccessToken(req)) {
+  if (req.isAuthenticated() && hasValidAccessToken(req, 'self')) {
     next();
   } else {
     if (req.session && req.query.oppgaveid) {
@@ -20,7 +20,7 @@ const ensureAuthenticated = async (req: Request, res: Response, next: NextFuncti
   }
 };
 
-const setup = (authClient: Client) => {
+const setup = (authClient: Client, config: Config) => {
   // Unprotected
   router.get('/is_alive', (_req, res) => res.send('Alive'));
   router.get('/is_ready', (_req, res) => res.send('Ready'));
@@ -34,27 +34,23 @@ const setup = (authClient: Client) => {
     }
   });
 
+  // Protected routes
+  router.use(ensureAuthenticated);
+
   // Static page
   router.use('/', express.static(path.join(__dirname, '../../../client/build')));
 
-  router.use(ensureAuthenticated);
-
-  // Protected routes
   router.get('/user', (req: Request, res: Response) => {
     try {
-      if (!req.user) {
-        throw new Error('Did not find user object attached to request');
+      const accessToken = req.user?.tokenSets.self.access_token;
+      if (!accessToken) {
+        throw new Error('Did not find token object attached to request');
       } else {
-        const accessToken = req.user.tokenSets?.self.access_token;
-        if (!accessToken) {
-          throw new Error('Did not find token object attached to request');
+        const decodedToken = decode(accessToken, { complete: true });
+        if (!decodedToken) {
+          throw new Error('Could not decode token to get user information');
         } else {
-          const decodedToken = decode(accessToken, { complete: true });
-          if (!decodedToken) {
-            throw new Error('Could not decode token to get user information');
-          } else {
-            res.status(200).send((decodedToken as any).payload.name); // TODO: er det verdt å type opp denne responsen?
-          }
+          res.status(200).send((decodedToken as any).payload.name); // TODO: er det verdt å type opp denne responsen?
         }
       }
     } catch (error) {
@@ -65,13 +61,10 @@ const setup = (authClient: Client) => {
 
   router.get('/logout', (req: Request, res: Response) => {
     req.logOut();
-    req.session?.destroy(error => {
+    req.session?.destroy((error) => {
       if (!error) {
         if (config.azureAd.logoutRedirectUri) {
-          res
-            .status(200)
-            .send('logged out')
-            .redirect(config.azureAd.logoutRedirectUri);
+          res.status(200).send('logged out').redirect(config.azureAd.logoutRedirectUri);
         } else {
           res.status(200).send('logged out');
         }
@@ -81,8 +74,7 @@ const setup = (authClient: Client) => {
     });
   });
 
-  // TODO: Reverse proxy setup when API backend is ready
-  //reverseProxy.setup(router, authClient);
+  reverseProxy.setup(router, authClient, config);
 
   router.use('/*', (req, res) => {
     res.status(404).send('Not found');
