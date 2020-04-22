@@ -1,4 +1,4 @@
-import { hasValidAccessToken } from '../auth/utils';
+import { hasValidAccessToken } from '../auth/azureUtils';
 import { Config } from '../config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';

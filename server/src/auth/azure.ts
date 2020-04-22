@@ -1,5 +1,5 @@
 import { custom, Issuer, Strategy, TokenSet, ClientMetadata, Client } from 'openid-client';
-import { appendDefaultScope } from './utils';
+import { appendDefaultScope } from './azureUtils';
 import { Config } from '../config';
 import httpProxyAgent from '../proxy/http-proxy';
 import { User } from '../types/User';

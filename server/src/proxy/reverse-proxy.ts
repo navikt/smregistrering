@@ -1,4 +1,4 @@
-import { getOnBehalfOfAccessToken } from '../auth/utils';
+import { getOnBehalfOfAccessToken } from '../auth/azureUtils';
 import { Config } from '../config';
 import proxy, { ProxyOptions } from 'express-http-proxy';
 import url from 'url';
