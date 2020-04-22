@@ -69,8 +69,12 @@ export const hasValidAccessToken = (req: Request, key: 'self' | 'proxy') => {
   if (!tokenSets) {
     return false;
   }
+  if (!tokenSets[key]) {
+    return false;
+  }
   if (!tokenSets.self) {
     return false;
   }
-  return new TokenSet(tokenSets[key]).expired() === false;
+  const tokenSet = tokenSets[key];
+  return new TokenSet(tokenSet).expired() === false;
 };
