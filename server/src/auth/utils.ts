@@ -66,13 +66,7 @@ export const hasValidAccessToken = (req: Request, key: 'self' | 'proxy') => {
   const tokenSets = req.user?.tokenSets;
   console.log('FROM hasvalidAccessToken: tokenSets: ');
   console.log(tokenSets);
-  if (!tokenSets) {
-    return false;
-  }
-  if (!tokenSets[key]) {
-    return false;
-  }
-  if (!tokenSets.self) {
+  if (!tokenSets || (tokenSets && !tokenSets.self && !tokenSets[key])) {
     return false;
   }
   const tokenSet = tokenSets[key];
