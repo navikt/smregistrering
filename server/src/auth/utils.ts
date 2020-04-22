@@ -5,6 +5,7 @@ import { ReverseProxy } from '../types/Config';
 export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: ReverseProxy): Promise<string> => {
   return new Promise((resolve, reject) => {
     // check if request has has valid api access token
+    console.log(req.user);
     if (hasValidAccessToken(req, 'proxy')) {
       console.log('returinging valid access token for api');
       resolve(req.user?.tokenSets.proxy?.access_token);
