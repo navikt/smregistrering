@@ -57,7 +57,7 @@ spec:
     - name: DOWNSTREAM_API_PATH
       value: backend
     - name: DOWNSTREAM_API_URL
-      value: smregistrering-backend.nais.preprod.local/
+      value: http://smregistrering-backend/
     - name: REDIS_HOST
       value: smregistrering-redis.default.svc.nais.local
     - name: REDIS_PORT
