@@ -13,7 +13,6 @@ const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
     return new Promise<RequestOptions>((resolve, reject) =>
       getOnBehalfOfAccessToken(authClient, req, api).then(
         (access_token) => {
-          console.log('FROM OPTIONS: access_token: ' + access_token);
           if (proxyReqOpts && proxyReqOpts.headers) {
             proxyReqOpts.headers['Authorization'] = `Bearer ${access_token}`;
             return resolve(proxyReqOpts);
@@ -53,7 +52,6 @@ const stripTrailingSlash = (str: string): string => (str.endsWith('/') ? str.sli
 
 const setup = (router: Router, authClient: Client, config: Config) => {
   const { path, url } = config.reverseProxy;
-
   router.use(`/${path}/*`, proxy(url, options(config.reverseProxy, authClient)));
 };
 

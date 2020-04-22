@@ -6,7 +6,6 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
   return new Promise((resolve, reject) => {
     // check if request has has valid api access token
     if (hasValidAccessToken(req, 'proxy')) {
-      console.log('FOMR GETONBEHALFOF: returninging valid access token for api');
       console.log(req.user?.tokenSets.proxy?.access_token);
       return resolve(req.user?.tokenSets.proxy?.access_token);
     } else {
@@ -14,7 +13,6 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
     }
 
     // request new access token
-    console.log('hasValidAccessToken: ' + hasValidAccessToken(req, 'self'));
     if (hasValidAccessToken(req, 'self')) {
       const grantBody: GrantBody = {
         grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
@@ -23,25 +21,19 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
         scope: createOnBehalfOfScope(api),
         assertion: req.user?.tokenSets.self.access_token,
       };
-      console.log('grantbody: ');
-      console.log(grantBody);
       authClient
         .grant(grantBody)
         .then((tokenSet) => {
-          console.log('received Tokenset:');
-          console.log(tokenSet);
           if (req.user) {
-            console.log('user object found');
             req.user.tokenSets.proxy = tokenSet;
             return resolve(tokenSet.access_token);
           } else {
-            console.log('user object not found');
+            throw new Error('Could not attach tokenSet to user object');
           }
         })
-        .catch((err) => {
-          console.log('Error getting api token');
-          console.error(err);
-          reject(err);
+        .catch((error) => {
+          console.error(error);
+          reject(error);
         });
     } else {
       const error = new Error('The request does not contain a valid access token');
