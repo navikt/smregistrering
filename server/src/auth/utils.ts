@@ -64,6 +64,8 @@ const createOnBehalfOfScope = (api: ReverseProxy): string => {
 
 export const hasValidAccessToken = (req: Request, key: 'self' | 'proxy') => {
   const tokenSets = req.user?.tokenSets;
+  console.log('FROM hasvalidAccessToken: tokenSets: ');
+  console.log(tokenSets);
   if (!tokenSets) {
     return false;
   }
