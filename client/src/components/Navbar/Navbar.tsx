@@ -1,5 +1,7 @@
 import './Navbar.less';
 
+import * as iots from 'io-ts';
+import * as iotsPromise from 'io-ts-promise';
 import React, { useEffect, useState } from 'react';
 import { Element } from 'nav-frontend-typografi';
 
@@ -9,17 +11,12 @@ const Navbar = () => {
     const [loginText, setLoginText] = useState<string | undefined>();
 
     useEffect(() => {
-        const URL = process.env.REACT_APP_WEB_SERVER_URL
-            ? process.env.REACT_APP_WEB_SERVER_URL + 'user'
-            : 'https://syfosmmanuell.nais.preprod.local/user';
-        fetch(URL)
+        fetch('/user')
             .then(res => {
                 return res.text();
             })
+            .then(textRaw => iotsPromise.decode(iots.string, textRaw))
             .then(text => {
-                if (!text) {
-                    throw new Error('Kunne ikke hente brukernavn fra server');
-                }
                 setLoginText(`Logget inn som: ${text}`);
             })
             .catch(error => console.error(error));
