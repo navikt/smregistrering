@@ -44,6 +44,7 @@ const MedisinskArsak = iots.intersection([
         beskrivelse: iots.string,
     }),
 ]);
+export type MedisinskArsak = iots.TypeOf<typeof MedisinskArsak>;
 
 const ArbeidsrelatertArsak = iots.intersection([
     iots.type({
@@ -56,11 +57,13 @@ const ArbeidsrelatertArsak = iots.intersection([
         beskrivelse: iots.string,
     }),
 ]);
+export type ArbeidsrelatertArsak = iots.TypeOf<typeof ArbeidsrelatertArsak>;
 
 const AktivitetIkkeMulig = iots.partial({
     medisinskArsak: MedisinskArsak,
     arbeidsrelatertArsak: ArbeidsrelatertArsak,
 });
+export type AktivitetIkkeMulig = iots.TypeOf<typeof AktivitetIkkeMulig>;
 
 const Gradert = iots.intersection([
     iots.type({
@@ -70,6 +73,7 @@ const Gradert = iots.intersection([
         grad: iots.number,
     }),
 ]);
+export type Gradert = iots.TypeOf<typeof Gradert>;
 
 const Periode = iots.intersection([
     iots.type({
@@ -84,12 +88,14 @@ const Periode = iots.intersection([
         gradert: Gradert,
     }),
 ]);
+export type Periode = iots.TypeOf<typeof Periode>;
 
 const Diagnose = iots.type({
     system: iots.string,
     kode: iots.string,
     tekst: iots.string,
 });
+export type Diagnose = iots.TypeOf<typeof Diagnose>;
 
 const AnnenFraversArsak = iots.intersection([
     iots.type({
@@ -102,6 +108,7 @@ const AnnenFraversArsak = iots.intersection([
         beskrivelse: iots.string,
     }),
 ]);
+export type AnnenFraversArsak = iots.TypeOf<typeof AnnenFraversArsak>;
 
 const MedisinskVurdering = iots.intersection([
     iots.type({
@@ -115,6 +122,7 @@ const MedisinskVurdering = iots.intersection([
         annenFraversArsak: AnnenFraversArsak,
     }),
 ]);
+export type MedisinskVurdering = iots.TypeOf<typeof MedisinskVurdering>;
 
 const Arbeidsgiver = iots.intersection([
     iots.type({
@@ -126,6 +134,7 @@ const Arbeidsgiver = iots.intersection([
         stillingsprosent: iots.number,
     }),
 ]);
+export type Arbeidsgiver = iots.TypeOf<typeof Arbeidsgiver>;
 
 export const RegistrertSykmelding = iots.type({
     pasientFnr: iots.string,
@@ -137,5 +146,4 @@ export const RegistrertSykmelding = iots.type({
     behandletDato: DateFromString,
     skjermesForPasient: iots.boolean,
 });
-
 export type RegistrertSykmelding = iots.TypeOf<typeof RegistrertSykmelding>;
