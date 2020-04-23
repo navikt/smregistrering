@@ -43,6 +43,7 @@ const App = () => {
             });
     }, []);
 
+    // TODO: flytte sections til /types/Section.ts ?
     const sections: Sections = {
         [SectionTitle.PASIENTOPPLYSNINGER]: {
             index: 1,
@@ -130,18 +131,14 @@ const App = () => {
                     <FormSubmit />
                 </div>
                 <div className="pdf-container">
-                    {oppgave.pdfPapirSmRegistrering ? (
-                        <object
-                            width="100%"
-                            height="100%"
-                            type="application/pdf"
-                            data={'data:application/pdf;base64,' + oppgave.pdfPapirSmRegistrering}
-                        >
-                            Visning av sykmelding-pdf krever en plugin
-                        </object>
-                    ) : (
-                        <Normaltekst style={{ paddingTop: '4rem' }}>PDF missing</Normaltekst>
-                    )}
+                    <object
+                        width="100%"
+                        height="100%"
+                        type="application/pdf"
+                        data={'data:application/pdf;base64,' + oppgave.pdfPapirSykmelding}
+                    >
+                        Visning av sykmelding-pdf krever en plugin
+                    </object>
                 </div>
             </div>
         </>
