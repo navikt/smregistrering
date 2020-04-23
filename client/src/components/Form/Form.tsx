@@ -157,6 +157,8 @@ type FormProps = {
     sections: Sections;
     oppgave: Oppgave;
     diagnosekoder: Diagnosekoder;
+    formErrors: ErrorSchemaType;
+    setFormErrors: React.Dispatch<React.SetStateAction<ErrorSchemaType>>;
 };
 
 export type ExpandableSections =
@@ -165,9 +167,8 @@ export type ExpandableSections =
     | SectionTitle.TIL_NAV
     | SectionTitle.TIL_ARBEIDSGIVER;
 
-const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
+const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: FormProps) => {
     const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
-    const [errors, setErrors] = useState<ErrorSchemaType>({});
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
         [SectionTitle.MULIGHET_FOR_ARBEID]: true,
         [SectionTitle.ARBEIDSEVNE]: true,
@@ -191,7 +192,7 @@ const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
             error = validationFunction(value);
         }
 
-        setErrors(state => ({ ...state, [name]: error }));
+        setFormErrors(state => ({ ...state, [name]: error }));
     };
 
     const validateAll = () => {
@@ -204,6 +205,8 @@ const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
             validate(key as keyof SchemaType, value);
         });
     };
+
+    console.log(formErrors);
 
     console.groupCollapsed('STATE');
     console.log('schema', schema);
@@ -240,7 +243,7 @@ const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
             <PasientopplysningerSection
                 section={sections[SectionTitle.PASIENTOPPLYSNINGER]}
                 setSchema={setSchema}
-                errors={errors}
+                errors={formErrors}
                 schema={schema}
                 validate={validate}
             />

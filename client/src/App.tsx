@@ -5,21 +5,25 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import React, { useEffect, useRef, useState } from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 
-import Form from './components/Form/Form';
+import FormErrorSummary from './components/Form/FormErrorSummary';
 import FormSubmit from './components/Form/components/FormSubmit';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
+import Form, { SchemaType } from './components/Form/Form';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { SectionTitle, Sections } from './types/Section';
 import { UrlError } from './utils/urlUtils';
 import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
 
+export type ErrorSchemaType = { [key in keyof SchemaType]: string | undefined };
+
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
 
     useEffect(() => {
         setIsLoading(true);
@@ -127,7 +131,14 @@ const App = () => {
                     <Menu sections={sections} />
                 </div>
                 <div className="form-container">
-                    <Form sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
+                    <Form
+                        sections={sections}
+                        oppgave={oppgave}
+                        diagnosekoder={diagnosekoder}
+                        formErrors={formErrors}
+                        setFormErrors={setFormErrors}
+                    />
+                    <FormErrorSummary formErrors={formErrors} />
                     <FormSubmit />
                 </div>
                 <div className="pdf-container">
