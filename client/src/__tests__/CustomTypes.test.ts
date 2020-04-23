@@ -4,11 +4,11 @@ import { createEnumType } from '../types/CustomTypes';
 
 describe('CustomTypes', () => {
     describe('EnumType', () => {
-        enum testEnum {
+        enum TestEnum {
             APPLE = 'this is an apple',
             ORANGE = 'this is an orange',
         }
-        const enumType = createEnumType<testEnum>(testEnum, 'testEnum');
+        const enumType = createEnumType<TestEnum>(TestEnum, 'TestEnum');
 
         it('Should decode a string from the enum', () => {
             return iotsPromise.decode(enumType, 'APPLE').then(decodedEnum => {
@@ -16,7 +16,7 @@ describe('CustomTypes', () => {
             });
         });
         it('Should encode enum to the original string', () => {
-            expect(enumType.encode(testEnum.APPLE)).toBe('APPLE');
+            expect(enumType.encode(TestEnum.APPLE)).toBe('APPLE');
         });
     });
 });
