@@ -37,14 +37,17 @@ export const Base64Pdf = new iots.Type<string, string, unknown>(
 );
 
 // EnumType Class
-class EnumType<A> extends iots.Type<A> {
+class EnumType<A> extends iots.Type<A, string> {
     public readonly _tag: 'EnumType' = 'EnumType';
     public enumObject!: object;
     public constructor(enumObject: object, name?: string) {
         super(
             name || 'enum',
             (input: unknown): input is A => {
-                if (!Object.values(this.enumObject).find(value => value === input)) {
+                if (typeof input !== 'string') {
+                    return false;
+                }
+                if (!Object.keys(this.enumObject).find(value => value === input)) {
                     return false;
                 }
                 // enum reverse mapping check
@@ -53,8 +56,19 @@ class EnumType<A> extends iots.Type<A> {
                 }
                 return true;
             },
-            (input, context) => (this.is(input) ? iots.success(input) : iots.failure(input, context)),
-            iots.identity,
+            (input, context) => {
+                return this.is(input) ? iots.success((this.enumObject as any)[input]) : iots.failure(input, context);
+            },
+            runtimeObject => {
+                const keyValuePairs = Object.entries(this.enumObject);
+                const keyValuePairObtainedFromValue = keyValuePairs.find(
+                    ([_key, value]) => value === (runtimeObject as any),
+                );
+                if (keyValuePairObtainedFromValue?.[0]) {
+                    return keyValuePairObtainedFromValue[0];
+                }
+                throw new Error('Unexpected enum value');
+            },
         );
         this.enumObject = enumObject;
     }

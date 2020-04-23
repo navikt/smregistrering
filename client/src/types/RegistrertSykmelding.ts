@@ -3,34 +3,34 @@ import * as iots from 'io-ts';
 import { DateFromString, createEnumType } from './CustomTypes';
 
 export enum MedisinskArsakType {
-    TILSTAND_HINDRER_AKTIVITET = 'TILSTAND_HINDRER_AKTIVITET',
-    AKTIVITET_FORVERRER_TILSTAND = 'AKTIVITET_FORVERRER_TILSTAND',
-    AKTIVITET_FORHINDRER_BEDRING = 'AKTIVITET_FORHINDRER_BEDRING',
-    ANNET = 'ANNET',
+    TILSTAND_HINDRER_AKTIVITET = 'Helsetilstanden hindrer pasienten i å være i aktivitet',
+    AKTIVITET_FORVERRER_TILSTAND = 'Aktivitet vil forverre helsetilstanden',
+    AKTIVITET_FORHINDRER_BEDRING = 'Aktivitet vil hindre/forsinke bedring av helsetilstanden',
+    ANNET = 'Annet',
 }
 
 export enum ArbeidsrelatertArsakType {
-    MANGLENDE_TILRETTELEGGING = 'MANGLENDE_TILRETTELEGGING',
-    ANNET = 'ANNET',
+    MANGLENDE_TILRETTELEGGING = 'Manglende tilrettelegging på arbeidsplassen',
+    ANNET = 'Annet',
 }
 
 export enum AnnenFraverGrunn {
-    GODKJENT_HELSEINSTITUSJON = 'GODKJENT_HELSEINSTITUSJON',
-    BEHANDLING_FORHINDRER_ARBEID = 'BEHANDLING_FORHINDRER_ARBEID',
-    ARBEIDSRETTET_TILTAK = 'ARBEIDSRETTET_TILTAK',
-    MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND = 'MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND',
-    NODVENDIG_KONTROLLUNDENRSOKELSE = 'NODVENDIG_KONTROLLUNDENRSOKELSE',
-    SMITTEFARE = 'SMITTEFARE',
-    ABORT = 'ABORT',
-    UFOR_GRUNNET_BARNLOSHET = 'UFOR_GRUNNET_BARNLOSHET',
-    DONOR = 'DONOR',
-    BEHANDLING_STERILISERING = 'BEHANDLING_STERILISERING',
+    GODKJENT_HELSEINSTITUSJON = 'Når vedkommende er innlagt i en godkjent helseinstitusjon',
+    BEHANDLING_FORHINDRER_ARBEID = 'Når vedkommende er under behandling og legen erklærer at behandlingen gjør det nødvendig at vedkommende ikke arbeider',
+    ARBEIDSRETTET_TILTAK = 'Når vedkommende deltar på et arbeidsrettet tiltak',
+    MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND = 'Når vedkommende på grunn av sykdom, skade eller lyte får tilskott når vedkommende på grunn av sykdom, skade eller lyte får tilskott',
+    NODVENDIG_KONTROLLUNDENRSOKELSE = 'Når vedkommende er til nødvendig kontrollundersøkelse som krever minst 24 timers fravær, reisetid medregnet',
+    SMITTEFARE = 'Når vedkommende myndighet har nedlagt forbud mot at han eller hun arbeider på grunn av smittefare',
+    ABORT = 'Når vedkommende er arbeidsufør som følge av svangerskapsavbrudd',
+    UFOR_GRUNNET_BARNLOSHET = 'Når vedkommende er arbeidsufør som følge av behandling for barnløshet',
+    DONOR = 'Når vedkommende er donor eller er under vurdering som donor',
+    BEHANDLING_STERILISERING = 'Når vedkommende er arbeidsufør som følge av behandling i forbindelse med sterilisering',
 }
 
 export enum HarArbeidsgiver {
-    EN_ARBEIDSGIVER = 'EN_ARBEIDSGIVER',
-    FLERE_ARBEIDSGIVERE = 'FLERE_ARBEIDSGIVERE',
-    INGEN_ARBEIDSGIVER = 'INGEN_ARBEIDSGIVER',
+    EN_ARBEIDSGIVER = 'Én arbeidsgiver',
+    FLERE_ARBEIDSGIVERE = 'Flere arbeidsgivere',
+    INGEN_ARBEIDSGIVER = 'Ingen arbeidsgiver',
 }
 
 const MedisinskArsak = iots.intersection([
