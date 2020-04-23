@@ -55,6 +55,7 @@ import TilbakedateringSection, {
 import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
 import { SectionTitle, Sections } from '../../types/Section';
+import { validation } from './validation';
 
 export enum OtherField {
     PERSONNUMMER = 'personnummer',
@@ -153,8 +154,6 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
 
 export type ErrorSchemaType = { [key in keyof SchemaType]: string | undefined };
 
-export type ValidationType = { [key in keyof SchemaType]: (value: any) => string | undefined };
-
 type FormProps = {
     sections: Sections;
     oppgave: Oppgave;
@@ -182,39 +181,6 @@ const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
             ...state,
             [name]: !state[name],
         }));
-    };
-
-    const validation: ValidationType = {
-        [MetadataField.TELEFON]: (value: string | undefined) => {
-            if (!value) {
-                return 'Telefonnummer må være definert';
-            }
-
-            // https://begrep.difi.no/Felles/mobiltelefonnummer
-            if (!value.match('^\\+?[- _0-9]+$')) {
-                return 'Telefonnummeret er ikke på et gyldig format';
-            }
-
-            return undefined;
-        },
-        [MetadataField.ETTERNAVN]: (value: string | undefined) => {
-            if (!value) {
-                return 'etternavn må være def';
-            }
-
-            if (!value.match('^\\+?[- _0-9]+$')) {
-                return 'etternavn er ikke på et gyldig format';
-            }
-
-            return undefined;
-        },
-        [MetadataField.FORNAVN]: (value: string | undefined) => {
-            if (value && !schema[MetadataField.ETTERNAVN]) {
-                return 'Etternavn må defineres for at fornavn skal kunne fylles';
-            }
-
-            return undefined;
-        },
     };
 
     const validate = (name: keyof SchemaType, value: SchemaType[keyof SchemaType]) => {
