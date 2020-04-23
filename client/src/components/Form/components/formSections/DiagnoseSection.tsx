@@ -24,16 +24,10 @@ export enum MedisinskVurderingField {
     SKJERMET_FRA_PASIENT = 'skjermetFraPasient',
 }
 
-export enum DiagnoseField {
-    SYSTEM = 'system',
-    KODE = 'kode',
-    TEKST = 'tekst',
-}
-
 export type Diagnose = {
-    [DiagnoseField.SYSTEM]?: string;
-    [DiagnoseField.KODE]?: string;
-    [DiagnoseField.TEKST]?: string;
+    system?: string;
+    kode?: string;
+    tekst?: string;
 };
 
 export type MedisinskVurdering = {
@@ -58,12 +52,11 @@ type DiagnoseSectionProps = {
 const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: DiagnoseSectionProps) => {
     const hoveddiagnose = schema[MedisinskVurderingField.HOVEDDIAGNOSE];
     const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
-        hoveddiagnose && (hoveddiagnose[DiagnoseField.SYSTEM] as keyof Diagnosekoder);
+        hoveddiagnose && (hoveddiagnose.system as keyof Diagnosekoder);
 
     const bidiagnoser = schema[MedisinskVurderingField.BIDIAGNOSER];
     const bidiagnose = bidiagnoser && bidiagnoser.length === 1 ? bidiagnoser[0] : undefined;
-    const bidiagnoseSystem: keyof Diagnosekoder | undefined =
-        bidiagnose && (bidiagnose[DiagnoseField.SYSTEM] as keyof Diagnosekoder);
+    const bidiagnoseSystem: keyof Diagnosekoder | undefined = bidiagnose && (bidiagnose.system as keyof Diagnosekoder);
 
     return (
         <SectionContainer section={section}>
@@ -75,9 +68,9 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                         setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.HOVEDDIAGNOSE]: {
-                                [DiagnoseField.SYSTEM]: value,
-                                [DiagnoseField.KODE]: '',
-                                [DiagnoseField.TEKST]: '',
+                                system: value,
+                                kode: '',
+                                tekst: '',
                             },
                         }))
                     }
@@ -88,17 +81,17 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                     <option value="icd10">ICD-10</option>
                 </Select>
                 <SearchableInput
-                    value={hoveddiagnose && hoveddiagnose[DiagnoseField.KODE]}
+                    value={hoveddiagnose && hoveddiagnose.kode}
                     system={hoveddiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
-                    onChange={(code: string, text: string) =>
+                    onChange={(kode: string, tekst: string) =>
                         setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.HOVEDDIAGNOSE]: {
                                 ...state[MedisinskVurderingField.HOVEDDIAGNOSE],
-                                [DiagnoseField.KODE]: code,
-                                [DiagnoseField.TEKST]: text,
+                                kode,
+                                tekst,
                             },
                         }))
                     }
@@ -106,7 +99,7 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                 <div>
                     <Element>3.1.3 Tekst</Element>
                     <Normaltekst style={{ marginTop: '8px' }}>
-                        {hoveddiagnose && hoveddiagnose[DiagnoseField.TEKST] ? hoveddiagnose[DiagnoseField.TEKST] : '-'}
+                        {hoveddiagnose && hoveddiagnose.tekst ? hoveddiagnose.tekst : '-'}
                     </Normaltekst>
                 </div>
             </Row>
@@ -119,9 +112,9 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                             ...state,
                             [MedisinskVurderingField.BIDIAGNOSER]: [
                                 {
-                                    [DiagnoseField.SYSTEM]: value,
-                                    [DiagnoseField.KODE]: '',
-                                    [DiagnoseField.TEKST]: '',
+                                    system: value,
+                                    kode: '',
+                                    tekst: '',
                                 },
                             ],
                         }))
@@ -133,7 +126,7 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                     <option value="icd10">ICD-10</option>
                 </Select>
                 <SearchableInput
-                    value={bidiagnose && bidiagnose[DiagnoseField.KODE]}
+                    value={bidiagnose && bidiagnose.kode}
                     system={bidiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.2.2 Kode</Element>}
@@ -142,9 +135,9 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                             ...state,
                             [MedisinskVurderingField.BIDIAGNOSER]: [
                                 {
-                                    [DiagnoseField.SYSTEM]: bidiagnoseSystem,
-                                    [DiagnoseField.KODE]: code,
-                                    [DiagnoseField.TEKST]: text,
+                                    system: bidiagnoseSystem,
+                                    kode: code,
+                                    tekst: text,
                                 },
                             ],
                         }))
@@ -153,7 +146,7 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                 <div>
                     <Element>3.2.3 Tekst</Element>
                     <Normaltekst style={{ marginTop: '8px' }}>
-                        {bidiagnose && bidiagnose[DiagnoseField.TEKST] ? bidiagnose[DiagnoseField.TEKST] : '-'}
+                        {bidiagnose && bidiagnose.tekst ? bidiagnose.tekst : '-'}
                     </Normaltekst>
                 </div>
             </Row>
