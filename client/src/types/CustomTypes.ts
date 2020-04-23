@@ -40,26 +40,25 @@ export const Base64Pdf = new iots.Type<string, string, unknown>(
 class EnumType<A> extends iots.Type<A> {
     public readonly _tag: 'EnumType' = 'EnumType';
     public enumObject!: object;
-    public constructor(e: object, name?: string) {
+    public constructor(enumObject: object, name?: string) {
         super(
             name || 'enum',
-            (u): u is A => {
-                if (!Object.values(this.enumObject).find(v => v === u)) {
+            (input: unknown): input is A => {
+                if (!Object.values(this.enumObject).find(value => value === input)) {
                     return false;
                 }
                 // enum reverse mapping check
-                if (typeof (this.enumObject as any)[u as string] === 'number') {
+                if (typeof (this.enumObject as any)[input as string] === 'number') {
                     return false;
                 }
-
                 return true;
             },
-            (u, c) => (this.is(u) ? iots.success(u) : iots.failure(u, c)),
+            (input, context) => (this.is(input) ? iots.success(input) : iots.failure(input, context)),
             iots.identity,
         );
-        this.enumObject = e;
+        this.enumObject = enumObject;
     }
 }
 
 // simple helper function
-export const createEnumType = <T>(e: object, name?: string) => new EnumType<T>(e, name);
+export const createEnumType = <T>(enumObject: object, name?: string) => new EnumType<T>(enumObject, name);
