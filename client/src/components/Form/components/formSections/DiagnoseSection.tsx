@@ -85,7 +85,7 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                     system={hoveddiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
-                    onChange={(kode: string, tekst: string) =>
+                    onChange={(kode?: string, tekst?: string) =>
                         setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.HOVEDDIAGNOSE]: {
@@ -130,7 +130,7 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                     system={bidiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.2.2 Kode</Element>}
-                    onChange={(code: string, text: string) =>
+                    onChange={(code?: string, text?: string) =>
                         setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.BIDIAGNOSER]: [

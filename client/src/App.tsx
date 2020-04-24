@@ -9,6 +9,7 @@ import Form from './components/Form/Form';
 import FormSubmit from './components/Form/components/FormSubmit';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
+import Searchable from './Searchable';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { SectionTitle, Sections } from './types/Section';
@@ -127,6 +128,7 @@ const App = () => {
                     <Menu sections={sections} />
                 </div>
                 <div className="form-container">
+                    <Searchable diagnosekoder={diagnosekoder} />
                     <Form sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
                     <FormSubmit />
                 </div>
