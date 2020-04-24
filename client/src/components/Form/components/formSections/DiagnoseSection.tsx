@@ -1,6 +1,6 @@
 import React from 'react';
 import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 
 import DatePicker from '../formComponents/DatePicker';
 import FormLabel from '../formComponents/FormLabel';
@@ -24,7 +24,7 @@ export enum MedisinskVurderingField {
     SKJERMET_FRA_PASIENT = 'skjermetFraPasient',
 }
 
-type Diagnose = {
+export type Diagnose = {
     system?: string;
     kode?: string;
     tekst?: string;
@@ -50,27 +50,105 @@ type DiagnoseSectionProps = {
 };
 
 const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: DiagnoseSectionProps) => {
-    console.log(diagnosekoder);
+    const hoveddiagnose = schema[MedisinskVurderingField.HOVEDDIAGNOSE];
+    const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
+        hoveddiagnose && (hoveddiagnose.system as keyof Diagnosekoder);
+
+    const bidiagnoser = schema[MedisinskVurderingField.BIDIAGNOSER];
+    const bidiagnose = bidiagnoser && bidiagnoser.length === 1 ? bidiagnoser[0] : undefined;
+    const bidiagnoseSystem: keyof Diagnosekoder | undefined = bidiagnose && (bidiagnose.system as keyof Diagnosekoder);
 
     return (
         <SectionContainer section={section}>
             <FormLabel label="3.1 Hoveddiagnose" />
             <Row>
-                <Select className="form-margin-bottom" label={<Element>3.1.1 Kodesystem</Element>}>
+                <Select
+                    className="form-margin-bottom"
+                    onChange={({ target: { value } }) =>
+                        setSchema(state => ({
+                            ...state,
+                            [MedisinskVurderingField.HOVEDDIAGNOSE]: {
+                                system: value,
+                                kode: '',
+                                tekst: '',
+                            },
+                        }))
+                    }
+                    label={<Element>3.1.1 Kodesystem</Element>}
+                >
+                    <option value={undefined}>Velg kodesystem</option>
                     <option value="icpc2">ICPC-2</option>
                     <option value="icd10">ICD-10</option>
                 </Select>
-                <SearchableInput system={'icd10'} diagnosekoder={diagnosekoder} label={<Element>3.1.2 Kode</Element>} />
-                <Input className="form-margin-bottom" label={<Element>3.1.3 Tekst</Element>} />
+                <SearchableInput
+                    value={hoveddiagnose && hoveddiagnose.kode}
+                    system={hoveddiagnoseSystem}
+                    diagnosekoder={diagnosekoder}
+                    label={<Element>3.1.2 Kode</Element>}
+                    onChange={(kode: string, tekst: string) =>
+                        setSchema(state => ({
+                            ...state,
+                            [MedisinskVurderingField.HOVEDDIAGNOSE]: {
+                                ...state[MedisinskVurderingField.HOVEDDIAGNOSE],
+                                kode,
+                                tekst,
+                            },
+                        }))
+                    }
+                />
+                <div>
+                    <Element>3.1.3 Tekst</Element>
+                    <Normaltekst style={{ marginTop: '8px' }}>
+                        {hoveddiagnose && hoveddiagnose.tekst ? hoveddiagnose.tekst : '-'}
+                    </Normaltekst>
+                </div>
             </Row>
             <FormLabel label="3.2 Bidiagnose" />
             <Row>
-                <Select className="form-margin-bottom" label={<Element>3.2.1 Kodesystem</Element>}>
+                <Select
+                    className="form-margin-bottom"
+                    onChange={({ target: { value } }) =>
+                        setSchema(state => ({
+                            ...state,
+                            [MedisinskVurderingField.BIDIAGNOSER]: [
+                                {
+                                    system: value,
+                                    kode: '',
+                                    tekst: '',
+                                },
+                            ],
+                        }))
+                    }
+                    label={<Element>3.2.1 Kodesystem</Element>}
+                >
+                    <option value={undefined}>Velg kodesystem</option>
                     <option value="icpc2">ICPC-2</option>
                     <option value="icd10">ICD-10</option>
                 </Select>
-                <Input className="form-margin-bottom" label={<Element>3.2.2 Kode</Element>} />
-                <Input className="form-margin-bottom" label={<Element>3.2.3 Tekst</Element>} />
+                <SearchableInput
+                    value={bidiagnose && bidiagnose.kode}
+                    system={bidiagnoseSystem}
+                    diagnosekoder={diagnosekoder}
+                    label={<Element>3.2.2 Kode</Element>}
+                    onChange={(code: string, text: string) =>
+                        setSchema(state => ({
+                            ...state,
+                            [MedisinskVurderingField.BIDIAGNOSER]: [
+                                {
+                                    system: bidiagnoseSystem,
+                                    kode: code,
+                                    tekst: text,
+                                },
+                            ],
+                        }))
+                    }
+                />
+                <div>
+                    <Element>3.2.3 Tekst</Element>
+                    <Normaltekst style={{ marginTop: '8px' }}>
+                        {bidiagnose && bidiagnose.tekst ? bidiagnose.tekst : '-'}
+                    </Normaltekst>
+                </div>
             </Row>
             <hr />
             <Subsection sectionIdentifier="3.3">

@@ -1,42 +1,56 @@
 import './SearchableInput.less';
 
-import React, { useState } from 'react';
-import { Element } from 'nav-frontend-typografi';
+import React, { useEffect, useState } from 'react';
 import { Input } from 'nav-frontend-skjema';
 
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
 
 type SearchableInputProps = {
-    system: keyof Diagnosekoder;
+    system?: keyof Diagnosekoder;
     diagnosekoder: Diagnosekoder;
     label: JSX.Element;
+    onChange: (code: string, text: string) => void;
+    value: string | undefined;
 };
 
-const SearchableInput = ({ system, diagnosekoder, label }: SearchableInputProps) => {
-    const [input, setInput] = useState<string>('a');
+const MAXIMUM_VISIBLE_CODES = 5;
 
-    console.log(system);
+const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: SearchableInputProps) => {
+    const [input, setInput] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+        setInput(undefined);
+    }, [system]);
+
+    useEffect(() => {
+        setInput(undefined);
+    }, [value]);
+
+    if (!system) {
+        return <Input value="" disabled label={label} />;
+    }
 
     const diagnoses = diagnosekoder[system];
 
-    const results = diagnoses.filter(diagnosis =>
-        diagnosis.code.toLocaleLowerCase().startsWith(input.toLocaleLowerCase()),
-    );
-
-    const MAXIMUM_VISIBLE_CODES = 5;
+    const results = input
+        ? diagnoses.filter(diagnosis => diagnosis.code.toLocaleLowerCase().startsWith(input.toLocaleLowerCase()))
+        : [];
 
     const visibleResults = results.length > MAXIMUM_VISIBLE_CODES ? results.slice(0, MAXIMUM_VISIBLE_CODES) : results;
 
-    console.log(results);
-    console.log(visibleResults);
-
+    // If "input" is undefined, user has either selected a value or the value is undefined. When the user types,
+    // we switch the displayed value to show the search input.
     return (
         <div className="search-container">
-            <Input value={input} onChange={e => setInput(e.target.value)} label={label} />
-            {input !== '' && (
+            <Input value={input || value} onChange={e => setInput(e.target.value)} label={label} />
+            {input !== undefined && (
                 <div className="search-result-container">
                     {visibleResults.map(result => (
-                        <div className="search-result" onClick={() => console.log(result.code)} key={result.code}>
+                        <div
+                            className="search-result"
+                            onClick={() => onChange(result.code, result.text)}
+                            key={result.code}
+                        >
                             {result.code}
                         </div>
                     ))}
