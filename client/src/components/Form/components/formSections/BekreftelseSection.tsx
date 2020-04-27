@@ -12,7 +12,7 @@ export enum BekreftelseField {
     LEGITIMERT = 'legitimert',
     SYKMELDERS_NAVN = 'sykmeldersNavn',
     HPR = 'hpr',
-    TELEFON = 'telefon',
+    TELEFON = 'sykmelderTelefon',
     ADRESSE = 'adresse',
 }
 

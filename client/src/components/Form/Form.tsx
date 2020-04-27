@@ -11,46 +11,26 @@ import Panel from '../Panel/Panel';
 import ArbeidsevneSection, {
     Arbeidsevne,
     InnspillNav,
-    InnspillNavField,
     TilretteleggingArbeidsplass,
-    TilretteleggingArbeidsplassField,
     TiltakNav,
-    TiltakNavField,
 } from './components/formSections/ArbeidsevneSection';
-import ArbeidsgiverSection, { Arbeidsgiver, ArbeidsgiverField } from './components/formSections/ArbeidsgiverSection';
-import BekreftelseSection, { Bekreftelse, BekreftelseField } from './components/formSections/BekreftelseSection';
-import DiagnoseSection, {
-    MedisinskVurdering,
-    MedisinskVurderingField,
-} from './components/formSections/DiagnoseSection';
-import FriskmeldingSection, { Friskmelding, FriskmeldingField } from './components/formSections/FriskmeldingSection';
+import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
+import BekreftelseSection, { Bekreftelse } from './components/formSections/BekreftelseSection';
+import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection';
+import FriskmeldingSection, { Friskmelding } from './components/formSections/FriskmeldingSection';
 import MeldingTilArbeidsgiverSection, {
-    MeldingTilArbeidsgiverField,
+    MeldingTilArbeidsgiver,
 } from './components/formSections/MeldingTilArbeidsgiverSection';
-import MeldingTilNavSection, {
-    MeldingTilNav,
-    MeldingTilNavField,
-} from './components/formSections/MeldingTilNavSection';
+import MeldingTilNavSection, { MeldingTilNav } from './components/formSections/MeldingTilNavSection';
 import MulighetForArbeidSection, {
     AvventendeSykmelding,
-    AvventendeSykmeldingField,
     Behandling,
-    BehandlingField,
     FullSykmelding,
-    FullSykmeldingField,
     GradertSykmelding,
-    GradertSykmeldingField,
     Reisetilskudd,
-    ReisetilskuddField,
 } from './components/formSections/MulighetForArbeidSection';
-import PasientopplysningerSection, {
-    Metadata,
-    MetadataField,
-} from './components/formSections/PasientopplysningerSection';
-import TilbakedateringSection, {
-    Tilbakedatering,
-    TilbakedateringField,
-} from './components/formSections/TilbakedateringSection';
+import PasientopplysningerSection, { Metadata } from './components/formSections/PasientopplysningerSection';
+import TilbakedateringSection, { Tilbakedatering } from './components/formSections/TilbakedateringSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
 import { SectionTitle, Sections } from '../../types/Section';
@@ -81,6 +61,7 @@ export type SchemaType = Partial<
         TiltakNav &
         InnspillNav &
         MeldingTilNav &
+        MeldingTilArbeidsgiver &
         Tilbakedatering &
         Bekreftelse &
         Other
@@ -88,70 +69,71 @@ export type SchemaType = Partial<
 
 const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     return {
-        [OtherField.SYKETILFELLESTARTDATO]: undefined,
-        [OtherField.PERSONNUMMER]: oppgave.fnr,
-        [MetadataField.TELEFON]: undefined,
-        [MetadataField.ETTERNAVN]: undefined,
-        [MetadataField.FORNAVN]: undefined,
-        [MetadataField.LEGE_NAVN]: undefined,
-        [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
-        [ArbeidsgiverField.NAVN]: undefined,
-        [ArbeidsgiverField.YRKESBETEGNELSE]: undefined,
-        [ArbeidsgiverField.STILLINGSPROSENT]: undefined,
-        [MedisinskVurderingField.HOVEDDIAGNOSE]: {
+        syketilfelleStartDato: undefined,
+        personnummer: oppgave.fnr,
+        telefon: undefined,
+        etternavn: undefined,
+        fornavn: undefined,
+        legenavn: undefined,
+        harArbeidsgiver: undefined,
+        arbeidsgiverNavn: undefined,
+        yrkesbetegnelse: undefined,
+        stillingsprosent: undefined,
+        hoveddiagnose: {
             system: undefined,
             kode: undefined,
             tekst: undefined,
         },
-        [MedisinskVurderingField.BIDIAGNOSER]: [],
-        [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: false,
-        [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]: undefined,
-        [MedisinskVurderingField.BESKRIV_FRAVAER]: undefined,
-        [MedisinskVurderingField.SVANGERSKAP]: false,
-        [MedisinskVurderingField.YRKESSKADE]: false,
-        [MedisinskVurderingField.YRKESSKADE_DATO]: undefined,
-        [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: false,
-        [AvventendeSykmeldingField.AVVENTENDE]: false,
-        [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: [],
-        [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: undefined,
-        [GradertSykmeldingField.GRADERT]: false,
-        [GradertSykmeldingField.GRADERT_PERIODE]: [],
-        [GradertSykmeldingField.GRAD]: undefined,
-        [GradertSykmeldingField.REISETILSKUDD]: false,
-        [FullSykmeldingField.SYKMELDT]: false,
-        [FullSykmeldingField.SYKMELDT_PERIODE]: [],
-        [FullSykmeldingField.MEDISINSKE_AARSAKER]: false,
-        [FullSykmeldingField.ARBEIDSFORHOLD]: false,
-        [BehandlingField.KAN_ARBEIDE]: false,
-        [BehandlingField.BEHANDLINGSPERIODE]: [],
-        [BehandlingField.ANTALL_DAGER]: undefined,
-        [ReisetilskuddField.FULLT_ARBEID]: false,
-        [ReisetilskuddField.ARBEIDSPERIODE]: [],
-        [FriskmeldingField.ARBEIDSFOER_ETTER_PERIODE]: false,
-        [FriskmeldingField.HENSYN_PA_ARBEIDSPLASSEN]: undefined,
-        [TilretteleggingArbeidsplassField.TILRETTELEGGING]: false,
-        [TilretteleggingArbeidsplassField.BESKRIV]: undefined,
-        [TiltakNavField.TILTAK_NAV]: false,
-        [TiltakNavField.BESKRIV]: undefined,
-        [InnspillNavField.INNSPILL]: false,
-        [InnspillNavField.BESKRIV]: undefined,
-        [MeldingTilNavField.BISTAND]: false,
-        [MeldingTilNavField.BEGRUNN]: undefined,
-        [MeldingTilArbeidsgiverField.INNSPILL]: false,
-        [MeldingTilArbeidsgiverField.BESKRIV]: undefined,
-        [TilbakedateringField.ER_TILBAKEDATERT]: false,
-        [TilbakedateringField.DATO_TILBAKEDATERING]: undefined,
-        [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]: false,
-        [TilbakedateringField.BEGRUNN]: undefined,
-        [BekreftelseField.LEGITIMERT]: false,
-        [BekreftelseField.SYKMELDERS_NAVN]: undefined,
-        [BekreftelseField.HPR]: undefined,
-        [BekreftelseField.TELEFON]: undefined,
-        [BekreftelseField.ADRESSE]: undefined,
+        bidiagnoser: [],
+        annenFravaersArsak: false,
+        lovfestetFravaersgrunn: undefined,
+        beskrivFravaeret: undefined,
+        svangerskap: false,
+        yrkesskade: false,
+        yrkesskadeDato: undefined,
+        skjermetFraPasient: false,
+        avventende: false,
+        avventendePeriode: [],
+        innspillTilArbeidsgiver: undefined,
+        gradert: false,
+        gradertPeriode: [],
+        grad: undefined,
+        reisetilskudd: false,
+        sykmeldt: false,
+        sykmeldtPeriode: [],
+        medisinskeAarsaker: false,
+        arbeidsforhold: false,
+        kanArbeide: false,
+        behandlingsPeriode: [],
+        antallDager: undefined,
+        fulltArbeid: false,
+        arbeidsPeriode: [],
+        arbeidsfoerEtterPeriode: false,
+        hensynPaArbeidsplassen: undefined,
+        tilretteleggingArbeidsplassen: false,
+        tilretteleggArbeidsplassBeskriv: undefined,
+        tiltakNav: false,
+        tiltakNavBeskriv: undefined,
+        innspillTilNAv: false,
+        innspillTilNavBeskriv: undefined,
+        meldingTilNavBistand: false,
+        meldingTilNavBegrunn: undefined,
+        meldingTilArbeidsgiverInnspill: false,
+        meldingTIlArbeidsgiverBeskriv: undefined,
+        erTilbakedatert: false,
+        datoTilbakedatering: undefined,
+        kanIkkeIvaretaInteresser: false,
+        tilbakedateringBegrunn: undefined,
+        legitimert: false,
+        sykmeldersNavn: undefined,
+        hpr: undefined,
+        sykmelderTelefon: undefined,
+        adresse: undefined,
     };
 };
 
 export type ErrorSchemaType = { [key in keyof SchemaType]: string | undefined };
+export type Validate = (name: keyof SchemaType, value: SchemaType[keyof SchemaType]) => void;
 
 type FormProps = {
     sections: Sections;
@@ -170,7 +152,7 @@ export type ExpandableSections =
 const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: FormProps) => {
     const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
     const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
-        [SectionTitle.MULIGHET_FOR_ARBEID]: true,
+        [SectionTitle.MULIGHET_FOR_ARBEID]: false,
         [SectionTitle.ARBEIDSEVNE]: true,
         [SectionTitle.TIL_NAV]: true,
         [SectionTitle.TIL_ARBEIDSGIVER]: true,
@@ -183,14 +165,12 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
         }));
     };
 
-    const validate = (name: keyof SchemaType, value: SchemaType[keyof SchemaType]) => {
+    const validate: Validate = (name, value) => {
         const validationFunction = validation[name];
 
         let error: string | undefined = undefined;
 
-        if (validationFunction) {
-            error = validationFunction(value);
-        }
+        error = validationFunction(value as any, schema);
 
         setFormErrors(state => ({ ...state, [name]: error }));
     };
@@ -222,16 +202,17 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
                 <FnrInput
                     className="form-margin-bottom half"
                     defaultValue={schema.personnummer}
-                    onChange={({ target: { value } }) =>
+                    onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
                             [OtherField.PERSONNUMMER]: value,
-                        }))
-                    }
+                        }));
+                        validate(OtherField.PERSONNUMMER, value);
+                    }}
                     onValidate={valid => console.log(valid)}
                     label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
+                    feil={formErrors[OtherField.PERSONNUMMER]}
                 />
-
                 <DatePicker
                     label="Startdato for legemeldt fravær"
                     value={schema[OtherField.SYKETILFELLESTARTDATO]}
@@ -247,11 +228,19 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
                 schema={schema}
                 validate={validate}
             />
-            <ArbeidsgiverSection section={sections[SectionTitle.ARBEIDSGIVER]} setSchema={setSchema} />
+            <ArbeidsgiverSection
+                section={sections[SectionTitle.ARBEIDSGIVER]}
+                setSchema={setSchema}
+                errors={formErrors}
+                schema={schema}
+                validate={validate}
+            />
             <DiagnoseSection
                 section={sections[SectionTitle.DIAGNOSE]}
                 setSchema={setSchema}
+                errors={formErrors}
                 schema={schema}
+                validate={validate}
                 diagnosekoder={diagnosekoder}
             />
             <MulighetForArbeidSection
@@ -259,7 +248,9 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
                 expanded={expanded[SectionTitle.MULIGHET_FOR_ARBEID]}
                 expandSection={() => expandSection(SectionTitle.MULIGHET_FOR_ARBEID)}
                 setSchema={setSchema}
+                errors={formErrors}
                 schema={schema}
+                validate={validate}
             />
             <FriskmeldingSection
                 section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}

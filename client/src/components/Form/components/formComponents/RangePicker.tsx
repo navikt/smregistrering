@@ -6,6 +6,7 @@ import React from 'react';
 import { Element } from 'nav-frontend-typografi';
 
 import calendar from '../../../../svg/calendar.svg';
+import { AvventendeSykmeldingField } from '../formSections/MulighetForArbeidSection';
 import { flatpickrLocale } from './flatpickrUtils';
 
 type RangePickerProps = {
@@ -13,9 +14,10 @@ type RangePickerProps = {
     labelTo: string;
     value: Date[];
     onChange: (newDates: Date[]) => void;
+    feil?: string;
 };
 
-const RangePicker = ({ labelFrom, labelTo, value, onChange }: RangePickerProps) => {
+const RangePicker = ({ labelFrom, labelTo, value, onChange, feil }: RangePickerProps) => {
     return (
         <div className="rangepicker-container">
             <div className="rangepicker-label">
@@ -41,6 +43,7 @@ const RangePicker = ({ labelFrom, labelTo, value, onChange }: RangePickerProps) 
                     <img aria-hidden="true" alt="Kalender" src={calendar} />
                 </span>
             </div>
+            {feil ? <p>{feil}</p> : null}
         </div>
     );
 };

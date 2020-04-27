@@ -12,7 +12,7 @@ export enum TilbakedateringField {
     ER_TILBAKEDATERT = 'erTilbakedatert',
     DATO_TILBAKEDATERING = 'datoTilbakedatering',
     KAN_IKKE_IVARETA_INTERESSER = 'kanIkkeIvaretaInteresser',
-    BEGRUNN = 'begrunn',
+    BEGRUNN = 'tilbakedateringBegrunn',
 }
 
 export type Tilbakedatering = {

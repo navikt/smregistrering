@@ -5,7 +5,7 @@ import { Element } from 'nav-frontend-typografi';
 import RangePicker from '../formComponents/RangePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType, Validate } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export enum AvventendeSykmeldingField {
@@ -15,9 +15,9 @@ export enum AvventendeSykmeldingField {
 }
 
 export type AvventendeSykmelding = {
-    [AvventendeSykmeldingField.AVVENTENDE]?: boolean;
-    [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: Date[];
-    [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]?: string;
+    avventende?: boolean;
+    avventendePeriode: Date[];
+    innspillTilArbeidsgiver?: string;
 };
 
 export enum GradertSykmeldingField {
@@ -28,10 +28,10 @@ export enum GradertSykmeldingField {
 }
 
 export type GradertSykmelding = {
-    [GradertSykmeldingField.GRADERT]?: boolean;
-    [GradertSykmeldingField.GRADERT_PERIODE]: Date[];
-    [GradertSykmeldingField.GRAD]?: string;
-    [GradertSykmeldingField.REISETILSKUDD]?: boolean;
+    gradert?: boolean;
+    gradertPeriode: Date[];
+    grad?: string;
+    reisetilskudd?: boolean;
 };
 
 export enum FullSykmeldingField {
@@ -42,10 +42,10 @@ export enum FullSykmeldingField {
 }
 
 export type FullSykmelding = {
-    [FullSykmeldingField.SYKMELDT]?: boolean;
-    [FullSykmeldingField.SYKMELDT_PERIODE]: Date[];
-    [FullSykmeldingField.MEDISINSKE_AARSAKER]?: boolean;
-    [FullSykmeldingField.ARBEIDSFORHOLD]?: boolean;
+    sykmeldt?: boolean;
+    sykmeldtPeriode: Date[];
+    medisinskeAarsaker?: boolean;
+    arbeidsforhold?: boolean;
 };
 
 export enum BehandlingField {
@@ -55,9 +55,9 @@ export enum BehandlingField {
 }
 
 export type Behandling = {
-    [BehandlingField.KAN_ARBEIDE]?: boolean;
-    [BehandlingField.BEHANDLINGSPERIODE]: Date[];
-    [BehandlingField.ANTALL_DAGER]?: number;
+    kanArbeide?: boolean;
+    behandlingsPeriode: Date[];
+    antallDager?: number;
 };
 
 export enum ReisetilskuddField {
@@ -66,8 +66,8 @@ export enum ReisetilskuddField {
 }
 
 export type Reisetilskudd = {
-    [ReisetilskuddField.FULLT_ARBEID]?: boolean;
-    [ReisetilskuddField.ARBEIDSPERIODE]: Date[];
+    fulltArbeid?: boolean;
+    arbeidsPeriode: Date[];
 };
 
 export enum MulighetForArbeidField {
@@ -79,17 +79,19 @@ export enum MulighetForArbeidField {
 }
 
 export type MulighetForArbeid = {
-    [MulighetForArbeidField.AVVENTENDE_SYKMELDING]: AvventendeSykmelding;
-    [MulighetForArbeidField.GRADERT_SYKMELDING]: GradertSykmelding;
-    [MulighetForArbeidField.FULL_SYKMELDING]: FullSykmelding;
-    [MulighetForArbeidField.BEHANDLING]: Behandling;
-    [MulighetForArbeidField.REISETILSKUDD]: Reisetilskudd;
+    avventendeSykmelding: AvventendeSykmelding;
+    gradertSykmelding: GradertSykmelding;
+    fullSykmelding: FullSykmelding;
+    behandling: Behandling;
+    reisetilskudd: Reisetilskudd;
 };
 
 type MulighetForArbeidSectionProps = {
     section: Section;
     expanded: boolean;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    errors: ErrorSchemaType;
+    validate: Validate;
     schema: SchemaType;
     expandSection: () => void;
 };
@@ -100,6 +102,8 @@ const MulighetForArbeidSection = ({
     expandSection,
     setSchema,
     schema,
+    errors,
+    validate,
 }: MulighetForArbeidSectionProps) => {
     return (
         <SectionContainer section={section} expanded={expanded} setExpanded={expandSection}>
@@ -107,12 +111,14 @@ const MulighetForArbeidSection = ({
                 <Checkbox
                     checked={schema[AvventendeSykmeldingField.AVVENTENDE]}
                     label="Pasienten kan benytte avventende sykmelding"
-                    onChange={() =>
+                    onChange={() => {
                         setSchema(state => ({
                             ...state,
                             [AvventendeSykmeldingField.AVVENTENDE]: !state[AvventendeSykmeldingField.AVVENTENDE],
-                        }))
-                    }
+                        }));
+                        validate(AvventendeSykmeldingField.AVVENTENDE, schema[AvventendeSykmeldingField.AVVENTENDE]);
+                    }}
+                    feil={errors[AvventendeSykmeldingField.AVVENTENDE]}
                 />
                 <br />
                 {schema[AvventendeSykmeldingField.AVVENTENDE] && (
@@ -121,12 +127,14 @@ const MulighetForArbeidSection = ({
                             labelFrom="4.1.1 f.o.m."
                             labelTo="4.1.2 t.o.m."
                             value={schema[AvventendeSykmeldingField.AVVENTENDE_PERIODE] || []}
-                            onChange={newDates =>
+                            onChange={newDates => {
                                 setSchema(state => ({
                                     ...state,
                                     [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: newDates,
-                                }))
-                            }
+                                }));
+                                validate(AvventendeSykmeldingField.AVVENTENDE_PERIODE, newDates);
+                            }}
+                            feil={errors[AvventendeSykmeldingField.AVVENTENDE_PERIODE]}
                         />
                         <Textarea
                             maxLength={0}

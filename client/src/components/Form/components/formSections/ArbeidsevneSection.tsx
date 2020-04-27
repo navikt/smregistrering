@@ -8,8 +8,8 @@ import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export enum TilretteleggingArbeidsplassField {
-    TILRETTELEGGING = 'tilrettelegging',
-    BESKRIV = 'beskriv',
+    TILRETTELEGGING = 'tilretteleggingArbeidsplassen',
+    BESKRIV = 'tilretteleggArbeidsplassBeskriv',
 }
 
 export type TilretteleggingArbeidsplass = {
@@ -19,7 +19,7 @@ export type TilretteleggingArbeidsplass = {
 
 export enum TiltakNavField {
     TILTAK_NAV = 'tiltakNav',
-    BESKRIV = 'beskriv',
+    BESKRIV = 'tiltakNavBeskriv',
 }
 
 export type TiltakNav = {
@@ -28,8 +28,8 @@ export type TiltakNav = {
 };
 
 export enum InnspillNavField {
-    INNSPILL = 'innspill',
-    BESKRIV = 'beskriv',
+    INNSPILL = 'innspillTilNAv',
+    BESKRIV = 'innspillTilNavBeskriv',
 }
 
 export type InnspillNav = {

@@ -9,7 +9,7 @@ import SearchableInput from '../formComponents/SearchableInput';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
-import { SchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType, Validate } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export enum MedisinskVurderingField {
@@ -31,8 +31,8 @@ export type Diagnose = {
 };
 
 export type MedisinskVurdering = {
-    [MedisinskVurderingField.HOVEDDIAGNOSE]: Diagnose;
-    [MedisinskVurderingField.BIDIAGNOSER]: Diagnose[];
+    [MedisinskVurderingField.HOVEDDIAGNOSE]?: Diagnose;
+    [MedisinskVurderingField.BIDIAGNOSER]?: Diagnose[];
     [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]?: boolean;
     [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]?: string;
     [MedisinskVurderingField.BESKRIV_FRAVAER]?: string;
@@ -45,11 +45,13 @@ export type MedisinskVurdering = {
 type DiagnoseSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    errors: ErrorSchemaType;
+    validate: Validate;
     schema: SchemaType;
     diagnosekoder: Diagnosekoder;
 };
 
-const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: DiagnoseSectionProps) => {
+const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnosekoder }: DiagnoseSectionProps) => {
     const hoveddiagnose = schema[MedisinskVurderingField.HOVEDDIAGNOSE];
     const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
         hoveddiagnose && (hoveddiagnose.system as keyof Diagnosekoder);
@@ -64,7 +66,7 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
             <Row>
                 <Select
                     className="form-margin-bottom"
-                    onChange={({ target: { value } }) =>
+                    onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.HOVEDDIAGNOSE]: {
@@ -72,9 +74,11 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                                 kode: '',
                                 tekst: '',
                             },
-                        }))
-                    }
+                        }));
+                        validate(MedisinskVurderingField.HOVEDDIAGNOSE, value);
+                    }}
                     label={<Element>3.1.1 Kodesystem</Element>}
+                    feil={errors[MedisinskVurderingField.HOVEDDIAGNOSE]}
                 >
                     <option value={undefined}>Velg kodesystem</option>
                     <option value="icpc2">ICPC-2</option>
@@ -85,7 +89,7 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                     system={hoveddiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
-                    onChange={(kode: string, tekst: string) =>
+                    onChange={(kode: string, tekst: string) => {
                         setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.HOVEDDIAGNOSE]: {
@@ -93,8 +97,13 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                                 kode,
                                 tekst,
                             },
-                        }))
-                    }
+                        }));
+                        validate(MedisinskVurderingField.HOVEDDIAGNOSE, {
+                            system: hoveddiagnoseSystem,
+                            kode,
+                            tekst,
+                        });
+                    }}
                 />
                 <div>
                     <Element>3.1.3 Tekst</Element>

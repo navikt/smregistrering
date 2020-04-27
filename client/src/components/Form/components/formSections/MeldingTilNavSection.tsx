@@ -8,8 +8,8 @@ import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export enum MeldingTilNavField {
-    BISTAND = 'bistand',
-    BEGRUNN = 'begrunn',
+    BISTAND = 'meldingTilNavBistand',
+    BEGRUNN = 'meldingTilNavBegrunn',
 }
 
 export type MeldingTilNav = {

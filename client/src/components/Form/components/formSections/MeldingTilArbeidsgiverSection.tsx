@@ -8,8 +8,8 @@ import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export enum MeldingTilArbeidsgiverField {
-    INNSPILL = 'innspill',
-    BESKRIV = 'beskriv',
+    INNSPILL = 'meldingTilArbeidsgiverInnspill',
+    BESKRIV = 'meldingTIlArbeidsgiverBeskriv',
 }
 
 export type MeldingTilArbeidsgiver = {

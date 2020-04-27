@@ -4,7 +4,7 @@ import { Input } from 'nav-frontend-skjema';
 
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType, Validate } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export enum MetadataField {
@@ -25,7 +25,7 @@ type PasientopplysningerProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     errors: ErrorSchemaType;
-    validate: (name: keyof SchemaType, value: SchemaType[keyof SchemaType]) => void;
+    validate: Validate;
     schema: SchemaType;
 };
 
@@ -80,9 +80,10 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                 className="form-margin-bottom"
                 type="text"
                 feil={errors[MetadataField.LEGE_NAVN]}
-                onChange={({ target: { value } }) =>
-                    setSchema(state => ({ ...state, [MetadataField.LEGE_NAVN]: value }))
-                }
+                onChange={({ target: { value } }) => {
+                    setSchema(state => ({ ...state, [MetadataField.LEGE_NAVN]: value }));
+                    validate(MetadataField.LEGE_NAVN, value);
+                }}
                 label={<Element>1.4 Navn på pasientens fastlege</Element>}
             />
         </SectionContainer>

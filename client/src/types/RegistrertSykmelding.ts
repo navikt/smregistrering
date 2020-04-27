@@ -147,3 +147,12 @@ export const RegistrertSykmelding = iots.type({
     skjermesForPasient: iots.boolean,
 });
 export type RegistrertSykmelding = iots.TypeOf<typeof RegistrertSykmelding>;
+
+type RecursivePartial<T> = {
+    [P in keyof T]?: RecursivePartial<T[P]>;
+};
+
+export interface Schema extends RecursivePartial<RegistrertSykmelding> {
+    avventende?: boolean;
+    reisetilskudd?: boolean;
+}
