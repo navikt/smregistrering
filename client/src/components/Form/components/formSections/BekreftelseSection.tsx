@@ -10,7 +10,7 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type Bekreftelse = {
-    legitimert?: boolean;
+    legitimert: boolean;
     sykmeldersNavn?: string;
     hpr?: string;
     sykmelderTelefon?: string;

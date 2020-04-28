@@ -46,7 +46,7 @@ export const validationFunctions: ValidationType = {
     // Arbeidsgiver
     harArbeidsgiver: (value, schema) => {
         if (!value) {
-            return 'Du må velge abridssituasjon';
+            return 'Du må velge arbeidssituasjon';
         }
         return undefined;
     },

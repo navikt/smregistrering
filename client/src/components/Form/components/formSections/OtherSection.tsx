@@ -37,7 +37,10 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
             <DatePicker
                 label="Startdato for legemeldt fravær"
                 value={schema.syketilfelleStartDato}
-                onChange={newDates => setSchema(state => ({ ...state, syketilfelleStartDato: newDates }))}
+                onChange={newDates => {
+                    setSchema(state => ({ ...state, syketilfelleStartDato: newDates }));
+                    validate('syketilfelleStartDato', newDates);
+                }}
             />
         </div>
     );

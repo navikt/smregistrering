@@ -39,7 +39,6 @@ export interface SchemaType
 const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     return {
         pasientFnr: oppgave.fnr,
-        biDiagnoser: [],
         avventendeSykmelding: false,
         gradertSykmelding: false,
         aktivitetIkkeMuligSykmelding: false,
@@ -49,12 +48,6 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
         svangerskap: false,
         yrkesskade: false,
         skjermesForPasient: false,
-        arbeidsfoerEtterPeriode: false,
-        tilretteleggingArbeidsplassen: false,
-        tiltakNav: false,
-        innspillTilNAv: false,
-        meldingTilNavBistand: false,
-        meldingTilArbeidsgiverInnspill: false,
         erTilbakedatert: false,
         kunneIkkeIvaretaEgneInteresser: false,
         legitimert: false,
