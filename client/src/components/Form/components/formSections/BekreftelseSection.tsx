@@ -5,8 +5,9 @@ import { Element } from 'nav-frontend-typografi';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { SchemaType, ErrorSchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
+import { Validate } from '../../validation';
 
 export type Bekreftelse = {
     legitimert?: boolean;
@@ -20,9 +21,11 @@ type BekreftelseSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
+    errors: ErrorSchemaType;
+    validate: Validate;
 };
 
-const BekreftelseSection = ({ section, setSchema, schema }: BekreftelseSectionProps) => {
+const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: BekreftelseSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="12.1" underline={false}>

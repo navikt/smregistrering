@@ -4,8 +4,9 @@ import { Input } from 'nav-frontend-skjema';
 
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
-import { ErrorSchemaType, SchemaType, Validate } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
+import { Validate } from '../../validation';
 
 export type Pasientopplysninger = {
     behandlerNavn?: string;

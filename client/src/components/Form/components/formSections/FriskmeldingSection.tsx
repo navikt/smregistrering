@@ -4,8 +4,9 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { SchemaType, ErrorSchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
+import { Validate } from '../../validation';
 
 export type Friskmelding = {
     arbeidsfoerEtterPeriode?: boolean;
@@ -16,9 +17,11 @@ type FriskmeldingSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
+    errors: ErrorSchemaType;
+    validate: Validate;
 };
 
-const FriskmeldingSection = ({ section, setSchema, schema }: FriskmeldingSectionProps) => {
+const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: FriskmeldingSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="5.1" underline={false}>

@@ -6,8 +6,9 @@ import RangePicker from '../formComponents/RangePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../types/RegistrertSykmelding';
-import { ErrorSchemaType, SchemaType, Validate } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
+import { Validate } from '../../validation';
 
 export type MulighetForArbeid = {
     // Perioder for avventende sykmelding

@@ -1,5 +1,7 @@
 import { SchemaType } from './Form';
 
+export type Validate = (name: keyof SchemaType, value: SchemaType[keyof SchemaType]) => void;
+
 type Mandatory<T> = keyof T;
 export type ValidationType = {
     [key in Mandatory<SchemaType>]: (value: SchemaType[key], schema: SchemaType) => string | undefined;

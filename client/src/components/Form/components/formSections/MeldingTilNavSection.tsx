@@ -4,8 +4,9 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { SchemaType, ErrorSchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
+import { Validate } from '../../validation';
 
 export type MeldingTilNav = {
     meldingTilNavBistand?: boolean;
@@ -16,9 +17,11 @@ type MeldingTilNavSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
+    errors: ErrorSchemaType;
+    validate: Validate;
 };
 
-const MeldingTilNavSection = ({ section, setSchema, schema }: MeldingTilNavSectionProps) => {
+const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: MeldingTilNavSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="8.1" underline={false}>

@@ -5,8 +5,9 @@ import { Element } from 'nav-frontend-typografi';
 import DatePicker from '../formComponents/DatePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { SchemaType, ErrorSchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
+import { Validate } from '../../validation';
 
 export type Tilbakedatering = {
     erTilbakedatert: boolean;
@@ -19,9 +20,11 @@ type TilbakedateringSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
+    errors: ErrorSchemaType;
+    validate: Validate;
 };
 
-const TilbakedateringSection = ({ section, setSchema, schema }: TilbakedateringSectionProps) => {
+const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }: TilbakedateringSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="11.1" underline={false}>

@@ -3,9 +3,10 @@ import { Element } from 'nav-frontend-typografi';
 import { Input, Select } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
-import { ErrorSchemaType, SchemaType, Validate } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { HarArbeidsgiver } from '../../../../types/RegistrertSykmelding';
 import { Section } from '../../../../types/Section';
+import { Validate } from '../../validation';
 
 export type Arbeidsgiver = {
     harArbeidsgiver?: HarArbeidsgiver;

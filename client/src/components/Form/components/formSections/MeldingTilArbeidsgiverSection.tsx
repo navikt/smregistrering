@@ -4,8 +4,9 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { SchemaType, ErrorSchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
+import { Validate } from '../../validation';
 
 export type MeldingTilArbeidsgiver = {
     meldingTilArbeidsgiverInnspill?: boolean;
@@ -16,9 +17,11 @@ type MeldingTilArbeidsgiverSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
+    errors: ErrorSchemaType;
+    validate: Validate;
 };
 
-const MeldingTilArbeidsgiverSection = ({ section, setSchema, schema }: MeldingTilArbeidsgiverSectionProps) => {
+const MeldingTilArbeidsgiverSection = ({ section, setSchema, schema, errors, validate }: MeldingTilArbeidsgiverSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="9.1" underline={false}>

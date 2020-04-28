@@ -10,8 +10,9 @@ import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { AnnenFraverGrunn } from '../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
-import { ErrorSchemaType, SchemaType, Validate } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
+import { Validate } from '../../validation';
 
 export type Diagnose = {
     system?: string;
