@@ -4,7 +4,7 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType, ErrorSchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
@@ -34,18 +34,21 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                             meldingTilNavBistand: !state.meldingTilNavBistand,
                         }))
                     }
+                    feil={errors.meldingTilNavBistand}
                 />
                 <br />
                 {schema.meldingTilNavBistand && (
                     <Textarea
                         maxLength={0}
                         value={schema.meldingTilNavBegrunn || ''}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(state => ({
                                 ...state,
                                 meldingTilNavBegrunn: value,
-                            }))
-                        }
+                            }));
+                            validate('meldingTilNavBegrunn', value);
+                        }}
+                        feil={errors.meldingTilNavBegrunn}
                         label={<Element>Begrunn nærmere</Element>}
                     />
                 )}

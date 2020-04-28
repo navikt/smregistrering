@@ -4,10 +4,9 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType, ErrorSchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
-
 
 export type Arbeidsevne = {
     tilretteleggingArbeidsplassen?: boolean;
@@ -39,19 +38,22 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                             tilretteleggingArbeidsplassen: !state.tilretteleggingArbeidsplassen,
                         }))
                     }
+                    feil={errors.tilretteleggingArbeidsplassen}
                 />
                 <br />
                 {schema.tilretteleggingArbeidsplassen && (
                     <Textarea
                         maxLength={0}
                         value={schema.tilretteleggingArbeidsplassBeskriv || ''}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(state => ({
                                 ...state,
                                 tilretteleggArbeidsplassBeskriv: value,
-                            }))
-                        }
+                            }));
+                            validate('tilretteleggingArbeidsplassBeskriv', value);
+                        }}
                         label={<Element>Beskriv</Element>}
+                        feil={errors.tilretteleggingArbeidsplassBeskriv}
                     />
                 )}
             </Subsection>
@@ -66,18 +68,21 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                             tiltakNav: !state.tiltakNav,
                         }))
                     }
+                    feil={errors.tiltakNav}
                 />
                 <br />
                 {schema.tiltakNav && (
                     <Textarea
                         maxLength={0}
                         value={schema.tiltakNavBeskriv || ''}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(state => ({
                                 ...state,
                                 tiltakNavBeskriv: value,
-                            }))
-                        }
+                            }));
+                            validate('tiltakNavBeskriv', value);
+                        }}
+                        feil={errors.tiltakNavBeskriv}
                         label={<Element>Beskriv. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)</Element>}
                     />
                 )}
@@ -93,19 +98,22 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                             innspillTilNAv: !state.innspillTilNAv,
                         }))
                     }
+                    feil={errors.innspillTilNAv}
                 />
                 <br />
                 {schema.innspillTilNAv && (
                     <Textarea
                         maxLength={0}
                         value={schema.innspillTilNavBeskriv || ''}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(state => ({
                                 ...state,
                                 innspillTilNavBeskriv: value,
-                            }))
-                        }
+                            }));
+                            validate('innspillTilNavBeskriv', value);
+                        }}
                         label={<Element>Beskriv</Element>}
+                        feil={errors.innspillTilNavBeskriv}
                     />
                 )}
             </Subsection>

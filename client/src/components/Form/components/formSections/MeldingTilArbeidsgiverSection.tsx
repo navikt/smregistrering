@@ -4,7 +4,7 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType, ErrorSchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
@@ -21,7 +21,13 @@ type MeldingTilArbeidsgiverSectionProps = {
     validate: Validate;
 };
 
-const MeldingTilArbeidsgiverSection = ({ section, setSchema, schema, errors, validate }: MeldingTilArbeidsgiverSectionProps) => {
+const MeldingTilArbeidsgiverSection = ({
+    section,
+    setSchema,
+    schema,
+    errors,
+    validate,
+}: MeldingTilArbeidsgiverSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="9.1" underline={false}>
@@ -34,18 +40,21 @@ const MeldingTilArbeidsgiverSection = ({ section, setSchema, schema, errors, val
                             meldingTilArbeidsgiverInnspill: !state.meldingTilArbeidsgiverInnspill,
                         }))
                     }
+                    feil={errors.meldingTilArbeidsgiverInnspill}
                 />
                 <br />
                 {schema.meldingTilArbeidsgiverInnspill && (
                     <Textarea
                         maxLength={0}
                         value={schema.meldingTilArbeidsgiverBeskriv || ''}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(state => ({
                                 ...state,
                                 meldingTilArbeidsgiverBeskriv: value,
-                            }))
-                        }
+                            }));
+                            validate('meldingTilArbeidsgiverBeskriv', value);
+                        }}
+                        feil={schema.meldingTilArbeidsgiverBeskriv}
                         label={<Element>Andre innspill til arbeidsgiver</Element>}
                     />
                 )}

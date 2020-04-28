@@ -118,6 +118,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             ],
                         }))
                     }
+                    feil={errors.biDiagnoser}
                     label={<Element>3.2.1 Kodesystem</Element>}
                 >
                     <option value={undefined}>Velg kodesystem</option>
@@ -160,6 +161,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             annenFraversArsak: !state.annenFraversArsak,
                         }))
                     }
+                    feil={errors.annenFraversArsak}
                 />
                 <br />
                 {schema.annenFraversArsak && (
@@ -195,6 +197,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                         <Input
                             className="form-margin-bottom"
                             type="text"
+                            value={schema.annenFraversArsakBeskrivelse}
                             onChange={({ target: { value } }) => {
                                 setSchema(state => ({
                                     ...state,
@@ -219,6 +222,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             svangerskap: !state.svangerskap,
                         }))
                     }
+                    feil={errors.svangerskap}
                 />
             </Subsection>
 
@@ -232,6 +236,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             yrkesskade: !state.yrkesskade,
                         }))
                     }
+                    feil={errors.yrkesskade}
                 />
                 <br />
                 {schema.yrkesskade && (
@@ -258,6 +263,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             skjermesForPasient: !state.skjermesForPasient,
                         }))
                     }
+                    feil={errors.skjermesForPasient}
                 />
             </Subsection>
         </SectionContainer>

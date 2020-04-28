@@ -5,7 +5,7 @@ import { Element } from 'nav-frontend-typografi';
 import DatePicker from '../formComponents/DatePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType, ErrorSchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
@@ -37,6 +37,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                             erTilbakedatert: !state.erTilbakedatert,
                         }))
                     }
+                    feil={errors.erTilbakedatert}
                 />
                 <br />
                 {schema.erTilbakedatert && (
@@ -57,24 +58,28 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                 <Checkbox
                     checked={schema.kunneIkkeIvaretaEgneInteresser}
                     label="Pasienten har ikke kunnet ivareta egne interesser"
-                    onChange={() =>
+                    onChange={() => {
                         setSchema(state => ({
                             ...state,
                             kunneIkkeIvaretaEgneInteresser: !state.kunneIkkeIvaretaEgneInteresser,
-                        }))
-                    }
+                        }));
+                        validate('kunneIkkeIvaretaEgneInteresser', schema.kunneIkkeIvaretaEgneInteresser);
+                    }}
+                    feil={errors.kunneIkkeIvaretaEgneInteresser}
                 />
                 <br />
                 {schema.kunneIkkeIvaretaEgneInteresser && (
                     <Textarea
                         maxLength={0}
                         value={schema.begrunnelseIkkeKontakt || ''}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(state => ({
                                 ...state,
                                 begrunnelseIkkeKontakt: value,
-                            }))
-                        }
+                            }));
+                            validate('begrunnelseIkkeKontakt', value);
+                        }}
+                        feil={errors.begrunnelseIkkeKontakt}
                         label={<Element>Begrunn</Element>}
                     />
                 )}

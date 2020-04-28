@@ -1,6 +1,6 @@
 import React from 'react';
 import { EtikettLiten } from 'nav-frontend-typografi';
-import { FnrInput } from 'nav-frontend-skjema';
+import { Input } from 'nav-frontend-skjema';
 
 import DatePicker from '../formComponents/DatePicker';
 import { ErrorSchemaType, SchemaType } from '../../Form';
@@ -21,7 +21,7 @@ type OtherSectionProps = {
 const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps) => {
     return (
         <div className="form-margin-bottom section-content">
-            <FnrInput
+            <Input
                 className="form-margin-bottom half"
                 defaultValue={schema.fnr}
                 onChange={({ target: { value } }) => {
@@ -31,7 +31,6 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                     }));
                     validate('fnr', value);
                 }}
-                onValidate={valid => console.log(valid)}
                 label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
                 feil={errors.fnr}
             />

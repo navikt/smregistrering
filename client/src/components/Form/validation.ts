@@ -13,8 +13,8 @@ export const validationFunctions: ValidationType = {
         if (!value) {
             return 'Personnummer må være definert';
         }
-        if (!value.match('[0-9]')) {
-            return 'Telefonnummeret er ikke på et gyldig format';
+        if (!value.match('^\\+?[- _0-9]+$')) {
+            return 'Fødselsnummeret er ikke på et gyldig format';
         }
         return undefined;
     },

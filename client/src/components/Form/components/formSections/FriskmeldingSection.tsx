@@ -4,7 +4,7 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType, ErrorSchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
@@ -34,18 +34,21 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                             arbeidsfoerEtterPeriode: !state.arbeidsfoerEtterPeriode,
                         }))
                     }
+                    feil={errors.arbeidsfoerEtterPeriode}
                 />
                 <br />
                 {schema.arbeidsfoerEtterPeriode && (
                     <Textarea
                         maxLength={0}
                         value={schema.hensynPaArbeidsplassen || ''}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(state => ({
                                 ...state,
                                 hensynPaArbeidsplassen: value,
-                            }))
-                        }
+                            }));
+                            validate('hensynPaArbeidsplassen', value);
+                        }}
+                        feil={errors.hensynPaArbeidsplassen}
                         label={<Element>5.1.1 Beskrive eventuelle hensyn som må tas på arbeidsplassen</Element>}
                     />
                 )}

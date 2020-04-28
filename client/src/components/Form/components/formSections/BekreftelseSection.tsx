@@ -5,7 +5,7 @@ import { Element } from 'nav-frontend-typografi';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType, ErrorSchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
@@ -39,39 +39,49 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                             legitimert: !state.legitimert,
                         }))
                     }
+                    feil={errors.legitimert}
                 />
             </Subsection>
 
             <Input
                 className="form-margin-bottom"
-                onChange={({ target: { value } }) =>
+                value={schema.sykmeldersNavn}
+                onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
                         sykmeldersNavn: value,
-                    }))
-                }
+                    }));
+                    validate('sykmeldersNavn', value);
+                }}
+                feil={errors.sykmeldersNavn}
                 label={<Element>12.2 Sykmelders navn</Element>}
             />
 
             <Row>
                 <Input
                     className="form-margin-bottom"
-                    onChange={({ target: { value } }) =>
+                    value={schema.hpr}
+                    onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
                             hpr: value,
-                        }))
-                    }
+                        }));
+                        validate('hpr', value);
+                    }}
+                    feil={errors.hpr}
                     label={<Element>12.4 HPR-nummer</Element>}
                 />
                 <Input
                     className="form-margin-bottom"
-                    onChange={({ target: { value } }) =>
+                    value={schema.sykmelderTelefon}
+                    onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
                             sykmelderTelefon: value,
-                        }))
-                    }
+                        }));
+                        validate('sykmelderTelefon', value);
+                    }}
+                    feil={errors.sykmelderTelefon}
                     label={<Element>12.5 Telefon</Element>}
                 />
             </Row>
