@@ -23,19 +23,18 @@ import { Oppgave } from '../../types/Oppgave';
 import { SectionTitle, Sections } from '../../types/Section';
 import { Validate, validationFunctions } from './validation';
 
-export type SchemaType = Partial<
-    Pasientopplysninger &
-        Arbeidsgiver &
-        Arbeidsevne &
-        MedisinskVurdering &
-        MulighetForArbeid &
-        Friskmelding &
-        MeldingTilNav &
-        MeldingTilArbeidsgiver &
-        Tilbakedatering &
-        Bekreftelse &
-        Other
->;
+export interface SchemaType
+    extends Pasientopplysninger,
+        Arbeidsgiver,
+        Arbeidsevne,
+        MedisinskVurdering,
+        MulighetForArbeid,
+        Friskmelding,
+        MeldingTilNav,
+        MeldingTilArbeidsgiver,
+        Tilbakedatering,
+        Bekreftelse,
+        Other {}
 
 const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     return {
@@ -62,7 +61,7 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     };
 };
 
-export type ErrorSchemaType = { [key in keyof SchemaType]: string | undefined };
+export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined };
 
 type FormProps = {
     sections: Sections;
@@ -77,8 +76,7 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
 
     const validate: Validate = (name, value) => {
         const validationFunction = validationFunctions[name];
-        let error: string | undefined = undefined;
-        error = validationFunction(value as any, schema);
+        const error = validationFunction(value as never, schema);
         setFormErrors(state => ({ ...state, [name]: error }));
     };
 

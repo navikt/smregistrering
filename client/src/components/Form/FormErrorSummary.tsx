@@ -1,7 +1,6 @@
 import React from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-
-import { ErrorSchemaType } from '../../App';
+import { ErrorSchemaType } from './Form';
 
 type FormErrorSummaryProps = {
     formErrors: ErrorSchemaType;

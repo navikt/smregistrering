@@ -13,16 +13,16 @@ import { Validate } from '../../validation';
 export type MulighetForArbeid = {
     // Perioder for avventende sykmelding
     avventendeSykmelding: boolean;
-    avventendePeriode: Date[];
+    avventendePeriode?: Date[];
     avventendeInnspillTilArbeidsgiver?: string;
     // Perioder for gradert sykmelding
     gradertSykmelding: boolean;
-    gradertPeriode: Date[];
+    gradertPeriode?: Date[];
     gradertGrad?: string;
     gradertReisetilskudd?: boolean;
     // Perioder for full sykmelding
     aktivitetIkkeMuligSykmelding: boolean;
-    aktivitetIkkeMuligPeriode: Date[];
+    aktivitetIkkeMuligPeriode?: Date[];
     aktivitetIkkeMuligMedisinskArsak?: boolean;
     aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[];
     aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string;
@@ -31,11 +31,11 @@ export type MulighetForArbeid = {
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string;
     // Perioder for sykmelding for behandlignsdager
     behandlingsdagerSykmelding: boolean;
-    behandlingsdagerPeriode: Date[];
+    behandlingsdagerPeriode?: Date[];
     behandlingsdagerAntall?: number;
     // Perioder for sykmelding med reisetilskudd
     reisetilskuddSykmelding: boolean;
-    reisetilskuddPeriode: Date[];
+    reisetilskuddPeriode?: Date[];
 };
 
 type MulighetForArbeidSectionProps = {
