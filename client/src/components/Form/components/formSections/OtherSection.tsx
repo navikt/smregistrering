@@ -7,7 +7,7 @@ import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Validate } from '../../validation';
 
 export type Other = {
-    fnr?: string;
+    pasientFnr?: string;
     syketilfelleStartDato?: Date;
 };
 
@@ -23,16 +23,16 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
         <div className="form-margin-bottom section-content">
             <Input
                 className="form-margin-bottom half"
-                defaultValue={schema.fnr}
+                defaultValue={schema.pasientFnr}
                 onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
                         fnr: value,
                     }));
-                    validate('fnr', value);
+                    validate('pasientFnr', value);
                 }}
                 label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
-                feil={errors.fnr}
+                feil={errors.pasientFnr}
             />
             <DatePicker
                 label="Startdato for legemeldt fravær"

@@ -39,7 +39,7 @@ export type SchemaType = Partial<
 
 const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     return {
-        fnr: oppgave.fnr,
+        pasientFnr: oppgave.fnr,
         biDiagnoser: [],
         annenFraversArsak: false,
         svangerskap: false,

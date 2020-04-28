@@ -9,7 +9,7 @@ export type ValidationType = {
 
 export const validationFunctions: ValidationType = {
     // Other
-    fnr: (value, schema) => {
+    pasientFnr: (value, schema) => {
         if (!value) {
             return 'Personnummer må være definert';
         }
