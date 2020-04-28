@@ -83,12 +83,6 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
         });
     };
 
-    console.log(formErrors);
-
-    console.groupCollapsed('STATE');
-    console.log('schema', schema);
-    console.groupEnd();
-
     return (
         <Panel>
             <FormHeader />
