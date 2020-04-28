@@ -151,33 +151,16 @@ export type ExpandableSections =
 
 const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: FormProps) => {
     const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
-    const [expanded, setExpanded] = useState<{ [key in ExpandableSections]: boolean }>({
-        [SectionTitle.MULIGHET_FOR_ARBEID]: false,
-        [SectionTitle.ARBEIDSEVNE]: true,
-        [SectionTitle.TIL_NAV]: true,
-        [SectionTitle.TIL_ARBEIDSGIVER]: true,
-    });
-
-    const expandSection = (name: ExpandableSections) => {
-        setExpanded(state => ({
-            ...state,
-            [name]: !state[name],
-        }));
-    };
 
     const validate: Validate = (name, value) => {
         const validationFunction = validation[name];
-
         let error: string | undefined = undefined;
-
         error = validationFunction(value as any, schema);
-
         setFormErrors(state => ({ ...state, [name]: error }));
     };
 
     const validateAll = () => {
         const keys = Object.keys(validation);
-
         keys.forEach(key => {
             // TODO: Can this casting be avoided?
             // https://github.com/microsoft/TypeScript/pull/12253#issuecomment-263132208
@@ -245,8 +228,6 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
             />
             <MulighetForArbeidSection
                 section={sections[SectionTitle.MULIGHET_FOR_ARBEID]}
-                expanded={expanded[SectionTitle.MULIGHET_FOR_ARBEID]}
-                expandSection={() => expandSection(SectionTitle.MULIGHET_FOR_ARBEID)}
                 setSchema={setSchema}
                 errors={formErrors}
                 schema={schema}
@@ -257,24 +238,10 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
                 setSchema={setSchema}
                 schema={schema}
             />
-            <ArbeidsevneSection
-                section={sections[SectionTitle.ARBEIDSEVNE]}
-                expanded={expanded[SectionTitle.ARBEIDSEVNE]}
-                expandSection={() => expandSection(SectionTitle.ARBEIDSEVNE)}
-                setSchema={setSchema}
-                schema={schema}
-            />
-            <MeldingTilNavSection
-                section={sections[SectionTitle.TIL_NAV]}
-                expanded={expanded[SectionTitle.TIL_NAV]}
-                expandSection={() => expandSection(SectionTitle.TIL_NAV)}
-                setSchema={setSchema}
-                schema={schema}
-            />
+            <ArbeidsevneSection section={sections[SectionTitle.ARBEIDSEVNE]} setSchema={setSchema} schema={schema} />
+            <MeldingTilNavSection section={sections[SectionTitle.TIL_NAV]} setSchema={setSchema} schema={schema} />
             <MeldingTilArbeidsgiverSection
                 section={sections[SectionTitle.TIL_ARBEIDSGIVER]}
-                expanded={expanded[SectionTitle.TIL_ARBEIDSGIVER]}
-                expandSection={() => expandSection(SectionTitle.TIL_ARBEIDSGIVER)}
                 setSchema={setSchema}
                 schema={schema}
             />

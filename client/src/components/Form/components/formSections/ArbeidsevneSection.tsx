@@ -51,15 +51,13 @@ export type Arbeidsevne = {
 
 export type ArbeidsevneSectionProps = {
     section: Section;
-    expanded: boolean;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
-    expandSection: () => void;
 };
 
-const ArbeidsevneSection = ({ section, expanded, expandSection, setSchema, schema }: ArbeidsevneSectionProps) => {
+const ArbeidsevneSection = ({ section, setSchema, schema }: ArbeidsevneSectionProps) => {
     return (
-        <SectionContainer section={section} expanded={expanded} setExpanded={expandSection}>
+        <SectionContainer section={section}>
             <Subsection sectionIdentifier="7.1">
                 <Checkbox
                     checked={schema[TilretteleggingArbeidsplassField.TILRETTELEGGING]}

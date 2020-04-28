@@ -88,25 +88,15 @@ export type MulighetForArbeid = {
 
 type MulighetForArbeidSectionProps = {
     section: Section;
-    expanded: boolean;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     errors: ErrorSchemaType;
     validate: Validate;
     schema: SchemaType;
-    expandSection: () => void;
 };
 
-const MulighetForArbeidSection = ({
-    section,
-    expanded,
-    expandSection,
-    setSchema,
-    schema,
-    errors,
-    validate,
-}: MulighetForArbeidSectionProps) => {
+const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate }: MulighetForArbeidSectionProps) => {
     return (
-        <SectionContainer section={section} expanded={expanded} setExpanded={expandSection}>
+        <SectionContainer section={section}>
             <Subsection sectionIdentifier="4.1">
                 <Checkbox
                     checked={schema[AvventendeSykmeldingField.AVVENTENDE]}
@@ -128,6 +118,7 @@ const MulighetForArbeidSection = ({
                             labelTo="4.1.2 t.o.m."
                             value={schema[AvventendeSykmeldingField.AVVENTENDE_PERIODE] || []}
                             onChange={newDates => {
+                                console.log(newDates);
                                 setSchema(state => ({
                                     ...state,
                                     [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: newDates,

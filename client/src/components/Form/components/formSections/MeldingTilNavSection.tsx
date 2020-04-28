@@ -19,15 +19,13 @@ export type MeldingTilNav = {
 
 type MeldingTilNavSectionProps = {
     section: Section;
-    expanded: boolean;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
-    expandSection: () => void;
 };
 
-const MeldingTilNavSection = ({ section, expanded, expandSection, setSchema, schema }: MeldingTilNavSectionProps) => {
+const MeldingTilNavSection = ({ section, setSchema, schema }: MeldingTilNavSectionProps) => {
     return (
-        <SectionContainer section={section} expanded={expanded} setExpanded={expandSection}>
+        <SectionContainer section={section}>
             <Subsection sectionIdentifier="8.1" underline={false}>
                 <Checkbox
                     checked={schema[MeldingTilNavField.BISTAND]}

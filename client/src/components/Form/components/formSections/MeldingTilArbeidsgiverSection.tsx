@@ -19,21 +19,13 @@ export type MeldingTilArbeidsgiver = {
 
 type MeldingTilArbeidsgiverSectionProps = {
     section: Section;
-    expanded: boolean;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
-    expandSection: () => void;
 };
 
-const MeldingTilArbeidsgiverSection = ({
-    section,
-    expanded,
-    expandSection,
-    setSchema,
-    schema,
-}: MeldingTilArbeidsgiverSectionProps) => {
+const MeldingTilArbeidsgiverSection = ({ section, setSchema, schema }: MeldingTilArbeidsgiverSectionProps) => {
     return (
-        <SectionContainer section={section} expanded={expanded} setExpanded={expandSection}>
+        <SectionContainer section={section}>
             <Subsection sectionIdentifier="9.1" underline={false}>
                 <Checkbox
                     checked={schema[MeldingTilArbeidsgiverField.INNSPILL]}
