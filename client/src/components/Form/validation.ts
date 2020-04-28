@@ -26,32 +26,20 @@ export const validationFunctions: ValidationType = {
     },
 
     // Pasientopplysninger
-    pasientTelefon: (value, schema) => {
-        if (!value) {
-            return 'Telefonnummer må være definert';
-        }
-        // https://begrep.difi.no/Felles/mobiltelefonnummer
-        if (!value.match('^\\+?[- _0-9]+$')) {
+    pasientTelefon: (pasientTelefon, schema) => {
+        if (pasientTelefon && !pasientTelefon.match('^\\+?[- _0-9]+$')) {
+            // https://begrep.difi.no/Felles/mobiltelefonnummer
             return 'Telefonnummeret er ikke på et gyldig format';
         }
         return undefined;
     },
     pasientEtternavn: (value, schema) => {
-        if (!value) {
-            return 'Etternavn må være definert';
-        }
         return undefined;
     },
     pasientFornavn: (value, schema) => {
-        if (!value) {
-            return 'Fornavn må være definert';
-        }
         return undefined;
     },
     behandlerNavn: (value, schema) => {
-        if (!value) {
-            return 'Navn på fastlege må være definert';
-        }
         return undefined;
     },
 
@@ -63,22 +51,13 @@ export const validationFunctions: ValidationType = {
         return undefined;
     },
     arbeidsgiverNavn: (value, schema) => {
-        if (!value) {
-            return 'Navnet på arbeidsgiver må være definert';
-        }
         return undefined;
     },
     yrkesbetegnelse: (value, schema) => {
-        if (!value) {
-            return 'Yrkesbetegnelse må være definert';
-        }
         return undefined;
     },
     stillingsprosent: (value, schema) => {
-        if (!value) {
-            return 'Stillingsprosent må være definert';
-        }
-        if (value > 100 || value < 0) {
+        if (value && (value > 100 || value < 0)) {
             return 'Stillingsprosenten må være mellom 0 og 100';
         }
         return undefined;
@@ -86,39 +65,72 @@ export const validationFunctions: ValidationType = {
 
     // Diagnose
     hovedDiagnose: (value, schema) => {
-        if (!value) {
-            return 'Hoveddiagnose må være definert';
-        }
-        if (!value.system) {
-            return 'System må være valgt';
-        }
-        if (!value.kode) {
-            return 'Kode må være valgt';
+        if (value) {
+            if (!value.system) return 'System må være definert';
+            if (!value.kode) return 'Kode må være definer';
+            if (!value.tekst) return 'Tekt må være definer';
         }
         return undefined;
     },
-    biDiagnoser: () => undefined,
+    biDiagnoser: (biDiagnoser, schema) => {
+        if (biDiagnoser?.length) {
+            let feilmelding: string | undefined = undefined;
+            biDiagnoser.forEach(biDiagnose => {
+                if (!biDiagnose.system) feilmelding = 'System må være definert';
+                if (!biDiagnose.kode) feilmelding = 'Kode må være definert';
+                if (!biDiagnose.tekst) feilmelding = 'Tekt må være definert';
+            });
+        }
+        return undefined;
+    },
     yrkesskade: () => undefined,
-    yrkesskadeDato: () => undefined,
-    svangerskap: () => undefined,
+    yrkesskadeDato: (yrkesskadeDato, schema) => {
+        if (schema.yrkesskade && !yrkesskadeDato) {
+            return 'Yrkesskadedato må være definer når yrkesskade er krysset av';
+        }
+        return undefined;
+    },
+    svangerskap: (svangerskap, schema) => {
+        if (svangerskap === undefined) {
+            return 'Svangerskap må være definert';
+        }
+        return undefined;
+    },
     annenFraversArsak: () => undefined,
     annenFraversArsakGrunn: () => undefined,
     annenFraversArsakBeskrivelse: () => undefined,
-    skjermesForPasient: () => undefined,
+    skjermesForPasient: (skjermesForPasient, schema) => {
+        if (skjermesForPasient === undefined) {
+            return 'SkjermesForPasient er et påkrevd felt';
+        }
+        return undefined;
+    },
 
     // MulighetForArbeid
     // Perioder for avventende sykmelding
     avventendeSykmelding: () => undefined,
-    avventendePeriode: () => undefined,
+    avventendePeriode: (avventendePeriode, schema) => {
+        if (schema.avventendeSykmelding && !avventendePeriode) {
+            return 'Periode må være definert';
+        }
+    },
     avventendeInnspillTilArbeidsgiver: () => undefined,
     // Perioder for gradert sykmelding
     gradertSykmelding: () => undefined,
-    gradertPeriode: () => undefined,
+    gradertPeriode: (gradertPeriode, schema) => {
+        if (schema.gradertSykmelding && !gradertPeriode) {
+            return 'Periode må være definert';
+        }
+    },
     gradertGrad: () => undefined,
     gradertReisetilskudd: () => undefined,
     // Perioder for full sykmelding
     aktivitetIkkeMuligSykmelding: () => undefined,
-    aktivitetIkkeMuligPeriode: () => undefined,
+    aktivitetIkkeMuligPeriode: (aktivitetIkkeMuligPeriode, schema) => {
+        if (schema.aktivitetIkkeMuligSykmelding && !aktivitetIkkeMuligPeriode) {
+            return 'Periode må være definert';
+        }
+    },
     aktivitetIkkeMuligMedisinskArsak: () => undefined,
     aktivitetIkkeMuligMedisinskArsakType: () => undefined,
     aktivitetIkkeMuligMedisinskArsakBeskrivelse: () => undefined,
@@ -127,11 +139,19 @@ export const validationFunctions: ValidationType = {
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: () => undefined,
     // Perioder for sykmelding for behandlignsdager
     behandlingsdagerSykmelding: () => undefined,
-    behandlingsdagerPeriode: () => undefined,
+    behandlingsdagerPeriode: (behandlingsdagerPeriode, schema) => {
+        if (schema.behandlingsdagerSykmelding && !behandlingsdagerPeriode) {
+            return 'Periode må være definert';
+        }
+    },
     behandlingsdagerAntall: () => undefined,
     // Perioder for sykmelding med reisetilskudd
     reisetilskuddSykmelding: () => undefined,
-    reisetilskuddPeriode: () => undefined,
+    reisetilskuddPeriode: (reisetilskuddPeriode, schema) => {
+        if (schema.reisetilskuddSykmelding && !reisetilskuddPeriode) {
+            return 'Periode må være definert';
+        }
+    },
 
     // Friskmelding
     arbeidsfoerEtterPeriode: () => undefined,
@@ -160,7 +180,12 @@ export const validationFunctions: ValidationType = {
     begrunnelseIkkeKontakt: () => undefined,
 
     // Bekreftelse
-    legitimert: () => undefined,
+    legitimert: (legitimert, schema) => {
+        if (legitimert === undefined) {
+            return 'Legitimert er et påkrevd felt';
+        }
+        return undefined;
+    },
     sykmeldersNavn: () => undefined,
     hpr: () => undefined,
     sykmelderAdresse: () => undefined,

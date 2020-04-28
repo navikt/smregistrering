@@ -41,6 +41,11 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     return {
         pasientFnr: oppgave.fnr,
         biDiagnoser: [],
+        avventendeSykmelding: false,
+        gradertSykmelding: false,
+        aktivitetIkkeMuligSykmelding: false,
+        behandlingsdagerSykmelding: false,
+        reisetilskuddSykmelding: false,
         annenFraversArsak: false,
         svangerskap: false,
         yrkesskade: false,

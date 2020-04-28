@@ -54,11 +54,11 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.avventendeSykmelding}
                     label="Pasienten kan benytte avventende sykmelding"
                     onChange={() => {
+                        validate('avventendeSykmelding', !schema.avventendeSykmelding);
                         setSchema(state => ({
                             ...state,
                             avventendeSykmelding: !state.avventendeSykmelding,
                         }));
-                        validate('avventendeSykmelding', schema.avventendeSykmelding);
                     }}
                     feil={errors.avventendeSykmelding}
                 />
@@ -99,12 +99,13 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 <Checkbox
                     checked={schema.gradertSykmelding}
                     label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
-                    onChange={() =>
+                    onChange={() => {
+                        validate('gradertSykmelding', !schema.gradertSykmelding);
                         setSchema(state => ({
                             ...state,
                             gradertSykmelding: !state.gradertSykmelding,
-                        }))
-                    }
+                        }));
+                    }}
                     feil={errors.gradertSykmelding}
                 />
                 <br />
@@ -157,12 +158,13 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 <Checkbox
                     checked={schema.aktivitetIkkeMuligSykmelding}
                     label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
-                    onChange={() =>
+                    onChange={() => {
+                        validate('aktivitetIkkeMuligSykmelding', !schema.aktivitetIkkeMuligSykmelding);
                         setSchema(state => ({
                             ...state,
                             aktivitetIkkeMuligSykmelding: !state.aktivitetIkkeMuligSykmelding,
-                        }))
-                    }
+                        }));
+                    }}
                     feil={errors.aktivitetIkkeMuligSykmelding}
                 />
                 <br />
@@ -307,12 +309,13 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 <Checkbox
                     checked={schema.behandlingsdagerSykmelding}
                     label="Pasienten kan ikke være i arbeid på behandlingsdager"
-                    onChange={() =>
+                    onChange={() => {
+                        validate('behandlingsdagerSykmelding', !schema.behandlingsdagerSykmelding);
                         setSchema(state => ({
                             ...state,
                             behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
-                        }))
-                    }
+                        }));
+                    }}
                     feil={errors.behandlingsdagerSykmelding}
                 />
                 <br />
@@ -353,12 +356,13 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 <Checkbox
                     checked={schema.reisetilskuddSykmelding}
                     label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
-                    onChange={() =>
+                    onChange={() => {
+                        validate('reisetilskuddSykmelding', !schema.reisetilskuddSykmelding);
                         setSchema(state => ({
                             ...state,
                             reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
-                        }))
-                    }
+                        }));
+                    }}
                     feil={errors.reisetilskuddSykmelding}
                 />
                 <br />
