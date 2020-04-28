@@ -74,12 +74,6 @@ type FormProps = {
     setFormErrors: React.Dispatch<React.SetStateAction<ErrorSchemaType>>;
 };
 
-export type ExpandableSections =
-    | SectionTitle.MULIGHET_FOR_ARBEID
-    | SectionTitle.ARBEIDSEVNE
-    | SectionTitle.TIL_NAV
-    | SectionTitle.TIL_ARBEIDSGIVER;
-
 const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: FormProps) => {
     const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
 
