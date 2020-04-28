@@ -4,26 +4,14 @@ import { Input, Select } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
 import { ErrorSchemaType, SchemaType, Validate } from '../../Form';
+import { HarArbeidsgiver } from '../../../../types/RegistrertSykmelding';
 import { Section } from '../../../../types/Section';
 
-export enum HarArbeidsgiver {
-    EN_ARBEIDSGIVER = 'Én arbeidsgiver',
-    FLERE_ARBEIDSGIVERE = 'Flere arbeidsgivere',
-    INGEN_ARBEIDSGIVER = 'Ingen arbeidsgiver',
-}
-
-export enum ArbeidsgiverField {
-    HAR_ARBEIDSGIVER = 'harArbeidsgiver',
-    NAVN = 'arbeidsgiverNavn',
-    YRKESBETEGNELSE = 'yrkesbetegnelse',
-    STILLINGSPROSENT = 'stillingsprosent',
-}
-
 export type Arbeidsgiver = {
-    [ArbeidsgiverField.HAR_ARBEIDSGIVER]?: HarArbeidsgiver;
-    [ArbeidsgiverField.NAVN]?: string;
-    [ArbeidsgiverField.YRKESBETEGNELSE]?: string;
-    [ArbeidsgiverField.STILLINGSPROSENT]?: number;
+    harArbeidsgiver?: HarArbeidsgiver;
+    arbeidsgiverNavn?: string;
+    yrkesbetegnelse?: string;
+    stillingsprosent?: number;
 };
 
 type ArbeidsgiverSectionProps = {
@@ -39,23 +27,22 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
         <SectionContainer section={section}>
             <Select
                 onChange={({ target: { value } }) => {
-                    console.log(value);
                     if (value === '0') {
                         setSchema(state => ({
                             ...state,
-                            [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
+                            harArbeidsgiver: undefined,
                         }));
                     } else {
                         setSchema(state => ({
                             ...state,
-                            [ArbeidsgiverField.HAR_ARBEIDSGIVER]: value as HarArbeidsgiver,
+                            harArbeidsgiver: value as HarArbeidsgiver,
                         }));
                     }
-                    validate(ArbeidsgiverField.HAR_ARBEIDSGIVER, value);
+                    validate('harArbeidsgiver', value);
                 }}
                 className="form-margin-bottom"
                 label={<Element>2.1 Pasienten har</Element>}
-                feil={errors[ArbeidsgiverField.HAR_ARBEIDSGIVER]}
+                feil={errors.harArbeidsgiver}
             >
                 <option value="0">Velg</option>
                 {Object.entries(HarArbeidsgiver).map(([key, value]) => {
@@ -72,12 +59,12 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
-                        [ArbeidsgiverField.NAVN]: value,
+                        arbeidsgiverNavn: value,
                     }));
-                    validate(ArbeidsgiverField.NAVN, value);
+                    validate('arbeidsgiverNavn', value);
                 }}
                 label={<Element>2.2 Arbeidsgiver for denne sykmeldingen</Element>}
-                feil={errors[ArbeidsgiverField.NAVN]}
+                feil={errors.arbeidsgiverNavn}
             />
             <Input
                 className="form-margin-bottom"
@@ -85,12 +72,12 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
-                        [ArbeidsgiverField.YRKESBETEGNELSE]: value,
+                        yrkesbetegnelse: value,
                     }));
-                    validate(ArbeidsgiverField.YRKESBETEGNELSE, value);
+                    validate('yrkesbetegnelse', value);
                 }}
                 label={<Element>2.3 Yrke/stilling for dette arbeidsforholdet</Element>}
-                feil={errors[ArbeidsgiverField.YRKESBETEGNELSE]}
+                feil={errors.yrkesbetegnelse}
             />
             <Input
                 className="form-margin-bottom half"
@@ -98,12 +85,12 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
-                        [ArbeidsgiverField.STILLINGSPROSENT]: Number(value),
+                        stillingsprosent: Number(value),
                     }));
-                    validate(ArbeidsgiverField.STILLINGSPROSENT, value);
+                    validate('stillingsprosent', value);
                 }}
                 label={<Element>2.4 Stillingsprosent</Element>}
-                feil={errors[ArbeidsgiverField.STILLINGSPROSENT]}
+                feil={errors.stillingsprosent}
             />
         </SectionContainer>
     );

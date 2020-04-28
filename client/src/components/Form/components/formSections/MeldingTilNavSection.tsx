@@ -7,14 +7,9 @@ import Subsection from '../formComponents/Subsection';
 import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
-export enum MeldingTilNavField {
-    BISTAND = 'meldingTilNavBistand',
-    BEGRUNN = 'meldingTilNavBegrunn',
-}
-
 export type MeldingTilNav = {
-    [MeldingTilNavField.BISTAND]?: boolean;
-    [MeldingTilNavField.BEGRUNN]?: string;
+    meldingTilNavBistand?: boolean;
+    meldingTilNavBegrunn?: string;
 };
 
 type MeldingTilNavSectionProps = {
@@ -28,24 +23,24 @@ const MeldingTilNavSection = ({ section, setSchema, schema }: MeldingTilNavSecti
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="8.1" underline={false}>
                 <Checkbox
-                    checked={schema[MeldingTilNavField.BISTAND]}
+                    checked={schema.meldingTilNavBistand}
                     label="Ønskes bistand fra NAV nå?"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [MeldingTilNavField.BISTAND]: !state[MeldingTilNavField.BISTAND],
+                            meldingTilNavBistand: !state.meldingTilNavBistand,
                         }))
                     }
                 />
                 <br />
-                {schema[MeldingTilNavField.BISTAND] && (
+                {schema.meldingTilNavBistand && (
                     <Textarea
                         maxLength={0}
-                        value={schema[MeldingTilNavField.BEGRUNN] || ''}
+                        value={schema.meldingTilNavBegrunn || ''}
                         onChange={({ target: { value } }) =>
                             setSchema(state => ({
                                 ...state,
-                                [MeldingTilNavField.BEGRUNN]: value,
+                                meldingTilNavBegrunn: value,
                             }))
                         }
                         label={<Element>Begrunn nærmere</Element>}

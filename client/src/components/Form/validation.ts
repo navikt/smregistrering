@@ -6,7 +6,7 @@ export type ValidationType = {
 };
 
 export const validation: ValidationType = {
-    personnummer: (value, schema) => {
+    fnr: (value, schema) => {
         if (!value) {
             return 'Personnummer må være definert';
         }
@@ -21,7 +21,7 @@ export const validation: ValidationType = {
         }
         return undefined;
     },
-    telefon: (value, schema) => {
+    pasientTelefon: (value, schema) => {
         if (!value) {
             return 'Telefonnummer må være definert';
         }
@@ -31,19 +31,19 @@ export const validation: ValidationType = {
         }
         return undefined;
     },
-    etternavn: (value, schema) => {
+    pasientEtternavn: (value, schema) => {
         if (!value) {
             return 'Etternavn må være definert';
         }
         return undefined;
     },
-    fornavn: (value, schema) => {
+    pasientFornavn: (value, schema) => {
         if (!value) {
             return 'Fornavn må være definert';
         }
         return undefined;
     },
-    legenavn: (value, schema) => {
+    behandlerNavn: (value, schema) => {
         if (!value) {
             return 'Navn på fastlege må være definert';
         }
@@ -76,7 +76,7 @@ export const validation: ValidationType = {
         }
         return undefined;
     },
-    hoveddiagnose: (value, schema) => {
+    hovedDiagnose: (value, schema) => {
         if (!value) {
             return 'Hoveddiagnose må være definert';
         }
@@ -88,52 +88,14 @@ export const validation: ValidationType = {
         }
         return undefined;
     },
-    bidiagnoser: () => undefined,
-    annenFravaersArsak: () => undefined,
-    lovfestetFravaersgrunn: () => undefined,
-    beskrivFravaeret: () => undefined,
+    biDiagnoser: () => undefined,
+    annenFraversArsak: () => undefined,
+    annenFraversArsakGrunn: () => undefined,
+    annenFraversArsakBeskrivelse: () => undefined,
     svangerskap: () => undefined,
     yrkesskade: () => undefined,
     yrkesskadeDato: () => undefined,
-    skjermetFraPasient: () => undefined,
-    avventende: () => undefined,
-    avventendePeriode: (periode, schema) => {
-        // conditional hvis avventende er krysset
-        if (schema.avventende) {
-            if (!periode) {
-                return 'Periode mangler';
-            }
-            if (periode.length !== 2) {
-                return 'Periode inneholder feil antall datoer';
-            }
-        }
-        return undefined;
-    },
-    innspillTilArbeidsgiver: () => undefined,
-    gradert: () => undefined,
-    gradertPeriode: (periode, schema) => {
-        // conditional hvis avventende er krysset
-        if (schema.gradert) {
-            if (!periode) {
-                return 'Periode mangler';
-            }
-            if (periode.length !== 2) {
-                return 'Periode inneholder feil antall datoer';
-            }
-        }
-        return undefined;
-    },
-    grad: () => undefined,
-    reisetilskudd: () => undefined,
-    sykmeldt: () => undefined,
-    sykmeldtPeriode: () => undefined,
-    medisinskeAarsaker: () => undefined,
-    arbeidsforhold: () => undefined,
-    kanArbeide: () => undefined,
-    behandlingsPeriode: () => undefined,
-    antallDager: () => undefined,
-    fulltArbeid: () => undefined,
-    arbeidsPeriode: () => undefined,
+    skjermesForPasient: () => undefined,
     arbeidsfoerEtterPeriode: () => undefined,
     hensynPaArbeidsplassen: () => undefined,
     tilretteleggArbeidsplassBeskriv: () => undefined,
@@ -144,17 +106,41 @@ export const validation: ValidationType = {
     meldingTilNavBistand: () => undefined,
     meldingTilNavBegrunn: () => undefined,
     meldingTilArbeidsgiverInnspill: () => undefined,
-    meldingTIlArbeidsgiverBeskriv: () => undefined,
-    erTilbakedatert: () => undefined,
-    datoTilbakedatering: () => undefined,
-    kanIkkeIvaretaInteresser: () => undefined,
+    meldingTilArbeidsgiverBeskriv: () => undefined,
     legitimert: () => undefined,
     sykmeldersNavn: () => undefined,
     hpr: () => undefined,
-    adresse: () => undefined,
-    tilretteleggingArbeidsplass: () => undefined,
-    innspillNav: () => undefined,
+    sykmelderAdresse: () => undefined,
     sykmelderTelefon: () => undefined,
     tilretteleggingArbeidsplassen: () => undefined,
-    tilbakedateringBegrunn: () => undefined,
+    // Perioder
+    avventendeSykmelding: () => undefined,
+    avventendePeriode: () => undefined,
+    avventendeInnspillTilArbeidsgiver: () => undefined,
+    // Perioder for gradert sykmelding
+    gradertSykmelding: () => undefined,
+    gradertPeriode: () => undefined,
+    gradertGrad: () => undefined,
+    gradertReisetilskudd: () => undefined,
+    // Perioder for full sykmelding
+    aktivitetIkkeMuligSykmelding: () => undefined,
+    aktivitetIkkeMuligPeriode: () => undefined,
+    aktivitetIkkeMuligMedisinskArsak: () => undefined,
+    aktivitetIkkeMuligMedisinskArsakType: () => undefined,
+    aktivitetIkkeMuligMedisinskArsakBeskrivelse: () => undefined,
+    aktivitetIkkeMuligArbeidsrelatertArsak: () => undefined,
+    aktivitetIkkeMuligArbeidsrelatertArsakType: () => undefined,
+    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: () => undefined,
+    // Perioder for sykmelding for behandlignsdager
+    behandlingsdagerSykmelding: () => undefined,
+    behandlingsdagerPeriode: () => undefined,
+    behandlingsdagerAntall: () => undefined,
+    // Perioder for sykmelding med reisetilskudd
+    reisetilskuddSykmelding: () => undefined,
+    reisetilskuddPeriode: () => undefined,
+    // Tilbakedatering
+    erTilbakedatert: () => undefined,
+    kontaktDato: () => undefined,
+    kunneIkkeIvaretaEgneInteresser: () => undefined,
+    begrunnelseIkkeKontakt: () => undefined,
 };

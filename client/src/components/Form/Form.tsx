@@ -8,12 +8,7 @@ import { FnrInput } from 'nav-frontend-skjema';
 import DatePicker from './components/formComponents/DatePicker';
 import FormHeader from './components/FormHeader';
 import Panel from '../Panel/Panel';
-import ArbeidsevneSection, {
-    Arbeidsevne,
-    InnspillNav,
-    TilretteleggingArbeidsplass,
-    TiltakNav,
-} from './components/formSections/ArbeidsevneSection';
+import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/ArbeidsevneSection';
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BekreftelseSection, { Bekreftelse } from './components/formSections/BekreftelseSection';
 import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection';
@@ -22,44 +17,26 @@ import MeldingTilArbeidsgiverSection, {
     MeldingTilArbeidsgiver,
 } from './components/formSections/MeldingTilArbeidsgiverSection';
 import MeldingTilNavSection, { MeldingTilNav } from './components/formSections/MeldingTilNavSection';
-import MulighetForArbeidSection, {
-    AvventendeSykmelding,
-    Behandling,
-    FullSykmelding,
-    GradertSykmelding,
-    Reisetilskudd,
-} from './components/formSections/MulighetForArbeidSection';
-import PasientopplysningerSection, { Metadata } from './components/formSections/PasientopplysningerSection';
+import MulighetForArbeidSection, { MulighetForArbeid } from './components/formSections/MulighetForArbeidSection';
+import PasientopplysningerSection, { Pasientopplysninger } from './components/formSections/PasientopplysningerSection';
 import TilbakedateringSection, { Tilbakedatering } from './components/formSections/TilbakedateringSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
 import { SectionTitle, Sections } from '../../types/Section';
 import { validation } from './validation';
 
-export enum OtherField {
-    PERSONNUMMER = 'personnummer',
-    SYKETILFELLESTARTDATO = 'syketilfelleStartDato',
-}
-
 export type Other = {
-    [OtherField.PERSONNUMMER]?: string;
-    [OtherField.SYKETILFELLESTARTDATO]?: Date;
+    fnr?: string;
+    syketilfelleStartDato?: Date;
 };
 
 export type SchemaType = Partial<
-    Metadata &
+    Pasientopplysninger &
         Arbeidsgiver &
         Arbeidsevne &
         MedisinskVurdering &
-        AvventendeSykmelding &
-        GradertSykmelding &
-        FullSykmelding &
-        Behandling &
-        Reisetilskudd &
+        MulighetForArbeid &
         Friskmelding &
-        TilretteleggingArbeidsplass &
-        TiltakNav &
-        InnspillNav &
         MeldingTilNav &
         MeldingTilArbeidsgiver &
         Tilbakedatering &
@@ -69,66 +46,21 @@ export type SchemaType = Partial<
 
 const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     return {
-        syketilfelleStartDato: undefined,
-        personnummer: oppgave.fnr,
-        telefon: undefined,
-        etternavn: undefined,
-        fornavn: undefined,
-        legenavn: undefined,
-        harArbeidsgiver: undefined,
-        arbeidsgiverNavn: undefined,
-        yrkesbetegnelse: undefined,
-        stillingsprosent: undefined,
-        hoveddiagnose: {
-            system: undefined,
-            kode: undefined,
-            tekst: undefined,
-        },
-        bidiagnoser: [],
-        annenFravaersArsak: false,
-        lovfestetFravaersgrunn: undefined,
-        beskrivFravaeret: undefined,
+        fnr: oppgave.fnr,
+        biDiagnoser: [],
+        annenFraversArsak: false,
         svangerskap: false,
         yrkesskade: false,
-        yrkesskadeDato: undefined,
-        skjermetFraPasient: false,
-        avventende: false,
-        avventendePeriode: [],
-        innspillTilArbeidsgiver: undefined,
-        gradert: false,
-        gradertPeriode: [],
-        grad: undefined,
-        reisetilskudd: false,
-        sykmeldt: false,
-        sykmeldtPeriode: [],
-        medisinskeAarsaker: false,
-        arbeidsforhold: false,
-        kanArbeide: false,
-        behandlingsPeriode: [],
-        antallDager: undefined,
-        fulltArbeid: false,
-        arbeidsPeriode: [],
+        skjermesForPasient: false,
         arbeidsfoerEtterPeriode: false,
-        hensynPaArbeidsplassen: undefined,
         tilretteleggingArbeidsplassen: false,
-        tilretteleggArbeidsplassBeskriv: undefined,
         tiltakNav: false,
-        tiltakNavBeskriv: undefined,
         innspillTilNAv: false,
-        innspillTilNavBeskriv: undefined,
         meldingTilNavBistand: false,
-        meldingTilNavBegrunn: undefined,
         meldingTilArbeidsgiverInnspill: false,
-        meldingTIlArbeidsgiverBeskriv: undefined,
         erTilbakedatert: false,
-        datoTilbakedatering: undefined,
-        kanIkkeIvaretaInteresser: false,
-        tilbakedateringBegrunn: undefined,
+        kunneIkkeIvaretaEgneInteresser: false,
         legitimert: false,
-        sykmeldersNavn: undefined,
-        hpr: undefined,
-        sykmelderTelefon: undefined,
-        adresse: undefined,
     };
 };
 
@@ -178,30 +110,26 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
     return (
         <Panel>
             <FormHeader />
-
             <button onClick={validateAll}>validate all</button>
-
             <div className="form-margin-bottom section-content">
                 <FnrInput
                     className="form-margin-bottom half"
-                    defaultValue={schema.personnummer}
+                    defaultValue={schema.fnr}
                     onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
-                            [OtherField.PERSONNUMMER]: value,
+                            fnr: value,
                         }));
-                        validate(OtherField.PERSONNUMMER, value);
+                        validate('fnr', value);
                     }}
                     onValidate={valid => console.log(valid)}
                     label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
-                    feil={formErrors[OtherField.PERSONNUMMER]}
+                    feil={formErrors.fnr}
                 />
                 <DatePicker
                     label="Startdato for legemeldt fravær"
-                    value={schema[OtherField.SYKETILFELLESTARTDATO]}
-                    onChange={newDates =>
-                        setSchema(state => ({ ...state, [OtherField.SYKETILFELLESTARTDATO]: newDates }))
-                    }
+                    value={schema.syketilfelleStartDato}
+                    onChange={newDates => setSchema(state => ({ ...state, syketilfelleStartDato: newDates }))}
                 />
             </div>
             <PasientopplysningerSection

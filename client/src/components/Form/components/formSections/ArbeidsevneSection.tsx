@@ -7,46 +7,14 @@ import Subsection from '../formComponents/Subsection';
 import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
-export enum TilretteleggingArbeidsplassField {
-    TILRETTELEGGING = 'tilretteleggingArbeidsplassen',
-    BESKRIV = 'tilretteleggArbeidsplassBeskriv',
-}
-
-export type TilretteleggingArbeidsplass = {
-    [TilretteleggingArbeidsplassField.TILRETTELEGGING]?: boolean;
-    [TilretteleggingArbeidsplassField.BESKRIV]?: string;
-};
-
-export enum TiltakNavField {
-    TILTAK_NAV = 'tiltakNav',
-    BESKRIV = 'tiltakNavBeskriv',
-}
-
-export type TiltakNav = {
-    [TiltakNavField.TILTAK_NAV]?: boolean;
-    [TiltakNavField.BESKRIV]?: string;
-};
-
-export enum InnspillNavField {
-    INNSPILL = 'innspillTilNAv',
-    BESKRIV = 'innspillTilNavBeskriv',
-}
-
-export type InnspillNav = {
-    [InnspillNavField.INNSPILL]?: boolean;
-    [InnspillNavField.BESKRIV]?: string;
-};
-
-export enum ArbeidsevneField {
-    TILRETTELEGGING_ARBEIDSPLASS = 'tilretteleggingArbeidsplass',
-    TILTAK_NAV = 'tiltakNav',
-    INNSPILL_NAV = 'innspillNav',
-}
 
 export type Arbeidsevne = {
-    [ArbeidsevneField.TILRETTELEGGING_ARBEIDSPLASS]: TilretteleggingArbeidsplass;
-    [ArbeidsevneField.TILTAK_NAV]: TiltakNav;
-    [ArbeidsevneField.INNSPILL_NAV]: InnspillNav;
+    tilretteleggingArbeidsplassen?: boolean;
+    tilretteleggArbeidsplassBeskriv?: string;
+    tiltakNav?: boolean;
+    tiltakNavBeskriv?: string;
+    innspillTilNAv?: boolean;
+    innspillTilNavBeskriv?: string;
 };
 
 export type ArbeidsevneSectionProps = {
@@ -60,26 +28,24 @@ const ArbeidsevneSection = ({ section, setSchema, schema }: ArbeidsevneSectionPr
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="7.1">
                 <Checkbox
-                    checked={schema[TilretteleggingArbeidsplassField.TILRETTELEGGING]}
+                    checked={schema.tilretteleggingArbeidsplassen}
                     label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [TilretteleggingArbeidsplassField.TILRETTELEGGING]: !state[
-                                TilretteleggingArbeidsplassField.TILRETTELEGGING
-                            ],
+                            tilretteleggingArbeidsplassen: !state.tilretteleggingArbeidsplassen,
                         }))
                     }
                 />
                 <br />
-                {schema[TilretteleggingArbeidsplassField.TILRETTELEGGING] && (
+                {schema.tilretteleggingArbeidsplassen && (
                     <Textarea
                         maxLength={0}
-                        value={schema[TilretteleggingArbeidsplassField.BESKRIV] || ''}
+                        value={schema.tilretteleggArbeidsplassBeskriv || ''}
                         onChange={({ target: { value } }) =>
                             setSchema(state => ({
                                 ...state,
-                                [TilretteleggingArbeidsplassField.BESKRIV]: value,
+                                tilretteleggArbeidsplassBeskriv: value,
                             }))
                         }
                         label={<Element>Beskriv</Element>}
@@ -89,24 +55,24 @@ const ArbeidsevneSection = ({ section, setSchema, schema }: ArbeidsevneSectionPr
 
             <Subsection sectionIdentifier="7.2">
                 <Checkbox
-                    checked={schema[TiltakNavField.TILTAK_NAV]}
+                    checked={schema.tiltakNav}
                     label="Tiltak i regi av NAV"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [TiltakNavField.TILTAK_NAV]: !state[TiltakNavField.TILTAK_NAV],
+                            tiltakNav: !state.tiltakNav,
                         }))
                     }
                 />
                 <br />
-                {schema[TiltakNavField.TILTAK_NAV] && (
+                {schema.tiltakNav && (
                     <Textarea
                         maxLength={0}
-                        value={schema[TiltakNavField.BESKRIV] || ''}
+                        value={schema.tiltakNavBeskriv || ''}
                         onChange={({ target: { value } }) =>
                             setSchema(state => ({
                                 ...state,
-                                [TiltakNavField.BESKRIV]: value,
+                                tiltakNavBeskriv: value,
                             }))
                         }
                         label={<Element>Beskriv. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)</Element>}
@@ -116,24 +82,24 @@ const ArbeidsevneSection = ({ section, setSchema, schema }: ArbeidsevneSectionPr
 
             <Subsection sectionIdentifier="7.3" underline={false}>
                 <Checkbox
-                    checked={schema[InnspillNavField.INNSPILL]}
+                    checked={schema.innspillTilNAv}
                     label="Eventuelle andre innspill til NAV"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [InnspillNavField.INNSPILL]: !state[InnspillNavField.INNSPILL],
+                            innspillTilNAv: !state.innspillTilNAv,
                         }))
                     }
                 />
                 <br />
-                {schema[InnspillNavField.INNSPILL] && (
+                {schema.innspillTilNAv && (
                     <Textarea
                         maxLength={0}
-                        value={schema[InnspillNavField.BESKRIV] || ''}
+                        value={schema.innspillTilNavBeskriv || ''}
                         onChange={({ target: { value } }) =>
                             setSchema(state => ({
                                 ...state,
-                                [InnspillNavField.BESKRIV]: value,
+                                innspillTilNavBeskriv: value,
                             }))
                         }
                         label={<Element>Beskriv</Element>}

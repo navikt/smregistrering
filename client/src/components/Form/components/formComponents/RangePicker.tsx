@@ -6,7 +6,6 @@ import React from 'react';
 import { Element } from 'nav-frontend-typografi';
 
 import calendar from '../../../../svg/calendar.svg';
-import { AvventendeSykmeldingField } from '../formSections/MulighetForArbeidSection';
 import { flatpickrLocale } from './flatpickrUtils';
 
 type RangePickerProps = {

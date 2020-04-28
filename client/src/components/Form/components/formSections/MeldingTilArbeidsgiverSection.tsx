@@ -7,14 +7,9 @@ import Subsection from '../formComponents/Subsection';
 import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
-export enum MeldingTilArbeidsgiverField {
-    INNSPILL = 'meldingTilArbeidsgiverInnspill',
-    BESKRIV = 'meldingTIlArbeidsgiverBeskriv',
-}
-
 export type MeldingTilArbeidsgiver = {
-    [MeldingTilArbeidsgiverField.INNSPILL]?: boolean;
-    [MeldingTilArbeidsgiverField.BESKRIV]?: string;
+    meldingTilArbeidsgiverInnspill?: boolean;
+    meldingTilArbeidsgiverBeskriv?: string;
 };
 
 type MeldingTilArbeidsgiverSectionProps = {
@@ -28,24 +23,24 @@ const MeldingTilArbeidsgiverSection = ({ section, setSchema, schema }: MeldingTi
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="9.1" underline={false}>
                 <Checkbox
-                    checked={schema[MeldingTilArbeidsgiverField.INNSPILL]}
+                    checked={schema.meldingTilArbeidsgiverInnspill}
                     label="Andre innspill til arbeidsgiver"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [MeldingTilArbeidsgiverField.INNSPILL]: !state[MeldingTilArbeidsgiverField.INNSPILL],
+                            meldingTilArbeidsgiverInnspill: !state.meldingTilArbeidsgiverInnspill,
                         }))
                     }
                 />
                 <br />
-                {schema[MeldingTilArbeidsgiverField.INNSPILL] && (
+                {schema.meldingTilArbeidsgiverInnspill && (
                     <Textarea
                         maxLength={0}
-                        value={schema[MeldingTilArbeidsgiverField.BESKRIV] || ''}
+                        value={schema.meldingTilArbeidsgiverBeskriv || ''}
                         onChange={({ target: { value } }) =>
                             setSchema(state => ({
                                 ...state,
-                                [MeldingTilArbeidsgiverField.BESKRIV]: value,
+                                meldingTilArbeidsgiverBeskriv: value,
                             }))
                         }
                         label={<Element>Andre innspill til arbeidsgiver</Element>}

@@ -84,7 +84,7 @@ const Periode = iots.intersection([
     iots.partial({
         aktivitetIkkeMulig: AktivitetIkkeMulig,
         avventendeInnspillTilArbeidsgiver: iots.string,
-        behandlingsdager: iots.string,
+        behandlingsdager: iots.number,
         gradert: Gradert,
     }),
 ]);

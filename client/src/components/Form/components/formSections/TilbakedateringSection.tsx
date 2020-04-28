@@ -8,18 +8,11 @@ import Subsection from '../formComponents/Subsection';
 import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
-export enum TilbakedateringField {
-    ER_TILBAKEDATERT = 'erTilbakedatert',
-    DATO_TILBAKEDATERING = 'datoTilbakedatering',
-    KAN_IKKE_IVARETA_INTERESSER = 'kanIkkeIvaretaInteresser',
-    BEGRUNN = 'tilbakedateringBegrunn',
-}
-
 export type Tilbakedatering = {
-    [TilbakedateringField.ER_TILBAKEDATERT]?: boolean;
-    [TilbakedateringField.DATO_TILBAKEDATERING]?: Date;
-    [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]?: boolean;
-    [TilbakedateringField.BEGRUNN]?: string;
+    erTilbakedatert: boolean;
+    kontaktDato?: Date;
+    kunneIkkeIvaretaEgneInteresser: boolean;
+    begrunnelseIkkeKontakt?: string;
 };
 
 type TilbakedateringSectionProps = {
@@ -33,24 +26,24 @@ const TilbakedateringSection = ({ section, setSchema, schema }: TilbakedateringS
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="11.1" underline={false}>
                 <Checkbox
-                    checked={schema[TilbakedateringField.ER_TILBAKEDATERT]}
+                    checked={schema.erTilbakedatert}
                     label="Er sykmelding tilbakedatert?"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [TilbakedateringField.ER_TILBAKEDATERT]: !state[TilbakedateringField.ER_TILBAKEDATERT],
+                            erTilbakedatert: !state.erTilbakedatert,
                         }))
                     }
                 />
                 <br />
-                {schema[TilbakedateringField.ER_TILBAKEDATERT] && (
+                {schema.erTilbakedatert && (
                     <DatePicker
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
-                        value={schema[TilbakedateringField.DATO_TILBAKEDATERING]}
+                        value={schema.kontaktDato}
                         onChange={newDate =>
                             setSchema(state => ({
                                 ...state,
-                                [TilbakedateringField.DATO_TILBAKEDATERING]: newDate,
+                                kontaktDato: newDate,
                             }))
                         }
                     />
@@ -59,26 +52,24 @@ const TilbakedateringSection = ({ section, setSchema, schema }: TilbakedateringS
 
             <Subsection sectionIdentifier="11.2" underline={false}>
                 <Checkbox
-                    checked={schema[TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]}
+                    checked={schema.kunneIkkeIvaretaEgneInteresser}
                     label="Pasienten har ikke kunnet ivareta egne interesser"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER]: !state[
-                                TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER
-                            ],
+                            kunneIkkeIvaretaEgneInteresser: !state.kunneIkkeIvaretaEgneInteresser,
                         }))
                     }
                 />
                 <br />
-                {schema[TilbakedateringField.KAN_IKKE_IVARETA_INTERESSER] && (
+                {schema.kunneIkkeIvaretaEgneInteresser && (
                     <Textarea
                         maxLength={0}
-                        value={schema[TilbakedateringField.BEGRUNN] || ''}
+                        value={schema.begrunnelseIkkeKontakt || ''}
                         onChange={({ target: { value } }) =>
                             setSchema(state => ({
                                 ...state,
-                                [TilbakedateringField.BEGRUNN]: value,
+                                begrunnelseIkkeKontakt: value,
                             }))
                         }
                         label={<Element>Begrunn</Element>}

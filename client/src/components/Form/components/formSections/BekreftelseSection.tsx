@@ -8,20 +8,12 @@ import Subsection from '../formComponents/Subsection';
 import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
-export enum BekreftelseField {
-    LEGITIMERT = 'legitimert',
-    SYKMELDERS_NAVN = 'sykmeldersNavn',
-    HPR = 'hpr',
-    TELEFON = 'sykmelderTelefon',
-    ADRESSE = 'adresse',
-}
-
 export type Bekreftelse = {
-    [BekreftelseField.LEGITIMERT]?: boolean;
-    [BekreftelseField.SYKMELDERS_NAVN]?: string;
-    [BekreftelseField.HPR]?: string;
-    [BekreftelseField.TELEFON]?: string;
-    [BekreftelseField.ADRESSE]?: string;
+    legitimert?: boolean;
+    sykmeldersNavn?: string;
+    hpr?: string;
+    sykmelderTelefon?: string;
+    sykmelderAdresse?: string;
 };
 
 type BekreftelseSectionProps = {
@@ -36,12 +28,12 @@ const BekreftelseSection = ({ section, setSchema, schema }: BekreftelseSectionPr
             <Subsection sectionIdentifier="12.1" underline={false}>
                 <Checkbox
                     className="form-margin-bottom"
-                    checked={schema[BekreftelseField.LEGITIMERT]}
+                    checked={schema.legitimert}
                     label="Pasienten er kjent eller har vist legitimasjon"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [BekreftelseField.LEGITIMERT]: !state[BekreftelseField.LEGITIMERT],
+                            legitimert: !state.legitimert,
                         }))
                     }
                 />
@@ -52,7 +44,7 @@ const BekreftelseSection = ({ section, setSchema, schema }: BekreftelseSectionPr
                 onChange={({ target: { value } }) =>
                     setSchema(state => ({
                         ...state,
-                        [BekreftelseField.SYKMELDERS_NAVN]: value,
+                        sykmeldersNavn: value,
                     }))
                 }
                 label={<Element>12.2 Sykmelders navn</Element>}
@@ -64,7 +56,7 @@ const BekreftelseSection = ({ section, setSchema, schema }: BekreftelseSectionPr
                     onChange={({ target: { value } }) =>
                         setSchema(state => ({
                             ...state,
-                            [BekreftelseField.HPR]: value,
+                            hpr: value,
                         }))
                     }
                     label={<Element>12.4 HPR-nummer</Element>}
@@ -74,7 +66,7 @@ const BekreftelseSection = ({ section, setSchema, schema }: BekreftelseSectionPr
                     onChange={({ target: { value } }) =>
                         setSchema(state => ({
                             ...state,
-                            [BekreftelseField.TELEFON]: value,
+                            sykmelderTelefon: value,
                         }))
                     }
                     label={<Element>12.5 Telefon</Element>}
@@ -86,7 +78,7 @@ const BekreftelseSection = ({ section, setSchema, schema }: BekreftelseSectionPr
                 onChange={({ target: { value } }) =>
                     setSchema(state => ({
                         ...state,
-                        [BekreftelseField.ADRESSE]: value,
+                        sykmelderAdresse: value,
                     }))
                 }
                 label={<Element>12.6 Adresse</Element>}

@@ -1,89 +1,40 @@
 import React from 'react';
-import { Checkbox, Input, Textarea } from 'nav-frontend-skjema';
+import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
 import RangePicker from '../formComponents/RangePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
+import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../types/RegistrertSykmelding';
 import { ErrorSchemaType, SchemaType, Validate } from '../../Form';
 import { Section } from '../../../../types/Section';
 
-export enum AvventendeSykmeldingField {
-    AVVENTENDE = 'avventende',
-    AVVENTENDE_PERIODE = 'avventendePeriode',
-    INNSPILL_TIL_ARBEIDSGIVER = 'innspillTilArbeidsgiver',
-}
-
-export type AvventendeSykmelding = {
-    avventende?: boolean;
-    avventendePeriode: Date[];
-    innspillTilArbeidsgiver?: string;
-};
-
-export enum GradertSykmeldingField {
-    GRADERT = 'gradert',
-    GRADERT_PERIODE = 'gradertPeriode',
-    GRAD = 'grad',
-    REISETILSKUDD = 'reisetilskudd',
-}
-
-export type GradertSykmelding = {
-    gradert?: boolean;
-    gradertPeriode: Date[];
-    grad?: string;
-    reisetilskudd?: boolean;
-};
-
-export enum FullSykmeldingField {
-    SYKMELDT = 'sykmeldt',
-    SYKMELDT_PERIODE = 'sykmeldtPeriode',
-    MEDISINSKE_AARSAKER = 'medisinskeAarsaker',
-    ARBEIDSFORHOLD = 'arbeidsforhold',
-}
-
-export type FullSykmelding = {
-    sykmeldt?: boolean;
-    sykmeldtPeriode: Date[];
-    medisinskeAarsaker?: boolean;
-    arbeidsforhold?: boolean;
-};
-
-export enum BehandlingField {
-    KAN_ARBEIDE = 'kanArbeide',
-    BEHANDLINGSPERIODE = 'behandlingsPeriode',
-    ANTALL_DAGER = 'antallDager',
-}
-
-export type Behandling = {
-    kanArbeide?: boolean;
-    behandlingsPeriode: Date[];
-    antallDager?: number;
-};
-
-export enum ReisetilskuddField {
-    FULLT_ARBEID = 'fulltArbeid',
-    ARBEIDSPERIODE = 'arbeidsPeriode',
-}
-
-export type Reisetilskudd = {
-    fulltArbeid?: boolean;
-    arbeidsPeriode: Date[];
-};
-
-export enum MulighetForArbeidField {
-    AVVENTENDE_SYKMELDING = 'avventendeSykmelding',
-    GRADERT_SYKMELDING = 'gradertSykmelding',
-    FULL_SYKMELDING = 'fullSykmelding',
-    BEHANDLING = 'behandling',
-    REISETILSKUDD = 'reisetilskudd',
-}
-
 export type MulighetForArbeid = {
-    avventendeSykmelding: AvventendeSykmelding;
-    gradertSykmelding: GradertSykmelding;
-    fullSykmelding: FullSykmelding;
-    behandling: Behandling;
-    reisetilskudd: Reisetilskudd;
+    // Perioder for avventende sykmelding
+    avventendeSykmelding: boolean;
+    avventendePeriode: Date[];
+    avventendeInnspillTilArbeidsgiver?: string;
+    // Perioder for gradert sykmelding
+    gradertSykmelding: boolean;
+    gradertPeriode: Date[];
+    gradertGrad?: string;
+    gradertReisetilskudd?: boolean;
+    // Perioder for full sykmelding
+    aktivitetIkkeMuligSykmelding: boolean;
+    aktivitetIkkeMuligPeriode: Date[];
+    aktivitetIkkeMuligMedisinskArsak?: boolean;
+    aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[];
+    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string;
+    aktivitetIkkeMuligArbeidsrelatertArsak?: boolean;
+    aktivitetIkkeMuligArbeidsrelatertArsakType?: ArbeidsrelatertArsakType[];
+    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string;
+    // Perioder for sykmelding for behandlignsdager
+    behandlingsdagerSykmelding: boolean;
+    behandlingsdagerPeriode: Date[];
+    behandlingsdagerAntall?: number;
+    // Perioder for sykmelding med reisetilskudd
+    reisetilskuddSykmelding: boolean;
+    reisetilskuddPeriode: Date[];
 };
 
 type MulighetForArbeidSectionProps = {
@@ -99,41 +50,41 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="4.1">
                 <Checkbox
-                    checked={schema[AvventendeSykmeldingField.AVVENTENDE]}
+                    checked={schema.avventendeSykmelding}
                     label="Pasienten kan benytte avventende sykmelding"
                     onChange={() => {
                         setSchema(state => ({
                             ...state,
-                            [AvventendeSykmeldingField.AVVENTENDE]: !state[AvventendeSykmeldingField.AVVENTENDE],
+                            avventendeSykmelding: !state.avventendeSykmelding,
                         }));
-                        validate(AvventendeSykmeldingField.AVVENTENDE, schema[AvventendeSykmeldingField.AVVENTENDE]);
+                        validate('avventendeSykmelding', schema.avventendeSykmelding);
                     }}
-                    feil={errors[AvventendeSykmeldingField.AVVENTENDE]}
+                    feil={errors.avventendeSykmelding}
                 />
                 <br />
-                {schema[AvventendeSykmeldingField.AVVENTENDE] && (
+                {schema.avventendeSykmelding && (
                     <>
                         <RangePicker
                             labelFrom="4.1.1 f.o.m."
                             labelTo="4.1.2 t.o.m."
-                            value={schema[AvventendeSykmeldingField.AVVENTENDE_PERIODE] || []}
+                            value={schema.avventendePeriode || []}
                             onChange={newDates => {
                                 console.log(newDates);
                                 setSchema(state => ({
                                     ...state,
-                                    [AvventendeSykmeldingField.AVVENTENDE_PERIODE]: newDates,
+                                    avventendePeriode: newDates,
                                 }));
-                                validate(AvventendeSykmeldingField.AVVENTENDE_PERIODE, newDates);
+                                validate('avventendePeriode', newDates);
                             }}
-                            feil={errors[AvventendeSykmeldingField.AVVENTENDE_PERIODE]}
+                            feil={errors.avventendePeriode}
                         />
                         <Textarea
                             maxLength={0}
-                            value={schema[AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER] || ''}
+                            value={schema.avventendeInnspillTilArbeidsgiver || ''}
                             onChange={({ target: { value } }) =>
                                 setSchema(state => ({
                                     ...state,
-                                    [AvventendeSykmeldingField.INNSPILL_TIL_ARBEIDSGIVER]: value,
+                                    avventendeInnspillTilArbeidsgiver: value,
                                 }))
                             }
                             label={<Element>4.1.3 Innspill til arbeidsgiver om tilrettelegging</Element>}
@@ -143,26 +94,26 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
             </Subsection>
             <Subsection sectionIdentifier="4.2">
                 <Checkbox
-                    checked={schema[GradertSykmeldingField.GRADERT]}
+                    checked={schema.gradertSykmelding}
                     label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [GradertSykmeldingField.GRADERT]: !state[GradertSykmeldingField.GRADERT],
+                            gradertSykmelding: !state.gradertSykmelding,
                         }))
                     }
                 />
                 <br />
-                {schema[GradertSykmeldingField.GRADERT] && (
+                {schema.gradertSykmelding && (
                     <>
                         <RangePicker
                             labelFrom="4.2.1 f.o.m."
                             labelTo="4.2.2 t.o.m."
-                            value={schema[GradertSykmeldingField.GRADERT_PERIODE] || []}
+                            value={schema.gradertPeriode || []}
                             onChange={newDates =>
                                 setSchema(state => ({
                                     ...state,
-                                    [GradertSykmeldingField.GRADERT_PERIODE]: newDates,
+                                    gradertPeriode: newDates,
                                 }))
                             }
                         />
@@ -171,7 +122,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             onChange={({ target: { value } }) =>
                                 setSchema(state => ({
                                     ...state,
-                                    [GradertSykmeldingField.GRAD]: value,
+                                    gradertGrad: value,
                                 }))
                             }
                             label={<Element>4.2.3 Oppgi grad for sykmelding</Element>}
@@ -181,12 +132,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
 
                 <Element className="form-label">4.2.4</Element>
                 <Checkbox
-                    checked={schema[GradertSykmeldingField.REISETILSKUDD]}
+                    checked={schema.gradertReisetilskudd}
                     label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [GradertSykmeldingField.REISETILSKUDD]: !state[GradertSykmeldingField.REISETILSKUDD],
+                            gradertReisetilskudd: !state.gradertReisetilskudd,
                         }))
                     }
                 />
@@ -194,81 +145,171 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
 
             <Subsection sectionIdentifier="4.3">
                 <Checkbox
-                    checked={schema[FullSykmeldingField.SYKMELDT]}
+                    checked={schema.aktivitetIkkeMuligSykmelding}
                     label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [FullSykmeldingField.SYKMELDT]: !state[FullSykmeldingField.SYKMELDT],
+                            aktivitetIkkeMuligSykmelding: !state.aktivitetIkkeMuligSykmelding,
                         }))
                     }
                 />
                 <br />
-                {schema[FullSykmeldingField.SYKMELDT] && (
+                {schema.aktivitetIkkeMuligSykmelding && (
                     <>
                         <RangePicker
                             labelFrom="4.3.1 f.o.m."
                             labelTo="4.3.2 t.o.m."
-                            value={schema[FullSykmeldingField.SYKMELDT_PERIODE] || []}
+                            value={schema.aktivitetIkkeMuligPeriode || []}
                             onChange={newDates =>
                                 setSchema(state => ({
                                     ...state,
-                                    [FullSykmeldingField.SYKMELDT_PERIODE]: newDates,
+                                    aktivitetIkkeMuligPeriode: newDates,
                                 }))
                             }
                         />
                         <Element className="form-label">4.3.3</Element>
                         <Checkbox
                             className="form-margin-bottom"
-                            checked={schema[FullSykmeldingField.MEDISINSKE_AARSAKER]}
+                            checked={schema.aktivitetIkkeMuligMedisinskArsak}
                             label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
                             onChange={() =>
                                 setSchema(state => ({
                                     ...state,
-                                    [FullSykmeldingField.MEDISINSKE_AARSAKER]: !state[
-                                        FullSykmeldingField.MEDISINSKE_AARSAKER
-                                    ],
+                                    aktivitetIkkeMuligMedisinskArsak: !state.aktivitetIkkeMuligMedisinskArsak,
                                 }))
                             }
                         />
+                        {schema.aktivitetIkkeMuligMedisinskArsak && (
+                            <>
+                                <Select
+                                    onChange={({ target: { value } }) => {
+                                        if (value === '0') {
+                                            setSchema(state => ({
+                                                ...state,
+                                                aktivitetIkkeMuligMedisinskArsakType: undefined,
+                                            }));
+                                        } else {
+                                            setSchema(state => ({
+                                                ...state,
+                                                aktivitetIkkeMuligMedisinskArsakType: [value] as MedisinskArsakType[],
+                                            }));
+                                        }
+                                        validate('aktivitetIkkeMuligMedisinskArsakType', value);
+                                    }}
+                                    className="form-margin-bottom"
+                                    label={<Element>Medisinsk årsak</Element>}
+                                    feil={errors.aktivitetIkkeMuligMedisinskArsakType}
+                                >
+                                    <option value="0">Velg</option>
+                                    {Object.entries(MedisinskArsakType).map(([key, value]) => {
+                                        return (
+                                            <option key={key} value={value}>
+                                                {value}
+                                            </option>
+                                        );
+                                    })}
+                                </Select>
+                                <Input
+                                    className="form-margin-bottom"
+                                    type="text"
+                                    onChange={({ target: { value } }) => {
+                                        setSchema(state => ({
+                                            ...state,
+                                            aktivitetIkkeMuligMedisinskArsakBeskrivelse: value,
+                                        }));
+                                        validate('aktivitetIkkeMuligMedisinskArsakBeskrivelse', value);
+                                    }}
+                                    label={<Element>Beskrivelse</Element>}
+                                    feil={errors.aktivitetIkkeMuligMedisinskArsakBeskrivelse}
+                                />
+                            </>
+                        )}
                         <Element className="form-label">4.3.4</Element>
                         <Checkbox
                             className="form-margin-bottom"
-                            checked={schema[FullSykmeldingField.ARBEIDSFORHOLD]}
+                            checked={schema.aktivitetIkkeMuligArbeidsrelatertArsak}
                             label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
                             onChange={() =>
                                 setSchema(state => ({
                                     ...state,
-                                    [FullSykmeldingField.ARBEIDSFORHOLD]: !state[FullSykmeldingField.ARBEIDSFORHOLD],
+                                    aktivitetIkkeMuligArbeidsrelatertArsak: !state.aktivitetIkkeMuligArbeidsrelatertArsak,
                                 }))
                             }
                         />
+                        {schema.aktivitetIkkeMuligArbeidsrelatertArsak && (
+                            <>
+                                <Select
+                                    onChange={({ target: { value } }) => {
+                                        if (value === '0') {
+                                            setSchema(state => ({
+                                                ...state,
+                                                aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
+                                            }));
+                                        } else {
+                                            setSchema(state => ({
+                                                ...state,
+                                                aktivitetIkkeMuligArbeidsrelatertArsakType: [
+                                                    value,
+                                                ] as ArbeidsrelatertArsakType[],
+                                            }));
+                                        }
+                                        validate('aktivitetIkkeMuligArbeidsrelatertArsakType', value);
+                                    }}
+                                    className="form-margin-bottom"
+                                    label={<Element>Arbeidsrelatert årsak</Element>}
+                                    feil={errors.aktivitetIkkeMuligArbeidsrelatertArsakType}
+                                >
+                                    <option value="0">Velg</option>
+                                    {Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
+                                        return (
+                                            <option key={key} value={value}>
+                                                {value}
+                                            </option>
+                                        );
+                                    })}
+                                </Select>
+                                <Input
+                                    className="form-margin-bottom"
+                                    type="text"
+                                    onChange={({ target: { value } }) => {
+                                        setSchema(state => ({
+                                            ...state,
+                                            aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: value,
+                                        }));
+                                        validate('aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse', value);
+                                    }}
+                                    label={<Element>Beskrivelse</Element>}
+                                    feil={errors.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse}
+                                />
+                            </>
+                        )}
                     </>
                 )}
             </Subsection>
 
             <Subsection sectionIdentifier="4.4">
                 <Checkbox
-                    checked={schema[BehandlingField.KAN_ARBEIDE]}
+                    checked={schema.behandlingsdagerSykmelding}
                     label="Pasienten kan ikke være i arbeid på behandlingsdager"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [BehandlingField.KAN_ARBEIDE]: !state[BehandlingField.KAN_ARBEIDE],
+                            behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
                         }))
                     }
                 />
                 <br />
-                {schema[BehandlingField.KAN_ARBEIDE] && (
+                {schema.behandlingsdagerSykmelding && (
                     <>
                         <RangePicker
                             labelFrom="4.4.1 f.o.m."
                             labelTo="4.4.2 t.o.m."
-                            value={schema[BehandlingField.BEHANDLINGSPERIODE] || []}
+                            value={schema.behandlingsdagerPeriode || []}
                             onChange={newDates =>
                                 setSchema(state => ({
                                     ...state,
-                                    [BehandlingField.BEHANDLINGSPERIODE]: newDates,
+                                    behandlingsdagerPeriode: newDates,
                                 }))
                             }
                         />
@@ -279,7 +320,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             onChange={({ target: { value } }) =>
                                 setSchema(state => ({
                                     ...state,
-                                    [BehandlingField.ANTALL_DAGER]: Number(value),
+                                    behandlingsdagerAntall: Number(value),
                                 }))
                             }
                             label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
@@ -290,25 +331,25 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
 
             <Subsection sectionIdentifier="4.5" underline={false}>
                 <Checkbox
-                    checked={schema[ReisetilskuddField.FULLT_ARBEID]}
+                    checked={schema.reisetilskuddSykmelding}
                     label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [ReisetilskuddField.FULLT_ARBEID]: !state[ReisetilskuddField.FULLT_ARBEID],
+                            reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
                         }))
                     }
                 />
                 <br />
-                {schema[ReisetilskuddField.FULLT_ARBEID] && (
+                {schema.reisetilskuddSykmelding && (
                     <RangePicker
                         labelFrom="4.5.1 f.o.m."
                         labelTo="4.5.2 t.o.m."
-                        value={schema[ReisetilskuddField.ARBEIDSPERIODE] || []}
+                        value={schema.reisetilskuddPeriode || []}
                         onChange={newDates =>
                             setSchema(state => ({
                                 ...state,
-                                [ReisetilskuddField.ARBEIDSPERIODE]: newDates,
+                                reisetilskuddPeriode: newDates,
                             }))
                         }
                     />
