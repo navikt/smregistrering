@@ -80,6 +80,9 @@ export const validationFunctions: ValidationType = {
                 if (!biDiagnose.kode) feilmelding = 'Kode må være definert';
                 if (!biDiagnose.tekst) feilmelding = 'Tekt må være definert';
             });
+            if (feilmelding) {
+                return feilmelding;
+            }
         }
         return undefined;
     },
