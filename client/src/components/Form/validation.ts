@@ -8,6 +8,7 @@ export type ValidationType = {
 };
 
 export const validation: ValidationType = {
+    // Other
     fnr: (value, schema) => {
         if (!value) {
             return 'Personnummer må være definert';
@@ -23,6 +24,8 @@ export const validation: ValidationType = {
         }
         return undefined;
     },
+
+    // Pasientopplysninger
     pasientTelefon: (value, schema) => {
         if (!value) {
             return 'Telefonnummer må være definert';
@@ -51,6 +54,8 @@ export const validation: ValidationType = {
         }
         return undefined;
     },
+
+    // Arbeidsgiver
     harArbeidsgiver: (value, schema) => {
         if (!value) {
             return 'Du må velge abridssituasjon';
@@ -78,6 +83,8 @@ export const validation: ValidationType = {
         }
         return undefined;
     },
+
+    // Diagnose
     hovedDiagnose: (value, schema) => {
         if (!value) {
             return 'Hoveddiagnose må være definert';
@@ -91,31 +98,16 @@ export const validation: ValidationType = {
         return undefined;
     },
     biDiagnoser: () => undefined,
+    yrkesskade: () => undefined,
+    yrkesskadeDato: () => undefined,
+    svangerskap: () => undefined,
     annenFraversArsak: () => undefined,
     annenFraversArsakGrunn: () => undefined,
     annenFraversArsakBeskrivelse: () => undefined,
-    svangerskap: () => undefined,
-    yrkesskade: () => undefined,
-    yrkesskadeDato: () => undefined,
     skjermesForPasient: () => undefined,
-    arbeidsfoerEtterPeriode: () => undefined,
-    hensynPaArbeidsplassen: () => undefined,
-    tilretteleggArbeidsplassBeskriv: () => undefined,
-    tiltakNav: () => undefined,
-    tiltakNavBeskriv: () => undefined,
-    innspillTilNAv: () => undefined,
-    innspillTilNavBeskriv: () => undefined,
-    meldingTilNavBistand: () => undefined,
-    meldingTilNavBegrunn: () => undefined,
-    meldingTilArbeidsgiverInnspill: () => undefined,
-    meldingTilArbeidsgiverBeskriv: () => undefined,
-    legitimert: () => undefined,
-    sykmeldersNavn: () => undefined,
-    hpr: () => undefined,
-    sykmelderAdresse: () => undefined,
-    sykmelderTelefon: () => undefined,
-    tilretteleggingArbeidsplassen: () => undefined,
-    // Perioder
+
+    // MulighetForArbeid
+    // Perioder for avventende sykmelding
     avventendeSykmelding: () => undefined,
     avventendePeriode: () => undefined,
     avventendeInnspillTilArbeidsgiver: () => undefined,
@@ -140,9 +132,37 @@ export const validation: ValidationType = {
     // Perioder for sykmelding med reisetilskudd
     reisetilskuddSykmelding: () => undefined,
     reisetilskuddPeriode: () => undefined,
+
+    // Friskmelding
+    arbeidsfoerEtterPeriode: () => undefined,
+    hensynPaArbeidsplassen: () => undefined,
+
+    // Arbeidsevne
+    tilretteleggingArbeidsplassen: () => undefined,
+    tilretteleggingArbeidsplassBeskriv: () => undefined,
+    tiltakNav: () => undefined,
+    tiltakNavBeskriv: () => undefined,
+    innspillTilNAv: () => undefined,
+    innspillTilNavBeskriv: () => undefined,
+
+    // MeldingTilNav
+    meldingTilNavBistand: () => undefined,
+    meldingTilNavBegrunn: () => undefined,
+
+    // MeldingTilArbeidsgiver
+    meldingTilArbeidsgiverInnspill: () => undefined,
+    meldingTilArbeidsgiverBeskriv: () => undefined,
+
     // Tilbakedatering
     erTilbakedatert: () => undefined,
     kontaktDato: () => undefined,
     kunneIkkeIvaretaEgneInteresser: () => undefined,
     begrunnelseIkkeKontakt: () => undefined,
+
+    // Bekreftelse
+    legitimert: () => undefined,
+    sykmeldersNavn: () => undefined,
+    hpr: () => undefined,
+    sykmelderAdresse: () => undefined,
+    sykmelderTelefon: () => undefined,
 };

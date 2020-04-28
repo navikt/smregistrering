@@ -11,7 +11,7 @@ import { Validate } from '../../validation';
 
 export type Arbeidsevne = {
     tilretteleggingArbeidsplassen?: boolean;
-    tilretteleggArbeidsplassBeskriv?: string;
+    tilretteleggingArbeidsplassBeskriv?: string;
     tiltakNav?: boolean;
     tiltakNavBeskriv?: string;
     innspillTilNAv?: boolean;
@@ -44,7 +44,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                 {schema.tilretteleggingArbeidsplassen && (
                     <Textarea
                         maxLength={0}
-                        value={schema.tilretteleggArbeidsplassBeskriv || ''}
+                        value={schema.tilretteleggingArbeidsplassBeskriv || ''}
                         onChange={({ target: { value } }) =>
                             setSchema(state => ({
                                 ...state,
