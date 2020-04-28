@@ -7,7 +7,7 @@ export type ValidationType = {
     [key in Mandatory<SchemaType>]: (value: SchemaType[key], schema: SchemaType) => string | undefined;
 };
 
-export const validation: ValidationType = {
+export const validationFunctions: ValidationType = {
     // Other
     fnr: (value, schema) => {
         if (!value) {

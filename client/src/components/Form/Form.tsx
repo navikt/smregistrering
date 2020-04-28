@@ -2,10 +2,7 @@ import './Form.less';
 import './components/formComponents/Flatpickr.less';
 
 import React, { useState } from 'react';
-import { EtikettLiten } from 'nav-frontend-typografi';
-import { FnrInput } from 'nav-frontend-skjema';
 
-import DatePicker from './components/formComponents/DatePicker';
 import FormHeader from './components/FormHeader';
 import Panel from '../Panel/Panel';
 import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/ArbeidsevneSection';
@@ -18,17 +15,13 @@ import MeldingTilArbeidsgiverSection, {
 } from './components/formSections/MeldingTilArbeidsgiverSection';
 import MeldingTilNavSection, { MeldingTilNav } from './components/formSections/MeldingTilNavSection';
 import MulighetForArbeidSection, { MulighetForArbeid } from './components/formSections/MulighetForArbeidSection';
+import OtherSection, { Other } from './components/formSections/OtherSection';
 import PasientopplysningerSection, { Pasientopplysninger } from './components/formSections/PasientopplysningerSection';
 import TilbakedateringSection, { Tilbakedatering } from './components/formSections/TilbakedateringSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
 import { SectionTitle, Sections } from '../../types/Section';
-import { Validate, validation } from './validation';
-
-export type Other = {
-    fnr?: string;
-    syketilfelleStartDato?: Date;
-};
+import { Validate, validationFunctions } from './validation';
 
 export type SchemaType = Partial<
     Pasientopplysninger &
@@ -78,14 +71,14 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
     const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
 
     const validate: Validate = (name, value) => {
-        const validationFunction = validation[name];
+        const validationFunction = validationFunctions[name];
         let error: string | undefined = undefined;
         error = validationFunction(value as any, schema);
         setFormErrors(state => ({ ...state, [name]: error }));
     };
 
     const validateAll = () => {
-        const keys = Object.keys(validation);
+        const keys = Object.keys(validationFunctions);
         keys.forEach(key => {
             // TODO: Can this casting be avoided?
             // https://github.com/microsoft/TypeScript/pull/12253#issuecomment-263132208
@@ -104,27 +97,7 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
         <Panel>
             <FormHeader />
             <button onClick={validateAll}>validate all</button>
-            <div className="form-margin-bottom section-content">
-                <FnrInput
-                    className="form-margin-bottom half"
-                    defaultValue={schema.fnr}
-                    onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            fnr: value,
-                        }));
-                        validate('fnr', value);
-                    }}
-                    onValidate={valid => console.log(valid)}
-                    label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
-                    feil={formErrors.fnr}
-                />
-                <DatePicker
-                    label="Startdato for legemeldt fravær"
-                    value={schema.syketilfelleStartDato}
-                    onChange={newDates => setSchema(state => ({ ...state, syketilfelleStartDato: newDates }))}
-                />
-            </div>
+            <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
             <PasientopplysningerSection
                 section={sections[SectionTitle.PASIENTOPPLYSNINGER]}
                 setSchema={setSchema}
