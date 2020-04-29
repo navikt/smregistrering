@@ -50,6 +50,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                                 kontaktDato: newDate,
                             }))
                         }
+                        feil={errors.kontaktDato}
                     />
                 )}
             </Subsection>

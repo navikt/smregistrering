@@ -249,6 +249,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                                 yrkesskadeDato: newDates,
                             }))
                         }
+                        feil={errors.yrkesskadeDato}
                     />
                 )}
             </Subsection>

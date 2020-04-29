@@ -41,6 +41,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                     setSchema(state => ({ ...state, syketilfelleStartDato: newDates }));
                     validate('syketilfelleStartDato', newDates);
                 }}
+                feil={errors.syketilfelleStartDato}
             />
         </div>
     );
