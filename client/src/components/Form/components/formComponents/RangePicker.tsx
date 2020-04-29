@@ -5,6 +5,7 @@ import Flatpickr from 'react-flatpickr';
 import React from 'react';
 import { Element } from 'nav-frontend-typografi';
 
+import InputError from './InputError';
 import calendar from '../../../../svg/calendar.svg';
 import { flatpickrLocale } from './flatpickrUtils';
 
@@ -12,7 +13,7 @@ type RangePickerProps = {
     labelFrom: string;
     labelTo: string;
     value: Date[];
-    onChange: (newDates: Date[]) => void;
+    onChange: (newDates: Date[] | undefined) => void;
     feil?: string;
 };
 
@@ -42,7 +43,7 @@ const RangePicker = ({ labelFrom, labelTo, value, onChange, feil }: RangePickerP
                     <img aria-hidden="true" alt="Kalender" src={calendar} />
                 </span>
             </div>
-            {feil ? <p>{feil}</p> : null}
+            <InputError feil={feil} />
         </div>
     );
 };

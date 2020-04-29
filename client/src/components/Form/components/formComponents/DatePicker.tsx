@@ -17,7 +17,6 @@ type DatePickerProps = {
 };
 
 const DatePicker = ({ label, value, onChange, feil }: DatePickerProps) => {
-    console.log(value);
     return (
         <>
             <div className="datepicker-container">
@@ -37,15 +36,6 @@ const DatePicker = ({ label, value, onChange, feil }: DatePickerProps) => {
                             dateFormat: 'd.m.Y',
                             allowInput: true,
                             locale: flatpickrLocale,
-                            // Updates the date when the user closes the date picker. This is useful if the user
-                            // attempts to use keyboard input to change or clear the input.
-                            onClose(_dates, _currentdatestring, picker) {
-                                if (picker.input.value === '') {
-                                    onChange(undefined);
-                                } else {
-                                    onChange(new Date(picker.input.value));
-                                }
-                            },
                         }}
                     />
                     <span className="flatpickr-icon">
