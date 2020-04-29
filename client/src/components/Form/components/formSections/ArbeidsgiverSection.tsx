@@ -3,25 +3,14 @@ import { Element } from 'nav-frontend-typografi';
 import { Input, Select } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
-import { SchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
+import { HarArbeidsgiver } from '../../../../types/RegistrertSykmelding';
 import { Section } from '../../../../types/Section';
-
-export enum HarArbeidsgiver {
-    EN_ARBEIDSGIVER = 'Én arbeidsgiver',
-    FLERE_ARBEIDSGIVERE = 'Flere arbeidsgivere',
-    INGEN_ARBEIDSGIVER = 'Ingen arbeidsgiver',
-}
-
-export enum ArbeidsgiverField {
-    HAR_ARBEIDSGIVER = 'harArbeidsgiver',
-    NAVN = 'navn',
-    YRKESBETEGNELSE = 'yrkesbetegnelse',
-    STILLINGSPROSENT = 'stillingsprosent',
-}
+import { Validate } from '../../validation';
 
 export type Arbeidsgiver = {
     harArbeidsgiver?: HarArbeidsgiver;
-    navn?: string;
+    arbeidsgiverNavn?: string;
     yrkesbetegnelse?: string;
     stillingsprosent?: number;
 };
@@ -29,32 +18,38 @@ export type Arbeidsgiver = {
 type ArbeidsgiverSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    errors: ErrorSchemaType;
+    validate: Validate;
+    schema: SchemaType;
 };
 
-const ArbeidsgiverSection = ({ section, setSchema }: ArbeidsgiverSectionProps) => {
+const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: ArbeidsgiverSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Select
+                value={schema.harArbeidsgiver}
                 onChange={({ target: { value } }) => {
                     if (value === '0') {
                         setSchema(state => ({
                             ...state,
-                            [ArbeidsgiverField.HAR_ARBEIDSGIVER]: undefined,
+                            harArbeidsgiver: undefined,
                         }));
                     } else {
                         setSchema(state => ({
                             ...state,
-                            [ArbeidsgiverField.HAR_ARBEIDSGIVER]: value as HarArbeidsgiver,
+                            harArbeidsgiver: value as HarArbeidsgiver,
                         }));
                     }
+                    validate('harArbeidsgiver', value);
                 }}
                 className="form-margin-bottom"
                 label={<Element>2.1 Pasienten har</Element>}
+                feil={errors.harArbeidsgiver}
             >
                 <option value="0">Velg</option>
                 {Object.entries(HarArbeidsgiver).map(([key, value]) => {
                     return (
-                        <option key={key} value={key}>
+                        <option key={key} value={value}>
                             {value}
                         </option>
                     );
@@ -63,35 +58,44 @@ const ArbeidsgiverSection = ({ section, setSchema }: ArbeidsgiverSectionProps) =
             <Input
                 className="form-margin-bottom"
                 type="text"
-                onChange={({ target: { value } }) =>
+                value={schema.arbeidsgiverNavn}
+                onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
-                        [ArbeidsgiverField.NAVN]: value,
-                    }))
-                }
+                        arbeidsgiverNavn: value,
+                    }));
+                    validate('arbeidsgiverNavn', value);
+                }}
                 label={<Element>2.2 Arbeidsgiver for denne sykmeldingen</Element>}
+                feil={errors.arbeidsgiverNavn}
             />
             <Input
                 className="form-margin-bottom"
                 type="text"
-                onChange={({ target: { value } }) =>
+                value={schema.yrkesbetegnelse}
+                onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
-                        [ArbeidsgiverField.YRKESBETEGNELSE]: value,
-                    }))
-                }
+                        yrkesbetegnelse: value,
+                    }));
+                    validate('yrkesbetegnelse', value);
+                }}
                 label={<Element>2.3 Yrke/stilling for dette arbeidsforholdet</Element>}
+                feil={errors.yrkesbetegnelse}
             />
             <Input
                 className="form-margin-bottom half"
                 type="number"
-                onChange={({ target: { value } }) =>
+                value={schema.stillingsprosent}
+                onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
-                        [ArbeidsgiverField.STILLINGSPROSENT]: Number(value),
-                    }))
-                }
+                        stillingsprosent: Number(value),
+                    }));
+                    validate('stillingsprosent', value);
+                }}
                 label={<Element>2.4 Stillingsprosent</Element>}
+                feil={errors.stillingsprosent}
             />
         </SectionContainer>
     );

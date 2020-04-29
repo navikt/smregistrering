@@ -9,14 +9,18 @@ import FormErrorSummary from './components/Form/FormErrorSummary';
 import FormSubmit from './components/Form/components/FormSubmit';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
-import Form, { SchemaType } from './components/Form/Form';
+import Form, { ErrorSchemaType } from './components/Form/Form';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { SectionTitle, Sections } from './types/Section';
 import { UrlError } from './utils/urlUtils';
 import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
 
-export type ErrorSchemaType = { [key in keyof SchemaType]: string | undefined };
+const formHasErrors = (formErrors: ErrorSchemaType) => {
+    const errorValues = Object.values(formErrors);
+    const definedErrors = errorValues.filter(errorValue => errorValue);
+    return definedErrors.length > 0;
+};
 
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
@@ -123,6 +127,8 @@ const App = () => {
         return null;
     }
 
+    const hasErrors = formHasErrors(formErrors);
+
     return (
         <>
             <Navbar />
@@ -138,8 +144,8 @@ const App = () => {
                         formErrors={formErrors}
                         setFormErrors={setFormErrors}
                     />
-                    <FormErrorSummary formErrors={formErrors} />
-                    <FormSubmit />
+                    <FormErrorSummary formErrors={formErrors} hasErrors={hasErrors} />
+                    <FormSubmit hasErrors={hasErrors} />
                 </div>
                 <div className="pdf-container">
                     <object
