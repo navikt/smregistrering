@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
-const FormSubmit = () => {
+const FormSubmit = ({ hasErrors }: { hasErrors: boolean }) => {
     const [checked, setChecked] = useState(false);
 
     return (
@@ -16,7 +16,7 @@ const FormSubmit = () => {
                 onChange={() => setChecked(state => !state)}
             />
 
-            <Hovedknapp disabled={!checked} onClick={() => console.log('registrer')}>
+            <Hovedknapp disabled={hasErrors || !checked} onClick={() => console.log('registrer')}>
                 Registrer sykmelding
             </Hovedknapp>
             <Flatknapp onClick={() => console.log('avbryt')}>Avbryt</Flatknapp>

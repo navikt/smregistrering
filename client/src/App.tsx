@@ -16,6 +16,12 @@ import { SectionTitle, Sections } from './types/Section';
 import { UrlError } from './utils/urlUtils';
 import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
 
+const formHasErrors = (formErrors: ErrorSchemaType) => {
+    const errorValues = Object.values(formErrors);
+    const definedErrors = errorValues.filter(errorValue => errorValue);
+    return definedErrors.length > 0;
+};
+
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
@@ -121,6 +127,8 @@ const App = () => {
         return null;
     }
 
+    const hasErrors = formHasErrors(formErrors);
+
     return (
         <>
             <Navbar />
@@ -136,8 +144,8 @@ const App = () => {
                         formErrors={formErrors}
                         setFormErrors={setFormErrors}
                     />
-                    <FormErrorSummary formErrors={formErrors} />
-                    <FormSubmit />
+                    <FormErrorSummary formErrors={formErrors} hasErrors={hasErrors} />
+                    <FormSubmit hasErrors={hasErrors} />
                 </div>
                 <div className="pdf-container">
                     <object
