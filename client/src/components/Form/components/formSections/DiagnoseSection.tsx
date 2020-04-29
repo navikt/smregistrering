@@ -64,24 +64,25 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
             <Row>
                 <Select
                     className="form-margin-bottom"
-                    onChange={({ target: { value } }) =>
+                    onChange={({ target: { value } }) => {
+                        console.log(value);
+                        const system = value === 'undefined' ? undefined : value;
                         setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.HOVEDDIAGNOSE]: {
-                                system: value,
-                                kode: '',
-                                tekst: '',
+                                system,
+                                kode: undefined,
+                                tekst: undefined,
                             },
-                        }))
-                    }
+                        }));
+                    }}
                     label={<Element>3.1.1 Kodesystem</Element>}
                 >
-                    <option value={undefined}>Velg kodesystem</option>
+                    <option value="undefined">Velg kodesystem</option>
                     <option value="icpc2">ICPC-2</option>
                     <option value="icd10">ICD-10</option>
                 </Select>
                 <SearchableInput
-                    value={hoveddiagnose && hoveddiagnose.kode}
                     system={hoveddiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
@@ -107,26 +108,26 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
             <Row>
                 <Select
                     className="form-margin-bottom"
-                    onChange={({ target: { value } }) =>
+                    onChange={({ target: { value } }) => {
+                        const system = value === 'undefined' ? undefined : value;
                         setSchema(state => ({
                             ...state,
                             [MedisinskVurderingField.BIDIAGNOSER]: [
                                 {
-                                    system: value,
-                                    kode: '',
-                                    tekst: '',
+                                    system,
+                                    kode: undefined,
+                                    tekst: undefined,
                                 },
                             ],
-                        }))
-                    }
+                        }));
+                    }}
                     label={<Element>3.2.1 Kodesystem</Element>}
                 >
-                    <option value={undefined}>Velg kodesystem</option>
+                    <option value="undefined">Velg kodesystem</option>
                     <option value="icpc2">ICPC-2</option>
                     <option value="icd10">ICD-10</option>
                 </Select>
                 <SearchableInput
-                    value={bidiagnose && bidiagnose.kode}
                     system={bidiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.2.2 Kode</Element>}

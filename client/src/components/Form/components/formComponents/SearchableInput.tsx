@@ -1,21 +1,20 @@
 import './SearchableInput.less';
 
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
 import Select, { MenuListComponentProps, ValueType, createFilter } from 'react-select';
 import { FixedSizeList } from 'react-window';
 
+import { Diagnose } from '../formSections/DiagnoseSection';
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
+
+type OptionObject = { value: string; label: string; text: string };
+type OptionValueType = ValueType<OptionObject>;
 
 const HEIGHT = 35;
 
-const MenuList = ({
-    options,
-    children,
-    maxHeight,
-    getValue,
-}: MenuListComponentProps<{ value: string; label: string; text: string }>) => {
+const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentProps<OptionObject>) => {
     // @ts-ignore Works, but TypeScript doesn't like it
-    const [value]: ValueType<{ value: string; label: string; text: string }> = getValue();
+    const [value]: OptionValueType = getValue();
     const initialOffset: number = options.indexOf(value) * HEIGHT;
     const childrenOptions: ReactNode[] = React.Children.toArray(children);
 
@@ -38,62 +37,59 @@ const MenuList = ({
     );
 };
 
+// Custom styles to mimic the NAV Input style
+const customStyles = {
+    control: (provided: CSSProperties) => ({
+        ...provided,
+        border: '1px solid #78706a',
+        minHeight: '39px',
+    }),
+    indicatorSeparator: (provided: CSSProperties) => ({ ...provided, display: 'none' }),
+    dropdownIndicator: (provided: CSSProperties) => ({ ...provided, color: '#3E3832' }),
+    placeholder: (provided: CSSProperties) => ({
+        ...provided,
+        color: 'black',
+        fontSize: '1rem',
+        lineHeight: '1.375rem',
+        fontFamily: `'Source Sans Pro', Arial, sans-serif`,
+    }),
+};
+
 type SearchableInputProps = {
     system?: keyof Diagnosekoder;
     diagnosekoder: Diagnosekoder;
     label: JSX.Element;
     onChange: (code?: string, text?: string) => void;
-    value: string | undefined;
+    value?: Diagnose;
 };
 
-const customStyles = {
-    control: (provided: CSSProperties) => ({
-        ...provided,
-        border: '1px solid #78706a',
-    }),
-    indicatorSeparator: (provided: CSSProperties) => ({ ...provided, backgroundColor: '#78706a' }),
-    dropdownIndicator: (provided: CSSProperties) => ({ ...provided, color: '#78706a' }),
-};
+const SearchableInput = ({ system, diagnosekoder, label, onChange }: SearchableInputProps) => {
+    // Internal value state, so we don't have to store a ValueState in the form data
+    const [selectValue, setSelectValue] = useState<OptionValueType>(null);
 
-const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: SearchableInputProps) => {
-    if (!system) {
-        return <Select isDisabled options={[]} />;
-    }
+    useEffect(() => {
+        // Reset selected value on system change
+        setSelectValue(null);
+    }, [system]);
 
-    const handleChange = (
-        selectedOption:
-            | ValueType<{ value: string; label: string; text: string }>
-            | ValueType<{ value: string; label: string; text: string }>[]
-            | null
-            | void,
-    ) => {
+    const handleChange = (selectedOption: OptionValueType | OptionValueType[] | null | void) => {
         if (!selectedOption) {
-            console.log('undefined, clear value', selectedOption);
+            setSelectValue(null);
+            onChange(undefined, undefined);
             return;
         }
 
-        if (selectedOption as ValueType<{ value: string; label: string; text: string }>) {
-            const singleValue = selectedOption as ValueType<{ value: string; label: string; text: string }>;
-            if (singleValue as { value: string; label: string; text: string }) {
-                const x = (singleValue as { value: string; label: string; text: string }).value;
-                console.log(x, 'returnvalue');
-            } else {
-                console.log('option type generic');
+        if (selectedOption as OptionValueType) {
+            const singleValue = selectedOption as OptionValueType;
+            if ((singleValue as OptionObject).value) {
+                const { value, text } = singleValue as OptionObject;
+                setSelectValue(singleValue); // Update internal state
+                onChange(value, text); // Update form
             }
-
-            console.log('single type', singleValue);
-            return;
         }
-
-        if (selectedOption as ValueType<{ value: string; label: string; text: string }>[]) {
-            console.log('array type', selectedOption);
-            return;
-        }
-
-        console.log('something went terribly wrong');
     };
 
-    const diagnoses = diagnosekoder[system];
+    const diagnoses = system ? diagnosekoder[system] : [];
     const diagnoseOptions = diagnoses.map(diagnose => ({
         value: diagnose.code,
         label: diagnose.code,
@@ -101,15 +97,20 @@ const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: Sear
     }));
 
     return (
-        <Select
-            styles={customStyles}
-            onChange={handleChange}
-            placeholder="Velg diagnosekode"
-            isClearable
-            filterOption={createFilter({ ignoreAccents: false })} // Performance optimization
-            components={{ MenuList }}
-            options={diagnoseOptions}
-        />
+        <>
+            <div className="searchable-input-label">{label}</div>
+            <Select
+                value={selectValue}
+                styles={customStyles}
+                isDisabled={!system}
+                onChange={handleChange}
+                placeholder={!system ? '-' : 'Velg diagnosekode'}
+                isClearable
+                filterOption={createFilter({ ignoreAccents: false })} // Performance optimization
+                components={{ MenuList }}
+                options={diagnoseOptions}
+            />
+        </>
     );
 };
 
