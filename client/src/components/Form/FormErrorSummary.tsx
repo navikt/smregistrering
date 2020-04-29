@@ -1,13 +1,15 @@
 import React from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
+
 import { ErrorSchemaType } from './Form';
 
 type FormErrorSummaryProps = {
     formErrors: ErrorSchemaType;
+    hasErrors: boolean;
 };
 
-const FormErrorSummary = ({ formErrors }: FormErrorSummaryProps) => {
-    if (Object.values(formErrors).length === 0) {
+const FormErrorSummary = ({ formErrors, hasErrors }: FormErrorSummaryProps) => {
+    if (!hasErrors) {
         return null;
     }
 
