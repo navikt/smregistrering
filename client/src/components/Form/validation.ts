@@ -14,7 +14,7 @@ export const validationFunctions: ValidationType = {
             return 'Personnummer må være definert';
         }
         if (!value.match('^\\+?[- _0-9]+$')) {
-            return 'Fødselsnummeret er ikke på et gyldig format';
+            return 'Personnummeret er ikke på et gyldig format';
         }
         return undefined;
     },
@@ -67,8 +67,7 @@ export const validationFunctions: ValidationType = {
     hovedDiagnose: (value, schema) => {
         if (value) {
             if (!value.system) return 'System må være definert';
-            if (!value.kode) return 'Kode må være definer';
-            if (!value.tekst) return 'Tekt må være definer';
+            if (!value.kode) return 'Kode må være definert';
         }
         return undefined;
     },
@@ -78,7 +77,6 @@ export const validationFunctions: ValidationType = {
             biDiagnoser.forEach(biDiagnose => {
                 if (!biDiagnose.system) feilmelding = 'System må være definert';
                 if (!biDiagnose.kode) feilmelding = 'Kode må være definert';
-                if (!biDiagnose.tekst) feilmelding = 'Tekt må være definert';
             });
             if (feilmelding) {
                 return feilmelding;
@@ -89,7 +87,7 @@ export const validationFunctions: ValidationType = {
     yrkesskade: () => undefined,
     yrkesskadeDato: (yrkesskadeDato, schema) => {
         if (schema.yrkesskade && !yrkesskadeDato) {
-            return 'Yrkesskadedato må være definer når yrkesskade er krysset av';
+            return 'Yrkesskadedato må være definert når yrkesskade er krysset av';
         }
         return undefined;
     },
