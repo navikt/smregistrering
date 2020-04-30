@@ -1,6 +1,7 @@
 import './FormSubmit.less';
 
 import React, { useState } from 'react';
+import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
@@ -61,7 +62,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors }: FormSubmitProps) => {
                 label="Informasjonen stemmer overens med papirsykmelding"
                 onChange={() => setChecked(state => !state)}
             />
-
+            {apiErrors && <AlertStripeFeil>{apiErrors}</AlertStripeFeil>}
             <Hovedknapp
                 disabled={hasFormErrors || !checked}
                 spinner={isLoading}
