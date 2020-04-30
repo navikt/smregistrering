@@ -1,5 +1,6 @@
 import './FormSubmit.less';
 
+import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Checkbox } from 'nav-frontend-skjema';
@@ -22,6 +23,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [apiErrors, setApiErrors] = useState<string | undefined>(undefined);
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
     return (
         <div className="form-submit-container">
@@ -50,7 +52,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                             })
                                 .then(res => {
                                     if (res.ok) {
-                                        alert('Sykmeldingen ble registrert');
+                                        setModalIsOpen(true);
                                     } else {
                                         return res.json();
                                     }
@@ -72,7 +74,23 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
             >
                 Registrer sykmelding
             </Hovedknapp>
-            <Flatknapp onClick={() => console.log('avbryt')}>Avbryt</Flatknapp>
+            <Flatknapp
+                onClick={() => {
+                    console.log('avbryt'); // TODO: send tilbake til gosys?
+                }}
+            >
+                Avbryt
+            </Flatknapp>
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalIsOpen(false)} // TODO: window.location.href = *gosyslink*
+                closeButton={true}
+                contentLabel="Registrer sykmelding suksess modalt vindu"
+            >
+                <div style={{ padding: '2rem 2.5rem' }}>
+                    Sykmeldingen ble registrert. Du sendes tilbake til gosys ved å trykke på krysset.
+                </div>
+            </Modal>
         </div>
     );
 };
