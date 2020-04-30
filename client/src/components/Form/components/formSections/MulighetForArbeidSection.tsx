@@ -121,6 +121,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     gradertPeriode: newDates,
                                 }))
                             }
+                            feil={errors.gradertPeriode}
                         />
                         <Input
                             className="form-margin-bottom half"
@@ -180,6 +181,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     aktivitetIkkeMuligPeriode: newDates,
                                 }))
                             }
+                            feil={errors.aktivitetIkkeMuligPeriode}
                         />
                         <Element className="form-label">4.3.3</Element>
                         <Checkbox
