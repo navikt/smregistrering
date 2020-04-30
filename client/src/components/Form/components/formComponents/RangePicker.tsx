@@ -26,7 +26,7 @@ const RangePicker = ({ labelFrom, labelTo, value, onChange, feil }: RangePickerP
             <div className="flatpickr-container">
                 <Flatpickr
                     value={value}
-                    className="typo-normal flatpickr"
+                    className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpick-input--feil' : ''}`}
                     placeholder="DD.MM.ÅÅÅÅ - DD.MM.ÅÅÅÅ"
                     onChange={nyeDatoer => onChange(nyeDatoer)}
                     options={{
@@ -42,7 +42,11 @@ const RangePicker = ({ labelFrom, labelTo, value, onChange, feil }: RangePickerP
                     <img aria-hidden="true" alt="Kalender" src={calendar} />
                 </span>
             </div>
-            {feil ? <p>{feil}</p> : null}
+            {feil && (
+                <div className="skjemaelement__feilmelding">
+                    <p className="typo-feilmelding">{feil}</p>
+                </div>
+            )}
         </div>
     );
 };
