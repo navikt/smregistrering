@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Normaltekst } from 'nav-frontend-typografi';
 
@@ -9,25 +9,24 @@ export const hasFormErrors = (formErrors: ErrorSchemaType): boolean =>
 
 type FormErrorSummaryProps = {
     formErrors: ErrorSchemaType;
+    errorSummaryRef: RefObject<HTMLDivElement>;
 };
 
-const FormErrorSummary = ({ formErrors }: FormErrorSummaryProps) => {
-    if (!hasFormErrors(formErrors)) {
-        return null;
-    }
-
+const FormErrorSummary = ({ formErrors, errorSummaryRef }: FormErrorSummaryProps) => {
     return (
-        <div style={{ marginTop: '2rem' }}>
-            <AlertStripeFeil>
-                <Normaltekst>Det finnes feil i skjemaet som må rettes opp.</Normaltekst>
-                <ul>
-                    {Object.entries(formErrors)
-                        .filter(([_key, value]) => !!value)
-                        .map(([key, value]) => (
-                            <li key={key}>{value}</li>
-                        ))}
-                </ul>
-            </AlertStripeFeil>
+        <div style={{ marginTop: '2rem' }} ref={errorSummaryRef}>
+            {hasFormErrors(formErrors) && (
+                <AlertStripeFeil>
+                    <Normaltekst>Det finnes feil i skjemaet som må rettes opp.</Normaltekst>
+                    <ul>
+                        {Object.entries(formErrors)
+                            .filter(([_key, value]) => !!value)
+                            .map(([key, value]) => (
+                                <li key={key}>{value}</li>
+                            ))}
+                    </ul>
+                </AlertStripeFeil>
+            )}
         </div>
     );
 };

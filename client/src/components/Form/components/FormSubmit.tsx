@@ -15,9 +15,10 @@ interface FormSubmitProps {
     schema: SchemaType;
     hasFormErrors: boolean;
     validateAll: () => boolean;
+    focusErrorSummary: () => void;
 }
 
-const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll }: FormSubmitProps) => {
+const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSummary }: FormSubmitProps) => {
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [apiErrors, setApiErrors] = useState<string | undefined>(undefined);
@@ -35,8 +36,6 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll }: FormSubmitP
                 disabled={!checked}
                 spinner={isLoading}
                 onClick={() => {
-                    console.log(schema);
-                    console.log('validate all: ' + validateAll());
                     if (validateAll()) {
                         const sykmelding = buildRegistrertSykmelding(oppgave, schema);
                         if (sykmelding) {
@@ -65,6 +64,9 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll }: FormSubmitP
                         } else {
                             console.log('Noe gikk galt');
                         }
+                    } else {
+                        console.log('focusing');
+                        focusErrorSummary();
                     }
                 }}
             >

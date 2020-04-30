@@ -19,6 +19,7 @@ const App = () => {
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const schemaRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setIsLoading(true);
@@ -125,8 +126,8 @@ const App = () => {
                 <div className="menu-container">
                     <Menu sections={sections} />
                 </div>
-                <div className="form-container">
-                    <Form sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
+                <div ref={schemaRef} className="form-container">
+                    <Form schemaRef={schemaRef} sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
                 </div>
                 <div className="pdf-container">
                     <object

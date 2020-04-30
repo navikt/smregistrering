@@ -1,7 +1,7 @@
 import './Form.less';
 import './components/formComponents/Flatpickr.less';
 
-import React, { useState } from 'react';
+import React, { RefObject, useRef, useState } from 'react';
 
 import FormHeader from './components/FormHeader';
 import FormSubmit from './components/FormSubmit';
@@ -60,16 +60,16 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
 };
 
 type FormProps = {
+    schemaRef: RefObject<HTMLDivElement>;
     sections: Sections;
     oppgave: Oppgave;
     diagnosekoder: Diagnosekoder;
 };
 
-const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
+const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
     const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
     const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
-
-    console.log(formErrors);
+    const errorSummaryRef = useRef<HTMLDivElement>(null);
 
     const validate: Validate = (name, value) => {
         const validationFunction = validationFunctions[name];
@@ -94,6 +94,15 @@ const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
             }
         });
         return !hasErrors;
+    };
+
+    const focusErrorSummary = (): void => {
+        setTimeout(() => {
+            if (errorSummaryRef.current) {
+                errorSummaryRef.current.focus();
+                schemaRef.current?.scrollTo({ top: errorSummaryRef.current.offsetTop, left: 0, behavior: 'smooth' });
+            }
+        }, 300);
     };
 
     return (
@@ -174,12 +183,13 @@ const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
                     validate={validate}
                 />
             </Panel>
-            <FormErrorSummary formErrors={formErrors} />
+            <FormErrorSummary formErrors={formErrors} errorSummaryRef={errorSummaryRef} />
             <FormSubmit
                 oppgave={oppgave}
                 schema={schema}
                 hasFormErrors={hasFormErrors(formErrors)}
                 validateAll={validateAll}
+                focusErrorSummary={focusErrorSummary}
             />
         </>
     );
