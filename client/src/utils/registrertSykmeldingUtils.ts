@@ -99,6 +99,9 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
         syketilfelleStartDato: schema.syketilfelleStartDato,
         arbeidsgiver: {
             harArbeidsgiver: schema.harArbeidsgiver,
+            navn: schema.arbeidsgiverNavn,
+            yrkesbetegnelse: schema.yrkesbetegnelse,
+            stillingsprosent: schema.stillingsprosent,
         },
         behandletDato: schema.behandletDato,
         skjermesForPasient: schema.skjermesForPasient,
