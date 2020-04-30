@@ -21,18 +21,6 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
-    sykmelderFnr: (sykmelderFnr, schema) => {
-        if (!sykmelderFnr) {
-            return 'Sykmelders fødselsnummer må være definert';
-        }
-        if (sykmelderFnr.length !== 11) {
-            return 'Sykmelders fødselsnummer må være 11 siffer';
-        }
-        if (!sykmelderFnr.match('^\\+?[- _0-9]+$')) {
-            return 'Sykmelders fødselsnummer er ikke på et gyldig format';
-        }
-        return undefined;
-    },
     syketilfelleStartDato: (syketilfelleStartDato, schema) => {
         if (!syketilfelleStartDato) {
             return 'Startdato må være definert';
@@ -207,6 +195,18 @@ export const validationFunctions: ValidationType = {
     legitimert: (legitimert, schema) => {
         if (legitimert === undefined) {
             return 'Legitimert er et påkrevd felt';
+        }
+        return undefined;
+    },
+    sykmelderFnr: (sykmelderFnr, schema) => {
+        if (!sykmelderFnr) {
+            return 'Sykmelders fødselsnummer må være definert';
+        }
+        if (sykmelderFnr.length !== 11) {
+            return 'Sykmelders fødselsnummer må være 11 siffer';
+        }
+        if (!sykmelderFnr.match('^\\+?[- _0-9]+$')) {
+            return 'Sykmelders fødselsnummer er ikke på et gyldig format';
         }
         return undefined;
     },
