@@ -8,40 +8,7 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Oppgave } from '../../../types/Oppgave';
 import { RegistrertSykmelding } from '../../../types/RegistrertSykmelding';
 import { SchemaType } from '../Form';
-import { buildPerioder } from '../../../utils/registrertSykmeldingUtils';
-
-const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): RegistrertSykmelding | undefined => {
-    // ensure that all the properties exist on schema and oppgave
-    console.log(schema);
-    if (
-        schema.pasientFnr === undefined ||
-        schema.sykmelderFnr === undefined ||
-        schema.harArbeidsgiver === undefined ||
-        schema.skjermesForPasient === undefined ||
-        schema.syketilfelleStartDato === undefined ||
-        schema.behandletDato === undefined
-    )
-        return undefined;
-
-    // build registrert sykmelding
-    const registrertSykmelding: RegistrertSykmelding = {
-        pasientFnr: schema.pasientFnr,
-        sykmelderFnr: schema.sykmelderFnr,
-        perioder: buildPerioder(schema),
-        medisinskVurdering: {
-            svangerskap: schema.svangerskap,
-            yrkesskade: schema.yrkesskade,
-            biDiagnoser: [],
-        },
-        syketilfelleStartDato: schema.syketilfelleStartDato,
-        arbeidsgiver: {
-            harArbeidsgiver: schema.harArbeidsgiver,
-        },
-        behandletDato: schema.behandletDato,
-        skjermesForPasient: schema.skjermesForPasient,
-    };
-    return registrertSykmelding;
-};
+import { buildRegistrertSykmelding } from '../../../utils/registrertSykmeldingUtils';
 
 interface FormSubmitProps {
     oppgave: Oppgave;

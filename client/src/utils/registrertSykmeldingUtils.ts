@@ -1,4 +1,5 @@
-import { ArbeidsrelatertArsak, MedisinskArsak, Periode } from '../types/RegistrertSykmelding';
+import { ArbeidsrelatertArsak, MedisinskArsak, Periode, RegistrertSykmelding } from '../types/RegistrertSykmelding';
+import { Oppgave } from '../types/Oppgave';
 import { SchemaType } from '../components/Form/Form';
 
 export const buildPerioder = (schema: SchemaType): Periode[] => {
@@ -70,4 +71,37 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
         perioder.push(periode);
     }
     return perioder;
+};
+
+export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): RegistrertSykmelding | undefined => {
+    // ensure that all the properties exist on schema and oppgave
+    console.log(schema);
+    if (
+        schema.pasientFnr === undefined ||
+        schema.sykmelderFnr === undefined ||
+        schema.harArbeidsgiver === undefined ||
+        schema.skjermesForPasient === undefined ||
+        schema.syketilfelleStartDato === undefined ||
+        schema.behandletDato === undefined
+    )
+        return undefined;
+
+    // build registrert sykmelding
+    const registrertSykmelding: RegistrertSykmelding = {
+        pasientFnr: schema.pasientFnr,
+        sykmelderFnr: schema.sykmelderFnr,
+        perioder: buildPerioder(schema),
+        medisinskVurdering: {
+            svangerskap: schema.svangerskap,
+            yrkesskade: schema.yrkesskade,
+            biDiagnoser: [],
+        },
+        syketilfelleStartDato: schema.syketilfelleStartDato,
+        arbeidsgiver: {
+            harArbeidsgiver: schema.harArbeidsgiver,
+        },
+        behandletDato: schema.behandletDato,
+        skjermesForPasient: schema.skjermesForPasient,
+    };
+    return registrertSykmelding;
 };
