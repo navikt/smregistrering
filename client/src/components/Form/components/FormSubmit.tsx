@@ -17,7 +17,8 @@ const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): Regist
         schema.sykmelderFnr === undefined ||
         schema.harArbeidsgiver === undefined ||
         schema.skjermesForPasient === undefined ||
-        schema.syketilfelleStartDato === undefined
+        schema.syketilfelleStartDato === undefined ||
+        schema.behandletDato === undefined
     )
         return undefined;
 
@@ -35,7 +36,7 @@ const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): Regist
         arbeidsgiver: {
             harArbeidsgiver: schema.harArbeidsgiver,
         },
-        behandletDato: new Date(), // TODO: which date is this?
+        behandletDato: schema.behandletDato,
         skjermesForPasient: schema.skjermesForPasient,
     };
     return registrertSykmelding;
