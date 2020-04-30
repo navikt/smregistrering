@@ -8,7 +8,6 @@ import { Validate } from '../../validation';
 
 export type Other = {
     pasientFnr?: string;
-    sykmelderFnr?: string;
     syketilfelleStartDato?: Date;
     behandletDato?: Date;
 };
@@ -35,18 +34,6 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                 }}
                 label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
                 feil={errors.pasientFnr}
-            />
-            <Input
-                className="form-margin-bottom half"
-                onChange={({ target: { value } }) => {
-                    setSchema(state => ({
-                        ...state,
-                        sykmelderFnr: value,
-                    }));
-                    validate('sykmelderFnr', value);
-                }}
-                label={<EtikettLiten>Sykmelders fødselsnummer (11 siffer)</EtikettLiten>}
-                feil={errors.sykmelderFnr}
             />
             <DatePicker
                 label="Startdato for legemeldt fravær"

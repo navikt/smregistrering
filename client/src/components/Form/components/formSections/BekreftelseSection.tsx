@@ -12,6 +12,7 @@ import { Validate } from '../../validation';
 export type Bekreftelse = {
     legitimert: boolean;
     sykmeldersNavn?: string;
+    sykmelderFnr?: string;
     hpr?: string;
     sykmelderTelefon?: string;
     sykmelderAdresse?: string;
@@ -42,7 +43,18 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     feil={errors.legitimert}
                 />
             </Subsection>
-
+            <Input
+                className="form-margin-bottom half"
+                onChange={({ target: { value } }) => {
+                    setSchema(state => ({
+                        ...state,
+                        sykmelderFnr: value,
+                    }));
+                    validate('sykmelderFnr', value);
+                }}
+                label={<Element>Sykmelders fødselsnummer (11 siffer)</Element>}
+                feil={errors.sykmelderFnr}
+            />
             <Input
                 className="form-margin-bottom"
                 value={schema.sykmeldersNavn}
@@ -56,7 +68,6 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 feil={errors.sykmeldersNavn}
                 label={<Element>12.2 Sykmelders navn</Element>}
             />
-
             <Row>
                 <Input
                     className="form-margin-bottom"
