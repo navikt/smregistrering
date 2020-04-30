@@ -14,9 +14,10 @@ interface FormSubmitProps {
     oppgave: Oppgave;
     schema: SchemaType;
     hasFormErrors: boolean;
+    validateAll: () => boolean;
 }
 
-const FormSubmit = ({ oppgave, schema, hasFormErrors }: FormSubmitProps) => {
+const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll }: FormSubmitProps) => {
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [apiErrors, setApiErrors] = useState<string | undefined>(undefined);
@@ -31,34 +32,39 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors }: FormSubmitProps) => {
             />
             {apiErrors && <AlertStripeFeil>{apiErrors}</AlertStripeFeil>}
             <Hovedknapp
-                disabled={hasFormErrors || !checked}
+                disabled={!checked}
                 spinner={isLoading}
                 onClick={() => {
-                    const sykmelding = buildRegistrertSykmelding(oppgave, schema);
-                    if (sykmelding) {
-                        setIsLoading(true);
-                        fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`, {
-                            method: 'PUT',
-                            credentials: 'include',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
-                        })
-                            .then(res => {
-                                if (res.ok) {
-                                    alert('Sykmeldingen ble registrert');
-                                }
-                                return res.json();
+                    console.log(schema);
+                    console.log('validate all: ' + validateAll());
+                    if (validateAll()) {
+                        const sykmelding = buildRegistrertSykmelding(oppgave, schema);
+                        if (sykmelding) {
+                            setIsLoading(true);
+                            fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`, {
+                                method: 'PUT',
+                                credentials: 'include',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
                             })
-                            .then(json => setApiErrors(json))
-                            .catch(error => {
-                                console.error(error);
-                            })
-                            .finally(() => setIsLoading(false));
-                        console.log(RegistrertSykmelding.encode(sykmelding));
-                    } else {
-                        console.log('Noe gikk galt');
+                                .then(res => {
+                                    if (res.ok) {
+                                        alert('Sykmeldingen ble registrert');
+                                    } else {
+                                        return res.json();
+                                    }
+                                })
+                                .then(json => setApiErrors(json))
+                                .catch(error => {
+                                    console.error(error);
+                                })
+                                .finally(() => setIsLoading(false));
+                            console.log(RegistrertSykmelding.encode(sykmelding));
+                        } else {
+                            console.log('Noe gikk galt');
+                        }
                     }
                 }}
             >

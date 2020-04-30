@@ -75,16 +75,25 @@ const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
         const validationFunction = validationFunctions[name];
         const error = validationFunction(value as never, schema);
         setFormErrors(state => ({ ...state, [name]: error }));
+        if (error) {
+            return false;
+        }
+        return true;
     };
 
-    const validateAll = () => {
+    const validateAll = (): boolean => {
         const keys = Object.keys(validationFunctions);
+        let hasErrors: boolean = false;
         keys.forEach(key => {
             // TODO: Can this casting be avoided?
             // https://github.com/microsoft/TypeScript/pull/12253#issuecomment-263132208
             const value = schema[key as keyof SchemaType];
-            validate(key as keyof SchemaType, value);
+            const validation = validate(key as keyof SchemaType, value);
+            if (!validation) {
+                hasErrors = true;
+            }
         });
+        return !hasErrors;
     };
 
     return (
@@ -166,7 +175,12 @@ const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
                 />
             </Panel>
             <FormErrorSummary formErrors={formErrors} />
-            <FormSubmit oppgave={oppgave} schema={schema} hasFormErrors={hasFormErrors(formErrors)} />
+            <FormSubmit
+                oppgave={oppgave}
+                schema={schema}
+                hasFormErrors={hasFormErrors(formErrors)}
+                validateAll={validateAll}
+            />
         </>
     );
 };
