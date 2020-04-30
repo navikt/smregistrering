@@ -42,6 +42,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                     setSchema(state => ({ ...state, syketilfelleStartDato: newDates }));
                     validate('syketilfelleStartDato', newDates);
                 }}
+                feil={errors.syketilfelleStartDato}
             />
             <DatePicker
                 label="Behandletdato"
@@ -50,6 +51,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                     setSchema(state => ({ ...state, behandletDato: newDates }));
                     validate('behandletDato', newDates);
                 }}
+                feil={errors.behandletDato}
             />
         </div>
     );
