@@ -25,7 +25,7 @@ export type MedisinskVurdering = {
     biDiagnoser?: Diagnose[];
     yrkesskade: boolean;
     yrkesskadeDato?: Date;
-    svangerskap?: boolean;
+    svangerskap: boolean;
     annenFraversArsak: boolean;
     annenFraversArsakGrunn?: AnnenFraverGrunn[];
     annenFraversArsakBeskrivelse?: string;

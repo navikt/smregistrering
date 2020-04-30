@@ -18,8 +18,8 @@ export type MulighetForArbeid = {
     // Perioder for gradert sykmelding
     gradertSykmelding: boolean;
     gradertPeriode?: Date[];
-    gradertGrad?: string;
-    gradertReisetilskudd?: boolean;
+    gradertGrad?: number;
+    gradertReisetilskudd: boolean;
     // Perioder for full sykmelding
     aktivitetIkkeMuligSykmelding: boolean;
     aktivitetIkkeMuligPeriode?: Date[];
@@ -129,7 +129,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             onChange={({ target: { value } }) => {
                                 setSchema(state => ({
                                     ...state,
-                                    gradertGrad: value,
+                                    gradertGrad: parseInt(value),
                                 }));
                                 validate('gradertGrad', value);
                             }}

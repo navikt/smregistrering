@@ -11,7 +11,16 @@ export const validationFunctions: ValidationType = {
     // Other
     pasientFnr: (value, schema) => {
         if (!value) {
-            return 'Personnummer må være definert';
+            return 'Pasientens fødselsnummer må være definert';
+        }
+        if (!value.match('^\\+?[- _0-9]+$')) {
+            return 'Fødselsnummeret er ikke på et gyldig format';
+        }
+        return undefined;
+    },
+    sykmelderFnr: (value, schema) => {
+        if (!value) {
+            return 'Sykmelders fødselsnummer må være definert';
         }
         if (!value.match('^\\+?[- _0-9]+$')) {
             return 'Fødselsnummeret er ikke på et gyldig format';
@@ -21,6 +30,12 @@ export const validationFunctions: ValidationType = {
     syketilfelleStartDato: (value, schema) => {
         if (!value) {
             return 'Startdato må være definert';
+        }
+        return undefined;
+    },
+    behandletDato: (value, schema) => {
+        if (!value) {
+            return 'Behandletdato må være definert';
         }
         return undefined;
     },

@@ -4,11 +4,13 @@ import './components/formComponents/Flatpickr.less';
 import React, { useState } from 'react';
 
 import FormHeader from './components/FormHeader';
+import FormSubmit from './components/FormSubmit';
 import Panel from '../Panel/Panel';
 import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/ArbeidsevneSection';
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BekreftelseSection, { Bekreftelse } from './components/formSections/BekreftelseSection';
 import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection';
+import FormErrorSummary, { hasFormErrors } from './FormErrorSummary';
 import FriskmeldingSection, { Friskmelding } from './components/formSections/FriskmeldingSection';
 import MeldingTilArbeidsgiverSection, {
     MeldingTilArbeidsgiver,
@@ -36,11 +38,14 @@ export interface SchemaType
         Bekreftelse,
         Other {}
 
+export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined };
+
 const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     return {
         pasientFnr: oppgave.fnr,
         avventendeSykmelding: false,
         gradertSykmelding: false,
+        gradertReisetilskudd: false,
         aktivitetIkkeMuligSykmelding: false,
         behandlingsdagerSykmelding: false,
         reisetilskuddSykmelding: false,
@@ -54,18 +59,17 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     };
 };
 
-export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined };
-
 type FormProps = {
     sections: Sections;
     oppgave: Oppgave;
     diagnosekoder: Diagnosekoder;
-    formErrors: ErrorSchemaType;
-    setFormErrors: React.Dispatch<React.SetStateAction<ErrorSchemaType>>;
 };
 
-const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: FormProps) => {
+const Form = ({ sections, oppgave, diagnosekoder }: FormProps) => {
     const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
+    const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
+
+    console.log(formErrors);
 
     const validate: Validate = (name, value) => {
         const validationFunction = validationFunctions[name];
@@ -84,82 +88,86 @@ const Form = ({ sections, oppgave, diagnosekoder, formErrors, setFormErrors }: F
     };
 
     return (
-        <Panel>
-            <FormHeader />
-            <button onClick={validateAll}>validate all</button>
-            <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
-            <PasientopplysningerSection
-                section={sections[SectionTitle.PASIENTOPPLYSNINGER]}
-                setSchema={setSchema}
-                errors={formErrors}
-                schema={schema}
-                validate={validate}
-            />
-            <ArbeidsgiverSection
-                section={sections[SectionTitle.ARBEIDSGIVER]}
-                setSchema={setSchema}
-                errors={formErrors}
-                schema={schema}
-                validate={validate}
-            />
-            <DiagnoseSection
-                section={sections[SectionTitle.DIAGNOSE]}
-                setSchema={setSchema}
-                errors={formErrors}
-                schema={schema}
-                validate={validate}
-                diagnosekoder={diagnosekoder}
-            />
-            <MulighetForArbeidSection
-                section={sections[SectionTitle.MULIGHET_FOR_ARBEID]}
-                setSchema={setSchema}
-                schema={schema}
-                errors={formErrors}
-                validate={validate}
-            />
-            <FriskmeldingSection
-                section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}
-                setSchema={setSchema}
-                schema={schema}
-                errors={formErrors}
-                validate={validate}
-            />
-            <ArbeidsevneSection
-                section={sections[SectionTitle.ARBEIDSEVNE]}
-                setSchema={setSchema}
-                schema={schema}
-                errors={formErrors}
-                validate={validate}
-            />
-            <MeldingTilNavSection
-                section={sections[SectionTitle.TIL_NAV]}
-                setSchema={setSchema}
-                schema={schema}
-                errors={formErrors}
-                validate={validate}
-            />
-            <MeldingTilArbeidsgiverSection
-                section={sections[SectionTitle.TIL_ARBEIDSGIVER]}
-                setSchema={setSchema}
-                schema={schema}
-                errors={formErrors}
-                validate={validate}
-            />
-            <TilbakedateringSection
-                section={sections[SectionTitle.TILBAKEDATERING]}
-                setSchema={setSchema}
-                schema={schema}
-                errors={formErrors}
-                validate={validate}
-            />
-            <BekreftelseSection
-                section={sections[SectionTitle.BEKREFTELSE]}
-                setSchema={setSchema}
-                schema={schema}
-                errors={formErrors}
-                validate={validate}
-            />
-        </Panel>
+        <>
+            <Panel>
+                <FormHeader />
+                <button onClick={validateAll}>validate all</button>
+                <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
+                <PasientopplysningerSection
+                    section={sections[SectionTitle.PASIENTOPPLYSNINGER]}
+                    setSchema={setSchema}
+                    errors={formErrors}
+                    schema={schema}
+                    validate={validate}
+                />
+                <ArbeidsgiverSection
+                    section={sections[SectionTitle.ARBEIDSGIVER]}
+                    setSchema={setSchema}
+                    errors={formErrors}
+                    schema={schema}
+                    validate={validate}
+                />
+                <DiagnoseSection
+                    section={sections[SectionTitle.DIAGNOSE]}
+                    setSchema={setSchema}
+                    errors={formErrors}
+                    schema={schema}
+                    validate={validate}
+                    diagnosekoder={diagnosekoder}
+                />
+                <MulighetForArbeidSection
+                    section={sections[SectionTitle.MULIGHET_FOR_ARBEID]}
+                    setSchema={setSchema}
+                    schema={schema}
+                    errors={formErrors}
+                    validate={validate}
+                />
+                <FriskmeldingSection
+                    section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}
+                    setSchema={setSchema}
+                    schema={schema}
+                    errors={formErrors}
+                    validate={validate}
+                />
+                <ArbeidsevneSection
+                    section={sections[SectionTitle.ARBEIDSEVNE]}
+                    setSchema={setSchema}
+                    schema={schema}
+                    errors={formErrors}
+                    validate={validate}
+                />
+                <MeldingTilNavSection
+                    section={sections[SectionTitle.TIL_NAV]}
+                    setSchema={setSchema}
+                    schema={schema}
+                    errors={formErrors}
+                    validate={validate}
+                />
+                <MeldingTilArbeidsgiverSection
+                    section={sections[SectionTitle.TIL_ARBEIDSGIVER]}
+                    setSchema={setSchema}
+                    schema={schema}
+                    errors={formErrors}
+                    validate={validate}
+                />
+                <TilbakedateringSection
+                    section={sections[SectionTitle.TILBAKEDATERING]}
+                    setSchema={setSchema}
+                    schema={schema}
+                    errors={formErrors}
+                    validate={validate}
+                />
+                <BekreftelseSection
+                    section={sections[SectionTitle.BEKREFTELSE]}
+                    setSchema={setSchema}
+                    schema={schema}
+                    errors={formErrors}
+                    validate={validate}
+                />
+            </Panel>
+            <FormErrorSummary formErrors={formErrors} />
+            <FormSubmit oppgave={oppgave} schema={schema} hasFormErrors={hasFormErrors(formErrors)} />
+        </>
     );
 };
 

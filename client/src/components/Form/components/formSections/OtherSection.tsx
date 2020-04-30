@@ -8,7 +8,9 @@ import { Validate } from '../../validation';
 
 export type Other = {
     pasientFnr?: string;
+    sykmelderFnr?: string;
     syketilfelleStartDato?: Date;
+    behandletDato?: Date;
 };
 
 type OtherSectionProps = {
@@ -27,12 +29,24 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                 onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
-                        fnr: value,
+                        pasientFnr: value,
                     }));
                     validate('pasientFnr', value);
                 }}
                 label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
                 feil={errors.pasientFnr}
+            />
+            <Input
+                className="form-margin-bottom half"
+                onChange={({ target: { value } }) => {
+                    setSchema(state => ({
+                        ...state,
+                        sykmelderFnr: value,
+                    }));
+                    validate('sykmelderFnr', value);
+                }}
+                label={<EtikettLiten>Sykmelders fødselsnummer (11 siffer)</EtikettLiten>}
+                feil={errors.sykmelderFnr}
             />
             <DatePicker
                 label="Startdato for legemeldt fravær"
@@ -40,6 +54,14 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                 onChange={newDates => {
                     setSchema(state => ({ ...state, syketilfelleStartDato: newDates }));
                     validate('syketilfelleStartDato', newDates);
+                }}
+            />
+            <DatePicker
+                label="Behandletdato"
+                value={schema.behandletDato}
+                onChange={newDates => {
+                    setSchema(state => ({ ...state, behandletDato: newDates }));
+                    validate('behandletDato', newDates);
                 }}
             />
         </div>
