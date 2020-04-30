@@ -26,6 +26,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="5.1" underline={false}>
                 <Checkbox
+                    disabled
                     checked={schema.arbeidsfoerEtterPeriode}
                     label="Pasienten er 100 prosent arbeidsfør etter denne perioden"
                     onChange={() =>
@@ -39,6 +40,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                 <br />
                 {schema.arbeidsfoerEtterPeriode && (
                     <Textarea
+                        disabled
                         maxLength={0}
                         value={schema.hensynPaArbeidsplassen || ''}
                         onChange={({ target: { value } }) => {

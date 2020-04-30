@@ -28,6 +28,7 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
         <SectionContainer section={section}>
             <Row>
                 <Input
+                    disabled
                     onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
@@ -42,6 +43,7 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                     label={<Element>1.1.1 Etternavn</Element>}
                 />
                 <Input
+                    disabled
                     onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
@@ -57,6 +59,7 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
             </Row>
 
             <Input
+                disabled
                 className="form-margin-bottom half"
                 type="tel"
                 onChange={({ target: { value } }) => {
@@ -71,6 +74,7 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
             />
 
             <Input
+                disabled
                 className="form-margin-bottom"
                 type="text"
                 feil={errors.behandlerNavn}

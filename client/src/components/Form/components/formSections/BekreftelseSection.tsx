@@ -31,6 +31,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="12.1" underline={false}>
                 <Checkbox
+                    disabled
                     className="form-margin-bottom"
                     checked={schema.legitimert}
                     label="Pasienten er kjent eller har vist legitimasjon"
@@ -56,6 +57,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 feil={errors.sykmelderFnr}
             />
             <Input
+                disabled
                 className="form-margin-bottom"
                 value={schema.sykmeldersNavn}
                 onChange={({ target: { value } }) => {
@@ -70,6 +72,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             />
             <Row>
                 <Input
+                    disabled
                     className="form-margin-bottom"
                     value={schema.hpr}
                     onChange={({ target: { value } }) => {
@@ -83,6 +86,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     label={<Element>12.4 HPR-nummer</Element>}
                 />
                 <Input
+                    disabled
                     className="form-margin-bottom"
                     value={schema.sykmelderTelefon}
                     onChange={({ target: { value } }) => {
@@ -98,6 +102,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             </Row>
 
             <Input
+                disabled
                 className="form-margin-bottom"
                 onChange={({ target: { value } }) =>
                     setSchema(state => ({
