@@ -40,6 +40,9 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors }: FormSubmitProps) => {
                         fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`, {
                             method: 'PUT',
                             credentials: 'include',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
                             body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
                         })
                             .then(res => {
