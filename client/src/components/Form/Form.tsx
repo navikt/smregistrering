@@ -24,6 +24,7 @@ import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
 import { SectionTitle, Sections } from '../../types/Section';
 import { Validate, validationFunctions } from './validation';
+import { scrollToRef } from '../Menu/MenuLink';
 
 export interface SchemaType
     extends Pasientopplysninger,
@@ -100,7 +101,7 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
         setTimeout(() => {
             if (errorSummaryRef.current) {
                 errorSummaryRef.current.focus();
-                schemaRef.current?.scrollTo({ top: errorSummaryRef.current.offsetTop, left: 0, behavior: 'smooth' });
+                scrollToRef(errorSummaryRef);
             }
         }, 300);
     };
