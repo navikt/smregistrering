@@ -26,7 +26,7 @@ const RangePicker = ({ labelFrom, labelTo, value, onChange, feil }: RangePickerP
             <div className="flatpickr-container">
                 <Flatpickr
                     value={value}
-                    className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpick-input--feil' : ''}`}
+                    className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
                     placeholder="DD.MM.ÅÅÅÅ - DD.MM.ÅÅÅÅ"
                     onChange={nyeDatoer => onChange(nyeDatoer)}
                     options={{
