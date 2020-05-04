@@ -68,13 +68,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 onChange={() => setChecked(state => !state)}
             />
             {apiErrors && <AlertStripeFeil>{apiErrors}</AlertStripeFeil>}
-            <Hovedknapp
-                disabled={!checked}
-                spinner={isLoading}
-                onClick={() => {
-                    registrerSykmelding();
-                }}
-            >
+            <Hovedknapp disabled={!checked} spinner={isLoading} onClick={() => registrerSykmelding()}>
                 Registrer sykmelding
             </Hovedknapp>
             <Flatknapp
