@@ -13,18 +13,16 @@ type FormErrorSummaryProps = {
 };
 
 const FormErrorSummary = ({ formErrors, errorSummaryRef }: FormErrorSummaryProps) => {
+    const errorItems = Object.entries(formErrors)
+        .filter(([_key, value]) => !!value)
+        .map(([key, value]) => <li key={key}>{value}</li>);
+
     return (
         <div style={{ marginTop: '2rem' }} ref={errorSummaryRef}>
             {hasFormErrors(formErrors) && (
                 <AlertStripeFeil>
                     <Normaltekst>Det finnes feil i skjemaet som må rettes opp.</Normaltekst>
-                    <ul>
-                        {Object.entries(formErrors)
-                            .filter(([_key, value]) => !!value)
-                            .map(([key, value]) => (
-                                <li key={key}>{value}</li>
-                            ))}
-                    </ul>
+                    <ul>{errorItems}</ul>
                 </AlertStripeFeil>
             )}
         </div>
