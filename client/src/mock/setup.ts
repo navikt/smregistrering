@@ -8,4 +8,5 @@ const mock = FetchMock.configure({
 });
 
 mock.get('backend/api/v1/hentPapirSykmeldingManuellOppgave/', oppgave);
+mock.put('backend/api/v1/sendPapirSykmeldingManuellOppgave/', 'ok');
 mock.get('/user', 'Testbruker');

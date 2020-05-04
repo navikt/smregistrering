@@ -4,52 +4,53 @@ import { Element } from 'nav-frontend-typografi';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
-
-export enum MeldingTilNavField {
-    BISTAND = 'bistand',
-    BEGRUNN = 'begrunn',
-}
+import { Validate } from '../../validation';
 
 export type MeldingTilNav = {
-    [MeldingTilNavField.BISTAND]?: boolean;
-    [MeldingTilNavField.BEGRUNN]?: string;
+    meldingTilNavBistand?: boolean;
+    meldingTilNavBegrunn?: string;
 };
 
 type MeldingTilNavSectionProps = {
     section: Section;
-    expanded: boolean;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
-    expandSection: () => void;
+    errors: ErrorSchemaType;
+    validate: Validate;
 };
 
-const MeldingTilNavSection = ({ section, expanded, expandSection, setSchema, schema }: MeldingTilNavSectionProps) => {
+const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: MeldingTilNavSectionProps) => {
     return (
-        <SectionContainer section={section} expanded={expanded} setExpanded={expandSection}>
+        <SectionContainer section={section}>
             <Subsection sectionIdentifier="8.1" underline={false}>
                 <Checkbox
-                    checked={schema[MeldingTilNavField.BISTAND]}
+                    disabled
+                    checked={schema.meldingTilNavBistand}
                     label="Ønskes bistand fra NAV nå?"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [MeldingTilNavField.BISTAND]: !state[MeldingTilNavField.BISTAND],
+                            meldingTilNavBistand: !state.meldingTilNavBistand,
                         }))
                     }
+                    feil={errors.meldingTilNavBistand}
                 />
                 <br />
-                {schema[MeldingTilNavField.BISTAND] && (
+                {schema.meldingTilNavBistand && (
                     <Textarea
+                        disabled
                         maxLength={0}
-                        value={schema[MeldingTilNavField.BEGRUNN] || ''}
-                        onChange={({ target: { value } }) =>
+                        value={schema.meldingTilNavBegrunn || ''}
+                        onChange={({ target: { value } }) => {
                             setSchema(state => ({
                                 ...state,
-                                [MeldingTilNavField.BEGRUNN]: value,
-                            }))
-                        }
+                                meldingTilNavBegrunn: value,
+                            }));
+                            validate('meldingTilNavBegrunn', value);
+                        }}
+                        feil={errors.meldingTilNavBegrunn}
                         label={<Element>Begrunn nærmere</Element>}
                     />
                 )}

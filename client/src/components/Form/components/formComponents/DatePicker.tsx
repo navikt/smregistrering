@@ -12,18 +12,19 @@ type DatePickerProps = {
     label: string;
     value: Date | undefined;
     onChange: (newDate: Date) => void;
+    feil?: string;
 };
 
-const DatePicker = ({ label, value, onChange }: DatePickerProps) => {
+const DatePicker = ({ label, value, onChange, feil }: DatePickerProps) => {
     return (
         <div className="datepicker-container">
             <div className="datepicker-label">
                 <Element>{label}</Element>
             </div>
-            <div className="flatpickr-container">
+            <div className={`flatpickr-container`}>
                 <Flatpickr
                     value={value}
-                    className="typo-normal flatpickr"
+                    className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
                     placeholder="DD.MM.ÅÅÅÅ"
                     onChange={newDate => onChange(newDate[0])}
                     options={{
@@ -39,6 +40,11 @@ const DatePicker = ({ label, value, onChange }: DatePickerProps) => {
                     <img aria-hidden="true" alt="Kalender" src={calendar} />
                 </span>
             </div>
+            {feil && (
+                <div className="skjemaelement__feilmelding">
+                    <p className="typo-feilmelding">{feil}</p>
+                </div>
+            )}
         </div>
     );
 };

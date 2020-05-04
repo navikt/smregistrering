@@ -5,88 +5,109 @@ import { Element } from 'nav-frontend-typografi';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
-
-export enum BekreftelseField {
-    LEGITIMERT = 'legitimert',
-    SYKMELDERS_NAVN = 'sykmeldersNavn',
-    HPR = 'hpr',
-    TELEFON = 'telefon',
-    ADRESSE = 'adresse',
-}
+import { Validate } from '../../validation';
 
 export type Bekreftelse = {
-    [BekreftelseField.LEGITIMERT]?: boolean;
-    [BekreftelseField.SYKMELDERS_NAVN]?: string;
-    [BekreftelseField.HPR]?: string;
-    [BekreftelseField.TELEFON]?: string;
-    [BekreftelseField.ADRESSE]?: string;
+    legitimert: boolean;
+    sykmeldersNavn?: string;
+    sykmelderFnr?: string;
+    hpr?: string;
+    sykmelderTelefon?: string;
+    sykmelderAdresse?: string;
 };
 
 type BekreftelseSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
+    errors: ErrorSchemaType;
+    validate: Validate;
 };
 
-const BekreftelseSection = ({ section, setSchema, schema }: BekreftelseSectionProps) => {
+const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: BekreftelseSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="12.1" underline={false}>
                 <Checkbox
+                    disabled
                     className="form-margin-bottom"
-                    checked={schema[BekreftelseField.LEGITIMERT]}
+                    checked={schema.legitimert}
                     label="Pasienten er kjent eller har vist legitimasjon"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [BekreftelseField.LEGITIMERT]: !state[BekreftelseField.LEGITIMERT],
+                            legitimert: !state.legitimert,
                         }))
                     }
+                    feil={errors.legitimert}
                 />
             </Subsection>
-
             <Input
-                className="form-margin-bottom"
-                onChange={({ target: { value } }) =>
+                className="form-margin-bottom half"
+                onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
-                        [BekreftelseField.SYKMELDERS_NAVN]: value,
-                    }))
-                }
+                        sykmelderFnr: value,
+                    }));
+                    validate('sykmelderFnr', value);
+                }}
+                label={<Element>Sykmelders fødselsnummer (11 siffer)</Element>}
+                feil={errors.sykmelderFnr}
+            />
+            <Input
+                disabled
+                className="form-margin-bottom"
+                value={schema.sykmeldersNavn}
+                onChange={({ target: { value } }) => {
+                    setSchema(state => ({
+                        ...state,
+                        sykmeldersNavn: value,
+                    }));
+                    validate('sykmeldersNavn', value);
+                }}
+                feil={errors.sykmeldersNavn}
                 label={<Element>12.2 Sykmelders navn</Element>}
             />
-
             <Row>
                 <Input
+                    disabled
                     className="form-margin-bottom"
-                    onChange={({ target: { value } }) =>
+                    value={schema.hpr}
+                    onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
-                            [BekreftelseField.HPR]: value,
-                        }))
-                    }
+                            hpr: value,
+                        }));
+                        validate('hpr', value);
+                    }}
+                    feil={errors.hpr}
                     label={<Element>12.4 HPR-nummer</Element>}
                 />
                 <Input
+                    disabled
                     className="form-margin-bottom"
-                    onChange={({ target: { value } }) =>
+                    value={schema.sykmelderTelefon}
+                    onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
-                            [BekreftelseField.TELEFON]: value,
-                        }))
-                    }
+                            sykmelderTelefon: value,
+                        }));
+                        validate('sykmelderTelefon', value);
+                    }}
+                    feil={errors.sykmelderTelefon}
                     label={<Element>12.5 Telefon</Element>}
                 />
             </Row>
 
             <Input
+                disabled
                 className="form-margin-bottom"
                 onChange={({ target: { value } }) =>
                     setSchema(state => ({
                         ...state,
-                        [BekreftelseField.ADRESSE]: value,
+                        sykmelderAdresse: value,
                     }))
                 }
                 label={<Element>12.6 Adresse</Element>}
