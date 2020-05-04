@@ -67,7 +67,6 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                             console.log('Noe gikk galt');
                         }
                     } else {
-                        console.log('focusing');
                         focusErrorSummary();
                     }
                 }}
