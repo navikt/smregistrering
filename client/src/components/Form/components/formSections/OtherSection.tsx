@@ -9,6 +9,7 @@ import { Validate } from '../../validation';
 export type Other = {
     pasientFnr?: string;
     syketilfelleStartDato?: Date;
+    behandletDato?: Date;
 };
 
 type OtherSectionProps = {
@@ -27,7 +28,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                 onChange={({ target: { value } }) => {
                     setSchema(state => ({
                         ...state,
-                        fnr: value,
+                        pasientFnr: value,
                     }));
                     validate('pasientFnr', value);
                 }}
@@ -41,6 +42,16 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                     setSchema(state => ({ ...state, syketilfelleStartDato: newDates }));
                     validate('syketilfelleStartDato', newDates);
                 }}
+                feil={errors.syketilfelleStartDato}
+            />
+            <DatePicker
+                label="Behandletdato"
+                value={schema.behandletDato}
+                onChange={newDates => {
+                    setSchema(state => ({ ...state, behandletDato: newDates }));
+                    validate('behandletDato', newDates);
+                }}
+                feil={errors.behandletDato}
             />
         </div>
     );

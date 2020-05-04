@@ -5,7 +5,7 @@ import React, { RefObject } from 'react';
 
 import { Section } from '../../types/Section';
 
-const scrollToRef = (ref: RefObject<HTMLDivElement>) => {
+export const scrollToRef = (ref: RefObject<HTMLDivElement>) => {
     if (!ref.current) {
         return null;
     }

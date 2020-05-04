@@ -29,6 +29,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="11.1" underline={false}>
                 <Checkbox
+                    disabled
                     checked={schema.erTilbakedatert}
                     label="Er sykmelding tilbakedatert?"
                     onChange={() =>
@@ -56,6 +57,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
 
             <Subsection sectionIdentifier="11.2" underline={false}>
                 <Checkbox
+                    disabled
                     checked={schema.kunneIkkeIvaretaEgneInteresser}
                     label="Pasienten har ikke kunnet ivareta egne interesser"
                     onChange={() => {
@@ -70,6 +72,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                 <br />
                 {schema.kunneIkkeIvaretaEgneInteresser && (
                     <Textarea
+                        disabled
                         maxLength={0}
                         value={schema.begrunnelseIkkeKontakt || ''}
                         onChange={({ target: { value } }) => {

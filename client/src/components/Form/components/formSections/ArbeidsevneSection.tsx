@@ -30,6 +30,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="7.1">
                 <Checkbox
+                    disabled
                     checked={schema.tilretteleggingArbeidsplassen}
                     label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
                     onChange={() =>
@@ -43,6 +44,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                 <br />
                 {schema.tilretteleggingArbeidsplassen && (
                     <Textarea
+                        disabled
                         maxLength={0}
                         value={schema.tilretteleggingArbeidsplassBeskriv || ''}
                         onChange={({ target: { value } }) => {
@@ -60,6 +62,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
 
             <Subsection sectionIdentifier="7.2">
                 <Checkbox
+                    disabled
                     checked={schema.tiltakNav}
                     label="Tiltak i regi av NAV"
                     onChange={() =>
@@ -73,6 +76,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                 <br />
                 {schema.tiltakNav && (
                     <Textarea
+                        disabled
                         maxLength={0}
                         value={schema.tiltakNavBeskriv || ''}
                         onChange={({ target: { value } }) => {
@@ -90,6 +94,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
 
             <Subsection sectionIdentifier="7.3" underline={false}>
                 <Checkbox
+                    disabled
                     checked={schema.innspillTilNAv}
                     label="Eventuelle andre innspill til NAV"
                     onChange={() =>
@@ -103,6 +108,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                 <br />
                 {schema.innspillTilNAv && (
                     <Textarea
+                        disabled
                         maxLength={0}
                         value={schema.innspillTilNavBeskriv || ''}
                         onChange={({ target: { value } }) => {

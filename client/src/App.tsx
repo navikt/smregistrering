@@ -5,29 +5,21 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import React, { useEffect, useRef, useState } from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 
-import FormErrorSummary from './components/Form/FormErrorSummary';
-import FormSubmit from './components/Form/components/FormSubmit';
+import Form from './components/Form/Form';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
-import Form, { ErrorSchemaType } from './components/Form/Form';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { SectionTitle, Sections } from './types/Section';
 import { UrlError } from './utils/urlUtils';
 import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
 
-const formHasErrors = (formErrors: ErrorSchemaType) => {
-    const errorValues = Object.values(formErrors);
-    const definedErrors = errorValues.filter(errorValue => errorValue);
-    return definedErrors.length > 0;
-};
-
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
+    const schemaRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setIsLoading(true);
@@ -127,8 +119,6 @@ const App = () => {
         return null;
     }
 
-    const hasErrors = formHasErrors(formErrors);
-
     return (
         <>
             <Navbar />
@@ -136,16 +126,8 @@ const App = () => {
                 <div className="menu-container">
                     <Menu sections={sections} />
                 </div>
-                <div className="form-container">
-                    <Form
-                        sections={sections}
-                        oppgave={oppgave}
-                        diagnosekoder={diagnosekoder}
-                        formErrors={formErrors}
-                        setFormErrors={setFormErrors}
-                    />
-                    <FormErrorSummary formErrors={formErrors} hasErrors={hasErrors} />
-                    <FormSubmit hasErrors={hasErrors} />
+                <div ref={schemaRef} className="form-container">
+                    <Form schemaRef={schemaRef} sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
                 </div>
                 <div className="pdf-container">
                     <object
