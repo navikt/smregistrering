@@ -25,6 +25,40 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
     const [apiErrors, setApiErrors] = useState<string | undefined>(undefined);
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
+    const registrerSykmelding = () => {
+        if (validateAll()) {
+            const sykmelding = buildRegistrertSykmelding(oppgave, schema);
+            if (sykmelding) {
+                setIsLoading(true);
+                fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`, {
+                    method: 'PUT',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
+                })
+                    .then(res => {
+                        if (res.ok) {
+                            setModalIsOpen(true);
+                        } else {
+                            return res.json();
+                        }
+                    })
+                    .then(json => setApiErrors(json))
+                    .catch(error => {
+                        console.error(error);
+                    })
+                    .finally(() => setIsLoading(false));
+                console.log(RegistrertSykmelding.encode(sykmelding));
+            } else {
+                console.log('Noe gikk galt');
+            }
+        } else {
+            focusErrorSummary();
+        }
+    };
+
     return (
         <div className="form-submit-container">
             <Checkbox
@@ -38,37 +72,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 disabled={!checked}
                 spinner={isLoading}
                 onClick={() => {
-                    if (validateAll()) {
-                        const sykmelding = buildRegistrertSykmelding(oppgave, schema);
-                        if (sykmelding) {
-                            setIsLoading(true);
-                            fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`, {
-                                method: 'PUT',
-                                credentials: 'include',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
-                            })
-                                .then(res => {
-                                    if (res.ok) {
-                                        setModalIsOpen(true);
-                                    } else {
-                                        return res.json();
-                                    }
-                                })
-                                .then(json => setApiErrors(json))
-                                .catch(error => {
-                                    console.error(error);
-                                })
-                                .finally(() => setIsLoading(false));
-                            console.log(RegistrertSykmelding.encode(sykmelding));
-                        } else {
-                            console.log('Noe gikk galt');
-                        }
-                    } else {
-                        focusErrorSummary();
-                    }
+                    registrerSykmelding();
                 }}
             >
                 Registrer sykmelding
