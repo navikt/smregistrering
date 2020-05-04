@@ -1,81 +1,177 @@
-import { ArbeidsrelatertArsak, MedisinskArsak, Periode, RegistrertSykmelding } from '../types/RegistrertSykmelding';
+import {
+    ArbeidsrelatertArsak,
+    ArbeidsrelatertArsakType,
+    MedisinskArsak,
+    MedisinskArsakType,
+    Periode,
+    RegistrertSykmelding,
+} from '../types/RegistrertSykmelding';
 import { Oppgave } from '../types/Oppgave';
 import { SchemaType } from '../components/Form/Form';
 
-export const buildPerioder = (schema: SchemaType): Periode[] => {
-    const perioder: Periode[] = [];
-    if (schema.avventendeSykmelding && schema.avventendePeriode) {
+const buildAvventendeSykmelding = (
+    avventendeSykmelding: boolean,
+    avventendePeriode?: Date[],
+    avventendeInnspillTilArbeidsgiver?: string,
+): Periode | undefined => {
+    if (avventendeSykmelding && avventendePeriode) {
         const periode: Periode = {
-            fom: schema.avventendePeriode[0],
-            tom: schema.avventendePeriode[1],
+            fom: avventendePeriode[0],
+            tom: avventendePeriode[1],
             reisetilskudd: false,
-            avventendeInnspillTilArbeidsgiver: schema.avventendeInnspillTilArbeidsgiver,
+            avventendeInnspillTilArbeidsgiver: avventendeInnspillTilArbeidsgiver,
         };
-        perioder.push(periode);
+        return periode;
     }
-    if (schema.gradertSykmelding && schema.gradertPeriode) {
+};
+
+const buildGradertSykmelding = (
+    gradertSykmelding: boolean,
+    gradertReisetilskudd: boolean,
+    gradertPeriode?: Date[],
+    gradertGrad?: number,
+): Periode | undefined => {
+    if (gradertSykmelding && gradertPeriode) {
         const periode: Periode = {
-            fom: schema.gradertPeriode[0],
-            tom: schema.gradertPeriode[1],
+            fom: gradertPeriode[0],
+            tom: gradertPeriode[1],
             reisetilskudd: false,
             gradert: {
-                reisetilskudd: schema.gradertReisetilskudd,
-                grad: schema.gradertGrad,
+                reisetilskudd: gradertReisetilskudd,
+                grad: gradertGrad,
             },
         };
-        perioder.push(periode);
+        return periode;
     }
-    if (schema.aktivitetIkkeMuligSykmelding && schema.aktivitetIkkeMuligPeriode) {
-        const medisinskArsak: MedisinskArsak | undefined =
-            schema.aktivitetIkkeMuligMedisinskArsakType && schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse
-                ? {
-                      arsak: schema.aktivitetIkkeMuligMedisinskArsakType,
-                      beskrivelse: schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse,
-                  }
-                : undefined;
-        const arbeidsrelatertArsak: ArbeidsrelatertArsak | undefined =
-            schema.aktivitetIkkeMuligArbeidsrelatertArsakType &&
-            schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
-                ? {
-                      arsak: schema.aktivitetIkkeMuligArbeidsrelatertArsakType,
-                      beskrivelse: schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
-                  }
-                : undefined;
+};
+
+const buildMedisinskArsak = (
+    aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[],
+    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string,
+): MedisinskArsak | undefined => {
+    if (aktivitetIkkeMuligMedisinskArsakType && aktivitetIkkeMuligMedisinskArsakBeskrivelse) {
+        return {
+            arsak: aktivitetIkkeMuligMedisinskArsakType,
+            beskrivelse: aktivitetIkkeMuligMedisinskArsakBeskrivelse,
+        };
+    }
+};
+
+const buildArbeidsrelatertArsak = (
+    aktivitetIkkeMuligArbeidsrelatertArsakType?: ArbeidsrelatertArsakType[],
+    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string,
+): ArbeidsrelatertArsak | undefined => {
+    if (aktivitetIkkeMuligArbeidsrelatertArsakType && aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse) {
+        return {
+            arsak: aktivitetIkkeMuligArbeidsrelatertArsakType,
+            beskrivelse: aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
+        };
+    }
+};
+
+const buildAktivitetIkkeMuligSykmelding = (
+    aktivitetIkkeMuligSykmelding: boolean,
+    aktivitetIkkeMuligPeriode?: Date[],
+    aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[],
+    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string,
+    aktivitetIkkeMuligArbeidsrelatertArsakType?: ArbeidsrelatertArsakType[],
+    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string,
+): Periode | undefined => {
+    if (aktivitetIkkeMuligSykmelding && aktivitetIkkeMuligPeriode) {
+        const medisinskArsak = buildMedisinskArsak(
+            aktivitetIkkeMuligMedisinskArsakType,
+            aktivitetIkkeMuligMedisinskArsakBeskrivelse,
+        );
+        const arbeidsrelatertArsak = buildArbeidsrelatertArsak(
+            aktivitetIkkeMuligArbeidsrelatertArsakType,
+            aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
+        );
 
         const periode: Periode = {
-            fom: schema.aktivitetIkkeMuligPeriode[0],
-            tom: schema.aktivitetIkkeMuligPeriode[1],
+            fom: aktivitetIkkeMuligPeriode[0],
+            tom: aktivitetIkkeMuligPeriode[1],
             reisetilskudd: false,
             aktivitetIkkeMulig: {
                 medisinskArsak,
                 arbeidsrelatertArsak,
             },
         };
-        perioder.push(periode);
+        return periode;
     }
-    if (schema.behandlingsdagerSykmelding && schema.behandlingsdagerPeriode && schema.behandlingsdagerAntall) {
+};
+
+const buildBehandlingsdagerSykmelding = (
+    behandlingsdagerSykmelding: boolean,
+    behandlingsdagerPeriode?: Date[],
+    behandlingsdagerAntall?: number,
+): Periode | undefined => {
+    if (behandlingsdagerSykmelding && behandlingsdagerPeriode && behandlingsdagerAntall) {
         const periode: Periode = {
-            fom: schema.behandlingsdagerPeriode[0],
-            tom: schema.behandlingsdagerPeriode[1],
+            fom: behandlingsdagerPeriode[0],
+            tom: behandlingsdagerPeriode[1],
             reisetilskudd: false,
-            behandlingsdager: schema.behandlingsdagerAntall,
+            behandlingsdager: behandlingsdagerAntall,
         };
-        perioder.push(periode);
+        return periode;
     }
-    if (schema.reisetilskuddSykmelding && schema.reisetilskuddPeriode) {
+};
+
+const buildReisetilskuddSykmelding = (
+    reisetilskuddSykmelding: boolean,
+    reisetilskuddPeriode?: Date[],
+): Periode | undefined => {
+    if (reisetilskuddSykmelding && reisetilskuddPeriode) {
         const periode: Periode = {
-            fom: schema.reisetilskuddPeriode[0],
-            tom: schema.reisetilskuddPeriode[1],
+            fom: reisetilskuddPeriode[0],
+            tom: reisetilskuddPeriode[1],
             reisetilskudd: true,
         };
-        perioder.push(periode);
+        return periode;
     }
+};
+
+export const buildPerioder = (schema: SchemaType): Periode[] => {
+    const perioder: Periode[] = [];
+
+    const avventendeSykmelding = buildAvventendeSykmelding(schema.avventendeSykmelding, schema.avventendePeriode);
+    if (avventendeSykmelding) perioder.push(avventendeSykmelding);
+
+    const gradertSykmelding = buildGradertSykmelding(
+        schema.gradertSykmelding,
+        schema.gradertReisetilskudd,
+        schema.gradertPeriode,
+        schema.gradertGrad,
+    );
+    if (gradertSykmelding) perioder.push(gradertSykmelding);
+
+    const aktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding(
+        schema.aktivitetIkkeMuligSykmelding,
+        schema.aktivitetIkkeMuligPeriode,
+        schema.aktivitetIkkeMuligMedisinskArsakType,
+        schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse,
+        schema.aktivitetIkkeMuligArbeidsrelatertArsakType,
+        schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
+    );
+    if (aktivitetIkkeMuligSykmelding) perioder.push(aktivitetIkkeMuligSykmelding);
+
+    const behandlingsdagerSykmelding = buildBehandlingsdagerSykmelding(
+        schema.behandlingsdagerSykmelding,
+        schema.behandlingsdagerPeriode,
+        schema.behandlingsdagerAntall,
+    );
+    if (behandlingsdagerSykmelding) perioder.push(behandlingsdagerSykmelding);
+
+    const reisetilskuddSykmelding = buildReisetilskuddSykmelding(
+        schema.reisetilskuddSykmelding,
+        schema.reisetilskuddPeriode,
+    );
+    if (reisetilskuddSykmelding) perioder.push(reisetilskuddSykmelding);
+
     return perioder;
 };
 
 export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): RegistrertSykmelding | undefined => {
-    // ensure that all the properties exist on schema and oppgave
-    console.log(schema);
+    // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
         schema.pasientFnr === undefined ||
         schema.sykmelderFnr === undefined ||
@@ -86,7 +182,6 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
     )
         return undefined;
 
-    // build registrert sykmelding
     const registrertSykmelding: RegistrertSykmelding = {
         pasientFnr: schema.pasientFnr,
         sykmelderFnr: schema.sykmelderFnr,
