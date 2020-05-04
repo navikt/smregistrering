@@ -29,7 +29,7 @@ export type MedisinskVurdering = {
     annenFraversArsak: boolean;
     annenFraversArsakGrunn?: AnnenFraverGrunn[];
     annenFraversArsakBeskrivelse?: string;
-    skjermesForPasient?: boolean; // burde kanskje flyttes
+    skjermesForPasient?: boolean; // TODO: burde kanskje flyttes
 };
 
 type DiagnoseSectionProps = {
