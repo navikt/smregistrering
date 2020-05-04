@@ -77,6 +77,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
             <Flatknapp
                 onClick={() => {
                     console.log('avbryt'); // TODO: send tilbake til gosys?
+                    // TODO: Legg til modal som spør "Er du sikker på at du vil avbryte?" dersom bruker har fylt inn noen av feltene
                 }}
             >
                 Avbryt
