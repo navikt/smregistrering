@@ -6,7 +6,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 
 import Form from './components/Form/Form';
-import FormSubmit from './components/Form/components/FormSubmit';
 import Menu from './components/Menu/Menu';
 import Navbar from './components/Navbar/Navbar';
 import { Diagnosekoder } from './types/Diagnosekode';
@@ -20,6 +19,7 @@ const App = () => {
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const schemaRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setIsLoading(true);
@@ -126,9 +126,8 @@ const App = () => {
                 <div className="menu-container">
                     <Menu sections={sections} />
                 </div>
-                <div className="form-container">
-                    <Form sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
-                    <FormSubmit />
+                <div ref={schemaRef} className="form-container">
+                    <Form schemaRef={schemaRef} sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
                 </div>
                 <div className="pdf-container">
                     <object

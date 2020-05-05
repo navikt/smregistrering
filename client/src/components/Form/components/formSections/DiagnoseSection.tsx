@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
+import { Checkbox, Input, Select } from 'nav-frontend-skjema';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 
 import DatePicker from '../formComponents/DatePicker';
@@ -8,21 +8,11 @@ import Row from '../formComponents/Row';
 import SearchableInput from '../formComponents/SearchableInput';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
+import { AnnenFraverGrunn } from '../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
-import { SchemaType } from '../../Form';
+import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
-
-export enum MedisinskVurderingField {
-    HOVEDDIAGNOSE = 'hoveddiagnose',
-    BIDIAGNOSER = 'bidiagnoser',
-    ANNEN_FRAVAERSARSAK = 'annenFravaersArsak',
-    LOVFESTET_FRAVAERSGRUNN = 'lovfestetFravaersgrunn',
-    BESKRIV_FRAVAER = 'beskrivFravaeret',
-    SVANGERSKAP = 'svangerskap',
-    YRKESSKADE = 'yrkesskade',
-    YRKESSKADE_DATO = 'yrkesskadeDato',
-    SKJERMET_FRA_PASIENT = 'skjermetFraPasient',
-}
+import { Validate } from '../../validation';
 
 export type Diagnose = {
     system?: string;
@@ -31,30 +21,32 @@ export type Diagnose = {
 };
 
 export type MedisinskVurdering = {
-    [MedisinskVurderingField.HOVEDDIAGNOSE]: Diagnose;
-    [MedisinskVurderingField.BIDIAGNOSER]: Diagnose[];
-    [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]?: boolean;
-    [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]?: string;
-    [MedisinskVurderingField.BESKRIV_FRAVAER]?: string;
-    [MedisinskVurderingField.SVANGERSKAP]?: boolean;
-    [MedisinskVurderingField.YRKESSKADE]?: boolean;
-    [MedisinskVurderingField.YRKESSKADE_DATO]?: Date;
-    [MedisinskVurderingField.SKJERMET_FRA_PASIENT]?: boolean;
+    hovedDiagnose?: Diagnose;
+    biDiagnoser?: Diagnose[];
+    yrkesskade: boolean;
+    yrkesskadeDato?: Date;
+    svangerskap: boolean;
+    annenFraversArsak: boolean;
+    annenFraversArsakGrunn?: AnnenFraverGrunn[];
+    annenFraversArsakBeskrivelse?: string;
+    skjermesForPasient?: boolean; // TODO: burde kanskje flyttes
 };
 
 type DiagnoseSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    errors: ErrorSchemaType;
+    validate: Validate;
     schema: SchemaType;
     diagnosekoder: Diagnosekoder;
 };
 
-const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: DiagnoseSectionProps) => {
-    const hoveddiagnose = schema[MedisinskVurderingField.HOVEDDIAGNOSE];
+const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnosekoder }: DiagnoseSectionProps) => {
+    const hoveddiagnose = schema.hovedDiagnose;
     const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
         hoveddiagnose && (hoveddiagnose.system as keyof Diagnosekoder);
 
-    const bidiagnoser = schema[MedisinskVurderingField.BIDIAGNOSER];
+    const bidiagnoser = schema.biDiagnoser;
     const bidiagnose = bidiagnoser && bidiagnoser.length === 1 ? bidiagnoser[0] : undefined;
     const bidiagnoseSystem: keyof Diagnosekoder | undefined = bidiagnose && (bidiagnose.system as keyof Diagnosekoder);
 
@@ -65,18 +57,19 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                 <Select
                     className="form-margin-bottom"
                     onChange={({ target: { value } }) => {
-                        console.log(value);
                         const system = value === 'undefined' ? undefined : value;
                         setSchema(state => ({
                             ...state,
-                            [MedisinskVurderingField.HOVEDDIAGNOSE]: {
+                            hovedDiagnose: {
                                 system,
-                                kode: undefined,
-                                tekst: undefined,
+                                kode: '',
+                                tekst: '',
                             },
                         }));
+                        validate('hovedDiagnose', system);
                     }}
                     label={<Element>3.1.1 Kodesystem</Element>}
+                    feil={errors.hovedDiagnose}
                 >
                     <option value="undefined">Velg kodesystem</option>
                     <option value="icpc2">ICPC-2</option>
@@ -86,16 +79,21 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                     system={hoveddiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
-                    onChange={(kode?: string, tekst?: string) =>
+                    onChange={(kode?: string, tekst?: string) => {
                         setSchema(state => ({
                             ...state,
-                            [MedisinskVurderingField.HOVEDDIAGNOSE]: {
-                                ...state[MedisinskVurderingField.HOVEDDIAGNOSE],
+                            hovedDiagnose: {
+                                ...state.hovedDiagnose,
                                 kode,
                                 tekst,
                             },
-                        }))
-                    }
+                        }));
+                        validate('hovedDiagnose', {
+                            system: hoveddiagnoseSystem,
+                            kode,
+                            tekst,
+                        });
+                    }}
                 />
                 <div>
                     <Element>3.1.3 Tekst</Element>
@@ -112,15 +110,16 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                         const system = value === 'undefined' ? undefined : value;
                         setSchema(state => ({
                             ...state,
-                            [MedisinskVurderingField.BIDIAGNOSER]: [
+                            biDiagnoser: [
                                 {
                                     system,
                                     kode: undefined,
                                     tekst: undefined,
                                 },
                             ],
-                        }));
+                        }))
                     }}
+                    feil={errors.biDiagnoser}
                     label={<Element>3.2.1 Kodesystem</Element>}
                 >
                     <option value="undefined">Velg kodesystem</option>
@@ -134,7 +133,7 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
                     onChange={(code?: string, text?: string) =>
                         setSchema(state => ({
                             ...state,
-                            [MedisinskVurderingField.BIDIAGNOSER]: [
+                            biDiagnoser: [
                                 {
                                     system: bidiagnoseSystem,
                                     kode: code,
@@ -154,40 +153,60 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
             <hr />
             <Subsection sectionIdentifier="3.3">
                 <Checkbox
-                    checked={schema[MedisinskVurderingField.ANNEN_FRAVAERSARSAK]}
+                    checked={schema.annenFraversArsak}
                     label="Annen lovfestet fraværsgrunn § 8-4, 3. ledd oppgis hvis relevant"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [MedisinskVurderingField.ANNEN_FRAVAERSARSAK]: !state[
-                                MedisinskVurderingField.ANNEN_FRAVAERSARSAK
-                            ],
+                            annenFraversArsak: !state.annenFraversArsak,
                         }))
                     }
+                    feil={errors.annenFraversArsak}
                 />
                 <br />
-                {schema[MedisinskVurderingField.ANNEN_FRAVAERSARSAK] && (
+                {schema.annenFraversArsak && (
                     <>
-                        <Input
-                            className="form-margin-bottom half"
-                            onChange={({ target: { value } }) =>
-                                setSchema(state => ({
-                                    ...state,
-                                    [MedisinskVurderingField.LOVFESTET_FRAVAERSGRUNN]: value,
-                                }))
-                            }
+                        <Select
+                            onChange={({ target: { value } }) => {
+                                if (value === '0') {
+                                    setSchema(state => ({
+                                        ...state,
+                                        annenFraversArsakGrunn: undefined,
+                                    }));
+                                } else {
+                                    setSchema(state => ({
+                                        ...state,
+                                        annenFraversArsakGrunn: [value] as AnnenFraverGrunn[],
+                                    }));
+                                }
+                                validate('annenFraversArsakGrunn', value);
+                            }}
+                            className="form-margin-bottom"
                             label={<Element>3.3.1 Lovfestet fraværsgrunn</Element>}
-                        />
-                        <Textarea
-                            maxLength={0}
-                            value={schema[MedisinskVurderingField.BESKRIV_FRAVAER] || ''}
-                            onChange={({ target: { value } }) =>
+                            feil={errors.annenFraversArsakGrunn}
+                        >
+                            <option value="0">Velg</option>
+                            {Object.entries(AnnenFraverGrunn).map(([key, value]) => {
+                                return (
+                                    <option key={key} value={value}>
+                                        {value}
+                                    </option>
+                                );
+                            })}
+                        </Select>
+                        <Input
+                            className="form-margin-bottom"
+                            type="text"
+                            value={schema.annenFraversArsakBeskrivelse}
+                            onChange={({ target: { value } }) => {
                                 setSchema(state => ({
                                     ...state,
-                                    [MedisinskVurderingField.BESKRIV_FRAVAER]: value,
-                                }))
-                            }
+                                    annenFraversArsakBeskrivelse: value,
+                                }));
+                                validate('annenFraversArsakBeskrivelse', value);
+                            }}
                             label={<Element>3.3.2 Beskriv fravær (valgfritt)</Element>}
+                            feil={errors.annenFraversArsakBeskrivelse}
                         />
                     </>
                 )}
@@ -195,37 +214,39 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
 
             <Subsection sectionIdentifier="3.4">
                 <Checkbox
-                    checked={schema[MedisinskVurderingField.SVANGERSKAP]}
+                    checked={schema.svangerskap}
                     label="Sykdommen er svangerskapsrelatert"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [MedisinskVurderingField.SVANGERSKAP]: !state[MedisinskVurderingField.SVANGERSKAP],
+                            svangerskap: !state.svangerskap,
                         }))
                     }
+                    feil={errors.svangerskap}
                 />
             </Subsection>
 
             <Subsection sectionIdentifier="3.5">
                 <Checkbox
-                    checked={schema[MedisinskVurderingField.YRKESSKADE]}
+                    checked={schema.yrkesskade}
                     label="Sykmeldingen kan skyldes en yrkesskade / yrkessykdom"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [MedisinskVurderingField.YRKESSKADE]: !state[MedisinskVurderingField.YRKESSKADE],
+                            yrkesskade: !state.yrkesskade,
                         }))
                     }
+                    feil={errors.yrkesskade}
                 />
                 <br />
-                {schema[MedisinskVurderingField.YRKESSKADE] && (
+                {schema.yrkesskade && (
                     <DatePicker
                         label="3.6 Eventuell skadedato"
-                        value={schema[MedisinskVurderingField.YRKESSKADE_DATO]}
+                        value={schema.yrkesskadeDato}
                         onChange={newDates =>
                             setSchema(state => ({
                                 ...state,
-                                [MedisinskVurderingField.YRKESSKADE_DATO]: newDates,
+                                yrkesskadeDato: newDates,
                             }))
                         }
                     />
@@ -234,16 +255,15 @@ const DiagnoseSection = ({ section, setSchema, schema, diagnosekoder }: Diagnose
 
             <Subsection sectionIdentifier="3.7" underline={false}>
                 <Checkbox
-                    checked={schema[MedisinskVurderingField.SKJERMET_FRA_PASIENT]}
+                    checked={schema.skjermesForPasient}
                     label="Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1"
                     onChange={() =>
                         setSchema(state => ({
                             ...state,
-                            [MedisinskVurderingField.SKJERMET_FRA_PASIENT]: !state[
-                                MedisinskVurderingField.SKJERMET_FRA_PASIENT
-                            ],
+                            skjermesForPasient: !state.skjermesForPasient,
                         }))
                     }
+                    feil={errors.skjermesForPasient}
                 />
             </Subsection>
         </SectionContainer>
