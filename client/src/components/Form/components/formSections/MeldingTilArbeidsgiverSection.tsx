@@ -2,6 +2,7 @@ import React from 'react';
 import { Checkbox, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
+import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { ErrorSchemaType, SchemaType } from '../../Form';
@@ -44,7 +45,7 @@ const MeldingTilArbeidsgiverSection = ({
                     feil={errors.meldingTilArbeidsgiverInnspill}
                 />
                 <br />
-                {schema.meldingTilArbeidsgiverInnspill && (
+                <ExpandableField show={schema.meldingTilArbeidsgiverInnspill}>
                     <Textarea
                         disabled
                         maxLength={0}
@@ -59,7 +60,7 @@ const MeldingTilArbeidsgiverSection = ({
                         feil={schema.meldingTilArbeidsgiverBeskriv}
                         label={<Element>Andre innspill til arbeidsgiver</Element>}
                     />
-                )}
+                </ExpandableField>
             </Subsection>
         </SectionContainer>
     );

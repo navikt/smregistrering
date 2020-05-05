@@ -2,6 +2,7 @@ import React from 'react';
 import { Checkbox, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
+import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { ErrorSchemaType, SchemaType } from '../../Form';
@@ -38,7 +39,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                     feil={errors.arbeidsfoerEtterPeriode}
                 />
                 <br />
-                {schema.arbeidsfoerEtterPeriode && (
+                <ExpandableField show={schema.arbeidsfoerEtterPeriode}>
                     <Textarea
                         disabled
                         maxLength={0}
@@ -53,7 +54,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                         feil={errors.hensynPaArbeidsplassen}
                         label={<Element>5.1.1 Beskrive eventuelle hensyn som må tas på arbeidsplassen</Element>}
                     />
-                )}
+                </ExpandableField>
             </Subsection>
         </SectionContainer>
     );
