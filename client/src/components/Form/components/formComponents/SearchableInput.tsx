@@ -4,7 +4,7 @@ import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
 import Select, { MenuListComponentProps, ValueType, createFilter } from 'react-select';
 import { FixedSizeList } from 'react-window';
 
-import { Diagnose } from '../formSections/DiagnoseSection';
+import { Diagnose } from '../formSections/DiagnoseSection/DiagnoseSection';
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
 
 type OptionObject = { value: string; label: string; text: string };
