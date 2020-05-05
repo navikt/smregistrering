@@ -1,3 +1,5 @@
+import './BidiagnoseRow.less';
+
 import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Fareknapp } from 'nav-frontend-knapper';
@@ -33,14 +35,14 @@ const BidiagnoseRow = ({
     return (
         <>
             {!isFirst && (
-                <div style={{ position: 'relative', top: '20px', left: '-46px' }}>
+                <div className="bidiagnoserow-deletebutton">
                     <Fareknapp form="kompakt" onClick={() => deleteRow(index)}>
                         <Garbage />
                         <span className="sr-only">Slett rad</span>
                     </Fareknapp>
                 </div>
             )}
-            <div style={{ marginTop: isFirst ? '0' : '-50px' }}>
+            <div className={!isFirst ? 'bidiagnoserow-additional' : undefined}>
                 <Row>
                     <Select
                         value={biDiagnose.system}
