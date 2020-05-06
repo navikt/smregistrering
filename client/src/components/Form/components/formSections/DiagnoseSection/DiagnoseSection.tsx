@@ -7,20 +7,14 @@ import DatePicker from '../../formComponents/DatePicker';
 import Hoveddiagnose from './Hoveddiagnose';
 import SectionContainer from '../../SectionContainer';
 import Subsection from '../../formComponents/Subsection';
-import { AnnenFraverGrunn } from '../../../../../types/RegistrertSykmelding';
+import { AnnenFraverGrunn, Diagnose } from '../../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
 import { ErrorSchemaType, SchemaType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
 import { Validate } from '../../../validation';
 
-export type Diagnose = {
-    system?: keyof Diagnosekoder;
-    kode?: string;
-    tekst?: string;
-};
-
 export type MedisinskVurdering = {
-    hovedDiagnose?: Diagnose;
+    hovedDiagnose?: Partial<Diagnose>;
     biDiagnoser?: Diagnose[];
     yrkesskade: boolean;
     yrkesskadeDato?: Date;

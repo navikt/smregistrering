@@ -15,9 +15,9 @@ type BidiagnoserProps = {
 };
 
 const emptyBidiagnose = {
-    system: undefined,
-    kode: undefined,
-    tekst: undefined,
+    system: '',
+    kode: '',
+    tekst: '',
 };
 
 const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserProps) => {
@@ -58,12 +58,12 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
         });
     };
 
-    const updateDiagnosesystem = (index: number, system: keyof Diagnosekoder | undefined) => {
+    const updateDiagnosesystem = (index: number, system: string) => {
         setSchema(state => {
             const biDiagnoser = state.biDiagnoser;
 
             if (!biDiagnoser) {
-                return { ...state, biDiagnoser: [{ system, kode: undefined, tekst: undefined }] };
+                return { ...state, biDiagnoser: [{ system, kode: '', tekst: '' }] };
             }
 
             const oldBidiagnose = biDiagnoser[index];
@@ -74,7 +74,7 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
             // Replace the old bidiagnose with the updated one
             const updatedBidiagnoser = [
                 ...biDiagnoser.slice(0, index),
-                { system, kode: undefined, tekst: undefined },
+                { system, kode: '', tekst: '' },
                 ...biDiagnoser.slice(index + 1),
             ];
 
@@ -82,7 +82,7 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
         });
     };
 
-    const updateDiagnosecode = (index: number, code: string | undefined, text: string | undefined) => {
+    const updateDiagnosecode = (index: number, code: string, text: string) => {
         setSchema(state => {
             const biDiagnoser = state.biDiagnoser;
 

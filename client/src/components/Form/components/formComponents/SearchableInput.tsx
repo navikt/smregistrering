@@ -1,10 +1,10 @@
 import './SearchableInput.less';
 
-import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import Select, { MenuListComponentProps, ValueType, createFilter } from 'react-select';
 import { FixedSizeList } from 'react-window';
 
-import { Diagnose } from '../formSections/DiagnoseSection/DiagnoseSection';
+import { Diagnose } from '../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
 
 type OptionObject = { value: string; label: string; text: string };
@@ -13,10 +13,11 @@ type OptionValueType = ValueType<OptionObject>;
 const HEIGHT = 35;
 
 const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentProps<OptionObject>) => {
+    // TODO: Re-write this so it doesn't require ts-ignore
     // @ts-ignore Works, but TypeScript doesn't like it
-    const [value]: OptionValueType = getValue();
-    const initialOffset: number = options.indexOf(value) * HEIGHT;
-    const childrenOptions: ReactNode[] = React.Children.toArray(children);
+    const [value] = getValue();
+    const initialOffset = options.indexOf(value) * HEIGHT;
+    const childrenOptions = React.Children.toArray(children);
 
     if (!children) {
         return null;
@@ -56,10 +57,10 @@ const customStyles = {
 };
 
 type SearchableInputProps = {
-    system?: keyof Diagnosekoder;
+    system?: string;
     diagnosekoder: Diagnosekoder;
     label: JSX.Element;
-    onChange: (code?: string, text?: string) => void;
+    onChange: (code: string, text: string) => void;
     value?: Diagnose;
 };
 
@@ -75,7 +76,7 @@ const SearchableInput = ({ system, diagnosekoder, label, onChange }: SearchableI
     const handleChange = (selectedOption: OptionValueType | OptionValueType[] | null | void) => {
         if (!selectedOption) {
             setSelectValue(null);
-            onChange(undefined, undefined);
+            onChange('', '');
             return;
         }
 
@@ -89,7 +90,7 @@ const SearchableInput = ({ system, diagnosekoder, label, onChange }: SearchableI
         }
     };
 
-    const diagnoses = system ? diagnosekoder[system] : [];
+    const diagnoses = system ? diagnosekoder[system as keyof Diagnosekoder] : [];
     const diagnoseOptions = diagnoses.map(diagnose => ({
         value: diagnose.code,
         label: diagnose.code,

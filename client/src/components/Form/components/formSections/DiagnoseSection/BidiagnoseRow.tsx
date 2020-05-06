@@ -8,14 +8,14 @@ import { Select } from 'nav-frontend-skjema';
 import Garbage from '../../../../../svg/Garbage';
 import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
-import { Diagnose } from './DiagnoseSection';
+import { Diagnose } from '../../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
 import { ErrorSchemaType } from '../../../Form';
 
 type BidiagnoseRowProps = {
     index: number;
-    updateDiagnosesystem: (index: number, system: keyof Diagnosekoder | undefined) => void;
-    updateDiagnosecode: (index: number, code: string | undefined, text: string | undefined) => void;
+    updateDiagnosesystem: (index: number, system: string) => void;
+    updateDiagnosecode: (index: number, code: string, text: string) => void;
     deleteRow: (index: number) => void;
     errors: ErrorSchemaType;
     biDiagnose: Diagnose;
@@ -47,7 +47,7 @@ const BidiagnoseRow = ({
                     <Select
                         value={biDiagnose.system}
                         onChange={({ target: { value } }) => {
-                            const system = value === 'undefined' ? undefined : (value as keyof Diagnosekoder);
+                            const system = value === 'undefined' ? '' : value;
                             updateDiagnosesystem(index, system);
                         }}
                         feil={errors.biDiagnoser}
@@ -61,7 +61,7 @@ const BidiagnoseRow = ({
                         system={biDiagnose.system}
                         diagnosekoder={diagnosekoder}
                         label={<Element>3.2.2 Kode</Element>}
-                        onChange={(code?: string, text?: string) => updateDiagnosecode(index, code, text)}
+                        onChange={(code: string, text: string) => updateDiagnosecode(index, code, text)}
                     />
                     <div>
                         <Element>3.2.3 Tekst</Element>
