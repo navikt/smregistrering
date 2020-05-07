@@ -76,7 +76,6 @@ export const validationFunctions: ValidationType = {
     hovedDiagnose: (hovedDiagnose, schema) => {
         if (hovedDiagnose && hovedDiagnose.system) {
             if (!hovedDiagnose.kode) return 'Kode tilhørende hoveddiagnose må være definert når system er valgt';
-            if (!hovedDiagnose.tekst) return 'Tekst må være definert';
         }
         return undefined;
     },
@@ -86,7 +85,6 @@ export const validationFunctions: ValidationType = {
             biDiagnoser.forEach(biDiagnose => {
                 if (!biDiagnose.system) feilmelding = 'System må være definert';
                 if (!biDiagnose.kode) feilmelding = 'Kode må være definert';
-                if (!biDiagnose.tekst) feilmelding = 'Tekst må være definert';
             });
             if (feilmelding) {
                 return feilmelding;

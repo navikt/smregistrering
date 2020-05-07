@@ -74,6 +74,11 @@ const Hoveddiagnose = ({ setSchema, validate, schema, diagnosekoder, feil }: Hov
                     </Normaltekst>
                 </div>
             </Row>
+            {feil ? (
+                <p style={{ position: 'relative', top: '-1.5rem' }} className="typo-feilmelding">
+                    {feil}
+                </p>
+            ) : null}
         </>
     );
 };

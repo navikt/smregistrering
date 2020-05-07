@@ -6,11 +6,14 @@ import FormLabel from '../../formComponents/FormLabel';
 import Plus from '../../../../../svg/Plus';
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
 import { ErrorSchemaType, SchemaType } from '../../../Form';
+import { Validate } from '../../../validation';
 
 type BidiagnoserProps = {
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
+    validate: Validate;
     diagnosekoder: Diagnosekoder;
+    feil?: string;
 };
 
 const emptyBidiagnose = {
@@ -19,7 +22,7 @@ const emptyBidiagnose = {
     tekst: '',
 };
 
-const Bidiagnoser = ({ setSchema, schema, diagnosekoder }: BidiagnoserProps) => {
+const Bidiagnoser = ({ setSchema, schema, validate, diagnosekoder, feil }: BidiagnoserProps) => {
     const addRow = () => {
         setSchema(state => {
             if (!state.biDiagnoser) {
@@ -50,6 +53,7 @@ const Bidiagnoser = ({ setSchema, schema, diagnosekoder }: BidiagnoserProps) => 
             const bidiagnoser = state.biDiagnoser;
             const withoutIndex = [...bidiagnoser.slice(0, index), ...bidiagnoser.slice(index + 1)];
 
+            validate('biDiagnoser', withoutIndex);
             return {
                 ...state,
                 biDiagnoser: withoutIndex,
@@ -76,7 +80,7 @@ const Bidiagnoser = ({ setSchema, schema, diagnosekoder }: BidiagnoserProps) => 
                 { system, kode: '', tekst: '' },
                 ...biDiagnoser.slice(index + 1),
             ];
-
+            validate('biDiagnoser', updatedBidiagnoser);
             return { ...state, biDiagnoser: updatedBidiagnoser };
         });
     };
@@ -102,6 +106,7 @@ const Bidiagnoser = ({ setSchema, schema, diagnosekoder }: BidiagnoserProps) => 
                 updatedBidiagnose,
                 ...biDiagnoser.slice(index + 1),
             ];
+            validate('biDiagnoser', updatedBidiagnoser);
             return { ...state, biDiagnoser: updatedBidiagnoser };
         });
     };
@@ -118,6 +123,14 @@ const Bidiagnoser = ({ setSchema, schema, diagnosekoder }: BidiagnoserProps) => 
                     biDiagnose={emptyBidiagnose}
                     diagnosekoder={diagnosekoder}
                 />
+                {feil ? (
+                    <p
+                        style={{ position: 'relative', top: '-0.5rem', marginBottom: '1rem' }}
+                        className="typo-feilmelding"
+                    >
+                        {feil}
+                    </p>
+                ) : null}
                 <Knapp form="kompakt" onClick={addRow}>
                     <Plus />
                     <span>Legg til rad</span>
@@ -139,10 +152,14 @@ const Bidiagnoser = ({ setSchema, schema, diagnosekoder }: BidiagnoserProps) => 
                     diagnosekoder={diagnosekoder}
                 />
             ))}
-            
+            {feil ? (
+                <p style={{ position: 'relative', top: '-0.5rem', marginBottom: '1rem' }} className="typo-feilmelding">
+                    {feil}
+                </p>
+            ) : null}
             <Knapp form="kompakt" onClick={addRow}>
                 <Plus />
-                <span>Legg til rad</span>
+                <span>Legg til bidignose</span>
             </Knapp>
         </>
     );

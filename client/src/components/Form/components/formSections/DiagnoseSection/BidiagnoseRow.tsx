@@ -19,7 +19,6 @@ type BidiagnoseRowProps = {
     deleteRow: (index: number) => void;
     biDiagnose: Diagnose;
     diagnosekoder: Diagnosekoder;
-    feil?: string;
 };
 
 const BidiagnoseRow = ({
@@ -29,7 +28,6 @@ const BidiagnoseRow = ({
     updateDiagnosesystem,
     updateDiagnosecode,
     deleteRow,
-    feil,
 }: BidiagnoseRowProps) => {
     const isFirst = index === 0;
     return (

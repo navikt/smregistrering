@@ -45,7 +45,13 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                 feil={errors.hovedDiagnose}
             />
 
-            <Bidiagnoser setSchema={setSchema} schema={schema} diagnosekoder={diagnosekoder} />
+            <Bidiagnoser
+                setSchema={setSchema}
+                schema={schema}
+                validate={validate}
+                diagnosekoder={diagnosekoder}
+                feil={errors.biDiagnoser}
+            />
 
             <hr />
             <Subsection sectionIdentifier="3.3">
