@@ -40,10 +40,12 @@ const Bidiagnoser = ({ setSchema, schema, validate, diagnosekoder, feil }: Bidia
     const deleteRow = (index: number) => {
         setSchema(state => {
             if (!state.biDiagnoser) {
+                validate('biDiagnoser', undefined);
                 return state;
             }
 
             if (state.biDiagnoser.length === 1) {
+                validate('biDiagnoser', []);
                 return {
                     ...state,
                     biDiagnoser: [],
@@ -66,7 +68,9 @@ const Bidiagnoser = ({ setSchema, schema, validate, diagnosekoder, feil }: Bidia
             const biDiagnoser = state.biDiagnoser;
 
             if (!biDiagnoser) {
-                return { ...state, biDiagnoser: [{ system, kode: '', tekst: '' }] };
+                const biDiagnoser = [{ system, kode: '', tekst: '' }];
+                validate('biDiagnoser', biDiagnoser);
+                return { ...state, biDiagnoser };
             }
 
             const oldBidiagnose = biDiagnoser[index];
@@ -133,7 +137,7 @@ const Bidiagnoser = ({ setSchema, schema, validate, diagnosekoder, feil }: Bidia
                 ) : null}
                 <Knapp form="kompakt" onClick={addRow}>
                     <Plus />
-                    <span>Legg til rad</span>
+                    <span>Legg til bidiagnose</span>
                 </Knapp>
             </>
         );

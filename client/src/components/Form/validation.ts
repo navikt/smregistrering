@@ -83,12 +83,13 @@ export const validationFunctions: ValidationType = {
         if (biDiagnoser?.length) {
             let feilmelding: string | undefined = undefined;
             biDiagnoser.forEach(biDiagnose => {
-                if (!biDiagnose.system) feilmelding = 'System må være definert';
-                if (!biDiagnose.kode) feilmelding = 'Kode må være definert';
+                if (biDiagnose.system && biDiagnose.system !== '') {
+                    if (!biDiagnose.kode || biDiagnose.kode === '') {
+                        feilmelding = 'Kode tilhørende én eller flere bidiagnoser må være definert når system er valg';
+                    }
+                }
             });
-            if (feilmelding) {
-                return feilmelding;
-            }
+            return feilmelding;
         }
         return undefined;
     },
