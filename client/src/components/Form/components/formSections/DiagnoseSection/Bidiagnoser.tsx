@@ -144,6 +144,7 @@ const Bidiagnoser = ({ setSchema, schema, validate, diagnosekoder, feil }: Bidia
             <FormLabel label="3.2 Bidiagnose" />
             {schema.biDiagnoser.map((biDiagnose, index) => (
                 <BidiagnoseRow
+                    key={index}
                     index={index}
                     updateDiagnosesystem={updateDiagnosesystem}
                     updateDiagnosecode={updateDiagnosecode}
