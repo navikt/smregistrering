@@ -39,13 +39,13 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
         <SectionContainer section={section}>
             <Hoveddiagnose
                 setSchema={setSchema}
-                errors={errors}
                 validate={validate}
                 schema={schema}
                 diagnosekoder={diagnosekoder}
+                feil={errors.hovedDiagnose}
             />
 
-            <Bidiagnoser setSchema={setSchema} errors={errors} schema={schema} diagnosekoder={diagnosekoder} />
+            <Bidiagnoser setSchema={setSchema} schema={schema} diagnosekoder={diagnosekoder} />
 
             <hr />
             <Subsection sectionIdentifier="3.3">

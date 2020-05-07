@@ -17,32 +17,32 @@ type BidiagnoseRowProps = {
     updateDiagnosesystem: (index: number, system: string) => void;
     updateDiagnosecode: (index: number, code: string, text: string) => void;
     deleteRow: (index: number) => void;
-    errors: ErrorSchemaType;
     biDiagnose: Diagnose;
     diagnosekoder: Diagnosekoder;
+    feil?: string;
 };
 
 const BidiagnoseRow = ({
     index,
     biDiagnose,
     diagnosekoder,
-    errors,
     updateDiagnosesystem,
     updateDiagnosecode,
     deleteRow,
+    feil,
 }: BidiagnoseRowProps) => {
     const isFirst = index === 0;
     return (
         <>
-            {!isFirst && (
-                <div className="bidiagnoserow-deletebutton">
-                    <Fareknapp form="kompakt" onClick={() => deleteRow(index)}>
-                        <Garbage />
-                        <span className="sr-only">Slett rad</span>
-                    </Fareknapp>
-                </div>
-            )}
-            <div className={!isFirst ? 'bidiagnoserow-additional' : undefined}>
+            <div className={`bidiagnoserow`}>
+                {!isFirst && (
+                    <div className="bidiagnoserow__deletebutton">
+                        <Fareknapp form="kompakt" onClick={() => deleteRow(index)}>
+                            <Garbage />
+                            <span className="sr-only">Slett rad</span>
+                        </Fareknapp>
+                    </div>
+                )}
                 <Row>
                     <Select
                         value={biDiagnose.system}
@@ -50,7 +50,6 @@ const BidiagnoseRow = ({
                             const system = value === 'undefined' ? '' : value;
                             updateDiagnosesystem(index, system);
                         }}
-                        feil={errors.biDiagnoser}
                         label={<Element>3.2.1 Kodesystem</Element>}
                     >
                         <option value="undefined">Velg kodesystem</option>

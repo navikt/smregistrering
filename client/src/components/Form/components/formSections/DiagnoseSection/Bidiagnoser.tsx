@@ -9,7 +9,6 @@ import { ErrorSchemaType, SchemaType } from '../../../Form';
 
 type BidiagnoserProps = {
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
     schema: SchemaType;
     diagnosekoder: Diagnosekoder;
 };
@@ -20,7 +19,7 @@ const emptyBidiagnose = {
     tekst: '',
 };
 
-const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserProps) => {
+const Bidiagnoser = ({ setSchema, schema, diagnosekoder }: BidiagnoserProps) => {
     const addRow = () => {
         setSchema(state => {
             if (!state.biDiagnoser) {
@@ -116,7 +115,6 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
                     updateDiagnosesystem={updateDiagnosesystem}
                     updateDiagnosecode={updateDiagnosecode}
                     deleteRow={deleteRow}
-                    errors={errors}
                     biDiagnose={emptyBidiagnose}
                     diagnosekoder={diagnosekoder}
                 />
@@ -137,12 +135,11 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
                     updateDiagnosesystem={updateDiagnosesystem}
                     updateDiagnosecode={updateDiagnosecode}
                     deleteRow={deleteRow}
-                    errors={errors}
                     biDiagnose={biDiagnose}
                     diagnosekoder={diagnosekoder}
                 />
             ))}
-
+            
             <Knapp form="kompakt" onClick={addRow}>
                 <Plus />
                 <span>Legg til rad</span>

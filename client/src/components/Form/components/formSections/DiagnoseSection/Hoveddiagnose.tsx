@@ -11,13 +11,13 @@ import { Validate } from '../../../validation';
 
 type HoveddiagnoseProps = {
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
     validate: Validate;
     schema: SchemaType;
     diagnosekoder: Diagnosekoder;
+    feil?: string;
 };
 
-const Hoveddiagnose = ({ setSchema, validate, schema, errors, diagnosekoder }: HoveddiagnoseProps) => {
+const Hoveddiagnose = ({ setSchema, validate, schema, diagnosekoder, feil }: HoveddiagnoseProps) => {
     const hoveddiagnose = schema.hovedDiagnose;
     const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
         hoveddiagnose && (hoveddiagnose.system as keyof Diagnosekoder);
@@ -42,7 +42,6 @@ const Hoveddiagnose = ({ setSchema, validate, schema, errors, diagnosekoder }: H
                         validate('hovedDiagnose', updatedDiagnose);
                     }}
                     label={<Element>3.1.1 Kodesystem</Element>}
-                    feil={errors.hovedDiagnose /* TODO: Feilen for kode vises på inputfeltet for Kodesystem */}
                 >
                     <option value="undefined">Velg kodesystem</option>
                     <option value="icpc2">ICPC-2</option>
