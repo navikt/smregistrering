@@ -5,7 +5,7 @@ import BidiagnoseRow from './BidiagnoseRow';
 import FormLabel from '../../formComponents/FormLabel';
 import Plus from '../../../../../svg/Plus';
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
-import { ErrorSchemaType, SchemaType } from '../../../Form';
+import { SchemaType } from '../../../Form';
 import { Validate } from '../../../validation';
 
 type BidiagnoserProps = {

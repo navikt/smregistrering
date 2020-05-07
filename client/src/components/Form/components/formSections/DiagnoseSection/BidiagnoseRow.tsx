@@ -10,7 +10,6 @@ import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
 import { Diagnose } from '../../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
-import { ErrorSchemaType } from '../../../Form';
 
 type BidiagnoseRowProps = {
     index: number;

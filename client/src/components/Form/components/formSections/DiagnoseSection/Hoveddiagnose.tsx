@@ -6,7 +6,7 @@ import FormLabel from '../../formComponents/FormLabel';
 import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
-import { ErrorSchemaType, SchemaType } from '../../../Form';
+import { SchemaType } from '../../../Form';
 import { Validate } from '../../../validation';
 
 type HoveddiagnoseProps = {
