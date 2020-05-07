@@ -1,66 +1,117 @@
 import './SearchableInput.less';
 
-import React, { useEffect, useState } from 'react';
-import { Input } from 'nav-frontend-skjema';
+import React, { CSSProperties, useEffect, useState } from 'react';
+import Select, { MenuListComponentProps, ValueType, createFilter } from 'react-select';
+import { FixedSizeList } from 'react-window';
 
+import { Diagnose } from '../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
 
+type OptionObject = { value: string; label: string; text: string };
+type OptionValueType = ValueType<OptionObject>;
+
+const HEIGHT = 35;
+
+const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentProps<OptionObject>) => {
+    // TODO: Re-write this so it doesn't require ts-ignore
+    // @ts-ignore Works, but TypeScript doesn't like it
+    const [value] = getValue();
+    const initialOffset = options.indexOf(value) * HEIGHT;
+    const childrenOptions = React.Children.toArray(children);
+
+    if (!children) {
+        return null;
+    }
+
+    const listHeight = childrenOptions.length * HEIGHT;
+
+    return (
+        <FixedSizeList
+            width={'100%'}
+            height={listHeight < maxHeight ? listHeight : maxHeight}
+            itemCount={childrenOptions.length}
+            itemSize={HEIGHT}
+            initialScrollOffset={initialOffset}
+        >
+            {({ index, style }) => <div style={style}>{childrenOptions[index]}</div>}
+        </FixedSizeList>
+    );
+};
+
+// Custom styles to mimic the NAV Input style
+const customStyles = {
+    control: (provided: CSSProperties) => ({
+        ...provided,
+        border: '1px solid #78706a',
+        minHeight: '39px',
+    }),
+    indicatorSeparator: (provided: CSSProperties) => ({ ...provided, display: 'none' }),
+    dropdownIndicator: (provided: CSSProperties) => ({ ...provided, color: '#3E3832' }),
+    placeholder: (provided: CSSProperties) => ({
+        ...provided,
+        color: 'black',
+        fontSize: '1rem',
+        lineHeight: '1.375rem',
+        fontFamily: `'Source Sans Pro', Arial, sans-serif`,
+    }),
+};
+
 type SearchableInputProps = {
-    system?: keyof Diagnosekoder;
+    system?: string;
     diagnosekoder: Diagnosekoder;
     label: JSX.Element;
     onChange: (code: string, text: string) => void;
-    value: string | undefined;
+    value?: Diagnose;
 };
 
-const MAXIMUM_VISIBLE_CODES = 5;
-
-const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: SearchableInputProps) => {
-    const [input, setInput] = useState<string | undefined>(undefined);
+const SearchableInput = ({ system, diagnosekoder, label, onChange }: SearchableInputProps) => {
+    // Internal value state, so we don't have to store a ValueState in the form data
+    const [selectValue, setSelectValue] = useState<OptionValueType>(null);
 
     useEffect(() => {
-        setInput(undefined);
+        // Reset selected value on system change
+        setSelectValue(null);
     }, [system]);
 
-    useEffect(() => {
-        setInput(undefined);
-    }, [value]);
+    const handleChange = (selectedOption: OptionValueType | OptionValueType[] | null | void) => {
+        if (!selectedOption) {
+            setSelectValue(null);
+            onChange('', '');
+            return;
+        }
 
-    if (!system) {
-        return <Input value="" disabled label={label} />;
-    }
+        if (selectedOption as OptionValueType) {
+            const singleValue = selectedOption as OptionValueType;
+            if ((singleValue as OptionObject).value) {
+                const { value, text } = singleValue as OptionObject;
+                setSelectValue(singleValue); // Update internal state
+                onChange(value, text); // Update form
+            }
+        }
+    };
 
-    const diagnoses = diagnosekoder[system];
+    const diagnoses = system ? diagnosekoder[system as keyof Diagnosekoder] : [];
+    const diagnoseOptions = diagnoses.map(diagnose => ({
+        value: diagnose.code,
+        label: diagnose.code,
+        text: diagnose.text,
+    }));
 
-    const results = input
-        ? diagnoses.filter(diagnosis => diagnosis.code.toLocaleLowerCase().startsWith(input.toLocaleLowerCase()))
-        : [];
-
-    const visibleResults = results.length > MAXIMUM_VISIBLE_CODES ? results.slice(0, MAXIMUM_VISIBLE_CODES) : results;
-
-    // If "input" is undefined, user has either selected a value or the value is undefined. When the user types,
-    // we switch the displayed value to show the search input.
     return (
-        <div className="search-container">
-            <Input value={input || value} onChange={e => setInput(e.target.value)} label={label} />
-            {input !== undefined && (
-                <div className="search-result-container">
-                    {visibleResults.map(result => (
-                        <div
-                            className="search-result"
-                            onClick={() => onChange(result.code, result.text)}
-                            key={result.code}
-                        >
-                            {result.code}
-                        </div>
-                    ))}
-                    {visibleResults.length < results.length && (
-                        <div className="search-result-more">...og {results.length - MAXIMUM_VISIBLE_CODES} fler.</div>
-                    )}
-                    {visibleResults.length === 0 && <div className="search-result-more">Ingen resultat.</div>}
-                </div>
-            )}
-        </div>
+        <>
+            <div className="searchable-input-label">{label}</div>
+            <Select
+                value={selectValue}
+                styles={customStyles}
+                isDisabled={!system}
+                onChange={handleChange}
+                placeholder={!system ? '-' : 'Velg diagnosekode'}
+                isClearable
+                filterOption={createFilter({ ignoreAccents: false })} // Performance optimization
+                components={{ MenuList }}
+                options={diagnoseOptions}
+            />
+        </>
     );
 };
 
