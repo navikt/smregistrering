@@ -56,12 +56,14 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.avventendeSykmelding}
                     label="Pasienten kan benytte avventende sykmelding"
                     onChange={() => {
-                        validate('avventendeSykmelding', !schema.avventendeSykmelding);
-                        validate('mulighetForArbeid', !schema.avventendeSykmelding);
-                        setSchema(state => ({
-                            ...state,
-                            avventendeSykmelding: !state.avventendeSykmelding,
-                        }));
+                        setSchema(state => {
+                            validate('avventendeSykmelding', !schema.avventendeSykmelding);
+                            validate('mulighetForArbeid', !schema.avventendeSykmelding);
+                            return {
+                                ...state,
+                                avventendeSykmelding: !state.avventendeSykmelding,
+                            };
+                        });
                     }}
                     feil={errors.avventendeSykmelding}
                 />
@@ -103,12 +105,14 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.gradertSykmelding}
                     label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
                     onChange={() => {
-                        validate('gradertSykmelding', !schema.gradertSykmelding);
-                        validate('mulighetForArbeid', !schema.gradertSykmelding);
-                        setSchema(state => ({
-                            ...state,
-                            gradertSykmelding: !state.gradertSykmelding,
-                        }));
+                        setSchema(state => {
+                            validate('gradertSykmelding', !schema.gradertSykmelding);
+                            validate('mulighetForArbeid', !schema.gradertSykmelding);
+                            return {
+                                ...state,
+                                gradertSykmelding: !state.gradertSykmelding,
+                            };
+                        });
                     }}
                     feil={errors.gradertSykmelding}
                 />
@@ -164,12 +168,14 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.aktivitetIkkeMuligSykmelding}
                     label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
                     onChange={() => {
-                        validate('aktivitetIkkeMuligSykmelding', !schema.aktivitetIkkeMuligSykmelding);
-                        validate('mulighetForArbeid', !schema.aktivitetIkkeMuligSykmelding);
-                        setSchema(state => ({
-                            ...state,
-                            aktivitetIkkeMuligSykmelding: !state.aktivitetIkkeMuligSykmelding,
-                        }));
+                        setSchema(state => {
+                            validate('aktivitetIkkeMuligSykmelding', !schema.aktivitetIkkeMuligSykmelding);
+                            validate('mulighetForArbeid', !schema.aktivitetIkkeMuligSykmelding);
+                            return {
+                                ...state,
+                                aktivitetIkkeMuligSykmelding: !state.aktivitetIkkeMuligSykmelding,
+                            };
+                        });
                     }}
                     feil={errors.aktivitetIkkeMuligSykmelding}
                 />
@@ -317,12 +323,14 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.behandlingsdagerSykmelding}
                     label="Pasienten kan ikke være i arbeid på behandlingsdager"
                     onChange={() => {
-                        validate('behandlingsdagerSykmelding', !schema.behandlingsdagerSykmelding);
-                        validate('mulighetForArbeid', !schema.behandlingsdagerSykmelding);
-                        setSchema(state => ({
-                            ...state,
-                            behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
-                        }));
+                        setSchema(state => {
+                            validate('behandlingsdagerSykmelding', !schema.behandlingsdagerSykmelding);
+                            validate('mulighetForArbeid', !schema.behandlingsdagerSykmelding);
+                            return {
+                                ...state,
+                                behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
+                            };
+                        });
                     }}
                     feil={errors.behandlingsdagerSykmelding}
                 />
@@ -365,12 +373,14 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.reisetilskuddSykmelding}
                     label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
                     onChange={() => {
-                        validate('reisetilskuddSykmelding', !schema.reisetilskuddSykmelding);
-                        validate('mulighetForArbeid', !schema.reisetilskuddSykmelding);
-                        setSchema(state => ({
-                            ...state,
-                            reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
-                        }));
+                        setSchema(state => {
+                            validate('reisetilskuddSykmelding', !schema.reisetilskuddSykmelding);
+                            validate('mulighetForArbeid', !schema.reisetilskuddSykmelding);
+                            return {
+                                ...state,
+                                reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
+                            };
+                        });
                     }}
                     feil={errors.reisetilskuddSykmelding}
                 />
