@@ -119,6 +119,20 @@ export const validationFunctions: ValidationType = {
     },
 
     // MulighetForArbeid
+    mulighetForArbeid: (value, schema) => {
+        if (value) {
+            return undefined;
+        } else if (
+            !schema.avventendeSykmelding &&
+            !schema.gradertSykmelding &&
+            !schema.aktivitetIkkeMuligSykmelding &&
+            !schema.behandlingsdagerSykmelding &&
+            !schema.reisetilskuddSykmelding
+        ) {
+            return 'Minimum én periode må være definert';
+        }
+        return undefined;
+    },
     // Perioder for avventende sykmelding
     avventendeSykmelding: () => undefined,
     avventendePeriode: (avventendePeriode, schema) => {

@@ -11,6 +11,8 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type MulighetForArbeid = {
+    // For validering av minimum én periode valgt
+    mulighetForArbeid?: boolean;
     // Perioder for avventende sykmelding
     avventendeSykmelding: boolean;
     avventendePeriode?: Date[];
@@ -55,6 +57,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     label="Pasienten kan benytte avventende sykmelding"
                     onChange={() => {
                         validate('avventendeSykmelding', !schema.avventendeSykmelding);
+                        validate('mulighetForArbeid', !schema.avventendeSykmelding);
                         setSchema(state => ({
                             ...state,
                             avventendeSykmelding: !state.avventendeSykmelding,
@@ -101,6 +104,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
                     onChange={() => {
                         validate('gradertSykmelding', !schema.gradertSykmelding);
+                        validate('mulighetForArbeid', !schema.gradertSykmelding);
                         setSchema(state => ({
                             ...state,
                             gradertSykmelding: !state.gradertSykmelding,
@@ -161,6 +165,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
                     onChange={() => {
                         validate('aktivitetIkkeMuligSykmelding', !schema.aktivitetIkkeMuligSykmelding);
+                        validate('mulighetForArbeid', !schema.aktivitetIkkeMuligSykmelding);
                         setSchema(state => ({
                             ...state,
                             aktivitetIkkeMuligSykmelding: !state.aktivitetIkkeMuligSykmelding,
@@ -313,6 +318,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     label="Pasienten kan ikke være i arbeid på behandlingsdager"
                     onChange={() => {
                         validate('behandlingsdagerSykmelding', !schema.behandlingsdagerSykmelding);
+                        validate('mulighetForArbeid', !schema.behandlingsdagerSykmelding);
                         setSchema(state => ({
                             ...state,
                             behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
@@ -360,6 +366,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
                     onChange={() => {
                         validate('reisetilskuddSykmelding', !schema.reisetilskuddSykmelding);
+                        validate('mulighetForArbeid', !schema.reisetilskuddSykmelding);
                         setSchema(state => ({
                             ...state,
                             reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
@@ -384,6 +391,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     />
                 )}
             </Subsection>
+            {errors.mulighetForArbeid && <p className="typo-feilmelding">{errors.mulighetForArbeid}</p>}
         </SectionContainer>
     );
 };
