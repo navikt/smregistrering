@@ -2,6 +2,7 @@ import React from 'react';
 import { Checkbox, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
+import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { ErrorSchemaType, SchemaType } from '../../Form';
@@ -42,7 +43,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     feil={errors.tilretteleggingArbeidsplassen}
                 />
                 <br />
-                {schema.tilretteleggingArbeidsplassen && (
+                <ExpandableField show={schema.tilretteleggingArbeidsplassen}>
                     <Textarea
                         disabled
                         maxLength={0}
@@ -57,7 +58,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                         label={<Element>Beskriv</Element>}
                         feil={errors.tilretteleggingArbeidsplassBeskriv}
                     />
-                )}
+                </ExpandableField>
             </Subsection>
 
             <Subsection sectionIdentifier="7.2">
@@ -74,7 +75,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     feil={errors.tiltakNav}
                 />
                 <br />
-                {schema.tiltakNav && (
+                <ExpandableField show={schema.tiltakNav}>
                     <Textarea
                         disabled
                         maxLength={0}
@@ -89,7 +90,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                         feil={errors.tiltakNavBeskriv}
                         label={<Element>Beskriv. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)</Element>}
                     />
-                )}
+                </ExpandableField>
             </Subsection>
 
             <Subsection sectionIdentifier="7.3" underline={false}>
@@ -106,7 +107,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     feil={errors.innspillTilNAv}
                 />
                 <br />
-                {schema.innspillTilNAv && (
+                <ExpandableField show={schema.innspillTilNAv}>
                     <Textarea
                         disabled
                         maxLength={0}
@@ -121,7 +122,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                         label={<Element>Beskriv</Element>}
                         feil={errors.innspillTilNavBeskriv}
                     />
-                )}
+                </ExpandableField>
             </Subsection>
         </SectionContainer>
     );

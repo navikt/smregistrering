@@ -2,6 +2,7 @@ import React from 'react';
 import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
+import ExpandableField from '../formComponents/ExpandableField';
 import RangePicker from '../formComponents/RangePicker';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
@@ -68,7 +69,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     feil={errors.avventendeSykmelding}
                 />
                 <br />
-                {schema.avventendeSykmelding && (
+                <ExpandableField show={schema.avventendeSykmelding}>
                     <>
                         <RangePicker
                             labelFrom="4.1.1 f.o.m."
@@ -98,7 +99,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             label={<Element>4.1.3 Innspill til arbeidsgiver om tilrettelegging</Element>}
                         />
                     </>
-                )}
+                </ExpandableField>
             </Subsection>
             <Subsection sectionIdentifier="4.2">
                 <Checkbox
@@ -117,7 +118,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     feil={errors.gradertSykmelding}
                 />
                 <br />
-                {schema.gradertSykmelding && (
+                <ExpandableField show={schema.gradertSykmelding}>
                     <>
                         <RangePicker
                             labelFrom="4.2.1 f.o.m."
@@ -146,8 +147,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             label={<Element>4.2.3 Oppgi grad for sykmelding</Element>}
                         />
                     </>
-                )}
-
+                </ExpandableField>
                 <Element className="form-label">4.2.4</Element>
                 <Checkbox
                     checked={schema.gradertReisetilskudd}
@@ -180,7 +180,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     feil={errors.aktivitetIkkeMuligSykmelding}
                 />
                 <br />
-                {schema.aktivitetIkkeMuligSykmelding && (
+                <ExpandableField show={schema.aktivitetIkkeMuligSykmelding}>
                     <>
                         <RangePicker
                             labelFrom="4.3.1 f.o.m."
@@ -207,7 +207,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             }
                             feil={errors.aktivitetIkkeMuligMedisinskArsak}
                         />
-                        {schema.aktivitetIkkeMuligMedisinskArsak && (
+                        <ExpandableField show={schema.aktivitetIkkeMuligMedisinskArsak}>
                             <>
                                 <Select
                                     onChange={({ target: { value } }) => {
@@ -252,7 +252,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     feil={errors.aktivitetIkkeMuligMedisinskArsakBeskrivelse}
                                 />
                             </>
-                        )}
+                        </ExpandableField>
                         <Element className="form-label">4.3.4</Element>
                         <Checkbox
                             className="form-margin-bottom"
@@ -266,7 +266,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             }
                             feil={errors.aktivitetIkkeMuligArbeidsrelatertArsak}
                         />
-                        {schema.aktivitetIkkeMuligArbeidsrelatertArsak && (
+                        <ExpandableField show={schema.aktivitetIkkeMuligArbeidsrelatertArsak}>
                             <>
                                 <Select
                                     onChange={({ target: { value } }) => {
@@ -313,9 +313,9 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     feil={errors.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse}
                                 />
                             </>
-                        )}
+                        </ExpandableField>
                     </>
-                )}
+                </ExpandableField>
             </Subsection>
 
             <Subsection sectionIdentifier="4.4">
@@ -335,7 +335,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     feil={errors.behandlingsdagerSykmelding}
                 />
                 <br />
-                {schema.behandlingsdagerSykmelding && (
+                <ExpandableField show={schema.behandlingsdagerSykmelding}>
                     <>
                         <RangePicker
                             labelFrom="4.4.1 f.o.m."
@@ -365,7 +365,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
                         />
                     </>
-                )}
+                </ExpandableField>
             </Subsection>
 
             <Subsection sectionIdentifier="4.5" underline={false}>
@@ -385,7 +385,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     feil={errors.reisetilskuddSykmelding}
                 />
                 <br />
-                {schema.reisetilskuddSykmelding && (
+                <ExpandableField show={schema.reisetilskuddSykmelding}>
                     <RangePicker
                         labelFrom="4.5.1 f.o.m."
                         labelTo="4.5.2 t.o.m."
@@ -399,7 +399,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         }}
                         feil={errors.reisetilskuddPeriode}
                     />
-                )}
+                </ExpandableField>
             </Subsection>
             {errors.mulighetForArbeid && <p className="typo-feilmelding">{errors.mulighetForArbeid}</p>}
         </SectionContainer>

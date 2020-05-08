@@ -11,7 +11,7 @@ const Garbage = () => (
         width="24px"
         height="24px"
         viewBox="0 0 24 24"
-        enable-background="new 0 0 24 24"
+        enableBackground="new 0 0 24 24"
         xmlSpace="preserve"
     >
         <g>
