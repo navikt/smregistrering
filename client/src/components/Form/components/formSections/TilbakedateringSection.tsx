@@ -3,6 +3,7 @@ import { Checkbox, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
 import DatePicker from '../formComponents/DatePicker';
+import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { ErrorSchemaType, SchemaType } from '../../Form';
@@ -41,7 +42,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                     feil={errors.erTilbakedatert}
                 />
                 <br />
-                {schema.erTilbakedatert && (
+                <ExpandableField show={schema.erTilbakedatert}>
                     <DatePicker
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
                         value={schema.kontaktDato}
@@ -52,7 +53,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                             }))
                         }
                     />
-                )}
+                </ExpandableField>
             </Subsection>
 
             <Subsection sectionIdentifier="11.2" underline={false}>
@@ -70,7 +71,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                     feil={errors.kunneIkkeIvaretaEgneInteresser}
                 />
                 <br />
-                {schema.kunneIkkeIvaretaEgneInteresser && (
+                <ExpandableField show={schema.kunneIkkeIvaretaEgneInteresser}>
                     <Textarea
                         disabled
                         maxLength={0}
@@ -85,7 +86,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                         feil={errors.begrunnelseIkkeKontakt}
                         label={<Element>Begrunn</Element>}
                     />
-                )}
+                </ExpandableField>
             </Subsection>
         </SectionContainer>
     );

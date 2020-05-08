@@ -2,6 +2,7 @@ import React from 'react';
 import { Checkbox, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
+import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { ErrorSchemaType, SchemaType } from '../../Form';
@@ -38,7 +39,7 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                     feil={errors.meldingTilNavBistand}
                 />
                 <br />
-                {schema.meldingTilNavBistand && (
+                <ExpandableField show={schema.meldingTilNavBistand}>
                     <Textarea
                         disabled
                         maxLength={0}
@@ -53,7 +54,7 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                         feil={errors.meldingTilNavBegrunn}
                         label={<Element>Begrunn nærmere</Element>}
                     />
-                )}
+                </ExpandableField>
             </Subsection>
         </SectionContainer>
     );

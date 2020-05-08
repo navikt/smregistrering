@@ -4,6 +4,7 @@ import { Element } from 'nav-frontend-typografi';
 
 import Bidiagnoser from './Bidiagnoser';
 import DatePicker from '../../formComponents/DatePicker';
+import ExpandableField from '../../formComponents/ExpandableField';
 import Hoveddiagnose from './Hoveddiagnose';
 import SectionContainer from '../../SectionContainer';
 import Subsection from '../../formComponents/Subsection';
@@ -67,7 +68,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     feil={errors.annenFraversArsak}
                 />
                 <br />
-                {schema.annenFraversArsak && (
+                <ExpandableField show={schema.annenFraversArsak}>
                     <>
                         <Select
                             onChange={({ target: { value } }) => {
@@ -112,7 +113,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             feil={errors.annenFraversArsakBeskrivelse}
                         />
                     </>
-                )}
+                </ExpandableField>
             </Subsection>
 
             <Subsection sectionIdentifier="3.4">
@@ -142,7 +143,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     feil={errors.yrkesskade}
                 />
                 <br />
-                {schema.yrkesskade && (
+                <ExpandableField show={schema.yrkesskade}>
                     <DatePicker
                         label="3.6 Eventuell skadedato"
                         value={schema.yrkesskadeDato}
@@ -153,7 +154,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             }))
                         }
                     />
-                )}
+                </ExpandableField>
             </Subsection>
 
             <Subsection sectionIdentifier="3.7" underline={false}>
