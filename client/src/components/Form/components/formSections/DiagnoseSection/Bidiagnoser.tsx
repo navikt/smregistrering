@@ -5,13 +5,15 @@ import BidiagnoseRow from './BidiagnoseRow';
 import FormLabel from '../../formComponents/FormLabel';
 import Plus from '../../../../../svg/Plus';
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
-import { ErrorSchemaType, SchemaType } from '../../../Form';
+import { SchemaType } from '../../../Form';
+import { Validate } from '../../../validation';
 
 type BidiagnoserProps = {
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
     schema: SchemaType;
+    validate: Validate;
     diagnosekoder: Diagnosekoder;
+    feil?: string;
 };
 
 const emptyBidiagnose = {
@@ -20,7 +22,7 @@ const emptyBidiagnose = {
     tekst: '',
 };
 
-const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserProps) => {
+const Bidiagnoser = ({ setSchema, schema, validate, diagnosekoder, feil }: BidiagnoserProps) => {
     const addRow = () => {
         setSchema(state => {
             if (!state.biDiagnoser) {
@@ -38,10 +40,12 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
     const deleteRow = (index: number) => {
         setSchema(state => {
             if (!state.biDiagnoser) {
+                validate('biDiagnoser', undefined);
                 return state;
             }
 
             if (state.biDiagnoser.length === 1) {
+                validate('biDiagnoser', []);
                 return {
                     ...state,
                     biDiagnoser: [],
@@ -51,6 +55,7 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
             const bidiagnoser = state.biDiagnoser;
             const withoutIndex = [...bidiagnoser.slice(0, index), ...bidiagnoser.slice(index + 1)];
 
+            validate('biDiagnoser', withoutIndex);
             return {
                 ...state,
                 biDiagnoser: withoutIndex,
@@ -63,7 +68,9 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
             const biDiagnoser = state.biDiagnoser;
 
             if (!biDiagnoser) {
-                return { ...state, biDiagnoser: [{ system, kode: '', tekst: '' }] };
+                const biDiagnoser = [{ system, kode: '', tekst: '' }];
+                validate('biDiagnoser', biDiagnoser);
+                return { ...state, biDiagnoser };
             }
 
             const oldBidiagnose = biDiagnoser[index];
@@ -77,7 +84,7 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
                 { system, kode: '', tekst: '' },
                 ...biDiagnoser.slice(index + 1),
             ];
-
+            validate('biDiagnoser', updatedBidiagnoser);
             return { ...state, biDiagnoser: updatedBidiagnoser };
         });
     };
@@ -103,6 +110,7 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
                 updatedBidiagnose,
                 ...biDiagnoser.slice(index + 1),
             ];
+            validate('biDiagnoser', updatedBidiagnoser);
             return { ...state, biDiagnoser: updatedBidiagnoser };
         });
     };
@@ -116,13 +124,20 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
                     updateDiagnosesystem={updateDiagnosesystem}
                     updateDiagnosecode={updateDiagnosecode}
                     deleteRow={deleteRow}
-                    errors={errors}
                     biDiagnose={emptyBidiagnose}
                     diagnosekoder={diagnosekoder}
                 />
+                {feil ? (
+                    <p
+                        style={{ position: 'relative', top: '-0.5rem', marginBottom: '1rem' }}
+                        className="typo-feilmelding"
+                    >
+                        {feil}
+                    </p>
+                ) : null}
                 <Knapp form="kompakt" onClick={addRow}>
                     <Plus />
-                    <span>Legg til rad</span>
+                    <span>Legg til bidiagnose</span>
                 </Knapp>
             </>
         );
@@ -133,19 +148,23 @@ const Bidiagnoser = ({ setSchema, schema, errors, diagnosekoder }: BidiagnoserPr
             <FormLabel label="3.2 Bidiagnose" />
             {schema.biDiagnoser.map((biDiagnose, index) => (
                 <BidiagnoseRow
+                    key={index}
                     index={index}
                     updateDiagnosesystem={updateDiagnosesystem}
                     updateDiagnosecode={updateDiagnosecode}
                     deleteRow={deleteRow}
-                    errors={errors}
                     biDiagnose={biDiagnose}
                     diagnosekoder={diagnosekoder}
                 />
             ))}
-
+            {feil ? (
+                <p style={{ position: 'relative', top: '-0.5rem', marginBottom: '1rem' }} className="typo-feilmelding">
+                    {feil}
+                </p>
+            ) : null}
             <Knapp form="kompakt" onClick={addRow}>
                 <Plus />
-                <span>Legg til rad</span>
+                <span>Legg til bidignose</span>
             </Knapp>
         </>
     );
