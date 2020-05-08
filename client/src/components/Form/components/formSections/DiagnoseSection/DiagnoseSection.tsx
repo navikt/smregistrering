@@ -1,28 +1,21 @@
 import React from 'react';
 import { Checkbox, Input, Select } from 'nav-frontend-skjema';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 
-import DatePicker from '../formComponents/DatePicker';
-import ExpandableField from '../formComponents/ExpandableField';
-import FormLabel from '../formComponents/FormLabel';
-import Row from '../formComponents/Row';
-import SearchableInput from '../formComponents/SearchableInput';
-import SectionContainer from '../SectionContainer';
-import Subsection from '../formComponents/Subsection';
-import { AnnenFraverGrunn } from '../../../../types/RegistrertSykmelding';
-import { Diagnosekoder } from '../../../../types/Diagnosekode';
-import { ErrorSchemaType, SchemaType } from '../../Form';
-import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
-
-export type Diagnose = {
-    system?: string;
-    kode?: string;
-    tekst?: string;
-};
+import Bidiagnoser from './Bidiagnoser';
+import DatePicker from '../../formComponents/DatePicker';
+import ExpandableField from '../../formComponents/ExpandableField';
+import Hoveddiagnose from './Hoveddiagnose';
+import SectionContainer from '../../SectionContainer';
+import Subsection from '../../formComponents/Subsection';
+import { AnnenFraverGrunn, Diagnose } from '../../../../../types/RegistrertSykmelding';
+import { Diagnosekoder } from '../../../../../types/Diagnosekode';
+import { ErrorSchemaType, SchemaType } from '../../../Form';
+import { Section } from '../../../../../types/Section';
+import { Validate } from '../../../validation';
 
 export type MedisinskVurdering = {
-    hovedDiagnose?: Diagnose;
+    hovedDiagnose?: Partial<Diagnose>;
     biDiagnoser?: Diagnose[];
     yrkesskade: boolean;
     yrkesskadeDato?: Date;
@@ -43,114 +36,24 @@ type DiagnoseSectionProps = {
 };
 
 const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnosekoder }: DiagnoseSectionProps) => {
-    const hoveddiagnose = schema.hovedDiagnose;
-    const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
-        hoveddiagnose && (hoveddiagnose.system as keyof Diagnosekoder);
-
-    const bidiagnoser = schema.biDiagnoser;
-    const bidiagnose = bidiagnoser && bidiagnoser.length === 1 ? bidiagnoser[0] : undefined;
-    const bidiagnoseSystem: keyof Diagnosekoder | undefined = bidiagnose && (bidiagnose.system as keyof Diagnosekoder);
-
     return (
         <SectionContainer section={section}>
-            <FormLabel label="3.1 Hoveddiagnose" />
-            <Row>
-                <Select
-                    className="form-margin-bottom"
-                    onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            hovedDiagnose: {
-                                system: value,
-                                kode: '',
-                                tekst: '',
-                            },
-                        }));
-                        validate('hovedDiagnose', value);
-                    }}
-                    label={<Element>3.1.1 Kodesystem</Element>}
-                    feil={errors.hovedDiagnose}
-                >
-                    <option value={undefined}>Velg kodesystem</option>
-                    <option value="icpc2">ICPC-2</option>
-                    <option value="icd10">ICD-10</option>
-                </Select>
-                <SearchableInput
-                    value={hoveddiagnose && hoveddiagnose.kode}
-                    system={hoveddiagnoseSystem}
-                    diagnosekoder={diagnosekoder}
-                    label={<Element>3.1.2 Kode</Element>}
-                    onChange={(kode: string, tekst: string) => {
-                        setSchema(state => ({
-                            ...state,
-                            hovedDiagnose: {
-                                ...state.hovedDiagnose,
-                                kode,
-                                tekst,
-                            },
-                        }));
-                        validate('hovedDiagnose', {
-                            system: hoveddiagnoseSystem,
-                            kode,
-                            tekst,
-                        });
-                    }}
-                />
-                <div>
-                    <Element>3.1.3 Tekst</Element>
-                    <Normaltekst style={{ marginTop: '8px' }}>
-                        {hoveddiagnose && hoveddiagnose.tekst ? hoveddiagnose.tekst : '-'}
-                    </Normaltekst>
-                </div>
-            </Row>
-            <FormLabel label="3.2 Bidiagnose" />
-            <Row>
-                <Select
-                    className="form-margin-bottom"
-                    onChange={({ target: { value } }) =>
-                        setSchema(state => ({
-                            ...state,
-                            biDiagnoser: [
-                                {
-                                    system: value,
-                                    kode: '',
-                                    tekst: '',
-                                },
-                            ],
-                        }))
-                    }
-                    feil={errors.biDiagnoser}
-                    label={<Element>3.2.1 Kodesystem</Element>}
-                >
-                    <option value={undefined}>Velg kodesystem</option>
-                    <option value="icpc2">ICPC-2</option>
-                    <option value="icd10">ICD-10</option>
-                </Select>
-                <SearchableInput
-                    value={bidiagnose && bidiagnose.kode}
-                    system={bidiagnoseSystem}
-                    diagnosekoder={diagnosekoder}
-                    label={<Element>3.2.2 Kode</Element>}
-                    onChange={(code: string, text: string) =>
-                        setSchema(state => ({
-                            ...state,
-                            biDiagnoser: [
-                                {
-                                    system: bidiagnoseSystem,
-                                    kode: code,
-                                    tekst: text,
-                                },
-                            ],
-                        }))
-                    }
-                />
-                <div>
-                    <Element>3.2.3 Tekst</Element>
-                    <Normaltekst style={{ marginTop: '8px' }}>
-                        {bidiagnose && bidiagnose.tekst ? bidiagnose.tekst : '-'}
-                    </Normaltekst>
-                </div>
-            </Row>
+            <Hoveddiagnose
+                setSchema={setSchema}
+                validate={validate}
+                schema={schema}
+                diagnosekoder={diagnosekoder}
+                feil={errors.hovedDiagnose}
+            />
+
+            <Bidiagnoser
+                setSchema={setSchema}
+                schema={schema}
+                validate={validate}
+                diagnosekoder={diagnosekoder}
+                feil={errors.biDiagnoser}
+            />
+
             <hr />
             <Subsection sectionIdentifier="3.3">
                 <Checkbox

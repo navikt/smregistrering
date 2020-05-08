@@ -9,7 +9,7 @@ import Panel from '../Panel/Panel';
 import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/ArbeidsevneSection';
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BekreftelseSection, { Bekreftelse } from './components/formSections/BekreftelseSection';
-import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection';
+import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection/DiagnoseSection';
 import FormErrorSummary, { hasFormErrors } from './FormErrorSummary';
 import FriskmeldingSection, { Friskmelding } from './components/formSections/FriskmeldingSection';
 import MeldingTilArbeidsgiverSection, {

@@ -13,6 +13,8 @@
         "@types/react": "^16.9.23",
         "@types/react-dom": "^16.9.5",
         "@types/react-flatpickr": "^3.8.1",
+        "@types/react-select": "^3.0.11",
+        "@types/react-window": "^1.8.2",
         "classnames": "^2.2.6",
         "craco-less": "^1.16.0",
         "dayjs": "^1.8.22",
@@ -50,6 +52,8 @@
         "react-flatpickr": "^3.10.0",
         "react-modal": "^3.11.2",
         "react-scripts": "3.4.0",
+        "react-select": "^3.1.0",
+        "react-window": "^1.8.5",
         "typescript": "^3.8.3"
     },
     "devDependencies": {

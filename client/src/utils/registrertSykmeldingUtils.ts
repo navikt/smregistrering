@@ -1,6 +1,7 @@
 import {
     ArbeidsrelatertArsak,
     ArbeidsrelatertArsakType,
+    Diagnose,
     MedisinskArsak,
     MedisinskArsakType,
     Periode,
@@ -170,6 +171,26 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
     return perioder;
 };
 
+const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefined => {
+    if (diagnose && diagnose.kode && diagnose.system && diagnose.tekst) {
+        // Can not return diagnose parameter. Typescript does not understand that all properties exist
+        return {
+            system: diagnose.system,
+            kode: diagnose.kode,
+            tekst: diagnose.tekst,
+        };
+    }
+};
+
+const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] | undefined[] => {
+    if (diagnoser) {
+        return diagnoser
+            .map(partialDiagnose => buildDiagnose(partialDiagnose))
+            .filter((diagnoseOrUndefined): diagnoseOrUndefined is Diagnose => diagnoseOrUndefined !== undefined);
+    }
+    return [];
+};
+
 export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): RegistrertSykmelding | undefined => {
     // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
@@ -179,8 +200,9 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
         schema.skjermesForPasient === undefined ||
         schema.syketilfelleStartDato === undefined ||
         schema.behandletDato === undefined
-    )
+    ) {
         return undefined;
+    }
 
     const registrertSykmelding: RegistrertSykmelding = {
         pasientFnr: schema.pasientFnr,
@@ -189,7 +211,8 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
         medisinskVurdering: {
             svangerskap: schema.svangerskap,
             yrkesskade: schema.yrkesskade,
-            biDiagnoser: [],
+            hovedDiagnose: buildDiagnose(schema.hovedDiagnose),
+            biDiagnoser: buildDiagnoser(schema.biDiagnoser),
         },
         syketilfelleStartDato: schema.syketilfelleStartDato,
         arbeidsgiver: {

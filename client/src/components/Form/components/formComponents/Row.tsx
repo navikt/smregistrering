@@ -3,7 +3,7 @@ import './Rows.less';
 import React from 'react';
 
 type RowElementProps = {
-    children: JSX.Element;
+    children: React.ReactNode;
 };
 
 const RowElement = ({ children }: RowElementProps) => {
@@ -11,7 +11,7 @@ const RowElement = ({ children }: RowElementProps) => {
 };
 
 type RowProps = {
-    children: JSX.Element[];
+    children: React.ReactNode[];
 };
 
 const Row = ({ children }: RowProps) => {
