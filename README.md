@@ -1,2 +1,2 @@
 # smregistrering
-Manuell registrering av sykmeldinger.
+Manuell registrering av papirsykmeldinger.
