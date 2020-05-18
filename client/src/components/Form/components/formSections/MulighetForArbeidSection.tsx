@@ -51,7 +51,7 @@ type MulighetForArbeidSectionProps = {
 
 const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate }: MulighetForArbeidSectionProps) => {
     return (
-        <SectionContainer section={section}>
+        <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
             <Subsection sectionIdentifier="4.1">
                 <Checkbox
                     checked={schema.avventendeSykmelding}
@@ -401,7 +401,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     />
                 </ExpandableField>
             </Subsection>
-            {errors.mulighetForArbeid && <p className="typo-feilmelding">{errors.mulighetForArbeid}</p>}
         </SectionContainer>
     );
 };

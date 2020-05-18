@@ -8,23 +8,9 @@ import { Section } from '../../../types/Section';
 
 type SectionHeaderProps = {
     section: Section;
-    expanded?: boolean;
-    setExpanded?: () => void;
 };
 
-const SectionHeader = ({ section, expanded, setExpanded }: SectionHeaderProps) => {
-    if (setExpanded) {
-        return (
-            <div onClick={setExpanded} ref={section.ref} className="section-header expandable">
-                <Undertittel className="section-header-title">
-                    {section.index} {section.title}
-                </Undertittel>
-                <div>
-                    <NavFrontendChevron type={expanded ? 'ned' : 'opp'} />
-                </div>
-            </div>
-        );
-    }
+const SectionHeader = ({ section }: SectionHeaderProps) => {
     return (
         <div ref={section.ref} className="section-header">
             <Undertittel className="section-header-title">
