@@ -1,6 +1,5 @@
 import './SectionHeader.less';
 
-import NavFrontendChevron from 'nav-frontend-chevron';
 import React from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 
