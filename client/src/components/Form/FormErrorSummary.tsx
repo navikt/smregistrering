@@ -1,3 +1,5 @@
+import './FormErrorSummary.less';
+
 import React, { RefObject } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -18,7 +20,7 @@ const FormErrorSummary = ({ formErrors, errorSummaryRef }: FormErrorSummaryProps
         .map(([key, value]) => <li key={key}>{value}</li>);
 
     return (
-        <div style={{ marginTop: '2rem' }} ref={errorSummaryRef}>
+        <div className="form-error-summary" ref={errorSummaryRef}>
             {hasFormErrors(formErrors) && (
                 <AlertStripeFeil>
                     <Normaltekst>Det finnes feil i skjemaet som må rettes opp.</Normaltekst>
