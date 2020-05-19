@@ -127,7 +127,7 @@ export const validationFunctions: ValidationType = {
             !schema.behandlingsdagerSykmelding &&
             !schema.reisetilskuddSykmelding
         ) {
-            return 'Minimum én periode må være definert';
+            return 'Minimum én sykmeldingsperiode må være definert';
         }
         return undefined;
     },
