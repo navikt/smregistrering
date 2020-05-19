@@ -58,8 +58,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     label="Pasienten kan benytte avventende sykmelding"
                     onChange={() => {
                         setSchema(state => {
-                            validate('avventendeSykmelding', !schema.avventendeSykmelding);
-                            validate('mulighetForArbeid', !schema.avventendeSykmelding);
+                            validate('avventendeSykmelding', !state.avventendeSykmelding);
+                            validate('mulighetForArbeid', !state.avventendeSykmelding);
                             return {
                                 ...state,
                                 avventendeSykmelding: !state.avventendeSykmelding,
@@ -107,8 +107,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
                     onChange={() => {
                         setSchema(state => {
-                            validate('gradertSykmelding', !schema.gradertSykmelding);
-                            validate('mulighetForArbeid', !schema.gradertSykmelding);
+                            validate('gradertSykmelding', !state.gradertSykmelding);
+                            validate('mulighetForArbeid', !state.gradertSykmelding);
                             return {
                                 ...state,
                                 gradertSykmelding: !state.gradertSykmelding,
@@ -169,8 +169,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
                     onChange={() => {
                         setSchema(state => {
-                            validate('aktivitetIkkeMuligSykmelding', !schema.aktivitetIkkeMuligSykmelding);
-                            validate('mulighetForArbeid', !schema.aktivitetIkkeMuligSykmelding);
+                            validate('aktivitetIkkeMuligSykmelding', !state.aktivitetIkkeMuligSykmelding);
+                            validate('mulighetForArbeid', !state.aktivitetIkkeMuligSykmelding);
                             return {
                                 ...state,
                                 aktivitetIkkeMuligSykmelding: !state.aktivitetIkkeMuligSykmelding,
@@ -324,8 +324,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     label="Pasienten kan ikke være i arbeid på behandlingsdager"
                     onChange={() => {
                         setSchema(state => {
-                            validate('behandlingsdagerSykmelding', !schema.behandlingsdagerSykmelding);
-                            validate('mulighetForArbeid', !schema.behandlingsdagerSykmelding);
+                            validate('behandlingsdagerSykmelding', !state.behandlingsdagerSykmelding);
+                            validate('mulighetForArbeid', !state.behandlingsdagerSykmelding);
                             return {
                                 ...state,
                                 behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
@@ -374,8 +374,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
                     onChange={() => {
                         setSchema(state => {
-                            validate('reisetilskuddSykmelding', !schema.reisetilskuddSykmelding);
-                            validate('mulighetForArbeid', !schema.reisetilskuddSykmelding);
+                            validate('reisetilskuddSykmelding', !state.reisetilskuddSykmelding);
+                            validate('mulighetForArbeid', !state.reisetilskuddSykmelding);
                             return {
                                 ...state,
                                 reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
