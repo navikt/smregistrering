@@ -8,16 +8,16 @@ import { Section } from '../../../types/Section';
 type SectionProps = {
     children: React.ReactNode | React.ReactChild | React.ReactChildren;
     section: Section;
-    expanded?: boolean;
-    setExpanded?: () => void;
+    sectionError?: string;
 };
 
-const SectionContainer = ({ children, section, expanded = true, setExpanded }: SectionProps) => {
+const SectionContainer = ({ children, section, sectionError }: SectionProps) => {
     return (
-        <>
-            <SectionHeader section={section} expanded={expanded} setExpanded={setExpanded} />
-            {expanded && <div className="section-content">{children}</div>}
-        </>
+        <section>
+            <SectionHeader section={section} />
+            <div className={`section-content ${sectionError ? 'section-content--feil' : ''}`}>{children}</div>
+            {sectionError && <p className="section-error typo-feilmelding">{sectionError}</p>}
+        </section>
     );
 };
 

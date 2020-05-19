@@ -10,7 +10,7 @@ import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/Arbei
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BekreftelseSection, { Bekreftelse } from './components/formSections/BekreftelseSection';
 import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection/DiagnoseSection';
-import FormErrorSummary, { hasFormErrors } from './FormErrorSummary';
+import FormErrorSummary, { hasFormErrors } from './components/FormErrorSummary';
 import FriskmeldingSection, { Friskmelding } from './components/formSections/FriskmeldingSection';
 import MeldingTilArbeidsgiverSection, {
     MeldingTilArbeidsgiver,
