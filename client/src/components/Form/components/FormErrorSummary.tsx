@@ -4,7 +4,7 @@ import React, { RefObject } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import { ErrorSchemaType } from './Form';
+import { ErrorSchemaType } from '../Form';
 
 export const hasFormErrors = (formErrors: ErrorSchemaType): boolean =>
     Object.values(formErrors).some(errorValue => errorValue);
