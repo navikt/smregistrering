@@ -9,6 +9,7 @@ import calendar from '../../../../svg/calendar.svg';
 import { flatpickrLocale } from './flatpickrUtils';
 
 type RangePickerProps = {
+    id?: string;
     labelFrom: string;
     labelTo: string;
     value: Date[];
@@ -16,7 +17,7 @@ type RangePickerProps = {
     feil?: string;
 };
 
-const RangePicker = ({ labelFrom, labelTo, value, onChange, feil }: RangePickerProps) => {
+const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePickerProps) => {
     return (
         <div className="rangepicker-container">
             <div className="rangepicker-label">
@@ -25,6 +26,7 @@ const RangePicker = ({ labelFrom, labelTo, value, onChange, feil }: RangePickerP
             </div>
             <div className="flatpickr-container">
                 <Flatpickr
+                    id={id}
                     value={value}
                     className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
                     placeholder="DD.MM.ÅÅÅÅ - DD.MM.ÅÅÅÅ"

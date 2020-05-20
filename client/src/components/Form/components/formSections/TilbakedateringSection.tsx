@@ -30,6 +30,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="11.1" underline={false}>
                 <Checkbox
+                    id="erTilbakedatert"
                     disabled
                     checked={schema.erTilbakedatert}
                     label="Er sykmelding tilbakedatert?"
@@ -44,6 +45,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                 <br />
                 <ExpandableField show={schema.erTilbakedatert}>
                     <DatePicker
+                        id="kontaktDato"
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
                         value={schema.kontaktDato}
                         onChange={newDate =>
@@ -58,6 +60,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
 
             <Subsection sectionIdentifier="11.2" underline={false}>
                 <Checkbox
+                    id="kunneIkkeIvaretaEgneInteresser"
                     disabled
                     checked={schema.kunneIkkeIvaretaEgneInteresser}
                     label="Pasienten har ikke kunnet ivareta egne interesser"
@@ -73,6 +76,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                 <br />
                 <ExpandableField show={schema.kunneIkkeIvaretaEgneInteresser}>
                     <Textarea
+                        id="begrunnelseIkkeKontakt"
                         disabled
                         maxLength={0}
                         value={schema.begrunnelseIkkeKontakt || ''}

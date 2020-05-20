@@ -9,13 +9,14 @@ import calendar from '../../../../svg/calendar.svg';
 import { flatpickrLocale } from './flatpickrUtils';
 
 type DatePickerProps = {
+    id?: string;
     label: string;
     value: Date | undefined;
     onChange: (newDate: Date) => void;
     feil?: string;
 };
 
-const DatePicker = ({ label, value, onChange, feil }: DatePickerProps) => {
+const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
     return (
         <div className="datepicker-container">
             <div className="datepicker-label">
@@ -23,6 +24,7 @@ const DatePicker = ({ label, value, onChange, feil }: DatePickerProps) => {
             </div>
             <div className={`flatpickr-container`}>
                 <Flatpickr
+                    id={id}
                     value={value}
                     className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
                     placeholder="DD.MM.ÅÅÅÅ"

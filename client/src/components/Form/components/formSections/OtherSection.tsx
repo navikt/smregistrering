@@ -23,6 +23,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
     return (
         <div className="form-margin-bottom section-content">
             <Input
+                id="pasientFnr"
                 className="form-margin-bottom half"
                 defaultValue={schema.pasientFnr}
                 onChange={({ target: { value } }) => {
@@ -36,6 +37,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                 feil={errors.pasientFnr}
             />
             <DatePicker
+                id="syketilfelleStartDato"
                 label="Startdato for legemeldt fravær"
                 value={schema.syketilfelleStartDato}
                 onChange={newDates => {
@@ -45,6 +47,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                 feil={errors.syketilfelleStartDato}
             />
             <DatePicker
+                id="behandletDato"
                 label="Behandletdato"
                 value={schema.behandletDato}
                 onChange={newDates => {

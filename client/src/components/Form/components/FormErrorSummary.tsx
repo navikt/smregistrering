@@ -1,8 +1,7 @@
 import './FormErrorSummary.less';
 
 import React, { RefObject } from 'react';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Feiloppsummering, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import { ErrorSchemaType } from '../Form';
 
@@ -15,17 +14,15 @@ type FormErrorSummaryProps = {
 };
 
 const FormErrorSummary = ({ formErrors, errorSummaryRef }: FormErrorSummaryProps) => {
-    const errorItems = Object.entries(formErrors)
+    // TODO: sette opp custom type guard for å unngå "as"
+    const feil: FeiloppsummeringFeil[] = Object.entries(formErrors)
         .filter(([_key, value]) => !!value)
-        .map(([key, value]) => <li key={key}>{value}</li>);
+        .map(([key, value]) => ({ skjemaelementId: key, feilmelding: value })) as FeiloppsummeringFeil[];
 
     return (
         <div className="form-error-summary" ref={errorSummaryRef}>
             {hasFormErrors(formErrors) && (
-                <AlertStripeFeil>
-                    <Normaltekst>Det finnes feil i skjemaet som må rettes opp.</Normaltekst>
-                    <ul>{errorItems}</ul>
-                </AlertStripeFeil>
+                <Feiloppsummering tittel="For å gå videre må du rette opp følgende:" feil={feil} />
             )}
         </div>
     );

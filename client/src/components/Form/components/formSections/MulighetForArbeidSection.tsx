@@ -51,9 +51,10 @@ type MulighetForArbeidSectionProps = {
 
 const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate }: MulighetForArbeidSectionProps) => {
     return (
-        <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
+        <SectionContainer id="mulighetForArbeid" section={section} sectionError={errors.mulighetForArbeid}>
             <Subsection sectionIdentifier="4.1">
                 <Checkbox
+                    id="avventendeSykmelding"
                     checked={schema.avventendeSykmelding}
                     label="Pasienten kan benytte avventende sykmelding"
                     onChange={() => {
@@ -72,6 +73,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 <ExpandableField show={schema.avventendeSykmelding}>
                     <>
                         <RangePicker
+                            id="avventendePeriode"
                             labelFrom="4.1.1 f.o.m."
                             labelTo="4.1.2 t.o.m."
                             value={schema.avventendePeriode || []}
@@ -86,6 +88,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             feil={errors.avventendePeriode}
                         />
                         <Textarea
+                            id="avventendeInnspillTilArbeidsgiver"
                             maxLength={0}
                             value={schema.avventendeInnspillTilArbeidsgiver || ''}
                             onChange={({ target: { value } }) => {
@@ -103,6 +106,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
             </Subsection>
             <Subsection sectionIdentifier="4.2">
                 <Checkbox
+                    id="gradertSykmelding"
                     checked={schema.gradertSykmelding}
                     label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
                     onChange={() => {
@@ -121,6 +125,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 <ExpandableField show={schema.gradertSykmelding}>
                     <>
                         <RangePicker
+                            id="gradertPeriode"
                             labelFrom="4.2.1 f.o.m."
                             labelTo="4.2.2 t.o.m."
                             value={schema.gradertPeriode || []}
@@ -133,6 +138,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             feil={errors.gradertPeriode}
                         />
                         <Input
+                            id="gradertGrad"
                             className="form-margin-bottom half"
                             type="number"
                             value={schema.gradertGrad}
@@ -150,6 +156,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 </ExpandableField>
                 <Element className="form-label">4.2.4</Element>
                 <Checkbox
+                    id="gradertReisetilskudd"
                     checked={schema.gradertReisetilskudd}
                     label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
                     onChange={() => {
@@ -165,6 +172,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
 
             <Subsection sectionIdentifier="4.3">
                 <Checkbox
+                    id="aktivitetIkkeMuligSykmelding"
                     checked={schema.aktivitetIkkeMuligSykmelding}
                     label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
                     onChange={() => {
@@ -183,6 +191,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 <ExpandableField show={schema.aktivitetIkkeMuligSykmelding}>
                     <>
                         <RangePicker
+                            id="aktivitetIkkeMuligPeriode"
                             labelFrom="4.3.1 f.o.m."
                             labelTo="4.3.2 t.o.m."
                             value={schema.aktivitetIkkeMuligPeriode || []}
@@ -196,6 +205,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         />
                         <Element className="form-label">4.3.3</Element>
                         <Checkbox
+                            id="aktivitetIkkeMuligMedisinskArsak"
                             className="form-margin-bottom"
                             checked={schema.aktivitetIkkeMuligMedisinskArsak}
                             label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
@@ -210,6 +220,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         <ExpandableField show={schema.aktivitetIkkeMuligMedisinskArsak}>
                             <>
                                 <Select
+                                    id="aktivitetIkkeMuligMedisinskArsakType"
                                     onChange={({ target: { value } }) => {
                                         if (value === '0') {
                                             setSchema(state => ({
@@ -239,6 +250,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     })}
                                 </Select>
                                 <Input
+                                    id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
                                     className="form-margin-bottom"
                                     type="text"
                                     onChange={({ target: { value } }) => {
@@ -255,6 +267,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         </ExpandableField>
                         <Element className="form-label">4.3.4</Element>
                         <Checkbox
+                            id="aktivitetIkkeMuligArbeidsrelatertArsak"
                             className="form-margin-bottom"
                             checked={schema.aktivitetIkkeMuligArbeidsrelatertArsak}
                             label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
@@ -269,6 +282,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         <ExpandableField show={schema.aktivitetIkkeMuligArbeidsrelatertArsak}>
                             <>
                                 <Select
+                                    id="aktivitetIkkeMuligArbeidsrelatertArsakType"
                                     onChange={({ target: { value } }) => {
                                         if (value === '0') {
                                             setSchema(state => ({
@@ -300,6 +314,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     })}
                                 </Select>
                                 <Input
+                                    id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
                                     className="form-margin-bottom"
                                     type="text"
                                     onChange={({ target: { value } }) => {
@@ -320,6 +335,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
 
             <Subsection sectionIdentifier="4.4">
                 <Checkbox
+                    id="behandlingsdagerSykmelding"
                     checked={schema.behandlingsdagerSykmelding}
                     label="Pasienten kan ikke være i arbeid på behandlingsdager"
                     onChange={() => {
@@ -338,6 +354,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 <ExpandableField show={schema.behandlingsdagerSykmelding}>
                     <>
                         <RangePicker
+                            id="behandlingsdagerPeriode"
                             labelFrom="4.4.1 f.o.m."
                             labelTo="4.4.2 t.o.m."
                             value={schema.behandlingsdagerPeriode || []}
@@ -352,6 +369,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         />
 
                         <Input
+                            id="behandlingsdagerAntall"
                             className="form-margin-bottom half"
                             type="number"
                             onChange={({ target: { value } }) => {
@@ -370,6 +388,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
 
             <Subsection sectionIdentifier="4.5" underline={false}>
                 <Checkbox
+                    id="reisetilskuddSykmelding"
                     checked={schema.reisetilskuddSykmelding}
                     label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
                     onChange={() => {
@@ -387,6 +406,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 <br />
                 <ExpandableField show={schema.reisetilskuddSykmelding}>
                     <RangePicker
+                        id="reisetilskuddPeriode"
                         labelFrom="4.5.1 f.o.m."
                         labelTo="4.5.2 t.o.m."
                         value={schema.reisetilskuddPeriode || []}
