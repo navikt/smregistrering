@@ -29,6 +29,7 @@ const DatePicker = ({ label, value, onChange, feil }: DatePickerProps) => {
                     onChange={newDate => onChange(newDate[0])}
                     options={{
                         position: 'below',
+                        static: true,
                         mode: 'single',
                         enableTime: false,
                         dateFormat: 'd.m.Y',
