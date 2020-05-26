@@ -31,6 +31,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="12.1" underline={false}>
                 <Checkbox
+                    id="legitimert"
                     disabled
                     className="form-margin-bottom"
                     checked={schema.legitimert}
@@ -45,6 +46,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 />
             </Subsection>
             <Input
+                id="sykmelderFnr"
                 className="form-margin-bottom half"
                 onChange={({ target: { value } }) => {
                     setSchema(state => ({
@@ -57,6 +59,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 feil={errors.sykmelderFnr}
             />
             <Input
+                id="sykmeldersNavn"
                 disabled
                 className="form-margin-bottom"
                 value={schema.sykmeldersNavn}
@@ -72,6 +75,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             />
             <Row>
                 <Input
+                    id="hpr"
                     disabled
                     className="form-margin-bottom"
                     value={schema.hpr}
@@ -86,6 +90,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     label={<Element>12.4 HPR-nummer</Element>}
                 />
                 <Input
+                    id="sykmelderTelefon"
                     disabled
                     className="form-margin-bottom"
                     value={schema.sykmelderTelefon}
@@ -102,6 +107,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             </Row>
 
             <Input
+                id="sykmelderAdresse"
                 disabled
                 className="form-margin-bottom"
                 onChange={({ target: { value } }) =>

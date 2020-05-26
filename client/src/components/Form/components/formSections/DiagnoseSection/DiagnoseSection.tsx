@@ -39,6 +39,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
     return (
         <SectionContainer section={section}>
             <Hoveddiagnose
+                id="hovedDiagnose"
                 setSchema={setSchema}
                 validate={validate}
                 schema={schema}
@@ -47,6 +48,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
             />
 
             <Bidiagnoser
+                id="biDiagnoser"
                 setSchema={setSchema}
                 schema={schema}
                 validate={validate}
@@ -57,6 +59,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
             <hr />
             <Subsection sectionIdentifier="3.3">
                 <Checkbox
+                    id="annenFraversArsak"
                     checked={schema.annenFraversArsak}
                     label="Annen lovfestet fraværsgrunn § 8-4, 3. ledd oppgis hvis relevant"
                     onChange={() =>
@@ -71,6 +74,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                 <ExpandableField show={schema.annenFraversArsak}>
                     <>
                         <Select
+                            id="annenFraversArsakGrunn"
                             onChange={({ target: { value } }) => {
                                 if (value === '0') {
                                     setSchema(state => ({
@@ -99,6 +103,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             })}
                         </Select>
                         <Input
+                            id="annenFraversArsakBeskrivelse"
                             className="form-margin-bottom"
                             type="text"
                             value={schema.annenFraversArsakBeskrivelse}
@@ -118,6 +123,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
 
             <Subsection sectionIdentifier="3.4">
                 <Checkbox
+                    id="svangerskap"
                     checked={schema.svangerskap}
                     label="Sykdommen er svangerskapsrelatert"
                     onChange={() =>
@@ -132,6 +138,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
 
             <Subsection sectionIdentifier="3.5">
                 <Checkbox
+                    id="yrkesskade"
                     checked={schema.yrkesskade}
                     label="Sykmeldingen kan skyldes en yrkesskade / yrkessykdom"
                     onChange={() =>
@@ -145,6 +152,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                 <br />
                 <ExpandableField show={schema.yrkesskade}>
                     <DatePicker
+                        id="yrkesskadeDato"
                         label="3.6 Eventuell skadedato"
                         value={schema.yrkesskadeDato}
                         onChange={newDates =>
@@ -159,6 +167,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
 
             <Subsection sectionIdentifier="3.7" underline={false}>
                 <Checkbox
+                    id="skjermesForPasient"
                     checked={schema.skjermesForPasient}
                     label="Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1"
                     onChange={() =>

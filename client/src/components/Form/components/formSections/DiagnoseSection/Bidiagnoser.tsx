@@ -9,6 +9,7 @@ import { SchemaType } from '../../../Form';
 import { Validate } from '../../../validation';
 
 type BidiagnoserProps = {
+    id?: string;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
     validate: Validate;
@@ -22,7 +23,7 @@ const emptyBidiagnose = {
     tekst: '',
 };
 
-const Bidiagnoser = ({ setSchema, schema, validate, diagnosekoder, feil }: BidiagnoserProps) => {
+const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: BidiagnoserProps) => {
     const addRow = () => {
         setSchema(state => {
             if (!state.biDiagnoser) {
@@ -117,7 +118,7 @@ const Bidiagnoser = ({ setSchema, schema, validate, diagnosekoder, feil }: Bidia
 
     if (!schema.biDiagnoser) {
         return (
-            <>
+            <div id={id}>
                 <FormLabel label="3.2 Bidiagnose" />
                 <BidiagnoseRow
                     index={0}
@@ -139,12 +140,12 @@ const Bidiagnoser = ({ setSchema, schema, validate, diagnosekoder, feil }: Bidia
                     <Plus />
                     <span>Legg til bidiagnose</span>
                 </Knapp>
-            </>
+            </div>
         );
     }
 
     return (
-        <>
+        <div id={id}>
             <FormLabel label="3.2 Bidiagnose" />
             {schema.biDiagnoser.map((biDiagnose, index) => (
                 <BidiagnoseRow
@@ -166,7 +167,7 @@ const Bidiagnoser = ({ setSchema, schema, validate, diagnosekoder, feil }: Bidia
                 <Plus />
                 <span>Legg til bidignose</span>
             </Knapp>
-        </>
+        </div>
     );
 };
 
