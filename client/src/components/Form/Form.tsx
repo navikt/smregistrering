@@ -108,9 +108,8 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
 
     return (
         <>
-            <Panel>
+            <Panel role="region" ariaLabel="skjemapanel">
                 <FormHeader />
-                <button onClick={validateAll}>validate all</button>
                 <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
                 <PasientopplysningerSection
                     section={sections[SectionTitle.PASIENTOPPLYSNINGER]}

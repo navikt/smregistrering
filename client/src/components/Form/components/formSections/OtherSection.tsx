@@ -21,7 +21,7 @@ type OtherSectionProps = {
 
 const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps) => {
     return (
-        <div className="form-margin-bottom section-content">
+        <div role="region" aria-label="seksjon other" className="form-margin-bottom section-content">
             <Input
                 className="form-margin-bottom half"
                 defaultValue={schema.pasientFnr}

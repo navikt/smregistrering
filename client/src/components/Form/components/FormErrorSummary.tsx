@@ -20,7 +20,7 @@ const FormErrorSummary = ({ formErrors, errorSummaryRef }: FormErrorSummaryProps
         .map(([key, value]) => <li key={key}>{value}</li>);
 
     return (
-        <div className="form-error-summary" ref={errorSummaryRef}>
+        <div role="region" aria-label="skjemafeilbeholder" className="form-error-summary" ref={errorSummaryRef}>
             {hasFormErrors(formErrors) && (
                 <AlertStripeFeil>
                     <Normaltekst>Det finnes feil i skjemaet som må rettes opp.</Normaltekst>

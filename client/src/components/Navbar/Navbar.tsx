@@ -23,13 +23,13 @@ const Navbar = () => {
     }, []);
 
     return (
-        <div className="navbar">
+        <header className="navbar">
             <span className="navbar__left">
                 <img className="navlogo" src={navLogo} alt="NAV-logo" />
                 <Element>Registrering av papirsykmelding</Element>
             </span>
             {loginText && <Element>{loginText}</Element>}
-        </div>
+        </header>
     );
 };
 

@@ -99,19 +99,19 @@ const App = () => {
 
     if (error) {
         return (
-            <div className="error-container">
+            <main className="error-container">
                 <Systemtittel>En feil oppsto</Systemtittel>
                 <Normaltekst>{error.message}</Normaltekst>
-            </div>
+            </main>
         );
     }
 
     if (isLoading) {
         return (
-            <div className="spinner-container">
+            <main className="spinner-container">
                 <NavFrontendSpinner />
                 <Systemtittel>Vennligst vent mens oppgaven laster</Systemtittel>
-            </div>
+            </main>
         );
     }
 
@@ -122,14 +122,14 @@ const App = () => {
     return (
         <>
             <Navbar />
-            <div className="content-container">
-                <div className="menu-container">
+            <main className="content-container">
+                <div role="region" aria-label="seksjonsnavigering" className="menu-container">
                     <Menu sections={sections} />
                 </div>
-                <div ref={schemaRef} className="form-container">
+                <div role="form" aria-label="skjema" ref={schemaRef} className="form-container">
                     <Form schemaRef={schemaRef} sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
                 </div>
-                <div className="pdf-container">
+                <div role="region" aria-label="PDF sykmelding" className="pdf-container">
                     <object
                         width="100%"
                         height="100%"
@@ -139,7 +139,7 @@ const App = () => {
                         Visning av sykmelding-pdf krever en plugin
                     </object>
                 </div>
-            </div>
+            </main>
         </>
     );
 };

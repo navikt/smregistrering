@@ -17,11 +17,11 @@ type DatePickerProps = {
 
 const DatePicker = ({ label, value, onChange, feil }: DatePickerProps) => {
     return (
-        <div className="datepicker-container">
-            <div className="datepicker-label">
+        <div role="region" aria-label="datovelgerbeholder" className="datepicker-container">
+            <label className="datepicker-label">
                 <Element>{label}</Element>
-            </div>
-            <div className={`flatpickr-container`}>
+            </label>
+            <div role="region" aria-label="datovelger" className={`flatpickr-container`}>
                 <Flatpickr
                     value={value}
                     className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
@@ -36,9 +36,7 @@ const DatePicker = ({ label, value, onChange, feil }: DatePickerProps) => {
                         locale: flatpickrLocale,
                     }}
                 />
-                <span className="flatpickr-icon">
-                    <img aria-hidden="true" alt="Kalender" src={calendar} />
-                </span>
+                <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar} />
             </div>
             {feil && (
                 <div className="skjemaelement__feilmelding">

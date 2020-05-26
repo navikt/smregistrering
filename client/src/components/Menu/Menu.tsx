@@ -16,15 +16,13 @@ const Menu = ({ sections }: MenuProps) => {
 
     return (
         <>
-            <Panel className="menu">
-                <div className="menu-header">
-                    <Systemtittel>Kategorier</Systemtittel>
-                </div>
-                <div className="menu-link-container">
+            <Panel role="region" ariaLabel="menypanel" className="menu">
+                <Systemtittel className="menu-header">Kategorier</Systemtittel>
+                <nav role="navigation" className="menu-link-container">
                     {sectionValues.map(section => (
                         <MenuLink key={section.index} section={section} />
                     ))}
-                </div>
+                </nav>
             </Panel>
         </>
     );

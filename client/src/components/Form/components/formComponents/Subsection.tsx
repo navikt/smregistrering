@@ -12,11 +12,11 @@ type Subsection = {
 
 const Subsection = ({ sectionIdentifier, children, underline = true }: Subsection) => {
     return (
-        <div className="subsection">
+        <section className="subsection">
             <FormLabel label={sectionIdentifier} />
             {children}
             {underline && <hr className="subsection-hr" />}
-        </div>
+        </section>
     );
 };
 

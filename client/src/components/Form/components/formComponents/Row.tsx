@@ -7,7 +7,7 @@ type RowElementProps = {
 };
 
 const RowElement = ({ children }: RowElementProps) => {
-    return <div className="row-element">{children}</div>;
+    return <span className="row-element">{children}</span>;
 };
 
 type RowProps = {
@@ -16,11 +16,11 @@ type RowProps = {
 
 const Row = ({ children }: RowProps) => {
     return (
-        <div className="row">
+        <span className="row">
             {children.map((child, index) => (
                 <RowElement key={index.toString()}>{child}</RowElement>
             ))}
-        </div>
+        </span>
     );
 };
 

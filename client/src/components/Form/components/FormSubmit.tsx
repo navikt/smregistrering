@@ -60,7 +60,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
     };
 
     return (
-        <div className="form-submit-container">
+        <div role="region" aria-label="skjemainnsendingbeholder" className="form-submit-container">
             <Checkbox
                 className="form-submit-checkbox"
                 checked={checked}
@@ -85,9 +85,9 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 closeButton={true}
                 contentLabel="Registrer sykmelding suksess modalt vindu"
             >
-                <div style={{ padding: '2rem 2.5rem' }}>
+                <p style={{ padding: '2rem 2.5rem' }}>
                     Sykmeldingen ble registrert. Du sendes tilbake til gosys ved å trykke på krysset.
-                </div>
+                </p>
             </Modal>
         </div>
     );
