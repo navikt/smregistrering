@@ -31,6 +31,7 @@ const RangePicker = ({ labelFrom, labelTo, value, onChange, feil }: RangePickerP
                     onChange={nyeDatoer => onChange(nyeDatoer)}
                     options={{
                         position: 'below',
+                        static: true,
                         mode: 'range',
                         enableTime: false,
                         dateFormat: 'd.m.Y',
