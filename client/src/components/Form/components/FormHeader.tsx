@@ -5,10 +5,10 @@ import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 
 const FormHeader = () => {
     return (
-        <header className="form-header">
+        <legend className="form-header">
             <Innholdstittel>Digital sykmeldingsskjema</Innholdstittel>
             <Undertittel>Vennligst fyll inn feltene fra papirsykmeldingen</Undertittel>
-        </header>
+        </legend>
     );
 };
 

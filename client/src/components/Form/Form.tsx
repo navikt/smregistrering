@@ -107,7 +107,7 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
     };
 
     return (
-        <>
+        <form className="form">
             <Panel role="region" ariaLabel="skjemapanel">
                 <FormHeader />
                 <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
@@ -191,7 +191,7 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
                 validateAll={validateAll}
                 focusErrorSummary={focusErrorSummary}
             />
-        </>
+        </form>
     );
 };
 
