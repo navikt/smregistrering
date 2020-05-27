@@ -21,42 +21,41 @@ type OtherSectionProps = {
 
 const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps) => {
     return (
-        <div className="form-margin-bottom section-content">
-            <Input
-                id="pasientFnr"
-                className="form-margin-bottom half"
-                defaultValue={schema.pasientFnr}
-                onChange={({ target: { value } }) => {
-                    setSchema(state => ({
-                        ...state,
-                        pasientFnr: value,
-                    }));
-                    validate('pasientFnr', value);
-                }}
-                label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
-                feil={errors.pasientFnr}
-            />
-            <DatePicker
-                id="syketilfelleStartDato"
-                label="Startdato for legemeldt fravær"
-                value={schema.syketilfelleStartDato}
-                onChange={newDates => {
-                    setSchema(state => ({ ...state, syketilfelleStartDato: newDates }));
-                    validate('syketilfelleStartDato', newDates);
-                }}
-                feil={errors.syketilfelleStartDato}
-            />
-            <DatePicker
-                id="behandletDato"
-                label="Behandletdato"
-                value={schema.behandletDato}
-                onChange={newDates => {
-                    setSchema(state => ({ ...state, behandletDato: newDates }));
-                    validate('behandletDato', newDates);
-                }}
-                feil={errors.behandletDato}
-            />
-        </div>
+        <section aria-label="other">
+            <fieldset className=" section-content">
+                <Input
+                    className="form-margin-bottom half"
+                    defaultValue={schema.pasientFnr}
+                    onChange={({ target: { value } }) => {
+                        setSchema(state => ({
+                            ...state,
+                            pasientFnr: value,
+                        }));
+                        validate('pasientFnr', value);
+                    }}
+                    label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
+                    feil={errors.pasientFnr}
+                />
+                <DatePicker
+                    label="Startdato for legemeldt fravær"
+                    value={schema.syketilfelleStartDato}
+                    onChange={newDates => {
+                        setSchema(state => ({ ...state, syketilfelleStartDato: newDates }));
+                        validate('syketilfelleStartDato', newDates);
+                    }}
+                    feil={errors.syketilfelleStartDato}
+                />
+                <DatePicker
+                    label="Behandletdato"
+                    value={schema.behandletDato}
+                    onChange={newDates => {
+                        setSchema(state => ({ ...state, behandletDato: newDates }));
+                        validate('behandletDato', newDates);
+                    }}
+                    feil={errors.behandletDato}
+                />
+            </fieldset>
+        </section>
     );
 };
 

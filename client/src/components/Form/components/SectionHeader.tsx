@@ -11,11 +11,11 @@ type SectionHeaderProps = {
 
 const SectionHeader = ({ section }: SectionHeaderProps) => {
     return (
-        <div ref={section.ref} className="section-header">
+        <header ref={section.ref} className="section-header">
             <Undertittel className="section-header-title">
                 {section.index} {section.title}
             </Undertittel>
-        </div>
+        </header>
     );
 };
 

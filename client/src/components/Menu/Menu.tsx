@@ -15,18 +15,16 @@ const Menu = ({ sections }: MenuProps) => {
     const sectionValues = Object.values(sections);
 
     return (
-        <>
-            <Panel className="menu">
-                <div className="menu-header">
-                    <Systemtittel>Kategorier</Systemtittel>
-                </div>
-                <div className="menu-link-container">
+        <section>
+            <Panel ariaLabel="menypanel" className="menu">
+                <Systemtittel className="menu-header">Kategorier</Systemtittel>
+                <nav role="navigation" className="menu-link-container">
                     {sectionValues.map(section => (
                         <MenuLink key={section.index} section={section} />
                     ))}
-                </div>
+                </nav>
             </Panel>
-        </>
+        </section>
     );
 };
 

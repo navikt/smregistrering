@@ -7,7 +7,7 @@ type RowElementProps = {
 };
 
 const RowElement = ({ children }: RowElementProps) => {
-    return <div className="row-element">{children}</div>;
+    return <span className="row-element">{children}</span>;
 };
 
 type RowProps = {

@@ -18,11 +18,11 @@ type DatePickerProps = {
 
 const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
     return (
-        <div className="datepicker-container">
-            <div className="datepicker-label">
+        <div role="region" aria-label="datovelgerbeholder" className="datepicker-container">
+            <label className="datepicker-label">
                 <Element>{label}</Element>
-            </div>
-            <div className={`flatpickr-container`}>
+            </label>
+            <div role="region" aria-label="datovelger" className={`flatpickr-container`}>
                 <Flatpickr
                     id={id}
                     value={value}
@@ -39,9 +39,7 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
                         locale: flatpickrLocale,
                     }}
                 />
-                <span className="flatpickr-icon">
-                    <img aria-hidden="true" alt="Kalender" src={calendar} />
-                </span>
+                <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar} />
             </div>
             {feil && (
                 <div className="skjemaelement__feilmelding">

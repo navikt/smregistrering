@@ -99,7 +99,7 @@ const SearchableInput = ({ system, diagnosekoder, label, onChange }: SearchableI
 
     return (
         <>
-            <div className="searchable-input-label">{label}</div>
+            <label className="skjemaelement__label">{label}</label>
             <Select
                 value={selectValue}
                 styles={customStyles}

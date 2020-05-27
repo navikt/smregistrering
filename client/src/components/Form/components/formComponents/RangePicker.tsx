@@ -19,12 +19,12 @@ type RangePickerProps = {
 
 const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePickerProps) => {
     return (
-        <div className="rangepicker-container">
-            <div className="rangepicker-label">
+        <div role="region" aria-label="periodevelgerbeholder" className="rangepicker-container">
+            <label className="rangepicker-label">
                 <Element>{labelFrom}</Element>
                 <Element className="rangepicker-to">{labelTo}</Element>
-            </div>
-            <div className="flatpickr-container">
+            </label>
+            <div role="region" aria-label="periodevelger" className="flatpickr-container">
                 <Flatpickr
                     id={id}
                     value={value}
@@ -41,9 +41,7 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                         locale: flatpickrLocale,
                     }}
                 />
-                <span className="flatpickr-icon">
-                    <img aria-hidden="true" alt="Kalender" src={calendar} />
-                </span>
+                <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar} />
             </div>
             {feil && (
                 <div className="skjemaelement__feilmelding">

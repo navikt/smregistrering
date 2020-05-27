@@ -1,13 +1,14 @@
 import './App.less';
 
 import * as iotsPromise from 'io-ts-promise';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import React, { useEffect, useRef, useState } from 'react';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 
+import Banner from './components/Banner/Banner';
+import ErrorView from './components/ErrorView';
 import Form from './components/Form/Form';
+import LoadingView from './components/LoadingView';
 import Menu from './components/Menu/Menu';
-import Navbar from './components/Navbar/Navbar';
+import Pdf from './components/Pdf/Pdf';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { SectionTitle, Sections } from './types/Section';
@@ -43,7 +44,6 @@ const App = () => {
             });
     }, []);
 
-    // TODO: flytte sections til /types/Section.ts ?
     const sections: Sections = {
         [SectionTitle.PASIENTOPPLYSNINGER]: {
             index: 1,
@@ -99,19 +99,23 @@ const App = () => {
 
     if (error) {
         return (
-            <div className="error-container">
-                <Systemtittel>En feil oppsto</Systemtittel>
-                <Normaltekst>{error.message}</Normaltekst>
-            </div>
+            <>
+                <Banner />
+                <main className="error-container">
+                    <ErrorView error={error} />
+                </main>
+            </>
         );
     }
 
     if (isLoading) {
         return (
-            <div className="spinner-container">
-                <NavFrontendSpinner />
-                <Systemtittel>Vennligst vent mens oppgaven laster</Systemtittel>
-            </div>
+            <>
+                <Banner />
+                <main className="spinner-container">
+                    <LoadingView />
+                </main>
+            </>
         );
     }
 
@@ -121,25 +125,12 @@ const App = () => {
 
     return (
         <>
-            <Navbar />
-            <div className="content-container">
-                <div className="menu-container">
-                    <Menu sections={sections} />
-                </div>
-                <div ref={schemaRef} className="form-container">
-                    <Form schemaRef={schemaRef} sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
-                </div>
-                <div className="pdf-container">
-                    <object
-                        width="100%"
-                        height="100%"
-                        type="application/pdf"
-                        data={'data:application/pdf;base64,' + oppgave.pdfPapirSykmelding}
-                    >
-                        Visning av sykmelding-pdf krever en plugin
-                    </object>
-                </div>
-            </div>
+            <Banner />
+            <main className="main-content-container">
+                <Menu sections={sections} />
+                <Form schemaRef={schemaRef} sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
+                <Pdf pdf={oppgave.pdfPapirSykmelding} />
+            </main>
         </>
     );
 };
