@@ -10,6 +10,7 @@ import { SchemaType } from '../../../Form';
 import { Validate } from '../../../validation';
 
 type HoveddiagnoseProps = {
+    id?: string;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     validate: Validate;
     schema: SchemaType;
@@ -17,13 +18,13 @@ type HoveddiagnoseProps = {
     feil?: string;
 };
 
-const Hoveddiagnose = ({ setSchema, validate, schema, diagnosekoder, feil }: HoveddiagnoseProps) => {
+const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }: HoveddiagnoseProps) => {
     const hoveddiagnose = schema.hovedDiagnose;
     const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
         hoveddiagnose && (hoveddiagnose.system as keyof Diagnosekoder);
 
     return (
-        <>
+        <div id={id}>
             <FormLabel label="3.1 Hoveddiagnose" />
             <Row>
                 <Select
@@ -79,7 +80,7 @@ const Hoveddiagnose = ({ setSchema, validate, schema, diagnosekoder, feil }: Hov
                     {feil}
                 </p>
             ) : null}
-        </>
+        </div>
     );
 };
 

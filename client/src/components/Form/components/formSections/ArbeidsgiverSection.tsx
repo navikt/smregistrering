@@ -27,6 +27,7 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
     return (
         <SectionContainer section={section}>
             <Select
+                id="harArbeidsgiver"
                 value={schema.harArbeidsgiver}
                 onChange={({ target: { value } }) => {
                     if (value === '0') {
@@ -56,6 +57,7 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 })}
             </Select>
             <Input
+                id="arbeidsgiverNavn"
                 className="form-margin-bottom"
                 type="text"
                 value={schema.arbeidsgiverNavn}
@@ -70,6 +72,7 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 feil={errors.arbeidsgiverNavn}
             />
             <Input
+                id="yrkesbetegnelse"
                 className="form-margin-bottom"
                 type="text"
                 value={schema.yrkesbetegnelse}
@@ -84,6 +87,7 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 feil={errors.yrkesbetegnelse}
             />
             <Input
+                id="stillingsprosent"
                 className="form-margin-bottom half"
                 type="number"
                 value={schema.stillingsprosent}
