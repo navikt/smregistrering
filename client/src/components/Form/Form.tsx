@@ -107,91 +107,93 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
     };
 
     return (
-        <form className="form">
-            <Panel role="region" ariaLabel="skjemapanel">
-                <FormHeader />
-                <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
-                <PasientopplysningerSection
-                    section={sections[SectionTitle.PASIENTOPPLYSNINGER]}
-                    setSchema={setSchema}
-                    errors={formErrors}
+        <section className="form">
+            <form>
+                <Panel ariaLabel="skjemapanel">
+                    <FormHeader />
+                    <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
+                    <PasientopplysningerSection
+                        section={sections[SectionTitle.PASIENTOPPLYSNINGER]}
+                        setSchema={setSchema}
+                        errors={formErrors}
+                        schema={schema}
+                        validate={validate}
+                    />
+                    <ArbeidsgiverSection
+                        section={sections[SectionTitle.ARBEIDSGIVER]}
+                        setSchema={setSchema}
+                        errors={formErrors}
+                        schema={schema}
+                        validate={validate}
+                    />
+                    <DiagnoseSection
+                        section={sections[SectionTitle.DIAGNOSE]}
+                        setSchema={setSchema}
+                        errors={formErrors}
+                        schema={schema}
+                        validate={validate}
+                        diagnosekoder={diagnosekoder}
+                    />
+                    <MulighetForArbeidSection
+                        section={sections[SectionTitle.MULIGHET_FOR_ARBEID]}
+                        setSchema={setSchema}
+                        schema={schema}
+                        errors={formErrors}
+                        validate={validate}
+                    />
+                    <FriskmeldingSection
+                        section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}
+                        setSchema={setSchema}
+                        schema={schema}
+                        errors={formErrors}
+                        validate={validate}
+                    />
+                    <ArbeidsevneSection
+                        section={sections[SectionTitle.ARBEIDSEVNE]}
+                        setSchema={setSchema}
+                        schema={schema}
+                        errors={formErrors}
+                        validate={validate}
+                    />
+                    <MeldingTilNavSection
+                        section={sections[SectionTitle.TIL_NAV]}
+                        setSchema={setSchema}
+                        schema={schema}
+                        errors={formErrors}
+                        validate={validate}
+                    />
+                    <MeldingTilArbeidsgiverSection
+                        section={sections[SectionTitle.TIL_ARBEIDSGIVER]}
+                        setSchema={setSchema}
+                        schema={schema}
+                        errors={formErrors}
+                        validate={validate}
+                    />
+                    <TilbakedateringSection
+                        section={sections[SectionTitle.TILBAKEDATERING]}
+                        setSchema={setSchema}
+                        schema={schema}
+                        errors={formErrors}
+                        validate={validate}
+                    />
+                    <BekreftelseSection
+                        section={sections[SectionTitle.BEKREFTELSE]}
+                        setSchema={setSchema}
+                        schema={schema}
+                        errors={formErrors}
+                        validate={validate}
+                    />
+                </Panel>
+                <FormErrorSummary formErrors={formErrors} errorSummaryRef={errorSummaryRef} />
+                <FormSubmit
+                    oppgave={oppgave}
                     schema={schema}
-                    validate={validate}
+                    hasFormErrors={hasFormErrors(formErrors)}
+                    validateAll={validateAll}
+                    focusErrorSummary={focusErrorSummary}
                 />
-                <ArbeidsgiverSection
-                    section={sections[SectionTitle.ARBEIDSGIVER]}
-                    setSchema={setSchema}
-                    errors={formErrors}
-                    schema={schema}
-                    validate={validate}
-                />
-                <DiagnoseSection
-                    section={sections[SectionTitle.DIAGNOSE]}
-                    setSchema={setSchema}
-                    errors={formErrors}
-                    schema={schema}
-                    validate={validate}
-                    diagnosekoder={diagnosekoder}
-                />
-                <MulighetForArbeidSection
-                    section={sections[SectionTitle.MULIGHET_FOR_ARBEID]}
-                    setSchema={setSchema}
-                    schema={schema}
-                    errors={formErrors}
-                    validate={validate}
-                />
-                <FriskmeldingSection
-                    section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}
-                    setSchema={setSchema}
-                    schema={schema}
-                    errors={formErrors}
-                    validate={validate}
-                />
-                <ArbeidsevneSection
-                    section={sections[SectionTitle.ARBEIDSEVNE]}
-                    setSchema={setSchema}
-                    schema={schema}
-                    errors={formErrors}
-                    validate={validate}
-                />
-                <MeldingTilNavSection
-                    section={sections[SectionTitle.TIL_NAV]}
-                    setSchema={setSchema}
-                    schema={schema}
-                    errors={formErrors}
-                    validate={validate}
-                />
-                <MeldingTilArbeidsgiverSection
-                    section={sections[SectionTitle.TIL_ARBEIDSGIVER]}
-                    setSchema={setSchema}
-                    schema={schema}
-                    errors={formErrors}
-                    validate={validate}
-                />
-                <TilbakedateringSection
-                    section={sections[SectionTitle.TILBAKEDATERING]}
-                    setSchema={setSchema}
-                    schema={schema}
-                    errors={formErrors}
-                    validate={validate}
-                />
-                <BekreftelseSection
-                    section={sections[SectionTitle.BEKREFTELSE]}
-                    setSchema={setSchema}
-                    schema={schema}
-                    errors={formErrors}
-                    validate={validate}
-                />
-            </Panel>
-            <FormErrorSummary formErrors={formErrors} errorSummaryRef={errorSummaryRef} />
-            <FormSubmit
-                oppgave={oppgave}
-                schema={schema}
-                hasFormErrors={hasFormErrors(formErrors)}
-                validateAll={validateAll}
-                focusErrorSummary={focusErrorSummary}
-            />
-        </form>
+            </form>
+        </section>
     );
 };
 

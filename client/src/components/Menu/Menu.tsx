@@ -15,8 +15,8 @@ const Menu = ({ sections }: MenuProps) => {
     const sectionValues = Object.values(sections);
 
     return (
-        <>
-            <Panel role="region" ariaLabel="menypanel" className="menu">
+        <section>
+            <Panel ariaLabel="menypanel" className="menu">
                 <Systemtittel className="menu-header">Kategorier</Systemtittel>
                 <nav role="navigation" className="menu-link-container">
                     {sectionValues.map(section => (
@@ -24,7 +24,7 @@ const Menu = ({ sections }: MenuProps) => {
                     ))}
                 </nav>
             </Panel>
-        </>
+        </section>
     );
 };
 

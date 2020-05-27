@@ -15,7 +15,7 @@ const SectionContainer = ({ children, section, sectionError }: SectionProps) => 
     return (
         <section>
             <SectionHeader section={section} />
-            <div className={`section-content ${sectionError ? 'section-content--feil' : ''}`}>{children}</div>
+            <fieldset className={`section-content ${sectionError ? 'section-content--feil' : ''}`}>{children}</fieldset>
             {sectionError && <p className="section-error typo-feilmelding">{sectionError}</p>}
         </section>
     );
