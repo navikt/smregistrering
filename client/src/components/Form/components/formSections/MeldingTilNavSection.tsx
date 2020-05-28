@@ -28,7 +28,6 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
             <Subsection sectionIdentifier="8.1" underline={false}>
                 <Checkbox
                     id="meldingTilNavBistand"
-                    disabled
                     checked={schema.meldingTilNavBistand}
                     label="Ønskes bistand fra NAV nå?"
                     onChange={() =>
@@ -43,7 +42,6 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                 <ExpandableField show={schema.meldingTilNavBistand}>
                     <Textarea
                         id="meldingTilNavBegrunn"
-                        disabled
                         maxLength={0}
                         value={schema.meldingTilNavBegrunn || ''}
                         onChange={({ target: { value } }) => {

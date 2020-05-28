@@ -33,7 +33,6 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             <Subsection sectionIdentifier="12.1" underline={false}>
                 <Checkbox
                     id="legitimert"
-                    disabled
                     className="form-margin-bottom"
                     checked={schema.legitimert}
                     label="Pasienten er kjent eller har vist legitimasjon"
@@ -62,7 +61,6 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             <Row>
                 <Input
                     id="sykmeldersFornavn"
-                    disabled
                     className="form-margin-bottom"
                     value={schema.sykmeldersFornavn}
                     onChange={({ target: { value } }) => {
@@ -77,7 +75,6 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 />
                 <Input
                     id="sykmeldersEtternavn"
-                    disabled
                     className="form-margin-bottom"
                     value={schema.sykmeldersEtternavn}
                     onChange={({ target: { value } }) => {
@@ -88,13 +85,12 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                         validate('sykmeldersEtternavn', value);
                     }}
                     feil={errors.sykmeldersEtternavn}
-                    label={<Element>12.2.2 Sykmelders etternavn</Element>}
+                    label={<Element>Sykmelders etternavn</Element>}
                 />
             </Row>
             <Row>
                 <Input
                     id="hpr"
-                    disabled
                     className="form-margin-bottom"
                     value={schema.hpr}
                     onChange={({ target: { value } }) => {
@@ -109,7 +105,6 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 />
                 <Input
                     id="sykmelderTelefon"
-                    disabled
                     className="form-margin-bottom"
                     value={schema.sykmelderTelefon}
                     onChange={({ target: { value } }) => {
@@ -126,7 +121,6 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
 
             <Input
                 id="sykmelderAdresse"
-                disabled
                 className="form-margin-bottom"
                 onChange={({ target: { value } }) =>
                     setSchema(state => ({

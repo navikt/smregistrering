@@ -34,7 +34,6 @@ const MeldingTilArbeidsgiverSection = ({
             <Subsection sectionIdentifier="9.1" underline={false}>
                 <Checkbox
                     id="meldingTilArbeidsgiverInnspill"
-                    disabled
                     checked={schema.meldingTilArbeidsgiverInnspill}
                     label="Andre innspill til arbeidsgiver"
                     onChange={() =>
@@ -49,7 +48,6 @@ const MeldingTilArbeidsgiverSection = ({
                 <ExpandableField show={schema.meldingTilArbeidsgiverInnspill}>
                     <Textarea
                         id="meldingTilArbeidsgiverBeskriv"
-                        disabled
                         maxLength={0}
                         value={schema.meldingTilArbeidsgiverBeskriv || ''}
                         onChange={({ target: { value } }) => {

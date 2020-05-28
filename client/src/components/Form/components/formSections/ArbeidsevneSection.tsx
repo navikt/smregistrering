@@ -32,7 +32,6 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
             <Subsection sectionIdentifier="7.1">
                 <Checkbox
                     id="tilretteleggingArbeidsplassen"
-                    disabled
                     checked={schema.tilretteleggingArbeidsplassen}
                     label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
                     onChange={() =>
@@ -47,7 +46,6 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                 <ExpandableField show={schema.tilretteleggingArbeidsplassen}>
                     <Textarea
                         id="tilretteleggArbeidsplassBeskriv"
-                        disabled
                         maxLength={0}
                         value={schema.tilretteleggingArbeidsplassBeskriv || ''}
                         onChange={({ target: { value } }) => {
@@ -66,7 +64,6 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
             <Subsection sectionIdentifier="7.2">
                 <Checkbox
                     id="tiltakNav"
-                    disabled
                     checked={schema.tiltakNav}
                     label="Tiltak i regi av NAV"
                     onChange={() =>
@@ -81,7 +78,6 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                 <ExpandableField show={schema.tiltakNav}>
                     <Textarea
                         id="tiltakNavBeskriv"
-                        disabled
                         maxLength={0}
                         value={schema.tiltakNavBeskriv || ''}
                         onChange={({ target: { value } }) => {
@@ -100,7 +96,6 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
             <Subsection sectionIdentifier="7.3" underline={false}>
                 <Checkbox
                     id="innspillTilNAv"
-                    disabled
                     checked={schema.innspillTilNAv}
                     label="Eventuelle andre innspill til NAV"
                     onChange={() =>
@@ -115,7 +110,6 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                 <ExpandableField show={schema.innspillTilNAv}>
                     <Textarea
                         id="innspillTilNavBeskriv"
-                        disabled
                         maxLength={0}
                         value={schema.innspillTilNavBeskriv || ''}
                         onChange={({ target: { value } }) => {
