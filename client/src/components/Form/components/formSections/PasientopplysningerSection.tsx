@@ -9,10 +9,10 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type Pasientopplysninger = {
-    behandlerNavn?: string;
     pasientTelefon?: string;
     pasientEtternavn?: string;
     pasientFornavn?: string;
+    navnFastlege?: string;
 };
 
 type PasientopplysningerProps = {
@@ -77,14 +77,14 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
             />
 
             <Input
-                id="behandlerNavn"
+                id="navnFastlege"
                 disabled
                 className="form-margin-bottom"
                 type="text"
-                feil={errors.behandlerNavn}
+                feil={errors.navnFastlege}
                 onChange={({ target: { value } }) => {
                     setSchema(state => ({ ...state, behandlerNavn: value }));
-                    validate('behandlerNavn', value);
+                    validate('navnFastlege', value);
                 }}
                 label={<Element>1.4 Navn på pasientens fastlege</Element>}
             />

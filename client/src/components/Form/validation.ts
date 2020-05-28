@@ -48,7 +48,7 @@ export const validationFunctions: ValidationType = {
     pasientFornavn: (value, schema) => {
         return undefined;
     },
-    behandlerNavn: (value, schema) => {
+    navnFastlege: (value, schema) => {
         return undefined;
     },
 
@@ -222,7 +222,8 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
-    sykmeldersNavn: () => undefined,
+    sykmeldersFornavn: () => undefined,
+    sykmeldersEtternavn: () => undefined,
     hpr: () => undefined,
     sykmelderAdresse: () => undefined,
     sykmelderTelefon: () => undefined,

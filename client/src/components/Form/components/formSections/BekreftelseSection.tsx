@@ -11,7 +11,8 @@ import { Validate } from '../../validation';
 
 export type Bekreftelse = {
     legitimert: boolean;
-    sykmeldersNavn?: string;
+    sykmeldersFornavn?: string;
+    sykmeldersEtternavn?: string;
     sykmelderFnr?: string;
     hpr?: string;
     sykmelderTelefon?: string;
@@ -58,21 +59,38 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 label={<Element>Sykmelders fødselsnummer (11 siffer)</Element>}
                 feil={errors.sykmelderFnr}
             />
-            <Input
-                id="sykmeldersNavn"
-                disabled
-                className="form-margin-bottom"
-                value={schema.sykmeldersNavn}
-                onChange={({ target: { value } }) => {
-                    setSchema(state => ({
-                        ...state,
-                        sykmeldersNavn: value,
-                    }));
-                    validate('sykmeldersNavn', value);
-                }}
-                feil={errors.sykmeldersNavn}
-                label={<Element>12.2 Sykmelders navn</Element>}
-            />
+            <Row>
+                <Input
+                    id="sykmeldersFornavn"
+                    disabled
+                    className="form-margin-bottom"
+                    value={schema.sykmeldersFornavn}
+                    onChange={({ target: { value } }) => {
+                        setSchema(state => ({
+                            ...state,
+                            sykmeldersNavn: value,
+                        }));
+                        validate('sykmeldersFornavn', value);
+                    }}
+                    feil={errors.sykmeldersFornavn}
+                    label={<Element>12.2.1 Sykmelders fornavn</Element>}
+                />
+                <Input
+                    id="sykmeldersEtternavn"
+                    disabled
+                    className="form-margin-bottom"
+                    value={schema.sykmeldersEtternavn}
+                    onChange={({ target: { value } }) => {
+                        setSchema(state => ({
+                            ...state,
+                            sykmeldersNavn: value,
+                        }));
+                        validate('sykmeldersEtternavn', value);
+                    }}
+                    feil={errors.sykmeldersEtternavn}
+                    label={<Element>12.2.2 Sykmelders etternavn</Element>}
+                />
+            </Row>
             <Row>
                 <Input
                     id="hpr"

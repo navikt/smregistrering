@@ -199,7 +199,9 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
         schema.harArbeidsgiver === undefined ||
         schema.skjermesForPasient === undefined ||
         schema.syketilfelleStartDato === undefined ||
-        schema.behandletDato === undefined
+        schema.behandletDato === undefined ||
+        schema.sykmeldersEtternavn === undefined ||
+        schema.sykmeldersFornavn === undefined
     ) {
         return undefined;
     }
@@ -223,6 +225,25 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
         },
         behandletDato: schema.behandletDato,
         skjermesForPasient: schema.skjermesForPasient,
+        behandler: {
+            fnr: schema.sykmelderFnr,
+            fornavn: schema.sykmeldersFornavn,
+            etternavn: schema.sykmeldersEtternavn,
+            hpr: schema.hpr,
+            adresse: schema.sykmelderAdresse,
+            tlf: schema.sykmelderTelefon,
+        },
+        meldingTilArbeidsgiver: schema.meldingTilArbeidsgiverBeskriv,
+        meldingTilNAV: {
+            bistandUmiddelbart: schema.meldingTilNavBistand,
+            beskrivBistand: schema.meldingTilNavBegrunn,
+        },
+        tiltakNav: schema.tiltakNavBeskriv,
+        tiltakArbeidsplassen: schema.tilretteleggingArbeidsplassBeskriv,
+        andreTiltak: schema.innspillTilNavBeskriv,
+        /* prognose: {
+            arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode
+        } */
     };
     return registrertSykmelding;
 };

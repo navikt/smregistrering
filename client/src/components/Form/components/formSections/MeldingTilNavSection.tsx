@@ -10,7 +10,7 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type MeldingTilNav = {
-    meldingTilNavBistand?: boolean;
+    meldingTilNavBistand: boolean;
     meldingTilNavBegrunn?: string;
 };
 
