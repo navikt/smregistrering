@@ -136,14 +136,82 @@ const Arbeidsgiver = iots.intersection([
 ]);
 export type Arbeidsgiver = iots.TypeOf<typeof Arbeidsgiver>;
 
-export const RegistrertSykmelding = iots.type({
-    pasientFnr: iots.string,
-    sykmelderFnr: iots.string,
-    perioder: iots.array(Periode),
-    medisinskVurdering: MedisinskVurdering,
-    syketilfelleStartDato: DateFromString,
-    arbeidsgiver: Arbeidsgiver,
-    behandletDato: DateFromString,
-    skjermesForPasient: iots.boolean,
-});
+const ErIArbeid = iots.intersection([
+    iots.type({
+        egetArbeidPaSikt: iots.boolean,
+        annetArbeidPaSikt: iots.boolean,
+    }),
+    iots.partial({
+        arbeidFOM: DateFromString,
+        vurderingsdato: DateFromString,
+    }),
+]);
+
+const ErIkkeIArbeid = iots.intersection([
+    iots.type({
+        arbeidsforPaSikt: iots.boolean,
+    }),
+    iots.partial({
+        arbeidsforFOM: DateFromString,
+        vurderingsdato: DateFromString,
+    }),
+]);
+
+const Prognose = iots.intersection([
+    iots.type({
+        arbeidsforEtterPeriode: iots.boolean,
+    }),
+    iots.partial({
+        hensynArbeidsplassen: iots.string,
+        erIArbeid: ErIArbeid,
+        erIkkeIArbeid: ErIkkeIArbeid,
+    }),
+]);
+export type Prognose = iots.TypeOf<typeof Prognose>;
+
+const MeldingTilNAV = iots.intersection([
+    iots.type({
+        bistandUmiddelbart: iots.boolean,
+    }),
+    iots.partial({
+        beskrivBistand: iots.string,
+    }),
+]);
+export type MeldingTilNAV = iots.TypeOf<typeof MeldingTilNAV>;
+
+const Behandler = iots.intersection([
+    iots.type({
+        fornavn: iots.string,
+        etternavn: iots.string,
+        fnr: iots.string,
+    }),
+    iots.partial({
+        hpr: iots.string,
+        adresse: iots.string,
+        tlf: iots.string,
+    }),
+]);
+export type Behandler = iots.TypeOf<typeof Behandler>;
+
+export const RegistrertSykmelding = iots.intersection([
+    iots.type({
+        pasientFnr: iots.string,
+        sykmelderFnr: iots.string,
+        perioder: iots.array(Periode),
+        medisinskVurdering: MedisinskVurdering,
+        syketilfelleStartDato: DateFromString,
+        arbeidsgiver: Arbeidsgiver,
+        behandletDato: DateFromString,
+        skjermesForPasient: iots.boolean,
+        behandler: Behandler,
+    }),
+    iots.partial({
+        prognose: Prognose,
+        meldingTilNAV: MeldingTilNAV,
+        meldingTilArbeidsgiver: iots.string,
+        tiltakNav: iots.string,
+        tiltakArbeidsplassen: iots.string,
+        andreTiltak: iots.string,
+    }),
+]);
 export type RegistrertSykmelding = iots.TypeOf<typeof RegistrertSykmelding>;

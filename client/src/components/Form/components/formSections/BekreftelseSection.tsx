@@ -11,7 +11,8 @@ import { Validate } from '../../validation';
 
 export type Bekreftelse = {
     legitimert: boolean;
-    sykmeldersNavn?: string;
+    sykmeldersFornavn?: string;
+    sykmeldersEtternavn?: string;
     sykmelderFnr?: string;
     hpr?: string;
     sykmelderTelefon?: string;
@@ -32,7 +33,6 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             <Subsection sectionIdentifier="12.1" underline={false}>
                 <Checkbox
                     id="legitimert"
-                    disabled
                     className="form-margin-bottom"
                     checked={schema.legitimert}
                     label="Pasienten er kjent eller har vist legitimasjon"
@@ -58,25 +58,39 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 label={<Element>Sykmelders fødselsnummer (11 siffer)</Element>}
                 feil={errors.sykmelderFnr}
             />
-            <Input
-                id="sykmeldersNavn"
-                disabled
-                className="form-margin-bottom"
-                value={schema.sykmeldersNavn}
-                onChange={({ target: { value } }) => {
-                    setSchema(state => ({
-                        ...state,
-                        sykmeldersNavn: value,
-                    }));
-                    validate('sykmeldersNavn', value);
-                }}
-                feil={errors.sykmeldersNavn}
-                label={<Element>12.2 Sykmelders navn</Element>}
-            />
+            <Row>
+                <Input
+                    id="sykmeldersFornavn"
+                    className="form-margin-bottom"
+                    value={schema.sykmeldersFornavn}
+                    onChange={({ target: { value } }) => {
+                        setSchema(state => ({
+                            ...state,
+                            sykmeldersNavn: value,
+                        }));
+                        validate('sykmeldersFornavn', value);
+                    }}
+                    feil={errors.sykmeldersFornavn}
+                    label={<Element>12.2.1 Sykmelders fornavn</Element>}
+                />
+                <Input
+                    id="sykmeldersEtternavn"
+                    className="form-margin-bottom"
+                    value={schema.sykmeldersEtternavn}
+                    onChange={({ target: { value } }) => {
+                        setSchema(state => ({
+                            ...state,
+                            sykmeldersNavn: value,
+                        }));
+                        validate('sykmeldersEtternavn', value);
+                    }}
+                    feil={errors.sykmeldersEtternavn}
+                    label={<Element>Sykmelders etternavn</Element>}
+                />
+            </Row>
             <Row>
                 <Input
                     id="hpr"
-                    disabled
                     className="form-margin-bottom"
                     value={schema.hpr}
                     onChange={({ target: { value } }) => {
@@ -91,7 +105,6 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 />
                 <Input
                     id="sykmelderTelefon"
-                    disabled
                     className="form-margin-bottom"
                     value={schema.sykmelderTelefon}
                     onChange={({ target: { value } }) => {
@@ -108,7 +121,6 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
 
             <Input
                 id="sykmelderAdresse"
-                disabled
                 className="form-margin-bottom"
                 onChange={({ target: { value } }) =>
                     setSchema(state => ({

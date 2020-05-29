@@ -57,6 +57,10 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
         erTilbakedatert: false,
         kunneIkkeIvaretaEgneInteresser: false,
         legitimert: false,
+        meldingTilNavBistand: false,
+        egetArbeidPaSikt: false,
+        annetArbeidPaSikt: false,
+        arbeidsforPaSikt: false,
     };
 };
 

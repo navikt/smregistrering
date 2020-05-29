@@ -48,7 +48,7 @@ export const validationFunctions: ValidationType = {
     pasientFornavn: (value, schema) => {
         return undefined;
     },
-    behandlerNavn: (value, schema) => {
+    navnFastlege: (value, schema) => {
         return undefined;
     },
 
@@ -180,6 +180,27 @@ export const validationFunctions: ValidationType = {
     // Friskmelding
     arbeidsfoerEtterPeriode: () => undefined,
     hensynPaArbeidsplassen: () => undefined,
+    erIArbeid: () => undefined,
+    erIkkeIArbeid: () => undefined,
+    egetArbeidPaSikt: () => undefined,
+    annetArbeidPaSikt: () => undefined,
+    arbeidFOM: (arbeidFOM, schema) => {
+        if (schema.erIArbeid && schema.egetArbeidPaSikt) {
+            if (arbeidFOM === undefined) {
+                return 'Du må svare på når pasienten på sikt kan komme tilbake til samme arbeidsgiver';
+            }
+        }
+    },
+    vurderingsDatoIArbeid: () => undefined,
+    arbeidsforPaSikt: () => undefined,
+    arbeidsforFOM: (arbeidsforFOM, schema) => {
+        if (schema.erIkkeIArbeid && schema.arbeidsforPaSikt) {
+            if (arbeidsforFOM === undefined) {
+                return 'Du må svare på når pasienten kan komme tilbake i arbeid på sikt';
+            }
+        }
+    },
+    vurderingsDatoUtenArbeid: () => undefined,
 
     // Arbeidsevne
     tilretteleggingArbeidsplassen: () => undefined,
@@ -194,7 +215,6 @@ export const validationFunctions: ValidationType = {
     meldingTilNavBegrunn: () => undefined,
 
     // MeldingTilArbeidsgiver
-    meldingTilArbeidsgiverInnspill: () => undefined,
     meldingTilArbeidsgiverBeskriv: () => undefined,
 
     // Tilbakedatering
@@ -222,7 +242,8 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
-    sykmeldersNavn: () => undefined,
+    sykmeldersFornavn: () => undefined,
+    sykmeldersEtternavn: () => undefined,
     hpr: () => undefined,
     sykmelderAdresse: () => undefined,
     sykmelderTelefon: () => undefined,

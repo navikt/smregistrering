@@ -5,6 +5,7 @@ import {
     MedisinskArsak,
     MedisinskArsakType,
     Periode,
+    Prognose,
     RegistrertSykmelding,
 } from '../types/RegistrertSykmelding';
 import { Oppgave } from '../types/Oppgave';
@@ -191,6 +192,48 @@ const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] | undefined
     return [];
 };
 
+const buildPrognose = (schema: SchemaType): Prognose | undefined => {
+    if (schema.arbeidsfoerEtterPeriode === undefined) {
+        return undefined;
+    }
+    if (schema.erIArbeid && schema.erIkkeIArbeid) {
+        return {
+            arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode,
+            hensynArbeidsplassen: schema.hensynPaArbeidsplassen,
+            erIArbeid: {
+                egetArbeidPaSikt: schema.egetArbeidPaSikt,
+                annetArbeidPaSikt: schema.annetArbeidPaSikt,
+                arbeidFOM: schema.arbeidFOM,
+                vurderingsdato: schema.vurderingsDatoIArbeid,
+            },
+            erIkkeIArbeid: {
+                arbeidsforPaSikt: schema.arbeidsforPaSikt,
+                arbeidsforFOM: schema.arbeidsforFOM,
+            },
+        };
+    } else if (schema.erIArbeid) {
+        return {
+            arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode,
+            hensynArbeidsplassen: schema.hensynPaArbeidsplassen,
+            erIArbeid: {
+                egetArbeidPaSikt: schema.egetArbeidPaSikt,
+                annetArbeidPaSikt: schema.annetArbeidPaSikt,
+                arbeidFOM: schema.arbeidFOM,
+                vurderingsdato: schema.vurderingsDatoIArbeid,
+            },
+        };
+    } else if (schema.erIkkeIArbeid) {
+        return {
+            arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode,
+            hensynArbeidsplassen: schema.hensynPaArbeidsplassen,
+            erIkkeIArbeid: {
+                arbeidsforPaSikt: schema.arbeidsforPaSikt,
+                arbeidsforFOM: schema.arbeidsforFOM,
+            },
+        };
+    }
+};
+
 export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): RegistrertSykmelding | undefined => {
     // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
@@ -199,7 +242,9 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
         schema.harArbeidsgiver === undefined ||
         schema.skjermesForPasient === undefined ||
         schema.syketilfelleStartDato === undefined ||
-        schema.behandletDato === undefined
+        schema.behandletDato === undefined ||
+        schema.sykmeldersEtternavn === undefined ||
+        schema.sykmeldersFornavn === undefined
     ) {
         return undefined;
     }
@@ -223,6 +268,23 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
         },
         behandletDato: schema.behandletDato,
         skjermesForPasient: schema.skjermesForPasient,
+        behandler: {
+            fnr: schema.sykmelderFnr,
+            fornavn: schema.sykmeldersFornavn,
+            etternavn: schema.sykmeldersEtternavn,
+            hpr: schema.hpr,
+            adresse: schema.sykmelderAdresse,
+            tlf: schema.sykmelderTelefon,
+        },
+        meldingTilArbeidsgiver: schema.meldingTilArbeidsgiverBeskriv,
+        meldingTilNAV: {
+            bistandUmiddelbart: schema.meldingTilNavBistand,
+            beskrivBistand: schema.meldingTilNavBegrunn,
+        },
+        tiltakNav: schema.tiltakNavBeskriv,
+        tiltakArbeidsplassen: schema.tilretteleggingArbeidsplassBeskriv,
+        andreTiltak: schema.innspillTilNavBeskriv,
+        prognose: buildPrognose(schema),
     };
     return registrertSykmelding;
 };
