@@ -1,10 +1,8 @@
 import React from 'react';
-import { Checkbox, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
+import { Textarea } from 'nav-frontend-skjema';
 
-import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
-import Subsection from '../formComponents/Subsection';
 import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
