@@ -70,6 +70,11 @@ const App = () => {
             ref: useRef<HTMLDivElement>(null),
             title: SectionTitle.FRISKMELDING_PROGNOSE,
         },
+        [SectionTitle.UTDYPENDE_OPPLYSNIGNER]: {
+            index: 6,
+            ref: useRef<HTMLDivElement>(null),
+            title: SectionTitle.UTDYPENDE_OPPLYSNIGNER,
+        },
         [SectionTitle.ARBEIDSEVNE]: {
             index: 7,
             ref: useRef<HTMLDivElement>(null),

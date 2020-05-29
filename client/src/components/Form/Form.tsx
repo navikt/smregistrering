@@ -6,6 +6,7 @@ import React, { RefObject, useRef, useState } from 'react';
 import FormHeader from './components/FormHeader';
 import FormSubmit from './components/FormSubmit';
 import Panel from '../Panel/Panel';
+import UtdypendeOpplysningerSection, { UtdypendeOpplysninger } from './components/formSections/UtdypendeOpplysningerSection';
 import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/ArbeidsevneSection';
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BekreftelseSection, { Bekreftelse } from './components/formSections/BekreftelseSection';
@@ -33,6 +34,7 @@ export interface SchemaType
         MedisinskVurdering,
         MulighetForArbeid,
         Friskmelding,
+        UtdypendeOpplysninger,
         MeldingTilNav,
         MeldingTilArbeidsgiver,
         Tilbakedatering,
@@ -147,6 +149,13 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
                     />
                     <FriskmeldingSection
                         section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}
+                        setSchema={setSchema}
+                        schema={schema}
+                        errors={formErrors}
+                        validate={validate}
+                    />
+                    <UtdypendeOpplysningerSection
+                        section={sections[SectionTitle.UTDYPENDE_OPPLYSNIGNER]}
                         setSchema={setSchema}
                         schema={schema}
                         errors={formErrors}
