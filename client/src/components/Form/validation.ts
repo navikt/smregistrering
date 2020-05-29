@@ -180,8 +180,8 @@ export const validationFunctions: ValidationType = {
     // Friskmelding
     arbeidsfoerEtterPeriode: () => undefined,
     hensynPaArbeidsplassen: () => undefined,
-    pasientMedArbeidsgiver: () => undefined,
-    pasientUtenArbeidsgiver: () => undefined,
+    erIArbeid: () => undefined,
+    erIkkeIArbeid: () => undefined,
     egetArbeidPaSikt: () => undefined,
     annetArbeidPaSikt: () => undefined,
     arbeidFOM: () => undefined,
@@ -189,7 +189,6 @@ export const validationFunctions: ValidationType = {
     arbeidsforPaSikt: () => undefined,
     arbeidsforFOM: () => undefined,
     vurderingsDatoUtenArbeid: () => undefined,
-    
 
     // Arbeidsevne
     tilretteleggingArbeidsplassen: () => undefined,

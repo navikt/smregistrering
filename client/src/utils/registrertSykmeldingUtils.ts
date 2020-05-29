@@ -196,7 +196,7 @@ const buildPrognose = (schema: SchemaType): Prognose | undefined => {
     if (schema.arbeidsfoerEtterPeriode === undefined) {
         return undefined;
     }
-    if (schema.pasientMedArbeidsgiver && schema.pasientUtenArbeidsgiver) {
+    if (schema.erIArbeid && schema.erIkkeIArbeid) {
         return {
             arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode,
             hensynArbeidsplassen: schema.hensynPaArbeidsplassen,
@@ -211,7 +211,7 @@ const buildPrognose = (schema: SchemaType): Prognose | undefined => {
                 arbeidsforFOM: schema.arbeidsforFOM,
             },
         };
-    } else if (schema.pasientMedArbeidsgiver) {
+    } else if (schema.erIArbeid) {
         return {
             arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode,
             hensynArbeidsplassen: schema.hensynPaArbeidsplassen,
@@ -222,7 +222,7 @@ const buildPrognose = (schema: SchemaType): Prognose | undefined => {
                 vurderingsdato: schema.vurderingsDatoIArbeid,
             },
         };
-    } else if (schema.pasientUtenArbeidsgiver) {
+    } else if (schema.erIkkeIArbeid) {
         return {
             arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode,
             hensynArbeidsplassen: schema.hensynPaArbeidsplassen,

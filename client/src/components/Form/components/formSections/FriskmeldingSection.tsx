@@ -13,8 +13,8 @@ import { Validate } from '../../validation';
 export type Friskmelding = {
     arbeidsfoerEtterPeriode?: boolean;
     hensynPaArbeidsplassen?: string;
-    pasientMedArbeidsgiver?: boolean;
-    pasientUtenArbeidsgiver?: boolean;
+    erIArbeid?: boolean;
+    erIkkeIArbeid?: boolean;
     egetArbeidPaSikt: boolean;
     annetArbeidPaSikt: boolean;
     arbeidFOM?: Date;
@@ -69,20 +69,20 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
 
             <Subsection sectionIdentifier="5.2" underline={true}>
                 <Checkbox
-                    id="pasientMedArbeidsgiver"
-                    checked={schema.pasientMedArbeidsgiver}
+                    id="erIArbeid"
+                    checked={schema.erIArbeid}
                     label="Pasienten har arbeidsgiver"
                     onChange={() => {
                         setSchema(state => ({
                             ...state,
-                            pasientMedArbeidsgiver: !state.pasientMedArbeidsgiver,
+                            erIArbeid: !state.erIArbeid,
                         }));
                     }}
-                    feil={errors.pasientMedArbeidsgiver}
+                    feil={errors.erIArbeid}
                 />
                 <br />
 
-                <ExpandableField show={schema.pasientMedArbeidsgiver}>
+                <ExpandableField show={schema.erIArbeid}>
                     <Subsection sectionIdentifier="5.2.1" underline={false}>
                         <Checkbox
                             id="egetArbeidPaSikt"
@@ -145,20 +145,20 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
 
             <Subsection sectionIdentifier="5.3" underline={false}>
                 <Checkbox
-                    id="pasientUtenArbeidsgiver"
-                    checked={schema.pasientUtenArbeidsgiver}
+                    id="erIkkeIArbeid"
+                    checked={schema.erIkkeIArbeid}
                     label="Pasienten har ikke arbeidsgiver"
                     onChange={() => {
                         setSchema(state => ({
                             ...state,
-                            pasientUtenArbeidsgiver: !state.pasientUtenArbeidsgiver,
+                            erIkkeIArbeid: !state.erIkkeIArbeid,
                         }));
                     }}
-                    feil={errors.pasientUtenArbeidsgiver}
+                    feil={errors.erIkkeIArbeid}
                 />
                 <br />
 
-                <ExpandableField show={schema.pasientUtenArbeidsgiver}>
+                <ExpandableField show={schema.erIkkeIArbeid}>
                     <Subsection sectionIdentifier="5.3.1" underline={false}>
                         <Checkbox
                             id="arbeidsforPaSikt"
