@@ -193,10 +193,6 @@ const Behandler = iots.intersection([
 ]);
 export type Behandler = iots.TypeOf<typeof Behandler>;
 
-/* type sections = '6.1' | '6.2';
-const UtdypendeOpplysninger = iots.record(iots.union(['6.1', '6.2']), iots.string);
-export type UtdypendeOpplysninger = iots.TypeOf<typeof UtdypendeOpplysninger>;
- */
 const UtdypendeOpplysninger = iots.partial({
     '6.1': iots.partial({
         '6.1.1': iots.string,
