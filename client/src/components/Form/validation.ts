@@ -203,7 +203,6 @@ export const validationFunctions: ValidationType = {
     meldingTilNavBegrunn: () => undefined,
 
     // MeldingTilArbeidsgiver
-    meldingTilArbeidsgiverInnspill: () => undefined,
     meldingTilArbeidsgiverBeskriv: () => undefined,
 
     // Tilbakedatering

@@ -10,7 +10,6 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type MeldingTilArbeidsgiver = {
-    meldingTilArbeidsgiverInnspill?: boolean;
     meldingTilArbeidsgiverBeskriv?: string;
 };
 
@@ -31,37 +30,20 @@ const MeldingTilArbeidsgiverSection = ({
 }: MeldingTilArbeidsgiverSectionProps) => {
     return (
         <SectionContainer section={section}>
-            <Subsection sectionIdentifier="9.1" underline={false}>
-                <Checkbox
-                    id="meldingTilArbeidsgiverInnspill"
-                    checked={schema.meldingTilArbeidsgiverInnspill}
-                    label="Andre innspill til arbeidsgiver"
-                    onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            meldingTilArbeidsgiverInnspill: !state.meldingTilArbeidsgiverInnspill,
-                        }))
-                    }
-                    feil={errors.meldingTilArbeidsgiverInnspill}
-                />
-                <br />
-                <ExpandableField show={schema.meldingTilArbeidsgiverInnspill}>
-                    <Textarea
-                        id="meldingTilArbeidsgiverBeskriv"
-                        maxLength={0}
-                        value={schema.meldingTilArbeidsgiverBeskriv || ''}
-                        onChange={({ target: { value } }) => {
-                            setSchema(state => ({
-                                ...state,
-                                meldingTilArbeidsgiverBeskriv: value,
-                            }));
-                            validate('meldingTilArbeidsgiverBeskriv', value);
-                        }}
-                        feil={schema.meldingTilArbeidsgiverBeskriv}
-                        label={<Element>Andre innspill til arbeidsgiver</Element>}
-                    />
-                </ExpandableField>
-            </Subsection>
+            <Textarea
+                id="meldingTilArbeidsgiverBeskriv"
+                maxLength={0}
+                value={schema.meldingTilArbeidsgiverBeskriv || ''}
+                onChange={({ target: { value } }) => {
+                    setSchema(state => ({
+                        ...state,
+                        meldingTilArbeidsgiverBeskriv: value,
+                    }));
+                    validate('meldingTilArbeidsgiverBeskriv', value);
+                }}
+                feil={errors.meldingTilArbeidsgiverBeskriv}
+                label={<Element>9.1 Andre innspill til arbeidsgiver</Element>}
+            />
         </SectionContainer>
     );
 };
