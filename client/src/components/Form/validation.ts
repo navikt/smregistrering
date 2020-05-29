@@ -184,10 +184,22 @@ export const validationFunctions: ValidationType = {
     erIkkeIArbeid: () => undefined,
     egetArbeidPaSikt: () => undefined,
     annetArbeidPaSikt: () => undefined,
-    arbeidFOM: () => undefined,
+    arbeidFOM: (arbeidFOM, schema) => {
+        if (schema.erIArbeid && schema.egetArbeidPaSikt) {
+            if (arbeidFOM === undefined) {
+                return 'Du må svare på når pasienten på sikt kan komme tilbake til samme arbeidsgiver';
+            }
+        }
+    },
     vurderingsDatoIArbeid: () => undefined,
     arbeidsforPaSikt: () => undefined,
-    arbeidsforFOM: () => undefined,
+    arbeidsforFOM: (arbeidsforFOM, schema) => {
+        if (schema.erIkkeIArbeid && schema.arbeidsforPaSikt) {
+            if (arbeidsforFOM === undefined) {
+                return 'Du må svare på når pasienten kan komme tilbake i arbeid på sikt';
+            }
+        }
+    },
     vurderingsDatoUtenArbeid: () => undefined,
 
     // Arbeidsevne
