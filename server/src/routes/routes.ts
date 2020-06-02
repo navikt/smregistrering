@@ -10,7 +10,9 @@ import { Client } from 'openid-client';
 const router = express.Router();
 
 const ensureAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
-  if (req.isAuthenticated() && hasValidAccessToken(req, 'self')) {
+  if (process.env.LABS_GCP === 'true' || process.env.NODE_ENV === 'development') {
+    next();
+  } else if (req.isAuthenticated() && hasValidAccessToken(req, 'self')) {
     next();
   } else {
     if (req.session && req.query.oppgaveid) {

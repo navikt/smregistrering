@@ -1,7 +1,11 @@
 export class UrlError extends Error {}
 
 export const getOppgaveidFromUrlQueryParameter = (): string => {
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+    if (
+        process.env.NODE_ENV === 'development' ||
+        process.env.NODE_ENV === 'test' ||
+        process.env.REACT_APP_GCP_LABS === 'true'
+    ) {
         console.info('Du befinner deg i development og vil derfor motta mock-data');
         return 'test';
     }

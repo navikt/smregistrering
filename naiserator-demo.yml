@@ -1,0 +1,34 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: smregistrering
+  namespace: teamsykmelding
+  labels:
+    team: teamsykmelding
+spec:
+  image: {{ image }}
+  port: 3000
+  ingresses:
+    - "https://smregistrering.labs.nais.io/"
+  liveness:
+    path: /is_alive
+    initialDelay: 10
+    timeout: 5
+    periodSeconds: 5
+    failureThreshold: 30
+  readiness:
+    path: /is_ready
+    initialDelay: 30
+    periodSeconds: 5
+    timeout: 5
+  env:
+    - name: LABS_GCP
+      value: 'true'
+    - name: HOST
+      value: https://smregistrering.labs.nais.io/
+    - name: PORT
+      value: '3000'
+    - name: AAD_DISCOVERY_URL
+      value: https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/v2.0/.well-known/openid-configuration
+    - name: AAD_REDIRECT_URL
+      value: https://smregistrering.nais.preprod.local/callback

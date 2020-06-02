@@ -7,10 +7,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
-import env from './utils/environment';
 
-if (env.isDevelopment || env.isRunningOnHeroku) {
-    require('./mock/setup');
+if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.NODE_ENV === 'test' ||
+    process.env.REACT_APP_GCP_LABS === 'true'
+) {
+    require('./mock/mockSetup');
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
