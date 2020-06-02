@@ -193,6 +193,43 @@ const Behandler = iots.intersection([
 ]);
 export type Behandler = iots.TypeOf<typeof Behandler>;
 
+const UtdypendeOpplysninger = iots.partial({
+    '6.1': iots.partial({
+        '6.1.1': iots.string,
+        '6.1.2': iots.string,
+        '6.1.3': iots.string,
+        '6.1.4': iots.string,
+        '6.1.5': iots.string,
+    }),
+    '6.2': iots.partial({
+        '6.2.1': iots.string,
+        '6.2.2': iots.string,
+        '6.2.3': iots.string,
+        '6.2.4': iots.string,
+    }),
+    '6.3': iots.partial({
+        '6.3.1': iots.string,
+        '6.3.2': iots.string,
+    }),
+    '6.4': iots.partial({
+        '6.4.1': iots.string,
+        '6.4.2': iots.string,
+        '6.4.3': iots.string,
+    }),
+    '6.5': iots.partial({
+        '6.5.1': iots.string,
+        '6.5.2': iots.string,
+        '6.5.3': iots.string,
+        '6.5.4': iots.string,
+    }),
+    '6.6': iots.partial({
+        '6.6.1': iots.string,
+        '6.6.2': iots.string,
+        '6.6.3': iots.string,
+    }),
+});
+export type UtdypendeOpplysninger = iots.TypeOf<typeof UtdypendeOpplysninger>;
+
 export const RegistrertSykmelding = iots.intersection([
     iots.type({
         pasientFnr: iots.string,
@@ -212,6 +249,7 @@ export const RegistrertSykmelding = iots.intersection([
         tiltakNav: iots.string,
         tiltakArbeidsplassen: iots.string,
         andreTiltak: iots.string,
+        utdypendeOpplysninger: UtdypendeOpplysninger,
     }),
 ]);
 export type RegistrertSykmelding = iots.TypeOf<typeof RegistrertSykmelding>;
