@@ -66,7 +66,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
-                            sykmeldersNavn: value,
+                            sykmeldersFornavn: value,
                         }));
                         validate('sykmeldersFornavn', value);
                     }}
@@ -80,7 +80,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     onChange={({ target: { value } }) => {
                         setSchema(state => ({
                             ...state,
-                            sykmeldersNavn: value,
+                            sykmeldersEtternavn: value,
                         }));
                         validate('sykmeldersEtternavn', value);
                     }}
