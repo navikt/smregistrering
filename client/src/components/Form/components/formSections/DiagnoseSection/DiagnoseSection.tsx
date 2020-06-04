@@ -63,10 +63,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     checked={schema.annenFraversArsak}
                     label="Annen lovfestet fraværsgrunn § 8-4, 3. ledd oppgis hvis relevant"
                     onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            annenFraversArsak: !state.annenFraversArsak,
-                        }))
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                annenFraversArsak: !state.annenFraversArsak,
+                            }),
+                        )
                     }
                     feil={errors.annenFraversArsak}
                 />
@@ -77,15 +79,19 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             id="annenFraversArsakGrunn"
                             onChange={({ target: { value } }) => {
                                 if (value === '0') {
-                                    setSchema(state => ({
-                                        ...state,
-                                        annenFraversArsakGrunn: undefined,
-                                    }));
+                                    setSchema(
+                                        (state): SchemaType => ({
+                                            ...state,
+                                            annenFraversArsakGrunn: undefined,
+                                        }),
+                                    );
                                 } else {
-                                    setSchema(state => ({
-                                        ...state,
-                                        annenFraversArsakGrunn: [value] as AnnenFraverGrunn[],
-                                    }));
+                                    setSchema(
+                                        (state): SchemaType => ({
+                                            ...state,
+                                            annenFraversArsakGrunn: [value] as AnnenFraverGrunn[],
+                                        }),
+                                    );
                                 }
                                 validate('annenFraversArsakGrunn', value);
                             }}
@@ -108,10 +114,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             type="text"
                             value={schema.annenFraversArsakBeskrivelse}
                             onChange={({ target: { value } }) => {
-                                setSchema(state => ({
-                                    ...state,
-                                    annenFraversArsakBeskrivelse: value,
-                                }));
+                                setSchema(
+                                    (state): SchemaType => ({
+                                        ...state,
+                                        annenFraversArsakBeskrivelse: value,
+                                    }),
+                                );
                                 validate('annenFraversArsakBeskrivelse', value);
                             }}
                             label={<Element>3.3.2 Beskriv fravær (valgfritt)</Element>}
@@ -127,10 +135,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     checked={schema.svangerskap}
                     label="Sykdommen er svangerskapsrelatert"
                     onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            svangerskap: !state.svangerskap,
-                        }))
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                svangerskap: !state.svangerskap,
+                            }),
+                        )
                     }
                     feil={errors.svangerskap}
                 />
@@ -142,10 +152,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     checked={schema.yrkesskade}
                     label="Sykmeldingen kan skyldes en yrkesskade / yrkessykdom"
                     onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            yrkesskade: !state.yrkesskade,
-                        }))
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                yrkesskade: !state.yrkesskade,
+                            }),
+                        )
                     }
                     feil={errors.yrkesskade}
                 />
@@ -156,10 +168,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                         label="3.6 Eventuell skadedato"
                         value={schema.yrkesskadeDato}
                         onChange={newDates =>
-                            setSchema(state => ({
-                                ...state,
-                                yrkesskadeDato: newDates,
-                            }))
+                            setSchema(
+                                (state): SchemaType => ({
+                                    ...state,
+                                    yrkesskadeDato: newDates,
+                                }),
+                            )
                         }
                     />
                 </ExpandableField>
@@ -171,10 +185,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     checked={schema.skjermesForPasient}
                     label="Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1"
                     onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            skjermesForPasient: !state.skjermesForPasient,
-                        }))
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                skjermesForPasient: !state.skjermesForPasient,
+                            }),
+                        )
                     }
                     feil={errors.skjermesForPasient}
                 />

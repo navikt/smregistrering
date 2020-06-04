@@ -265,8 +265,16 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
-    sykmeldersFornavn: () => undefined,
-    sykmeldersEtternavn: () => undefined,
+    sykmeldersFornavn: (sykmeldersFornavn, schema) => {
+        if (!sykmeldersFornavn) {
+            return 'Sykmelders fornavn må være definert';
+        }
+    },
+    sykmeldersEtternavn: (sykmeldersEtternavn, schema) => {
+        if (!sykmeldersEtternavn) {
+            return 'Sykmelders etternavn må være definert';
+        }
+    },
     hpr: () => undefined,
     sykmelderAdresse: () => undefined,
     sykmelderTelefon: () => undefined,

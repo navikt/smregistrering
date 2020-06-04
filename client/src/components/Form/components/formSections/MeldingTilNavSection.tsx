@@ -31,10 +31,12 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                     checked={schema.meldingTilNavBistand}
                     label="Ønskes bistand fra NAV nå?"
                     onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            meldingTilNavBistand: !state.meldingTilNavBistand,
-                        }))
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                meldingTilNavBistand: !state.meldingTilNavBistand,
+                            }),
+                        )
                     }
                     feil={errors.meldingTilNavBistand}
                 />
@@ -45,10 +47,12 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                         maxLength={0}
                         value={schema.meldingTilNavBegrunn || ''}
                         onChange={({ target: { value } }) => {
-                            setSchema(state => ({
-                                ...state,
-                                meldingTilNavBegrunn: value,
-                            }));
+                            setSchema(
+                                (state): SchemaType => ({
+                                    ...state,
+                                    meldingTilNavBegrunn: value,
+                                }),
+                            );
                             validate('meldingTilNavBegrunn', value);
                         }}
                         feil={errors.meldingTilNavBegrunn}

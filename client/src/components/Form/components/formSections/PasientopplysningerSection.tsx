@@ -30,10 +30,12 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                 <Input
                     id="pasientEtternavn"
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            pasientEtternavn: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                pasientEtternavn: value,
+                            }),
+                        );
 
                         validate('pasientEtternavn', value);
                     }}
@@ -45,10 +47,12 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                 <Input
                     id="pasientFornavn"
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            pasientFornavn: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                pasientFornavn: value,
+                            }),
+                        );
 
                         validate('pasientFornavn', value);
                     }}
@@ -63,10 +67,12 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                 className="form-margin-bottom half"
                 type="tel"
                 onChange={({ target: { value } }) => {
-                    setSchema(state => ({
-                        ...state,
-                        pasientTelefon: value,
-                    }));
+                    setSchema(
+                        (state): SchemaType => ({
+                            ...state,
+                            pasientTelefon: value,
+                        }),
+                    );
                     validate('pasientTelefon', value);
                 }}
                 feil={errors.pasientTelefon}
@@ -79,7 +85,7 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                 type="text"
                 feil={errors.navnFastlege}
                 onChange={({ target: { value } }) => {
-                    setSchema(state => ({ ...state, behandlerNavn: value }));
+                    setSchema((state): SchemaType => ({ ...state, navnFastlege: value }));
                     validate('navnFastlege', value);
                 }}
                 label={<Element>1.4 Navn på pasientens fastlege</Element>}

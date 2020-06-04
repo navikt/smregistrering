@@ -35,10 +35,12 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     checked={schema.tilretteleggingArbeidsplassen}
                     label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
                     onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            tilretteleggingArbeidsplassen: !state.tilretteleggingArbeidsplassen,
-                        }))
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                tilretteleggingArbeidsplassen: !state.tilretteleggingArbeidsplassen,
+                            }),
+                        )
                     }
                     feil={errors.tilretteleggingArbeidsplassen}
                 />
@@ -49,10 +51,12 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                         maxLength={0}
                         value={schema.tilretteleggingArbeidsplassBeskriv || ''}
                         onChange={({ target: { value } }) => {
-                            setSchema(state => ({
-                                ...state,
-                                tilretteleggArbeidsplassBeskriv: value,
-                            }));
+                            setSchema(
+                                (state): SchemaType => ({
+                                    ...state,
+                                    tilretteleggingArbeidsplassBeskriv: value,
+                                }),
+                            );
                             validate('tilretteleggingArbeidsplassBeskriv', value);
                         }}
                         label={<Element>Beskriv</Element>}
@@ -67,10 +71,12 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     checked={schema.tiltakNav}
                     label="Tiltak i regi av NAV"
                     onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            tiltakNav: !state.tiltakNav,
-                        }))
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                tiltakNav: !state.tiltakNav,
+                            }),
+                        )
                     }
                     feil={errors.tiltakNav}
                 />
@@ -81,10 +87,12 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                         maxLength={0}
                         value={schema.tiltakNavBeskriv || ''}
                         onChange={({ target: { value } }) => {
-                            setSchema(state => ({
-                                ...state,
-                                tiltakNavBeskriv: value,
-                            }));
+                            setSchema(
+                                (state): SchemaType => ({
+                                    ...state,
+                                    tiltakNavBeskriv: value,
+                                }),
+                            );
                             validate('tiltakNavBeskriv', value);
                         }}
                         feil={errors.tiltakNavBeskriv}
@@ -99,10 +107,12 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     checked={schema.innspillTilNAv}
                     label="Eventuelle andre innspill til NAV"
                     onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            innspillTilNAv: !state.innspillTilNAv,
-                        }))
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                innspillTilNAv: !state.innspillTilNAv,
+                            }),
+                        )
                     }
                     feil={errors.innspillTilNAv}
                 />
@@ -113,10 +123,12 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                         maxLength={0}
                         value={schema.innspillTilNavBeskriv || ''}
                         onChange={({ target: { value } }) => {
-                            setSchema(state => ({
-                                ...state,
-                                innspillTilNavBeskriv: value,
-                            }));
+                            setSchema(
+                                (state): SchemaType => ({
+                                    ...state,
+                                    innspillTilNavBeskriv: value,
+                                }),
+                            );
                             validate('innspillTilNavBeskriv', value);
                         }}
                         label={<Element>Beskriv</Element>}
