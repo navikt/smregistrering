@@ -25,95 +25,103 @@ const emptyBidiagnose = {
 
 const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: BidiagnoserProps) => {
     const addRow = () => {
-        setSchema(state => {
-            if (!state.biDiagnoser) {
-                // Add two because the initial visible biDiagnose-row isn't in the form data yet
-                return { ...state, biDiagnoser: [emptyBidiagnose, emptyBidiagnose] };
-            }
+        setSchema(
+            (state): SchemaType => {
+                if (!state.biDiagnoser) {
+                    // Add two because the initial visible biDiagnose-row isn't in the form data yet
+                    return { ...state, biDiagnoser: [emptyBidiagnose, emptyBidiagnose] };
+                }
 
-            return {
-                ...state,
-                biDiagnoser: [...state.biDiagnoser, emptyBidiagnose],
-            };
-        });
+                return {
+                    ...state,
+                    biDiagnoser: [...state.biDiagnoser, emptyBidiagnose],
+                };
+            },
+        );
     };
 
     const deleteRow = (index: number) => {
-        setSchema(state => {
-            if (!state.biDiagnoser) {
-                validate('biDiagnoser', undefined);
-                return state;
-            }
+        setSchema(
+            (state): SchemaType => {
+                if (!state.biDiagnoser) {
+                    validate('biDiagnoser', undefined);
+                    return state;
+                }
 
-            if (state.biDiagnoser.length === 1) {
-                validate('biDiagnoser', []);
+                if (state.biDiagnoser.length === 1) {
+                    validate('biDiagnoser', []);
+                    return {
+                        ...state,
+                        biDiagnoser: [],
+                    };
+                }
+
+                const bidiagnoser = state.biDiagnoser;
+                const withoutIndex = [...bidiagnoser.slice(0, index), ...bidiagnoser.slice(index + 1)];
+
+                validate('biDiagnoser', withoutIndex);
                 return {
                     ...state,
-                    biDiagnoser: [],
+                    biDiagnoser: withoutIndex,
                 };
-            }
-
-            const bidiagnoser = state.biDiagnoser;
-            const withoutIndex = [...bidiagnoser.slice(0, index), ...bidiagnoser.slice(index + 1)];
-
-            validate('biDiagnoser', withoutIndex);
-            return {
-                ...state,
-                biDiagnoser: withoutIndex,
-            };
-        });
+            },
+        );
     };
 
     const updateDiagnosesystem = (index: number, system: string) => {
-        setSchema(state => {
-            const biDiagnoser = state.biDiagnoser;
+        setSchema(
+            (state): SchemaType => {
+                const biDiagnoser = state.biDiagnoser;
 
-            if (!biDiagnoser) {
-                const biDiagnoser = [{ system, kode: '', tekst: '' }];
-                validate('biDiagnoser', biDiagnoser);
-                return { ...state, biDiagnoser };
-            }
+                if (!biDiagnoser) {
+                    const biDiagnoser = [{ system, kode: '', tekst: '' }];
+                    validate('biDiagnoser', biDiagnoser);
+                    return { ...state, biDiagnoser };
+                }
 
-            const oldBidiagnose = biDiagnoser[index];
-            if (!oldBidiagnose) {
-                return state;
-            }
+                const oldBidiagnose = biDiagnoser[index];
+                if (!oldBidiagnose) {
+                    return state;
+                }
 
-            // Replace the old bidiagnose with the updated one
-            const updatedBidiagnoser = [
-                ...biDiagnoser.slice(0, index),
-                { system, kode: '', tekst: '' },
-                ...biDiagnoser.slice(index + 1),
-            ];
-            validate('biDiagnoser', updatedBidiagnoser);
-            return { ...state, biDiagnoser: updatedBidiagnoser };
-        });
+                // Replace the old bidiagnose with the updated one
+                const updatedBidiagnoser = [
+                    ...biDiagnoser.slice(0, index),
+                    { system, kode: '', tekst: '' },
+                    ...biDiagnoser.slice(index + 1),
+                ];
+                validate('biDiagnoser', updatedBidiagnoser);
+                return { ...state, biDiagnoser: updatedBidiagnoser };
+            },
+        );
     };
 
     const updateDiagnosecode = (index: number, code: string, text: string) => {
-        setSchema(state => {
-            const biDiagnoser = state.biDiagnoser;
+        setSchema(
+            (state): SchemaType => {
+                const biDiagnoser = state.biDiagnoser;
 
-            if (!biDiagnoser) {
-                return state;
-            }
+                if (!biDiagnoser) {
+                    return state;
+                }
 
-            const oldBidiagnose = biDiagnoser[index];
-            if (!oldBidiagnose) {
-                return state;
-            }
+                const oldBidiagnose = biDiagnoser[index];
+                if (!oldBidiagnose) {
+                    return state;
+                }
 
-            const updatedBidiagnose = { ...oldBidiagnose, kode: code, tekst: text };
+                const updatedBidiagnose = { ...oldBidiagnose, kode: code, tekst: text };
 
-            // Replace the old bidiagnose with the updated one
-            const updatedBidiagnoser = [
-                ...biDiagnoser.slice(0, index),
-                updatedBidiagnose,
-                ...biDiagnoser.slice(index + 1),
-            ];
-            validate('biDiagnoser', updatedBidiagnoser);
-            return { ...state, biDiagnoser: updatedBidiagnoser };
-        });
+                // Replace the old bidiagnose with the updated one
+                const updatedBidiagnoser = [
+                    ...biDiagnoser.slice(0, index),
+                    updatedBidiagnose,
+                    ...biDiagnoser.slice(index + 1),
+                ];
+                validate('biDiagnoser', updatedBidiagnoser);
+                return { ...state, biDiagnoser: updatedBidiagnoser };
+            },
+        );
     };
 
     if (!schema.biDiagnoser) {

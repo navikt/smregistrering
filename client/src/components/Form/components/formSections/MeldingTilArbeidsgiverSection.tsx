@@ -33,10 +33,12 @@ const MeldingTilArbeidsgiverSection = ({
                 maxLength={0}
                 value={schema.meldingTilArbeidsgiverBeskriv || ''}
                 onChange={({ target: { value } }) => {
-                    setSchema(state => ({
-                        ...state,
-                        meldingTilArbeidsgiverBeskriv: value,
-                    }));
+                    setSchema(
+                        (state): SchemaType => ({
+                            ...state,
+                            meldingTilArbeidsgiverBeskriv: value,
+                        }),
+                    );
                     validate('meldingTilArbeidsgiverBeskriv', value);
                 }}
                 feil={errors.meldingTilArbeidsgiverBeskriv}

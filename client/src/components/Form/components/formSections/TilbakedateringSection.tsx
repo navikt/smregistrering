@@ -34,10 +34,12 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                     checked={schema.erTilbakedatert}
                     label="Er sykmelding tilbakedatert?"
                     onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            erTilbakedatert: !state.erTilbakedatert,
-                        }))
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                erTilbakedatert: !state.erTilbakedatert,
+                            }),
+                        )
                     }
                     feil={errors.erTilbakedatert}
                 />
@@ -48,10 +50,12 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
                         value={schema.kontaktDato}
                         onChange={newDate =>
-                            setSchema(state => ({
-                                ...state,
-                                kontaktDato: newDate,
-                            }))
+                            setSchema(
+                                (state): SchemaType => ({
+                                    ...state,
+                                    kontaktDato: newDate,
+                                }),
+                            )
                         }
                     />
                 </ExpandableField>
@@ -63,10 +67,12 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                     checked={schema.kunneIkkeIvaretaEgneInteresser}
                     label="Pasienten har ikke kunnet ivareta egne interesser"
                     onChange={() => {
-                        setSchema(state => ({
-                            ...state,
-                            kunneIkkeIvaretaEgneInteresser: !state.kunneIkkeIvaretaEgneInteresser,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                kunneIkkeIvaretaEgneInteresser: !state.kunneIkkeIvaretaEgneInteresser,
+                            }),
+                        );
                         validate('kunneIkkeIvaretaEgneInteresser', schema.kunneIkkeIvaretaEgneInteresser);
                     }}
                     feil={errors.kunneIkkeIvaretaEgneInteresser}
@@ -78,10 +84,12 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                         maxLength={0}
                         value={schema.begrunnelseIkkeKontakt || ''}
                         onChange={({ target: { value } }) => {
-                            setSchema(state => ({
-                                ...state,
-                                begrunnelseIkkeKontakt: value,
-                            }));
+                            setSchema(
+                                (state): SchemaType => ({
+                                    ...state,
+                                    begrunnelseIkkeKontakt: value,
+                                }),
+                            );
                             validate('begrunnelseIkkeKontakt', value);
                         }}
                         feil={errors.begrunnelseIkkeKontakt}

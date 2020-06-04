@@ -28,10 +28,12 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                     className="form-margin-bottom half"
                     defaultValue={schema.pasientFnr}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            pasientFnr: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                pasientFnr: value,
+                            }),
+                        );
                         validate('pasientFnr', value);
                     }}
                     label={<EtikettLiten>Fødselsnummer (11 siffer)</EtikettLiten>}
@@ -42,7 +44,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                     label="Startdato for legemeldt fravær"
                     value={schema.syketilfelleStartDato}
                     onChange={newDates => {
-                        setSchema(state => ({ ...state, syketilfelleStartDato: newDates }));
+                        setSchema((state): SchemaType => ({ ...state, syketilfelleStartDato: newDates }));
                         validate('syketilfelleStartDato', newDates);
                     }}
                     feil={errors.syketilfelleStartDato}
@@ -52,7 +54,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                     label="Behandletdato"
                     value={schema.behandletDato}
                     onChange={newDates => {
-                        setSchema(state => ({ ...state, behandletDato: newDates }));
+                        setSchema((state): SchemaType => ({ ...state, behandletDato: newDates }));
                         validate('behandletDato', newDates);
                     }}
                     feil={errors.behandletDato}

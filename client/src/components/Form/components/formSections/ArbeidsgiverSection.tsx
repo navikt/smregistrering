@@ -31,15 +31,19 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 value={schema.harArbeidsgiver}
                 onChange={({ target: { value } }) => {
                     if (value === '0') {
-                        setSchema(state => ({
-                            ...state,
-                            harArbeidsgiver: undefined,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                harArbeidsgiver: undefined,
+                            }),
+                        );
                     } else {
-                        setSchema(state => ({
-                            ...state,
-                            harArbeidsgiver: value as HarArbeidsgiver,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                harArbeidsgiver: value as HarArbeidsgiver,
+                            }),
+                        );
                     }
                     validate('harArbeidsgiver', value);
                 }}
@@ -62,10 +66,12 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 type="text"
                 value={schema.arbeidsgiverNavn}
                 onChange={({ target: { value } }) => {
-                    setSchema(state => ({
-                        ...state,
-                        arbeidsgiverNavn: value,
-                    }));
+                    setSchema(
+                        (state): SchemaType => ({
+                            ...state,
+                            arbeidsgiverNavn: value,
+                        }),
+                    );
                     validate('arbeidsgiverNavn', value);
                 }}
                 label={<Element>2.2 Arbeidsgiver for denne sykmeldingen</Element>}
@@ -77,10 +83,12 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 type="text"
                 value={schema.yrkesbetegnelse}
                 onChange={({ target: { value } }) => {
-                    setSchema(state => ({
-                        ...state,
-                        yrkesbetegnelse: value,
-                    }));
+                    setSchema(
+                        (state): SchemaType => ({
+                            ...state,
+                            yrkesbetegnelse: value,
+                        }),
+                    );
                     validate('yrkesbetegnelse', value);
                 }}
                 label={<Element>2.3 Yrke/stilling for dette arbeidsforholdet</Element>}
@@ -92,10 +100,12 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 type="number"
                 value={schema.stillingsprosent}
                 onChange={({ target: { value } }) => {
-                    setSchema(state => ({
-                        ...state,
-                        stillingsprosent: Number(value),
-                    }));
+                    setSchema(
+                        (state): SchemaType => ({
+                            ...state,
+                            stillingsprosent: Number(value),
+                        }),
+                    );
                     validate('stillingsprosent', value);
                 }}
                 label={<Element>2.4 Stillingsprosent</Element>}

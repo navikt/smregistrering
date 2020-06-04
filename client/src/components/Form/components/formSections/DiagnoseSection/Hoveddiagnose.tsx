@@ -36,10 +36,12 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                             kode: '',
                             tekst: '',
                         };
-                        setSchema(state => ({
-                            ...state,
-                            hovedDiagnose: updatedDiagnose,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                hovedDiagnose: updatedDiagnose,
+                            }),
+                        );
                         validate('hovedDiagnose', updatedDiagnose);
                     }}
                     label={<Element>3.1.1 Kodesystem</Element>}
@@ -53,14 +55,16 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
                     onChange={(kode?: string, tekst?: string) => {
-                        setSchema(state => ({
-                            ...state,
-                            hovedDiagnose: {
-                                ...state.hovedDiagnose,
-                                kode,
-                                tekst,
-                            },
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                hovedDiagnose: {
+                                    ...state.hovedDiagnose,
+                                    kode,
+                                    tekst,
+                                },
+                            }),
+                        );
                         validate('hovedDiagnose', {
                             system: hoveddiagnoseSystem,
                             kode,

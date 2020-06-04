@@ -37,10 +37,12 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     checked={schema.legitimert}
                     label="Pasienten er kjent eller har vist legitimasjon"
                     onChange={() =>
-                        setSchema(state => ({
-                            ...state,
-                            legitimert: !state.legitimert,
-                        }))
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                legitimert: !state.legitimert,
+                            }),
+                        )
                     }
                     feil={errors.legitimert}
                 />
@@ -49,10 +51,12 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 id="sykmelderFnr"
                 className="form-margin-bottom half"
                 onChange={({ target: { value } }) => {
-                    setSchema(state => ({
-                        ...state,
-                        sykmelderFnr: value,
-                    }));
+                    setSchema(
+                        (state): SchemaType => ({
+                            ...state,
+                            sykmelderFnr: value,
+                        }),
+                    );
                     validate('sykmelderFnr', value);
                 }}
                 label={<Element>Sykmelders fødselsnummer (11 siffer)</Element>}
@@ -64,10 +68,12 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     className="form-margin-bottom"
                     value={schema.sykmeldersFornavn}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            sykmeldersFornavn: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                sykmeldersFornavn: value,
+                            }),
+                        );
                         validate('sykmeldersFornavn', value);
                     }}
                     feil={errors.sykmeldersFornavn}
@@ -78,10 +84,12 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     className="form-margin-bottom"
                     value={schema.sykmeldersEtternavn}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            sykmeldersEtternavn: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                sykmeldersEtternavn: value,
+                            }),
+                        );
                         validate('sykmeldersEtternavn', value);
                     }}
                     feil={errors.sykmeldersEtternavn}
@@ -94,10 +102,12 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     className="form-margin-bottom"
                     value={schema.hpr}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            hpr: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                hpr: value,
+                            }),
+                        );
                         validate('hpr', value);
                     }}
                     feil={errors.hpr}
@@ -108,10 +118,12 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     className="form-margin-bottom"
                     value={schema.sykmelderTelefon}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            sykmelderTelefon: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                sykmelderTelefon: value,
+                            }),
+                        );
                         validate('sykmelderTelefon', value);
                     }}
                     feil={errors.sykmelderTelefon}
@@ -123,10 +135,12 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 id="sykmelderAdresse"
                 className="form-margin-bottom"
                 onChange={({ target: { value } }) =>
-                    setSchema(state => ({
-                        ...state,
-                        sykmelderAdresse: value,
-                    }))
+                    setSchema(
+                        (state): SchemaType => ({
+                            ...state,
+                            sykmelderAdresse: value,
+                        }),
+                    )
                 }
                 label={<Element>12.6 Adresse</Element>}
             />

@@ -58,14 +58,16 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.avventendeSykmelding}
                     label="Pasienten kan benytte avventende sykmelding"
                     onChange={() => {
-                        setSchema(state => {
-                            validate('avventendeSykmelding', !state.avventendeSykmelding);
-                            validate('mulighetForArbeid', !state.avventendeSykmelding);
-                            return {
-                                ...state,
-                                avventendeSykmelding: !state.avventendeSykmelding,
-                            };
-                        });
+                        setSchema(
+                            (state): SchemaType => {
+                                validate('avventendeSykmelding', !state.avventendeSykmelding);
+                                validate('mulighetForArbeid', !state.avventendeSykmelding);
+                                return {
+                                    ...state,
+                                    avventendeSykmelding: !state.avventendeSykmelding,
+                                };
+                            },
+                        );
                     }}
                     feil={errors.avventendeSykmelding}
                 />
@@ -79,10 +81,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             value={schema.avventendePeriode || []}
                             onChange={newDates => {
                                 console.log(newDates);
-                                setSchema(state => ({
-                                    ...state,
-                                    avventendePeriode: newDates,
-                                }));
+                                setSchema(
+                                    (state): SchemaType => ({
+                                        ...state,
+                                        avventendePeriode: newDates,
+                                    }),
+                                );
                                 validate('avventendePeriode', newDates);
                             }}
                             feil={errors.avventendePeriode}
@@ -92,10 +96,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             maxLength={0}
                             value={schema.avventendeInnspillTilArbeidsgiver || ''}
                             onChange={({ target: { value } }) => {
-                                setSchema(state => ({
-                                    ...state,
-                                    avventendeInnspillTilArbeidsgiver: value,
-                                }));
+                                setSchema(
+                                    (state): SchemaType => ({
+                                        ...state,
+                                        avventendeInnspillTilArbeidsgiver: value,
+                                    }),
+                                );
                                 validate('avventendeInnspillTilArbeidsgiver', value);
                             }}
                             feil={errors.avventendeInnspillTilArbeidsgiver}
@@ -110,14 +116,16 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.gradertSykmelding}
                     label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
                     onChange={() => {
-                        setSchema(state => {
-                            validate('gradertSykmelding', !state.gradertSykmelding);
-                            validate('mulighetForArbeid', !state.gradertSykmelding);
-                            return {
-                                ...state,
-                                gradertSykmelding: !state.gradertSykmelding,
-                            };
-                        });
+                        setSchema(
+                            (state): SchemaType => {
+                                validate('gradertSykmelding', !state.gradertSykmelding);
+                                validate('mulighetForArbeid', !state.gradertSykmelding);
+                                return {
+                                    ...state,
+                                    gradertSykmelding: !state.gradertSykmelding,
+                                };
+                            },
+                        );
                     }}
                     feil={errors.gradertSykmelding}
                 />
@@ -130,10 +138,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelTo="4.2.2 t.o.m."
                             value={schema.gradertPeriode || []}
                             onChange={newDates =>
-                                setSchema(state => ({
-                                    ...state,
-                                    gradertPeriode: newDates,
-                                }))
+                                setSchema(
+                                    (state): SchemaType => ({
+                                        ...state,
+                                        gradertPeriode: newDates,
+                                    }),
+                                )
                             }
                             feil={errors.gradertPeriode}
                         />
@@ -143,10 +153,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             type="number"
                             value={schema.gradertGrad}
                             onChange={({ target: { value } }) => {
-                                setSchema(state => ({
-                                    ...state,
-                                    gradertGrad: parseInt(value),
-                                }));
+                                setSchema(
+                                    (state): SchemaType => ({
+                                        ...state,
+                                        gradertGrad: parseInt(value),
+                                    }),
+                                );
                                 validate('gradertGrad', value);
                             }}
                             feil={errors.gradertGrad}
@@ -160,10 +172,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.gradertReisetilskudd}
                     label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
                     onChange={() => {
-                        setSchema(state => ({
-                            ...state,
-                            gradertReisetilskudd: !state.gradertReisetilskudd,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                gradertReisetilskudd: !state.gradertReisetilskudd,
+                            }),
+                        );
                         validate('gradertReisetilskudd', schema.gradertReisetilskudd);
                     }}
                     feil={errors.gradertReisetilskudd}
@@ -176,14 +190,16 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.aktivitetIkkeMuligSykmelding}
                     label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
                     onChange={() => {
-                        setSchema(state => {
-                            validate('aktivitetIkkeMuligSykmelding', !state.aktivitetIkkeMuligSykmelding);
-                            validate('mulighetForArbeid', !state.aktivitetIkkeMuligSykmelding);
-                            return {
-                                ...state,
-                                aktivitetIkkeMuligSykmelding: !state.aktivitetIkkeMuligSykmelding,
-                            };
-                        });
+                        setSchema(
+                            (state): SchemaType => {
+                                validate('aktivitetIkkeMuligSykmelding', !state.aktivitetIkkeMuligSykmelding);
+                                validate('mulighetForArbeid', !state.aktivitetIkkeMuligSykmelding);
+                                return {
+                                    ...state,
+                                    aktivitetIkkeMuligSykmelding: !state.aktivitetIkkeMuligSykmelding,
+                                };
+                            },
+                        );
                     }}
                     feil={errors.aktivitetIkkeMuligSykmelding}
                 />
@@ -196,10 +212,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelTo="4.3.2 t.o.m."
                             value={schema.aktivitetIkkeMuligPeriode || []}
                             onChange={newDates =>
-                                setSchema(state => ({
-                                    ...state,
-                                    aktivitetIkkeMuligPeriode: newDates,
-                                }))
+                                setSchema(
+                                    (state): SchemaType => ({
+                                        ...state,
+                                        aktivitetIkkeMuligPeriode: newDates,
+                                    }),
+                                )
                             }
                             feil={errors.aktivitetIkkeMuligPeriode}
                         />
@@ -210,10 +228,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             checked={schema.aktivitetIkkeMuligMedisinskArsak}
                             label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
                             onChange={() =>
-                                setSchema(state => ({
-                                    ...state,
-                                    aktivitetIkkeMuligMedisinskArsak: !state.aktivitetIkkeMuligMedisinskArsak,
-                                }))
+                                setSchema(
+                                    (state): SchemaType => ({
+                                        ...state,
+                                        aktivitetIkkeMuligMedisinskArsak: !state.aktivitetIkkeMuligMedisinskArsak,
+                                    }),
+                                )
                             }
                             feil={errors.aktivitetIkkeMuligMedisinskArsak}
                         />
@@ -223,15 +243,21 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     id="aktivitetIkkeMuligMedisinskArsakType"
                                     onChange={({ target: { value } }) => {
                                         if (value === '0') {
-                                            setSchema(state => ({
-                                                ...state,
-                                                aktivitetIkkeMuligMedisinskArsakType: undefined,
-                                            }));
+                                            setSchema(
+                                                (state): SchemaType => ({
+                                                    ...state,
+                                                    aktivitetIkkeMuligMedisinskArsakType: undefined,
+                                                }),
+                                            );
                                         } else {
-                                            setSchema(state => ({
-                                                ...state,
-                                                aktivitetIkkeMuligMedisinskArsakType: [value] as MedisinskArsakType[],
-                                            }));
+                                            setSchema(
+                                                (state): SchemaType => ({
+                                                    ...state,
+                                                    aktivitetIkkeMuligMedisinskArsakType: [
+                                                        value,
+                                                    ] as MedisinskArsakType[],
+                                                }),
+                                            );
                                         }
                                         validate('aktivitetIkkeMuligMedisinskArsakType', value);
                                     }}
@@ -254,10 +280,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     className="form-margin-bottom"
                                     type="text"
                                     onChange={({ target: { value } }) => {
-                                        setSchema(state => ({
-                                            ...state,
-                                            aktivitetIkkeMuligMedisinskArsakBeskrivelse: value,
-                                        }));
+                                        setSchema(
+                                            (state): SchemaType => ({
+                                                ...state,
+                                                aktivitetIkkeMuligMedisinskArsakBeskrivelse: value,
+                                            }),
+                                        );
                                         validate('aktivitetIkkeMuligMedisinskArsakBeskrivelse', value);
                                     }}
                                     label={<Element>Beskrivelse</Element>}
@@ -272,10 +300,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             checked={schema.aktivitetIkkeMuligArbeidsrelatertArsak}
                             label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
                             onChange={() =>
-                                setSchema(state => ({
-                                    ...state,
-                                    aktivitetIkkeMuligArbeidsrelatertArsak: !state.aktivitetIkkeMuligArbeidsrelatertArsak,
-                                }))
+                                setSchema(
+                                    (state): SchemaType => ({
+                                        ...state,
+                                        aktivitetIkkeMuligArbeidsrelatertArsak: !state.aktivitetIkkeMuligArbeidsrelatertArsak,
+                                    }),
+                                )
                             }
                             feil={errors.aktivitetIkkeMuligArbeidsrelatertArsak}
                         />
@@ -285,17 +315,21 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     id="aktivitetIkkeMuligArbeidsrelatertArsakType"
                                     onChange={({ target: { value } }) => {
                                         if (value === '0') {
-                                            setSchema(state => ({
-                                                ...state,
-                                                aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
-                                            }));
+                                            setSchema(
+                                                (state): SchemaType => ({
+                                                    ...state,
+                                                    aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
+                                                }),
+                                            );
                                         } else {
-                                            setSchema(state => ({
-                                                ...state,
-                                                aktivitetIkkeMuligArbeidsrelatertArsakType: [
-                                                    value,
-                                                ] as ArbeidsrelatertArsakType[],
-                                            }));
+                                            setSchema(
+                                                (state): SchemaType => ({
+                                                    ...state,
+                                                    aktivitetIkkeMuligArbeidsrelatertArsakType: [
+                                                        value,
+                                                    ] as ArbeidsrelatertArsakType[],
+                                                }),
+                                            );
                                         }
                                         validate('aktivitetIkkeMuligArbeidsrelatertArsakType', value);
                                     }}
@@ -318,10 +352,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     className="form-margin-bottom"
                                     type="text"
                                     onChange={({ target: { value } }) => {
-                                        setSchema(state => ({
-                                            ...state,
-                                            aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: value,
-                                        }));
+                                        setSchema(
+                                            (state): SchemaType => ({
+                                                ...state,
+                                                aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: value,
+                                            }),
+                                        );
                                         validate('aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse', value);
                                     }}
                                     label={<Element>Beskrivelse</Element>}
@@ -339,14 +375,16 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.behandlingsdagerSykmelding}
                     label="Pasienten kan ikke være i arbeid på behandlingsdager"
                     onChange={() => {
-                        setSchema(state => {
-                            validate('behandlingsdagerSykmelding', !state.behandlingsdagerSykmelding);
-                            validate('mulighetForArbeid', !state.behandlingsdagerSykmelding);
-                            return {
-                                ...state,
-                                behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
-                            };
-                        });
+                        setSchema(
+                            (state): SchemaType => {
+                                validate('behandlingsdagerSykmelding', !state.behandlingsdagerSykmelding);
+                                validate('mulighetForArbeid', !state.behandlingsdagerSykmelding);
+                                return {
+                                    ...state,
+                                    behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
+                                };
+                            },
+                        );
                     }}
                     feil={errors.behandlingsdagerSykmelding}
                 />
@@ -359,10 +397,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelTo="4.4.2 t.o.m."
                             value={schema.behandlingsdagerPeriode || []}
                             onChange={newDates => {
-                                setSchema(state => ({
-                                    ...state,
-                                    behandlingsdagerPeriode: newDates,
-                                }));
+                                setSchema(
+                                    (state): SchemaType => ({
+                                        ...state,
+                                        behandlingsdagerPeriode: newDates,
+                                    }),
+                                );
                                 validate('behandlingsdagerPeriode', newDates);
                             }}
                             feil={errors.behandlingsdagerPeriode}
@@ -373,10 +413,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             className="form-margin-bottom half"
                             type="number"
                             onChange={({ target: { value } }) => {
-                                setSchema(state => ({
-                                    ...state,
-                                    behandlingsdagerAntall: Number(value),
-                                }));
+                                setSchema(
+                                    (state): SchemaType => ({
+                                        ...state,
+                                        behandlingsdagerAntall: Number(value),
+                                    }),
+                                );
                                 validate('behandlingsdagerAntall', value);
                             }}
                             feil={errors.behandlingsdagerAntall}
@@ -392,14 +434,16 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.reisetilskuddSykmelding}
                     label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
                     onChange={() => {
-                        setSchema(state => {
-                            validate('reisetilskuddSykmelding', !state.reisetilskuddSykmelding);
-                            validate('mulighetForArbeid', !state.reisetilskuddSykmelding);
-                            return {
-                                ...state,
-                                reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
-                            };
-                        });
+                        setSchema(
+                            (state): SchemaType => {
+                                validate('reisetilskuddSykmelding', !state.reisetilskuddSykmelding);
+                                validate('mulighetForArbeid', !state.reisetilskuddSykmelding);
+                                return {
+                                    ...state,
+                                    reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
+                                };
+                            },
+                        );
                     }}
                     feil={errors.reisetilskuddSykmelding}
                 />
@@ -411,10 +455,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         labelTo="4.5.2 t.o.m."
                         value={schema.reisetilskuddPeriode || []}
                         onChange={newDates => {
-                            setSchema(state => ({
-                                ...state,
-                                reisetilskuddPeriode: newDates,
-                            }));
+                            setSchema(
+                                (state): SchemaType => ({
+                                    ...state,
+                                    reisetilskuddPeriode: newDates,
+                                }),
+                            );
                             validate('reisetilskuddPeriode', newDates);
                         }}
                         feil={errors.reisetilskuddPeriode}

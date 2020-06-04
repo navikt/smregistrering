@@ -60,10 +60,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende611 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende611: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende611: value,
+                            }),
+                        );
                         validate('utdypende611', value);
                     }}
                     feil={errors.utdypende611}
@@ -80,10 +82,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende612 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende612: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende612: value,
+                            }),
+                        );
                         validate('utdypende612', value);
                     }}
                     feil={errors.utdypende612}
@@ -95,10 +99,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende613 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende613: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende613: value,
+                            }),
+                        );
                         validate('utdypende613', value);
                     }}
                     feil={errors.utdypende613}
@@ -110,10 +116,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende614 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende614: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende614: value,
+                            }),
+                        );
                         validate('utdypende614', value);
                     }}
                     feil={errors.utdypende614}
@@ -125,10 +133,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende615 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende615: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende615: value,
+                            }),
+                        );
                         validate('utdypende615', value);
                     }}
                     feil={errors.utdypende612}
@@ -142,10 +152,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende621 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende621: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende621: value,
+                            }),
+                        );
                         validate('utdypende621', value);
                     }}
                     feil={errors.utdypende621}
@@ -157,10 +169,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende622 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende622: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende622: value,
+                            }),
+                        );
                         validate('utdypende622', value);
                     }}
                     feil={errors.utdypende622}
@@ -172,10 +186,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende623 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende623: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende623: value,
+                            }),
+                        );
                         validate('utdypende623', value);
                     }}
                     feil={errors.utdypende623}
@@ -187,10 +203,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende624 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende624: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende624: value,
+                            }),
+                        );
                         validate('utdypende624', value);
                     }}
                     feil={errors.utdypende624}
@@ -206,10 +224,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende631 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende631: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende631: value,
+                            }),
+                        );
                         validate('utdypende631', value);
                     }}
                     feil={errors.utdypende631}
@@ -221,10 +241,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende632 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende632: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende632: value,
+                            }),
+                        );
                         validate('utdypende632', value);
                     }}
                     feil={errors.utdypende632}
@@ -243,10 +265,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende641 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende641: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende641: value,
+                            }),
+                        );
                         validate('utdypende641', value);
                     }}
                     feil={errors.utdypende641}
@@ -258,10 +282,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende642 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende642: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende642: value,
+                            }),
+                        );
                         validate('utdypende642', value);
                     }}
                     feil={errors.utdypende642}
@@ -275,10 +301,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende643 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende643: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende643: value,
+                            }),
+                        );
                         validate('utdypende643', value);
                     }}
                     feil={errors.utdypende643}
@@ -296,10 +324,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende651 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende651: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende651: value,
+                            }),
+                        );
                         validate('utdypende651', value);
                     }}
                     feil={errors.utdypende651}
@@ -311,10 +341,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende652 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende652: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende652: value,
+                            }),
+                        );
                         validate('utdypende652', value);
                     }}
                     feil={errors.utdypende652}
@@ -326,10 +358,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende653 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende653: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende653: value,
+                            }),
+                        );
                         validate('utdypende653', value);
                     }}
                     feil={errors.utdypende653}
@@ -345,10 +379,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende654 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende654: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende654: value,
+                            }),
+                        );
                         validate('utdypende654', value);
                     }}
                     feil={errors.utdypende654}
@@ -367,10 +403,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende661 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende661: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende661: value,
+                            }),
+                        );
                         validate('utdypende661', value);
                     }}
                     feil={errors.utdypende661}
@@ -387,10 +425,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende662 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende662: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende662: value,
+                            }),
+                        );
                         validate('utdypende662', value);
                     }}
                     feil={errors.utdypende662}
@@ -407,10 +447,12 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende663 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(state => ({
-                            ...state,
-                            utdypende663: value,
-                        }));
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                utdypende663: value,
+                            }),
+                        );
                         validate('utdypende663', value);
                     }}
                     feil={errors.utdypende663}
