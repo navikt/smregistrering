@@ -11,12 +11,12 @@ import { Validate } from '../../validation';
 
 export type Bekreftelse = {
     legitimert: boolean;
-    sykmeldersFornavn?: string;
-    sykmeldersEtternavn?: string;
-    sykmelderFnr?: string;
-    hpr?: string;
-    sykmelderTelefon?: string;
-    sykmelderAdresse?: string;
+    sykmeldersFornavn?: string | null;
+    sykmeldersEtternavn?: string | null;
+    sykmelderFnr?: string | null;
+    hpr?: string | null;
+    sykmelderTelefon?: string | null;
+    sykmelderAdresse?: string | null;
 };
 
 type BekreftelseSectionProps = {
@@ -50,6 +50,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             <Input
                 id="sykmelderFnr"
                 className="form-margin-bottom half"
+                value={schema.sykmelderFnr ? schema.sykmelderFnr : undefined}
                 onChange={({ target: { value } }) => {
                     setSchema(
                         (state): SchemaType => ({
@@ -66,7 +67,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 <Input
                     id="sykmeldersFornavn"
                     className="form-margin-bottom"
-                    value={schema.sykmeldersFornavn}
+                    value={schema.sykmeldersFornavn ? schema.sykmeldersFornavn : undefined}
                     onChange={({ target: { value } }) => {
                         setSchema(
                             (state): SchemaType => ({
@@ -82,7 +83,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 <Input
                     id="sykmeldersEtternavn"
                     className="form-margin-bottom"
-                    value={schema.sykmeldersEtternavn}
+                    value={schema.sykmeldersEtternavn ? schema.sykmeldersEtternavn : undefined}
                     onChange={({ target: { value } }) => {
                         setSchema(
                             (state): SchemaType => ({
@@ -100,7 +101,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 <Input
                     id="hpr"
                     className="form-margin-bottom"
-                    value={schema.hpr}
+                    value={schema.hpr ? schema.hpr : undefined}
                     onChange={({ target: { value } }) => {
                         setSchema(
                             (state): SchemaType => ({
@@ -116,7 +117,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 <Input
                     id="sykmelderTelefon"
                     className="form-margin-bottom"
-                    value={schema.sykmelderTelefon}
+                    value={schema.sykmelderTelefon ? schema.sykmelderTelefon : undefined}
                     onChange={({ target: { value } }) => {
                         setSchema(
                             (state): SchemaType => ({
@@ -134,6 +135,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             <Input
                 id="sykmelderAdresse"
                 className="form-margin-bottom"
+                value={schema.sykmelderAdresse ? schema.sykmelderAdresse : undefined}
                 onChange={({ target: { value } }) =>
                     setSchema(
                         (state): SchemaType => ({

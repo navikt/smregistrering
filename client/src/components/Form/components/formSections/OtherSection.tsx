@@ -7,9 +7,9 @@ import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Validate } from '../../validation';
 
 export type Other = {
-    pasientFnr?: string;
-    syketilfelleStartDato?: Date;
-    behandletDato?: Date;
+    pasientFnr?: string | null;
+    syketilfelleStartDato?: Date | null;
+    behandletDato?: Date | null;
 };
 
 type OtherSectionProps = {
@@ -26,7 +26,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                 <Input
                     id="pasientFnr"
                     className="form-margin-bottom half"
-                    defaultValue={schema.pasientFnr}
+                    value={schema.pasientFnr ? schema.pasientFnr : undefined}
                     onChange={({ target: { value } }) => {
                         setSchema(
                             (state): SchemaType => ({
@@ -42,7 +42,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                 <DatePicker
                     id="syketilfelleStartDato"
                     label="Startdato for legemeldt fravær"
-                    value={schema.syketilfelleStartDato}
+                    value={schema.syketilfelleStartDato ? schema.syketilfelleStartDato : undefined}
                     onChange={newDates => {
                         setSchema((state): SchemaType => ({ ...state, syketilfelleStartDato: newDates }));
                         validate('syketilfelleStartDato', newDates);
@@ -52,7 +52,7 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                 <DatePicker
                     id="behandletDato"
                     label="Behandletdato"
-                    value={schema.behandletDato}
+                    value={schema.behandletDato ? schema.behandletDato : undefined}
                     onChange={newDates => {
                         setSchema((state): SchemaType => ({ ...state, behandletDato: newDates }));
                         validate('behandletDato', newDates);

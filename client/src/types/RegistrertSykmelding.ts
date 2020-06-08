@@ -41,7 +41,7 @@ const MedisinskArsak = iots.intersection([
         ]),
     }),
     iots.partial({
-        beskrivelse: iots.string,
+        beskrivelse: iots.union([iots.string, iots.null]),
     }),
 ]);
 export type MedisinskArsak = iots.TypeOf<typeof MedisinskArsak>;
@@ -54,7 +54,7 @@ const ArbeidsrelatertArsak = iots.intersection([
         ]),
     }),
     iots.partial({
-        beskrivelse: iots.string,
+        beskrivelse: iots.union([iots.string, iots.null]),
     }),
 ]);
 export type ArbeidsrelatertArsak = iots.TypeOf<typeof ArbeidsrelatertArsak>;
@@ -70,22 +70,22 @@ const Gradert = iots.intersection([
         reisetilskudd: iots.boolean,
     }),
     iots.partial({
-        grad: iots.number,
+        grad: iots.union([iots.number, iots.null]),
     }),
 ]);
 export type Gradert = iots.TypeOf<typeof Gradert>;
 
-const Periode = iots.intersection([
+export const Periode = iots.intersection([
     iots.type({
         fom: DateFromString,
         tom: DateFromString,
         reisetilskudd: iots.boolean,
     }),
     iots.partial({
-        aktivitetIkkeMulig: AktivitetIkkeMulig,
-        avventendeInnspillTilArbeidsgiver: iots.string,
-        behandlingsdager: iots.number,
-        gradert: Gradert,
+        aktivitetIkkeMulig: iots.union([AktivitetIkkeMulig, iots.null]),
+        avventendeInnspillTilArbeidsgiver: iots.union([iots.string, iots.null]),
+        behandlingsdager: iots.union([iots.number, iots.null]),
+        gradert: iots.union([Gradert, iots.null]),
     }),
 ]);
 export type Periode = iots.TypeOf<typeof Periode>;
@@ -105,33 +105,33 @@ const AnnenFraversArsak = iots.intersection([
         ]),
     }),
     iots.partial({
-        beskrivelse: iots.string,
+        beskrivelse: iots.union([iots.string, iots.null]),
     }),
 ]);
 export type AnnenFraversArsak = iots.TypeOf<typeof AnnenFraversArsak>;
 
-const MedisinskVurdering = iots.intersection([
+export const MedisinskVurdering = iots.intersection([
     iots.type({
         svangerskap: iots.boolean,
         yrkesskade: iots.boolean,
         biDiagnoser: iots.union([iots.array(Diagnose), iots.array(iots.undefined)]),
     }),
     iots.partial({
-        yrkesskadeDato: DateFromString,
-        hovedDiagnose: Diagnose,
-        annenFraversArsak: AnnenFraversArsak,
+        yrkesskadeDato: iots.union([DateFromString, iots.null]),
+        hovedDiagnose: iots.union([Diagnose, iots.null]),
+        annenFraversArsak: iots.union([AnnenFraversArsak, iots.null]),
     }),
 ]);
 export type MedisinskVurdering = iots.TypeOf<typeof MedisinskVurdering>;
 
-const Arbeidsgiver = iots.intersection([
+export const Arbeidsgiver = iots.intersection([
     iots.type({
         harArbeidsgiver: createEnumType<HarArbeidsgiver>(HarArbeidsgiver, 'HarArbeidsgiver'),
     }),
     iots.partial({
-        navn: iots.string,
-        yrkesbetegnelse: iots.string,
-        stillingsprosent: iots.number,
+        navn: iots.union([iots.string, iots.null]),
+        yrkesbetegnelse: iots.union([iots.string, iots.null]),
+        stillingsprosent: iots.union([iots.number, iots.null]),
     }),
 ]);
 export type Arbeidsgiver = iots.TypeOf<typeof Arbeidsgiver>;
@@ -142,8 +142,8 @@ const ErIArbeid = iots.intersection([
         annetArbeidPaSikt: iots.boolean,
     }),
     iots.partial({
-        arbeidFOM: DateFromString,
-        vurderingsdato: DateFromString,
+        arbeidFOM: iots.union([DateFromString, iots.null]),
+        vurderingsdato: iots.union([DateFromString, iots.null]),
     }),
 ]);
 
@@ -152,43 +152,43 @@ const ErIkkeIArbeid = iots.intersection([
         arbeidsforPaSikt: iots.boolean,
     }),
     iots.partial({
-        arbeidsforFOM: DateFromString,
-        vurderingsdato: DateFromString,
+        arbeidsforFOM: iots.union([DateFromString, iots.null]),
+        vurderingsdato: iots.union([DateFromString, iots.null]),
     }),
 ]);
 
-const Prognose = iots.intersection([
+export const Prognose = iots.intersection([
     iots.type({
         arbeidsforEtterPeriode: iots.boolean,
     }),
     iots.partial({
-        hensynArbeidsplassen: iots.string,
-        erIArbeid: ErIArbeid,
-        erIkkeIArbeid: ErIkkeIArbeid,
+        hensynArbeidsplassen: iots.union([iots.string, iots.null]),
+        erIArbeid: iots.union([ErIArbeid, iots.null]),
+        erIkkeIArbeid: iots.union([ErIkkeIArbeid, iots.null]),
     }),
 ]);
 export type Prognose = iots.TypeOf<typeof Prognose>;
 
-const MeldingTilNAV = iots.intersection([
+export const MeldingTilNAV = iots.intersection([
     iots.type({
         bistandUmiddelbart: iots.boolean,
     }),
     iots.partial({
-        beskrivBistand: iots.string,
+        beskrivBistand: iots.union([iots.string, iots.null]),
     }),
 ]);
 export type MeldingTilNAV = iots.TypeOf<typeof MeldingTilNAV>;
 
-const Behandler = iots.intersection([
+export const Behandler = iots.intersection([
     iots.type({
         fornavn: iots.string,
         etternavn: iots.string,
         fnr: iots.string,
     }),
     iots.partial({
-        hpr: iots.string,
-        adresse: iots.string,
-        tlf: iots.string,
+        hpr: iots.union([iots.string, iots.null]),
+        adresse: iots.union([iots.string, iots.null]),
+        tlf: iots.union([iots.string, iots.null]),
     }),
 ]);
 export type Behandler = iots.TypeOf<typeof Behandler>;
@@ -230,6 +230,12 @@ const UtdypendeOpplysninger = iots.partial({
 });
 export type UtdypendeOpplysninger = iots.TypeOf<typeof UtdypendeOpplysninger>;
 
+export const KontaktMedPasient = iots.partial({
+    kontaktDato: iots.union([DateFromString, iots.null]),
+    begrunnelseIkkeKontakt: iots.union([iots.string, iots.null]),
+});
+export type KontaktMedPasient = iots.TypeOf<typeof KontaktMedPasient>;
+
 export const RegistrertSykmelding = iots.intersection([
     iots.type({
         pasientFnr: iots.string,
@@ -241,14 +247,15 @@ export const RegistrertSykmelding = iots.intersection([
         behandletDato: DateFromString,
         skjermesForPasient: iots.boolean,
         behandler: Behandler,
+        kontaktMedPasient: KontaktMedPasient,
     }),
     iots.partial({
         prognose: Prognose,
         meldingTilNAV: MeldingTilNAV,
-        meldingTilArbeidsgiver: iots.string,
-        tiltakNav: iots.string,
-        tiltakArbeidsplassen: iots.string,
-        andreTiltak: iots.string,
+        meldingTilArbeidsgiver: iots.union([iots.string, iots.null]),
+        tiltakNav: iots.union([iots.string, iots.null]),
+        tiltakArbeidsplassen: iots.union([iots.string, iots.null]),
+        andreTiltak: iots.union([iots.string, iots.null]),
         utdypendeOpplysninger: UtdypendeOpplysninger,
     }),
 ]);

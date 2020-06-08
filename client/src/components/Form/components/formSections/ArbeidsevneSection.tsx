@@ -1,8 +1,7 @@
 import React from 'react';
-import { Checkbox, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
+import { Textarea } from 'nav-frontend-skjema';
 
-import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { ErrorSchemaType, SchemaType } from '../../Form';
@@ -10,12 +9,9 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type Arbeidsevne = {
-    tilretteleggingArbeidsplassen?: boolean;
-    tilretteleggingArbeidsplassBeskriv?: string;
-    tiltakNav?: boolean;
-    tiltakNavBeskriv?: string;
-    innspillTilNAv?: boolean;
-    innspillTilNavBeskriv?: string;
+    tiltakArbeidsplassen?: string | null;
+    tiltakNav?: string | null;
+    andreTiltak?: string | null;
 };
 
 export type ArbeidsevneSectionProps = {
@@ -30,111 +26,64 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="7.1">
-                <Checkbox
-                    id="tilretteleggingArbeidsplassen"
-                    checked={schema.tilretteleggingArbeidsplassen}
-                    label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
-                    onChange={() =>
+                <Textarea
+                    id="tiltakArbeidsplassen"
+                    maxLength={0}
+                    value={schema.tiltakArbeidsplassen || ''}
+                    onChange={({ target: { value } }) => {
                         setSchema(
                             (state): SchemaType => ({
                                 ...state,
-                                tilretteleggingArbeidsplassen: !state.tilretteleggingArbeidsplassen,
+                                tiltakArbeidsplassen: value,
                             }),
-                        )
-                    }
-                    feil={errors.tilretteleggingArbeidsplassen}
+                        );
+                        validate('tiltakArbeidsplassen', value);
+                    }}
+                    label={<Element>Tilrettelegging/hensyn som bør tas på arbeidsplassen</Element>}
+                    feil={errors.tiltakArbeidsplassen}
                 />
-                <br />
-                <ExpandableField show={schema.tilretteleggingArbeidsplassen}>
-                    <Textarea
-                        id="tilretteleggArbeidsplassBeskriv"
-                        maxLength={0}
-                        value={schema.tilretteleggingArbeidsplassBeskriv || ''}
-                        onChange={({ target: { value } }) => {
-                            setSchema(
-                                (state): SchemaType => ({
-                                    ...state,
-                                    tilretteleggingArbeidsplassBeskriv: value,
-                                }),
-                            );
-                            validate('tilretteleggingArbeidsplassBeskriv', value);
-                        }}
-                        label={<Element>Beskriv</Element>}
-                        feil={errors.tilretteleggingArbeidsplassBeskriv}
-                    />
-                </ExpandableField>
             </Subsection>
 
             <Subsection sectionIdentifier="7.2">
-                <Checkbox
+                <Textarea
                     id="tiltakNav"
-                    checked={schema.tiltakNav}
-                    label="Tiltak i regi av NAV"
-                    onChange={() =>
+                    maxLength={0}
+                    value={schema.tiltakNav || ''}
+                    onChange={({ target: { value } }) => {
                         setSchema(
                             (state): SchemaType => ({
                                 ...state,
-                                tiltakNav: !state.tiltakNav,
+                                tiltakNav: value,
                             }),
-                        )
-                    }
+                        );
+                        validate('tiltakNav', value);
+                    }}
                     feil={errors.tiltakNav}
+                    label={
+                        <Element>
+                            Tiltak i regi av NAV. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)
+                        </Element>
+                    }
                 />
-                <br />
-                <ExpandableField show={schema.tiltakNav}>
-                    <Textarea
-                        id="tiltakNavBeskriv"
-                        maxLength={0}
-                        value={schema.tiltakNavBeskriv || ''}
-                        onChange={({ target: { value } }) => {
-                            setSchema(
-                                (state): SchemaType => ({
-                                    ...state,
-                                    tiltakNavBeskriv: value,
-                                }),
-                            );
-                            validate('tiltakNavBeskriv', value);
-                        }}
-                        feil={errors.tiltakNavBeskriv}
-                        label={<Element>Beskriv. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)</Element>}
-                    />
-                </ExpandableField>
             </Subsection>
 
             <Subsection sectionIdentifier="7.3" underline={false}>
-                <Checkbox
-                    id="innspillTilNAv"
-                    checked={schema.innspillTilNAv}
-                    label="Eventuelle andre innspill til NAV"
-                    onChange={() =>
+                <Textarea
+                    id="andreTiltak"
+                    maxLength={0}
+                    value={schema.andreTiltak || ''}
+                    onChange={({ target: { value } }) => {
                         setSchema(
                             (state): SchemaType => ({
                                 ...state,
-                                innspillTilNAv: !state.innspillTilNAv,
+                                andreTiltak: value,
                             }),
-                        )
-                    }
-                    feil={errors.innspillTilNAv}
+                        );
+                        validate('andreTiltak', value);
+                    }}
+                    label={<Element>Eventuelle andre innspill til NAV</Element>}
+                    feil={errors.andreTiltak}
                 />
-                <br />
-                <ExpandableField show={schema.innspillTilNAv}>
-                    <Textarea
-                        id="innspillTilNavBeskriv"
-                        maxLength={0}
-                        value={schema.innspillTilNavBeskriv || ''}
-                        onChange={({ target: { value } }) => {
-                            setSchema(
-                                (state): SchemaType => ({
-                                    ...state,
-                                    innspillTilNavBeskriv: value,
-                                }),
-                            );
-                            validate('innspillTilNavBeskriv', value);
-                        }}
-                        label={<Element>Beskriv</Element>}
-                        feil={errors.innspillTilNavBeskriv}
-                    />
-                </ExpandableField>
             </Subsection>
         </SectionContainer>
     );

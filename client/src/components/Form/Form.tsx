@@ -6,7 +6,6 @@ import React, { RefObject, useRef, useState } from 'react';
 import FormHeader from './components/FormHeader';
 import FormSubmit from './components/FormSubmit';
 import Panel from '../Panel/Panel';
-import UtdypendeOpplysningerSection, { UtdypendeOpplysninger } from './components/formSections/UtdypendeOpplysningerSection';
 import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/ArbeidsevneSection';
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BekreftelseSection, { Bekreftelse } from './components/formSections/BekreftelseSection';
@@ -21,6 +20,9 @@ import MulighetForArbeidSection, { MulighetForArbeid } from './components/formSe
 import OtherSection, { Other } from './components/formSections/OtherSection';
 import PasientopplysningerSection, { Pasientopplysninger } from './components/formSections/PasientopplysningerSection';
 import TilbakedateringSection, { Tilbakedatering } from './components/formSections/TilbakedateringSection';
+import UtdypendeOpplysningerSection, {
+    UtdypendeOpplysninger,
+} from './components/formSections/UtdypendeOpplysningerSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
 import { SectionTitle, Sections } from '../../types/Section';
@@ -45,7 +47,15 @@ export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined }
 
 const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     return {
-        pasientFnr: oppgave.fnr,
+        pasientFnr: oppgave.papirSmRegistering?.fnr,
+        tiltakNav: oppgave.papirSmRegistering?.tiltakNAV,
+        tiltakArbeidsplassen: oppgave.papirSmRegistering?.tiltakArbeidsplassen,
+        andreTiltak: oppgave.papirSmRegistering?.andreTiltak,
+        meldingTilArbeidsgiverBeskriv: oppgave.papirSmRegistering?.meldingTilArbeidsgiver,
+        harArbeidsgiver: oppgave.papirSmRegistering?.arbeidsgiver?.harArbeidsgiver,
+        arbeidsgiverNavn: oppgave.papirSmRegistering?.arbeidsgiver?.navn,
+        yrkesbetegnelse: oppgave.papirSmRegistering?.arbeidsgiver?.yrkesbetegnelse,
+        stillingsprosent: oppgave.papirSmRegistering?.arbeidsgiver?.stillingsprosent,
         avventendeSykmelding: false,
         gradertSykmelding: false,
         gradertReisetilskudd: false,
@@ -53,16 +63,28 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
         behandlingsdagerSykmelding: false,
         reisetilskuddSykmelding: false,
         annenFraversArsak: false,
-        svangerskap: false,
-        yrkesskade: false,
-        skjermesForPasient: false,
-        erTilbakedatert: false,
-        kunneIkkeIvaretaEgneInteresser: false,
+        svangerskap: oppgave.papirSmRegistering?.medisinskVurdering?.svangerskap ? true : false,
+        yrkesskade: oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskade ? true : false,
+        yrkesskadeDato: oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskadeDato,
+        skjermesForPasient: oppgave.papirSmRegistering?.skjermesForPasient ? true : false,
+        erTilbakedatert: !!oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato,
+        kontaktDato: oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato,
+        kunneIkkeIvaretaEgneInteresser: !!oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
+        begrunnelseIkkeKontakt: oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
         legitimert: false,
-        meldingTilNavBistand: false,
+        meldingTilNavBistand: oppgave.papirSmRegistering?.meldingTilNAV?.bistandUmiddelbart ? true : false,
+        meldingTilNavBegrunn: oppgave.papirSmRegistering?.meldingTilNAV?.beskrivBistand,
         egetArbeidPaSikt: false,
         annetArbeidPaSikt: false,
         arbeidsforPaSikt: false,
+        syketilfelleStartDato: oppgave.papirSmRegistering?.syketilfelleStartDato,
+        behandletDato: oppgave.papirSmRegistering?.behandletTidspunkt,
+        sykmelderFnr: oppgave.papirSmRegistering?.behandler?.fnr,
+        sykmeldersFornavn: oppgave.papirSmRegistering?.behandler?.fornavn,
+        sykmeldersEtternavn: oppgave.papirSmRegistering?.behandler?.etternavn,
+        sykmelderAdresse: oppgave.papirSmRegistering?.behandler?.adresse,
+        sykmelderTelefon: oppgave.papirSmRegistering?.behandler?.tlf,
+        hpr: oppgave.papirSmRegistering?.behandler?.hpr,
     };
 };
 
@@ -77,6 +99,8 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
     const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
     const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
     const errorSummaryRef = useRef<HTMLDivElement>(null);
+
+    console.log(schema);
 
     const validate: Validate = (name, value) => {
         const validationFunction = validationFunctions[name];

@@ -276,12 +276,14 @@ const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysninger =
 export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): RegistrertSykmelding | undefined => {
     // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
-        schema.pasientFnr === undefined ||
-        schema.sykmelderFnr === undefined ||
-        schema.harArbeidsgiver === undefined ||
-        schema.skjermesForPasient === undefined ||
-        schema.syketilfelleStartDato === undefined ||
-        schema.behandletDato === undefined ||
+        !schema.pasientFnr ||
+        !schema.sykmelderFnr ||
+        !schema.sykmeldersEtternavn ||
+        !schema.sykmeldersFornavn ||
+        !schema.harArbeidsgiver ||
+        !schema.syketilfelleStartDato ||
+        !schema.behandletDato ||
+        !schema.skjermesForPasient ||
         schema.sykmeldersEtternavn === undefined ||
         schema.sykmeldersFornavn === undefined
     ) {
@@ -320,11 +322,15 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
             bistandUmiddelbart: schema.meldingTilNavBistand,
             beskrivBistand: schema.meldingTilNavBegrunn,
         },
-        tiltakNav: schema.tiltakNavBeskriv,
-        tiltakArbeidsplassen: schema.tilretteleggingArbeidsplassBeskriv,
-        andreTiltak: schema.innspillTilNavBeskriv,
+        tiltakNav: schema.tiltakNav,
+        tiltakArbeidsplassen: schema.tiltakArbeidsplassen,
+        andreTiltak: schema.andreTiltak,
         prognose: buildPrognose(schema),
         utdypendeOpplysninger: buildUtdypendeOpplysninger(schema),
+        kontaktMedPasient: {
+            kontaktDato: schema.kontaktDato,
+            begrunnelseIkkeKontakt: schema.begrunnelseIkkeKontakt,
+        },
     };
     return registrertSykmelding;
 };

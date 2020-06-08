@@ -12,9 +12,9 @@ import { Validate } from '../../validation';
 
 export type Tilbakedatering = {
     erTilbakedatert: boolean;
-    kontaktDato?: Date;
+    kontaktDato?: Date | null;
     kunneIkkeIvaretaEgneInteresser: boolean;
-    begrunnelseIkkeKontakt?: string;
+    begrunnelseIkkeKontakt?: string | null;
 };
 
 type TilbakedateringSectionProps = {
@@ -48,7 +48,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                     <DatePicker
                         id="kontaktDato"
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
-                        value={schema.kontaktDato}
+                        value={schema.kontaktDato ? schema.kontaktDato : undefined}
                         onChange={newDate =>
                             setSchema(
                                 (state): SchemaType => ({

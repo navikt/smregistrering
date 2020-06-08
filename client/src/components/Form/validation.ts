@@ -226,12 +226,9 @@ export const validationFunctions: ValidationType = {
     utdypende663: () => undefined,
 
     // Arbeidsevne
-    tilretteleggingArbeidsplassen: () => undefined,
-    tilretteleggingArbeidsplassBeskriv: () => undefined,
+    tiltakArbeidsplassen: () => undefined,
     tiltakNav: () => undefined,
-    tiltakNavBeskriv: () => undefined,
-    innspillTilNAv: () => undefined,
-    innspillTilNavBeskriv: () => undefined,
+    andreTiltak: () => undefined,
 
     // MeldingTilNav
     meldingTilNavBistand: () => undefined,

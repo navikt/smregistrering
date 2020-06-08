@@ -11,7 +11,7 @@ import { Validate } from '../../validation';
 
 export type MeldingTilNav = {
     meldingTilNavBistand: boolean;
-    meldingTilNavBegrunn?: string;
+    meldingTilNavBegrunn?: string | null;
 };
 
 type MeldingTilNavSectionProps = {
