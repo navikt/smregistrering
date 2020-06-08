@@ -11,17 +11,17 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type Friskmelding = {
-    arbeidsfoerEtterPeriode?: boolean;
-    hensynPaArbeidsplassen?: string;
+    arbeidsfoerEtterPeriode: boolean;
+    hensynPaArbeidsplassen?: string | null;
     erIArbeid?: boolean;
     erIkkeIArbeid?: boolean;
     egetArbeidPaSikt: boolean;
     annetArbeidPaSikt: boolean;
-    arbeidFOM?: Date;
-    vurderingsDatoIArbeid?: Date;
+    arbeidFOM?: Date | null;
+    vurderingsDatoIArbeid?: Date | null;
     arbeidsforPaSikt: boolean;
-    arbeidsforFOM?: Date;
-    vurderingsDatoUtenArbeid?: Date;
+    arbeidsforFOM?: Date | null;
+    vurderingsDatoUtenArbeid?: Date | null;
 };
 
 type FriskmeldingSectionProps = {
@@ -109,7 +109,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                             <DatePicker
                                 id="arbeidFOM"
                                 label="Anslå når dette kan skje"
-                                value={schema.arbeidFOM}
+                                value={schema.arbeidFOM ? schema.arbeidFOM : undefined}
                                 onChange={newDate => {
                                     setSchema(
                                         (state): SchemaType => ({
@@ -143,7 +143,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                     <DatePicker
                         id="vurderingsDatoIArbeid"
                         label="5.2.3 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?"
-                        value={schema.vurderingsDatoIArbeid}
+                        value={schema.vurderingsDatoIArbeid ? schema.vurderingsDatoIArbeid : undefined}
                         onChange={newDate => {
                             setSchema(
                                 (state): SchemaType => ({
@@ -195,7 +195,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                             <DatePicker
                                 id="arbeidsforFOM"
                                 label="Anslå når dette kan skje"
-                                value={schema.arbeidsforFOM}
+                                value={schema.arbeidsforFOM ? schema.arbeidsforFOM : undefined}
                                 onChange={newDate => {
                                     setSchema(
                                         (state): SchemaType => ({
@@ -211,7 +211,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                     <DatePicker
                         id="vurderingsDatoUtenArbeid"
                         label="5.3.2 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?"
-                        value={schema.vurderingsDatoUtenArbeid}
+                        value={schema.vurderingsDatoUtenArbeid ? schema.vurderingsDatoUtenArbeid : undefined}
                         onChange={newDate => {
                             setSchema(
                                 (state): SchemaType => ({
