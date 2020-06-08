@@ -257,6 +257,7 @@ export const RegistrertSykmelding = iots.intersection([
         tiltakArbeidsplassen: iots.union([iots.string, iots.null]),
         andreTiltak: iots.union([iots.string, iots.null]),
         utdypendeOpplysninger: UtdypendeOpplysninger,
+        navnFastlege: iots.union([iots.string, iots.null]),
     }),
 ]);
 export type RegistrertSykmelding = iots.TypeOf<typeof RegistrertSykmelding>;
