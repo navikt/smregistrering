@@ -278,6 +278,7 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
     if (
         !schema.pasientFnr ||
         !schema.sykmelderFnr ||
+        !schema.aktoerId ||
         !schema.sykmeldersEtternavn ||
         !schema.sykmeldersFornavn ||
         !schema.harArbeidsgiver ||
@@ -314,7 +315,14 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
             fornavn: schema.sykmeldersFornavn,
             etternavn: schema.sykmeldersEtternavn,
             hpr: schema.hpr,
-            adresse: schema.sykmelderAdresse,
+            aktoerId: schema.aktoerId,
+            adresse: {
+                gate: schema.sykmelderGate,
+                kommune: schema.sykmelderKommune,
+                postnummer: schema.sykmelderPostnummer,
+                postboks: schema.sykmelderPostboks,
+                land: schema.sykmelderLand,
+            },
             tlf: schema.sykmelderTelefon,
         },
         meldingTilArbeidsgiver: schema.meldingTilArbeidsgiverBeskriv,

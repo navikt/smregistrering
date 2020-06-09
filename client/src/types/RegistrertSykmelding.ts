@@ -179,15 +179,26 @@ export const MeldingTilNAV = iots.intersection([
 ]);
 export type MeldingTilNAV = iots.TypeOf<typeof MeldingTilNAV>;
 
+const Adresse = iots.partial({
+    gate: iots.union([iots.string, iots.null]),
+    postnummer: iots.union([iots.number, iots.null]),
+    kommune: iots.union([iots.string, iots.null]),
+    postboks: iots.union([iots.string, iots.null]),
+    land: iots.union([iots.string, iots.null]),
+});
+export type Adresse = iots.TypeOf<typeof Adresse>;
+
 export const Behandler = iots.intersection([
     iots.type({
         fornavn: iots.string,
         etternavn: iots.string,
         fnr: iots.string,
+        aktoerId: iots.string,
     }),
     iots.partial({
         hpr: iots.union([iots.string, iots.null]),
-        adresse: iots.union([iots.string, iots.null]),
+        her: iots.union([iots.string, iots.null]),
+        adresse: iots.union([Adresse, iots.null]),
         tlf: iots.union([iots.string, iots.null]),
     }),
 ]);

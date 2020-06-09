@@ -32,11 +32,12 @@
             "begrunnelseIkkeKontakt": "Hadde omgangssyke"
         },
         "behandler": {
+            "aktoerId": "12345",
             "fornavn": "Lege",
             "etternavn": "Legesen",
             "fnr": "01234567891",
             "hpr": "11213131",
-            "adresse": "Legeveien 29",
+            "adresse": {},
             "tlf": "11223344"
         },
         "prognose": {
