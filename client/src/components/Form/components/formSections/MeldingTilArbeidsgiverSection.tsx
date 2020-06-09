@@ -8,7 +8,7 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type MeldingTilArbeidsgiver = {
-    meldingTilArbeidsgiverBeskriv?: string;
+    meldingTilArbeidsgiverBeskriv?: string | null;
 };
 
 type MeldingTilArbeidsgiverSectionProps = {

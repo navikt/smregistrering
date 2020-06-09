@@ -9,10 +9,10 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type Arbeidsgiver = {
-    harArbeidsgiver?: HarArbeidsgiver;
-    arbeidsgiverNavn?: string;
-    yrkesbetegnelse?: string;
-    stillingsprosent?: number;
+    harArbeidsgiver?: HarArbeidsgiver | null;
+    arbeidsgiverNavn?: string | null;
+    yrkesbetegnelse?: string | null;
+    stillingsprosent?: number | null;
 };
 
 type ArbeidsgiverSectionProps = {
@@ -28,7 +28,7 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
         <SectionContainer section={section}>
             <Select
                 id="harArbeidsgiver"
-                value={schema.harArbeidsgiver}
+                value={schema.harArbeidsgiver ? schema.harArbeidsgiver : undefined}
                 onChange={({ target: { value } }) => {
                     if (value === '0') {
                         setSchema(
@@ -64,7 +64,7 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 id="arbeidsgiverNavn"
                 className="form-margin-bottom"
                 type="text"
-                value={schema.arbeidsgiverNavn}
+                value={schema.arbeidsgiverNavn ? schema.arbeidsgiverNavn : undefined}
                 onChange={({ target: { value } }) => {
                     setSchema(
                         (state): SchemaType => ({
@@ -81,7 +81,7 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 id="yrkesbetegnelse"
                 className="form-margin-bottom"
                 type="text"
-                value={schema.yrkesbetegnelse}
+                value={schema.yrkesbetegnelse ? schema.yrkesbetegnelse : undefined}
                 onChange={({ target: { value } }) => {
                     setSchema(
                         (state): SchemaType => ({
@@ -98,7 +98,7 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 id="stillingsprosent"
                 className="form-margin-bottom half"
                 type="number"
-                value={schema.stillingsprosent}
+                value={schema.stillingsprosent ? schema.stillingsprosent : undefined}
                 onChange={({ target: { value } }) => {
                     setSchema(
                         (state): SchemaType => ({

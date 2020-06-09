@@ -6,7 +6,6 @@ import React, { RefObject, useRef, useState } from 'react';
 import FormHeader from './components/FormHeader';
 import FormSubmit from './components/FormSubmit';
 import Panel from '../Panel/Panel';
-import UtdypendeOpplysningerSection, { UtdypendeOpplysninger } from './components/formSections/UtdypendeOpplysningerSection';
 import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/ArbeidsevneSection';
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BekreftelseSection, { Bekreftelse } from './components/formSections/BekreftelseSection';
@@ -21,6 +20,9 @@ import MulighetForArbeidSection, { MulighetForArbeid } from './components/formSe
 import OtherSection, { Other } from './components/formSections/OtherSection';
 import PasientopplysningerSection, { Pasientopplysninger } from './components/formSections/PasientopplysningerSection';
 import TilbakedateringSection, { Tilbakedatering } from './components/formSections/TilbakedateringSection';
+import UtdypendeOpplysningerSection, {
+    UtdypendeOpplysninger,
+} from './components/formSections/UtdypendeOpplysningerSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
 import { SectionTitle, Sections } from '../../types/Section';
@@ -45,7 +47,15 @@ export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined }
 
 const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     return {
-        pasientFnr: oppgave.fnr,
+        pasientFnr: oppgave.papirSmRegistering?.fnr,
+        tiltakNav: oppgave.papirSmRegistering?.tiltakNAV,
+        tiltakArbeidsplassen: oppgave.papirSmRegistering?.tiltakArbeidsplassen,
+        andreTiltak: oppgave.papirSmRegistering?.andreTiltak,
+        meldingTilArbeidsgiverBeskriv: oppgave.papirSmRegistering?.meldingTilArbeidsgiver,
+        harArbeidsgiver: oppgave.papirSmRegistering?.arbeidsgiver?.harArbeidsgiver,
+        arbeidsgiverNavn: oppgave.papirSmRegistering?.arbeidsgiver?.navn,
+        yrkesbetegnelse: oppgave.papirSmRegistering?.arbeidsgiver?.yrkesbetegnelse,
+        stillingsprosent: oppgave.papirSmRegistering?.arbeidsgiver?.stillingsprosent,
         avventendeSykmelding: false,
         gradertSykmelding: false,
         gradertReisetilskudd: false,
@@ -53,16 +63,41 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
         behandlingsdagerSykmelding: false,
         reisetilskuddSykmelding: false,
         annenFraversArsak: false,
-        svangerskap: false,
-        yrkesskade: false,
-        skjermesForPasient: false,
-        erTilbakedatert: false,
-        kunneIkkeIvaretaEgneInteresser: false,
+        svangerskap: !!oppgave.papirSmRegistering?.medisinskVurdering?.svangerskap,
+        yrkesskade: !!oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskade,
+        yrkesskadeDato: oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskadeDato,
+        skjermesForPasient: !!oppgave.papirSmRegistering?.skjermesForPasient,
+        erTilbakedatert: !!oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato,
+        kontaktDato: oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato,
+        kunneIkkeIvaretaEgneInteresser: !!oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
+        begrunnelseIkkeKontakt: oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
         legitimert: false,
-        meldingTilNavBistand: false,
-        egetArbeidPaSikt: false,
-        annetArbeidPaSikt: false,
-        arbeidsforPaSikt: false,
+        meldingTilNavBistand: !!oppgave.papirSmRegistering?.meldingTilNAV?.bistandUmiddelbart,
+        meldingTilNavBegrunn: oppgave.papirSmRegistering?.meldingTilNAV?.beskrivBistand,
+        syketilfelleStartDato: oppgave.papirSmRegistering?.syketilfelleStartDato,
+        behandletDato: oppgave.papirSmRegistering?.behandletTidspunkt,
+        sykmelderFnr: oppgave.papirSmRegistering?.behandler?.fnr,
+        sykmeldersFornavn: oppgave.papirSmRegistering?.behandler?.fornavn,
+        sykmeldersEtternavn: oppgave.papirSmRegistering?.behandler?.etternavn,
+        aktoerId: oppgave.papirSmRegistering?.behandler?.aktoerId,
+        sykmelderGate: oppgave.papirSmRegistering?.behandler?.adresse?.gate,
+        sykmelderKommune: oppgave.papirSmRegistering?.behandler?.adresse?.kommune,
+        sykmelderPostboks: oppgave.papirSmRegistering?.behandler?.adresse?.postboks,
+        sykmelderPostnummer: oppgave.papirSmRegistering?.behandler?.adresse?.postnummer,
+        sykmelderLand: oppgave.papirSmRegistering?.behandler?.adresse?.land,
+        sykmelderTelefon: oppgave.papirSmRegistering?.behandler?.tlf,
+        hpr: oppgave.papirSmRegistering?.behandler?.hpr,
+        arbeidsfoerEtterPeriode: !!oppgave.papirSmRegistering?.prognose?.arbeidsforEtterPeriode,
+        hensynPaArbeidsplassen: oppgave.papirSmRegistering?.prognose?.hensynArbeidsplassen,
+        erIArbeid: !!oppgave.papirSmRegistering?.prognose?.erIArbeid,
+        egetArbeidPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIArbeid?.egetArbeidPaSikt,
+        annetArbeidPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIArbeid?.annetArbeidPaSikt,
+        arbeidFOM: oppgave.papirSmRegistering?.prognose?.erIArbeid?.arbeidFOM,
+        vurderingsDatoIArbeid: oppgave.papirSmRegistering?.prognose?.erIArbeid?.vurderingsdato,
+        erIkkeIArbeid: !!oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid,
+        arbeidsforPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid?.arbeidsforPaSikt,
+        arbeidsforFOM: oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid?.arbeidsforFOM,
+        vurderingsDatoUtenArbeid: oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid?.vurderingsdato,
     };
 };
 

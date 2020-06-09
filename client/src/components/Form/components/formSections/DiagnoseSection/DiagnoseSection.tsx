@@ -18,12 +18,12 @@ export type MedisinskVurdering = {
     hovedDiagnose?: Partial<Diagnose>;
     biDiagnoser?: Diagnose[];
     yrkesskade: boolean;
-    yrkesskadeDato?: Date;
+    yrkesskadeDato?: Date | null;
     svangerskap: boolean;
     annenFraversArsak: boolean;
     annenFraversArsakGrunn?: AnnenFraverGrunn[];
     annenFraversArsakBeskrivelse?: string;
-    skjermesForPasient?: boolean; // TODO: burde kanskje flyttes
+    skjermesForPasient?: boolean | null; // TODO: burde kanskje flyttes
 };
 
 type DiagnoseSectionProps = {
@@ -166,7 +166,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     <DatePicker
                         id="yrkesskadeDato"
                         label="3.6 Eventuell skadedato"
-                        value={schema.yrkesskadeDato}
+                        value={schema.yrkesskadeDato ? schema.yrkesskadeDato : undefined}
                         onChange={newDates =>
                             setSchema(
                                 (state): SchemaType => ({
@@ -182,7 +182,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
             <Subsection sectionIdentifier="3.7" underline={false}>
                 <Checkbox
                     id="skjermesForPasient"
-                    checked={schema.skjermesForPasient}
+                    checked={schema.skjermesForPasient ? schema.skjermesForPasient : undefined}
                     label="Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1"
                     onChange={() =>
                         setSchema(

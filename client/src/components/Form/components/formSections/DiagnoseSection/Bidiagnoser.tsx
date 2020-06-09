@@ -24,7 +24,8 @@ const emptyBidiagnose = {
 };
 
 const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: BidiagnoserProps) => {
-    const addRow = () => {
+    const addRow = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
         setSchema(
             (state): SchemaType => {
                 if (!state.biDiagnoser) {

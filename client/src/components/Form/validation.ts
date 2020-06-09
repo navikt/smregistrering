@@ -226,12 +226,9 @@ export const validationFunctions: ValidationType = {
     utdypende663: () => undefined,
 
     // Arbeidsevne
-    tilretteleggingArbeidsplassen: () => undefined,
-    tilretteleggingArbeidsplassBeskriv: () => undefined,
+    tiltakArbeidsplassen: () => undefined,
     tiltakNav: () => undefined,
-    tiltakNavBeskriv: () => undefined,
-    innspillTilNAv: () => undefined,
-    innspillTilNavBeskriv: () => undefined,
+    andreTiltak: () => undefined,
 
     // MeldingTilNav
     meldingTilNavBistand: () => undefined,
@@ -265,6 +262,11 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
+    aktoerId: (aktoerId, schema) => {
+        if (!aktoerId) {
+            return 'AktørID er et påkrevd felt';
+        }
+    },
     sykmeldersFornavn: (sykmeldersFornavn, schema) => {
         if (!sykmeldersFornavn) {
             return 'Sykmelders fornavn må være definert';
@@ -276,6 +278,11 @@ export const validationFunctions: ValidationType = {
         }
     },
     hpr: () => undefined,
-    sykmelderAdresse: () => undefined,
+    her: () => undefined,
     sykmelderTelefon: () => undefined,
+    sykmelderGate: () => undefined,
+    sykmelderKommune: () => undefined,
+    sykmelderPostnummer: () => undefined,
+    sykmelderPostboks: () => undefined,
+    sykmelderLand: () => undefined,
 };

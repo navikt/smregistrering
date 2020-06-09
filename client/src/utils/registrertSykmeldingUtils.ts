@@ -52,7 +52,7 @@ const buildMedisinskArsak = (
     aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[],
     aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string,
 ): MedisinskArsak | undefined => {
-    if (aktivitetIkkeMuligMedisinskArsakType && aktivitetIkkeMuligMedisinskArsakBeskrivelse) {
+    if (aktivitetIkkeMuligMedisinskArsakType) {
         return {
             arsak: aktivitetIkkeMuligMedisinskArsakType,
             beskrivelse: aktivitetIkkeMuligMedisinskArsakBeskrivelse,
@@ -64,7 +64,7 @@ const buildArbeidsrelatertArsak = (
     aktivitetIkkeMuligArbeidsrelatertArsakType?: ArbeidsrelatertArsakType[],
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string,
 ): ArbeidsrelatertArsak | undefined => {
-    if (aktivitetIkkeMuligArbeidsrelatertArsakType && aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse) {
+    if (aktivitetIkkeMuligArbeidsrelatertArsakType) {
         return {
             arsak: aktivitetIkkeMuligArbeidsrelatertArsakType,
             beskrivelse: aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
@@ -276,12 +276,15 @@ const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysninger =
 export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): RegistrertSykmelding | undefined => {
     // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
-        schema.pasientFnr === undefined ||
-        schema.sykmelderFnr === undefined ||
-        schema.harArbeidsgiver === undefined ||
-        schema.skjermesForPasient === undefined ||
-        schema.syketilfelleStartDato === undefined ||
-        schema.behandletDato === undefined ||
+        !schema.pasientFnr ||
+        !schema.sykmelderFnr ||
+        !schema.aktoerId ||
+        !schema.sykmeldersEtternavn ||
+        !schema.sykmeldersFornavn ||
+        !schema.harArbeidsgiver ||
+        !schema.syketilfelleStartDato ||
+        !schema.behandletDato ||
+        !schema.skjermesForPasient ||
         schema.sykmeldersEtternavn === undefined ||
         schema.sykmeldersFornavn === undefined
     ) {
@@ -312,7 +315,14 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
             fornavn: schema.sykmeldersFornavn,
             etternavn: schema.sykmeldersEtternavn,
             hpr: schema.hpr,
-            adresse: schema.sykmelderAdresse,
+            aktoerId: schema.aktoerId,
+            adresse: {
+                gate: schema.sykmelderGate,
+                kommune: schema.sykmelderKommune,
+                postnummer: schema.sykmelderPostnummer,
+                postboks: schema.sykmelderPostboks,
+                land: schema.sykmelderLand,
+            },
             tlf: schema.sykmelderTelefon,
         },
         meldingTilArbeidsgiver: schema.meldingTilArbeidsgiverBeskriv,
@@ -320,11 +330,16 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
             bistandUmiddelbart: schema.meldingTilNavBistand,
             beskrivBistand: schema.meldingTilNavBegrunn,
         },
-        tiltakNav: schema.tiltakNavBeskriv,
-        tiltakArbeidsplassen: schema.tilretteleggingArbeidsplassBeskriv,
-        andreTiltak: schema.innspillTilNavBeskriv,
+        tiltakNav: schema.tiltakNav,
+        tiltakArbeidsplassen: schema.tiltakArbeidsplassen,
+        andreTiltak: schema.andreTiltak,
         prognose: buildPrognose(schema),
         utdypendeOpplysninger: buildUtdypendeOpplysninger(schema),
+        kontaktMedPasient: {
+            kontaktDato: schema.kontaktDato,
+            begrunnelseIkkeKontakt: schema.begrunnelseIkkeKontakt,
+        },
+        navnFastlege: schema.navnFastlege,
     };
     return registrertSykmelding;
 };
