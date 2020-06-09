@@ -6,8 +6,13 @@ import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
+import {
+    AktivitetIkkeMulig,
+    MedisinskArsakType,
+    Periode,
+    RegistrertSykmelding,
+} from '../../../types/RegistrertSykmelding';
 import { Oppgave } from '../../../types/Oppgave';
-import { RegistrertSykmelding } from '../../../types/RegistrertSykmelding';
 import { SchemaType } from '../Form';
 import { buildRegistrertSykmelding } from '../../../utils/registrertSykmeldingUtils';
 
@@ -25,10 +30,32 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
     const [apiErrors, setApiErrors] = useState<string | undefined>(undefined);
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
+    console.log(
+        AktivitetIkkeMulig.encode({
+            medisinskArsak: {
+                arsak: [MedisinskArsakType.AKTIVITET_FORHINDRER_BEDRING],
+            },
+        }),
+    );
+
+    console.log(
+        Periode.encode({
+            fom: new Date(),
+            tom: new Date(),
+            reisetilskudd: false,
+            aktivitetIkkeMulig: {
+                medisinskArsak: {
+                    arsak: [MedisinskArsakType.AKTIVITET_FORHINDRER_BEDRING],
+                },
+            },
+        }),
+    );
+
     const registrerSykmelding = () => {
         if (validateAll()) {
             const sykmelding = buildRegistrertSykmelding(oppgave, schema);
             if (sykmelding) {
+                const sm = RegistrertSykmelding.encode(sykmelding);
                 setIsLoading(true);
                 fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`, {
                     method: 'PUT',
@@ -36,7 +63,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
+                    body: JSON.stringify(sm),
                 })
                     .then(res => {
                         if (res.ok) {

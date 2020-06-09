@@ -168,7 +168,11 @@ export const validationFunctions: ValidationType = {
             return 'Periode må være definert når pasienten krever sykmelding for behandlingsdager';
         }
     },
-    behandlingsdagerAntall: () => undefined,
+    behandlingsdagerAntall: (behandlingsdagerAntall, schema) => {
+        if (schema.behandlingsdagerSykmelding && !behandlingsdagerAntall) {
+            return 'Antall dager må være definert når pasienten krever sykmelding for behandlingsdager';
+        }
+    },
     // Perioder for sykmelding med reisetilskudd
     reisetilskuddSykmelding: () => undefined,
     reisetilskuddPeriode: (reisetilskuddPeriode, schema) => {

@@ -35,10 +35,7 @@ export enum HarArbeidsgiver {
 
 const MedisinskArsak = iots.intersection([
     iots.type({
-        arsak: iots.union([
-            iots.array(createEnumType<MedisinskArsakType>(MedisinskArsakType, 'MedisinskArsakType')),
-            iots.array(iots.undefined),
-        ]),
+        arsak: iots.array(createEnumType<MedisinskArsakType>(MedisinskArsakType, 'MedisinskArsakType')),
     }),
     iots.partial({
         beskrivelse: iots.union([iots.string, iots.null]),
@@ -48,10 +45,9 @@ export type MedisinskArsak = iots.TypeOf<typeof MedisinskArsak>;
 
 const ArbeidsrelatertArsak = iots.intersection([
     iots.type({
-        arsak: iots.union([
-            iots.array(createEnumType<ArbeidsrelatertArsakType>(ArbeidsrelatertArsakType, 'ArbeidsrelatertArsakType')),
-            iots.array(iots.undefined),
-        ]),
+        arsak: iots.array(
+            createEnumType<ArbeidsrelatertArsakType>(ArbeidsrelatertArsakType, 'ArbeidsrelatertArsakType'),
+        ),
     }),
     iots.partial({
         beskrivelse: iots.union([iots.string, iots.null]),
@@ -59,7 +55,7 @@ const ArbeidsrelatertArsak = iots.intersection([
 ]);
 export type ArbeidsrelatertArsak = iots.TypeOf<typeof ArbeidsrelatertArsak>;
 
-const AktivitetIkkeMulig = iots.partial({
+export const AktivitetIkkeMulig = iots.partial({
     medisinskArsak: MedisinskArsak,
     arbeidsrelatertArsak: ArbeidsrelatertArsak,
 });
@@ -82,7 +78,7 @@ export const Periode = iots.intersection([
         reisetilskudd: iots.boolean,
     }),
     iots.partial({
-        aktivitetIkkeMulig: iots.union([AktivitetIkkeMulig, iots.null]),
+        aktivitetIkkeMulig: AktivitetIkkeMulig,
         avventendeInnspillTilArbeidsgiver: iots.union([iots.string, iots.null]),
         behandlingsdager: iots.union([iots.number, iots.null]),
         gradert: iots.union([Gradert, iots.null]),
