@@ -52,7 +52,7 @@ const buildMedisinskArsak = (
     aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[],
     aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string,
 ): MedisinskArsak | undefined => {
-    if (aktivitetIkkeMuligMedisinskArsakType && aktivitetIkkeMuligMedisinskArsakBeskrivelse) {
+    if (aktivitetIkkeMuligMedisinskArsakType) {
         return {
             arsak: aktivitetIkkeMuligMedisinskArsakType,
             beskrivelse: aktivitetIkkeMuligMedisinskArsakBeskrivelse,
@@ -64,7 +64,7 @@ const buildArbeidsrelatertArsak = (
     aktivitetIkkeMuligArbeidsrelatertArsakType?: ArbeidsrelatertArsakType[],
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string,
 ): ArbeidsrelatertArsak | undefined => {
-    if (aktivitetIkkeMuligArbeidsrelatertArsakType && aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse) {
+    if (aktivitetIkkeMuligArbeidsrelatertArsakType) {
         return {
             arsak: aktivitetIkkeMuligArbeidsrelatertArsakType,
             beskrivelse: aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,

@@ -68,7 +68,6 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 label={<Element>AktørID</Element>}
                 feil={errors.aktoerId}
             />
-
             <Subsection sectionIdentifier="12.1" underline={false}>
                 <Checkbox
                     id="legitimert"
