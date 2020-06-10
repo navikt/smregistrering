@@ -29,7 +29,6 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
         if (validateAll()) {
             const sykmelding = buildRegistrertSykmelding(oppgave, schema);
             if (sykmelding) {
-                const sm = RegistrertSykmelding.encode(sykmelding);
                 setIsLoading(true);
                 fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`, {
                     method: 'PUT',
@@ -37,7 +36,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(sm),
+                    body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
                 })
                     .then(res => {
                         if (res.ok) {
