@@ -1,4 +1,5 @@
 import {
+    AktivitetIkkeMulig,
     ArbeidsrelatertArsak,
     ArbeidsrelatertArsakType,
     Diagnose,
@@ -49,10 +50,11 @@ const buildGradertSykmelding = (
 };
 
 const buildMedisinskArsak = (
+    aktivitetIkkeMuligMedisinskArsak?: boolean,
     aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[],
     aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string,
 ): MedisinskArsak | undefined => {
-    if (aktivitetIkkeMuligMedisinskArsakType) {
+    if (aktivitetIkkeMuligMedisinskArsak && aktivitetIkkeMuligMedisinskArsakType?.length) {
         return {
             arsak: aktivitetIkkeMuligMedisinskArsakType,
             beskrivelse: aktivitetIkkeMuligMedisinskArsakBeskrivelse,
@@ -61,10 +63,11 @@ const buildMedisinskArsak = (
 };
 
 const buildArbeidsrelatertArsak = (
+    aktivitetIkkeMuligArbeidsrelatertArsak?: boolean,
     aktivitetIkkeMuligArbeidsrelatertArsakType?: ArbeidsrelatertArsakType[],
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string,
 ): ArbeidsrelatertArsak | undefined => {
-    if (aktivitetIkkeMuligArbeidsrelatertArsakType) {
+    if (aktivitetIkkeMuligArbeidsrelatertArsak && aktivitetIkkeMuligArbeidsrelatertArsakType?.length) {
         return {
             arsak: aktivitetIkkeMuligArbeidsrelatertArsakType,
             beskrivelse: aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
@@ -75,29 +78,34 @@ const buildArbeidsrelatertArsak = (
 const buildAktivitetIkkeMuligSykmelding = (
     aktivitetIkkeMuligSykmelding: boolean,
     aktivitetIkkeMuligPeriode?: Date[],
+    aktivitetIkkeMuligMedisinskArsak?: boolean,
     aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[],
     aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string,
+    aktivitetIkkeMuligArbeidsrelatertArsak?: boolean,
     aktivitetIkkeMuligArbeidsrelatertArsakType?: ArbeidsrelatertArsakType[],
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string,
 ): Periode | undefined => {
     if (aktivitetIkkeMuligSykmelding && aktivitetIkkeMuligPeriode) {
         const medisinskArsak = buildMedisinskArsak(
+            aktivitetIkkeMuligMedisinskArsak,
             aktivitetIkkeMuligMedisinskArsakType,
             aktivitetIkkeMuligMedisinskArsakBeskrivelse,
         );
         const arbeidsrelatertArsak = buildArbeidsrelatertArsak(
+            aktivitetIkkeMuligArbeidsrelatertArsak,
             aktivitetIkkeMuligArbeidsrelatertArsakType,
             aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
         );
+        const aktivitetIkkeMulig: AktivitetIkkeMulig = {
+            medisinskArsak,
+            arbeidsrelatertArsak,
+        };
 
         const periode: Periode = {
             fom: aktivitetIkkeMuligPeriode[0],
             tom: aktivitetIkkeMuligPeriode[1],
             reisetilskudd: false,
-            aktivitetIkkeMulig: {
-                medisinskArsak,
-                arbeidsrelatertArsak,
-            },
+            aktivitetIkkeMulig,
         };
         return periode;
     }
@@ -150,8 +158,10 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
     const aktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding(
         schema.aktivitetIkkeMuligSykmelding,
         schema.aktivitetIkkeMuligPeriode,
+        schema.aktivitetIkkeMuligMedisinskArsak,
         schema.aktivitetIkkeMuligMedisinskArsakType,
         schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse,
+        schema.aktivitetIkkeMuligArbeidsrelatertArsak,
         schema.aktivitetIkkeMuligArbeidsrelatertArsakType,
         schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
     );
