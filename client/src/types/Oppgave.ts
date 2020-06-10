@@ -34,7 +34,7 @@ export type PapirSmRegistering = iots.TypeOf<typeof PapirSmRegistering>;
 
 export const Oppgave = iots.intersection([
     iots.type({
-        oppgaveid: iots.string,
+        oppgaveid: iots.number,
         pdfPapirSykmelding: Base64Pdf,
     }),
     iots.partial({

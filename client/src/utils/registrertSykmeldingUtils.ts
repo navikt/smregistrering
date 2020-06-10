@@ -294,9 +294,10 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
         !schema.harArbeidsgiver ||
         !schema.syketilfelleStartDato ||
         !schema.behandletDato ||
-        !schema.skjermesForPasient ||
-        schema.sykmeldersEtternavn === undefined ||
-        schema.sykmeldersFornavn === undefined
+        !schema.sykmeldersEtternavn ||
+        !schema.sykmeldersFornavn ||
+        schema.skjermesForPasient === undefined ||
+        schema.skjermesForPasient === null
     ) {
         return undefined;
     }
