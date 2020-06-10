@@ -113,8 +113,6 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
     const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
     const errorSummaryRef = useRef<HTMLDivElement>(null);
 
-    console.log(schema);
-
     const validate: Validate = (name, value) => {
         const validationFunction = validationFunctions[name];
         const error = validationFunction(value as never, schema);
