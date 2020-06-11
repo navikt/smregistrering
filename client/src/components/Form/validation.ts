@@ -153,10 +153,18 @@ export const validationFunctions: ValidationType = {
         }
     },
     aktivitetIkkeMuligMedisinskArsak: () => undefined,
-    aktivitetIkkeMuligMedisinskArsakType: () => undefined,
+    aktivitetIkkeMuligMedisinskArsakType: (aktivitetIkkeMuligMedisinskArsakType, schema) => {
+        if (schema.aktivitetIkkeMuligMedisinskArsak && !aktivitetIkkeMuligMedisinskArsakType?.length) {
+            return 'Medisinsk årsak må være valgt når det er medisinske årsaker som hindrer arbeidsrelatert aktivitet';
+        }
+    },
     aktivitetIkkeMuligMedisinskArsakBeskrivelse: () => undefined,
     aktivitetIkkeMuligArbeidsrelatertArsak: () => undefined,
-    aktivitetIkkeMuligArbeidsrelatertArsakType: () => undefined,
+    aktivitetIkkeMuligArbeidsrelatertArsakType: (aktivitetIkkeMuligArbeidsrelatertArsakType, schema) => {
+        if (schema.aktivitetIkkeMuligArbeidsrelatertArsak && !aktivitetIkkeMuligArbeidsrelatertArsakType) {
+            return 'Arbeidsrelatert årsak må være valgt når forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet';
+        }
+    },
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: () => undefined,
     // Perioder for sykmelding for behandlignsdager
     behandlingsdagerSykmelding: () => undefined,
