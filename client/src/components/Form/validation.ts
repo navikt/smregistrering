@@ -206,13 +206,7 @@ export const validationFunctions: ValidationType = {
     },
     vurderingsDatoIArbeid: () => undefined,
     arbeidsforPaSikt: () => undefined,
-    arbeidsforFOM: (arbeidsforFOM, schema) => {
-        if (schema.erIkkeIArbeid && schema.arbeidsforPaSikt) {
-            if (arbeidsforFOM === undefined) {
-                return 'Du må svare på når pasienten kan komme tilbake i arbeid på sikt';
-            }
-        }
-    },
+    arbeidsforFOM: () => undefined,
     vurderingsDatoUtenArbeid: () => undefined,
 
     // Utdypende opplysninger
