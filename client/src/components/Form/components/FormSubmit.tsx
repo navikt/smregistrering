@@ -42,15 +42,13 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                     body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
                 })
                     .then(res => {
-                        console.log(res);
-                        if (res.status === 200) {
+                        if (res.status === 204) {
                             setModalIsOpen(true);
                         } else {
                             return res.json();
                         }
                     })
                     .then(json => {
-                        console.log(json);
                         return iotsPromise.decode(RuleHitErrors, json);
                     })
                     .then(ruleHitErrors => {
@@ -60,9 +58,8 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                         console.error(error);
                     })
                     .finally(() => setIsLoading(false));
-                console.log(RegistrertSykmelding.encode(sykmelding));
             } else {
-                console.log('Noe gikk galt');
+                console.error('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
             }
         } else {
             focusErrorSummary();

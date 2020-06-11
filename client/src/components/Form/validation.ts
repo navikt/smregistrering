@@ -104,7 +104,11 @@ export const validationFunctions: ValidationType = {
         return undefined;
     },
     annenFraversArsak: () => undefined,
-    annenFraversArsakGrunn: () => undefined,
+    annenFraversArsakGrunn: (annenFraversArsakGrunn, schema) => {
+        if (schema.annenFraversArsak && !annenFraversArsakGrunn?.length) {
+            return 'Lovfestet fraværsgrunn må være valgt når annen lovfestet fraværsgrunn er avkrysset';
+        }
+    },
     annenFraversArsakBeskrivelse: () => undefined,
     skjermesForPasient: (skjermesForPasient, schema) => {
         if (skjermesForPasient === undefined) {
