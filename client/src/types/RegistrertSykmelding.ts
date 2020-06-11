@@ -260,7 +260,7 @@ export const RegistrertSykmelding = iots.intersection([
         prognose: Prognose,
         meldingTilNAV: MeldingTilNAV,
         meldingTilArbeidsgiver: iots.union([iots.string, iots.null]),
-        tiltakNAV: iots.union([iots.string, iots.null]),
+        tiltakNav: iots.union([iots.string, iots.null]),
         tiltakArbeidsplassen: iots.union([iots.string, iots.null]),
         andreTiltak: iots.union([iots.string, iots.null]),
         utdypendeOpplysninger: UtdypendeOpplysninger,

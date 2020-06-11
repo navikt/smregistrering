@@ -1,6 +1,5 @@
 import './FormSubmit.less';
 
-import * as iotsPromise from 'io-ts-promise';
 import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
@@ -9,7 +8,6 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
 import { Oppgave } from '../../../types/Oppgave';
 import { RegistrertSykmelding } from '../../../types/RegistrertSykmelding';
-import { RuleHitErrors } from '../../../types/RuleHitErrors';
 import { SchemaType } from '../Form';
 import { buildRegistrertSykmelding } from '../../../utils/registrertSykmeldingUtils';
 
@@ -24,7 +22,7 @@ interface FormSubmitProps {
 const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSummary }: FormSubmitProps) => {
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [apiErrors, setApiErrors] = useState<RuleHitErrors | undefined>(undefined);
+    const [apiErrors, setApiErrors] = useState<string | undefined>(undefined);
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
     const registrerSykmelding = () => {
@@ -41,20 +39,13 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                     body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
                 })
                     .then(res => {
-                        console.log(res);
-                        if (res.status === 200) {
+                        if (res.ok) {
                             setModalIsOpen(true);
                         } else {
                             return res.json();
                         }
                     })
-                    .then(json => {
-                        console.log(json);
-                        return iotsPromise.decode(RuleHitErrors, json);
-                    })
-                    .then(ruleHitErrors => {
-                        setApiErrors(ruleHitErrors);
-                    })
+                    .then(json => setApiErrors(json))
                     .catch(error => {
                         console.error(error);
                     })
@@ -76,7 +67,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 label="Informasjonen stemmer overens med papirsykmelding"
                 onChange={() => setChecked(state => !state)}
             />
-            {apiErrors && <AlertStripeFeil>{JSON.stringify(apiErrors)}</AlertStripeFeil>}
+            {apiErrors && <AlertStripeFeil>{apiErrors}</AlertStripeFeil>}
             <Hovedknapp
                 disabled={!checked}
                 spinner={isLoading}
