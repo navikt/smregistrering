@@ -341,7 +341,7 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
             bistandUmiddelbart: schema.meldingTilNavBistand,
             beskrivBistand: schema.meldingTilNavBegrunn,
         },
-        tiltakNav: schema.tiltakNav,
+        tiltakNAV: schema.tiltakNav,
         tiltakArbeidsplassen: schema.tiltakArbeidsplassen,
         andreTiltak: schema.andreTiltak,
         prognose: buildPrognose(schema),
