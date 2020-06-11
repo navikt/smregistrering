@@ -67,7 +67,6 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
             <Row>
                 <Input
                     id="pasientFnr"
-                    className="form-margin-bottom"
                     value={schema.pasientFnr ? schema.pasientFnr : undefined}
                     onChange={({ target: { value } }) => {
                         setSchema(
@@ -84,7 +83,6 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                 <Input
                     disabled
                     id="pasientTelefon"
-                    className="form-margin-bottom"
                     type="tel"
                     onChange={({ target: { value } }) => {
                         setSchema(
