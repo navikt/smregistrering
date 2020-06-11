@@ -148,7 +148,7 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
 
     return (
         <section className="form">
-            <form>
+            <form autoComplete="off">
                 <Panel ariaLabel="skjemapanel">
                     <FormHeader />
                     <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
