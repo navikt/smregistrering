@@ -5,6 +5,7 @@ import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Checkbox } from 'nav-frontend-skjema';
+import { Element } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
 import { Oppgave } from '../../../types/Oppgave';
@@ -76,7 +77,19 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 label="Informasjonen stemmer overens med papirsykmelding"
                 onChange={() => setChecked(state => !state)}
             />
-            {apiErrors && <AlertStripeFeil>{JSON.stringify(apiErrors)}</AlertStripeFeil>}
+            {apiErrors && (
+                <>
+                    <AlertStripeFeil>
+                        <Element>Baksystemet fant ytterligerer feil som må behandles:</Element>
+                        <ul>
+                            {apiErrors.ruleHits.map(ruleHit => (
+                                <li>{ruleHit.messageForSender}</li>
+                            ))}
+                        </ul>
+                    </AlertStripeFeil>
+                    <br />
+                </>
+            )}
             <Hovedknapp
                 disabled={!checked}
                 spinner={isLoading}
