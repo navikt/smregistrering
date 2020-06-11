@@ -1,7 +1,8 @@
 import React from 'react';
-import { Checkbox, Input } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
+import { Input } from 'nav-frontend-skjema';
 
+import DatePicker from '../formComponents/DatePicker';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
@@ -10,7 +11,7 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type Bekreftelse = {
-    legitimert: boolean;
+    behandletDato?: Date | null;
     sykmeldersFornavn?: string | null;
     sykmeldersEtternavn?: string | null;
     sykmelderFnr?: string | null;
@@ -68,23 +69,16 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 label={<Element>AktørID</Element>}
                 feil={errors.aktoerId}
             />
-            <Subsection sectionIdentifier="12.1" underline={false}>
-                <Checkbox
-                    id="legitimert"
-                    className="form-margin-bottom"
-                    checked={schema.legitimert}
-                    label="Pasienten er kjent eller har vist legitimasjon"
-                    onChange={() =>
-                        setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                legitimert: !state.legitimert,
-                            }),
-                        )
-                    }
-                    feil={errors.legitimert}
-                />
-            </Subsection>
+            <DatePicker
+                id="behandletDato"
+                label="12.1 Behandletdato"
+                value={schema.behandletDato ? schema.behandletDato : undefined}
+                onChange={newDates => {
+                    setSchema((state): SchemaType => ({ ...state, behandletDato: newDates }));
+                    validate('behandletDato', newDates);
+                }}
+                feil={errors.behandletDato}
+            />
             <Row>
                 <Input
                     id="sykmeldersFornavn"
@@ -154,7 +148,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 />
             </Row>
 
-            <Subsection sectionIdentifier="12.6" underline={false}>
+            <Subsection sectionIdentifier="12.6 Adresse" underline={false}>
                 <Input
                     id="sykmelderGate"
                     className="form-margin-bottom"

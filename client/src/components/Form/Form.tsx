@@ -71,7 +71,6 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
         kontaktDato: oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato,
         kunneIkkeIvaretaEgneInteresser: !!oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
         begrunnelseIkkeKontakt: oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
-        legitimert: false,
         meldingTilNavBistand: !!oppgave.papirSmRegistering?.meldingTilNAV?.bistandUmiddelbart,
         meldingTilNavBegrunn: oppgave.papirSmRegistering?.meldingTilNAV?.beskrivBistand,
         syketilfelleStartDato: oppgave.papirSmRegistering?.syketilfelleStartDato,
