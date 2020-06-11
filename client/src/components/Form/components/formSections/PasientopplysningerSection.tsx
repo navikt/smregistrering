@@ -9,6 +9,7 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type Pasientopplysninger = {
+    pasientFnr?: string | null;
     pasientTelefon?: string;
     pasientEtternavn?: string;
     pasientFornavn?: string;
@@ -63,23 +64,39 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                     label={<Element>1.1.2 Fornavn</Element>}
                 />
             </Row>
-            <Input
-                disabled
-                id="pasientTelefon"
-                className="form-margin-bottom half"
-                type="tel"
-                onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => ({
-                            ...state,
-                            pasientTelefon: value,
-                        }),
-                    );
-                    validate('pasientTelefon', value);
-                }}
-                feil={errors.pasientTelefon}
-                label={<Element>1.3 Telefon</Element>}
-            />
+            <Row>
+                <Input
+                    id="pasientFnr"
+                    value={schema.pasientFnr ? schema.pasientFnr : undefined}
+                    onChange={({ target: { value } }) => {
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                pasientFnr: value,
+                            }),
+                        );
+                        validate('pasientFnr', value);
+                    }}
+                    label="1.2 Fødselsnummer (11 siffer)"
+                    feil={errors.pasientFnr}
+                />
+                <Input
+                    disabled
+                    id="pasientTelefon"
+                    type="tel"
+                    onChange={({ target: { value } }) => {
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                pasientTelefon: value,
+                            }),
+                        );
+                        validate('pasientTelefon', value);
+                    }}
+                    feil={errors.pasientTelefon}
+                    label={<Element>1.3 Telefon</Element>}
+                />
+            </Row>
 
             <Input
                 id="navnFastlege"

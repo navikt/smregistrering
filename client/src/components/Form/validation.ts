@@ -9,6 +9,20 @@ export type ValidationType = {
 
 export const validationFunctions: ValidationType = {
     // Other
+    syketilfelleStartDato: (syketilfelleStartDato, schema) => {
+        if (!syketilfelleStartDato) {
+            return 'Startdato må være definert';
+        }
+        return undefined;
+    },
+
+    // Pasientopplysninger
+    pasientEtternavn: (value, schema) => {
+        return undefined;
+    },
+    pasientFornavn: (value, schema) => {
+        return undefined;
+    },
     pasientFnr: (pasientFnr, schema) => {
         if (!pasientFnr) {
             return 'Pasientens fødselsnummer må være definert';
@@ -21,31 +35,11 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
-    syketilfelleStartDato: (syketilfelleStartDato, schema) => {
-        if (!syketilfelleStartDato) {
-            return 'Startdato må være definert';
-        }
-        return undefined;
-    },
-    behandletDato: (behandletDato, schema) => {
-        if (!behandletDato) {
-            return 'Behandletdato må være definert';
-        }
-        return undefined;
-    },
-
-    // Pasientopplysninger
     pasientTelefon: (pasientTelefon, schema) => {
         if (pasientTelefon && !pasientTelefon.match('^\\+?[- _0-9]+$')) {
             // https://begrep.difi.no/Felles/mobiltelefonnummer
             return 'Telefonnummeret er ikke på et gyldig format';
         }
-        return undefined;
-    },
-    pasientEtternavn: (value, schema) => {
-        return undefined;
-    },
-    pasientFornavn: (value, schema) => {
         return undefined;
     },
     navnFastlege: (value, schema) => {
@@ -248,9 +242,9 @@ export const validationFunctions: ValidationType = {
     begrunnelseIkkeKontakt: () => undefined,
 
     // Bekreftelse
-    legitimert: (legitimert, schema) => {
-        if (legitimert === undefined) {
-            return 'Legitimert er et påkrevd felt';
+    behandletDato: (behandletDato, schema) => {
+        if (!behandletDato) {
+            return 'Behandletdato må være definert';
         }
         return undefined;
     },
