@@ -77,7 +77,10 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
             {apiErrors && (
                 <>
                     <AlertStripeFeil>
-                        <Element>Baksystemet fant ytterligere feil som må behandles:</Element>
+                        <Element>
+                            Baksystemet fant ytterligere feil som må behandles. Rett feilene nedenfor, og forsøk å
+                            registrere sykmeldingen på nytt.
+                        </Element>
                         <ul>
                             {apiErrors.ruleHits.map(ruleHit => (
                                 <li>{ruleHit.messageForSender}</li>
