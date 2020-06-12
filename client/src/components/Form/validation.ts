@@ -285,7 +285,6 @@ export const validationFunctions: ValidationType = {
         }
     },
     hpr: () => undefined,
-    her: () => undefined,
     sykmelderTelefon: () => undefined,
     sykmelderGate: () => undefined,
     sykmelderKommune: () => undefined,

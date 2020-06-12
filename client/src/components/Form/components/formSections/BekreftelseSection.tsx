@@ -17,7 +17,6 @@ export type Bekreftelse = {
     sykmelderFnr?: string | null;
     aktoerId?: string | null;
     hpr?: string | null;
-    her?: string | null;
     sykmelderTelefon?: string | null;
     sykmelderGate?: string | null;
     sykmelderPostnummer?: number | null;
