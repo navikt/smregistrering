@@ -78,7 +78,7 @@ export const Periode = iots.intersection([
         reisetilskudd: iots.boolean,
     }),
     iots.partial({
-        aktivitetIkkeMulig: AktivitetIkkeMulig,
+        aktivitetIkkeMulig: iots.union([AktivitetIkkeMulig, iots.null]),
         avventendeInnspillTilArbeidsgiver: iots.union([iots.string, iots.null]),
         behandlingsdager: iots.union([iots.number, iots.null]),
         gradert: iots.union([Gradert, iots.null]),

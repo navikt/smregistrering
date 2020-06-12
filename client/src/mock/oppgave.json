@@ -4,7 +4,7 @@
     "papirSmRegistering": {
         "fnr": "01234567891",
         "datoOppretet": "2018-11-29T23:00:00.000Z",
-        "behandletTidspunkt": "2018-11-29T23:00:00.000Z",
+        "behandletTidspunkt": "2020-05-02",
         "syketilfelleStartDato": "2018-11-29T23:00:00.000Z",
         "tiltakNAV": "Dette er et tiltak til NAV",
         "tiltakArbeidsplassen": "Dette er et tiltak til arbeidsplassen",
@@ -16,43 +16,146 @@
         },
         "arbeidsgiver": {
             "harArbeidsgiver": "EN_ARBEIDSGIVER",
-            "navn": "Andeby brannstasjon AS",
-            "yrkesbetegnelse": "Brannmann",
-            "stillingsprosent": 80
+            "navn": "Sesam Stasjon",
+            "yrkesbetegnelse": "Stasjonsmester",
+            "stillingsprosent": 100
         },
         "medisinskVurdering": {
-            "svangerskap": true,
+            "hovedDiagnose": {
+                "system": "2.16.578.1.12.4.1.1.7110",
+                "kode": "J60",
+                "tekst": "Pneumokoniose som skyldes kullstøv"
+            },
+            "biDiagnoser": [
+                {
+                    "system": "2.16.578.1.12.4.1.1.7110",
+                    "kode": "E232",
+                    "tekst": "Diabetes insipidus"
+                }
+            ],
+            "svangerskap": false,
             "yrkesskade": true,
-            "biDiagnoser": [],
-            "yrkesskadeDato": "2019-11-29T23:00:00.000Z"
+            "yrkesskadeDato": "2014-06-09",
+            "annenFraversArsak": null
         },
-        "skjermesForPasient": true,
+        "skjermesForPasient": false,
         "kontaktMedPasient": {
             "kontaktDato": "2019-11-29T23:00:00.000Z",
             "begrunnelseIkkeKontakt": "Hadde omgangssyke"
         },
         "behandler": {
-            "aktoerId": "12345",
-            "fornavn": "Lege",
-            "etternavn": "Legesen",
-            "fnr": "01234567891",
-            "hpr": "11213131",
-            "adresse": {},
-            "tlf": "11223344"
+            "fornavn": "",
+            "mellomnavn": null,
+            "etternavn": "",
+            "aktoerId": "",
+            "fnr": "",
+            "hpr": "100",
+            "her": "",
+            "adresse": {
+                "gate": "",
+                "postnummer": 0,
+                "kommune": "",
+                "postboks": "",
+                "land": ""
+            },
+            "tlf": "103"
         },
         "prognose": {
             "arbeidsforEtterPeriode": true,
-            "hensynArbeidsplassen": "Dette må man ta hensyn til på arbeidsplassen",
+            "hensynArbeidsplassen": "Dette vet jeg ikke hva betyr engang.",
             "erIArbeid": {
                 "egetArbeidPaSikt": true,
                 "annetArbeidPaSikt": true,
-                "arbeidFOM": "2019-11-29T23:00:00.000Z",
-                "vurderingsdato": "2019-11-29T23:00:00.000Z"
+                "arbeidFOM": "2020-07-01",
+                "vurderingsdato": "2020-07-01"
             },
             "erIkkeIArbeid": {
                 "arbeidsforPaSikt": true,
-                "arbeidsforFOM": "2019-11-29T23:00:00.000Z",
-                "vurderingsdato": "2019-11-29T23:00:00.000Z"
+                "arbeidsforFOM": "2020-07-01",
+                "vurderingsdato": "2020-07-01"
+            }
+        },
+        "perioder": [
+            {
+                "fom": "2020-06-12",
+                "tom": "2020-06-30",
+                "aktivitetIkkeMulig": {
+                    "medisinskArsak": {
+                        "beskrivelse": "Han kan ikke gå rundt og være stasjonsmester med en pågående lungesykdom, i et miljø med kullfyrte tog",
+                        "arsak": []
+                    },
+                    "arbeidsrelatertArsak": {
+                        "beskrivelse": "Ordner seg!",
+                        "arsak": []
+                    }
+                },
+                "avventendeInnspillTilArbeidsgiver": null,
+                "behandlingsdager": null,
+                "gradert": null,
+                "reisetilskudd": false
+            },
+            {
+                "fom": "2020-06-12",
+                "tom": "2020-06-30",
+                "aktivitetIkkeMulig": null,
+                "avventendeInnspillTilArbeidsgiver": null,
+                "behandlingsdager": null,
+                "gradert": {
+                    "reisetilskudd": true,
+                    "grad": 50
+                },
+                "reisetilskudd": false
+            },
+            {
+                "fom": "2020-06-12",
+                "tom": "2020-06-30",
+                "aktivitetIkkeMulig": null,
+                "avventendeInnspillTilArbeidsgiver": "Dere burde vurdere å skifte fra kulldrevne lokomotiver til moderne elektriske lokomotiver uten utslipp.",
+                "behandlingsdager": null,
+                "gradert": null,
+                "reisetilskudd": false
+            },
+            {
+                "fom": "2020-06-12",
+                "tom": "2020-06-30",
+                "aktivitetIkkeMulig": null,
+                "avventendeInnspillTilArbeidsgiver": null,
+                "behandlingsdager": 30,
+                "gradert": null,
+                "reisetilskudd": false
+            },
+            {
+                "fom": "2020-06-12",
+                "tom": "2020-06-30",
+                "aktivitetIkkeMulig": null,
+                "avventendeInnspillTilArbeidsgiver": null,
+                "behandlingsdager": null,
+                "gradert": null,
+                "reisetilskudd": true
+            }
+        ],
+        "utdypendeOpplysninger": {
+            "6.2": {
+                "6.2.1": {
+                    "sporsmal": "Beskriv kort sykehistorie, symptomer og funn i dagens situasjon",
+                    "svar": "Han har aldri vært syk en dag i sitt liv!",
+                    "restriksjoner": ["SKJERMET_FOR_ARBEIDSGIVER"]
+                },
+                "6.2.2": {
+                    "sporsmal": "Hvordan påvirker sykdommen arbeidsevnen",
+                    "svar": "Ingenting å utsette på arbeidsevne.",
+                    "restriksjoner": ["SKJERMET_FOR_ARBEIDSGIVER"]
+                },
+                "6.2.3": {
+                    "sporsmal": "Har behandlingen frem til nå bedret arbeidsevnen",
+                    "svar": "Vi får se.",
+                    "restriksjoner": ["SKJERMET_FOR_ARBEIDSGIVER"]
+                },
+                "6.2.4": {
+                    "sporsmal": "Beskriv pågående og planlagt henvisning,utredning og/eller behandling",
+                    "svar": "Rolig ferie i kullfritt miljø",
+                    "restriksjoner": ["SKJERMET_FOR_ARBEIDSGIVER"]
+                }
             }
         }
     },
