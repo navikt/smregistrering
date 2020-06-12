@@ -42,10 +42,13 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                     label="Pasienten er 100 prosent arbeidsfør etter denne perioden"
                     onChange={() =>
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                arbeidsfoerEtterPeriode: !state.arbeidsfoerEtterPeriode,
-                            }),
+                            (state): SchemaType => {
+                                validate('arbeidsfoerEtterPeriode', !state.arbeidsfoerEtterPeriode);
+                                return {
+                                    ...state,
+                                    arbeidsfoerEtterPeriode: !state.arbeidsfoerEtterPeriode,
+                                };
+                            },
                         )
                     }
                     feil={errors.arbeidsfoerEtterPeriode}
@@ -78,10 +81,13 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                     label="Pasienten har arbeidsgiver"
                     onChange={() => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                erIArbeid: !state.erIArbeid,
-                            }),
+                            (state): SchemaType => {
+                                validate('erIArbeid', !state.erIArbeid);
+                                return {
+                                    ...state,
+                                    erIArbeid: !state.erIArbeid,
+                                };
+                            },
                         );
                     }}
                     feil={errors.erIArbeid}
@@ -96,10 +102,13 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                             label="Pasienten kan på sikt komme tilbake til samme arbeidsgiver"
                             onChange={() =>
                                 setSchema(
-                                    (state): SchemaType => ({
-                                        ...state,
-                                        egetArbeidPaSikt: !state.egetArbeidPaSikt,
-                                    }),
+                                    (state): SchemaType => {
+                                        validate('egetArbeidPaSikt', !state.egetArbeidPaSikt);
+                                        return {
+                                            ...state,
+                                            egetArbeidPaSikt: !state.egetArbeidPaSikt,
+                                        };
+                                    },
                                 )
                             }
                             feil={errors.egetArbeidPaSikt}
@@ -117,6 +126,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                             arbeidFOM: newDate,
                                         }),
                                     );
+                                    validate('arbeidFOM', newDate);
                                 }}
                                 feil={errors.arbeidFOM}
                             />
@@ -130,10 +140,13 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                             label="Pasienten kan på sikt komme i arbeid hos annen arbeidsgiver"
                             onChange={() =>
                                 setSchema(
-                                    (state): SchemaType => ({
-                                        ...state,
-                                        annetArbeidPaSikt: !state.annetArbeidPaSikt,
-                                    }),
+                                    (state): SchemaType => {
+                                        validate('annetArbeidPaSikt', !state.annetArbeidPaSikt);
+                                        return {
+                                            ...state,
+                                            annetArbeidPaSikt: !state.annetArbeidPaSikt,
+                                        };
+                                    },
                                 )
                             }
                             feil={errors.annetArbeidPaSikt}
@@ -151,6 +164,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                     vurderingsDatoIArbeid: newDate,
                                 }),
                             );
+                            validate('vurderingsDatoIArbeid', newDate);
                         }}
                         feil={errors.vurderingsDatoIArbeid}
                     />
@@ -164,10 +178,13 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                     label="Pasienten har ikke arbeidsgiver"
                     onChange={() => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                erIkkeIArbeid: !state.erIkkeIArbeid,
-                            }),
+                            (state): SchemaType => {
+                                validate('erIkkeIArbeid', !state.erIkkeIArbeid);
+                                return {
+                                    ...state,
+                                    erIkkeIArbeid: !state.erIkkeIArbeid,
+                                };
+                            },
                         );
                     }}
                     feil={errors.erIkkeIArbeid}
@@ -182,10 +199,13 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                             label="Pasienten kan komme tilbake i arbeid på sikt"
                             onChange={() =>
                                 setSchema(
-                                    (state): SchemaType => ({
-                                        ...state,
-                                        arbeidsforPaSikt: !state.arbeidsforPaSikt,
-                                    }),
+                                    (state): SchemaType => {
+                                        validate('arbeidsforPaSikt', !state.arbeidsforPaSikt);
+                                        return {
+                                            ...state,
+                                            arbeidsforPaSikt: !state.arbeidsforPaSikt,
+                                        };
+                                    },
                                 )
                             }
                             feil={errors.arbeidsforPaSikt}
@@ -203,6 +223,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                             arbeidsforFOM: newDate,
                                         }),
                                     );
+                                    validate('arbeidsforFOM', newDate);
                                 }}
                                 feil={errors.arbeidsforFOM}
                             />
@@ -219,6 +240,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                     vurderingsDatoUtenArbeid: newDate,
                                 }),
                             );
+                            validate('vurderingsDatoUtenArbeid', newDate);
                         }}
                         feil={errors.vurderingsDatoUtenArbeid}
                     />
