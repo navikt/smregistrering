@@ -49,7 +49,9 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                         }
                     })
                     .then(json => {
-                        return iotsPromise.decode(RuleHitErrors, json);
+                        if (json) {
+                            return iotsPromise.decode(RuleHitErrors, json);
+                        }
                     })
                     .then(ruleHitErrors => {
                         setApiErrors(ruleHitErrors);
