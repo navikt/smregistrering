@@ -8,7 +8,7 @@ interface ExpandableFieldProps {
 }
 
 const ExpandableField = ({ show = false, children }: ExpandableFieldProps) => {
-    return <div className={`expandable ${show ? 'expanded' : ''}`}>{children}</div>;
+    return <div className={`expandable-field ${show ? 'expandable-field--expanded' : ''}`}>{children}</div>;
 };
 
 export default ExpandableField;
