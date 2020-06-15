@@ -10,6 +10,7 @@ import {
     RegistrertSykmelding,
     UtdypendeOpplysninger,
 } from '../types/RegistrertSykmelding';
+import { DiagnosekodeSystem } from '../types/Diagnosekode';
 import { Oppgave } from '../types/Oppgave';
 import { SchemaType } from '../components/Form/Form';
 
@@ -186,8 +187,17 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
 const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefined => {
     if (diagnose && diagnose.kode && diagnose.system && diagnose.tekst) {
         // Can not return diagnose parameter. Typescript does not understand that all properties exist
+        let system: string;
+        if (diagnose.system === 'icpc2') {
+            system = DiagnosekodeSystem.ICPC2;
+        } else if (diagnose.system === 'icd10') {
+            system = DiagnosekodeSystem.ICD10;
+        } else {
+            throw new Error('Unknown diagnosekodesystem');
+        }
+
         return {
-            system: diagnose.system,
+            system,
             kode: diagnose.kode,
             tekst: diagnose.tekst,
         };
@@ -341,7 +351,7 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
             bistandUmiddelbart: schema.meldingTilNavBistand,
             beskrivBistand: schema.meldingTilNavBegrunn,
         },
-        tiltakNav: schema.tiltakNav,
+        tiltakNAV: schema.tiltakNav,
         tiltakArbeidsplassen: schema.tiltakArbeidsplassen,
         andreTiltak: schema.andreTiltak,
         prognose: buildPrognose(schema),

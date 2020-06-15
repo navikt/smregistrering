@@ -11,9 +11,9 @@ import Menu from './components/Menu/Menu';
 import Pdf from './components/Pdf/Pdf';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
+import { OppgaveAlreadySolvedError, getDiagnosekoder, getOppgave } from './utils/dataUtils';
 import { SectionTitle, Sections } from './types/Section';
 import { UrlError } from './utils/urlUtils';
-import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
 
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
@@ -34,6 +34,8 @@ const App = () => {
                     setError(new Error('Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet'));
                 } else if (error instanceof UrlError) {
                     setError(new Error('Henting av oppgave feilet grunnet feil med lenken'));
+                } else if (error instanceof OppgaveAlreadySolvedError) {
+                    setError(error);
                 } else {
                     setError(new Error('Henting av data feilet grunnet nettverksfeil'));
                 }

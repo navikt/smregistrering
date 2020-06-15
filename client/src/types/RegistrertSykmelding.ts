@@ -78,7 +78,7 @@ export const Periode = iots.intersection([
         reisetilskudd: iots.boolean,
     }),
     iots.partial({
-        aktivitetIkkeMulig: AktivitetIkkeMulig,
+        aktivitetIkkeMulig: iots.union([AktivitetIkkeMulig, iots.null]),
         avventendeInnspillTilArbeidsgiver: iots.union([iots.string, iots.null]),
         behandlingsdager: iots.union([iots.number, iots.null]),
         gradert: iots.union([Gradert, iots.null]),
@@ -260,7 +260,7 @@ export const RegistrertSykmelding = iots.intersection([
         prognose: Prognose,
         meldingTilNAV: MeldingTilNAV,
         meldingTilArbeidsgiver: iots.union([iots.string, iots.null]),
-        tiltakNav: iots.union([iots.string, iots.null]),
+        tiltakNAV: iots.union([iots.string, iots.null]),
         tiltakArbeidsplassen: iots.union([iots.string, iots.null]),
         andreTiltak: iots.union([iots.string, iots.null]),
         utdypendeOpplysninger: UtdypendeOpplysninger,

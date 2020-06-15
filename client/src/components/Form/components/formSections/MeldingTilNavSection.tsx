@@ -32,10 +32,13 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                     label="Ønskes bistand fra NAV nå?"
                     onChange={() =>
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                meldingTilNavBistand: !state.meldingTilNavBistand,
-                            }),
+                            (state): SchemaType => {
+                                validate('meldingTilNavBistand', !state.meldingTilNavBistand);
+                                return {
+                                    ...state,
+                                    meldingTilNavBistand: !state.meldingTilNavBistand,
+                                };
+                            },
                         )
                     }
                     feil={errors.meldingTilNavBistand}

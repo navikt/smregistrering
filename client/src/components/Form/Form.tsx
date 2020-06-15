@@ -47,33 +47,67 @@ export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined }
 
 const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     return {
+        // Other
+        syketilfelleStartDato: oppgave.papirSmRegistering?.syketilfelleStartDato,
+
+        // Pasientopplysninger
         pasientFnr: oppgave.papirSmRegistering?.fnr,
-        tiltakNav: oppgave.papirSmRegistering?.tiltakNAV,
-        tiltakArbeidsplassen: oppgave.papirSmRegistering?.tiltakArbeidsplassen,
-        andreTiltak: oppgave.papirSmRegistering?.andreTiltak,
-        meldingTilArbeidsgiverBeskriv: oppgave.papirSmRegistering?.meldingTilArbeidsgiver,
+
+        // Arbeidsgiver
         harArbeidsgiver: oppgave.papirSmRegistering?.arbeidsgiver?.harArbeidsgiver,
         arbeidsgiverNavn: oppgave.papirSmRegistering?.arbeidsgiver?.navn,
         yrkesbetegnelse: oppgave.papirSmRegistering?.arbeidsgiver?.yrkesbetegnelse,
         stillingsprosent: oppgave.papirSmRegistering?.arbeidsgiver?.stillingsprosent,
+
+        // Diagnose
+        yrkesskade: !!oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskade,
+        yrkesskadeDato: oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskadeDato,
+        skjermesForPasient: !!oppgave.papirSmRegistering?.skjermesForPasient,
+        svangerskap: !!oppgave.papirSmRegistering?.medisinskVurdering?.svangerskap,
+        annenFraversArsak: false,
+
+        // MulighetForArbeid
         avventendeSykmelding: false,
         gradertSykmelding: false,
         gradertReisetilskudd: false,
         aktivitetIkkeMuligSykmelding: false,
         behandlingsdagerSykmelding: false,
         reisetilskuddSykmelding: false,
-        annenFraversArsak: false,
-        svangerskap: !!oppgave.papirSmRegistering?.medisinskVurdering?.svangerskap,
-        yrkesskade: !!oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskade,
-        yrkesskadeDato: oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskadeDato,
-        skjermesForPasient: !!oppgave.papirSmRegistering?.skjermesForPasient,
+
+        // Friskmelding
+        arbeidsfoerEtterPeriode: !!oppgave.papirSmRegistering?.prognose?.arbeidsforEtterPeriode,
+        hensynPaArbeidsplassen: oppgave.papirSmRegistering?.prognose?.hensynArbeidsplassen,
+        erIArbeid: !!oppgave.papirSmRegistering?.prognose?.erIArbeid,
+        egetArbeidPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIArbeid?.egetArbeidPaSikt,
+        annetArbeidPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIArbeid?.annetArbeidPaSikt,
+        arbeidFOM: oppgave.papirSmRegistering?.prognose?.erIArbeid?.arbeidFOM,
+        vurderingsDatoIArbeid: oppgave.papirSmRegistering?.prognose?.erIArbeid?.vurderingsdato,
+        erIkkeIArbeid: !!oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid,
+        arbeidsforPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid?.arbeidsforPaSikt,
+        arbeidsforFOM: oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid?.arbeidsforFOM,
+        vurderingsDatoUtenArbeid: oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid?.vurderingsdato,
+
+        // Utdypende opplysninger
+
+        // Arbeidsevne
+        tiltakNav: oppgave.papirSmRegistering?.tiltakNAV,
+        tiltakArbeidsplassen: oppgave.papirSmRegistering?.tiltakArbeidsplassen,
+        andreTiltak: oppgave.papirSmRegistering?.andreTiltak,
+
+        // MeldingTilNav
+        meldingTilNavBistand: !!oppgave.papirSmRegistering?.meldingTilNAV?.bistandUmiddelbart,
+        meldingTilNavBegrunn: oppgave.papirSmRegistering?.meldingTilNAV?.beskrivBistand,
+
+        // MeldingTilArbeidsgiver
+        meldingTilArbeidsgiverBeskriv: oppgave.papirSmRegistering?.meldingTilArbeidsgiver,
+
+        // Tilbakedatering
         erTilbakedatert: !!oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato,
         kontaktDato: oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato,
         kunneIkkeIvaretaEgneInteresser: !!oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
         begrunnelseIkkeKontakt: oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
-        meldingTilNavBistand: !!oppgave.papirSmRegistering?.meldingTilNAV?.bistandUmiddelbart,
-        meldingTilNavBegrunn: oppgave.papirSmRegistering?.meldingTilNAV?.beskrivBistand,
-        syketilfelleStartDato: oppgave.papirSmRegistering?.syketilfelleStartDato,
+
+        // Bekreftelse
         behandletDato: oppgave.papirSmRegistering?.behandletTidspunkt,
         sykmelderFnr: oppgave.papirSmRegistering?.behandler?.fnr,
         sykmeldersFornavn: oppgave.papirSmRegistering?.behandler?.fornavn,
@@ -86,17 +120,6 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
         sykmelderLand: oppgave.papirSmRegistering?.behandler?.adresse?.land,
         sykmelderTelefon: oppgave.papirSmRegistering?.behandler?.tlf,
         hpr: oppgave.papirSmRegistering?.behandler?.hpr,
-        arbeidsfoerEtterPeriode: !!oppgave.papirSmRegistering?.prognose?.arbeidsforEtterPeriode,
-        hensynPaArbeidsplassen: oppgave.papirSmRegistering?.prognose?.hensynArbeidsplassen,
-        erIArbeid: !!oppgave.papirSmRegistering?.prognose?.erIArbeid,
-        egetArbeidPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIArbeid?.egetArbeidPaSikt,
-        annetArbeidPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIArbeid?.annetArbeidPaSikt,
-        arbeidFOM: oppgave.papirSmRegistering?.prognose?.erIArbeid?.arbeidFOM,
-        vurderingsDatoIArbeid: oppgave.papirSmRegistering?.prognose?.erIArbeid?.vurderingsdato,
-        erIkkeIArbeid: !!oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid,
-        arbeidsforPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid?.arbeidsforPaSikt,
-        arbeidsforFOM: oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid?.arbeidsforFOM,
-        vurderingsDatoUtenArbeid: oppgave.papirSmRegistering?.prognose?.erIkkeIArbeid?.vurderingsdato,
     };
 };
 
@@ -148,7 +171,7 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
 
     return (
         <section className="form">
-            <form>
+            <form autoComplete="off">
                 <Panel ariaLabel="skjemapanel">
                     <FormHeader />
                     <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />

@@ -68,6 +68,9 @@ export const validationFunctions: ValidationType = {
 
     // Diagnose
     hovedDiagnose: (hovedDiagnose, schema) => {
+        if (!hovedDiagnose) {
+            return 'Hoveddiagnose må være definert';
+        }
         if (hovedDiagnose && hovedDiagnose.system) {
             if (!hovedDiagnose.kode) return 'Kode tilhørende hoveddiagnose må være definert når system er valgt';
         }
@@ -101,7 +104,11 @@ export const validationFunctions: ValidationType = {
         return undefined;
     },
     annenFraversArsak: () => undefined,
-    annenFraversArsakGrunn: () => undefined,
+    annenFraversArsakGrunn: (annenFraversArsakGrunn, schema) => {
+        if (schema.annenFraversArsak && !annenFraversArsakGrunn?.length) {
+            return 'Lovfestet fraværsgrunn må være valgt når annen lovfestet fraværsgrunn er avkrysset';
+        }
+    },
     annenFraversArsakBeskrivelse: () => undefined,
     skjermesForPasient: (skjermesForPasient, schema) => {
         if (skjermesForPasient === undefined) {
@@ -150,10 +157,18 @@ export const validationFunctions: ValidationType = {
         }
     },
     aktivitetIkkeMuligMedisinskArsak: () => undefined,
-    aktivitetIkkeMuligMedisinskArsakType: () => undefined,
+    aktivitetIkkeMuligMedisinskArsakType: (aktivitetIkkeMuligMedisinskArsakType, schema) => {
+        if (schema.aktivitetIkkeMuligMedisinskArsak && !aktivitetIkkeMuligMedisinskArsakType?.length) {
+            return 'Medisinsk årsak må være valgt når det er medisinske årsaker som hindrer arbeidsrelatert aktivitet';
+        }
+    },
     aktivitetIkkeMuligMedisinskArsakBeskrivelse: () => undefined,
     aktivitetIkkeMuligArbeidsrelatertArsak: () => undefined,
-    aktivitetIkkeMuligArbeidsrelatertArsakType: () => undefined,
+    aktivitetIkkeMuligArbeidsrelatertArsakType: (aktivitetIkkeMuligArbeidsrelatertArsakType, schema) => {
+        if (schema.aktivitetIkkeMuligArbeidsrelatertArsak && !aktivitetIkkeMuligArbeidsrelatertArsakType) {
+            return 'Arbeidsrelatert årsak må være valgt når forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet';
+        }
+    },
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: () => undefined,
     // Perioder for sykmelding for behandlignsdager
     behandlingsdagerSykmelding: () => undefined,
@@ -191,13 +206,7 @@ export const validationFunctions: ValidationType = {
     },
     vurderingsDatoIArbeid: () => undefined,
     arbeidsforPaSikt: () => undefined,
-    arbeidsforFOM: (arbeidsforFOM, schema) => {
-        if (schema.erIkkeIArbeid && schema.arbeidsforPaSikt) {
-            if (arbeidsforFOM === undefined) {
-                return 'Du må svare på når pasienten kan komme tilbake i arbeid på sikt';
-            }
-        }
-    },
+    arbeidsforFOM: () => undefined,
     vurderingsDatoUtenArbeid: () => undefined,
 
     // Utdypende opplysninger
@@ -276,7 +285,6 @@ export const validationFunctions: ValidationType = {
         }
     },
     hpr: () => undefined,
-    her: () => undefined,
     sykmelderTelefon: () => undefined,
     sykmelderGate: () => undefined,
     sykmelderKommune: () => undefined,

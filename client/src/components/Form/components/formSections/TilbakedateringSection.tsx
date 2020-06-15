@@ -35,10 +35,13 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                     label="Er sykmelding tilbakedatert?"
                     onChange={() =>
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                erTilbakedatert: !state.erTilbakedatert,
-                            }),
+                            (state): SchemaType => {
+                                validate('erTilbakedatert', !state.erTilbakedatert);
+                                return {
+                                    ...state,
+                                    erTilbakedatert: !state.erTilbakedatert,
+                                };
+                            },
                         )
                     }
                     feil={errors.erTilbakedatert}
@@ -49,14 +52,15 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                         id="kontaktDato"
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
                         value={schema.kontaktDato ? schema.kontaktDato : undefined}
-                        onChange={newDate =>
+                        onChange={newDate => {
                             setSchema(
                                 (state): SchemaType => ({
                                     ...state,
                                     kontaktDato: newDate,
                                 }),
-                            )
-                        }
+                            );
+                            validate('kontaktDato', newDate);
+                        }}
                     />
                 </ExpandableField>
             </Subsection>

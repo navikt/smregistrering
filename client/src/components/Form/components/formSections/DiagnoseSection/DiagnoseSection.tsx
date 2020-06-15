@@ -64,10 +64,13 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     label="Annen lovfestet fraværsgrunn § 8-4, 3. ledd oppgis hvis relevant"
                     onChange={() =>
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                annenFraversArsak: !state.annenFraversArsak,
-                            }),
+                            (state): SchemaType => {
+                                validate('annenFraversArsak', !state.annenFraversArsak);
+                                return {
+                                    ...state,
+                                    annenFraversArsak: !state.annenFraversArsak,
+                                };
+                            },
                         )
                     }
                     feil={errors.annenFraversArsak}
@@ -136,10 +139,13 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     label="Sykdommen er svangerskapsrelatert"
                     onChange={() =>
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                svangerskap: !state.svangerskap,
-                            }),
+                            (state): SchemaType => {
+                                validate('svangerskap', !state.svangerskap);
+                                return {
+                                    ...state,
+                                    svangerskap: !state.svangerskap,
+                                };
+                            },
                         )
                     }
                     feil={errors.svangerskap}
@@ -153,10 +159,13 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     label="Sykmeldingen kan skyldes en yrkesskade / yrkessykdom"
                     onChange={() =>
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                yrkesskade: !state.yrkesskade,
-                            }),
+                            (state): SchemaType => {
+                                validate('yrkesskade', !state.yrkesskade);
+                                return {
+                                    ...state,
+                                    yrkesskade: !state.yrkesskade,
+                                };
+                            },
                         )
                     }
                     feil={errors.yrkesskade}
@@ -167,14 +176,15 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                         id="yrkesskadeDato"
                         label="3.6 Eventuell skadedato"
                         value={schema.yrkesskadeDato ? schema.yrkesskadeDato : undefined}
-                        onChange={newDates =>
+                        onChange={newDates => {
                             setSchema(
                                 (state): SchemaType => ({
                                     ...state,
                                     yrkesskadeDato: newDates,
                                 }),
-                            )
-                        }
+                            );
+                            validate('yrkesskadeDato', newDates);
+                        }}
                     />
                 </ExpandableField>
             </Subsection>
@@ -186,10 +196,13 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     label="Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1"
                     onChange={() =>
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                skjermesForPasient: !state.skjermesForPasient,
-                            }),
+                            (state): SchemaType => {
+                                validate('skjermesForPasient', !state.skjermesForPasient);
+                                return {
+                                    ...state,
+                                    skjermesForPasient: !state.skjermesForPasient,
+                                };
+                            },
                         )
                     }
                     feil={errors.skjermesForPasient}

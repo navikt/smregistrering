@@ -38,7 +38,6 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                                 pasientEtternavn: value,
                             }),
                         );
-
                         validate('pasientEtternavn', value);
                     }}
                     onFocus={() => validate('pasientEtternavn', schema.pasientEtternavn)}
@@ -56,7 +55,6 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                                 pasientFornavn: value,
                             }),
                         );
-
                         validate('pasientFornavn', value);
                     }}
                     feil={errors.pasientFornavn}

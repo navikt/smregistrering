@@ -17,7 +17,6 @@ export type Bekreftelse = {
     sykmelderFnr?: string | null;
     aktoerId?: string | null;
     hpr?: string | null;
-    her?: string | null;
     sykmelderTelefon?: string | null;
     sykmelderGate?: string | null;
     sykmelderPostnummer?: number | null;
@@ -37,38 +36,40 @@ type BekreftelseSectionProps = {
 const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: BekreftelseSectionProps) => {
     return (
         <SectionContainer section={section}>
-            <Input
-                id="sykmelderFnr"
-                className="form-margin-bottom half"
-                value={schema.sykmelderFnr ? schema.sykmelderFnr : undefined}
-                onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => ({
-                            ...state,
-                            sykmelderFnr: value,
-                        }),
-                    );
-                    validate('sykmelderFnr', value);
-                }}
-                label={<Element>Sykmelders fødselsnummer (11 siffer)</Element>}
-                feil={errors.sykmelderFnr}
-            />
-            <Input
-                id="aktoerId"
-                className="form-margin-bottom half"
-                value={schema.aktoerId ? schema.aktoerId : undefined}
-                onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => ({
-                            ...state,
-                            aktoerId: value,
-                        }),
-                    );
-                    validate('aktoerId', value);
-                }}
-                label={<Element>AktørID</Element>}
-                feil={errors.aktoerId}
-            />
+            <Row>
+                <Input
+                    id="sykmelderFnr"
+                    className="form-margin-bottom"
+                    value={schema.sykmelderFnr ? schema.sykmelderFnr : undefined}
+                    onChange={({ target: { value } }) => {
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                sykmelderFnr: value,
+                            }),
+                        );
+                        validate('sykmelderFnr', value);
+                    }}
+                    label={<Element>Sykmelders fødselsnummer (11 siffer)</Element>}
+                    feil={errors.sykmelderFnr}
+                />
+                <Input
+                    id="aktoerId"
+                    className="form-margin-bottom"
+                    value={schema.aktoerId ? schema.aktoerId : undefined}
+                    onChange={({ target: { value } }) => {
+                        setSchema(
+                            (state): SchemaType => ({
+                                ...state,
+                                aktoerId: value,
+                            }),
+                        );
+                        validate('aktoerId', value);
+                    }}
+                    label={<Element>AktørID</Element>}
+                    feil={errors.aktoerId}
+                />
+            </Row>
             <DatePicker
                 id="behandletDato"
                 label="12.1 Behandletdato"
@@ -110,7 +111,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                         validate('sykmeldersEtternavn', value);
                     }}
                     feil={errors.sykmeldersEtternavn}
-                    label={<Element>Sykmelders etternavn</Element>}
+                    label={<Element>12.2.2 Sykmelders etternavn</Element>}
                 />
             </Row>
             <Row>
@@ -153,14 +154,15 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     id="sykmelderGate"
                     className="form-margin-bottom"
                     value={schema.sykmelderGate ? schema.sykmelderGate : undefined}
-                    onChange={({ target: { value } }) =>
+                    onChange={({ target: { value } }) => {
                         setSchema(
                             (state): SchemaType => ({
                                 ...state,
                                 sykmelderGate: value,
                             }),
-                        )
-                    }
+                        );
+                        validate('sykmelderGate', value);
+                    }}
                     feil={errors.sykmelderGate}
                     label={<Element>Gate</Element>}
                 />
@@ -170,14 +172,15 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                         className="form-margin-bottom"
                         type="number"
                         value={schema.sykmelderPostnummer ? schema.sykmelderPostnummer : undefined}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(
                                 (state): SchemaType => ({
                                     ...state,
                                     sykmelderPostnummer: Number(value),
                                 }),
-                            )
-                        }
+                            );
+                            validate('sykmelderPostnummer', value);
+                        }}
                         feil={errors.sykmelderPostnummer}
                         label={<Element>Postnummer</Element>}
                     />
@@ -185,14 +188,15 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                         id="sykmelderKommune"
                         className="form-margin-bottom"
                         value={schema.sykmelderKommune ? schema.sykmelderKommune : undefined}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(
                                 (state): SchemaType => ({
                                     ...state,
                                     sykmelderKommune: value,
                                 }),
-                            )
-                        }
+                            );
+                            validate('sykmelderKommune', value);
+                        }}
                         feil={errors.sykmelderKommune}
                         label={<Element>Kommune</Element>}
                     />
@@ -202,14 +206,15 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                         id="sykmelderPostboks"
                         className="form-margin-bottom"
                         value={schema.sykmelderPostboks ? schema.sykmelderPostboks : undefined}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(
                                 (state): SchemaType => ({
                                     ...state,
                                     sykmelderPostboks: value,
                                 }),
-                            )
-                        }
+                            );
+                            validate('sykmelderPostboks', value);
+                        }}
                         feil={errors.sykmelderPostboks}
                         label={<Element>Postboks</Element>}
                     />
@@ -217,14 +222,15 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                         id="sykmelderLand"
                         className="form-margin-bottom"
                         value={schema.sykmelderLand ? schema.sykmelderLand : undefined}
-                        onChange={({ target: { value } }) =>
+                        onChange={({ target: { value } }) => {
                             setSchema(
                                 (state): SchemaType => ({
                                     ...state,
                                     sykmelderLand: value,
                                 }),
-                            )
-                        }
+                            );
+                            validate('sykmelderLand', value);
+                        }}
                         feil={errors.sykmelderLand}
                         label={<Element>Land</Element>}
                     />
