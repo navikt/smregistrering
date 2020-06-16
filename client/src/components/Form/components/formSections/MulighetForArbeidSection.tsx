@@ -412,6 +412,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             id="behandlingsdagerAntall"
                             className="form-margin-bottom half"
                             type="number"
+                            value={schema.behandlingsdagerAntall}
                             onChange={({ target: { value } }) => {
                                 setSchema(
                                     (state): SchemaType => ({
