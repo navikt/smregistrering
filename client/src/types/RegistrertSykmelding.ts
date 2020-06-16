@@ -56,8 +56,8 @@ const ArbeidsrelatertArsak = iots.intersection([
 export type ArbeidsrelatertArsak = iots.TypeOf<typeof ArbeidsrelatertArsak>;
 
 export const AktivitetIkkeMulig = iots.partial({
-    medisinskArsak: MedisinskArsak,
-    arbeidsrelatertArsak: ArbeidsrelatertArsak,
+    medisinskArsak: iots.union([MedisinskArsak, iots.null]),
+    arbeidsrelatertArsak: iots.union([ArbeidsrelatertArsak, iots.null]),
 });
 export type AktivitetIkkeMulig = iots.TypeOf<typeof AktivitetIkkeMulig>;
 
