@@ -8,6 +8,7 @@ import {
     MeldingTilNAV,
     Periode,
     Prognose,
+    UtdypendeOpplysninger,
 } from './RegistrertSykmelding';
 import { Base64Pdf, DateFromString } from './CustomTypes';
 
@@ -20,7 +21,7 @@ const PapirSmRegistering = iots.partial({
     skjermesForPasient: iots.union([iots.boolean, iots.null]),
     perioder: iots.union([iots.array(Periode), iots.null]),
     prognose: iots.union([Prognose, iots.null]),
-    // utdypendeOpplysninger: TODO
+    utdypendeOpplysninger: iots.union([UtdypendeOpplysninger, iots.null]),
     tiltakNAV: iots.union([iots.string, iots.null]),
     tiltakArbeidsplassen: iots.union([iots.string, iots.null]),
     andreTiltak: iots.union([iots.string, iots.null]),

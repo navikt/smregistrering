@@ -8,7 +8,7 @@ import {
     Periode,
     Prognose,
     RegistrertSykmelding,
-    UtdypendeOpplysninger,
+    UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
 import { DiagnosekodeSystem } from '../types/Diagnosekode';
 import { Oppgave } from '../types/Oppgave';
@@ -255,7 +255,7 @@ const buildPrognose = (schema: SchemaType): Prognose | undefined => {
     }
 };
 
-const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysninger => {
+const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysningerReturn => {
     return {
         6.1: {
             '6.1.1': schema.utdypende611,
