@@ -34,6 +34,7 @@ import {
     getGradertSykmelding,
     getReisetilskuddSykmelding,
 } from '../../utils/periodeUtils';
+import { hasCorrectDiagnosekode } from '../../utils/diagnoseUtils';
 import { scrollToRef } from '../Menu/MenuLink';
 
 export interface SchemaType
@@ -52,12 +53,18 @@ export interface SchemaType
 
 export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined };
 
-const getInitialSchema = (oppgave: Oppgave): SchemaType => {
+const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): SchemaType => {
     const avventendePeriode = getAvventendePeriode(oppgave.papirSmRegistering?.perioder);
     const aktivitetIkkeMuligPeriode = getAktivitetIkkeMuligSykmelding(oppgave.papirSmRegistering?.perioder);
     const behandlingsdagerPeriode = getBehandlingsdagerSykmelding(oppgave.papirSmRegistering?.perioder);
     const gradertPeriode = getGradertSykmelding(oppgave.papirSmRegistering?.perioder);
     const reisetilskuddperiode = getReisetilskuddSykmelding(oppgave.papirSmRegistering?.perioder);
+
+    const hasCorrectDiagnose = hasCorrectDiagnosekode(
+        diagnosekoder,
+        oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose?.kode,
+    );
+    console.log('hascorrectdiagnosekode: ' + hasCorrectDiagnose);
 
     return {
         // Other
@@ -178,6 +185,18 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     };
 };
 
+/* 
+const testDiagnose = {
+    system: 
+}
+
+interface Diagnose {
+    kode: string,
+    tekst: string,
+}
+const mymap = new Map<string, Diagnose>();
+mymap.set()
+ */
 type FormProps = {
     schemaRef: RefObject<HTMLDivElement>;
     sections: Sections;
@@ -186,7 +205,7 @@ type FormProps = {
 };
 
 const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
-    const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
+    const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave, diagnosekoder));
     const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
     const errorSummaryRef = useRef<HTMLDivElement>(null);
 
