@@ -11,8 +11,6 @@ export const getBehandlingsdagerSykmelding = (perioder?: Periode[] | null): Peri
 
 export const getGradertSykmelding = (perioder?: Periode[] | null): Periode | undefined =>
     perioder?.find(periode => !!periode.gradert);
-export const getGradertReisetilskuddSykmelding = (perioder?: Periode[] | null): Periode | undefined =>
-    perioder?.find(periode => !!periode.gradert?.reisetilskudd);
 
 export const getReisetilskuddSykmelding = (perioder?: Periode[] | null): Periode | undefined =>
     perioder?.find(periode => periode.reisetilskudd);

@@ -31,7 +31,6 @@ import {
     getAktivitetIkkeMuligSykmelding,
     getAvventendePeriode,
     getBehandlingsdagerSykmelding,
-    getGradertReisetilskuddSykmelding,
     getGradertSykmelding,
     getReisetilskuddSykmelding,
 } from '../../utils/periodeUtils';
@@ -58,7 +57,6 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
     const aktivitetIkkeMuligPeriode = getAktivitetIkkeMuligSykmelding(oppgave.papirSmRegistering?.perioder);
     const behandlingsdagerPeriode = getBehandlingsdagerSykmelding(oppgave.papirSmRegistering?.perioder);
     const gradertPeriode = getGradertSykmelding(oppgave.papirSmRegistering?.perioder);
-    const gradertReisetilskuddPeriode = getGradertReisetilskuddSykmelding(oppgave.papirSmRegistering?.perioder);
     const reisetilskuddperiode = getReisetilskuddSykmelding(oppgave.papirSmRegistering?.perioder);
 
     return {
@@ -89,7 +87,7 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
             : undefined,
         gradertSykmelding: !!gradertPeriode,
         gradertPeriode: !!gradertPeriode ? [gradertPeriode.fom, gradertPeriode.tom] : undefined,
-        gradertReisetilskudd: !!gradertReisetilskuddPeriode,
+        gradertReisetilskudd: !!gradertPeriode?.gradert?.reisetilskudd,
         gradertGrad: gradertPeriode?.gradert?.grad ? gradertPeriode?.gradert?.grad : undefined,
         aktivitetIkkeMuligSykmelding: !!aktivitetIkkeMuligPeriode,
         aktivitetIkkeMuligPeriode: !!aktivitetIkkeMuligPeriode
