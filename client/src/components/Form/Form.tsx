@@ -27,6 +27,13 @@ import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
 import { SectionTitle, Sections } from '../../types/Section';
 import { Validate, validationFunctions } from './validation';
+import {
+    getAktivitetIkkeMuligSykmelding,
+    getAvventendePeriode,
+    getBehandlingsdagerSykmelding,
+    getGradertSykmelding,
+    getReisetilskuddSykmelding,
+} from '../../utils/periodeUtils';
 import { scrollToRef } from '../Menu/MenuLink';
 
 export interface SchemaType
@@ -46,6 +53,12 @@ export interface SchemaType
 export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined };
 
 const getInitialSchema = (oppgave: Oppgave): SchemaType => {
+    const avventendePeriode = getAvventendePeriode(oppgave.papirSmRegistering?.perioder);
+    const aktivitetIkkeMuligPeriode = getAktivitetIkkeMuligSykmelding(oppgave.papirSmRegistering?.perioder);
+    const behandlingsdagerPeriode = getBehandlingsdagerSykmelding(oppgave.papirSmRegistering?.perioder);
+    const gradertPeriode = getGradertSykmelding(oppgave.papirSmRegistering?.perioder);
+    const reisetilskuddperiode = getReisetilskuddSykmelding(oppgave.papirSmRegistering?.perioder);
+
     return {
         // Other
         syketilfelleStartDato: oppgave.papirSmRegistering?.syketilfelleStartDato,
@@ -67,12 +80,28 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
         annenFraversArsak: false,
 
         // MulighetForArbeid
-        avventendeSykmelding: false,
-        gradertSykmelding: false,
-        gradertReisetilskudd: false,
-        aktivitetIkkeMuligSykmelding: false,
-        behandlingsdagerSykmelding: false,
-        reisetilskuddSykmelding: false,
+        avventendeSykmelding: !!avventendePeriode,
+        avventendePeriode: !!avventendePeriode ? [avventendePeriode.fom, avventendePeriode.tom] : undefined,
+        avventendeInnspillTilArbeidsgiver: !!avventendePeriode?.avventendeInnspillTilArbeidsgiver
+            ? avventendePeriode.avventendeInnspillTilArbeidsgiver
+            : undefined,
+        gradertSykmelding: !!gradertPeriode,
+        gradertPeriode: !!gradertPeriode ? [gradertPeriode.fom, gradertPeriode.tom] : undefined,
+        gradertReisetilskudd: !!gradertPeriode?.gradert?.reisetilskudd,
+        gradertGrad: gradertPeriode?.gradert?.grad ? gradertPeriode?.gradert?.grad : undefined,
+        aktivitetIkkeMuligSykmelding: !!aktivitetIkkeMuligPeriode,
+        aktivitetIkkeMuligPeriode: !!aktivitetIkkeMuligPeriode
+            ? [aktivitetIkkeMuligPeriode.fom, aktivitetIkkeMuligPeriode.tom]
+            : undefined,
+        behandlingsdagerSykmelding: !!behandlingsdagerPeriode,
+        behandlingsdagerPeriode: !!behandlingsdagerPeriode
+            ? [behandlingsdagerPeriode.fom, behandlingsdagerPeriode.tom]
+            : undefined,
+        behandlingsdagerAntall: behandlingsdagerPeriode?.behandlingsdager
+            ? behandlingsdagerPeriode?.behandlingsdager
+            : undefined,
+        reisetilskuddSykmelding: !!reisetilskuddperiode,
+        reisetilskuddPeriode: !!reisetilskuddperiode ? [reisetilskuddperiode.fom, reisetilskuddperiode.tom] : undefined,
 
         // Friskmelding
         arbeidsfoerEtterPeriode: !!oppgave.papirSmRegistering?.prognose?.arbeidsforEtterPeriode,
