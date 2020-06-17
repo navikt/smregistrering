@@ -1,8 +1,6 @@
 import React from 'react';
-import { Element } from 'nav-frontend-typografi';
 import { Input } from 'nav-frontend-skjema';
 
-import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
