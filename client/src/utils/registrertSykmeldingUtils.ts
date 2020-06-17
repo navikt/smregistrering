@@ -187,20 +187,14 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
 const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefined => {
     if (diagnose && diagnose.kode && diagnose.system && diagnose.tekst) {
         // Can not return diagnose parameter. Typescript does not understand that all properties exist
-        let system: string;
-        if (diagnose.system === 'icpc2') {
-            system = DiagnosekodeSystem.ICPC2;
-        } else if (diagnose.system === 'icd10') {
-            system = DiagnosekodeSystem.ICD10;
-        } else {
-            throw new Error('Unknown diagnosekodesystem');
-        }
 
         return {
-            system,
+            system: diagnose.system,
             kode: diagnose.kode,
             tekst: diagnose.tekst,
         };
+    } else {
+        throw new Error('Manglende informasjon til diagnose');
     }
 };
 
