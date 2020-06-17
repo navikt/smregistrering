@@ -41,7 +41,8 @@ const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: B
         );
     };
 
-    const deleteRow = (index: number) => {
+    const deleteRow = (index: number, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
         setSchema(
             (state): SchemaType => {
                 if (!state.biDiagnoser) {

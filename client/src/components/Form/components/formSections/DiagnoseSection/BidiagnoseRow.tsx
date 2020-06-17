@@ -15,7 +15,7 @@ type BidiagnoseRowProps = {
     index: number;
     updateDiagnosesystem: (index: number, system: string) => void;
     updateDiagnosecode: (index: number, code: string, text: string) => void;
-    deleteRow: (index: number) => void;
+    deleteRow: (index: number, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     biDiagnose: Partial<Diagnose>;
     diagnosekoder: Diagnosekoder;
 };
@@ -34,7 +34,7 @@ const BidiagnoseRow = ({
             <div className={`bidiagnoserow`}>
                 {!isFirst && (
                     <div className="bidiagnoserow__deletebutton">
-                        <Fareknapp form="kompakt" onClick={() => deleteRow(index)}>
+                        <Fareknapp form="kompakt" onClick={event => deleteRow(index, event)}>
                             <Garbage />
                             <span className="sr-only">Slett rad</span>
                         </Fareknapp>
