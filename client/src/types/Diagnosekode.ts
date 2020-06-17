@@ -11,8 +11,8 @@ export const Diagnosekode = iots.type({
 });
 
 export const Diagnosekoder = iots.type({
-    icd10: iots.array(Diagnosekode),
-    icpc2: iots.array(Diagnosekode),
+    [DiagnosekodeSystem.ICD10]: iots.array(Diagnosekode),
+    [DiagnosekodeSystem.ICPC2]: iots.array(Diagnosekode),
 });
 
 export type Diagnosekode = iots.TypeOf<typeof Diagnosekode>;
