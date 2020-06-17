@@ -116,9 +116,12 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 closeButton={true}
                 contentLabel="Registrer sykmelding suksess modalt vindu"
             >
-                <p style={{ padding: '2rem 2.5rem' }}>
-                    Sykmeldingen ble registrert. Du sendes tilbake til gosys ved å trykke på krysset.
-                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
+                    <p style={{ marginBottom: '2rem' }}>Sykmeldingen ble registrert.</p>
+                    <a href={process.env.REACT_APP_GOSYS_URL} className="knapp knapp--hoved">
+                        Tilbake til GOSYS
+                    </a>
+                </div>
             </Modal>
         </div>
     );
