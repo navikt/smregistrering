@@ -65,19 +65,8 @@ type SearchableInputProps = {
 };
 
 const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: SearchableInputProps) => {
-    // Internal value state, so we don't have to store a ValueState in the form data
-    const [selectValue, setSelectValue] = useState<OptionValueType>(
-        value?.kode && value.tekst ? { value: value.kode, label: value.kode, text: value.tekst } : null,
-    );
-
-    useEffect(() => {
-        // Reset selected value on system change
-        setSelectValue(null);
-    }, [system]);
-
     const handleChange = (selectedOption: OptionValueType | OptionValueType[] | null | void) => {
         if (!selectedOption) {
-            setSelectValue(null);
             onChange('', '');
             return;
         }
@@ -86,7 +75,6 @@ const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: Sear
             const singleValue = selectedOption as OptionValueType;
             if ((singleValue as OptionObject).value) {
                 const { value, text } = singleValue as OptionObject;
-                setSelectValue(singleValue); // Update internal state
                 onChange(value, text); // Update form
             }
         }
@@ -98,6 +86,8 @@ const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: Sear
         label: diagnose.code,
         text: diagnose.text,
     }));
+
+    const selectValue = value?.kode && value.tekst ? { value: value.kode, label: value.kode, text: value.tekst } : null;
 
     return (
         <>
