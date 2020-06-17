@@ -28,19 +28,15 @@ const BidiagnoseRow = ({
     updateDiagnosecode,
     deleteRow,
 }: BidiagnoseRowProps) => {
-    const isFirst = index === 0;
-
     return (
         <>
             <div className={`bidiagnoserow`}>
-                {!isFirst && (
-                    <div className="bidiagnoserow__deletebutton">
-                        <Fareknapp form="kompakt" onClick={event => deleteRow(index, event)}>
-                            <Garbage />
-                            <span className="sr-only">Slett rad</span>
-                        </Fareknapp>
-                    </div>
-                )}
+                <div className="bidiagnoserow__deletebutton">
+                    <Fareknapp form="kompakt" onClick={event => deleteRow(index, event)}>
+                        <Garbage />
+                        <span className="sr-only">Slett rad</span>
+                    </Fareknapp>
+                </div>
                 <Row>
                     <Select
                         value={biDiagnose.system}
