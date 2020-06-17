@@ -11,7 +11,6 @@ import { Validate } from '../../validation';
 export type Pasientopplysninger = {
     pasientFnr?: string | null;
     pasientTelefon?: string;
-    pasientEtternavn?: string;
     pasientFornavn?: string;
     navnFastlege?: string;
 };
@@ -27,41 +26,22 @@ type PasientopplysningerProps = {
 const PasientopplysningerSection = ({ section, setSchema, errors, validate, schema }: PasientopplysningerProps) => {
     return (
         <SectionContainer section={section}>
-            <Row>
-                <Input
-                    disabled
-                    id="pasientEtternavn"
-                    onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                pasientEtternavn: value,
-                            }),
-                        );
-                        validate('pasientEtternavn', value);
-                    }}
-                    onFocus={() => validate('pasientEtternavn', schema.pasientEtternavn)}
-                    feil={errors.pasientEtternavn}
-                    type="text"
-                    label={<Element>1.1.1 Etternavn</Element>}
-                />
-                <Input
-                    disabled
-                    id="pasientFornavn"
-                    onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                pasientFornavn: value,
-                            }),
-                        );
-                        validate('pasientFornavn', value);
-                    }}
-                    feil={errors.pasientFornavn}
-                    type="text"
-                    label={<Element>1.1.2 Fornavn</Element>}
-                />
-            </Row>
+            <Input
+                disabled
+                id="pasientFornavn"
+                onChange={({ target: { value } }) => {
+                    setSchema(
+                        (state): SchemaType => ({
+                            ...state,
+                            pasientFornavn: value,
+                        }),
+                    );
+                    validate('pasientFornavn', value);
+                }}
+                feil={errors.pasientFornavn}
+                type="text"
+                label={<Element>1.1.2 Fornavn</Element>}
+            />
             <Row>
                 <Input
                     id="pasientFnr"

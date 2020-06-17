@@ -17,9 +17,6 @@ export const validationFunctions: ValidationType = {
     },
 
     // Pasientopplysninger
-    pasientEtternavn: (value, schema) => {
-        return undefined;
-    },
     pasientFornavn: (value, schema) => {
         return undefined;
     },
