@@ -1,6 +1,6 @@
 import './SearchableInput.less';
 
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties } from 'react';
 import Select, { MenuListComponentProps, ValueType, createFilter } from 'react-select';
 import { FixedSizeList } from 'react-window';
 

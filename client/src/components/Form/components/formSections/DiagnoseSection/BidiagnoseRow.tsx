@@ -9,14 +9,14 @@ import Garbage from '../../../../../svg/Garbage';
 import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
 import { Diagnose } from '../../../../../types/RegistrertSykmelding';
-import { Diagnosekoder } from '../../../../../types/Diagnosekode';
+import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/Diagnosekode';
 
 type BidiagnoseRowProps = {
     index: number;
     updateDiagnosesystem: (index: number, system: string) => void;
     updateDiagnosecode: (index: number, code: string, text: string) => void;
     deleteRow: (index: number) => void;
-    biDiagnose: Diagnose;
+    biDiagnose: Partial<Diagnose>;
     diagnosekoder: Diagnosekoder;
 };
 
@@ -50,14 +50,15 @@ const BidiagnoseRow = ({
                         label={<Element>3.2.1 Kodesystem</Element>}
                     >
                         <option value="undefined">Velg kodesystem</option>
-                        <option value="icpc2">ICPC-2</option>
-                        <option value="icd10">ICD-10</option>
+                        <option value={DiagnosekodeSystem.ICPC2}>ICPC-2</option>
+                        <option value={DiagnosekodeSystem.ICD10}>ICD-10</option>
                     </Select>
                     <SearchableInput
                         system={biDiagnose.system}
                         diagnosekoder={diagnosekoder}
                         label={<Element>3.2.2 Kode</Element>}
                         onChange={(code: string, text: string) => updateDiagnosecode(index, code, text)}
+                        value={biDiagnose}
                     />
                     <div>
                         <Element>3.2.3 Tekst</Element>

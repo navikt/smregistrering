@@ -16,7 +16,7 @@ import { Validate } from '../../../validation';
 
 export type MedisinskVurdering = {
     hovedDiagnose?: Partial<Diagnose>;
-    biDiagnoser?: Diagnose[];
+    biDiagnoser?: Partial<Diagnose>[];
     yrkesskade: boolean;
     yrkesskadeDato?: Date | null;
     svangerskap: boolean;
