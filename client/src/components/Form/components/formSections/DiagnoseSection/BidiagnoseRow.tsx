@@ -29,6 +29,8 @@ const BidiagnoseRow = ({
     deleteRow,
 }: BidiagnoseRowProps) => {
     const isFirst = index === 0;
+
+    console.log(biDiagnose);
     return (
         <>
             <div className={`bidiagnoserow`}>

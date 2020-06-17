@@ -28,3 +28,21 @@ export const getDiagnose = (
     }
     return undefined;
 };
+
+export const getBidiagnoser = (
+    diagnoserkoder: Diagnosekoder,
+    bidiagnoser: Partial<Diagnose>[] | undefined,
+): Partial<Diagnose>[] => {
+    if (!bidiagnoser) {
+        return [];
+    }
+
+    const result = bidiagnoser.reduce((acc, bidiagnose) => {
+        const diagnose = getDiagnose(diagnoserkoder, bidiagnose);
+        if (diagnose) {
+            return [...acc, diagnose];
+        }
+        return acc;
+    }, [] as Partial<Diagnose>[]);
+    return result;
+};

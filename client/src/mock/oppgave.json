@@ -23,7 +23,18 @@
                 "kode": "A009",
                 "tekst": "Uspesifisert kolera"
             },
-            "biDiagnoser": [],
+            "biDiagnoser": [
+                {
+                    "kode": "H02",
+                    "system": "2.16.578.1.12.4.1.1.7170",
+                    "tekst": "Auditiv diskriminerings lidelse"
+                },
+                {
+                    "kode": "I714",
+                    "system": "2.16.578.1.12.4.1.1.7110",
+                    "tekst": "Abdominalt aorta-aneurisme uten opplysning om ruptur"
+                }
+            ],
             "svangerskap": false,
             "yrkesskade": false,
             "yrkesskadeDato": null,

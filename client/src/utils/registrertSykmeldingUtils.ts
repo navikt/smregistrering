@@ -196,7 +196,7 @@ const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefined => {
     }
 };
 
-const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] | undefined[] => {
+const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] => {
     if (diagnoser) {
         return diagnoser
             .map(partialDiagnose => buildDiagnose(partialDiagnose))
