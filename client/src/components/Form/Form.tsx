@@ -34,7 +34,7 @@ import {
     getGradertSykmelding,
     getReisetilskuddSykmelding,
 } from '../../utils/periodeUtils';
-import { hasCorrectDiagnosekode } from '../../utils/diagnoseUtils';
+import { getDiagnose } from '../../utils/diagnoseUtils';
 import { scrollToRef } from '../Menu/MenuLink';
 
 export interface SchemaType
@@ -60,12 +60,6 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
     const gradertPeriode = getGradertSykmelding(oppgave.papirSmRegistering?.perioder);
     const reisetilskuddperiode = getReisetilskuddSykmelding(oppgave.papirSmRegistering?.perioder);
 
-    const hasCorrectDiagnose = hasCorrectDiagnosekode(
-        diagnosekoder,
-        oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose?.kode,
-    );
-    console.log('hascorrectdiagnosekode: ' + hasCorrectDiagnose);
-
     return {
         // Other
         syketilfelleStartDato: oppgave.papirSmRegistering?.syketilfelleStartDato,
@@ -85,6 +79,7 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
         skjermesForPasient: !!oppgave.papirSmRegistering?.skjermesForPasient,
         svangerskap: !!oppgave.papirSmRegistering?.medisinskVurdering?.svangerskap,
         annenFraversArsak: false,
+        hovedDiagnose: getDiagnose(diagnosekoder, oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose),
 
         // MulighetForArbeid
         avventendeSykmelding: !!avventendePeriode,
@@ -185,18 +180,6 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
     };
 };
 
-/* 
-const testDiagnose = {
-    system: 
-}
-
-interface Diagnose {
-    kode: string,
-    tekst: string,
-}
-const mymap = new Map<string, Diagnose>();
-mymap.set()
- */
 type FormProps = {
     schemaRef: RefObject<HTMLDivElement>;
     sections: Sections;

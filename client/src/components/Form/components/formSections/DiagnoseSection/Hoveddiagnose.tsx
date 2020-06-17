@@ -29,6 +29,7 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
             <Row>
                 <Select
                     className="form-margin-bottom"
+                    value={hoveddiagnoseSystem}
                     onChange={({ target: { value } }) => {
                         const system = value === 'undefined' ? undefined : (value as keyof Diagnosekoder);
                         const updatedDiagnose = {

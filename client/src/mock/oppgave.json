@@ -19,9 +19,9 @@
         },
         "medisinskVurdering": {
             "hovedDiagnose": {
-                "system": "",
-                "kode": "tullekode",
-                "tekst": ""
+                "system": "2.16.578.1.12.4.1.1.7110",
+                "kode": "A009",
+                "tekst": "Uspesifisert kolera"
             },
             "biDiagnoser": [],
             "svangerskap": false,
