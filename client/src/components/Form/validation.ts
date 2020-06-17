@@ -17,9 +17,6 @@ export const validationFunctions: ValidationType = {
     },
 
     // Pasientopplysninger
-    pasientFornavn: (value, schema) => {
-        return undefined;
-    },
     pasientFnr: (pasientFnr, schema) => {
         if (!pasientFnr) {
             return 'Pasientens fødselsnummer må være definert';
