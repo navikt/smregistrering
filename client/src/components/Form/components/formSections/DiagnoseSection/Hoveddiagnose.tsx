@@ -72,6 +72,7 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                             tekst,
                         });
                     }}
+                    value={hoveddiagnose}
                 />
                 <div>
                     <Element>3.1.3 Tekst</Element>

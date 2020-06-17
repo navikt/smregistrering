@@ -10,7 +10,6 @@ import {
     RegistrertSykmelding,
     UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
-import { DiagnosekodeSystem } from '../types/Diagnosekode';
 import { Oppgave } from '../types/Oppgave';
 import { SchemaType } from '../components/Form/Form';
 
@@ -187,7 +186,6 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
 const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefined => {
     if (diagnose && diagnose.kode && diagnose.system && diagnose.tekst) {
         // Can not return diagnose parameter. Typescript does not understand that all properties exist
-
         return {
             system: diagnose.system,
             kode: diagnose.kode,

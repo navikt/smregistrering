@@ -1,6 +1,6 @@
 import './SearchableInput.less';
 
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import Select, { MenuListComponentProps, ValueType, createFilter } from 'react-select';
 import { FixedSizeList } from 'react-window';
 
@@ -61,12 +61,14 @@ type SearchableInputProps = {
     diagnosekoder: Diagnosekoder;
     label: JSX.Element;
     onChange: (code: string, text: string) => void;
-    value?: Diagnose;
+    value?: Partial<Diagnose>;
 };
 
-const SearchableInput = ({ system, diagnosekoder, label, onChange }: SearchableInputProps) => {
+const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: SearchableInputProps) => {
     // Internal value state, so we don't have to store a ValueState in the form data
-    const [selectValue, setSelectValue] = useState<OptionValueType>(null);
+    const [selectValue, setSelectValue] = useState<OptionValueType>(
+        value?.kode && value.tekst ? { value: value.kode, label: value.kode, text: value.tekst } : null,
+    );
 
     useEffect(() => {
         // Reset selected value on system change
