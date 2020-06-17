@@ -29,13 +29,6 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
-    pasientTelefon: (pasientTelefon, schema) => {
-        if (pasientTelefon && !pasientTelefon.match('^\\+?[- _0-9]+$')) {
-            // https://begrep.difi.no/Felles/mobiltelefonnummer
-            return 'Telefonnummeret er ikke på et gyldig format';
-        }
-        return undefined;
-    },
     navnFastlege: (value, schema) => {
         return undefined;
     },
