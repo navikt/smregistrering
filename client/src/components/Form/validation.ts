@@ -29,9 +29,6 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
-    navnFastlege: (value, schema) => {
-        return undefined;
-    },
 
     // Arbeidsgiver
     harArbeidsgiver: (harArbeidsgiver, schema) => {

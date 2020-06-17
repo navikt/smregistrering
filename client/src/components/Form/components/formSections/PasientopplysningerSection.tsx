@@ -10,7 +10,6 @@ import { Validate } from '../../validation';
 
 export type Pasientopplysninger = {
     pasientFnr?: string | null;
-    navnFastlege?: string;
 };
 
 type PasientopplysningerProps = {
@@ -38,18 +37,6 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                 }}
                 label="1.2 Fødselsnummer (11 siffer)"
                 feil={errors.pasientFnr}
-            />
-
-            <Input
-                id="navnFastlege"
-                className="form-margin-bottom"
-                type="text"
-                feil={errors.navnFastlege}
-                onChange={({ target: { value } }) => {
-                    setSchema((state): SchemaType => ({ ...state, navnFastlege: value }));
-                    validate('navnFastlege', value);
-                }}
-                label={<Element>1.4 Navn på pasientens fastlege</Element>}
             />
         </SectionContainer>
     );
