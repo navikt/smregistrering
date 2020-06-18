@@ -1,9 +1,22 @@
 import * as iots from 'io-ts';
+import dayjs from 'dayjs';
 import { either } from 'fp-ts/lib/Either';
 
 // represents a Date from an ISO string
 export const DateFromString = new iots.Type<Date, string, unknown>(
     'DateFromString',
+    (input: unknown): input is Date => input instanceof Date,
+    (input, context) =>
+        either.chain(iots.string.validate(input, context), str => {
+            const date = new Date(str);
+            return isNaN(date.getTime()) ? iots.failure(input, context) : iots.success(date);
+        }),
+    date => dayjs(date).format('YYYY-MM-DD'),
+);
+
+// represents a Date from an ISO string
+export const DateTimeFromString = new iots.Type<Date, string, unknown>(
+    'DateTimeFromString',
     (input: unknown): input is Date => input instanceof Date,
     (input, context) =>
         either.chain(iots.string.validate(input, context), str => {
