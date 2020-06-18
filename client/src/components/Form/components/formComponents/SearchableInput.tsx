@@ -1,6 +1,6 @@
 import './SearchableInput.less';
 
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { CSSProperties } from 'react';
 import Select, { MenuListComponentProps, ValueType, createFilter } from 'react-select';
 import { FixedSizeList } from 'react-window';
 
@@ -61,21 +61,12 @@ type SearchableInputProps = {
     diagnosekoder: Diagnosekoder;
     label: JSX.Element;
     onChange: (code: string, text: string) => void;
-    value?: Diagnose;
+    value?: Partial<Diagnose>;
 };
 
-const SearchableInput = ({ system, diagnosekoder, label, onChange }: SearchableInputProps) => {
-    // Internal value state, so we don't have to store a ValueState in the form data
-    const [selectValue, setSelectValue] = useState<OptionValueType>(null);
-
-    useEffect(() => {
-        // Reset selected value on system change
-        setSelectValue(null);
-    }, [system]);
-
+const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: SearchableInputProps) => {
     const handleChange = (selectedOption: OptionValueType | OptionValueType[] | null | void) => {
         if (!selectedOption) {
-            setSelectValue(null);
             onChange('', '');
             return;
         }
@@ -84,7 +75,6 @@ const SearchableInput = ({ system, diagnosekoder, label, onChange }: SearchableI
             const singleValue = selectedOption as OptionValueType;
             if ((singleValue as OptionObject).value) {
                 const { value, text } = singleValue as OptionObject;
-                setSelectValue(singleValue); // Update internal state
                 onChange(value, text); // Update form
             }
         }
@@ -96,6 +86,8 @@ const SearchableInput = ({ system, diagnosekoder, label, onChange }: SearchableI
         label: diagnose.code,
         text: diagnose.text,
     }));
+
+    const selectValue = value?.kode && value.tekst ? { value: value.kode, label: value.kode, text: value.tekst } : null;
 
     return (
         <>

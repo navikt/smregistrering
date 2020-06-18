@@ -34,6 +34,7 @@ import {
     getGradertSykmelding,
     getReisetilskuddSykmelding,
 } from '../../utils/periodeUtils';
+import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../utils/diagnoseUtils';
 import { scrollToRef } from '../Menu/MenuLink';
 
 export interface SchemaType
@@ -52,7 +53,7 @@ export interface SchemaType
 
 export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined };
 
-const getInitialSchema = (oppgave: Oppgave): SchemaType => {
+const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): SchemaType => {
     const avventendePeriode = getAvventendePeriode(oppgave.papirSmRegistering?.perioder);
     const aktivitetIkkeMuligPeriode = getAktivitetIkkeMuligSykmelding(oppgave.papirSmRegistering?.perioder);
     const behandlingsdagerPeriode = getBehandlingsdagerSykmelding(oppgave.papirSmRegistering?.perioder);
@@ -78,6 +79,14 @@ const getInitialSchema = (oppgave: Oppgave): SchemaType => {
         skjermesForPasient: !!oppgave.papirSmRegistering?.skjermesForPasient,
         svangerskap: !!oppgave.papirSmRegistering?.medisinskVurdering?.svangerskap,
         annenFraversArsak: false,
+        hovedDiagnose: getPrefilledDiagnose(
+            diagnosekoder,
+            oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose,
+        ),
+        biDiagnoser: getPrefilledBidiagnoser(
+            diagnosekoder,
+            oppgave.papirSmRegistering?.medisinskVurdering?.biDiagnoser,
+        ),
 
         // MulighetForArbeid
         avventendeSykmelding: !!avventendePeriode,
@@ -186,7 +195,7 @@ type FormProps = {
 };
 
 const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
-    const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave));
+    const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave, diagnosekoder));
     const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
     const errorSummaryRef = useRef<HTMLDivElement>(null);
 

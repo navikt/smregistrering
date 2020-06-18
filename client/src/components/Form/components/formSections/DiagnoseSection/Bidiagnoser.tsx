@@ -41,7 +41,8 @@ const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: B
         );
     };
 
-    const deleteRow = (index: number) => {
+    const deleteRow = (index: number, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
         setSchema(
             (state): SchemaType => {
                 if (!state.biDiagnoser) {
@@ -125,34 +126,6 @@ const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: B
         );
     };
 
-    if (!schema.biDiagnoser) {
-        return (
-            <div id={id}>
-                <FormLabel label="3.2 Bidiagnose" />
-                <BidiagnoseRow
-                    index={0}
-                    updateDiagnosesystem={updateDiagnosesystem}
-                    updateDiagnosecode={updateDiagnosecode}
-                    deleteRow={deleteRow}
-                    biDiagnose={emptyBidiagnose}
-                    diagnosekoder={diagnosekoder}
-                />
-                {feil ? (
-                    <p
-                        style={{ position: 'relative', top: '-0.5rem', marginBottom: '1rem' }}
-                        className="typo-feilmelding"
-                    >
-                        {feil}
-                    </p>
-                ) : null}
-                <Knapp form="kompakt" onClick={addRow}>
-                    <Plus />
-                    <span>Legg til bidiagnose</span>
-                </Knapp>
-            </div>
-        );
-    }
-
     return (
         <div id={id}>
             <FormLabel label="3.2 Bidiagnose" />
@@ -174,7 +147,7 @@ const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: B
             ) : null}
             <Knapp form="kompakt" onClick={addRow}>
                 <Plus />
-                <span>Legg til bidignose</span>
+                <span>Legg til bidiagnose</span>
             </Knapp>
         </div>
     );

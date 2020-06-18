@@ -110,7 +110,7 @@ export const MedisinskVurdering = iots.intersection([
     iots.type({
         svangerskap: iots.boolean,
         yrkesskade: iots.boolean,
-        biDiagnoser: iots.union([iots.array(Diagnose), iots.array(iots.undefined)]),
+        biDiagnoser: iots.array(Diagnose),
     }),
     iots.partial({
         yrkesskadeDato: iots.union([DateFromString, iots.null]),

@@ -1,6 +1,6 @@
 import * as iotsPromise from 'io-ts-promise';
 
-import { Diagnosekoder } from '../types/Diagnosekode';
+import { DiagnosekodeSystem, Diagnosekoder } from '../types/Diagnosekode';
 import { Oppgave } from '../types/Oppgave';
 import { getOppgaveidFromUrlQueryParameter } from './urlUtils';
 
@@ -8,8 +8,8 @@ export class OppgaveAlreadySolvedError extends Error {}
 
 export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
     const diagnosekoderRaw = {
-        icd10: require('../data/icd10.json'),
-        icpc2: require('../data/icpc2.json'),
+        [DiagnosekodeSystem.ICD10]: require('../data/icd10.json'),
+        [DiagnosekodeSystem.ICPC2]: require('../data/icpc2.json'),
     };
     return iotsPromise.decode(Diagnosekoder, diagnosekoderRaw);
 };

@@ -5,7 +5,7 @@ import { Select } from 'nav-frontend-skjema';
 import FormLabel from '../../formComponents/FormLabel';
 import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
-import { Diagnosekoder } from '../../../../../types/Diagnosekode';
+import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/Diagnosekode';
 import { SchemaType } from '../../../Form';
 import { Validate } from '../../../validation';
 
@@ -29,6 +29,7 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
             <Row>
                 <Select
                     className="form-margin-bottom"
+                    value={hoveddiagnoseSystem}
                     onChange={({ target: { value } }) => {
                         const system = value === 'undefined' ? undefined : (value as keyof Diagnosekoder);
                         const updatedDiagnose = {
@@ -47,8 +48,8 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                     label={<Element>3.1.1 Kodesystem</Element>}
                 >
                     <option value="undefined">Velg kodesystem</option>
-                    <option value="icpc2">ICPC-2</option>
-                    <option value="icd10">ICD-10</option>
+                    <option value={DiagnosekodeSystem.ICD10}>ICD-10</option>
+                    <option value={DiagnosekodeSystem.ICPC2}>ICPC-2</option>
                 </Select>
                 <SearchableInput
                     system={hoveddiagnoseSystem}
@@ -71,6 +72,7 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                             tekst,
                         });
                     }}
+                    value={hoveddiagnose}
                 />
                 <div>
                     <Element>3.1.3 Tekst</Element>
