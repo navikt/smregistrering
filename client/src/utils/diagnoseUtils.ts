@@ -1,7 +1,7 @@
 import { Diagnose } from '../types/RegistrertSykmelding';
 import { DiagnosekodeSystem, Diagnosekoder } from '../types/Diagnosekode';
 
-export const getDiagnose = (
+export const getPrefilledDiagnose = (
     diagnosekoder: Diagnosekoder,
     diagnose?: Partial<Diagnose> | null,
 ): Partial<Diagnose> | undefined => {
@@ -34,7 +34,7 @@ export const getDiagnose = (
     return undefined;
 };
 
-export const getBidiagnoser = (
+export const getPrefilledBidiagnoser = (
     diagnoserkoder: Diagnosekoder,
     bidiagnoser: Partial<Diagnose>[] | undefined,
 ): Partial<Diagnose>[] => {
@@ -43,7 +43,7 @@ export const getBidiagnoser = (
     }
 
     const result = bidiagnoser.reduce((acc, bidiagnose) => {
-        const diagnose = getDiagnose(diagnoserkoder, bidiagnose);
+        const diagnose = getPrefilledDiagnose(diagnoserkoder, bidiagnose);
         if (diagnose) {
             return [...acc, diagnose];
         }

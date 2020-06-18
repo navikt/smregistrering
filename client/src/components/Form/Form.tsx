@@ -34,7 +34,7 @@ import {
     getGradertSykmelding,
     getReisetilskuddSykmelding,
 } from '../../utils/periodeUtils';
-import { getBidiagnoser, getDiagnose } from '../../utils/diagnoseUtils';
+import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../utils/diagnoseUtils';
 import { scrollToRef } from '../Menu/MenuLink';
 
 export interface SchemaType
@@ -79,8 +79,14 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
         skjermesForPasient: !!oppgave.papirSmRegistering?.skjermesForPasient,
         svangerskap: !!oppgave.papirSmRegistering?.medisinskVurdering?.svangerskap,
         annenFraversArsak: false,
-        hovedDiagnose: getDiagnose(diagnosekoder, oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose),
-        biDiagnoser: getBidiagnoser(diagnosekoder, oppgave.papirSmRegistering?.medisinskVurdering?.biDiagnoser),
+        hovedDiagnose: getPrefilledDiagnose(
+            diagnosekoder,
+            oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose,
+        ),
+        biDiagnoser: getPrefilledBidiagnoser(
+            diagnosekoder,
+            oppgave.papirSmRegistering?.medisinskVurdering?.biDiagnoser,
+        ),
 
         // MulighetForArbeid
         avventendeSykmelding: !!avventendePeriode,
