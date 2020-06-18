@@ -18,7 +18,7 @@
         "@types/react-window": "^1.8.2",
         "classnames": "^2.2.6",
         "craco-less": "^1.16.0",
-        "dayjs": "^1.8.22",
+        "dayjs": "^1.8.28",
         "flatpickr": "^4.6.3",
         "fp-ts": "^2.5.3",
         "io-ts": "^2.2.1",
