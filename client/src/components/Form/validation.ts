@@ -17,12 +17,6 @@ export const validationFunctions: ValidationType = {
     },
 
     // Pasientopplysninger
-    pasientEtternavn: (value, schema) => {
-        return undefined;
-    },
-    pasientFornavn: (value, schema) => {
-        return undefined;
-    },
     pasientFnr: (pasientFnr, schema) => {
         if (!pasientFnr) {
             return 'Pasientens fødselsnummer må være definert';
@@ -33,16 +27,6 @@ export const validationFunctions: ValidationType = {
         if (!pasientFnr.match('^\\+?[- _0-9]+$')) {
             return 'Pasientens fødselsnummer er ikke på et gyldig format';
         }
-        return undefined;
-    },
-    pasientTelefon: (pasientTelefon, schema) => {
-        if (pasientTelefon && !pasientTelefon.match('^\\+?[- _0-9]+$')) {
-            // https://begrep.difi.no/Felles/mobiltelefonnummer
-            return 'Telefonnummeret er ikke på et gyldig format';
-        }
-        return undefined;
-    },
-    navnFastlege: (value, schema) => {
         return undefined;
     },
 

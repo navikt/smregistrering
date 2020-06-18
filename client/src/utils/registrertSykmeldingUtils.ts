@@ -360,7 +360,6 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
             kontaktDato: schema.kontaktDato,
             begrunnelseIkkeKontakt: schema.begrunnelseIkkeKontakt,
         },
-        navnFastlege: schema.navnFastlege,
     };
     return registrertSykmelding;
 };
