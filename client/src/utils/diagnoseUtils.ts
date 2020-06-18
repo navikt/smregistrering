@@ -12,10 +12,10 @@ export const getDiagnose = (
     const hasCorrectSystem =
         diagnose.system === DiagnosekodeSystem.ICD10 || diagnose.system === DiagnosekodeSystem.ICPC2;
     const hasCorrectKodeAndTekst =
-        diagnosekoder['2.16.578.1.12.4.1.1.7170'].some(
+        diagnosekoder[DiagnosekodeSystem.ICD10].some(
             ({ code, text }) => code === diagnose.kode && text === diagnose.tekst,
         ) ||
-        diagnosekoder['2.16.578.1.12.4.1.1.7110'].some(
+        diagnosekoder[DiagnosekodeSystem.ICPC2].some(
             ({ code, text }) => code === diagnose.kode && text === diagnose.tekst,
         );
 
@@ -30,6 +30,7 @@ export const getDiagnose = (
             tekst: undefined,
         };
     }
+    // Do not set kode and tekst without setting system.
     return undefined;
 };
 
