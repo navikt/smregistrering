@@ -1,6 +1,6 @@
 import * as iots from 'io-ts';
 
-import { DateFromString, createEnumType } from './CustomTypes';
+import { DateFromString } from './CustomTypes';
 
 export enum MedisinskArsakType {
     TILSTAND_HINDRER_AKTIVITET = 'Helsetilstanden hindrer pasienten i å være i aktivitet',
@@ -35,7 +35,7 @@ export enum HarArbeidsgiver {
 
 const MedisinskArsak = iots.intersection([
     iots.type({
-        arsak: iots.array(createEnumType<MedisinskArsakType>(MedisinskArsakType, 'MedisinskArsakType')),
+        arsak: iots.array(iots.keyof(MedisinskArsakType)),
     }),
     iots.partial({
         beskrivelse: iots.union([iots.string, iots.null]),
@@ -45,9 +45,7 @@ export type MedisinskArsak = iots.TypeOf<typeof MedisinskArsak>;
 
 const ArbeidsrelatertArsak = iots.intersection([
     iots.type({
-        arsak: iots.array(
-            createEnumType<ArbeidsrelatertArsakType>(ArbeidsrelatertArsakType, 'ArbeidsrelatertArsakType'),
-        ),
+        arsak: iots.array(iots.keyof(ArbeidsrelatertArsakType)),
     }),
     iots.partial({
         beskrivelse: iots.union([iots.string, iots.null]),
@@ -95,10 +93,7 @@ export type Diagnose = iots.TypeOf<typeof Diagnose>;
 
 const AnnenFraversArsak = iots.intersection([
     iots.type({
-        grunn: iots.union([
-            iots.array(createEnumType<AnnenFraverGrunn>(AnnenFraverGrunn, 'AnnenFraverGrunn')),
-            iots.array(iots.undefined),
-        ]),
+        grunn: iots.array(iots.keyof(AnnenFraverGrunn)),
     }),
     iots.partial({
         beskrivelse: iots.union([iots.string, iots.null]),
@@ -122,7 +117,7 @@ export type MedisinskVurdering = iots.TypeOf<typeof MedisinskVurdering>;
 
 export const Arbeidsgiver = iots.intersection([
     iots.type({
-        harArbeidsgiver: createEnumType<HarArbeidsgiver>(HarArbeidsgiver, 'HarArbeidsgiver'),
+        harArbeidsgiver: iots.keyof(HarArbeidsgiver),
     }),
     iots.partial({
         navn: iots.union([iots.string, iots.null]),

@@ -21,7 +21,7 @@ export type MedisinskVurdering = {
     yrkesskadeDato?: Date | null;
     svangerskap: boolean;
     annenFraversArsak: boolean;
-    annenFraversArsakGrunn?: AnnenFraverGrunn[];
+    annenFraversArsakGrunn?: (keyof typeof AnnenFraverGrunn)[];
     annenFraversArsakBeskrivelse?: string;
     skjermesForPasient?: boolean | null; // TODO: burde kanskje flyttes
 };
@@ -88,15 +88,16 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                                             annenFraversArsakGrunn: undefined,
                                         }),
                                     );
+                                    validate('annenFraversArsakGrunn', undefined);
                                 } else {
                                     setSchema(
                                         (state): SchemaType => ({
                                             ...state,
-                                            annenFraversArsakGrunn: [value] as AnnenFraverGrunn[],
+                                            annenFraversArsakGrunn: [value] as (keyof typeof AnnenFraverGrunn)[],
                                         }),
                                     );
+                                    validate('annenFraversArsakGrunn', [value] as (keyof typeof AnnenFraverGrunn)[]);
                                 }
-                                validate('annenFraversArsakGrunn', value);
                             }}
                             className="form-margin-bottom"
                             label={<Element>3.3.1 Lovfestet fraværsgrunn</Element>}
@@ -105,7 +106,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             <option value="0">Velg</option>
                             {Object.entries(AnnenFraverGrunn).map(([key, value]) => {
                                 return (
-                                    <option key={key} value={value}>
+                                    <option key={key} value={key}>
                                         {value}
                                     </option>
                                 );
