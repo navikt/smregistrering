@@ -1,15 +1,17 @@
 import React from 'react';
-import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
+import { Checkbox, Input, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
-import ExpandableField from '../formComponents/ExpandableField';
-import RangePicker from '../formComponents/RangePicker';
-import SectionContainer from '../SectionContainer';
-import Subsection from '../formComponents/Subsection';
-import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../types/RegistrertSykmelding';
-import { ErrorSchemaType, SchemaType } from '../../Form';
-import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
+import ArbeidsrelatertArsak from './ArbeidsrelatertArsak';
+import ExpandableField from '../../formComponents/ExpandableField';
+import MedisinskArsak from './MedisinskArsak';
+import RangePicker from '../../formComponents/RangePicker';
+import SectionContainer from '../../SectionContainer';
+import Subsection from '../../formComponents/Subsection';
+import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
+import { ErrorSchemaType, SchemaType } from '../../../Form';
+import { Section } from '../../../../../types/Section';
+import { Validate } from '../../../validation';
 
 export type MulighetForArbeid = {
     // For validering av minimum én periode valgt
@@ -28,10 +30,10 @@ export type MulighetForArbeid = {
     aktivitetIkkeMuligPeriode?: Date[];
     aktivitetIkkeMuligMedisinskArsak?: boolean;
     aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[];
-    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string;
+    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string | null;
     aktivitetIkkeMuligArbeidsrelatertArsak?: boolean;
     aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[];
-    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string;
+    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string | null;
     // Perioder for sykmelding for behandlignsdager
     behandlingsdagerSykmelding: boolean;
     behandlingsdagerPeriode?: Date[];
@@ -43,10 +45,10 @@ export type MulighetForArbeid = {
 
 type MulighetForArbeidSectionProps = {
     section: Section;
+    schema: SchemaType;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     errors: ErrorSchemaType;
     validate: Validate;
-    schema: SchemaType;
 };
 
 const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate }: MulighetForArbeidSectionProps) => {
@@ -239,45 +241,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         />
                         <ExpandableField show={schema.aktivitetIkkeMuligMedisinskArsak}>
                             <>
-                                <Select
-                                    id="aktivitetIkkeMuligMedisinskArsakType"
-                                    onChange={({ target: { value } }) => {
-                                        if (value === '0') {
-                                            setSchema(
-                                                (state): SchemaType => ({
-                                                    ...state,
-                                                    aktivitetIkkeMuligMedisinskArsakType: undefined,
-                                                }),
-                                            );
-                                            validate('aktivitetIkkeMuligMedisinskArsakType', undefined);
-                                        } else {
-                                            setSchema(
-                                                (state): SchemaType => ({
-                                                    ...state,
-                                                    aktivitetIkkeMuligMedisinskArsakType: [
-                                                        value,
-                                                    ] as (keyof typeof MedisinskArsakType)[],
-                                                }),
-                                            );
-                                            validate('aktivitetIkkeMuligMedisinskArsakType', [
-                                                value,
-                                            ] as (keyof typeof MedisinskArsakType)[]);
-                                        }
-                                    }}
-                                    value={schema.aktivitetIkkeMuligMedisinskArsakType}
-                                    className="form-margin-bottom"
-                                    label={<Element>Medisinsk årsak</Element>}
-                                    feil={errors.aktivitetIkkeMuligMedisinskArsakType}
-                                >
-                                    <option value="0">Velg</option>
-                                    {Object.entries(MedisinskArsakType).map(([key, value]) => {
-                                        return (
-                                            <option key={key} value={key}>
-                                                {value}
-                                            </option>
-                                        );
-                                    })}
-                                </Select>
+                                <MedisinskArsak
+                                    schema={schema}
+                                    setSchema={setSchema}
+                                    errors={errors}
+                                    validate={validate}
+                                />
                                 <Input
                                     id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
                                     className="form-margin-bottom"
@@ -314,45 +283,12 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         />
                         <ExpandableField show={schema.aktivitetIkkeMuligArbeidsrelatertArsak}>
                             <>
-                                <Select
-                                    id="aktivitetIkkeMuligArbeidsrelatertArsakType"
-                                    onChange={({ target: { value } }) => {
-                                        if (value === '0') {
-                                            setSchema(
-                                                (state): SchemaType => ({
-                                                    ...state,
-                                                    aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
-                                                }),
-                                            );
-                                            validate('aktivitetIkkeMuligArbeidsrelatertArsakType', undefined);
-                                        } else {
-                                            setSchema(
-                                                (state): SchemaType => ({
-                                                    ...state,
-                                                    aktivitetIkkeMuligArbeidsrelatertArsakType: [
-                                                        value,
-                                                    ] as (keyof typeof ArbeidsrelatertArsakType)[],
-                                                }),
-                                            );
-                                            validate('aktivitetIkkeMuligArbeidsrelatertArsakType', [
-                                                value,
-                                            ] as (keyof typeof ArbeidsrelatertArsakType)[]);
-                                        }
-                                    }}
-                                    value={schema.aktivitetIkkeMuligArbeidsrelatertArsakType}
-                                    className="form-margin-bottom"
-                                    label={<Element>Arbeidsrelatert årsak</Element>}
-                                    feil={errors.aktivitetIkkeMuligArbeidsrelatertArsakType}
-                                >
-                                    <option value="0">Velg</option>
-                                    {Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
-                                        return (
-                                            <option key={key} value={key}>
-                                                {value}
-                                            </option>
-                                        );
-                                    })}
-                                </Select>
+                                <ArbeidsrelatertArsak
+                                    schema={schema}
+                                    setSchema={setSchema}
+                                    errors={errors}
+                                    validate={validate}
+                                />
                                 <Input
                                     id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
                                     className="form-margin-bottom"

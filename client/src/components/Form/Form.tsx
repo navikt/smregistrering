@@ -16,7 +16,9 @@ import MeldingTilArbeidsgiverSection, {
     MeldingTilArbeidsgiver,
 } from './components/formSections/MeldingTilArbeidsgiverSection';
 import MeldingTilNavSection, { MeldingTilNav } from './components/formSections/MeldingTilNavSection';
-import MulighetForArbeidSection, { MulighetForArbeid } from './components/formSections/MulighetForArbeidSection';
+import MulighetForArbeidSection, {
+    MulighetForArbeid,
+} from './components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
 import OtherSection, { Other } from './components/formSections/OtherSection';
 import PasientopplysningerSection, { Pasientopplysninger } from './components/formSections/PasientopplysningerSection';
 import TilbakedateringSection, { Tilbakedatering } from './components/formSections/TilbakedateringSection';
@@ -102,6 +104,15 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
         aktivitetIkkeMuligPeriode: !!aktivitetIkkeMuligPeriode
             ? [aktivitetIkkeMuligPeriode.fom, aktivitetIkkeMuligPeriode.tom]
             : undefined,
+        aktivitetIkkeMuligMedisinskArsak: !!aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak,
+        aktivitetIkkeMuligMedisinskArsakType: aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak?.arsak,
+        aktivitetIkkeMuligMedisinskArsakBeskrivelse:
+            aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak?.beskrivelse,
+        aktivitetIkkeMuligArbeidsrelatertArsak: !!aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak,
+        aktivitetIkkeMuligArbeidsrelatertArsakType:
+            aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.arsak,
+        aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse:
+            aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak?.beskrivelse,
         behandlingsdagerSykmelding: !!behandlingsdagerPeriode,
         behandlingsdagerPeriode: !!behandlingsdagerPeriode
             ? [behandlingsdagerPeriode.fom, behandlingsdagerPeriode.tom]
