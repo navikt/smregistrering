@@ -1,5 +1,6 @@
 import {
     AktivitetIkkeMulig,
+    AnnenFraversArsak,
     ArbeidsrelatertArsak,
     ArbeidsrelatertArsakType,
     Diagnose,
@@ -51,7 +52,7 @@ const buildGradertSykmelding = (
 
 const buildMedisinskArsak = (
     aktivitetIkkeMuligMedisinskArsak?: boolean,
-    aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[],
+    aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[],
     aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string,
 ): MedisinskArsak | undefined => {
     if (aktivitetIkkeMuligMedisinskArsak && aktivitetIkkeMuligMedisinskArsakType?.length) {
@@ -64,7 +65,7 @@ const buildMedisinskArsak = (
 
 const buildArbeidsrelatertArsak = (
     aktivitetIkkeMuligArbeidsrelatertArsak?: boolean,
-    aktivitetIkkeMuligArbeidsrelatertArsakType?: ArbeidsrelatertArsakType[],
+    aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[],
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string,
 ): ArbeidsrelatertArsak | undefined => {
     if (aktivitetIkkeMuligArbeidsrelatertArsak && aktivitetIkkeMuligArbeidsrelatertArsakType?.length) {
@@ -79,10 +80,10 @@ const buildAktivitetIkkeMuligSykmelding = (
     aktivitetIkkeMuligSykmelding: boolean,
     aktivitetIkkeMuligPeriode?: Date[],
     aktivitetIkkeMuligMedisinskArsak?: boolean,
-    aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[],
+    aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[],
     aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string,
     aktivitetIkkeMuligArbeidsrelatertArsak?: boolean,
-    aktivitetIkkeMuligArbeidsrelatertArsakType?: ArbeidsrelatertArsakType[],
+    aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[],
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string,
 ): Periode | undefined => {
     if (aktivitetIkkeMuligSykmelding && aktivitetIkkeMuligPeriode) {
@@ -205,6 +206,15 @@ const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] => {
     return [];
 };
 
+const buildAnnenFraversArsak = (schema: SchemaType): AnnenFraversArsak | undefined => {
+    if (schema.annenFraversArsak && schema.annenFraversArsakGrunn?.length) {
+        return {
+            grunn: schema.annenFraversArsakGrunn,
+            beskrivelse: schema.annenFraversArsakBeskrivelse,
+        };
+    }
+};
+
 const buildPrognose = (schema: SchemaType): Prognose | undefined => {
     if (schema.arbeidsfoerEtterPeriode === undefined) {
         return undefined;
@@ -311,8 +321,10 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
         medisinskVurdering: {
             svangerskap: schema.svangerskap,
             yrkesskade: schema.yrkesskade,
+            yrkesskadeDato: schema.yrkesskadeDato,
             hovedDiagnose: buildDiagnose(schema.hovedDiagnose),
             biDiagnoser: buildDiagnoser(schema.biDiagnoser),
+            annenFraversArsak: buildAnnenFraversArsak(schema),
         },
         syketilfelleStartDato: schema.syketilfelleStartDato,
         arbeidsgiver: {

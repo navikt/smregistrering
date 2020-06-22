@@ -27,10 +27,10 @@ export type MulighetForArbeid = {
     aktivitetIkkeMuligSykmelding: boolean;
     aktivitetIkkeMuligPeriode?: Date[];
     aktivitetIkkeMuligMedisinskArsak?: boolean;
-    aktivitetIkkeMuligMedisinskArsakType?: MedisinskArsakType[];
+    aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[];
     aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string;
     aktivitetIkkeMuligArbeidsrelatertArsak?: boolean;
-    aktivitetIkkeMuligArbeidsrelatertArsakType?: ArbeidsrelatertArsakType[];
+    aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[];
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string;
     // Perioder for sykmelding for behandlignsdager
     behandlingsdagerSykmelding: boolean;
@@ -249,17 +249,20 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                                     aktivitetIkkeMuligMedisinskArsakType: undefined,
                                                 }),
                                             );
+                                            validate('aktivitetIkkeMuligMedisinskArsakType', undefined);
                                         } else {
                                             setSchema(
                                                 (state): SchemaType => ({
                                                     ...state,
                                                     aktivitetIkkeMuligMedisinskArsakType: [
                                                         value,
-                                                    ] as MedisinskArsakType[],
+                                                    ] as (keyof typeof MedisinskArsakType)[],
                                                 }),
                                             );
+                                            validate('aktivitetIkkeMuligMedisinskArsakType', [
+                                                value,
+                                            ] as (keyof typeof MedisinskArsakType)[]);
                                         }
-                                        validate('aktivitetIkkeMuligMedisinskArsakType', value);
                                     }}
                                     value={schema.aktivitetIkkeMuligMedisinskArsakType}
                                     className="form-margin-bottom"
@@ -269,7 +272,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     <option value="0">Velg</option>
                                     {Object.entries(MedisinskArsakType).map(([key, value]) => {
                                         return (
-                                            <option key={key} value={value}>
+                                            <option key={key} value={key}>
                                                 {value}
                                             </option>
                                         );
@@ -321,17 +324,20 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                                     aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
                                                 }),
                                             );
+                                            validate('aktivitetIkkeMuligArbeidsrelatertArsakType', undefined);
                                         } else {
                                             setSchema(
                                                 (state): SchemaType => ({
                                                     ...state,
                                                     aktivitetIkkeMuligArbeidsrelatertArsakType: [
                                                         value,
-                                                    ] as ArbeidsrelatertArsakType[],
+                                                    ] as (keyof typeof ArbeidsrelatertArsakType)[],
                                                 }),
                                             );
+                                            validate('aktivitetIkkeMuligArbeidsrelatertArsakType', [
+                                                value,
+                                            ] as (keyof typeof ArbeidsrelatertArsakType)[]);
                                         }
-                                        validate('aktivitetIkkeMuligArbeidsrelatertArsakType', value);
                                     }}
                                     value={schema.aktivitetIkkeMuligArbeidsrelatertArsakType}
                                     className="form-margin-bottom"
@@ -341,7 +347,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     <option value="0">Velg</option>
                                     {Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
                                         return (
-                                            <option key={key} value={value}>
+                                            <option key={key} value={key}>
                                                 {value}
                                             </option>
                                         );

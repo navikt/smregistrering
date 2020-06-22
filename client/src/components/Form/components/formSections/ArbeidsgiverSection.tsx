@@ -9,7 +9,7 @@ import { Section } from '../../../../types/Section';
 import { Validate } from '../../validation';
 
 export type Arbeidsgiver = {
-    harArbeidsgiver?: HarArbeidsgiver | null;
+    harArbeidsgiver?: keyof typeof HarArbeidsgiver | null;
     arbeidsgiverNavn?: string | null;
     yrkesbetegnelse?: string | null;
     stillingsprosent?: number | null;
@@ -37,15 +37,16 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                                 harArbeidsgiver: undefined,
                             }),
                         );
+                        validate('harArbeidsgiver', undefined);
                     } else {
                         setSchema(
                             (state): SchemaType => ({
                                 ...state,
-                                harArbeidsgiver: value as HarArbeidsgiver,
+                                harArbeidsgiver: value as keyof typeof HarArbeidsgiver,
                             }),
                         );
                     }
-                    validate('harArbeidsgiver', value);
+                    validate('harArbeidsgiver', value as keyof typeof HarArbeidsgiver);
                 }}
                 className="form-margin-bottom"
                 label={<Element>2.1 Pasienten har</Element>}
@@ -54,7 +55,7 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 <option value="0">Velg</option>
                 {Object.entries(HarArbeidsgiver).map(([key, value]) => {
                     return (
-                        <option key={key} value={value}>
+                        <option key={key} value={key}>
                             {value}
                         </option>
                     );
