@@ -63,7 +63,15 @@
             "erIArbeid": null,
             "erIkkeIArbeid": null
         },
-        "utdypendeOpplysninger": {},
+        "utdypendeOpplysninger": {
+            "6.1": {
+                "6.1.1": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks en en",
+                    "svar": "Dette er seksjon seks en en",
+                    "restriksjoner": []
+                }
+            }
+        },
         "tiltakNAV": null,
         "tiltakArbeidsplassen": null,
         "andreTiltak": null,
