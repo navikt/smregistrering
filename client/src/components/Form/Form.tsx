@@ -80,7 +80,9 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
         yrkesskadeDato: oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskadeDato,
         skjermesForPasient: !!oppgave.papirSmRegistering?.skjermesForPasient,
         svangerskap: !!oppgave.papirSmRegistering?.medisinskVurdering?.svangerskap,
-        annenFraversArsak: false,
+        annenFraversArsak: !!oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak,
+        annenFraversArsakGrunn: oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak?.grunn,
+        annenFraversArsakBeskrivelse: oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak?.beskrivelse,
         hovedDiagnose: getPrefilledDiagnose(
             diagnosekoder,
             oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose,
