@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Input, Select } from 'nav-frontend-skjema';
+import { Checkbox, Input } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
 import AnnenFraversArsak from './AnnenFraversArsak';
