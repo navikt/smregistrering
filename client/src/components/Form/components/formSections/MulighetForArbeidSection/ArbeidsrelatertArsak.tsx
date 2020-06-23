@@ -23,38 +23,33 @@ const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: Arbeidsre
         };
     });
 
+    const updateCheckboxes = (value: keyof typeof ArbeidsrelatertArsakType): void => {
+        setSchema(state => {
+            if (!state.aktivitetIkkeMuligArbeidsrelatertArsakType) {
+                validate('aktivitetIkkeMuligArbeidsrelatertArsakType', value);
+                return {
+                    ...state,
+                    aktivitetIkkeMuligArbeidsrelatertArsakType: [value as keyof typeof ArbeidsrelatertArsakType],
+                };
+            }
+            const shouldAddArsak: boolean = !state.aktivitetIkkeMuligArbeidsrelatertArsakType.includes(value);
+            const newArbeidsrelatertArsakType: (keyof typeof ArbeidsrelatertArsakType)[] = shouldAddArsak
+                ? [...state.aktivitetIkkeMuligArbeidsrelatertArsakType, value]
+                : state.aktivitetIkkeMuligArbeidsrelatertArsakType.filter(arsak => arsak !== value);
+            validate('aktivitetIkkeMuligArbeidsrelatertArsakType', newArbeidsrelatertArsakType);
+            return {
+                ...state,
+                aktivitetIkkeMuligArbeidsrelatertArsakType: newArbeidsrelatertArsakType,
+            };
+        });
+    };
+
     return (
         <div id="aktivitetIkkeMuligArbeidsrelatertArsakType" className="form-margin-bottom">
             <CheckboksPanelGruppe
                 legend="Arbeidsrelaterte årsaker"
                 checkboxes={checkboxes}
-                onChange={(_event, value) => {
-                    setSchema(state => {
-                        if (!state.aktivitetIkkeMuligArbeidsrelatertArsakType) {
-                            validate('aktivitetIkkeMuligArbeidsrelatertArsakType', value);
-                            return {
-                                ...state,
-                                aktivitetIkkeMuligArbeidsrelatertArsakType: [
-                                    value as keyof typeof ArbeidsrelatertArsakType,
-                                ],
-                            };
-                        }
-                        const shouldAddArsak: boolean = !state.aktivitetIkkeMuligArbeidsrelatertArsakType.includes(
-                            value,
-                        );
-                        const newArray: (keyof typeof ArbeidsrelatertArsakType)[] = state.aktivitetIkkeMuligArbeidsrelatertArsakType.filter(
-                            arsak => arsak !== value,
-                        );
-                        if (shouldAddArsak) {
-                            newArray.push(value);
-                        }
-                        validate('aktivitetIkkeMuligArbeidsrelatertArsakType', newArray);
-                        return {
-                            ...state,
-                            aktivitetIkkeMuligArbeidsrelatertArsakType: newArray,
-                        };
-                    });
-                }}
+                onChange={(_event, value) => updateCheckboxes(value)}
                 feil={errors.aktivitetIkkeMuligArbeidsrelatertArsakType}
             />
         </div>

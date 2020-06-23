@@ -23,34 +23,33 @@ const MedisinskArsak = ({ schema, setSchema, errors, validate }: MedisinskArsakP
         };
     });
 
+    const updateCheckboxes = (value: keyof typeof MedisinskArsakType): void => {
+        setSchema(state => {
+            if (!state.aktivitetIkkeMuligMedisinskArsakType) {
+                validate('aktivitetIkkeMuligMedisinskArsakType', value);
+                return {
+                    ...state,
+                    aktivitetIkkeMuligMedisinskArsakType: [value as keyof typeof MedisinskArsakType],
+                };
+            }
+            const shouldAddArsak: boolean = !state.aktivitetIkkeMuligMedisinskArsakType.includes(value);
+            const newMedisinskArsakType: (keyof typeof MedisinskArsakType)[] = shouldAddArsak
+                ? [...state.aktivitetIkkeMuligMedisinskArsakType, value]
+                : state.aktivitetIkkeMuligMedisinskArsakType.filter(arsak => arsak !== value);
+            validate('aktivitetIkkeMuligMedisinskArsakType', newMedisinskArsakType);
+            return {
+                ...state,
+                aktivitetIkkeMuligMedisinskArsakType: newMedisinskArsakType,
+            };
+        });
+    };
+
     return (
         <div id="aktivitetIkkeMuligMedisinskArsakType" className="form-margin-bottom">
             <CheckboksPanelGruppe
                 legend="Medisinske årsaker"
                 checkboxes={checkboxes}
-                onChange={(_event, value) => {
-                    setSchema(state => {
-                        if (!state.aktivitetIkkeMuligMedisinskArsakType) {
-                            validate('aktivitetIkkeMuligMedisinskArsakType', value);
-                            return {
-                                ...state,
-                                aktivitetIkkeMuligMedisinskArsakType: [value as keyof typeof MedisinskArsakType],
-                            };
-                        }
-                        const shouldAddArsak: boolean = !state.aktivitetIkkeMuligMedisinskArsakType.includes(value);
-                        const newArray: (keyof typeof MedisinskArsakType)[] = state.aktivitetIkkeMuligMedisinskArsakType.filter(
-                            arsak => arsak !== value,
-                        );
-                        if (shouldAddArsak) {
-                            newArray.push(value);
-                        }
-                        validate('aktivitetIkkeMuligMedisinskArsakType', newArray);
-                        return {
-                            ...state,
-                            aktivitetIkkeMuligMedisinskArsakType: newArray,
-                        };
-                    });
-                }}
+                onChange={(_event, value) => updateCheckboxes(value)}
                 feil={errors.aktivitetIkkeMuligMedisinskArsakType}
             />
         </div>
