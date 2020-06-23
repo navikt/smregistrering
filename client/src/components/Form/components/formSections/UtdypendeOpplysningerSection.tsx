@@ -54,7 +54,16 @@ const UtdypendeOpplysningerSection = ({
 }: UtdypendeOpplysningerSectionProps) => {
     return (
         <SectionContainer section={section}>
-            <Ekspanderbartpanel tittel="6.1">
+            <Ekspanderbartpanel
+                tittel="6.1"
+                apen={
+                    !!schema.utdypende611 ||
+                    !!schema.utdypende612 ||
+                    !!schema.utdypende613 ||
+                    !!schema.utdypende614 ||
+                    !!schema.utdypende615
+                }
+            >
                 <Textarea
                     id="utdypende611"
                     maxLength={0}
@@ -146,7 +155,10 @@ const UtdypendeOpplysningerSection = ({
                 />
             </Ekspanderbartpanel>
             <br />
-            <Ekspanderbartpanel tittel="6.2">
+            <Ekspanderbartpanel
+                tittel="6.2"
+                apen={!!schema.utdypende621 || !!schema.utdypende622 || !!schema.utdypende623 || !!schema.utdypende624}
+            >
                 <Textarea
                     id="utdypende621"
                     maxLength={0}
@@ -218,7 +230,7 @@ const UtdypendeOpplysningerSection = ({
                 />
             </Ekspanderbartpanel>
             <br />
-            <Ekspanderbartpanel tittel="6.3">
+            <Ekspanderbartpanel tittel="6.3" apen={!!schema.utdypende631 || !!schema.utdypende632}>
                 <Textarea
                     id="utdypende631"
                     maxLength={0}
@@ -259,7 +271,10 @@ const UtdypendeOpplysningerSection = ({
                 />
             </Ekspanderbartpanel>
             <br />
-            <Ekspanderbartpanel tittel="6.4">
+            <Ekspanderbartpanel
+                tittel="6.4"
+                apen={!!schema.utdypende641 || !!schema.utdypende642 || !!schema.utdypende643}
+            >
                 <Textarea
                     id="utdypende641"
                     maxLength={0}
@@ -318,7 +333,10 @@ const UtdypendeOpplysningerSection = ({
                 />
             </Ekspanderbartpanel>
             <br />
-            <Ekspanderbartpanel tittel="6.5">
+            <Ekspanderbartpanel
+                tittel="6.5"
+                apen={!!schema.utdypende651 || !!schema.utdypende652 || !!schema.utdypende653 || !!schema.utdypende654}
+            >
                 <Textarea
                     id="utdypende651"
                     maxLength={0}
@@ -397,7 +415,10 @@ const UtdypendeOpplysningerSection = ({
                 />
             </Ekspanderbartpanel>
             <br />
-            <Ekspanderbartpanel tittel="6.6">
+            <Ekspanderbartpanel
+                tittel="6.6"
+                apen={!!schema.utdypende661 || !!schema.utdypende662 || !!schema.utdypende663}
+            >
                 <Textarea
                     id="utdypende661"
                     maxLength={0}
