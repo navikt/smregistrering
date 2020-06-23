@@ -53,7 +53,7 @@ const buildGradertSykmelding = (
 const buildMedisinskArsak = (
     aktivitetIkkeMuligMedisinskArsak?: boolean,
     aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[],
-    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string,
+    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string | null,
 ): MedisinskArsak | undefined => {
     if (aktivitetIkkeMuligMedisinskArsak && aktivitetIkkeMuligMedisinskArsakType?.length) {
         return {
@@ -66,7 +66,7 @@ const buildMedisinskArsak = (
 const buildArbeidsrelatertArsak = (
     aktivitetIkkeMuligArbeidsrelatertArsak?: boolean,
     aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[],
-    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string,
+    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string | null,
 ): ArbeidsrelatertArsak | undefined => {
     if (aktivitetIkkeMuligArbeidsrelatertArsak && aktivitetIkkeMuligArbeidsrelatertArsakType?.length) {
         return {
@@ -81,10 +81,10 @@ const buildAktivitetIkkeMuligSykmelding = (
     aktivitetIkkeMuligPeriode?: Date[],
     aktivitetIkkeMuligMedisinskArsak?: boolean,
     aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[],
-    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string,
+    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string | null,
     aktivitetIkkeMuligArbeidsrelatertArsak?: boolean,
     aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[],
-    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string,
+    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string | null,
 ): Periode | undefined => {
     if (aktivitetIkkeMuligSykmelding && aktivitetIkkeMuligPeriode) {
         const medisinskArsak = buildMedisinskArsak(

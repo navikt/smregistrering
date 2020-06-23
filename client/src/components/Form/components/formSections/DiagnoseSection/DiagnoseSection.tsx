@@ -1,7 +1,8 @@
 import React from 'react';
-import { Checkbox, Input, Select } from 'nav-frontend-skjema';
+import { Checkbox, Input } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
+import AnnenFraversArsak from './AnnenFraversArsak';
 import Bidiagnoser from './Bidiagnoser';
 import DatePicker from '../../formComponents/DatePicker';
 import ExpandableField from '../../formComponents/ExpandableField';
@@ -22,7 +23,7 @@ export type MedisinskVurdering = {
     svangerskap: boolean;
     annenFraversArsak: boolean;
     annenFraversArsakGrunn?: (keyof typeof AnnenFraverGrunn)[];
-    annenFraversArsakBeskrivelse?: string;
+    annenFraversArsakBeskrivelse?: string | null;
     skjermesForPasient?: boolean | null; // TODO: burde kanskje flyttes
 };
 
@@ -78,45 +79,14 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                 <br />
                 <ExpandableField show={schema.annenFraversArsak}>
                     <>
-                        <Select
-                            id="annenFraversArsakGrunn"
-                            onChange={({ target: { value } }) => {
-                                if (value === '0') {
-                                    setSchema(
-                                        (state): SchemaType => ({
-                                            ...state,
-                                            annenFraversArsakGrunn: undefined,
-                                        }),
-                                    );
-                                    validate('annenFraversArsakGrunn', undefined);
-                                } else {
-                                    setSchema(
-                                        (state): SchemaType => ({
-                                            ...state,
-                                            annenFraversArsakGrunn: [value] as (keyof typeof AnnenFraverGrunn)[],
-                                        }),
-                                    );
-                                    validate('annenFraversArsakGrunn', [value] as (keyof typeof AnnenFraverGrunn)[]);
-                                }
-                            }}
-                            className="form-margin-bottom"
-                            label={<Element>3.3.1 Lovfestet fraværsgrunn</Element>}
-                            feil={errors.annenFraversArsakGrunn}
-                        >
-                            <option value="0">Velg</option>
-                            {Object.entries(AnnenFraverGrunn).map(([key, value]) => {
-                                return (
-                                    <option key={key} value={key}>
-                                        {value}
-                                    </option>
-                                );
-                            })}
-                        </Select>
+                        <AnnenFraversArsak schema={schema} setSchema={setSchema} errors={errors} validate={validate} />
                         <Input
                             id="annenFraversArsakBeskrivelse"
                             className="form-margin-bottom"
                             type="text"
-                            value={schema.annenFraversArsakBeskrivelse}
+                            value={
+                                schema.annenFraversArsakBeskrivelse ? schema.annenFraversArsakBeskrivelse : undefined
+                            }
                             onChange={({ target: { value } }) => {
                                 setSchema(
                                     (state): SchemaType => ({

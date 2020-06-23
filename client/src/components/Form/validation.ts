@@ -143,14 +143,14 @@ export const validationFunctions: ValidationType = {
     aktivitetIkkeMuligMedisinskArsak: () => undefined,
     aktivitetIkkeMuligMedisinskArsakType: (aktivitetIkkeMuligMedisinskArsakType, schema) => {
         if (schema.aktivitetIkkeMuligMedisinskArsak && !aktivitetIkkeMuligMedisinskArsakType?.length) {
-            return 'Medisinsk årsak må være valgt når det er medisinske årsaker som hindrer arbeidsrelatert aktivitet';
+            return 'Minst én medisinsk årsak må være valgt når det er medisinske årsaker som hindrer arbeidsrelatert aktivitet';
         }
     },
     aktivitetIkkeMuligMedisinskArsakBeskrivelse: () => undefined,
     aktivitetIkkeMuligArbeidsrelatertArsak: () => undefined,
     aktivitetIkkeMuligArbeidsrelatertArsakType: (aktivitetIkkeMuligArbeidsrelatertArsakType, schema) => {
-        if (schema.aktivitetIkkeMuligArbeidsrelatertArsak && !aktivitetIkkeMuligArbeidsrelatertArsakType) {
-            return 'Arbeidsrelatert årsak må være valgt når forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet';
+        if (schema.aktivitetIkkeMuligArbeidsrelatertArsak && !aktivitetIkkeMuligArbeidsrelatertArsakType?.length) {
+            return 'Minst én arbeidsrelatert årsak må være valgt når forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet';
         }
     },
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: () => undefined,
