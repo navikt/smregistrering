@@ -32,21 +32,27 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 onChange={({ target: { value } }) => {
                     if (value === '0') {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                harArbeidsgiver: undefined,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    harArbeidsgiver: undefined,
+                                };
+                                validate('harArbeidsgiver', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('harArbeidsgiver', undefined);
                     } else {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                harArbeidsgiver: value as keyof typeof HarArbeidsgiver,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    harArbeidsgiver: value as keyof typeof HarArbeidsgiver,
+                                };
+                                validate('harArbeidsgiver', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
                     }
-                    validate('harArbeidsgiver', value as keyof typeof HarArbeidsgiver);
                 }}
                 className="form-margin-bottom"
                 label={<Element>2.1 Pasienten har</Element>}
@@ -68,12 +74,15 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 value={schema.arbeidsgiverNavn ? schema.arbeidsgiverNavn : undefined}
                 onChange={({ target: { value } }) => {
                     setSchema(
-                        (state): SchemaType => ({
-                            ...state,
-                            arbeidsgiverNavn: value,
-                        }),
+                        (state): SchemaType => {
+                            const updatedSchema = {
+                                ...state,
+                                arbeidsgiverNavn: value,
+                            };
+                            validate('arbeidsgiverNavn', updatedSchema);
+                            return updatedSchema;
+                        },
                     );
-                    validate('arbeidsgiverNavn', value);
                 }}
                 label={<Element>2.2 Arbeidsgiver for denne sykmeldingen</Element>}
                 feil={errors.arbeidsgiverNavn}
@@ -85,12 +94,15 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 value={schema.yrkesbetegnelse ? schema.yrkesbetegnelse : undefined}
                 onChange={({ target: { value } }) => {
                     setSchema(
-                        (state): SchemaType => ({
-                            ...state,
-                            yrkesbetegnelse: value,
-                        }),
+                        (state): SchemaType => {
+                            const updatedSchema = {
+                                ...state,
+                                yrkesbetegnelse: value,
+                            };
+                            validate('yrkesbetegnelse', updatedSchema);
+                            return updatedSchema;
+                        },
                     );
-                    validate('yrkesbetegnelse', value);
                 }}
                 label={<Element>2.3 Yrke/stilling for dette arbeidsforholdet</Element>}
                 feil={errors.yrkesbetegnelse}
@@ -102,12 +114,15 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 value={schema.stillingsprosent ? schema.stillingsprosent : undefined}
                 onChange={({ target: { value } }) => {
                     setSchema(
-                        (state): SchemaType => ({
-                            ...state,
-                            stillingsprosent: Number(value),
-                        }),
+                        (state): SchemaType => {
+                            const updatedSchema = {
+                                ...state,
+                                stillingsprosent: Number(value),
+                            };
+                            validate('stillingsprosent', updatedSchema);
+                            return updatedSchema;
+                        },
                     );
-                    validate('stillingsprosent', value);
                 }}
                 label={<Element>2.4 Stillingsprosent</Element>}
                 feil={errors.stillingsprosent}

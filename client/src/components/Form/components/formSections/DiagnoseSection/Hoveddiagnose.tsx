@@ -38,12 +38,15 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                             tekst: '',
                         };
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                hovedDiagnose: updatedDiagnose,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    hovedDiagnose: updatedDiagnose,
+                                };
+                                validate('hovedDiagnose', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('hovedDiagnose', updatedDiagnose);
                     }}
                     label={<Element>3.1.1 Kodesystem</Element>}
                 >
@@ -57,20 +60,19 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                     label={<Element>3.1.2 Kode</Element>}
                     onChange={(kode?: string, tekst?: string) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                hovedDiagnose: {
-                                    ...state.hovedDiagnose,
-                                    kode,
-                                    tekst,
-                                },
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    hovedDiagnose: {
+                                        ...state.hovedDiagnose,
+                                        kode,
+                                        tekst,
+                                    },
+                                };
+                                validate('hovedDiagnose', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('hovedDiagnose', {
-                            system: hoveddiagnoseSystem,
-                            kode,
-                            tekst,
-                        });
                     }}
                     value={hoveddiagnose}
                 />

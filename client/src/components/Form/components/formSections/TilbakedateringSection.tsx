@@ -36,11 +36,12 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                     onChange={() =>
                         setSchema(
                             (state): SchemaType => {
-                                validate('erTilbakedatert', !state.erTilbakedatert);
-                                return {
+                                const updatedSchema = {
                                     ...state,
                                     erTilbakedatert: !state.erTilbakedatert,
                                 };
+                                validate('erTilbakedatert', updatedSchema);
+                                return updatedSchema;
                             },
                         )
                     }
@@ -54,12 +55,15 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                         value={schema.kontaktDato ? schema.kontaktDato : undefined}
                         onChange={newDate => {
                             setSchema(
-                                (state): SchemaType => ({
-                                    ...state,
-                                    kontaktDato: newDate,
-                                }),
+                                (state): SchemaType => {
+                                    const updatedSchema = {
+                                        ...state,
+                                        kontaktDato: newDate,
+                                    };
+                                    validate('kontaktDato', updatedSchema);
+                                    return updatedSchema;
+                                },
                             );
-                            validate('kontaktDato', newDate);
                         }}
                     />
                 </ExpandableField>
@@ -72,12 +76,15 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                     label="Pasienten har ikke kunnet ivareta egne interesser"
                     onChange={() => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                kunneIkkeIvaretaEgneInteresser: !state.kunneIkkeIvaretaEgneInteresser,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    kunneIkkeIvaretaEgneInteresser: !state.kunneIkkeIvaretaEgneInteresser,
+                                };
+                                validate('kunneIkkeIvaretaEgneInteresser', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('kunneIkkeIvaretaEgneInteresser', schema.kunneIkkeIvaretaEgneInteresser);
                     }}
                     feil={errors.kunneIkkeIvaretaEgneInteresser}
                 />
@@ -89,12 +96,15 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                         value={schema.begrunnelseIkkeKontakt || ''}
                         onChange={({ target: { value } }) => {
                             setSchema(
-                                (state): SchemaType => ({
-                                    ...state,
-                                    begrunnelseIkkeKontakt: value,
-                                }),
+                                (state): SchemaType => {
+                                    const updatedSchema = {
+                                        ...state,
+                                        begrunnelseIkkeKontakt: value,
+                                    };
+                                    validate('begrunnelseIkkeKontakt', updatedSchema);
+                                    return updatedSchema;
+                                },
                             );
-                            validate('begrunnelseIkkeKontakt', value);
                         }}
                         feil={errors.begrunnelseIkkeKontakt}
                         label={<Element>Begrunn</Element>}

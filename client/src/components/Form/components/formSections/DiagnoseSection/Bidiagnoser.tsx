@@ -46,26 +46,28 @@ const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: B
         setSchema(
             (state): SchemaType => {
                 if (!state.biDiagnoser) {
-                    validate('biDiagnoser', undefined);
+                    validate('biDiagnoser', state);
                     return state;
                 }
 
                 if (state.biDiagnoser.length === 1) {
-                    validate('biDiagnoser', []);
-                    return {
+                    const updatedSchema = {
                         ...state,
                         biDiagnoser: [],
                     };
+                    validate('biDiagnoser', updatedSchema);
+                    return updatedSchema;
                 }
 
                 const bidiagnoser = state.biDiagnoser;
                 const withoutIndex = [...bidiagnoser.slice(0, index), ...bidiagnoser.slice(index + 1)];
 
-                validate('biDiagnoser', withoutIndex);
-                return {
+                const updatedSchema = {
                     ...state,
                     biDiagnoser: withoutIndex,
                 };
+                validate('biDiagnoser', updatedSchema);
+                return updatedSchema;
             },
         );
     };
@@ -76,9 +78,9 @@ const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: B
                 const biDiagnoser = state.biDiagnoser;
 
                 if (!biDiagnoser) {
-                    const biDiagnoser = [{ system, kode: '', tekst: '' }];
-                    validate('biDiagnoser', biDiagnoser);
-                    return { ...state, biDiagnoser };
+                    const updatedSchema = { ...state, biDiagnoser: [{ system, kode: '', tekst: '' }] };
+                    validate('biDiagnoser', updatedSchema);
+                    return updatedSchema;
                 }
 
                 const oldBidiagnose = biDiagnoser[index];
@@ -87,13 +89,16 @@ const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: B
                 }
 
                 // Replace the old bidiagnose with the updated one
-                const updatedBidiagnoser = [
-                    ...biDiagnoser.slice(0, index),
-                    { system, kode: '', tekst: '' },
-                    ...biDiagnoser.slice(index + 1),
-                ];
-                validate('biDiagnoser', updatedBidiagnoser);
-                return { ...state, biDiagnoser: updatedBidiagnoser };
+                const updatedSchema = {
+                    ...state,
+                    biDiagnoser: [
+                        ...biDiagnoser.slice(0, index),
+                        { system, kode: '', tekst: '' },
+                        ...biDiagnoser.slice(index + 1),
+                    ],
+                };
+                validate('biDiagnoser', updatedSchema);
+                return updatedSchema;
             },
         );
     };
@@ -115,13 +120,12 @@ const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: B
                 const updatedBidiagnose = { ...oldBidiagnose, kode: code, tekst: text };
 
                 // Replace the old bidiagnose with the updated one
-                const updatedBidiagnoser = [
-                    ...biDiagnoser.slice(0, index),
-                    updatedBidiagnose,
-                    ...biDiagnoser.slice(index + 1),
-                ];
-                validate('biDiagnoser', updatedBidiagnoser);
-                return { ...state, biDiagnoser: updatedBidiagnoser };
+                const updatedSchema = {
+                    ...state,
+                    biDiagnoser: [...biDiagnoser.slice(0, index), updatedBidiagnose, ...biDiagnoser.slice(index + 1)],
+                };
+                validate('biDiagnoser', updatedSchema);
+                return updatedSchema;
             },
         );
     };
