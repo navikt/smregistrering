@@ -12,7 +12,7 @@ import { Validate } from '../../validation';
 
 export type Friskmelding = {
     arbeidsfoerEtterPeriode: boolean;
-    hensynPaArbeidsplassen?: string | null;
+    hensynArbeidsplassen?: string | null;
     erIArbeid?: boolean;
     erIkkeIArbeid?: boolean;
     egetArbeidPaSikt: boolean;
@@ -56,19 +56,19 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                 <br />
                 <ExpandableField show={schema.arbeidsfoerEtterPeriode}>
                     <Textarea
-                        id="hensynPaArbeidsplassen"
+                        id="hensynArbeidsplassen"
                         maxLength={0}
-                        value={schema.hensynPaArbeidsplassen || ''}
+                        value={schema.hensynArbeidsplassen || ''}
                         onChange={({ target: { value } }) => {
                             setSchema(
                                 (state): SchemaType => ({
                                     ...state,
-                                    hensynPaArbeidsplassen: value,
+                                    hensynArbeidsplassen: value,
                                 }),
                             );
-                            validate('hensynPaArbeidsplassen', value);
+                            validate('hensynArbeidsplassen', value);
                         }}
-                        feil={errors.hensynPaArbeidsplassen}
+                        feil={errors.hensynArbeidsplassen}
                         label={<Element>5.1.1 Beskrive eventuelle hensyn som må tas på arbeidsplassen</Element>}
                     />
                 </ExpandableField>

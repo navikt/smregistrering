@@ -17,7 +17,7 @@ import { buildRegistrertSykmelding } from '../../../utils/registrertSykmeldingUt
 interface FormSubmitProps {
     oppgave: Oppgave;
     schema: SchemaType;
-    hasFormErrors: boolean;
+    hasFormErrors?: boolean;
     validateAll: () => boolean;
     focusErrorSummary: () => void;
 }
