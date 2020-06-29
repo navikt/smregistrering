@@ -1,5 +1,6 @@
 import {
     AktivitetIkkeMulig,
+    AnnenFraverGrunn,
     AnnenFraversArsak,
     ArbeidsrelatertArsak,
     ArbeidsrelatertArsakType,
@@ -11,7 +12,6 @@ import {
     RegistrertSykmelding,
     UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
-import { Oppgave } from '../types/Oppgave';
 import { SchemaType } from '../components/Form/Form';
 
 export const buildAvventendeSykmelding = (
@@ -206,11 +206,15 @@ export const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] => {
     return [];
 };
 
-const buildAnnenFraversArsak = (schema: SchemaType): AnnenFraversArsak | undefined => {
-    if (schema.annenFraversArsak && schema.annenFraversArsakGrunn?.length) {
+export const buildAnnenFraversArsak = (
+    annenFraversArsak: boolean,
+    annenFraversArsakGrunn?: (keyof typeof AnnenFraverGrunn)[],
+    annenFraversArsakBeskrivelse?: string | null,
+): AnnenFraversArsak | undefined => {
+    if (annenFraversArsak && annenFraversArsakGrunn?.length) {
         return {
-            grunn: schema.annenFraversArsakGrunn,
-            beskrivelse: schema.annenFraversArsakBeskrivelse,
+            grunn: annenFraversArsakGrunn,
+            beskrivelse: annenFraversArsakBeskrivelse,
         };
     }
 };
@@ -268,7 +272,7 @@ export const buildPrognose = (
     }
 };
 
-const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysningerReturn => {
+export const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysningerReturn => {
     return {
         6.1: {
             '6.1.1': schema.utdypende611,
@@ -306,7 +310,7 @@ const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysningerRe
     };
 };
 
-export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): RegistrertSykmelding | undefined => {
+export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmelding | undefined => {
     // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
         !schema.pasientFnr ||
@@ -335,7 +339,11 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
             yrkesskadeDato: schema.yrkesskadeDato,
             hovedDiagnose: buildDiagnose(schema.hovedDiagnose),
             biDiagnoser: buildDiagnoser(schema.biDiagnoser),
-            annenFraversArsak: buildAnnenFraversArsak(schema),
+            annenFraversArsak: buildAnnenFraversArsak(
+                schema.annenFraversArsak,
+                schema.annenFraversArsakGrunn,
+                schema.annenFraversArsakBeskrivelse,
+            ),
         },
         syketilfelleStartDato: schema.syketilfelleStartDato,
         arbeidsgiver: {
