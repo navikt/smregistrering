@@ -66,11 +66,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     onChange={() =>
                         setSchema(
                             (state): SchemaType => {
-                                validate('annenFraversArsak', !state.annenFraversArsak);
-                                return {
+                                const updatedSchema = {
                                     ...state,
                                     annenFraversArsak: !state.annenFraversArsak,
                                 };
+                                validate('annenFraversArsak', updatedSchema);
+                                return updatedSchema;
                             },
                         )
                     }
@@ -89,12 +90,15 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                             }
                             onChange={({ target: { value } }) => {
                                 setSchema(
-                                    (state): SchemaType => ({
-                                        ...state,
-                                        annenFraversArsakBeskrivelse: value,
-                                    }),
+                                    (state): SchemaType => {
+                                        const updatedSchema = {
+                                            ...state,
+                                            annenFraversArsakBeskrivelse: value,
+                                        };
+                                        validate('annenFraversArsakBeskrivelse', updatedSchema);
+                                        return updatedSchema;
+                                    },
                                 );
-                                validate('annenFraversArsakBeskrivelse', value);
                             }}
                             label={<Element>3.3.2 Beskriv fravær (valgfritt)</Element>}
                             feil={errors.annenFraversArsakBeskrivelse}
@@ -111,11 +115,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     onChange={() =>
                         setSchema(
                             (state): SchemaType => {
-                                validate('svangerskap', !state.svangerskap);
-                                return {
+                                const updatedSchema = {
                                     ...state,
                                     svangerskap: !state.svangerskap,
                                 };
+                                validate('svangerskap', updatedSchema);
+                                return updatedSchema;
                             },
                         )
                     }
@@ -131,11 +136,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     onChange={() =>
                         setSchema(
                             (state): SchemaType => {
-                                validate('yrkesskade', !state.yrkesskade);
-                                return {
+                                const updatedSchema = {
                                     ...state,
                                     yrkesskade: !state.yrkesskade,
                                 };
+                                validate('yrkesskade', updatedSchema);
+                                return updatedSchema;
                             },
                         )
                     }
@@ -149,12 +155,15 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                         value={schema.yrkesskadeDato ? schema.yrkesskadeDato : undefined}
                         onChange={newDates => {
                             setSchema(
-                                (state): SchemaType => ({
-                                    ...state,
-                                    yrkesskadeDato: newDates,
-                                }),
+                                (state): SchemaType => {
+                                    const updatedSchema = {
+                                        ...state,
+                                        yrkesskadeDato: newDates,
+                                    };
+                                    validate('yrkesskadeDato', updatedSchema);
+                                    return updatedSchema;
+                                },
                             );
-                            validate('yrkesskadeDato', newDates);
                         }}
                     />
                 </ExpandableField>
@@ -168,11 +177,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     onChange={() =>
                         setSchema(
                             (state): SchemaType => {
-                                validate('skjermesForPasient', !state.skjermesForPasient);
-                                return {
+                                const updatedSchema = {
                                     ...state,
                                     skjermesForPasient: !state.skjermesForPasient,
                                 };
+                                validate('skjermesForPasient', updatedSchema);
+                                return updatedSchema;
                             },
                         )
                     }

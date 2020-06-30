@@ -32,12 +32,15 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     value={schema.tiltakArbeidsplassen || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                tiltakArbeidsplassen: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    tiltakArbeidsplassen: value,
+                                };
+                                validate('tiltakArbeidsplassen', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('tiltakArbeidsplassen', value);
                     }}
                     label={<Element>Tilrettelegging/hensyn som bør tas på arbeidsplassen</Element>}
                     feil={errors.tiltakArbeidsplassen}
@@ -51,12 +54,15 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     value={schema.tiltakNav || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                tiltakNav: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    tiltakNav: value,
+                                };
+                                validate('tiltakNav', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('tiltakNav', value);
                     }}
                     feil={errors.tiltakNav}
                     label={
@@ -74,12 +80,15 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     value={schema.andreTiltak || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                andreTiltak: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    andreTiltak: value,
+                                };
+                                validate('andreTiltak', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('andreTiltak', value);
                     }}
                     label={<Element>Eventuelle andre innspill til NAV</Element>}
                     feil={errors.andreTiltak}

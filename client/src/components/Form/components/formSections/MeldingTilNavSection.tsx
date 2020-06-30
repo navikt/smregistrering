@@ -33,11 +33,12 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                     onChange={() =>
                         setSchema(
                             (state): SchemaType => {
-                                validate('meldingTilNavBistand', !state.meldingTilNavBistand);
-                                return {
+                                const updatedSchema = {
                                     ...state,
                                     meldingTilNavBistand: !state.meldingTilNavBistand,
                                 };
+                                validate('meldingTilNavBistand', updatedSchema);
+                                return updatedSchema;
                             },
                         )
                     }
@@ -51,12 +52,15 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                         value={schema.meldingTilNavBegrunn || ''}
                         onChange={({ target: { value } }) => {
                             setSchema(
-                                (state): SchemaType => ({
-                                    ...state,
-                                    meldingTilNavBegrunn: value,
-                                }),
+                                (state): SchemaType => {
+                                    const updatedSchema = {
+                                        ...state,
+                                        meldingTilNavBegrunn: value,
+                                    };
+                                    validate('meldingTilNavBegrunn', updatedSchema);
+                                    return updatedSchema;
+                                },
                             );
-                            validate('meldingTilNavBegrunn', value);
                         }}
                         feil={errors.meldingTilNavBegrunn}
                         label={<Element>Begrunn nærmere</Element>}

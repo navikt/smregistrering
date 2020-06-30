@@ -24,8 +24,13 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                     label="Startdato for legemeldt fravær"
                     value={schema.syketilfelleStartDato ? schema.syketilfelleStartDato : undefined}
                     onChange={newDates => {
-                        setSchema((state): SchemaType => ({ ...state, syketilfelleStartDato: newDates }));
-                        validate('syketilfelleStartDato', newDates);
+                        setSchema(
+                            (state): SchemaType => {
+                                const updatedSchema = { ...state, syketilfelleStartDato: newDates };
+                                validate('syketilfelleStartDato', updatedSchema);
+                                return updatedSchema;
+                            },
+                        );
                     }}
                     feil={errors.syketilfelleStartDato}
                 />
