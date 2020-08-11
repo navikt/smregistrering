@@ -1,5 +1,3 @@
-import { ECANCELED } from 'constants';
-
 import {
     AnnenFraversArsak,
     Arbeidsgiver,
@@ -8,7 +6,6 @@ import {
     KontaktMedPasient,
     Periode,
     Prognose,
-    RegistrertSykmelding,
     UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
 import { DiagnosekodeSystem } from '../types/Diagnosekode';

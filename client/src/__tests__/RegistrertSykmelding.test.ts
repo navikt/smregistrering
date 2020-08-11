@@ -1,5 +1,5 @@
 import { DiagnosekodeSystem } from '../types/Diagnosekode';
-import { HarArbeidsgiver, RegistrertSykmelding } from '../types/RegistrertSykmelding';
+import { RegistrertSykmelding } from '../types/RegistrertSykmelding';
 
 describe('RegistrertSykmelding', () => {
     it('Encodes sykmelding dates to ISO date string', () => {

@@ -1,6 +1,3 @@
-import * as iots from 'io-ts';
-import * as iotsPromise from 'io-ts-promise';
-
 import { DateFromString, DateTimeFromString } from '../types/CustomTypes';
 
 describe('CustomTypes', () => {

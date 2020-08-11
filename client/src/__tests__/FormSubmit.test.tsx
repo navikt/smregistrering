@@ -4,7 +4,6 @@ import { act, fireEvent, render } from '@testing-library/react';
 
 import FormSubmit from '../components/Form/components/FormSubmit';
 import { DiagnosekodeSystem } from '../types/Diagnosekode';
-import { HarArbeidsgiver } from '../types/RegistrertSykmelding';
 import { SchemaType } from '../components/Form/Form';
 
 const oppgave = require('../mock/oppgave.json');
