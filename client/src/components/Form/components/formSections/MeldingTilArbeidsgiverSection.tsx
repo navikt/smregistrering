@@ -34,12 +34,15 @@ const MeldingTilArbeidsgiverSection = ({
                 value={schema.meldingTilArbeidsgiverBeskriv || ''}
                 onChange={({ target: { value } }) => {
                     setSchema(
-                        (state): SchemaType => ({
-                            ...state,
-                            meldingTilArbeidsgiverBeskriv: value,
-                        }),
+                        (state): SchemaType => {
+                            const updatedSchema = {
+                                ...state,
+                                meldingTilArbeidsgiverBeskriv: value,
+                            };
+                            validate('meldingTilArbeidsgiverBeskriv', updatedSchema);
+                            return updatedSchema;
+                        },
                     );
-                    validate('meldingTilArbeidsgiverBeskriv', value);
                 }}
                 feil={errors.meldingTilArbeidsgiverBeskriv}
                 label={<Element>9.1 Andre innspill til arbeidsgiver</Element>}

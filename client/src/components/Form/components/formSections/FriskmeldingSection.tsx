@@ -43,11 +43,12 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                     onChange={() =>
                         setSchema(
                             (state): SchemaType => {
-                                validate('arbeidsfoerEtterPeriode', !state.arbeidsfoerEtterPeriode);
-                                return {
+                                const updatedSchema = {
                                     ...state,
                                     arbeidsfoerEtterPeriode: !state.arbeidsfoerEtterPeriode,
                                 };
+                                validate('arbeidsfoerEtterPeriode', updatedSchema);
+                                return updatedSchema;
                             },
                         )
                     }
@@ -61,12 +62,15 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                         value={schema.hensynArbeidsplassen || ''}
                         onChange={({ target: { value } }) => {
                             setSchema(
-                                (state): SchemaType => ({
-                                    ...state,
-                                    hensynArbeidsplassen: value,
-                                }),
+                                (state): SchemaType => {
+                                    const updatedSchema = {
+                                        ...state,
+                                        hensynArbeidsplassen: value,
+                                    };
+                                    validate('hensynArbeidsplassen', updatedSchema);
+                                    return updatedSchema;
+                                },
                             );
-                            validate('hensynArbeidsplassen', value);
                         }}
                         feil={errors.hensynArbeidsplassen}
                         label={<Element>5.1.1 Beskrive eventuelle hensyn som må tas på arbeidsplassen</Element>}
@@ -82,11 +86,12 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                     onChange={() => {
                         setSchema(
                             (state): SchemaType => {
-                                validate('erIArbeid', !state.erIArbeid);
-                                return {
+                                const updatedSchema = {
                                     ...state,
                                     erIArbeid: !state.erIArbeid,
                                 };
+                                validate('erIArbeid', updatedSchema);
+                                return updatedSchema;
                             },
                         );
                     }}
@@ -103,11 +108,12 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                             onChange={() =>
                                 setSchema(
                                     (state): SchemaType => {
-                                        validate('egetArbeidPaSikt', !state.egetArbeidPaSikt);
-                                        return {
+                                        const updatedSchema = {
                                             ...state,
                                             egetArbeidPaSikt: !state.egetArbeidPaSikt,
                                         };
+                                        validate('egetArbeidPaSikt', updatedSchema);
+                                        return updatedSchema;
                                     },
                                 )
                             }
@@ -119,14 +125,17 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                 id="arbeidFOM"
                                 label="Anslå når dette kan skje"
                                 value={schema.arbeidFOM ? schema.arbeidFOM : undefined}
-                                onChange={newDate => {
+                                onChange={(newDate) => {
                                     setSchema(
-                                        (state): SchemaType => ({
-                                            ...state,
-                                            arbeidFOM: newDate,
-                                        }),
+                                        (state): SchemaType => {
+                                            const updatedSchema = {
+                                                ...state,
+                                                arbeidFOM: newDate,
+                                            };
+                                            validate('arbeidFOM', updatedSchema);
+                                            return updatedSchema;
+                                        },
                                     );
-                                    validate('arbeidFOM', newDate);
                                 }}
                                 feil={errors.arbeidFOM}
                             />
@@ -141,11 +150,12 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                             onChange={() =>
                                 setSchema(
                                     (state): SchemaType => {
-                                        validate('annetArbeidPaSikt', !state.annetArbeidPaSikt);
-                                        return {
+                                        const updatedSchema = {
                                             ...state,
                                             annetArbeidPaSikt: !state.annetArbeidPaSikt,
                                         };
+                                        validate('annetArbeidPaSikt', updatedSchema);
+                                        return updatedSchema;
                                     },
                                 )
                             }
@@ -157,14 +167,18 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                         id="vurderingsDatoIArbeid"
                         label="5.2.3 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?"
                         value={schema.vurderingsDatoIArbeid ? schema.vurderingsDatoIArbeid : undefined}
-                        onChange={newDate => {
+                        onChange={(newDate) => {
                             setSchema(
-                                (state): SchemaType => ({
-                                    ...state,
-                                    vurderingsDatoIArbeid: newDate,
-                                }),
+                                (state): SchemaType => {
+                                    const updatedSchema = {
+                                        ...state,
+                                        vurderingsDatoIArbeid: newDate,
+                                    };
+
+                                    validate('vurderingsDatoIArbeid', updatedSchema);
+                                    return updatedSchema;
+                                },
                             );
-                            validate('vurderingsDatoIArbeid', newDate);
                         }}
                         feil={errors.vurderingsDatoIArbeid}
                     />
@@ -179,11 +193,12 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                     onChange={() => {
                         setSchema(
                             (state): SchemaType => {
-                                validate('erIkkeIArbeid', !state.erIkkeIArbeid);
-                                return {
+                                const updatedSchema = {
                                     ...state,
                                     erIkkeIArbeid: !state.erIkkeIArbeid,
                                 };
+                                validate('erIkkeIArbeid', updatedSchema);
+                                return updatedSchema;
                             },
                         );
                     }}
@@ -200,11 +215,12 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                             onChange={() =>
                                 setSchema(
                                     (state): SchemaType => {
-                                        validate('arbeidsforPaSikt', !state.arbeidsforPaSikt);
-                                        return {
+                                        const updatedSchema = {
                                             ...state,
                                             arbeidsforPaSikt: !state.arbeidsforPaSikt,
                                         };
+                                        validate('arbeidsforPaSikt', updatedSchema);
+                                        return updatedSchema;
                                     },
                                 )
                             }
@@ -216,14 +232,17 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                 id="arbeidsforFOM"
                                 label="Anslå når dette kan skje"
                                 value={schema.arbeidsforFOM ? schema.arbeidsforFOM : undefined}
-                                onChange={newDate => {
+                                onChange={(newDate) => {
                                     setSchema(
-                                        (state): SchemaType => ({
-                                            ...state,
-                                            arbeidsforFOM: newDate,
-                                        }),
+                                        (state): SchemaType => {
+                                            const updatedSchema = {
+                                                ...state,
+                                                arbeidsforFOM: newDate,
+                                            };
+                                            validate('arbeidsforFOM', updatedSchema);
+                                            return updatedSchema;
+                                        },
                                     );
-                                    validate('arbeidsforFOM', newDate);
                                 }}
                                 feil={errors.arbeidsforFOM}
                             />
@@ -233,14 +252,17 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                         id="vurderingsDatoUtenArbeid"
                         label="5.3.2 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?"
                         value={schema.vurderingsDatoUtenArbeid ? schema.vurderingsDatoUtenArbeid : undefined}
-                        onChange={newDate => {
+                        onChange={(newDate) => {
                             setSchema(
-                                (state): SchemaType => ({
-                                    ...state,
-                                    vurderingsDatoUtenArbeid: newDate,
-                                }),
+                                (state): SchemaType => {
+                                    const updatedSchema = {
+                                        ...state,
+                                        vurderingsDatoUtenArbeid: newDate,
+                                    };
+                                    validate('vurderingsDatoUtenArbeid', updatedSchema);
+                                    return updatedSchema;
+                                },
                             );
-                            validate('vurderingsDatoUtenArbeid', newDate);
                         }}
                         feil={errors.vurderingsDatoUtenArbeid}
                     />

@@ -26,21 +26,24 @@ const MedisinskArsak = ({ schema, setSchema, errors, validate }: MedisinskArsakP
     const updateCheckboxes = (value: keyof typeof MedisinskArsakType): void => {
         setSchema(state => {
             if (!state.aktivitetIkkeMuligMedisinskArsakType) {
-                validate('aktivitetIkkeMuligMedisinskArsakType', value);
-                return {
+                const updatedSchema = {
                     ...state,
                     aktivitetIkkeMuligMedisinskArsakType: [value as keyof typeof MedisinskArsakType],
                 };
+                validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
+                return updatedSchema;
             }
             const shouldAddArsak: boolean = !state.aktivitetIkkeMuligMedisinskArsakType.includes(value);
             const newMedisinskArsakType: (keyof typeof MedisinskArsakType)[] = shouldAddArsak
                 ? [...state.aktivitetIkkeMuligMedisinskArsakType, value]
                 : state.aktivitetIkkeMuligMedisinskArsakType.filter(arsak => arsak !== value);
-            validate('aktivitetIkkeMuligMedisinskArsakType', newMedisinskArsakType);
-            return {
+
+            const updatedSchema = {
                 ...state,
                 aktivitetIkkeMuligMedisinskArsakType: newMedisinskArsakType,
             };
+            validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
+            return updatedSchema;
         });
     };
 

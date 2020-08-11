@@ -26,21 +26,24 @@ const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: Arbeidsre
     const updateCheckboxes = (value: keyof typeof ArbeidsrelatertArsakType): void => {
         setSchema(state => {
             if (!state.aktivitetIkkeMuligArbeidsrelatertArsakType) {
-                validate('aktivitetIkkeMuligArbeidsrelatertArsakType', value);
-                return {
+                const updatedSchema = {
                     ...state,
                     aktivitetIkkeMuligArbeidsrelatertArsakType: [value as keyof typeof ArbeidsrelatertArsakType],
                 };
+                validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
+                return updatedSchema;
             }
             const shouldAddArsak: boolean = !state.aktivitetIkkeMuligArbeidsrelatertArsakType.includes(value);
             const newArbeidsrelatertArsakType: (keyof typeof ArbeidsrelatertArsakType)[] = shouldAddArsak
                 ? [...state.aktivitetIkkeMuligArbeidsrelatertArsakType, value]
                 : state.aktivitetIkkeMuligArbeidsrelatertArsakType.filter(arsak => arsak !== value);
-            validate('aktivitetIkkeMuligArbeidsrelatertArsakType', newArbeidsrelatertArsakType);
-            return {
+
+            const updatedSchema = {
                 ...state,
                 aktivitetIkkeMuligArbeidsrelatertArsakType: newArbeidsrelatertArsakType,
             };
+            validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
+            return updatedSchema;
         });
     };
 

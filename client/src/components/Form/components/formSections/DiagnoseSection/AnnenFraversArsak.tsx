@@ -26,21 +26,23 @@ const AnnenFraversArsak = ({ schema, setSchema, errors, validate }: AnnenFravers
     const updateCheckboxes = (value: keyof typeof AnnenFraverGrunn): void => {
         setSchema(state => {
             if (!state.annenFraversArsakGrunn) {
-                validate('annenFraversArsakGrunn', value);
-                return {
+                const updatedSchema = {
                     ...state,
                     annenFraversArsakGrunn: [value as keyof typeof AnnenFraverGrunn],
                 };
+                validate('annenFraversArsakGrunn', updatedSchema);
+                return updatedSchema;
             }
             const shouldAddArsak: boolean = !state.annenFraversArsakGrunn.includes(value);
             const newAnnenFraversArsakGrunn: (keyof typeof AnnenFraverGrunn)[] = shouldAddArsak
                 ? [...state.annenFraversArsakGrunn, value]
                 : state.annenFraversArsakGrunn.filter(arsak => arsak !== value);
-            validate('annenFraversArsakGrunn', newAnnenFraversArsakGrunn);
-            return {
+            const updatedSchema = {
                 ...state,
                 annenFraversArsakGrunn: newAnnenFraversArsakGrunn,
             };
+            validate('annenFraversArsakGrunn', updatedSchema);
+            return updatedSchema;
         });
     };
 

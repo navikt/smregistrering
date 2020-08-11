@@ -36,6 +36,7 @@ import {
     getGradertSykmelding,
     getReisetilskuddSykmelding,
 } from '../../utils/periodeUtils';
+import { getKeys } from '../../utils/objectUtils';
 import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../utils/diagnoseUtils';
 import { scrollToRef } from '../Menu/MenuLink';
 
@@ -212,9 +213,9 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
     const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
     const errorSummaryRef = useRef<HTMLDivElement>(null);
 
-    const validate: Validate = (name, value) => {
+    const validate: Validate = (name, updatedSchema) => {
         const validationFunction = validationFunctions[name];
-        const error = validationFunction(value as never, schema);
+        const error = validationFunction(updatedSchema);
         setFormErrors(state => ({ ...state, [name]: error }));
         if (error) {
             return false;
@@ -223,13 +224,10 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
     };
 
     const validateAll = (): boolean => {
-        const keys = Object.keys(validationFunctions);
+        const keys = getKeys(validationFunctions);
         let hasErrors: boolean = false;
         keys.forEach(key => {
-            // TODO: Can this casting be avoided?
-            // https://github.com/microsoft/TypeScript/pull/12253#issuecomment-263132208
-            const value = schema[key as keyof SchemaType];
-            const validation = validate(key as keyof SchemaType, value);
+            const validation = validate(key, schema);
             if (!validation) {
                 hasErrors = true;
             }

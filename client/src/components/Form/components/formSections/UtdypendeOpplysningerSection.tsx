@@ -70,12 +70,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende611 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende611: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende611: value,
+                                };
+                                validate('utdypende611', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende611', value);
                     }}
                     feil={errors.utdypende611}
                     label={
@@ -92,12 +95,16 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende612 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende612: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende612: value,
+                                };
+
+                                validate('utdypende612', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende612', value);
                     }}
                     feil={errors.utdypende612}
                     label={<Element>6.1.2 Har behandlingen frem til nå bedret arbeidsevnen?</Element>}
@@ -109,12 +116,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende613 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende613: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende613: value,
+                                };
+                                validate('utdypende613', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende613', value);
                     }}
                     feil={errors.utdypende613}
                     label={<Element>6.1.3 Hva er videre plan for behandling?</Element>}
@@ -126,12 +136,16 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende614 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende614: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende614: value,
+                                };
+
+                                validate('utdypende614', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende614', value);
                     }}
                     feil={errors.utdypende614}
                     label={<Element>6.1.4 Er det arbeidsforholdet som hindrer (økt) aktivitet? Beskriv.</Element>}
@@ -143,12 +157,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende615 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende615: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende615: value,
+                                };
+                                validate('utdypende615', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende615', value);
                     }}
                     feil={errors.utdypende612}
                     label={<Element>6.1.5 Er det andre forhold som hindrer (økt) aktivitet?</Element>}
@@ -165,12 +182,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende621 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende621: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende621: value,
+                                };
+                                validate('utdypende621', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende621', value);
                     }}
                     feil={errors.utdypende621}
                     label={<Element>6.2.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon.</Element>}
@@ -182,12 +202,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende622 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende622: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende622: value,
+                                };
+                                validate('utdypende622', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende622', value);
                     }}
                     feil={errors.utdypende622}
                     label={<Element>6.2.2 Hvordan påvirker sykdommen arbeidsevnen?</Element>}
@@ -199,12 +222,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende623 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende623: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende623: value,
+                                };
+                                validate('utdypende623', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende623', value);
                     }}
                     feil={errors.utdypende623}
                     label={<Element>6.2.3 Har behandlingen frem til nå bedret arbeidsevnen?</Element>}
@@ -216,12 +242,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende624 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende624: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende624: value,
+                                };
+                                validate('utdypende624', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende624', value);
                     }}
                     feil={errors.utdypende624}
                     label={
@@ -237,12 +266,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende631 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende631: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende631: value,
+                                };
+                                validate('utdypende631', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende631', value);
                     }}
                     feil={errors.utdypende631}
                     label={<Element>6.3.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon</Element>}
@@ -254,12 +286,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende632 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende632: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende632: value,
+                                };
+                                validate('utdypende632', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende632', value);
                     }}
                     feil={errors.utdypende632}
                     label={
@@ -281,12 +316,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende641 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende641: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende641: value,
+                                };
+                                validate('utdypende641', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende641', value);
                     }}
                     feil={errors.utdypende641}
                     label={<Element>6.4.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon</Element>}
@@ -298,12 +336,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende642 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende642: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende642: value,
+                                };
+                                validate('utdypende642', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende642', value);
                     }}
                     feil={errors.utdypende642}
                     label={
@@ -317,12 +358,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende643 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende643: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende643: value,
+                                };
+                                validate('utdypende643', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende643', value);
                     }}
                     feil={errors.utdypende643}
                     label={
@@ -343,12 +387,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende651 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende651: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende651: value,
+                                };
+                                validate('utdypende651', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende651', value);
                     }}
                     feil={errors.utdypende651}
                     label={<Element>6.5.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon.</Element>}
@@ -360,12 +407,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende652 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende652: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende652: value,
+                                };
+                                validate('utdypende652', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende652', value);
                     }}
                     feil={errors.utdypende652}
                     label={<Element>6.5.2 Hvordan påvirker dette funksjons-/arbeidsevnen?</Element>}
@@ -377,12 +427,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende653 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende653: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende653: value,
+                                };
+                                validate('utdypende653', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende653', value);
                     }}
                     feil={errors.utdypende653}
                     label={
@@ -398,12 +451,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende654 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende654: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende654: value,
+                                };
+                                validate('utdypende654', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende654', value);
                     }}
                     feil={errors.utdypende654}
                     label={
@@ -425,12 +481,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende661 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende661: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende661: value,
+                                };
+                                validate('utdypende661', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende661', value);
                     }}
                     feil={errors.utdypende661}
                     label={
@@ -447,12 +506,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende662 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende662: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende662: value,
+                                };
+                                validate('utdypende662', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende662', value);
                     }}
                     feil={errors.utdypende662}
                     label={
@@ -469,12 +531,15 @@ const UtdypendeOpplysningerSection = ({
                     value={schema.utdypende663 || ''}
                     onChange={({ target: { value } }) => {
                         setSchema(
-                            (state): SchemaType => ({
-                                ...state,
-                                utdypende663: value,
-                            }),
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    utdypende663: value,
+                                };
+                                validate('utdypende663', updatedSchema);
+                                return updatedSchema;
+                            },
                         );
-                        validate('utdypende663', value);
                     }}
                     feil={errors.utdypende663}
                     label={

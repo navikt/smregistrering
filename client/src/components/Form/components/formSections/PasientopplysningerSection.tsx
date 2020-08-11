@@ -26,12 +26,15 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                 value={schema.pasientFnr ? schema.pasientFnr : undefined}
                 onChange={({ target: { value } }) => {
                     setSchema(
-                        (state): SchemaType => ({
-                            ...state,
-                            pasientFnr: value,
-                        }),
+                        (state): SchemaType => {
+                            const updatedSchema = {
+                                ...state,
+                                pasientFnr: value,
+                            };
+                            validate('pasientFnr', updatedSchema);
+                            return updatedSchema;
+                        },
                     );
-                    validate('pasientFnr', value);
                 }}
                 label="1.2 Fødselsnummer (11 siffer)"
                 feil={errors.pasientFnr}
