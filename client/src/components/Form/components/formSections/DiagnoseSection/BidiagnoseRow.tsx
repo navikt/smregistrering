@@ -32,7 +32,7 @@ const BidiagnoseRow = ({
         <>
             <div className={`bidiagnoserow`}>
                 <div className="bidiagnoserow__deletebutton">
-                    <Fareknapp form="kompakt" onClick={event => deleteRow(index, event)}>
+                    <Fareknapp kompakt onClick={(event) => deleteRow(index, event)}>
                         <Garbage />
                         <span className="sr-only">Slett rad</span>
                     </Fareknapp>
