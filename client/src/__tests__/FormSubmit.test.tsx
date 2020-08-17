@@ -16,8 +16,8 @@ const schema: SchemaType = {
     sykmeldersEtternavn: 'Legesen',
     sykmeldersFornavn: 'Lege',
     harArbeidsgiver: 'EN_ARBEIDSGIVER',
-    syketilfelleStartDato: new Date('2018-11-29T23:00:00.000Z'),
-    behandletDato: new Date('2018-12-29T23:00:00.000Z'),
+    syketilfelleStartDato: new Date('2018-11-29'),
+    behandletDato: new Date('2018-12-29'),
     annenFraversArsak: false,
     avventendeSykmelding: false,
     gradertSykmelding: false,
@@ -89,9 +89,14 @@ const registrertSykmelding: any = {
         fornavn: 'Lege',
         tlf: '45000022',
     },
-    behandletDato: '2018-12-29T23:00:00.000Z',
+    behandletDato: '2018-12-29',
     kontaktMedPasient: {},
     medisinskVurdering: {
+        hovedDiagnose: {
+            kode: 'F001',
+            system: '2.16.578.1.12.4.1.1.7170',
+            tekst: 'diagnosetekst',
+        },
         biDiagnoser: [],
         svangerskap: false,
         yrkesskade: false,
@@ -102,7 +107,7 @@ const registrertSykmelding: any = {
     pasientFnr: '12345678910',
     perioder: [],
     skjermesForPasient: false,
-    syketilfelleStartDato: '2018-11-29T23:00:00.000Z',
+    syketilfelleStartDato: '2018-11-29',
     sykmelderFnr: '12345678920',
     utdypendeOpplysninger: {
         '6.1': {
@@ -183,6 +188,6 @@ describe('FormSubmit', () => {
         await findByText('Sykmeldingen ble registrert', { exact: false });
         expect(spy.size()).toBe(1);
         expect(spy.lastUrl()).toBe(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`);
-        //expect(spy.lastCall()?.request.body).toEqual(registrertSykmelding);
+        expect(spy.lastCall()?.request.body).toEqual(registrertSykmelding);
     });
 });
