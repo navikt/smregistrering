@@ -6,6 +6,7 @@ import App from '../App';
 
 expect.extend(toHaveNoViolations);
 
+// TODO: improve on this in the future
 test.skip('should have no a11y violations', async () => {
     require('../mock/setup.ts');
     const { getByText } = render(<App />, document.body);
