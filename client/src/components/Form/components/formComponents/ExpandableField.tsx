@@ -1,6 +1,4 @@
-import './ExpandableField.less';
-
-import React, { ReactChild, ReactChildren, ReactNode } from 'react';
+import React, { ReactChild, ReactChildren, ReactNode, useEffect, useRef } from 'react';
 
 interface ExpandableFieldProps {
     show?: boolean;
@@ -8,7 +6,19 @@ interface ExpandableFieldProps {
 }
 
 const ExpandableField = ({ show = false, children }: ExpandableFieldProps) => {
-    return <div className={`expandable-field ${show ? 'expandable-field--expanded' : ''}`}>{children}</div>;
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (show) {
+            contentRef.current?.focus();
+        }
+    }, [show]);
+
+    if (show === false) {
+        return null;
+    }
+
+    return <div ref={contentRef}>{children}</div>;
 };
 
 export default ExpandableField;
