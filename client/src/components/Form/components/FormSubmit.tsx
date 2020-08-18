@@ -17,7 +17,7 @@ import { buildRegistrertSykmelding } from '../../../utils/registrertSykmeldingUt
 interface FormSubmitProps {
     oppgave: Oppgave;
     schema: SchemaType;
-    hasFormErrors: boolean;
+    hasFormErrors?: boolean;
     validateAll: () => boolean;
     focusErrorSummary: () => void;
 }
@@ -30,7 +30,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
 
     const registrerSykmelding = () => {
         if (validateAll()) {
-            const sykmelding = buildRegistrertSykmelding(oppgave, schema);
+            const sykmelding = buildRegistrertSykmelding(schema);
             if (sykmelding) {
                 setIsLoading(true);
                 fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`, {

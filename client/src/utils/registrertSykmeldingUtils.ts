@@ -1,5 +1,6 @@
 import {
     AktivitetIkkeMulig,
+    AnnenFraverGrunn,
     AnnenFraversArsak,
     ArbeidsrelatertArsak,
     ArbeidsrelatertArsakType,
@@ -11,10 +12,9 @@ import {
     RegistrertSykmelding,
     UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
-import { Oppgave } from '../types/Oppgave';
 import { SchemaType } from '../components/Form/Form';
 
-const buildAvventendeSykmelding = (
+export const buildAvventendeSykmelding = (
     avventendeSykmelding: boolean,
     avventendePeriode?: Date[],
     avventendeInnspillTilArbeidsgiver?: string,
@@ -30,7 +30,7 @@ const buildAvventendeSykmelding = (
     }
 };
 
-const buildGradertSykmelding = (
+export const buildGradertSykmelding = (
     gradertSykmelding: boolean,
     gradertReisetilskudd: boolean,
     gradertPeriode?: Date[],
@@ -76,7 +76,7 @@ const buildArbeidsrelatertArsak = (
     }
 };
 
-const buildAktivitetIkkeMuligSykmelding = (
+export const buildAktivitetIkkeMuligSykmelding = (
     aktivitetIkkeMuligSykmelding: boolean,
     aktivitetIkkeMuligPeriode?: Date[],
     aktivitetIkkeMuligMedisinskArsak?: boolean,
@@ -112,7 +112,7 @@ const buildAktivitetIkkeMuligSykmelding = (
     }
 };
 
-const buildBehandlingsdagerSykmelding = (
+export const buildBehandlingsdagerSykmelding = (
     behandlingsdagerSykmelding: boolean,
     behandlingsdagerPeriode?: Date[],
     behandlingsdagerAntall?: number,
@@ -128,7 +128,7 @@ const buildBehandlingsdagerSykmelding = (
     }
 };
 
-const buildReisetilskuddSykmelding = (
+export const buildReisetilskuddSykmelding = (
     reisetilskuddSykmelding: boolean,
     reisetilskuddPeriode?: Date[],
 ): Periode | undefined => {
@@ -184,7 +184,7 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
     return perioder;
 };
 
-const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefined => {
+export const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefined => {
     if (diagnose && diagnose.kode && diagnose.system && diagnose.tekst) {
         // Can not return diagnose parameter. Typescript does not understand that all properties exist
         return {
@@ -197,7 +197,7 @@ const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefined => {
     }
 };
 
-const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] => {
+export const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] => {
     if (diagnoser) {
         return diagnoser
             .map(partialDiagnose => buildDiagnose(partialDiagnose))
@@ -206,58 +206,73 @@ const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] => {
     return [];
 };
 
-const buildAnnenFraversArsak = (schema: SchemaType): AnnenFraversArsak | undefined => {
-    if (schema.annenFraversArsak && schema.annenFraversArsakGrunn?.length) {
+export const buildAnnenFraversArsak = (
+    annenFraversArsak: boolean,
+    annenFraversArsakGrunn?: (keyof typeof AnnenFraverGrunn)[],
+    annenFraversArsakBeskrivelse?: string | null,
+): AnnenFraversArsak | undefined => {
+    if (annenFraversArsak && annenFraversArsakGrunn?.length) {
         return {
-            grunn: schema.annenFraversArsakGrunn,
-            beskrivelse: schema.annenFraversArsakBeskrivelse,
+            grunn: annenFraversArsakGrunn,
+            beskrivelse: annenFraversArsakBeskrivelse,
         };
     }
 };
 
-const buildPrognose = (schema: SchemaType): Prognose | undefined => {
-    if (schema.arbeidsfoerEtterPeriode === undefined) {
-        return undefined;
-    }
-    if (schema.erIArbeid && schema.erIkkeIArbeid) {
+export const buildPrognose = (
+    arbeidsfoerEtterPeriode: boolean,
+    egetArbeidPaSikt: boolean,
+    annetArbeidPaSikt: boolean,
+    arbeidsforPaSikt: boolean,
+    hensynArbeidsplassen?: string | null,
+    erIArbeid?: boolean,
+    erIkkeIArbeid?: boolean,
+    arbeidFOM?: Date | null,
+    vurderingsDatoIArbeid?: Date | null,
+    arbeidsforFOM?: Date | null,
+    vurderingsDatoUtenArbeid?: Date | null,
+): Prognose | undefined => {
+    if (erIArbeid && erIkkeIArbeid) {
         return {
-            arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen: schema.hensynPaArbeidsplassen,
+            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
+            hensynArbeidsplassen: hensynArbeidsplassen,
             erIArbeid: {
-                egetArbeidPaSikt: schema.egetArbeidPaSikt,
-                annetArbeidPaSikt: schema.annetArbeidPaSikt,
-                arbeidFOM: schema.arbeidFOM,
-                vurderingsdato: schema.vurderingsDatoIArbeid,
+                egetArbeidPaSikt: egetArbeidPaSikt,
+                annetArbeidPaSikt: annetArbeidPaSikt,
+                arbeidFOM: arbeidFOM,
+                vurderingsdato: vurderingsDatoIArbeid,
             },
             erIkkeIArbeid: {
-                arbeidsforPaSikt: schema.arbeidsforPaSikt,
-                arbeidsforFOM: schema.arbeidsforFOM,
+                arbeidsforPaSikt: arbeidsforPaSikt,
+                arbeidsforFOM: arbeidsforFOM,
+                vurderingsdato: vurderingsDatoUtenArbeid,
             },
         };
-    } else if (schema.erIArbeid) {
+    } else if (erIArbeid) {
         return {
-            arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen: schema.hensynPaArbeidsplassen,
+            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
+            hensynArbeidsplassen: hensynArbeidsplassen,
             erIArbeid: {
-                egetArbeidPaSikt: schema.egetArbeidPaSikt,
-                annetArbeidPaSikt: schema.annetArbeidPaSikt,
-                arbeidFOM: schema.arbeidFOM,
-                vurderingsdato: schema.vurderingsDatoIArbeid,
+                egetArbeidPaSikt: egetArbeidPaSikt,
+                annetArbeidPaSikt: annetArbeidPaSikt,
+                arbeidFOM: arbeidFOM,
+                vurderingsdato: vurderingsDatoIArbeid,
             },
         };
-    } else if (schema.erIkkeIArbeid) {
+    } else if (erIkkeIArbeid) {
         return {
-            arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen: schema.hensynPaArbeidsplassen,
+            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
+            hensynArbeidsplassen: hensynArbeidsplassen,
             erIkkeIArbeid: {
-                arbeidsforPaSikt: schema.arbeidsforPaSikt,
-                arbeidsforFOM: schema.arbeidsforFOM,
+                arbeidsforPaSikt: arbeidsforPaSikt,
+                arbeidsforFOM: arbeidsforFOM,
+                vurderingsdato: vurderingsDatoUtenArbeid,
             },
         };
     }
 };
 
-const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysningerReturn => {
+export const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysningerReturn => {
     return {
         6.1: {
             '6.1.1': schema.utdypende611,
@@ -295,7 +310,7 @@ const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysningerRe
     };
 };
 
-export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType): RegistrertSykmelding | undefined => {
+export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmelding | undefined => {
     // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
         !schema.pasientFnr ||
@@ -324,7 +339,11 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
             yrkesskadeDato: schema.yrkesskadeDato,
             hovedDiagnose: buildDiagnose(schema.hovedDiagnose),
             biDiagnoser: buildDiagnoser(schema.biDiagnoser),
-            annenFraversArsak: buildAnnenFraversArsak(schema),
+            annenFraversArsak: buildAnnenFraversArsak(
+                schema.annenFraversArsak,
+                schema.annenFraversArsakGrunn,
+                schema.annenFraversArsakBeskrivelse,
+            ),
         },
         syketilfelleStartDato: schema.syketilfelleStartDato,
         arbeidsgiver: {
@@ -358,7 +377,19 @@ export const buildRegistrertSykmelding = (oppgave: Oppgave, schema: SchemaType):
         tiltakNAV: schema.tiltakNav,
         tiltakArbeidsplassen: schema.tiltakArbeidsplassen,
         andreTiltak: schema.andreTiltak,
-        prognose: buildPrognose(schema),
+        prognose: buildPrognose(
+            schema.arbeidsfoerEtterPeriode,
+            schema.egetArbeidPaSikt,
+            schema.annetArbeidPaSikt,
+            schema.arbeidsforPaSikt,
+            schema.hensynArbeidsplassen,
+            schema.erIArbeid,
+            schema.erIkkeIArbeid,
+            schema.arbeidFOM,
+            schema.vurderingsDatoIArbeid,
+            schema.arbeidsforFOM,
+            schema.vurderingsDatoUtenArbeid,
+        ),
         utdypendeOpplysninger: buildUtdypendeOpplysninger(schema),
         kontaktMedPasient: {
             kontaktDato: schema.kontaktDato,

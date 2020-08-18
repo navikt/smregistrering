@@ -12,7 +12,7 @@ import { Validate } from '../../validation';
 
 export type Friskmelding = {
     arbeidsfoerEtterPeriode: boolean;
-    hensynPaArbeidsplassen?: string | null;
+    hensynArbeidsplassen?: string | null;
     erIArbeid?: boolean;
     erIkkeIArbeid?: boolean;
     egetArbeidPaSikt: boolean;
@@ -57,22 +57,22 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                 <br />
                 <ExpandableField show={schema.arbeidsfoerEtterPeriode}>
                     <Textarea
-                        id="hensynPaArbeidsplassen"
+                        id="hensynArbeidsplassen"
                         maxLength={0}
-                        value={schema.hensynPaArbeidsplassen || ''}
+                        value={schema.hensynArbeidsplassen || ''}
                         onChange={({ target: { value } }) => {
                             setSchema(
                                 (state): SchemaType => {
                                     const updatedSchema = {
                                         ...state,
-                                        hensynPaArbeidsplassen: value,
+                                        hensynArbeidsplassen: value,
                                     };
-                                    validate('hensynPaArbeidsplassen', updatedSchema);
+                                    validate('hensynArbeidsplassen', updatedSchema);
                                     return updatedSchema;
                                 },
                             );
                         }}
-                        feil={errors.hensynPaArbeidsplassen}
+                        feil={errors.hensynArbeidsplassen}
                         label={<Element>5.1.1 Beskrive eventuelle hensyn som må tas på arbeidsplassen</Element>}
                     />
                 </ExpandableField>
@@ -125,7 +125,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                 id="arbeidFOM"
                                 label="Anslå når dette kan skje"
                                 value={schema.arbeidFOM ? schema.arbeidFOM : undefined}
-                                onChange={newDate => {
+                                onChange={(newDate) => {
                                     setSchema(
                                         (state): SchemaType => {
                                             const updatedSchema = {
@@ -167,7 +167,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                         id="vurderingsDatoIArbeid"
                         label="5.2.3 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?"
                         value={schema.vurderingsDatoIArbeid ? schema.vurderingsDatoIArbeid : undefined}
-                        onChange={newDate => {
+                        onChange={(newDate) => {
                             setSchema(
                                 (state): SchemaType => {
                                     const updatedSchema = {
@@ -232,7 +232,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                 id="arbeidsforFOM"
                                 label="Anslå når dette kan skje"
                                 value={schema.arbeidsforFOM ? schema.arbeidsforFOM : undefined}
-                                onChange={newDate => {
+                                onChange={(newDate) => {
                                     setSchema(
                                         (state): SchemaType => {
                                             const updatedSchema = {
@@ -252,7 +252,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                         id="vurderingsDatoUtenArbeid"
                         label="5.3.2 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?"
                         value={schema.vurderingsDatoUtenArbeid ? schema.vurderingsDatoUtenArbeid : undefined}
-                        onChange={newDate => {
+                        onChange={(newDate) => {
                             setSchema(
                                 (state): SchemaType => {
                                     const updatedSchema = {

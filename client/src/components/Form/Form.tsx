@@ -128,7 +128,7 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
 
         // Friskmelding
         arbeidsfoerEtterPeriode: !!oppgave.papirSmRegistering?.prognose?.arbeidsforEtterPeriode,
-        hensynPaArbeidsplassen: oppgave.papirSmRegistering?.prognose?.hensynArbeidsplassen,
+        hensynArbeidsplassen: oppgave.papirSmRegistering?.prognose?.hensynArbeidsplassen,
         erIArbeid: !!oppgave.papirSmRegistering?.prognose?.erIArbeid,
         egetArbeidPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIArbeid?.egetArbeidPaSikt,
         annetArbeidPaSikt: !!oppgave.papirSmRegistering?.prognose?.erIArbeid?.annetArbeidPaSikt,

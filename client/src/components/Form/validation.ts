@@ -176,7 +176,7 @@ export const validationFunctions: ValidationType = {
 
     // Friskmelding
     arbeidsfoerEtterPeriode: () => undefined,
-    hensynPaArbeidsplassen: () => undefined,
+    hensynArbeidsplassen: () => undefined,
     erIArbeid: () => undefined,
     erIkkeIArbeid: () => undefined,
     egetArbeidPaSikt: () => undefined,
