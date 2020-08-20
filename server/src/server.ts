@@ -9,15 +9,13 @@ import loadConfig from './config';
 import setupCors from './cors';
 import * as iotsPromise from 'io-ts-promise';
 import { User } from './types/User';
+import logger from './logging';
 
 async function startApp() {
   try {
     const config = await loadConfig();
 
     const server = express();
-
-    // setup logging
-    setupLogging(server);
 
     // parse http body as json an attach to req object
     server.use(express.json());
@@ -54,10 +52,14 @@ async function startApp() {
 
     // start server
     const PORT = config.server.port;
-    server.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+    server.listen(PORT, () => logger.info(`Server listening on port ${PORT}`));
   } catch (error) {
-    console.error('Error during startup', error);
+    if (iotsPromise.isDecodeError(error)) {
+      logger.error('io-ts decode error. Are all required environment variables present?');
+    } else {
+      logger.error('Error during startup', error);
+    }
   }
 }
 
-startApp().catch((error) => console.error(error));
+startApp();

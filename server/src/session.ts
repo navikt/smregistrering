@@ -2,13 +2,16 @@ import { Config } from './config';
 import redis from 'redis';
 import session from 'express-session';
 import { Application } from 'express';
+import logger from './logging';
 
 const SESSION_MAX_AGE_MILLISECONDS = 60 * 60 * 1000;
 
 const setup = (server: Application, config: Config): Promise<null> => {
   return new Promise((resolve, reject) => {
     server.set('trust proxy', 1);
+
     if (process.env.NODE_ENV === 'development') {
+      logger.info('Using in-memory session storage');
       server.use(
         session({
           cookie: {
@@ -23,14 +26,17 @@ const setup = (server: Application, config: Config): Promise<null> => {
       );
       return resolve();
     } else {
+      logger.info('Using Redis for session storage');
       const RedisStore = require('connect-redis')(session);
       const client = redis.createClient(config.redis.port, config.redis.host);
 
       client.unref();
       client.on('error', (error) => {
+        logger.error('Error connecting to Redis');
         reject(error);
       });
       client.on('connect', () => {
+        logger.info('Connected to Redis');
         return resolve();
       });
 

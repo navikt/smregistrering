@@ -3,6 +3,7 @@ import { appendDefaultScope } from './azureUtils';
 import { Config } from '../config';
 import httpProxyAgent from '../proxy/http-proxy';
 import { User } from '../types/User';
+import logger from '../logging';
 
 const client = async (config: Config) => {
   // see https://github.com/panva/node-openid-client/blob/master/docs/README.md#customizing-individual-http-requests
@@ -19,7 +20,7 @@ const client = async (config: Config) => {
     });
   }
   const issuer = await Issuer.discover(config.azureAd.discoveryUrl);
-  console.log(`Discovered issuer ${issuer.issuer}`);
+  logger.info(`Discovered issuer ${issuer.issuer}`);
   return new issuer.Client(metadata);
 };
 

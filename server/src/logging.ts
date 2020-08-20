@@ -1,17 +1,14 @@
-import { Application } from 'express';
-import morganBody from 'morgan-body';
-import morgan from 'morgan';
+import { createLogger, transports, format } from 'winston';
 
-const setupLogging = (server: Application) => {
-  if (process.env.NODE_ENV === 'development') {
-    morganBody(server);
-  } else {
-    server.use(
-      morgan('common', {
-        skip: (req, _res) => req.originalUrl === '/is_alive' || req.originalUrl === '/is_ready',
-      }),
-    );
-  }
-};
+const logger = createLogger({
+  format: format.timestamp({
+    format: 'YYYY-MM-DD HH:mm:ss',
+  }),
+  transports: [
+    new transports.Console({
+      format: format.combine(format.colorize(), format.simple()),
+    }),
+  ],
+});
 
-export default setupLogging;
+export default logger;

@@ -1,15 +1,15 @@
 import { TokenSet, Client, GrantBody } from 'openid-client';
 import { Request } from 'express';
 import { ReverseProxy } from '../types/Config';
+import logger from '../logging';
 
 export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: ReverseProxy): Promise<string> => {
   return new Promise((resolve, reject) => {
     // check if request has has valid api access token
     if (hasValidAccessToken(req, 'proxy')) {
-      console.log(req.user?.tokenSets.proxy?.access_token);
       return resolve(req.user?.tokenSets.proxy?.access_token);
     } else {
-      console.error('The request does not contain a valid access token for API requests');
+      logger.error('The request does not contain a valid access token for API requests');
     }
 
     // request new access token
@@ -37,7 +37,7 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
         });
     } else {
       const error = new Error('The request does not contain a valid access token');
-      console.error(error);
+      logger.error(error);
       reject(error);
     }
   });

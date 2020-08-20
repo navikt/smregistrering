@@ -2,9 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import { Server, AzureAd, Redis, ReverseProxy } from './types/Config';
 import * as iotsPromise from 'io-ts-promise';
+import logger from './logging';
 
 if (process.env.NODE_ENV === 'development') {
-  console.log('Loading environmentvariables from .env file');
+  logger.info('Loading environmentvariables from .env file');
   require('dotenv/config');
 }
 
