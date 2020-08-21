@@ -8,7 +8,7 @@ export type ValidationType = {
 
 export const validationFunctions: ValidationType = {
     // Other
-    syketilfelleStartDato: schema => {
+    syketilfelleStartDato: (schema) => {
         if (!schema.syketilfelleStartDato) {
             return 'Startdato må være definert';
         }
@@ -16,7 +16,7 @@ export const validationFunctions: ValidationType = {
     },
 
     // Pasientopplysninger
-    pasientFnr: schema => {
+    pasientFnr: (schema) => {
         if (!schema.pasientFnr) {
             return 'Pasientens fødselsnummer må være definert';
         }
@@ -30,19 +30,19 @@ export const validationFunctions: ValidationType = {
     },
 
     // Arbeidsgiver
-    harArbeidsgiver: schema => {
+    harArbeidsgiver: (schema) => {
         if (!schema.harArbeidsgiver) {
             return 'Arbeidssituasjon må være definert';
         }
         return undefined;
     },
-    arbeidsgiverNavn: schema => {
+    arbeidsgiverNavn: (schema) => {
         return undefined;
     },
-    yrkesbetegnelse: schema => {
+    yrkesbetegnelse: (schema) => {
         return undefined;
     },
-    stillingsprosent: schema => {
+    stillingsprosent: (schema) => {
         if (schema.stillingsprosent && (schema.stillingsprosent > 100 || schema.stillingsprosent < 0)) {
             return 'Stillingsprosenten må være mellom 0 og 100';
         }
@@ -50,7 +50,7 @@ export const validationFunctions: ValidationType = {
     },
 
     // Diagnose
-    hovedDiagnose: schema => {
+    hovedDiagnose: (schema) => {
         if (!schema.hovedDiagnose) {
             return 'Hoveddiagnose må være definert';
         }
@@ -59,10 +59,10 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
-    biDiagnoser: schema => {
+    biDiagnoser: (schema) => {
         if (schema.biDiagnoser?.length) {
             let feilmelding: string | undefined = undefined;
-            schema.biDiagnoser.forEach(biDiagnose => {
+            schema.biDiagnoser.forEach((biDiagnose) => {
                 if (biDiagnose.system && biDiagnose.system !== '') {
                     if (!biDiagnose.kode || biDiagnose.kode === '') {
                         feilmelding = 'Kode tilhørende én eller flere bidiagnoser må være definert når system er valg';
@@ -74,26 +74,26 @@ export const validationFunctions: ValidationType = {
         return undefined;
     },
     yrkesskade: () => undefined,
-    yrkesskadeDato: schema => {
+    yrkesskadeDato: (schema) => {
         if (schema.yrkesskade && !schema.yrkesskadeDato) {
             return 'Yrkesskadedato må være definer når yrkesskade er krysset av';
         }
         return undefined;
     },
-    svangerskap: schema => {
+    svangerskap: (schema) => {
         if (schema.svangerskap === undefined) {
             return 'Svangerskap må være definert';
         }
         return undefined;
     },
     annenFraversArsak: () => undefined,
-    annenFraversArsakGrunn: schema => {
+    annenFraversArsakGrunn: (schema) => {
         if (schema.annenFraversArsak && !schema.annenFraversArsakGrunn?.length) {
             return 'Lovfestet fraværsgrunn må være valgt når annen lovfestet fraværsgrunn er avkrysset';
         }
     },
     annenFraversArsakBeskrivelse: () => undefined,
-    skjermesForPasient: schema => {
+    skjermesForPasient: (schema) => {
         if (schema.skjermesForPasient === undefined) {
             return 'SkjermesForPasient er et påkrevd felt';
         }
@@ -101,7 +101,7 @@ export const validationFunctions: ValidationType = {
     },
 
     // MulighetForArbeid
-    mulighetForArbeid: schema => {
+    mulighetForArbeid: (schema) => {
         if (
             !schema.avventendeSykmelding &&
             !schema.gradertSykmelding &&
@@ -115,7 +115,7 @@ export const validationFunctions: ValidationType = {
     },
     // Perioder for avventende sykmelding
     avventendeSykmelding: () => undefined,
-    avventendePeriode: schema => {
+    avventendePeriode: (schema) => {
         if (schema.avventendeSykmelding && !schema.avventendePeriode) {
             return 'Periode må være definert når avventende sykmelding er krysset av';
         }
@@ -123,7 +123,7 @@ export const validationFunctions: ValidationType = {
     avventendeInnspillTilArbeidsgiver: () => undefined,
     // Perioder for gradert sykmelding
     gradertSykmelding: () => undefined,
-    gradertPeriode: schema => {
+    gradertPeriode: (schema) => {
         if (schema.gradertSykmelding && !schema.gradertPeriode) {
             return 'Periode må være definert når gradert sykmelding er krysset av';
         }
@@ -132,20 +132,20 @@ export const validationFunctions: ValidationType = {
     gradertReisetilskudd: () => undefined,
     // Perioder for full sykmelding
     aktivitetIkkeMuligSykmelding: () => undefined,
-    aktivitetIkkeMuligPeriode: schema => {
+    aktivitetIkkeMuligPeriode: (schema) => {
         if (schema.aktivitetIkkeMuligSykmelding && !schema.aktivitetIkkeMuligPeriode) {
             return 'Periode må være definert når aktivitet ikke er mulig';
         }
     },
     aktivitetIkkeMuligMedisinskArsak: () => undefined,
-    aktivitetIkkeMuligMedisinskArsakType: schema => {
+    aktivitetIkkeMuligMedisinskArsakType: (schema) => {
         if (schema.aktivitetIkkeMuligMedisinskArsak && !schema.aktivitetIkkeMuligMedisinskArsakType?.length) {
             return 'Minst én medisinsk årsak må være valgt når det er medisinske årsaker som hindrer arbeidsrelatert aktivitet';
         }
     },
     aktivitetIkkeMuligMedisinskArsakBeskrivelse: () => undefined,
     aktivitetIkkeMuligArbeidsrelatertArsak: () => undefined,
-    aktivitetIkkeMuligArbeidsrelatertArsakType: schema => {
+    aktivitetIkkeMuligArbeidsrelatertArsakType: (schema) => {
         if (
             schema.aktivitetIkkeMuligArbeidsrelatertArsak &&
             !schema.aktivitetIkkeMuligArbeidsrelatertArsakType?.length
@@ -156,19 +156,19 @@ export const validationFunctions: ValidationType = {
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: () => undefined,
     // Perioder for sykmelding for behandlignsdager
     behandlingsdagerSykmelding: () => undefined,
-    behandlingsdagerPeriode: schema => {
+    behandlingsdagerPeriode: (schema) => {
         if (schema.behandlingsdagerSykmelding && !schema.behandlingsdagerPeriode) {
             return 'Periode må være definert når pasienten krever sykmelding for behandlingsdager';
         }
     },
-    behandlingsdagerAntall: schema => {
+    behandlingsdagerAntall: (schema) => {
         if (schema.behandlingsdagerSykmelding && !schema.behandlingsdagerAntall) {
             return 'Antall dager må være definert når pasienten krever sykmelding for behandlingsdager';
         }
     },
     // Perioder for sykmelding med reisetilskudd
     reisetilskuddSykmelding: () => undefined,
-    reisetilskuddPeriode: schema => {
+    reisetilskuddPeriode: (schema) => {
         if (schema.reisetilskuddSykmelding && !schema.reisetilskuddPeriode) {
             return 'Periode må være definert når pasienten krever sykmelding med reistilskudd';
         }
@@ -181,7 +181,7 @@ export const validationFunctions: ValidationType = {
     erIkkeIArbeid: () => undefined,
     egetArbeidPaSikt: () => undefined,
     annetArbeidPaSikt: () => undefined,
-    arbeidFOM: schema => {
+    arbeidFOM: (schema) => {
         if (schema.erIArbeid && schema.egetArbeidPaSikt) {
             if (schema.arbeidFOM === undefined) {
                 return 'Du må svare på når pasienten på sikt kan komme tilbake til samme arbeidsgiver';
@@ -235,13 +235,13 @@ export const validationFunctions: ValidationType = {
     begrunnelseIkkeKontakt: () => undefined,
 
     // Bekreftelse
-    behandletDato: schema => {
+    behandletDato: (schema) => {
         if (!schema.behandletDato) {
             return 'Behandletdato må være definert';
         }
         return undefined;
     },
-    sykmelderFnr: schema => {
+    sykmelderFnr: (schema) => {
         if (!schema.sykmelderFnr) {
             return 'Sykmelders fødselsnummer må være definert';
         }
@@ -253,17 +253,17 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
-    aktoerId: schema => {
+    aktoerId: (schema) => {
         if (!schema.aktoerId) {
             return 'AktørID er et påkrevd felt';
         }
     },
-    sykmeldersFornavn: schema => {
+    sykmeldersFornavn: (schema) => {
         if (!schema.sykmeldersFornavn) {
             return 'Sykmelders fornavn må være definert';
         }
     },
-    sykmeldersEtternavn: schema => {
+    sykmeldersEtternavn: (schema) => {
         if (!schema.sykmeldersEtternavn) {
             return 'Sykmelders etternavn må være definert';
         }
