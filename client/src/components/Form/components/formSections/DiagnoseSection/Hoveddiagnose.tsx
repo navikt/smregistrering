@@ -41,9 +41,11 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                             (state): SchemaType => {
                                 const updatedSchema = {
                                     ...state,
-                                    hovedDiagnose: updatedDiagnose,
+                                    hovedDiagnose: system ? updatedDiagnose : undefined,
                                 };
-                                validate('hovedDiagnose', updatedSchema);
+                                if (system === undefined) {
+                                    validate('hovedDiagnose', updatedSchema);
+                                }
                                 return updatedSchema;
                             },
                         );
