@@ -6,6 +6,7 @@ import { Router, Request } from 'express';
 import { RequestOptions } from 'http';
 import { Client } from 'openid-client';
 import { ReverseProxy } from '../types/Config';
+import logger from '../logging';
 
 const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
@@ -34,7 +35,7 @@ const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
     if (urlFromRequest.pathname) {
       pathFromRequest = urlFromRequest.pathname.replace(`/${api.path}/`, '/');
     } else {
-      console.error('Error replacing downstream proxy prefix to "/"');
+      logger.error('Error replacing downstream proxy prefix to "/"');
     }
 
     const queryString = urlFromRequest.query;
@@ -43,7 +44,7 @@ const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
       (pathFromRequest ? pathFromRequest : '') +
       (queryString ? '?' + queryString : '');
 
-    console.log(`Proxying request from '${req.originalUrl}' to '${stripTrailingSlash(urlFromApi.href)}${newPath}'`);
+    logger.info(`Proxying request from '${req.originalUrl}' to '${stripTrailingSlash(urlFromApi.href)}${newPath}'`);
     return newPath;
   },
 });

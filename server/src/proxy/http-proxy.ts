@@ -1,10 +1,11 @@
 import { Config } from '../config';
 import tunnel from 'tunnel';
+import logger from '../logging';
 
 const httpProxyAgent = (config: Config) => {
   const proxyUri = config.server.proxy;
   if (proxyUri) {
-    console.log(`Proxying requests via ${proxyUri} for openid-client`);
+    logger.info(`Proxying requests via ${proxyUri} for openid-client`);
     const hostPort = proxyUri.replace('https://', '').replace('http://', '').split(':', 2);
     return tunnel.httpsOverHttp({
       proxy: {
@@ -13,7 +14,7 @@ const httpProxyAgent = (config: Config) => {
       },
     });
   } else {
-    console.log(`Environment variable HTTP_PROXY is not set, not proxying requests for openid-client`);
+    logger.warn(`Environment variable HTTP_PROXY is not set. Not proxying requests for openid-client`);
     return null;
   }
 };

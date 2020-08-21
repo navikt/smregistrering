@@ -1,8 +1,8 @@
-import config, { Config } from './config';
+import { Config } from './config';
 import { Request, Response, NextFunction, Application } from 'express';
 
 const setupCors = (server: Application, config: Config) => {
-  server.use((req: Request, res: Response, next: NextFunction) => {
+  server.use((_req: Request, res: Response, next: NextFunction) => {
     res.setHeader('Access-Control-Allow-Origin', config.server.host);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
