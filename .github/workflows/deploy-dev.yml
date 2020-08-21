@@ -41,7 +41,7 @@ jobs:
         working-directory: ./server
       - name: Build client
         env:
-          REACT_APP_GOSYS_URL: https://gosys-nais-q1.nais.preprod.local/gosys/
+          REACT_APP_GOSYS_URL: https://gosys.nais.preprod.local/gosys/bruker/brukeroversikt.jsf
         run: |
           npm run build
         working-directory: ./client
