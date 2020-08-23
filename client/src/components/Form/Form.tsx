@@ -115,7 +115,7 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
         aktivitetIkkeMuligArbeidsrelatertArsakType:
             aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.arsak,
         aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse:
-            aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak?.beskrivelse,
+            aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.beskrivelse,
         behandlingsdagerSykmelding: !!behandlingsdagerPeriode,
         behandlingsdagerPeriode: !!behandlingsdagerPeriode
             ? [behandlingsdagerPeriode.fom, behandlingsdagerPeriode.tom]
@@ -216,7 +216,7 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
     const validate: Validate = (name, updatedSchema) => {
         const validationFunction = validationFunctions[name];
         const error = validationFunction(updatedSchema);
-        setFormErrors(state => ({ ...state, [name]: error }));
+        setFormErrors((state) => ({ ...state, [name]: error }));
         if (error) {
             return false;
         }
@@ -226,7 +226,7 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
     const validateAll = (): boolean => {
         const keys = getKeys(validationFunctions);
         let hasErrors: boolean = false;
-        keys.forEach(key => {
+        keys.forEach((key) => {
             const validation = validate(key, schema);
             if (!validation) {
                 hasErrors = true;

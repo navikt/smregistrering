@@ -10,7 +10,7 @@ export const getOppgaveidFromUrlQueryParameter = (): string => {
     }
     const parameterString = window.location.search.split('?')[1];
     const parameters = parameterString.split('&');
-    const oppgaveIdParameter = parameters.find(param => param.includes('oppgaveid'));
+    const oppgaveIdParameter = parameters.find((param) => param.includes('oppgaveid'));
     if (!oppgaveIdParameter) {
         throw new UrlError('Parameter "oppgaveid" is not defined');
     }

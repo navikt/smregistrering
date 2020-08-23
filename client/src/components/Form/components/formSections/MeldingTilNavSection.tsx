@@ -1,6 +1,5 @@
 import React from 'react';
 import { Checkbox, Textarea } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
 
 import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
@@ -63,7 +62,7 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                             );
                         }}
                         feil={errors.meldingTilNavBegrunn}
-                        label={<Element>Begrunn nærmere</Element>}
+                        label="Begrunn nærmere"
                     />
                 </ExpandableField>
             </Subsection>

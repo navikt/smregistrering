@@ -1,6 +1,5 @@
 import React from 'react';
 import { Checkbox, Textarea } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
 
 import DatePicker from '../formComponents/DatePicker';
 import ExpandableField from '../formComponents/ExpandableField';
@@ -53,7 +52,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                         id="kontaktDato"
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
                         value={schema.kontaktDato ? schema.kontaktDato : undefined}
-                        onChange={newDate => {
+                        onChange={(newDate) => {
                             setSchema(
                                 (state): SchemaType => {
                                     const updatedSchema = {
@@ -107,7 +106,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                             );
                         }}
                         feil={errors.begrunnelseIkkeKontakt}
-                        label={<Element>Begrunn</Element>}
+                        label="Begrunn"
                     />
                 </ExpandableField>
             </Subsection>
