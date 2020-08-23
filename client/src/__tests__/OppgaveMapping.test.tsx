@@ -16,9 +16,9 @@ const oppgave = {
         fnr: '20026900817',
         aktorId: '1865011360761',
         dokumentInfoId: '485253318',
-        datoOpprettet: '2020-06-16T08:14:24',
+        datoOpprettet: '2020-02-19T08:14:24',
         sykmeldingId: 'a62a4ab1-aaf2-4394-9b16-0507583bcab3',
-        syketilfelleStartDato: '2020-06-16',
+        syketilfelleStartDato: '2020-08-06',
         arbeidsgiver: {
             harArbeidsgiver: 'EN_ARBEIDSGIVER',
             navn: 'Langtvekkistan politidistrikt',
@@ -45,7 +45,7 @@ const oppgave = {
             ],
             svangerskap: true,
             yrkesskade: true,
-            yrkesskadeDato: '2020-03-05',
+            yrkesskadeDato: '2020-02-06',
             annenFraversArsak: {
                 grunn: ['BEHANDLING_FORHINDRER_ARBEID', 'NODVENDIG_KONTROLLUNDENRSOKELSE'],
                 beskrivelse: 'Dette er årsaken',
@@ -54,8 +54,8 @@ const oppgave = {
         skjermesForPasient: true,
         perioder: [
             {
-                fom: '2020-06-01',
-                tom: '2020-06-05',
+                fom: '2020-01-01',
+                tom: '2020-01-05',
                 aktivitetIkkeMulig: null,
                 avventendeInnspillTilArbeidsgiver: 'Må avvente',
                 behandlingsdager: null,
@@ -63,8 +63,8 @@ const oppgave = {
                 reisetilskudd: false,
             },
             {
-                fom: '2020-06-01',
-                tom: '2020-06-05',
+                fom: '2020-02-01',
+                tom: '2020-02-05',
                 aktivitetIkkeMulig: null,
                 avventendeInnspillTilArbeidsgiver: null,
                 behandlingsdager: null,
@@ -75,8 +75,8 @@ const oppgave = {
                 reisetilskudd: false,
             },
             {
-                fom: '2020-06-01',
-                tom: '2020-06-05',
+                fom: '2020-03-01',
+                tom: '2020-03-05',
                 aktivitetIkkeMulig: {
                     medisinskArsak: {
                         arsak: ['TILSTAND_HINDRER_AKTIVITET', 'AKTIVITET_FORHINDRER_BEDRING'],
@@ -93,8 +93,8 @@ const oppgave = {
                 reisetilskudd: false,
             },
             {
-                fom: '2020-06-01',
-                tom: '2020-06-05',
+                fom: '2020-04-01',
+                tom: '2020-04-05',
                 aktivitetIkkeMulig: null,
                 avventendeInnspillTilArbeidsgiver: null,
                 behandlingsdager: 13,
@@ -102,8 +102,8 @@ const oppgave = {
                 reisetilskudd: false,
             },
             {
-                fom: '2020-06-01',
-                tom: '2020-06-05',
+                fom: '2020-05-01',
+                tom: '2020-05-05',
                 aktivitetIkkeMulig: null,
                 avventendeInnspillTilArbeidsgiver: null,
                 behandlingsdager: null,
@@ -117,13 +117,13 @@ const oppgave = {
             erIArbeid: {
                 egetArbeidPaSikt: true,
                 annetArbeidPaSikt: true,
-                arbeidFOM: '2020-06-01',
-                vurderingsdato: '2020-06-01',
+                arbeidFOM: '2020-03-14',
+                vurderingsdato: '2020-03-06',
             },
             erIkkeIArbeid: {
                 arbeidsforPaSikt: true,
-                arbeidsforFOM: '2020-06-01',
-                vurderingsdato: '2020-06-01',
+                arbeidsforFOM: '2020-02-03',
+                vurderingsdato: '2020-05-16',
             },
         },
         utdypendeOpplysninger: {
@@ -254,10 +254,10 @@ const oppgave = {
         },
         meldingTilArbeidsgiver: 'Melding til arbeidsgiver',
         kontaktMedPasient: {
-            kontaktDato: '2020-06-01',
+            kontaktDato: '2020-10-03',
             begrunnelseIkkeKontakt: 'Pasienten kunne ikke bevege seg',
         },
-        behandletTidspunkt: '2020-06-01',
+        behandletTidspunkt: '2020-11-06',
         behandler: {
             fornavn: 'Nina Unni',
             mellomnavn: null,
@@ -371,23 +371,38 @@ describe('Mapping values from the oppgave to the schema', () => {
         ).toBeChecked();
 
         // Avventende periode
-        expect(getByLabelText('4.1.1 f.o.m. - 4.1.2 t.o.m.', { selector: 'input' })).toHaveValue(
-            '01.06.2020 - 05.06.2020',
+        const avventendePeriode = oppgave.papirSmRegistering.perioder.find(
+            (periode) => !!periode.avventendeInnspillTilArbeidsgiver,
         );
-        expect(getByLabelText('4.1.3 Innspill til arbeidsgiver om tilrettelegging')).toHaveValue('Må avvente');
+        expect(getByLabelText('4.1.1 f.o.m. - 4.1.2 t.o.m.', { selector: 'input' })).toHaveValue(
+            `${dayjs(avventendePeriode?.fom).format('DD.MM.YYYY')} - ${dayjs(avventendePeriode?.tom).format(
+                'DD.MM.YYYY',
+            )}`,
+        );
+        expect(getByLabelText('4.1.3 Innspill til arbeidsgiver om tilrettelegging')).toHaveValue(
+            avventendePeriode?.avventendeInnspillTilArbeidsgiver,
+        );
 
         // Gradert periode
+        const gradertPeriode = oppgave.papirSmRegistering.perioder.find((periode) => !!periode.gradert);
         expect(getByLabelText('4.2.1 f.o.m. - 4.2.2 t.o.m.', { selector: 'input' })).toHaveValue(
-            '01.06.2020 - 05.06.2020',
+            `${dayjs(gradertPeriode?.fom).format('DD.MM.YYYY')} - ${dayjs(gradertPeriode?.tom).format('DD.MM.YYYY')}`,
         );
-        expect(getByLabelText('4.2.3 Oppgi grad for sykmelding', { selector: 'input' })).toHaveValue(80);
+        expect(getByLabelText('4.2.3 Oppgi grad for sykmelding', { selector: 'input' })).toHaveValue(
+            gradertPeriode?.gradert?.grad,
+        );
         expect(
             getByLabelText('Pasienten kan være delvis i arbeid ved bruk av reisetilskudd', { selector: 'input' }),
         ).toBeChecked();
 
         // Aktivitet ikke mulig periode
+        const aktivitetIkkeMuligPeriode = oppgave.papirSmRegistering.perioder.find(
+            (periode) => !!periode.aktivitetIkkeMulig,
+        );
         expect(getByLabelText('4.3.1 f.o.m. - 4.3.2 t.o.m.', { selector: 'input' })).toHaveValue(
-            '01.06.2020 - 05.06.2020',
+            `${dayjs(aktivitetIkkeMuligPeriode?.fom).format('DD.MM.YYYY')} - ${dayjs(
+                aktivitetIkkeMuligPeriode?.tom,
+            ).format('DD.MM.YYYY')}`,
         );
         expect(
             getByLabelText('Helsetilstanden hindrer pasienten i å være i aktivitet', { selector: 'input' }),
@@ -401,14 +416,24 @@ describe('Mapping values from the oppgave to the schema', () => {
         expect(getByDisplayValue('Dette er beskrivelsen på den arbeidsrelaterte årsaken')).toBeInTheDocument();
 
         // Behandlingsdager periode
-        expect(getByLabelText('4.4.1 f.o.m. - 4.4.2 t.o.m.', { selector: 'input' })).toHaveValue(
-            '01.06.2020 - 05.06.2020',
+        const behandlingsdagerPeriode = oppgave.papirSmRegistering.perioder.find(
+            (periode) => !!periode.behandlingsdager,
         );
-        expect(getByLabelText('4.4.3 Oppgi antall dager i perioden', { selector: 'input' })).toHaveValue(13);
+        expect(getByLabelText('4.4.1 f.o.m. - 4.4.2 t.o.m.', { selector: 'input' })).toHaveValue(
+            `${dayjs(behandlingsdagerPeriode?.fom).format('DD.MM.YYYY')} - ${dayjs(behandlingsdagerPeriode?.tom).format(
+                'DD.MM.YYYY',
+            )}`,
+        );
+        expect(getByLabelText('4.4.3 Oppgi antall dager i perioden', { selector: 'input' })).toHaveValue(
+            behandlingsdagerPeriode?.behandlingsdager,
+        );
 
         // Reisetilskudd periode
+        const reisetilskuddPeriode = oppgave.papirSmRegistering.perioder.find((periode) => !!periode.reisetilskudd);
         expect(getByLabelText('4.5.1 f.o.m. - 4.5.2 t.o.m.', { selector: 'input' })).toHaveValue(
-            '01.06.2020 - 05.06.2020',
+            `${dayjs(reisetilskuddPeriode?.fom).format('DD.MM.YYYY')} - ${dayjs(reisetilskuddPeriode?.tom).format(
+                'DD.MM.YYYY',
+            )}`,
         );
 
         // Arbeidsfør etter perioden

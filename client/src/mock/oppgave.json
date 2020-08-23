@@ -167,6 +167,74 @@
                     "svar": "Dette er seksjon seks to fire",
                     "restriksjoner": []
                 }
+            },
+            "6.3": {
+                "6.3.1": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks tre en",
+                    "svar": "Dette er seksjon seks tre en",
+                    "restriksjoner": []
+                },
+                "6.3.2": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks tre to",
+                    "svar": "Dette er seksjon seks tre to",
+                    "restriksjoner": []
+                }
+            },
+            "6.4": {
+                "6.4.1": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks fire en",
+                    "svar": "Dette er seksjon seks fire en",
+                    "restriksjoner": []
+                },
+                "6.4.2": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks fire to",
+                    "svar": "Dette er seksjon seks fire to",
+                    "restriksjoner": []
+                },
+                "6.4.3": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks fire tre",
+                    "svar": "Dette er seksjon seks fire tre",
+                    "restriksjoner": []
+                }
+            },
+            "6.5": {
+                "6.5.1": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks fem en",
+                    "svar": "Dette er seksjon seks fire en",
+                    "restriksjoner": []
+                },
+                "6.5.2": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks fem to",
+                    "svar": "Dette er seksjon seks fem to",
+                    "restriksjoner": []
+                },
+                "6.5.3": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks fem tre",
+                    "svar": "Dette er seksjon seks fem tre",
+                    "restriksjoner": []
+                },
+                "6.5.4": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks fem fire",
+                    "svar": "Dette er seksjon seks fem fire",
+                    "restriksjoner": []
+                }
+            },
+            "6.6": {
+                "6.6.1": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks seks en",
+                    "svar": "Dette er seksjon seks seks en",
+                    "restriksjoner": []
+                },
+                "6.6.2": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks seks to",
+                    "svar": "Dette er seksjon seks seks to",
+                    "restriksjoner": []
+                },
+                "6.6.3": {
+                    "sporsmal": "Dette er spørsmålet til seksjon seks seks tre",
+                    "svar": "Dette er seksjon seks seks tre",
+                    "restriksjoner": []
+                }
             }
         },
         "tiltakNAV": "Dette er tiltak som må gjøres av NAV",
