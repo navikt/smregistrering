@@ -7,9 +7,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
-import env from './utils/environment';
 
-if (env.isDevelopment || env.isRunningOnHeroku) {
+if (process.env.NODE_ENV === 'development') {
     require('./mock/setup');
 }
 
