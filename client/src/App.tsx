@@ -13,7 +13,6 @@ import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { OppgaveAlreadySolvedError, getDiagnosekoder, getOppgave } from './utils/dataUtils';
 import { SectionTitle, Sections } from './types/Section';
-import { UrlError } from './utils/urlUtils';
 
 const App = () => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
@@ -29,17 +28,21 @@ const App = () => {
                 setDiagnosekoder(_diagnosekoder);
                 setOppgave(_oppgave);
             })
-            .catch(error => {
+            .catch((error) => {
                 if (iotsPromise.isDecodeError(error)) {
-                    setError(new Error('Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet'));
-                } else if (error instanceof UrlError) {
-                    setError(new Error('Henting av oppgave feilet grunnet feil med lenken'));
+                    const errorMessage = 'Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet';
+                    setError(new Error(errorMessage));
+                    console.error(new Error(errorMessage));
+                } else if (error instanceof URIError) {
+                    setError(error);
+                    console.error(error);
                 } else if (error instanceof OppgaveAlreadySolvedError) {
                     setError(error);
+                    console.error(error);
                 } else {
                     setError(new Error('Henting av data feilet grunnet nettverksfeil'));
+                    console.error(error);
                 }
-                console.error(error);
             })
             .finally(() => {
                 setIsLoading(false);
