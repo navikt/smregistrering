@@ -2,7 +2,7 @@ import * as iotsPromise from 'io-ts-promise';
 
 import { DiagnosekodeSystem, Diagnosekoder } from '../types/Diagnosekode';
 import { Oppgave } from '../types/Oppgave';
-import { getOppgaveidFromUrlQueryParameter } from './urlUtils';
+import { getOppgaveidFromSearchParams } from './urlUtils';
 
 export class OppgaveAlreadySolvedError extends Error {}
 
@@ -16,15 +16,16 @@ export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
 
 export const getOppgave = (): Promise<Oppgave> => {
     try {
-        const oppgaveid = getOppgaveidFromUrlQueryParameter();
+        const oppgaveid =
+            process.env.NODE_ENV === 'development' ? 'test' : getOppgaveidFromSearchParams(window.location.search);
         return fetch(`backend/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=${oppgaveid}`)
-            .then(response => {
+            .then((response) => {
                 if (response.status === 404) {
                     return Promise.reject(new OppgaveAlreadySolvedError('Oppgaven du prøver å hente er allerede løst'));
                 }
                 return response.json();
             })
-            .then(oppgaveRaw => iotsPromise.decode(Oppgave, oppgaveRaw));
+            .then((oppgaveRaw) => iotsPromise.decode(Oppgave, oppgaveRaw));
     } catch (error) {
         return Promise.reject(error);
     }
