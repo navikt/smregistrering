@@ -177,7 +177,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 );
                             }}
                             feil={errors.gradertGrad}
-                            label={<Element>4.2.3 Oppgi grad for sykmelding</Element>}
+                            label="4.2.3 Oppgi grad for sykmelding"
                         />
                     </>
                 </ExpandableField>
@@ -272,6 +272,11 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 <Input
                                     id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
                                     className="form-margin-bottom"
+                                    value={
+                                        schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse
+                                            ? schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse
+                                            : undefined
+                                    }
                                     type="text"
                                     onChange={({ target: { value } }) => {
                                         setSchema(
@@ -317,6 +322,11 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 <Input
                                     id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
                                     className="form-margin-bottom"
+                                    value={
+                                        schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
+                                            ? schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
+                                            : undefined
+                                    }
                                     type="text"
                                     onChange={({ target: { value } }) => {
                                         setSchema(

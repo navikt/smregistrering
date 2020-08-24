@@ -1,6 +1,5 @@
 import React from 'react';
 import { Checkbox, Input } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
 
 import AnnenFraversArsak from './AnnenFraversArsak';
 import Bidiagnoser from './Bidiagnoser';
@@ -102,7 +101,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                                     },
                                 );
                             }}
-                            label={<Element>3.3.2 Beskriv fravær (valgfritt)</Element>}
+                            label="3.3.2 Beskriv fravær (valgfritt)"
                             feil={errors.annenFraversArsakBeskrivelse}
                         />
                     </>

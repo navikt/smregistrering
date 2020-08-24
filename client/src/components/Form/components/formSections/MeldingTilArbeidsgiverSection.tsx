@@ -1,5 +1,4 @@
 import React from 'react';
-import { Element } from 'nav-frontend-typografi';
 import { Textarea } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
@@ -45,7 +44,7 @@ const MeldingTilArbeidsgiverSection = ({
                     );
                 }}
                 feil={errors.meldingTilArbeidsgiverBeskriv}
-                label={<Element>9.1 Andre innspill til arbeidsgiver</Element>}
+                label="9.1 Andre innspill til arbeidsgiver"
             />
         </SectionContainer>
     );

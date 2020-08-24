@@ -18,13 +18,14 @@ const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: Arbeidsre
     const checkboxes: CheckboksPanelProps[] = Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
         return {
             label: value,
+            id: key + '-arbeidsrelatert',
             value: key,
             checked: aktivitetIkkeMuligArbeidsrelatertArsakType?.includes(key as keyof typeof ArbeidsrelatertArsakType),
         };
     });
 
     const updateCheckboxes = (value: keyof typeof ArbeidsrelatertArsakType): void => {
-        setSchema(state => {
+        setSchema((state) => {
             if (!state.aktivitetIkkeMuligArbeidsrelatertArsakType) {
                 const updatedSchema = {
                     ...state,
@@ -36,7 +37,7 @@ const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: Arbeidsre
             const shouldAddArsak: boolean = !state.aktivitetIkkeMuligArbeidsrelatertArsakType.includes(value);
             const newArbeidsrelatertArsakType: (keyof typeof ArbeidsrelatertArsakType)[] = shouldAddArsak
                 ? [...state.aktivitetIkkeMuligArbeidsrelatertArsakType, value]
-                : state.aktivitetIkkeMuligArbeidsrelatertArsakType.filter(arsak => arsak !== value);
+                : state.aktivitetIkkeMuligArbeidsrelatertArsakType.filter((arsak) => arsak !== value);
 
             const updatedSchema = {
                 ...state,

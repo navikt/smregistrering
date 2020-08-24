@@ -1,6 +1,5 @@
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import React from 'react';
-import { Element } from 'nav-frontend-typografi';
 import { Textarea } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
@@ -81,12 +80,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende611}
-                    label={
-                        <Element>
-                            6.1.1 Er det sykdommen, utredningen og/eller behandlingen som hindrer økt aktivitet?
-                            Beskriv.
-                        </Element>
-                    }
+                    label="6.1.1 Er det sykdommen, utredningen og/eller behandlingen som hindrer økt aktivitet? Beskriv."
                 />
                 <br />
                 <Textarea
@@ -107,7 +101,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende612}
-                    label={<Element>6.1.2 Har behandlingen frem til nå bedret arbeidsevnen?</Element>}
+                    label="6.1.2 Har behandlingen frem til nå bedret arbeidsevnen?"
                 />
                 <br />
                 <Textarea
@@ -127,7 +121,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende613}
-                    label={<Element>6.1.3 Hva er videre plan for behandling?</Element>}
+                    label="6.1.3 Hva er videre plan for behandling?"
                 />
                 <br />
                 <Textarea
@@ -148,7 +142,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende614}
-                    label={<Element>6.1.4 Er det arbeidsforholdet som hindrer (økt) aktivitet? Beskriv.</Element>}
+                    label="6.1.4 Er det arbeidsforholdet som hindrer (økt) aktivitet? Beskriv."
                 />
                 <br />
                 <Textarea
@@ -168,7 +162,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende612}
-                    label={<Element>6.1.5 Er det andre forhold som hindrer (økt) aktivitet?</Element>}
+                    label="6.1.5 Er det andre forhold som hindrer (økt) aktivitet?"
                 />
             </Ekspanderbartpanel>
             <br />
@@ -193,7 +187,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende621}
-                    label={<Element>6.2.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon.</Element>}
+                    label="6.2.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon."
                 />
                 <br />
                 <Textarea
@@ -213,7 +207,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende622}
-                    label={<Element>6.2.2 Hvordan påvirker sykdommen arbeidsevnen?</Element>}
+                    label="6.2.2 Hvordan påvirker sykdommen arbeidsevnen?"
                 />
                 <br />
                 <Textarea
@@ -233,7 +227,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende623}
-                    label={<Element>6.2.3 Har behandlingen frem til nå bedret arbeidsevnen?</Element>}
+                    label="6.2.3 Har behandlingen frem til nå bedret arbeidsevnen?"
                 />
                 <br />
                 <Textarea
@@ -253,9 +247,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende624}
-                    label={
-                        <Element>6.2.4 Beskriv pågående og planlagt henvisning,utredning og/eller behandling.</Element>
-                    }
+                    label="6.2.4 Beskriv pågående og planlagt henvisning,utredning og/eller behandling."
                 />
             </Ekspanderbartpanel>
             <br />
@@ -277,7 +269,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende631}
-                    label={<Element>6.3.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon</Element>}
+                    label="6.3.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon"
                 />
                 <br />
                 <Textarea
@@ -297,12 +289,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende632}
-                    label={
-                        <Element>
-                            6.3.2 Beskriv pågående og planlagt henvisning, utredning og/eller behandling. Lar dette seg
-                            kombinere med delvis arbeid?
-                        </Element>
-                    }
+                    label="6.3.2 Beskriv pågående og planlagt henvisning, utredning og/eller behandling. Lar dette seg kombinere med delvis arbeid?"
                 />
             </Ekspanderbartpanel>
             <br />
@@ -327,7 +314,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende641}
-                    label={<Element>6.4.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon</Element>}
+                    label="6.4.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon"
                 />
                 <br />
                 <Textarea
@@ -347,9 +334,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende642}
-                    label={
-                        <Element>6.4.2 Beskriv pågående og planlagt henvisning, utredning og/eller behandling</Element>
-                    }
+                    label="6.4.2 Beskriv pågående og planlagt henvisning, utredning og/eller behandling"
                 />
                 <br />
                 <Textarea
@@ -369,11 +354,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende643}
-                    label={
-                        <Element>
-                            6.4.3 Hva mener du skal til for at pasienten kan komme tilbake i eget eller annet arbeid?
-                        </Element>
-                    }
+                    label="6.4.3 Hva mener du skal til for at pasienten kan komme tilbake i eget eller annet arbeid?"
                 />
             </Ekspanderbartpanel>
             <br />
@@ -398,7 +379,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende651}
-                    label={<Element>6.5.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon.</Element>}
+                    label="6.5.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon."
                 />
                 <br />
                 <Textarea
@@ -418,7 +399,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende652}
-                    label={<Element>6.5.2 Hvordan påvirker dette funksjons-/arbeidsevnen?</Element>}
+                    label="6.5.2 Hvordan påvirker dette funksjons-/arbeidsevnen?"
                 />
                 <br />
                 <Textarea
@@ -438,11 +419,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende653}
-                    label={
-                        <Element>
-                            6.5.3 Beskriv pågående og planlagt henvisning, utredning og/eller medisinsk behandling
-                        </Element>
-                    }
+                    label="6.5.3 Beskriv pågående og planlagt henvisning, utredning og/eller medisinsk behandling"
                 />
                 <br />
                 <Textarea
@@ -462,12 +439,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende654}
-                    label={
-                        <Element>
-                            6.5.4 Kan arbeidsevnen bedres gjennom medisinsk behandling og/eller arbeidsrelatert
-                            aktivitet? I så fall hvordan? Angi tidsperspektiv
-                        </Element>
-                    }
+                    label="6.5.4 Kan arbeidsevnen bedres gjennom medisinsk behandling og/eller arbeidsrelatert aktivitet? I så fall hvordan? Angi tidsperspektiv"
                 />
             </Ekspanderbartpanel>
             <br />
@@ -492,12 +464,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende661}
-                    label={
-                        <Element>
-                            6.6.1 Hva antar du at pasienten kan utføre av eget arbeid/arbeidsoppgaver i dag eller i nær
-                            framtid?
-                        </Element>
-                    }
+                    label="6.6.1 Hva antar du at pasienten kan utføre av eget arbeid/arbeidsoppgaver i dag eller i nær framtid?"
                 />
                 <br />
                 <Textarea
@@ -517,12 +484,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende662}
-                    label={
-                        <Element>
-                            6.6.2 Hvis pasienten ikke kan gå tilbake til eget arbeid, hva antar du at pasienten kan
-                            utføre av annet arbeid/arbeidsoppgaver?
-                        </Element>
-                    }
+                    label="6.6.2 Hvis pasienten ikke kan gå tilbake til eget arbeid, hva antar du at pasienten kan utføre av annet arbeid/arbeidsoppgaver?"
                 />
                 <br />
                 <Textarea
@@ -542,9 +504,7 @@ const UtdypendeOpplysningerSection = ({
                         );
                     }}
                     feil={errors.utdypende663}
-                    label={
-                        <Element>6.6.3 Hvilken betydning har denne sykdommen for den nedsatte arbeidsevnen?</Element>
-                    }
+                    label="6.6.3 Hvilken betydning har denne sykdommen for den nedsatte arbeidsevnen?"
                 />
                 <br />
             </Ekspanderbartpanel>

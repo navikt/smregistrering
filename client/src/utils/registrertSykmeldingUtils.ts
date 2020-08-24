@@ -200,7 +200,7 @@ export const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefine
 export const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] => {
     if (diagnoser) {
         return diagnoser
-            .map(partialDiagnose => buildDiagnose(partialDiagnose))
+            .map((partialDiagnose) => buildDiagnose(partialDiagnose))
             .filter((diagnoseOrUndefined): diagnoseOrUndefined is Diagnose => diagnoseOrUndefined !== undefined);
     }
     return [];

@@ -6,7 +6,7 @@ import { Feiloppsummering, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { ErrorSchemaType } from '../Form';
 
 export const hasFormErrors = (formErrors: ErrorSchemaType): boolean =>
-    Object.values(formErrors).some(errorValue => errorValue);
+    Object.values(formErrors).some((errorValue) => errorValue);
 
 type FormErrorSummaryProps = {
     formErrors: ErrorSchemaType;
