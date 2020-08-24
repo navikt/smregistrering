@@ -46,6 +46,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                 const updatedSchema = {
                                     ...state,
                                     arbeidsfoerEtterPeriode: !state.arbeidsfoerEtterPeriode,
+                                    hensynArbeidsplassen: undefined,
                                 };
                                 validate('arbeidsfoerEtterPeriode', updatedSchema);
                                 return updatedSchema;
