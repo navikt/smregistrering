@@ -132,6 +132,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 const updatedSchema = {
                                     ...state,
                                     gradertSykmelding: !state.gradertSykmelding,
+                                    gradertPeriode: undefined,
+                                    gradertGrad: undefined,
                                 };
                                 validate('gradertSykmelding', updatedSchema);
                                 validate('mulighetForArbeid', updatedSchema);
