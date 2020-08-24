@@ -82,7 +82,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelFrom="4.1.1 f.o.m."
                             labelTo="4.1.2 t.o.m."
                             value={schema.avventendePeriode || []}
-                            onChange={newDates => {
+                            onChange={(newDates) => {
                                 setSchema(
                                     (state): SchemaType => {
                                         const updatedSchema = {
@@ -147,7 +147,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelFrom="4.2.1 f.o.m."
                             labelTo="4.2.2 t.o.m."
                             value={schema.gradertPeriode || []}
-                            onChange={newDates =>
+                            onChange={(newDates) =>
                                 setSchema(
                                     (state): SchemaType => ({
                                         ...state,
@@ -175,7 +175,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 );
                             }}
                             feil={errors.gradertGrad}
-                            label={<Element>4.2.3 Oppgi grad for sykmelding</Element>}
+                            label="4.2.3 Oppgi grad for sykmelding"
                         />
                     </>
                 </ExpandableField>
@@ -228,7 +228,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelFrom="4.3.1 f.o.m."
                             labelTo="4.3.2 t.o.m."
                             value={schema.aktivitetIkkeMuligPeriode || []}
-                            onChange={newDates =>
+                            onChange={(newDates) =>
                                 setSchema(
                                     (state): SchemaType => ({
                                         ...state,
@@ -270,6 +270,11 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 <Input
                                     id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
                                     className="form-margin-bottom"
+                                    value={
+                                        schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse
+                                            ? schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse
+                                            : undefined
+                                    }
                                     type="text"
                                     onChange={({ target: { value } }) => {
                                         setSchema(
@@ -315,6 +320,11 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 <Input
                                     id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
                                     className="form-margin-bottom"
+                                    value={
+                                        schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
+                                            ? schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
+                                            : undefined
+                                    }
                                     type="text"
                                     onChange={({ target: { value } }) => {
                                         setSchema(
@@ -368,7 +378,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelFrom="4.4.1 f.o.m."
                             labelTo="4.4.2 t.o.m."
                             value={schema.behandlingsdagerPeriode || []}
-                            onChange={newDates => {
+                            onChange={(newDates) => {
                                 setSchema(
                                     (state): SchemaType => {
                                         const updatedSchema = {
@@ -434,7 +444,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         labelFrom="4.5.1 f.o.m."
                         labelTo="4.5.2 t.o.m."
                         value={schema.reisetilskuddPeriode || []}
-                        onChange={newDates => {
+                        onChange={(newDates) => {
                             setSchema(
                                 (state): SchemaType => {
                                     const updatedSchema = {

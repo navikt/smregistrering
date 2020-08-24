@@ -1,5 +1,4 @@
 import React from 'react';
-import { Element } from 'nav-frontend-typografi';
 import { Textarea } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
@@ -42,7 +41,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                             },
                         );
                     }}
-                    label={<Element>Tilrettelegging/hensyn som bør tas på arbeidsplassen</Element>}
+                    label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
                     feil={errors.tiltakArbeidsplassen}
                 />
             </Subsection>
@@ -65,11 +64,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                         );
                     }}
                     feil={errors.tiltakNav}
-                    label={
-                        <Element>
-                            Tiltak i regi av NAV. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)
-                        </Element>
-                    }
+                    label="Tiltak i regi av NAV. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)"
                 />
             </Subsection>
 
@@ -90,7 +85,7 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                             },
                         );
                     }}
-                    label={<Element>Eventuelle andre innspill til NAV</Element>}
+                    label="Eventuelle andre innspill til NAV"
                     feil={errors.andreTiltak}
                 />
             </Subsection>

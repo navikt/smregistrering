@@ -3,7 +3,6 @@ import './datepicker-extended.less';
 
 import Flatpickr from 'react-flatpickr';
 import React from 'react';
-import { Element } from 'nav-frontend-typografi';
 
 import calendar from '../../../../svg/calendar.svg';
 import { flatpickrLocale } from './flatpickrUtils';
@@ -20,9 +19,8 @@ type RangePickerProps = {
 const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePickerProps) => {
     return (
         <div role="region" aria-label="periodevelgerbeholder" className="rangepicker-container">
-            <label className="rangepicker-label">
-                <Element>{labelFrom}</Element>
-                <Element className="rangepicker-to">{labelTo}</Element>
+            <label className="rangepicker-label" htmlFor={id}>
+                {labelFrom} - {labelTo}
             </label>
             <div role="region" aria-label="periodevelger" className="flatpickr-container">
                 <Flatpickr
@@ -30,7 +28,7 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                     value={value}
                     className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
                     placeholder="DD.MM.ÅÅÅÅ - DD.MM.ÅÅÅÅ"
-                    onChange={nyeDatoer => onChange(nyeDatoer)}
+                    onChange={(nyeDatoer) => onChange(nyeDatoer)}
                     options={{
                         position: 'below',
                         static: true,

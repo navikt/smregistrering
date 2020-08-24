@@ -1,5 +1,3 @@
-export class UrlError extends Error {}
-
 export const getOppgaveidFromSearchParams = (windowLocationSearch: string): string => {
     const urlParams = new URLSearchParams(windowLocationSearch);
     const oppgaveid = urlParams.get('oppgaveid');

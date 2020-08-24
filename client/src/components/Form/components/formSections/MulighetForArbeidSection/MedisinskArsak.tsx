@@ -18,13 +18,14 @@ const MedisinskArsak = ({ schema, setSchema, errors, validate }: MedisinskArsakP
     const checkboxes: CheckboksPanelProps[] = Object.entries(MedisinskArsakType).map(([key, value]) => {
         return {
             label: value,
+            id: key + '-medisinsk',
             value: key,
             checked: aktivitetIkkeMuligMedisinskArsakType?.includes(key as keyof typeof MedisinskArsakType),
         };
     });
 
     const updateCheckboxes = (value: keyof typeof MedisinskArsakType): void => {
-        setSchema(state => {
+        setSchema((state) => {
             if (!state.aktivitetIkkeMuligMedisinskArsakType) {
                 const updatedSchema = {
                     ...state,
@@ -36,7 +37,7 @@ const MedisinskArsak = ({ schema, setSchema, errors, validate }: MedisinskArsakP
             const shouldAddArsak: boolean = !state.aktivitetIkkeMuligMedisinskArsakType.includes(value);
             const newMedisinskArsakType: (keyof typeof MedisinskArsakType)[] = shouldAddArsak
                 ? [...state.aktivitetIkkeMuligMedisinskArsakType, value]
-                : state.aktivitetIkkeMuligMedisinskArsakType.filter(arsak => arsak !== value);
+                : state.aktivitetIkkeMuligMedisinskArsakType.filter((arsak) => arsak !== value);
 
             const updatedSchema = {
                 ...state,
