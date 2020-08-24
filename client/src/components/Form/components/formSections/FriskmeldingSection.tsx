@@ -202,6 +202,9 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                 const updatedSchema = {
                                     ...state,
                                     erIkkeIArbeid: !state.erIkkeIArbeid,
+                                    arbeidsforPaSikt: false,
+                                    arbeidsforFOM: undefined,
+                                    vurderingsDatoUtenArbeid: undefined,
                                 };
                                 validate('erIkkeIArbeid', updatedSchema);
                                 return updatedSchema;
@@ -224,6 +227,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                         const updatedSchema = {
                                             ...state,
                                             arbeidsforPaSikt: !state.arbeidsforPaSikt,
+                                            arbeidsforFOM: undefined,
                                         };
                                         validate('arbeidsforPaSikt', updatedSchema);
                                         return updatedSchema;
