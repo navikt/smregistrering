@@ -90,6 +90,10 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                 const updatedSchema = {
                                     ...state,
                                     erIArbeid: !state.erIArbeid,
+                                    egetArbeidPaSikt: false,
+                                    arbeidFOM: undefined,
+                                    annetArbeidPaSikt: false,
+                                    vurderingsDatoIArbeid: undefined,
                                 };
                                 validate('erIArbeid', updatedSchema);
                                 return updatedSchema;
@@ -112,6 +116,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                         const updatedSchema = {
                                             ...state,
                                             egetArbeidPaSikt: !state.egetArbeidPaSikt,
+                                            arbeidFOM: undefined,
                                         };
                                         validate('egetArbeidPaSikt', updatedSchema);
                                         return updatedSchema;
