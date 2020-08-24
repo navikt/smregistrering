@@ -376,6 +376,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 const updatedSchema = {
                                     ...state,
                                     behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
+                                    behandlingsdagerPeriode: undefined,
+                                    behandlingsdagerAntall: undefined,
                                 };
                                 validate('behandlingsdagerSykmelding', updatedSchema);
                                 validate('mulighetForArbeid', updatedSchema);
