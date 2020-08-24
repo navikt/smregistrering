@@ -21,7 +21,7 @@ const MenuLink = ({ section }: MenuLinkProps) => {
         <Lenke
             className="menu-link"
             href=""
-            onClick={e => {
+            onClick={(e) => {
                 e.preventDefault();
                 scrollToRef(section.ref);
             }}

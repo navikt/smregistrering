@@ -41,22 +41,22 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                     },
                     body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
                 })
-                    .then(res => {
+                    .then((res) => {
                         if (res.status === 204) {
                             setModalIsOpen(true);
                         } else {
                             return res.json();
                         }
                     })
-                    .then(json => {
+                    .then((json) => {
                         if (json) {
                             return iotsPromise.decode(RuleHitErrors, json);
                         }
                     })
-                    .then(ruleHitErrors => {
+                    .then((ruleHitErrors) => {
                         setApiErrors(ruleHitErrors);
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error(error);
                     })
                     .finally(() => setIsLoading(false));
@@ -74,7 +74,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 className="form-submit-checkbox"
                 checked={checked}
                 label="Informasjonen stemmer overens med papirsykmelding"
-                onChange={() => setChecked(state => !state)}
+                onChange={() => setChecked((state) => !state)}
             />
             {apiErrors && (
                 <>
@@ -84,7 +84,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                             registrere sykmeldingen på nytt.
                         </Element>
                         <ul>
-                            {apiErrors.ruleHits.map(ruleHit => (
+                            {apiErrors.ruleHits.map((ruleHit) => (
                                 <li>{ruleHit.messageForSender}</li>
                             ))}
                         </ul>
@@ -95,7 +95,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
             <Hovedknapp
                 disabled={!checked}
                 spinner={isLoading}
-                onClick={e => {
+                onClick={(e) => {
                     e.preventDefault();
                     registrerSykmelding();
                 }}

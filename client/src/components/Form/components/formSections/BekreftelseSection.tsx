@@ -80,7 +80,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 id="behandletDato"
                 label="12.1 Behandletdato"
                 value={schema.behandletDato ? schema.behandletDato : undefined}
-                onChange={newDates => {
+                onChange={(newDates) => {
                     setSchema(
                         (state): SchemaType => {
                             const updatedSchema = { ...state, behandletDato: newDates };

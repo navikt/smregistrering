@@ -19,7 +19,7 @@ const Menu = ({ sections }: MenuProps) => {
             <Panel ariaLabel="menypanel" className="menu">
                 <Systemtittel className="menu-header">Kategorier</Systemtittel>
                 <nav role="navigation" className="menu-link-container">
-                    {sectionValues.map(section => (
+                    {sectionValues.map((section) => (
                         <MenuLink key={section.index} section={section} />
                     ))}
                 </nav>

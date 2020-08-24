@@ -12,14 +12,14 @@ const Banner = () => {
 
     useEffect(() => {
         fetch('/user')
-            .then(res => {
+            .then((res) => {
                 return res.text();
             })
-            .then(textRaw => iotsPromise.decode(iots.string, textRaw))
-            .then(text => {
+            .then((textRaw) => iotsPromise.decode(iots.string, textRaw))
+            .then((text) => {
                 setLoginText(`Logget inn som: ${text}`);
             })
-            .catch(error => console.error(error));
+            .catch((error) => console.error(error));
     }, []);
 
     return (

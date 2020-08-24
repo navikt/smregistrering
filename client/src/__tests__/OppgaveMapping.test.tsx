@@ -299,7 +299,7 @@ describe('Mapping values from the oppgave to the schema', () => {
     it('Should render all oppgave feilds in the window', async () => {
         //@ts-ignore - Because we only need the "search" property of the location, and TS complains that other properties are missing
         window.location = new URL('https://url.com/?oppgaveid=test');
-        
+
         const { getByText, getByDisplayValue, getAllByDisplayValue, getByLabelText, getAllByLabelText } = render(
             <App />,
         );

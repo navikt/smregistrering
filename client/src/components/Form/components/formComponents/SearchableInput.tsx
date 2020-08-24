@@ -81,7 +81,7 @@ const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: Sear
     };
 
     const diagnoses = system ? diagnosekoder[system as keyof Diagnosekoder] : [];
-    const diagnoseOptions = diagnoses.map(diagnose => ({
+    const diagnoseOptions = diagnoses.map((diagnose) => ({
         value: diagnose.code,
         label: diagnose.code,
         text: diagnose.text,
