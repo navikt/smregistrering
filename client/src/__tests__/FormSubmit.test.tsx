@@ -1,6 +1,6 @@
 import React from 'react';
 import FetchMock, { SpyMiddleware } from 'yet-another-fetch-mock';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 
 import FormSubmit from '../components/Form/components/FormSubmit';
 import { DiagnosekodeSystem } from '../types/Diagnosekode';
@@ -154,6 +154,8 @@ describe('FormSubmit', () => {
     let spy: SpyMiddleware;
 
     beforeEach(() => {
+        jest.spyOn(window, 'confirm').mockImplementation(() => true);
+        jest.spyOn(window, 'alert').mockImplementation();
         spy = new SpyMiddleware();
         mock = FetchMock.configure({
             middleware: spy.middleware,
@@ -167,7 +169,7 @@ describe('FormSubmit', () => {
     });
 
     it('Should make a PUT request to correct endpoint', async () => {
-        const { getByText, findByText } = render(
+        const { getByText } = render(
             <FormSubmit
                 oppgave={oppgave}
                 schema={schema}
@@ -185,7 +187,11 @@ describe('FormSubmit', () => {
         });
         expect(validateAll).toHaveBeenCalled();
 
-        await findByText('Sykmeldingen ble registrert', { exact: false });
+        await waitFor(() =>
+            expect(window.confirm).toHaveBeenCalledWith('Oppgaven ble ferdigstilt. Vil du sendes tilbake til GOSYS?'),
+        );
+        await waitFor(() => expect(window.alert).toHaveBeenCalledWith('Kunne ikke sende deg tilbake til gosys'));
+
         expect(spy.size()).toBe(1);
         expect(spy.lastUrl()).toBe(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`);
         expect(spy.lastCall()?.request.body).toEqual(registrertSykmelding);

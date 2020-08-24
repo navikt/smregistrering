@@ -1,7 +1,6 @@
 import './FormSubmit.less';
 
 import * as iotsPromise from 'io-ts-promise';
-import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Checkbox } from 'nav-frontend-skjema';
@@ -26,7 +25,6 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [apiErrors, setApiErrors] = useState<RuleHitErrors | undefined>(undefined);
-    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
     const registrerSykmelding = () => {
         if (validateAll()) {
@@ -41,22 +39,32 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                     },
                     body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
                 })
-                    .then(res => {
+                    .then((res) => {
                         if (res.status === 204) {
-                            setModalIsOpen(true);
+                            const shouldRedirectToGosys = window.confirm(
+                                'Oppgaven ble ferdigstilt. Vil du sendes tilbake til GOSYS?',
+                            );
+                            if (shouldRedirectToGosys) {
+                                const gosysUrl = process.env.REACT_APP_GOSYS_URL;
+                                if (gosysUrl) {
+                                    window.location.href = gosysUrl;
+                                } else {
+                                    window.alert('Kunne ikke sende deg tilbake til gosys');
+                                }
+                            }
                         } else {
                             return res.json();
                         }
                     })
-                    .then(json => {
+                    .then((json) => {
                         if (json) {
                             return iotsPromise.decode(RuleHitErrors, json);
                         }
                     })
-                    .then(ruleHitErrors => {
+                    .then((ruleHitErrors) => {
                         setApiErrors(ruleHitErrors);
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         console.error(error);
                     })
                     .finally(() => setIsLoading(false));
@@ -74,7 +82,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 className="form-submit-checkbox"
                 checked={checked}
                 label="Informasjonen stemmer overens med papirsykmelding"
-                onChange={() => setChecked(state => !state)}
+                onChange={() => setChecked((state) => !state)}
             />
             {apiErrors && (
                 <>
@@ -84,7 +92,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                             registrere sykmeldingen på nytt.
                         </Element>
                         <ul>
-                            {apiErrors.ruleHits.map(ruleHit => (
+                            {apiErrors.ruleHits.map((ruleHit) => (
                                 <li>{ruleHit.messageForSender}</li>
                             ))}
                         </ul>
@@ -95,7 +103,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
             <Hovedknapp
                 disabled={!checked}
                 spinner={isLoading}
-                onClick={e => {
+                onClick={(e) => {
                     e.preventDefault();
                     registrerSykmelding();
                 }}
@@ -103,26 +111,23 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 Registrer sykmelding
             </Hovedknapp>
             <Flatknapp
+                htmlType="button"
                 onClick={() => {
-                    console.log('avbryt'); // TODO: send tilbake til gosys?
-                    // TODO: Legg til modal som spør "Er du sikker på at du vil avbryte?" dersom bruker har fylt inn noen av feltene
+                    const shouldRedirectToGosys = window.confirm(
+                        'Er du sikker på at du vil avbryte oppgaven og sendes tilbake til GOSYS?',
+                    );
+                    if (shouldRedirectToGosys) {
+                        const gosysUrl = process.env.REACT_APP_GOSYS_URL;
+                        if (gosysUrl) {
+                            window.location.href = gosysUrl;
+                        } else {
+                            window.alert('Kunne ikke sende deg tilbake til gosys');
+                        }
+                    }
                 }}
             >
                 Avbryt
             </Flatknapp>
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={() => setModalIsOpen(false)} // TODO: window.location.href = *gosyslink*
-                closeButton={true}
-                contentLabel="Registrer sykmelding suksess modalt vindu"
-            >
-                <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
-                    <p style={{ marginBottom: '2rem' }}>Sykmeldingen ble registrert.</p>
-                    <a href={process.env.REACT_APP_GOSYS_URL} className="knapp knapp--hoved">
-                        Tilbake til GOSYS
-                    </a>
-                </div>
-            </Modal>
         </div>
     );
 };
