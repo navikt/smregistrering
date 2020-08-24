@@ -445,6 +445,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 const updatedSchema = {
                                     ...state,
                                     reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
+                                    reisetilskuddPeriode: undefined,
                                 };
                                 validate('reisetilskuddSykmelding', updatedSchema);
                                 validate('mulighetForArbeid', updatedSchema);
