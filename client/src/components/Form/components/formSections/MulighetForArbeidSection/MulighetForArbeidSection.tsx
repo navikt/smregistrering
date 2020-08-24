@@ -65,6 +65,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 const updatedSchema = {
                                     ...state,
                                     avventendeSykmelding: !state.avventendeSykmelding,
+                                    avventendePeriode: undefined,
+                                    avventendeInnspillTilArbeidsgiver: undefined,
                                 };
                                 validate('avventendeSykmelding', updatedSchema);
                                 validate('mulighetForArbeid', updatedSchema);
@@ -82,7 +84,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelFrom="4.1.1 f.o.m."
                             labelTo="4.1.2 t.o.m."
                             value={schema.avventendePeriode || []}
-                            onChange={newDates => {
+                            onChange={(newDates) => {
                                 setSchema(
                                     (state): SchemaType => {
                                         const updatedSchema = {
@@ -106,7 +108,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     (state): SchemaType => {
                                         const updatedSchema = {
                                             ...state,
-                                            gradertSykmelding: !state.gradertSykmelding,
+                                            avventendeInnspillTilArbeidsgiver: value,
                                         };
                                         validate('avventendeInnspillTilArbeidsgiver', updatedSchema);
                                         return updatedSchema;
@@ -147,7 +149,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelFrom="4.2.1 f.o.m."
                             labelTo="4.2.2 t.o.m."
                             value={schema.gradertPeriode || []}
-                            onChange={newDates =>
+                            onChange={(newDates) =>
                                 setSchema(
                                     (state): SchemaType => ({
                                         ...state,
@@ -228,7 +230,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelFrom="4.3.1 f.o.m."
                             labelTo="4.3.2 t.o.m."
                             value={schema.aktivitetIkkeMuligPeriode || []}
-                            onChange={newDates =>
+                            onChange={(newDates) =>
                                 setSchema(
                                     (state): SchemaType => ({
                                         ...state,
@@ -368,7 +370,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelFrom="4.4.1 f.o.m."
                             labelTo="4.4.2 t.o.m."
                             value={schema.behandlingsdagerPeriode || []}
-                            onChange={newDates => {
+                            onChange={(newDates) => {
                                 setSchema(
                                     (state): SchemaType => {
                                         const updatedSchema = {
@@ -434,7 +436,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         labelFrom="4.5.1 f.o.m."
                         labelTo="4.5.2 t.o.m."
                         value={schema.reisetilskuddPeriode || []}
-                        onChange={newDates => {
+                        onChange={(newDates) => {
                             setSchema(
                                 (state): SchemaType => {
                                     const updatedSchema = {
