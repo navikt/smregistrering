@@ -38,6 +38,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                                 const updatedSchema = {
                                     ...state,
                                     erTilbakedatert: !state.erTilbakedatert,
+                                    kontaktDato: undefined,
                                 };
                                 validate('erTilbakedatert', updatedSchema);
                                 return updatedSchema;
@@ -79,6 +80,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                                 const updatedSchema = {
                                     ...state,
                                     kunneIkkeIvaretaEgneInteresser: !state.kunneIkkeIvaretaEgneInteresser,
+                                    begrunnelseIkkeKontakt: undefined,
                                 };
                                 validate('kunneIkkeIvaretaEgneInteresser', updatedSchema);
                                 return updatedSchema;
