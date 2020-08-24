@@ -69,6 +69,8 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                                 const updatedSchema = {
                                     ...state,
                                     annenFraversArsak: !state.annenFraversArsak,
+                                    annenFraversArsakGrunn: undefined,
+                                    annenFraversArsakBeskrivelse: undefined,
                                 };
                                 validate('annenFraversArsak', updatedSchema);
                                 return updatedSchema;
@@ -139,6 +141,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                                 const updatedSchema = {
                                     ...state,
                                     yrkesskade: !state.yrkesskade,
+                                    yrkesskadeDato: undefined,
                                 };
                                 validate('yrkesskade', updatedSchema);
                                 return updatedSchema;
@@ -153,7 +156,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                         id="yrkesskadeDato"
                         label="3.6 Eventuell skadedato"
                         value={schema.yrkesskadeDato ? schema.yrkesskadeDato : undefined}
-                        onChange={newDates => {
+                        onChange={(newDates) => {
                             setSchema(
                                 (state): SchemaType => {
                                     const updatedSchema = {
