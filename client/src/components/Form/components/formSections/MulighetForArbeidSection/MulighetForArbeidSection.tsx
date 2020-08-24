@@ -215,6 +215,13 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 const updatedSchema = {
                                     ...state,
                                     aktivitetIkkeMuligSykmelding: !state.aktivitetIkkeMuligSykmelding,
+                                    aktivitetIkkeMuligPeriode: undefined,
+                                    aktivitetIkkeMuligMedisinskArsak: undefined,
+                                    aktivitetIkkeMuligMedisinskArsakType: undefined,
+                                    aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
+                                    aktivitetIkkeMuligArbeidsrelatertArsak: undefined,
+                                    aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
+                                    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
                                 };
                                 validate('aktivitetIkkeMuligSykmelding', updatedSchema);
                                 validate('mulighetForArbeid', updatedSchema);
@@ -254,6 +261,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                         const updatedSchema = {
                                             ...state,
                                             aktivitetIkkeMuligMedisinskArsak: !state.aktivitetIkkeMuligMedisinskArsak,
+                                            aktivitetIkkeMuligMedisinskArsakType: undefined,
+                                            aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
                                         };
 
                                         validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
@@ -308,6 +317,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     (state): SchemaType => ({
                                         ...state,
                                         aktivitetIkkeMuligArbeidsrelatertArsak: !state.aktivitetIkkeMuligArbeidsrelatertArsak,
+                                        aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
+                                        aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
                                     }),
                                 )
                             }
