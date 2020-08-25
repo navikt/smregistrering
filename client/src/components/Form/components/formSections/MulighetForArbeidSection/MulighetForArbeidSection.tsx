@@ -151,14 +151,19 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelFrom="4.2.1 f.o.m."
                             labelTo="4.2.2 t.o.m."
                             value={schema.gradertPeriode || []}
-                            onChange={(newDates) =>
+                            onChange={(newDates) => {
                                 setSchema(
-                                    (state): SchemaType => ({
-                                        ...state,
-                                        gradertPeriode: newDates,
-                                    }),
-                                )
-                            }
+                                    (state): SchemaType => {
+                                        const updatedSchema = {
+                                            ...state,
+                                            gradertPeriode: newDates,
+                                        };
+                                        validate('gradertPeriode', updatedSchema);
+
+                                        return updatedSchema;
+                                    },
+                                );
+                            }}
                             feil={errors.gradertPeriode}
                         />
                         <Input
@@ -239,14 +244,19 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelFrom="4.3.1 f.o.m."
                             labelTo="4.3.2 t.o.m."
                             value={schema.aktivitetIkkeMuligPeriode || []}
-                            onChange={(newDates) =>
+                            onChange={(newDates) => {
                                 setSchema(
-                                    (state): SchemaType => ({
-                                        ...state,
-                                        aktivitetIkkeMuligPeriode: newDates,
-                                    }),
-                                )
-                            }
+                                    (state): SchemaType => {
+                                        const updatedSchema = {
+                                            ...state,
+                                            aktivitetIkkeMuligPeriode: newDates,
+                                        };
+                                        validate('aktivitetIkkeMuligPeriode', updatedSchema);
+
+                                        return updatedSchema;
+                                    },
+                                );
+                            }}
                             feil={errors.aktivitetIkkeMuligPeriode}
                         />
                         <Element className="form-label">4.3.3</Element>
