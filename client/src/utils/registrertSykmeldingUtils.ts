@@ -19,12 +19,12 @@ export const buildAvventendeSykmelding = (
     avventendePeriode?: Date[],
     avventendeInnspillTilArbeidsgiver?: string,
 ): Periode | undefined => {
-    if (avventendeSykmelding && avventendePeriode) {
+    if (avventendeSykmelding && avventendePeriode && avventendeInnspillTilArbeidsgiver) {
         const periode: Periode = {
             fom: avventendePeriode[0],
             tom: avventendePeriode[1],
             reisetilskudd: false,
-            avventendeInnspillTilArbeidsgiver: avventendeInnspillTilArbeidsgiver,
+            avventendeInnspillTilArbeidsgiver,
         };
         return periode;
     }
@@ -50,7 +50,7 @@ export const buildGradertSykmelding = (
     }
 };
 
-const buildMedisinskArsak = (
+export const buildMedisinskArsak = (
     aktivitetIkkeMuligMedisinskArsak?: boolean,
     aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[],
     aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string | null,
@@ -63,7 +63,7 @@ const buildMedisinskArsak = (
     }
 };
 
-const buildArbeidsrelatertArsak = (
+export const buildArbeidsrelatertArsak = (
     aktivitetIkkeMuligArbeidsrelatertArsak?: boolean,
     aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[],
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string | null,
@@ -145,7 +145,11 @@ export const buildReisetilskuddSykmelding = (
 export const buildPerioder = (schema: SchemaType): Periode[] => {
     const perioder: Periode[] = [];
 
-    const avventendeSykmelding = buildAvventendeSykmelding(schema.avventendeSykmelding, schema.avventendePeriode);
+    const avventendeSykmelding = buildAvventendeSykmelding(
+        schema.avventendeSykmelding,
+        schema.avventendePeriode,
+        schema.avventendeInnspillTilArbeidsgiver,
+    );
     if (avventendeSykmelding) perioder.push(avventendeSykmelding);
 
     const gradertSykmelding = buildGradertSykmelding(
@@ -268,6 +272,11 @@ export const buildPrognose = (
                 arbeidsforFOM: arbeidsforFOM,
                 vurderingsdato: vurderingsDatoUtenArbeid,
             },
+        };
+    } else if (arbeidsfoerEtterPeriode) {
+        return {
+            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
+            hensynArbeidsplassen,
         };
     }
 };

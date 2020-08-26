@@ -120,7 +120,11 @@ export const validationFunctions: ValidationType = {
             return 'Periode må være definert når avventende sykmelding er krysset av';
         }
     },
-    avventendeInnspillTilArbeidsgiver: () => undefined,
+    avventendeInnspillTilArbeidsgiver: (schema) => {
+        if (schema.avventendeSykmelding && !schema.avventendeInnspillTilArbeidsgiver) {
+            return 'Innspill til arbeidsgiver om tilrettelegging må være utfylt når avventende sykmelding er krysset av';
+        }
+    },
     // Perioder for gradert sykmelding
     gradertSykmelding: () => undefined,
     gradertPeriode: (schema) => {
