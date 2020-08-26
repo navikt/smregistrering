@@ -5,7 +5,7 @@ import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
 import { Oppgave } from '../../../types/Oppgave';
@@ -26,7 +26,13 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [apiErrors, setApiErrors] = useState<RuleHitErrors | undefined>(undefined);
-    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+    const [modalState, setModalState] = useState<{ isOpen: boolean; textContent: string; contentLabel: string }>({
+        isOpen: false,
+        textContent: '',
+        contentLabel: '',
+    });
+
+    Modal.setAppElement('#root');
 
     const registrerSykmelding = () => {
         if (validateAll()) {
@@ -43,7 +49,11 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 })
                     .then((res) => {
                         if (res.status === 204) {
-                            setModalIsOpen(true);
+                            setModalState({
+                                isOpen: true,
+                                textContent: 'Sykmeldingen ble registrert.',
+                                contentLabel: 'Sykmelding registrert',
+                            });
                         } else {
                             return res.json();
                         }
@@ -103,22 +113,26 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 Registrer sykmelding
             </Hovedknapp>
             <Flatknapp
+                htmlType="button"
                 onClick={() => {
-                    console.log('avbryt'); // TODO: send tilbake til gosys?
-                    // TODO: Legg til modal som spør "Er du sikker på at du vil avbryte?" dersom bruker har fylt inn noen av feltene
+                    setModalState({
+                        isOpen: true,
+                        textContent: 'Er du sikker på at du vil avbryte oppgaven og gå tilbake til GOSYS?',
+                        contentLabel: 'Avbryt sykmelding og gå tilbake til gosys',
+                    });
                 }}
             >
                 Avbryt
             </Flatknapp>
             <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={() => setModalIsOpen(false)} // TODO: window.location.href = *gosyslink*
+                isOpen={modalState.isOpen}
+                onRequestClose={() => setModalState({ isOpen: false, textContent: '', contentLabel: '' })}
                 closeButton={true}
-                contentLabel="Registrer sykmelding suksess modalt vindu"
+                contentLabel={modalState.contentLabel}
             >
                 <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
-                    <p style={{ marginBottom: '2rem' }}>Sykmeldingen ble registrert.</p>
-                    <a href={process.env.REACT_APP_GOSYS_URL} className="knapp knapp--hoved">
+                    <Normaltekst style={{ marginBottom: '2rem' }}>{modalState.textContent}</Normaltekst>
+                    <a href={process.env.REACT_APP_GOSYS_URL} tabIndex={0} className="knapp knapp--hoved">
                         Tilbake til GOSYS
                     </a>
                 </div>

@@ -283,6 +283,11 @@ describe('Mapping values from the oppgave to the schema', () => {
     let spy: SpyMiddleware;
 
     beforeEach(() => {
+        // Modal within Formsubmit component needs to reference an element with id===root
+        const rootElement = document.createElement('div');
+        rootElement.id = 'root';
+        document.querySelector('body')?.appendChild(rootElement);
+
         delete window.location;
         spy = new SpyMiddleware();
         mock = FetchMock.configure({
