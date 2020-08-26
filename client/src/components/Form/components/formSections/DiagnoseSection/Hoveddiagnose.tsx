@@ -29,6 +29,8 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
             <Row>
                 <Select
                     className="form-margin-bottom"
+                    id={id + '-system'}
+                    data-testid={id + '-system'}
                     value={hoveddiagnoseSystem}
                     onChange={({ target: { value } }) => {
                         const system = value === 'undefined' ? undefined : (value as keyof Diagnosekoder);
@@ -57,6 +59,7 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                     <option value={DiagnosekodeSystem.ICPC2}>ICPC-2</option>
                 </Select>
                 <SearchableInput
+                    id={id + '-kode'}
                     system={hoveddiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}

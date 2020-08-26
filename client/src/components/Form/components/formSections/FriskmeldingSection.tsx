@@ -123,7 +123,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                         <ExpandableField show={schema.egetArbeidPaSikt}>
                             <DatePicker
                                 id="arbeidFOM"
-                                label="Anslå når dette kan skje"
+                                label="Anslå når pasienten kan komme tilbake til samme arbeidsgiver"
                                 value={schema.arbeidFOM ? schema.arbeidFOM : undefined}
                                 onChange={(newDate) => {
                                     setSchema(
@@ -230,7 +230,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                         <ExpandableField show={schema.arbeidsforPaSikt}>
                             <DatePicker
                                 id="arbeidsforFOM"
-                                label="Anslå når dette kan skje"
+                                label="Anslå når du tror pasienten kan komme tilbake i arbeid"
                                 value={schema.arbeidsforFOM ? schema.arbeidsforFOM : undefined}
                                 onChange={(newDate) => {
                                     setSchema(

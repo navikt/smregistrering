@@ -106,7 +106,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                             );
                         }}
                         feil={errors.begrunnelseIkkeKontakt}
-                        label="Begrunn"
+                        label="Begrunnelse"
                     />
                 </ExpandableField>
             </Subsection>

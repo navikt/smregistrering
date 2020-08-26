@@ -28,6 +28,7 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
         <SectionContainer section={section}>
             <Select
                 id="harArbeidsgiver"
+                data-testid="harArbeidsgiver"
                 value={schema.harArbeidsgiver ? schema.harArbeidsgiver : undefined}
                 onChange={({ target: { value } }) => {
                     if (value === '0') {

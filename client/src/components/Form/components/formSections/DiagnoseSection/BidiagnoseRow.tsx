@@ -39,6 +39,8 @@ const BidiagnoseRow = ({
                 </div>
                 <Row>
                     <Select
+                        id={'bidiagnose-' + index + '-system'}
+                        data-testid={'bidiagnose-' + index + '-system'}
                         value={biDiagnose.system}
                         onChange={({ target: { value } }) => {
                             const system = value === 'undefined' ? '' : value;
@@ -51,6 +53,7 @@ const BidiagnoseRow = ({
                         <option value={DiagnosekodeSystem.ICD10}>ICD-10</option>
                     </Select>
                     <SearchableInput
+                        id={'bidiagnose-' + index + '-kode'}
                         system={biDiagnose.system}
                         diagnosekoder={diagnosekoder}
                         label={<Element>3.2.2 Kode</Element>}

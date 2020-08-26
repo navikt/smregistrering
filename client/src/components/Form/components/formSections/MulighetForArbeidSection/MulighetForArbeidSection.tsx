@@ -269,6 +269,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 />
                                 <Input
                                     id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
+                                    data-testid="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
                                     className="form-margin-bottom"
                                     value={
                                         schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse
@@ -319,6 +320,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 />
                                 <Input
                                     id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
+                                    data-testid="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
                                     className="form-margin-bottom"
                                     value={
                                         schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse

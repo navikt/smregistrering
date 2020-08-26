@@ -454,9 +454,9 @@ describe('Mapping values from the oppgave to the schema', () => {
         expect(
             getByLabelText('Pasienten kan på sikt komme tilbake til samme arbeidsgiver', { selector: 'input' }),
         ).toBeChecked();
-        expect(getAllByLabelText('Anslå når dette kan skje', { selector: 'input' })[0]).toHaveValue(
-            dayjs(oppgave.papirSmRegistering.prognose.erIArbeid.arbeidFOM).format('DD.MM.YYYY'),
-        );
+        expect(
+            getByLabelText('Anslå når pasienten kan komme tilbake til samme arbeidsgiver', { selector: 'input' }),
+        ).toHaveValue(dayjs(oppgave.papirSmRegistering.prognose.erIArbeid.arbeidFOM).format('DD.MM.YYYY'));
         expect(
             getByLabelText('Pasienten kan på sikt komme i arbeid hos annen arbeidsgiver', { selector: 'input' }),
         ).toBeChecked();
@@ -468,9 +468,9 @@ describe('Mapping values from the oppgave to the schema', () => {
 
         // Er ikke i arbeid
         expect(getByLabelText('Pasienten kan komme tilbake i arbeid på sikt', { selector: 'input' })).toBeChecked();
-        expect(getAllByLabelText('Anslå når dette kan skje', { selector: 'input' })[1]).toHaveValue(
-            dayjs(oppgave.papirSmRegistering.prognose.erIkkeIArbeid.arbeidsforFOM).format('DD.MM.YYYY'),
-        );
+        expect(
+            getByLabelText('Anslå når du tror pasienten kan komme tilbake i arbeid', { selector: 'input' }),
+        ).toHaveValue(dayjs(oppgave.papirSmRegistering.prognose.erIkkeIArbeid.arbeidsforFOM).format('DD.MM.YYYY'));
         expect(
             getAllByLabelText('5.3.2 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?', {
                 selector: 'input',
@@ -588,7 +588,7 @@ describe('Mapping values from the oppgave to the schema', () => {
         expect(
             getByLabelText('Pasienten har ikke kunnet ivareta egne interesser', { selector: 'input' }),
         ).toBeChecked();
-        expect(getByLabelText('Begrunn', { selector: 'textarea' })).toHaveValue(
+        expect(getByLabelText('Begrunnelse', { selector: 'textarea' })).toHaveValue(
             oppgave.papirSmRegistering.kontaktMedPasient.begrunnelseIkkeKontakt,
         );
 
