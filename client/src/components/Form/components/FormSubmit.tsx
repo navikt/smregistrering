@@ -26,8 +26,11 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [apiErrors, setApiErrors] = useState<RuleHitErrors | undefined>(undefined);
-    const [modalTextContent, setModalTextContent] = useState<string | undefined>(undefined);
-    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+    const [modalState, setModalState] = useState<{ isOpen: boolean; textContent: string; contentLabel: string }>({
+        isOpen: false,
+        textContent: '',
+        contentLabel: '',
+    });
 
     Modal.setAppElement('#root');
 
@@ -46,8 +49,11 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                 })
                     .then((res) => {
                         if (res.status === 204) {
-                            setModalTextContent('Sykmeldingen ble registrert.');
-                            setModalIsOpen(true);
+                            setModalState({
+                                isOpen: true,
+                                textContent: 'Sykmeldingen ble registrert.',
+                                contentLabel: 'Sykmelding registrert',
+                            });
                         } else {
                             return res.json();
                         }
@@ -109,20 +115,23 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
             <Flatknapp
                 htmlType="button"
                 onClick={() => {
-                    setModalTextContent('Er du sikker på at du vil avbryte oppgaven og gå tilbake til GOSYS?');
-                    setModalIsOpen(true);
+                    setModalState({
+                        isOpen: true,
+                        textContent: 'Er du sikker på at du vil avbryte oppgaven og gå tilbake til GOSYS?',
+                        contentLabel: 'Avbryt sykmelding og gå tilbake til gosys',
+                    });
                 }}
             >
                 Avbryt
             </Flatknapp>
             <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={() => setModalIsOpen(false)} // TODO: window.location.href = *gosyslink*
+                isOpen={modalState.isOpen}
+                onRequestClose={() => setModalState({ isOpen: false, textContent: '', contentLabel: '' })}
                 closeButton={true}
-                contentLabel="Registrer sykmelding suksess modalt vindu"
+                contentLabel={modalState.contentLabel}
             >
                 <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
-                    <Normaltekst style={{ marginBottom: '2rem' }}>{modalTextContent}</Normaltekst>
+                    <Normaltekst style={{ marginBottom: '2rem' }}>{modalState.textContent}</Normaltekst>
                     <a href={process.env.REACT_APP_GOSYS_URL} tabIndex={0} className="knapp knapp--hoved">
                         Tilbake til GOSYS
                     </a>
