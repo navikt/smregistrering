@@ -66,14 +66,17 @@
         "import-sort-style-renke": "^6.0.0",
         "prettier": "^2.0.5",
         "prettier-plugin-import-sort": "0.0.4",
+        "wait-on": "^5.2.0",
         "yet-another-fetch-mock": "^3.4.0"
     },
     "scripts": {
-        "start": "PORT=4000 craco start",
-        "build": "craco build",
-        "test": "craco test --env jest-environment-jsdom-fourteen",
+        "start": "REACT_APP_START_WITH_MOCK=true craco start",
+        "start-no-mock": "PORT=4000 craco start",
+        "test-integration": "cypress run",
+        "test-unit": "craco test --env jest-environment-jsdom-fourteen",
         "lint": "eslint 'src/**/**.{ts,tsx,js,jsx}'",
-        "format": "prettier --write 'src/**/**.{ts,tsx,js,jsx,less}'"
+        "format": "prettier --write 'src/**/**.{ts,tsx,js,jsx,less}'",
+        "build": "craco build"
     },
     "eslintConfig": {
         "extends": "react-app"

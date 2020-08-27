@@ -55,4 +55,5 @@ typings/
 .idea/
 
 # Media
-*.mp4
+*/cypress/screenshots/
+*/cypress/videos/
