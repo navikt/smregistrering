@@ -71,8 +71,8 @@
         "yet-another-fetch-mock": "^3.4.0"
     },
     "scripts": {
-        "start": "REACT_APP_START_WITH_MOCK=true PORT=4000 craco start",
-        "start-no-mock": "PORT=4000 craco start",
+        "start": "PORT=4000 craco start",
+        "start-with-mock": "PORT=4000 REACT_APP_START_WITH_MOCK=true craco start",
         "test-integration": "cypress run",
         "test-unit": "craco test --env jest-environment-jsdom-fourteen",
         "lint": "eslint 'src/**/**.{ts,tsx,js,jsx}'",

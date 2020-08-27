@@ -12,7 +12,8 @@ if (process.env.REACT_APP_START_WITH_MOCK === 'true') {
     require('./mock/setup');
 }
 
-// ONLY NEEDED TO GET CYPRESS TO STUB FETCH REQUESTS IN TESTS
+// NEEDED FOR TESTING WITH CYPRESS
+// CAN BE REMOVED WHEN CYPRESS CAN STUB window.fetch
 if (process.env.NODE_ENV === 'development') {
     require('whatwg-fetch');
 }
