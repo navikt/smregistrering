@@ -36,6 +36,9 @@ context('App', () => {
             response: 'fixture:emptyOppgave.json', // Gets the response from ../fixtures/emptyOppgave.json
         });
 
-        cy.get('#pasientFnr').should('not.have.value');
+        cy.get('#syketilfelleStartDato').should('not.have.value').click();
+        cy.get('.flatpickr-day').contains('6').should('be.visible').click();
+        cy.get('#pasientFnr').should('not.have.value').type('12345678910');
+        cy.get('#harArbeidsgiver').select('Én arbeidsgiver');
     });
 });
