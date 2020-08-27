@@ -12,4 +12,9 @@ if (process.env.REACT_APP_START_WITH_MOCK === 'true') {
     require('./mock/setup');
 }
 
+// ONLY NEEDED TO GET CYPRESS TO STUB FETCH REQUESTS IN TESTS
+if (process.env.NODE_ENV === 'development') {
+    require('whatwg-fetch');
+}
+
 ReactDOM.render(<App />, document.getElementById('root'));

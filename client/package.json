@@ -46,7 +46,8 @@
         "react-scripts": "^3.4.2",
         "react-select": "^3.1.0",
         "react-window": "^1.8.5",
-        "typescript": "^3.9.7"
+        "typescript": "^3.9.7",
+        "whatwg-fetch": "^3.4.0"
     },
     "devDependencies": {
         "@craco/craco": "^5.6.4",
@@ -70,7 +71,7 @@
         "yet-another-fetch-mock": "^3.4.0"
     },
     "scripts": {
-        "start": "REACT_APP_START_WITH_MOCK=true craco start",
+        "start": "REACT_APP_START_WITH_MOCK=true PORT=4000 craco start",
         "start-no-mock": "PORT=4000 craco start",
         "test-integration": "cypress run",
         "test-unit": "craco test --env jest-environment-jsdom-fourteen",

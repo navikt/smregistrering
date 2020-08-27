@@ -17,7 +17,9 @@ export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
 export const getOppgave = (): Promise<Oppgave> => {
     try {
         const oppgaveid =
-            process.env.NODE_ENV === 'development' ? 'test' : getOppgaveidFromSearchParams(window.location.search);
+            process.env.REACT_APP_START_WITH_MOCK === 'true'
+                ? 'test'
+                : getOppgaveidFromSearchParams(window.location.search);
         return fetch(`backend/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=${oppgaveid}`)
             .then((response) => {
                 if (response.status === 404) {
