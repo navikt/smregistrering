@@ -57,6 +57,7 @@ const customStyles = {
 };
 
 type SearchableInputProps = {
+    id: string;
     system?: string;
     diagnosekoder: Diagnosekoder;
     label: JSX.Element;
@@ -64,7 +65,7 @@ type SearchableInputProps = {
     value?: Partial<Diagnose>;
 };
 
-const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: SearchableInputProps) => {
+const SearchableInput = ({ id, system, diagnosekoder, label, onChange, value }: SearchableInputProps) => {
     const handleChange = (selectedOption: OptionValueType | OptionValueType[] | null | void) => {
         if (!selectedOption) {
             onChange('', '');
@@ -91,8 +92,11 @@ const SearchableInput = ({ system, diagnosekoder, label, onChange, value }: Sear
 
     return (
         <>
-            <label className="skjemaelement__label">{label}</label>
+            <label className="skjemaelement__label" htmlFor={id}>
+                {label}
+            </label>
             <Select
+                inputId={id}
                 value={selectValue}
                 styles={customStyles}
                 isDisabled={!system}
