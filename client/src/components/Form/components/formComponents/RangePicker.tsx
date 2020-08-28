@@ -12,7 +12,7 @@ type RangePickerProps = {
     labelFrom: string;
     labelTo: string;
     value: Date[];
-    onChange: (newDates: Date[]) => void;
+    onChange: (newDates: Date[] | undefined) => void;
     feil?: string;
 };
 
@@ -28,7 +28,14 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                     value={value}
                     className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
                     placeholder="DD.MM.ÅÅÅÅ - DD.MM.ÅÅÅÅ"
-                    onChange={(nyeDatoer) => onChange(nyeDatoer)}
+                    onChange={(nyeDatoer) => {
+                        // An empty array is returned if the user manually resets the input value. This if converts the [] to undefined.
+                        if (nyeDatoer.length === 0) {
+                            onChange(undefined);
+                        } else {
+                            onChange(nyeDatoer);
+                        }
+                    }}
                     options={{
                         position: 'below',
                         static: true,
