@@ -1,4 +1,7 @@
+import dayjs from 'dayjs';
+
 /// <reference types="cypress" />
+import { Oppgave } from '../../src/types/Oppgave';
 
 context('App', () => {
     beforeEach(() => {
@@ -26,7 +29,16 @@ context('App', () => {
             response: 'fixture:fullOppgave.json', // Gets the response from ../fixtures/fullOppgave.json
         });
 
-        cy.get('#pasientFnr').should('have.value', '20026900817');
+        cy.fixture('fullOppgave').then((oppgave: Oppgave) => {
+            cy.get('#syketilfelleStartDato').should(
+                'have.value',
+                dayjs(oppgave.papirSmRegistering.syketilfelleStartDato).format('DD.MM.YYYY'),
+            );
+            cy.get('#pasientFnr').should('have.value', oppgave.fnr);
+            cy.get('#harArbeidsgiver')
+                .should('have.value', oppgave.papirSmRegistering.arbeidsgiver.harArbeidsgiver)
+                .and('be.visible');
+        });
     });
 
     it('Should not fill any field when "oppgave" is empty', () => {
