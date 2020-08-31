@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 /// <reference types="cypress" />
 import { Oppgave } from '../../src/types/Oppgave';
 
-context('App', () => {
+context('Oppgave mapping', () => {
     beforeEach(() => {
         // Cypress does not support stubbing of window.fetch
         // Fetch is polyfilled in /client/src/index.ts
@@ -20,7 +20,7 @@ context('App', () => {
         });
     });
 
-    it.only('Should fill all fields when "oppgave" is complete', () => {
+    it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', () => {
         cy.route({
             method: 'GET',
             url: '/backend/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=123',
@@ -317,7 +317,7 @@ context('App', () => {
         });
     });
 
-    it('Should not fill any field when "oppgave" is empty', () => {
+    it('Should not map any field when "oppgave.papirSmRegistrering" is null', () => {
         cy.route({
             method: 'GET',
             url: '/backend/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=123',
@@ -325,9 +325,119 @@ context('App', () => {
         });
         cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
 
-        cy.get('#syketilfelleStartDato').should('not.have.value').click();
-        cy.get('.flatpickr-day').contains('6').should('be.visible').click();
-        cy.get('#pasientFnr').should('not.have.value').type('12345678910');
-        cy.get('#harArbeidsgiver').select('Én arbeidsgiver');
+        cy.get('#syketilfelleStartDato').should('not.have.value');
+        cy.get('#pasientFnr').should('not.have.value');
+        cy.get('#harArbeidsgiver').should('not.have.value');
+        cy.get('#arbeidsgiverNavn').should('not.have.value');
+        cy.get('#yrkesbetegnelse').should('not.have.value');
+        cy.get('#stillingsprosent').should('not.have.value');
+
+        cy.get('#hovedDiagnose').within(() => {
+            cy.get('#hovedDiagnose-system').should('not.have.value');
+            cy.get('#hovedDiagnose-tekst').should('not.contain.text');
+        });
+
+        cy.get('#biDiagnoser').within(() => {
+            cy.get(`#bidiagnose-0-system`).should('not.exist');
+            cy.get(`#bidiagnose-0-kode`).should('not.exist');
+            cy.get(`#bidiagnose-0-tekst`).should('not.exist');
+        });
+
+        cy.get('#annenFraversArsak').should('not.be.checked');
+        cy.get('#annenFraversArsakGrunn').should('not.exist');
+        cy.get('#annenFraversArsakBeskrivelse').should('not.exist');
+
+        cy.get('#svangerskap').should('not.be.checked');
+        cy.get('#yrkesskade').should('not.be.checked');
+        cy.get('#yrkesskadeDato').should('not.exist');
+        cy.get('#skjermesForPasient').should('not.be.checked');
+
+        cy.get('#avventendeSykmelding').should('not.be.checked');
+        cy.get('#avventendePeriode').should('not.exist');
+        cy.get('#avventendeInnspillTilArbeidsgiver').should('not.exist');
+
+        cy.get('#gradertSykmelding').should('not.be.checked');
+        cy.get('#gradertPeriode').should('not.exist');
+        cy.get('#gradertGrad').should('not.exist');
+        cy.get('#gradertReisetilskudd').should('not.be.checked');
+
+        cy.get('#aktivitetIkkeMuligSykmelding').should('not.be.checked');
+        cy.get('#aktivitetIkkeMuligPeriode').should('not.exist');
+        cy.get('#aktivitetIkkeMuligMedisinskArsak').should('not.exist');
+        cy.get('#aktivitetIkkeMuligMedisinskArsakType').should('not.exist');
+        cy.get('#aktivitetIkkeMuligMedisinskArsakBeskrivelse').should('not.exist');
+        cy.get('#aktivitetIkkeMuligArbeidsrelatertArsak').should('not.exist');
+        cy.get('#aktivitetIkkeMuligArbeidsrelatertArsakType').should('not.exist');
+        cy.get('#aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse').should('not.exist');
+
+        cy.get('#behandlingsdagerSykmelding').should('not.be.checked');
+        cy.get('#behandlingsdagerPeriode').should('not.exist');
+        cy.get('#behandlingsdagerAntall').should('not.exist');
+
+        cy.get('#reisetilskuddSykmelding').should('not.be.checked');
+        cy.get('#reisetilskuddPeriode').should('not.exist');
+
+        cy.get('#arbeidsfoerEtterPeriode').should('not.be.checked');
+        cy.get('#hensynArbeidsplassen').should('not.exist');
+
+        cy.get('#erIArbeid').should('not.be.checked');
+        cy.get('#egetArbeidPaSikt').should('not.exist');
+        cy.get('#arbeidFOM').should('not.exist');
+        cy.get('#annetArbeidPaSikt').should('not.exist');
+        cy.get('#vurderingsDatoIArbeid').should('not.exist');
+        cy.get('#erIkkeIArbeid').should('not.be.checked');
+        cy.get('#arbeidsforPaSikt').should('not.exist');
+        cy.get('#arbeidsforFOM').should('not.exist');
+        cy.get('#vurderingsDatoUtenArbeid').should('not.exist');
+
+        cy.get('#utdypende611').should('not.exist');
+        cy.get('#utdypende612').should('not.exist');
+        cy.get('#utdypende613').should('not.exist');
+        cy.get('#utdypende614').should('not.exist');
+        cy.get('#utdypende615').should('not.exist');
+        cy.get('#utdypende621').should('not.exist');
+        cy.get('#utdypende622').should('not.exist');
+        cy.get('#utdypende623').should('not.exist');
+        cy.get('#utdypende624').should('not.exist');
+        cy.get('#utdypende631').should('not.exist');
+        cy.get('#utdypende632').should('not.exist');
+        cy.get('#utdypende641').should('not.exist');
+        cy.get('#utdypende642').should('not.exist');
+        cy.get('#utdypende643').should('not.exist');
+        cy.get('#utdypende651').should('not.exist');
+        cy.get('#utdypende652').should('not.exist');
+        cy.get('#utdypende653').should('not.exist');
+        cy.get('#utdypende654').should('not.exist');
+        cy.get('#utdypende661').should('not.exist');
+        cy.get('#utdypende662').should('not.exist');
+        cy.get('#utdypende663').should('not.exist');
+
+        cy.get('#tiltakArbeidsplassen').should('not.have.value');
+        cy.get('#tiltakNav').should('not.have.value');
+        cy.get('#andreTiltak').should('not.have.value');
+
+        cy.get('#meldingTilNavBistand').should('not.be.checked');
+        cy.get('#meldingTilNavBegrunn').should('not.exist');
+
+        cy.get('#meldingTilArbeidsgiverBeskriv').should('not.have.value');
+
+        cy.get('#erTilbakedatert').should('not.be.checked');
+        cy.get('#kontaktDato').should('not.exist');
+
+        cy.get('#kunneIkkeIvaretaEgneInteresser').should('not.be.checked');
+        cy.get('#begrunnelseIkkeKontakt').should('not.exist');
+
+        cy.get('#sykmelderFnr').should('not.have.value');
+        cy.get('#aktoerId').should('not.have.value');
+        cy.get('#behandletDato').should('not.have.value');
+        cy.get('#sykmeldersFornavn').should('not.have.value');
+        cy.get('#sykmeldersEtternavn').should('not.have.value');
+        cy.get('#hpr').should('not.have.value');
+        cy.get('#sykmelderTelefon').should('not.have.value');
+        cy.get('#sykmelderGate').should('not.have.value');
+        cy.get('#sykmelderPostnummer').should('not.have.value');
+        cy.get('#sykmelderKommune').should('not.have.value');
+        cy.get('#sykmelderPostboks').should('not.have.value');
+        cy.get('#sykmelderLand').should('not.have.value');
     });
 });

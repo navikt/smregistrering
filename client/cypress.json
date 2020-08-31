@@ -1,4 +1,3 @@
 {
-    "baseUrl": "http://localhost:4000",
-    "experimentalFetchPolyfill": true
+    "baseUrl": "http://localhost:4000"
 }
