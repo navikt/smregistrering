@@ -8,7 +8,7 @@ import calendar from '../../../../svg/calendar.svg';
 import { flatpickrLocale } from './flatpickrUtils';
 
 type DatePickerProps = {
-    id?: string;
+    id: string;
     label: string;
     value: Date | undefined;
     onChange: (newDate: Date) => void;

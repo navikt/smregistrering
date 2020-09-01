@@ -10,7 +10,7 @@ import { SchemaType } from '../../../Form';
 import { Validate } from '../../../validation';
 
 type HoveddiagnoseProps = {
-    id?: string;
+    id: string;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     validate: Validate;
     schema: SchemaType;
@@ -28,6 +28,7 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
             <FormLabel label="3.1 Hoveddiagnose" />
             <Row>
                 <Select
+                    id={id + '-system'}
                     className="form-margin-bottom"
                     value={hoveddiagnoseSystem}
                     onChange={({ target: { value } }) => {
@@ -57,6 +58,7 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                     <option value={DiagnosekodeSystem.ICPC2}>ICPC-2</option>
                 </Select>
                 <SearchableInput
+                    id={id + '-kode'}
                     system={hoveddiagnoseSystem}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
@@ -79,8 +81,8 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                     value={hoveddiagnose}
                 />
                 <div>
-                    <Element>3.1.3 Tekst</Element>
-                    <Normaltekst style={{ marginTop: '8px' }}>
+                    <label htmlFor={id + '-tekst'}>3.1.3 Tekst</label>
+                    <Normaltekst id={id + '-tekst'} style={{ marginTop: '8px' }}>
                         {hoveddiagnose && hoveddiagnose.tekst ? hoveddiagnose.tekst : '-'}
                     </Normaltekst>
                 </div>

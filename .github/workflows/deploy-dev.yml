@@ -29,11 +29,17 @@ jobs:
         run: |
           npm install
         working-directory: ./client
-      - name: Run tests for client
+      - name: Run unit tests for client
         env:
           CI: true
         run: |
           npm run test
+        working-directory: ./client
+      - name: Run integration tests for client
+        env:
+          CI: true
+        run: |
+          npm run start & npx wait-on http://localhost:4000 && npm run test-integration
         working-directory: ./client
       - name: Build server
         run: |

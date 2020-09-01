@@ -46,14 +46,15 @@
         "react-scripts": "^3.4.2",
         "react-select": "^3.1.0",
         "react-window": "^1.8.5",
-        "typescript": "^3.9.7"
+        "typescript": "^3.9.7",
+        "whatwg-fetch": "^3.4.0"
     },
     "devDependencies": {
         "@craco/craco": "^5.6.4",
+        "@navikt/fnrvalidator": "^1.1.2",
         "@testing-library/jest-dom": "^5.11.2",
         "@testing-library/react": "^10.4.8",
         "@testing-library/user-event": "^12.1.1",
-        "@navikt/fnrvalidator": "^1.1.2",
         "@types/jest": "^26.0.9",
         "@types/jest-axe": "^3.5.0",
         "@types/node": "^14.0.27",
@@ -62,17 +63,21 @@
         "@types/react-flatpickr": "^3.8.1",
         "@types/react-select": "^3.0.16",
         "@types/react-window": "^1.8.2",
+        "cypress": "^5.0.0",
         "import-sort-style-renke": "^6.0.0",
         "prettier": "^2.0.5",
         "prettier-plugin-import-sort": "0.0.4",
+        "wait-on": "^5.2.0",
         "yet-another-fetch-mock": "^3.4.0"
     },
     "scripts": {
         "start": "PORT=4000 craco start",
-        "build": "craco build",
-        "test": "craco test --env jest-environment-jsdom-fourteen",
+        "start-with-mock": "PORT=4000 REACT_APP_START_WITH_MOCK=true craco start",
+        "test-integration": "cypress run",
+        "test-unit": "craco test --env jest-environment-jsdom-fourteen",
         "lint": "eslint 'src/**/**.{ts,tsx,js,jsx}'",
-        "format": "prettier --write 'src/**/**.{ts,tsx,js,jsx,less}'"
+        "format": "prettier --write 'src/**/**.{ts,tsx,js,jsx,less}'",
+        "build": "craco build"
     },
     "eslintConfig": {
         "extends": "react-app"
