@@ -116,7 +116,10 @@ export const validationFunctions: ValidationType = {
     // Perioder for avventende sykmelding
     avventendeSykmelding: () => undefined,
     avventendePeriode: (schema) => {
-        if (schema.avventendeSykmelding && !schema.avventendePeriode) {
+        if (
+            (schema.avventendeSykmelding && !schema.avventendePeriode) ||
+            (schema.avventendePeriode && schema.avventendePeriode.length === 1)
+        ) {
             return 'Periode må være definert når avventende sykmelding er krysset av';
         }
     },
@@ -124,7 +127,10 @@ export const validationFunctions: ValidationType = {
     // Perioder for gradert sykmelding
     gradertSykmelding: () => undefined,
     gradertPeriode: (schema) => {
-        if (schema.gradertSykmelding && !schema.gradertPeriode) {
+        if (
+            (schema.gradertSykmelding && !schema.gradertPeriode) ||
+            (schema.gradertPeriode && schema.gradertPeriode.length === 1)
+        ) {
             return 'Periode må være definert når gradert sykmelding er krysset av';
         }
     },
@@ -133,7 +139,10 @@ export const validationFunctions: ValidationType = {
     // Perioder for full sykmelding
     aktivitetIkkeMuligSykmelding: () => undefined,
     aktivitetIkkeMuligPeriode: (schema) => {
-        if (schema.aktivitetIkkeMuligSykmelding && !schema.aktivitetIkkeMuligPeriode) {
+        if (
+            (schema.aktivitetIkkeMuligSykmelding && !schema.aktivitetIkkeMuligPeriode) ||
+            (schema.aktivitetIkkeMuligPeriode && schema.aktivitetIkkeMuligPeriode.length === 1)
+        ) {
             return 'Periode må være definert når aktivitet ikke er mulig';
         }
     },
@@ -157,7 +166,10 @@ export const validationFunctions: ValidationType = {
     // Perioder for sykmelding for behandlignsdager
     behandlingsdagerSykmelding: () => undefined,
     behandlingsdagerPeriode: (schema) => {
-        if (schema.behandlingsdagerSykmelding && !schema.behandlingsdagerPeriode) {
+        if (
+            (schema.behandlingsdagerSykmelding && !schema.behandlingsdagerPeriode) ||
+            (schema.behandlingsdagerPeriode && schema.behandlingsdagerPeriode.length === 1)
+        ) {
             return 'Periode må være definert når pasienten krever sykmelding for behandlingsdager';
         }
     },
@@ -169,7 +181,10 @@ export const validationFunctions: ValidationType = {
     // Perioder for sykmelding med reisetilskudd
     reisetilskuddSykmelding: () => undefined,
     reisetilskuddPeriode: (schema) => {
-        if (schema.reisetilskuddSykmelding && !schema.reisetilskuddPeriode) {
+        if (
+            (schema.reisetilskuddSykmelding && !schema.reisetilskuddPeriode) ||
+            (schema.reisetilskuddPeriode && schema.reisetilskuddPeriode.length === 1)
+        ) {
             return 'Periode må være definert når pasienten krever sykmelding med reistilskudd';
         }
     },
