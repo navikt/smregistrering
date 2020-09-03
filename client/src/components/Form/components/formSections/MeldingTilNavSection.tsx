@@ -38,6 +38,7 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                                     meldingTilNavBegrunn: undefined,
                                 };
                                 validate('meldingTilNavBistand', updatedSchema);
+                                validate('meldingTilNavBegrunn', updatedSchema);
                                 return updatedSchema;
                             },
                         )

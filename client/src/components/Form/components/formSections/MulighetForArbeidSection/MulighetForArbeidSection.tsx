@@ -69,6 +69,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     avventendeInnspillTilArbeidsgiver: undefined,
                                 };
                                 validate('avventendeSykmelding', updatedSchema);
+                                validate('avventendePeriode', updatedSchema);
+                                validate('avventendeInnspillTilArbeidsgiver', updatedSchema);
                                 validate('mulighetForArbeid', updatedSchema);
                                 return updatedSchema;
                             },
@@ -136,6 +138,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     gradertGrad: undefined,
                                 };
                                 validate('gradertSykmelding', updatedSchema);
+                                validate('gradertPeriode', updatedSchema);
+                                validate('gradertGrad', updatedSchema);
                                 validate('mulighetForArbeid', updatedSchema);
                                 return updatedSchema;
                             },
@@ -229,6 +233,13 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
                                 };
                                 validate('aktivitetIkkeMuligSykmelding', updatedSchema);
+                                validate('aktivitetIkkeMuligPeriode', updatedSchema);
+                                validate('aktivitetIkkeMuligMedisinskArsak', updatedSchema);
+                                validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
+                                validate('aktivitetIkkeMuligMedisinskArsakBeskrivelse', updatedSchema);
+                                validate('aktivitetIkkeMuligArbeidsrelatertArsak', updatedSchema);
+                                validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
+                                validate('aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse', updatedSchema);
                                 validate('mulighetForArbeid', updatedSchema);
                                 return updatedSchema;
                             },
@@ -274,8 +285,9 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                             aktivitetIkkeMuligMedisinskArsakType: undefined,
                                             aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
                                         };
-
+                                        validate('aktivitetIkkeMuligMedisinskArsak', updatedSchema);
                                         validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
+                                        validate('aktivitetIkkeMuligMedisinskArsakBeskrivelse', updatedSchema);
                                         return updatedSchema;
                                     },
                                 )
@@ -390,6 +402,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     behandlingsdagerAntall: undefined,
                                 };
                                 validate('behandlingsdagerSykmelding', updatedSchema);
+                                validate('behandlingsdagerPeriode', updatedSchema);
+                                validate('behandlingsdagerAntall', updatedSchema);
                                 validate('mulighetForArbeid', updatedSchema);
                                 return updatedSchema;
                             },
@@ -458,6 +472,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     reisetilskuddPeriode: undefined,
                                 };
                                 validate('reisetilskuddSykmelding', updatedSchema);
+                                validate('reisetilskuddPeriode', updatedSchema);
                                 validate('mulighetForArbeid', updatedSchema);
                                 return updatedSchema;
                             },

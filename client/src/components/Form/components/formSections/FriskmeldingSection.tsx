@@ -49,6 +49,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                     hensynArbeidsplassen: undefined,
                                 };
                                 validate('arbeidsfoerEtterPeriode', updatedSchema);
+                                validate('hensynArbeidsplassen', updatedSchema);
                                 return updatedSchema;
                             },
                         )
@@ -96,6 +97,10 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                     vurderingsDatoIArbeid: undefined,
                                 };
                                 validate('erIArbeid', updatedSchema);
+                                validate('egetArbeidPaSikt', updatedSchema);
+                                validate('arbeidFOM', updatedSchema);
+                                validate('annetArbeidPaSikt', updatedSchema);
+                                validate('vurderingsDatoIArbeid', updatedSchema);
                                 return updatedSchema;
                             },
                         );
@@ -119,6 +124,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                             arbeidFOM: undefined,
                                         };
                                         validate('egetArbeidPaSikt', updatedSchema);
+                                        validate('arbeidFOM', updatedSchema);
                                         return updatedSchema;
                                     },
                                 )
@@ -207,6 +213,9 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                     vurderingsDatoUtenArbeid: undefined,
                                 };
                                 validate('erIkkeIArbeid', updatedSchema);
+                                validate('arbeidsforPaSikt', updatedSchema);
+                                validate('arbeidsforFOM', updatedSchema);
+                                validate('vurderingsDatoUtenArbeid', updatedSchema);
                                 return updatedSchema;
                             },
                         );
@@ -230,6 +239,7 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                             arbeidsforFOM: undefined,
                                         };
                                         validate('arbeidsforPaSikt', updatedSchema);
+                                        validate('arbeidsforFOM', updatedSchema);
                                         return updatedSchema;
                                     },
                                 )

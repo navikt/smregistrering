@@ -72,6 +72,8 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                                     annenFraversArsakBeskrivelse: undefined,
                                 };
                                 validate('annenFraversArsak', updatedSchema);
+                                validate('annenFraversArsakGrunn', updatedSchema);
+                                validate('annenFraversArsakBeskrivelse', updatedSchema);
                                 return updatedSchema;
                             },
                         )
@@ -143,6 +145,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                                     yrkesskadeDato: undefined,
                                 };
                                 validate('yrkesskade', updatedSchema);
+                                validate('yrkesskadeDato', updatedSchema);
                                 return updatedSchema;
                             },
                         )

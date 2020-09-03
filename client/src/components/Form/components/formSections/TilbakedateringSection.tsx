@@ -41,6 +41,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                                     kontaktDato: undefined,
                                 };
                                 validate('erTilbakedatert', updatedSchema);
+                                validate('kontaktDato', updatedSchema);
                                 return updatedSchema;
                             },
                         )
@@ -83,6 +84,7 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                                     begrunnelseIkkeKontakt: undefined,
                                 };
                                 validate('kunneIkkeIvaretaEgneInteresser', updatedSchema);
+                                validate('begrunnelseIkkeKontakt', updatedSchema);
                                 return updatedSchema;
                             },
                         );
