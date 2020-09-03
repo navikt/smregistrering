@@ -16,8 +16,8 @@ import { SchemaType } from '../components/Form/Form';
 
 export const buildAvventendeSykmelding = (
     avventendeSykmelding: boolean,
-    avventendePeriode?: Date[],
-    avventendeInnspillTilArbeidsgiver?: string,
+    avventendePeriode: Date[] | undefined,
+    avventendeInnspillTilArbeidsgiver: string | undefined,
 ): Periode | undefined => {
     if (avventendeSykmelding && avventendePeriode) {
         const periode: Periode = {
@@ -145,7 +145,11 @@ export const buildReisetilskuddSykmelding = (
 export const buildPerioder = (schema: SchemaType): Periode[] => {
     const perioder: Periode[] = [];
 
-    const avventendeSykmelding = buildAvventendeSykmelding(schema.avventendeSykmelding, schema.avventendePeriode);
+    const avventendeSykmelding = buildAvventendeSykmelding(
+        schema.avventendeSykmelding,
+        schema.avventendePeriode,
+        schema.avventendeInnspillTilArbeidsgiver,
+    );
     if (avventendeSykmelding) perioder.push(avventendeSykmelding);
 
     const gradertSykmelding = buildGradertSykmelding(
