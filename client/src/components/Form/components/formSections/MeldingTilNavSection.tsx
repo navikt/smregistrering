@@ -35,8 +35,10 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                                 const updatedSchema = {
                                     ...state,
                                     meldingTilNavBistand: !state.meldingTilNavBistand,
+                                    meldingTilNavBegrunn: undefined,
                                 };
                                 validate('meldingTilNavBistand', updatedSchema);
+                                validate('meldingTilNavBegrunn', updatedSchema);
                                 return updatedSchema;
                             },
                         )

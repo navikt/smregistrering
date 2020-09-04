@@ -68,8 +68,12 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                                 const updatedSchema = {
                                     ...state,
                                     annenFraversArsak: !state.annenFraversArsak,
+                                    annenFraversArsakGrunn: undefined,
+                                    annenFraversArsakBeskrivelse: undefined,
                                 };
                                 validate('annenFraversArsak', updatedSchema);
+                                validate('annenFraversArsakGrunn', updatedSchema);
+                                validate('annenFraversArsakBeskrivelse', updatedSchema);
                                 return updatedSchema;
                             },
                         )
@@ -138,8 +142,10 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                                 const updatedSchema = {
                                     ...state,
                                     yrkesskade: !state.yrkesskade,
+                                    yrkesskadeDato: undefined,
                                 };
                                 validate('yrkesskade', updatedSchema);
+                                validate('yrkesskadeDato', updatedSchema);
                                 return updatedSchema;
                             },
                         )

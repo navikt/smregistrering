@@ -46,8 +46,10 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                 const updatedSchema = {
                                     ...state,
                                     arbeidsfoerEtterPeriode: !state.arbeidsfoerEtterPeriode,
+                                    hensynArbeidsplassen: undefined,
                                 };
                                 validate('arbeidsfoerEtterPeriode', updatedSchema);
+                                validate('hensynArbeidsplassen', updatedSchema);
                                 return updatedSchema;
                             },
                         )
@@ -89,8 +91,16 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                 const updatedSchema = {
                                     ...state,
                                     erIArbeid: !state.erIArbeid,
+                                    egetArbeidPaSikt: false,
+                                    arbeidFOM: undefined,
+                                    annetArbeidPaSikt: false,
+                                    vurderingsDatoIArbeid: undefined,
                                 };
                                 validate('erIArbeid', updatedSchema);
+                                validate('egetArbeidPaSikt', updatedSchema);
+                                validate('arbeidFOM', updatedSchema);
+                                validate('annetArbeidPaSikt', updatedSchema);
+                                validate('vurderingsDatoIArbeid', updatedSchema);
                                 return updatedSchema;
                             },
                         );
@@ -111,8 +121,10 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                         const updatedSchema = {
                                             ...state,
                                             egetArbeidPaSikt: !state.egetArbeidPaSikt,
+                                            arbeidFOM: undefined,
                                         };
                                         validate('egetArbeidPaSikt', updatedSchema);
+                                        validate('arbeidFOM', updatedSchema);
                                         return updatedSchema;
                                     },
                                 )
@@ -196,8 +208,14 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                 const updatedSchema = {
                                     ...state,
                                     erIkkeIArbeid: !state.erIkkeIArbeid,
+                                    arbeidsforPaSikt: false,
+                                    arbeidsforFOM: undefined,
+                                    vurderingsDatoUtenArbeid: undefined,
                                 };
                                 validate('erIkkeIArbeid', updatedSchema);
+                                validate('arbeidsforPaSikt', updatedSchema);
+                                validate('arbeidsforFOM', updatedSchema);
+                                validate('vurderingsDatoUtenArbeid', updatedSchema);
                                 return updatedSchema;
                             },
                         );
@@ -218,8 +236,10 @@ const FriskmeldingSection = ({ section, setSchema, schema, errors, validate }: F
                                         const updatedSchema = {
                                             ...state,
                                             arbeidsforPaSikt: !state.arbeidsforPaSikt,
+                                            arbeidsforFOM: undefined,
                                         };
                                         validate('arbeidsforPaSikt', updatedSchema);
+                                        validate('arbeidsforFOM', updatedSchema);
                                         return updatedSchema;
                                     },
                                 )

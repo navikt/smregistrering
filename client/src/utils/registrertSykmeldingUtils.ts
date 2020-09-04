@@ -16,8 +16,8 @@ import { SchemaType } from '../components/Form/Form';
 
 export const buildAvventendeSykmelding = (
     avventendeSykmelding: boolean,
-    avventendePeriode?: Date[],
-    avventendeInnspillTilArbeidsgiver?: string,
+    avventendePeriode: Date[] | undefined,
+    avventendeInnspillTilArbeidsgiver: string | undefined,
 ): Periode | undefined => {
     if (avventendeSykmelding && avventendePeriode && avventendeInnspillTilArbeidsgiver) {
         const periode: Periode = {
