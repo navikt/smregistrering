@@ -3,10 +3,11 @@ import 'react-app-polyfill/stable';
 
 import './index.less';
 
+import NAVSPA from '@navikt/navspa';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import App from './App';
+import { DecoratorProps, EnhetDisplay } from './types/DecoratorProps';
 
 if (process.env.REACT_APP_START_WITH_MOCK === 'true') {
     require('./mock/setup');
@@ -18,4 +19,27 @@ if (process.env.NODE_ENV === 'development') {
     require('whatwg-fetch');
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const InternflateDecorator = NAVSPA.importer<DecoratorProps>('internarbeidsflatefs');
+
+const decoratorConfig: DecoratorProps = {
+    appname: 'smregistrering',
+    enhet: {
+        initialValue: null,
+        display: EnhetDisplay.ENHET_VALG,
+        onChange: (enhet) => console.log(enhet),
+    },
+    toggles: {
+        visVeileder: true,
+    },
+};
+
+function Wrapper() {
+    return (
+        <>
+            <InternflateDecorator {...decoratorConfig} />
+            <App />
+        </>
+    );
+}
+
+NAVSPA.eksporter('wrapper', Wrapper);
