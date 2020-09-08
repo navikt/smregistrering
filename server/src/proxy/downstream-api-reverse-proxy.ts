@@ -5,10 +5,10 @@ import url from 'url';
 import { Router, Request } from 'express';
 import { RequestOptions } from 'http';
 import { Client } from 'openid-client';
-import { ReverseProxy } from '../types/Config';
+import { DownstreamApiReverseProxy } from '../types/Config';
 import logger from '../logging';
 
-const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
+const options = (api: DownstreamApiReverseProxy, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts: RequestOptions, req: Request) => {
     return new Promise<RequestOptions>((resolve, reject) =>
@@ -52,8 +52,8 @@ const options = (api: ReverseProxy, authClient: Client): ProxyOptions => ({
 const stripTrailingSlash = (str: string): string => (str.endsWith('/') ? str.slice(0, -1) : str);
 
 const setup = (router: Router, authClient: Client, config: Config) => {
-  const { path, url } = config.reverseProxy;
-  router.use(`/${path}/*`, proxy(url, options(config.reverseProxy, authClient)));
+  const { path, url } = config.downstreamApiReverseProxy;
+  router.use(`/${path}/*`, proxy(url, options(config.downstreamApiReverseProxy, authClient)));
 };
 
 export default { setup };

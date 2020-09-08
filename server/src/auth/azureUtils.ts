@@ -1,9 +1,13 @@
 import { TokenSet, Client, GrantBody } from 'openid-client';
 import { Request } from 'express';
-import { ReverseProxy } from '../types/Config';
+import { DownstreamApiReverseProxy } from '../types/Config';
 import logger from '../logging';
 
-export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: ReverseProxy): Promise<string> => {
+export const getOnBehalfOfAccessToken = (
+  authClient: Client,
+  req: Request,
+  api: DownstreamApiReverseProxy,
+): Promise<string> => {
   return new Promise((resolve, reject) => {
     // check if request has has valid api access token
     if (hasValidAccessToken(req, 'proxy')) {
@@ -47,7 +51,7 @@ export const appendDefaultScope = (scope: string): string => `${scope}/.default`
 
 const formatClientIdScopeForV2Clients = (clientId: string): string => appendDefaultScope(`api://${clientId}`);
 
-const createOnBehalfOfScope = (api: ReverseProxy): string => {
+const createOnBehalfOfScope = (api: DownstreamApiReverseProxy): string => {
   if (api.scopes) {
     return `${api.scopes.join(' ')}`;
   }

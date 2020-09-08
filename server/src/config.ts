@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Server, AzureAd, Redis, ReverseProxy } from './types/Config';
+import { Server, AzureAd, Redis, DownstreamApiReverseProxy, ModiacontextholderReverseProxy } from './types/Config';
 import * as iotsPromise from 'io-ts-promise';
 import logger from './logging';
 
@@ -13,7 +13,8 @@ export interface Config {
   server: Server;
   azureAd: AzureAd;
   redis: Redis;
-  reverseProxy: ReverseProxy;
+  downstreamApiReverseProxy: DownstreamApiReverseProxy;
+  modiacontextReverseProxy: ModiacontextholderReverseProxy;
 }
 
 const loadConfig = async (): Promise<Config> => {
@@ -39,14 +40,18 @@ const loadConfig = async (): Promise<Config> => {
     port: process.env['REDIS_PORT'],
     password: process.env['REDIS_PASSWORD'],
   });
-  const reverseProxy = await iotsPromise.decode(ReverseProxy, {
+  const downstreamApiReverseProxy = await iotsPromise.decode(DownstreamApiReverseProxy, {
     clientId: process.env['DOWNSTREAM_API_CLIENT_ID'],
     path: process.env['DOWNSTREAM_API_PATH'],
     url: process.env['DOWNSTREAM_API_URL'],
     scopes: process.env['DOWNSTREAM_API_SCOPES'],
   });
+  const modiacontextReverseProxy = await iotsPromise.decode(ModiacontextholderReverseProxy, {
+    path: process.env['MODIACONTEXTHOLDER_PATH'],
+    url: process.env['MODIACONTEXTHOLDER_URL'],
+  });
 
-  return { server, azureAd, redis, reverseProxy };
+  return { server, azureAd, redis, downstreamApiReverseProxy, modiacontextReverseProxy };
 };
 
 export default loadConfig;

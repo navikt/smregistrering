@@ -70,7 +70,7 @@ export const Redis = iots.intersection([
 ]);
 export type Redis = iots.TypeOf<typeof Redis>;
 
-export const ReverseProxy = iots.intersection([
+export const DownstreamApiReverseProxy = iots.intersection([
   iots.type({
     clientId: iots.string,
     path: iots.string,
@@ -82,4 +82,7 @@ export const ReverseProxy = iots.intersection([
     scopes: ScopesFromString,
   }),
 ]);
-export type ReverseProxy = iots.TypeOf<typeof ReverseProxy>;
+export type DownstreamApiReverseProxy = iots.TypeOf<typeof DownstreamApiReverseProxy>;
+
+export const ModiacontextholderReverseProxy = iots.type({ path: iots.string, url: iots.string });
+export type ModiacontextholderReverseProxy = iots.TypeOf<typeof ModiacontextholderReverseProxy>;

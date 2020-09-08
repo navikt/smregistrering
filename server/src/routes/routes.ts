@@ -3,9 +3,10 @@ import { Config } from '../config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import passport from 'passport';
-import reverseProxy from '../proxy/reverse-proxy';
+import upstreamApiReverseProxy from '../proxy/downstream-api-reverse-proxy';
 import { decode } from 'jsonwebtoken';
 import { Client } from 'openid-client';
+import modiacontextholderReverseProxy from '../proxy/modiacontextholder-reverse-proxy';
 
 const router = express.Router();
 
@@ -74,7 +75,8 @@ const setup = (authClient: Client, config: Config) => {
     });
   });
 
-  reverseProxy.setup(router, authClient, config);
+  upstreamApiReverseProxy.setup(router, authClient, config);
+  modiacontextholderReverseProxy.setup(router,config)
 
   router.use('/*', (req, res) => {
     res.status(404).send('Not found');

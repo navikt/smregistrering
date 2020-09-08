@@ -58,6 +58,10 @@ spec:
       value: backend
     - name: DOWNSTREAM_API_URL
       value: http://smregistrering-backend/
+    - name: MODIACONTEXTHOLDER_PATH
+      value: modiacontextholder/api
+    - name: MODIACONTEXTHOLDER_URL
+      value: https://modiacontextholder-q1.nais.preprod.local/modiacontextholder/api
     - name: REDIS_HOST
       value: smregistrering-redis.default.svc.nais.local
     - name: REDIS_PORT
