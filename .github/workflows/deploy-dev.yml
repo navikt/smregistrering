@@ -47,6 +47,7 @@ jobs:
         working-directory: ./server
       - name: Build client
         env:
+          REACT_APP_HEAD_URL: https://app-q1.adeo.no
           REACT_APP_GOSYS_URL: https://gosys.nais.preprod.local/gosys/bruker/brukeroversikt.jsf
         run: |
           npm run build
