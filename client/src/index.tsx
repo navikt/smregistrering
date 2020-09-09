@@ -31,6 +31,7 @@ const decoratorConfig: DecoratorProps = {
     toggles: {
         visVeileder: true,
     },
+    useProxy: true,
 };
 
 function Wrapper() {
