@@ -2,11 +2,13 @@ import proxy, { ProxyOptions } from 'express-http-proxy';
 import { ModiacontextholderReverseProxy } from '../types/Config';
 import { Router } from 'express';
 import { Config } from '../config';
+import logger from '../logging';
 
 const options = (api: ModiacontextholderReverseProxy): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
     if (proxyReqOpts && proxyReqOpts.headers && srcReq.user?.tokenSets.self) {
+      logger.info(`Proxying request from '${srcReq.originalUrl} to '${api.url}'`);
       proxyReqOpts.headers['Authorization'] = `Bearer ${srcReq.user?.tokenSets.self}`;
       return proxyReqOpts;
     } else {
@@ -16,7 +18,8 @@ const options = (api: ModiacontextholderReverseProxy): ProxyOptions => ({
 });
 
 const setup = (router: Router, config: Config) => {
-  const { path, url } = config.downstreamApiReverseProxy;
+  const { path, url } = config.modiacontextReverseProxy;
+  logger.info(`Setting up proxy for '${path}'`);
   router.use(`/${path}/*`, proxy(url, options(config.modiacontextReverseProxy)));
 };
 
