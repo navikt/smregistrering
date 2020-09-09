@@ -8,12 +8,15 @@ const options = (api: ModiacontextholderReverseProxy): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
     if (proxyReqOpts && proxyReqOpts.headers && srcReq.user?.tokenSets.self) {
-      logger.info(`Proxying request from '${srcReq.originalUrl} to '${api.url}'`);
       proxyReqOpts.headers['Authorization'] = `Bearer ${srcReq.user?.tokenSets.self}`;
       return proxyReqOpts;
     } else {
       throw new Error('Could not set Authorization header for modiacontextholder-proxy request');
     }
+  },
+  proxyReqPathResolver: (srcReq) => {
+    logger.info(`Proxying request from '${srcReq.originalUrl} to '${api.url + srcReq.path}'`);
+    return srcReq.path;
   },
 });
 
