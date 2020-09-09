@@ -15,8 +15,8 @@ const options = (api: ModiacontextholderReverseProxy): ProxyOptions => ({
     }
   },
   proxyReqPathResolver: (srcReq) => {
-    logger.info(`Proxying request from '${srcReq.originalUrl} to '${api.url + srcReq.path}'`);
-    return srcReq.path;
+    logger.info(`Proxying request from '${srcReq.originalUrl} to '${api.url + srcReq.originalUrl}'`);
+    return srcReq.originalUrl;
   },
 });
 
