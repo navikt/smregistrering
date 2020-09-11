@@ -8,7 +8,7 @@ const options = (api: ModiacontextholderReverseProxy): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
     if (proxyReqOpts && proxyReqOpts.headers && srcReq.user?.tokenSets.self) {
-      proxyReqOpts.headers['Authorization'] = `Bearer ${srcReq.user?.tokenSets.self}`;
+      proxyReqOpts.headers['Authorization'] = `Bearer ${srcReq.user?.tokenSets.self.access_token}`;
       return proxyReqOpts;
     } else {
       throw new Error('Could not set Authorization header for modiacontextholder-proxy request');
