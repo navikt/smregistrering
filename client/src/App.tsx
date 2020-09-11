@@ -13,11 +13,12 @@ import { Oppgave } from './types/Oppgave';
 import { OppgaveAlreadySolvedError, getDiagnosekoder, getOppgave } from './utils/dataUtils';
 import { SectionTitle, Sections } from './types/Section';
 
-interface AppProps {
+export interface AppProps {
+    height: number;
     enhet: string | null | undefined;
 }
 
-const App = ({ enhet }: AppProps) => {
+const App = ({ enhet, height }: AppProps) => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
@@ -132,7 +133,7 @@ const App = ({ enhet }: AppProps) => {
     }
 
     return (
-        <main className="main-content-container">
+        <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height}px)` }}>
             <Menu sections={sections} />
             <Form
                 schemaRef={schemaRef}

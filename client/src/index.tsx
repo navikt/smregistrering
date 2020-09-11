@@ -4,7 +4,7 @@ import 'react-app-polyfill/stable';
 import './index.less';
 
 import NAVSPA from '@navikt/navspa';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import App from './App';
 import { DecoratorProps, EnhetDisplay } from './types/DecoratorProps';
@@ -23,6 +23,8 @@ const InternflateDecorator = NAVSPA.importer<DecoratorProps>('internarbeidsflate
 
 function Wrapper() {
     const [enhet, setEnhet] = useState<string | null | undefined>(undefined);
+    const [decoratorHeight, setDecoratorHeight] = useState<number>(0);
+    const decoratorRef = useRef<HTMLDivElement>(document.createElement('div'));
 
     const decoratorConfig: DecoratorProps = {
         appname: 'smregistrering',
@@ -39,10 +41,20 @@ function Wrapper() {
         useProxy: true,
     };
 
+    // Poll heigh of decorator. used to set maxHeigh for main-context-container
+    // Probably not too expensive to run every second
+    setInterval(() => {
+        if (decoratorRef.current.offsetHeight !== decoratorHeight) {
+            setDecoratorHeight(decoratorRef.current.offsetHeight);
+        }
+    }, 1000);
+
     return (
         <>
-            <InternflateDecorator {...decoratorConfig} />
-            <App enhet={enhet} />
+            <div id="decorator" ref={decoratorRef}>
+                <InternflateDecorator {...decoratorConfig} />
+            </div>
+            <App enhet={enhet} height={decoratorHeight} />
         </>
     );
 }
