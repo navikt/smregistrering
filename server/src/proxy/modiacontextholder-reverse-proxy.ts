@@ -7,7 +7,7 @@ import logger from '../logging';
 const options = (api: ModiacontextholderReverseProxy): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
-    if (proxyReqOpts && proxyReqOpts.headers && srcReq.user?.tokenSets.self) {
+    if (proxyReqOpts && proxyReqOpts.headers && srcReq.user?.tokenSets.self.access_token) {
       proxyReqOpts.headers['Authorization'] = `Bearer ${srcReq.user?.tokenSets.self.access_token}`;
       return proxyReqOpts;
     } else {
