@@ -26,4 +26,3 @@ const mock = FetchMock.configure({
 mock.get('backend/api/v1/hentPapirSykmeldingManuellOppgave/', oppgave);
 mock.put('backend/api/v1/sendPapirSykmeldingManuellOppgave/', () => Promise.resolve({ status: 204 })); // For status ok
 // mock.put('backend/api/v1/sendPapirSykmeldingManuellOppgave/', () => Promise.resolve({ body: resBody, status: 400 })); // For invalid form response. Errors returned in body. TODO: Something wrong with the mock, works in dev.
-mock.get('/user', 'Testbruker');

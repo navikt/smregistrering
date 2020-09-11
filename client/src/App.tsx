@@ -3,7 +3,6 @@ import './App.less';
 import * as iotsPromise from 'io-ts-promise';
 import React, { useEffect, useRef, useState } from 'react';
 
-import Banner from './components/Banner/Banner';
 import ErrorView from './components/ErrorView';
 import Form from './components/Form/Form';
 import LoadingView from './components/LoadingView';
@@ -14,7 +13,11 @@ import { Oppgave } from './types/Oppgave';
 import { OppgaveAlreadySolvedError, getDiagnosekoder, getOppgave } from './utils/dataUtils';
 import { SectionTitle, Sections } from './types/Section';
 
-const App = () => {
+interface AppProps {
+    enhet: string | null | undefined;
+}
+
+const App = ({ enhet }: AppProps) => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
@@ -109,39 +112,37 @@ const App = () => {
 
     if (error) {
         return (
-            <>
-                <Banner />
-                <main className="error-container">
-                    <ErrorView error={error} />
-                </main>
-            </>
+            <main className="error-container">
+                <ErrorView error={error} />
+            </main>
         );
     }
 
     if (isLoading) {
         return (
-            <>
-                <Banner />
-                <main className="spinner-container">
-                    <LoadingView />
-                </main>
-            </>
+            <main className="spinner-container">
+                <LoadingView />
+            </main>
         );
     }
 
     if (!oppgave || !diagnosekoder) {
+        console.error('Oppgave or/and diagnosekoder is undefined');
         return null;
     }
 
     return (
-        <>
-            <Banner />
-            <main className="main-content-container">
-                <Menu sections={sections} />
-                <Form schemaRef={schemaRef} sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
-                <Pdf pdf={oppgave.pdfPapirSykmelding} />
-            </main>
-        </>
+        <main className="main-content-container">
+            <Menu sections={sections} />
+            <Form
+                schemaRef={schemaRef}
+                sections={sections}
+                oppgave={oppgave}
+                diagnosekoder={diagnosekoder}
+                enhet={enhet}
+            />
+            <Pdf pdf={oppgave.pdfPapirSykmelding} />
+        </main>
     );
 };
 

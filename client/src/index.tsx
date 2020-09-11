@@ -4,7 +4,7 @@ import 'react-app-polyfill/stable';
 import './index.less';
 
 import NAVSPA from '@navikt/navspa';
-import React from 'react';
+import React, { useState } from 'react';
 
 import App from './App';
 import { DecoratorProps, EnhetDisplay } from './types/DecoratorProps';
@@ -21,24 +21,28 @@ if (process.env.NODE_ENV === 'development') {
 
 const InternflateDecorator = NAVSPA.importer<DecoratorProps>('internarbeidsflatefs');
 
-const decoratorConfig: DecoratorProps = {
-    appname: 'smregistrering',
-    enhet: {
-        initialValue: null,
-        display: EnhetDisplay.ENHET_VALG,
-        onChange: (enhet) => console.log(enhet),
-    },
-    toggles: {
-        visVeileder: true,
-    },
-    useProxy: true,
-};
-
 function Wrapper() {
+    const [enhet, setEnhet] = useState<string | null | undefined>(undefined);
+
+    const decoratorConfig: DecoratorProps = {
+        appname: 'smregistrering',
+        enhet: {
+            initialValue: null,
+            display: EnhetDisplay.ENHET_VALG,
+            onChange: (enhet) => {
+                setEnhet(enhet);
+            },
+        },
+        toggles: {
+            visVeileder: true,
+        },
+        useProxy: true,
+    };
+
     return (
         <>
             <InternflateDecorator {...decoratorConfig} />
-            <App />
+            <App enhet={enhet} />
         </>
     );
 }

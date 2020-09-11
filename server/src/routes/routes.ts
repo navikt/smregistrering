@@ -4,9 +4,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import passport from 'passport';
 import upstreamApiReverseProxy from '../proxy/downstream-api-reverse-proxy';
-import { decode } from 'jsonwebtoken';
-import { Client } from 'openid-client';
 import modiacontextholderReverseProxy from '../proxy/modiacontextholder-reverse-proxy';
+import { Client } from 'openid-client';
 
 const router = express.Router();
 
@@ -41,25 +40,7 @@ const setup = (authClient: Client, config: Config) => {
   // Static page
   router.use('/', express.static(path.join(__dirname, '../../../client/build')));
 
-  router.get('/user', (req: Request, res: Response) => {
-    try {
-      const accessToken = req.user?.tokenSets.self.access_token;
-      if (!accessToken) {
-        throw new Error('Did not find token object attached to request');
-      } else {
-        const decodedToken = decode(accessToken, { complete: true });
-        if (!decodedToken) {
-          throw new Error('Could not decode token to get user information');
-        } else {
-          res.status(200).send((decodedToken as any).payload.name); // TODO: er det verdt å type opp denne responsen?
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      res.status(500).json(error);
-    }
-  });
-
+  // TODO: maybe remove if it is not going to be used
   router.get('/logout', (req: Request, res: Response) => {
     req.logOut();
     req.session?.destroy((error) => {
