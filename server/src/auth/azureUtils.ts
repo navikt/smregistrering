@@ -15,7 +15,7 @@ export const getOnBehalfOfAccessToken = (
     if (hasValidAccessToken(req, forApi)) {
       return resolve(req.user?.tokenSets[forApi]?.access_token);
     } else {
-      logger.error('The request does not contain a valid access token for API requests');
+      logger.error('The request does not contain a valid access token for token exchange');
     }
 
     // request new access token
@@ -30,8 +30,8 @@ export const getOnBehalfOfAccessToken = (
       authClient
         .grant(grantBody)
         .then((tokenSet) => {
+          logger.info(`Received on-behalf-of token for ${forApi}`);
           if (req.user) {
-            logger.info(`Received on-behalf-of token for ${forApi}`);
             req.user.tokenSets[forApi] = tokenSet;
             return resolve(tokenSet.access_token);
           } else {
@@ -39,7 +39,7 @@ export const getOnBehalfOfAccessToken = (
           }
         })
         .catch((error) => {
-          console.error(error);
+          logger.error(error);
           reject(error);
         });
     } else {

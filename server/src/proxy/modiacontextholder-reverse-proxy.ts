@@ -17,7 +17,7 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
             proxyReqOpts.headers['Cookie'] = `isso-accesstoken=${access_token}`;
             return resolve(proxyReqOpts);
           } else {
-            throw new Error('Could not set Authorization header for modiacontextholder-proxy request');
+            throw new Error('Could not set Authorization header for modiacontextholder proxy request');
           }
         },
         (error) => reject(error),

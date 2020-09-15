@@ -18,7 +18,7 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
             proxyReqOpts.headers['Authorization'] = `Bearer ${access_token}`;
             return resolve(proxyReqOpts);
           } else {
-            throw new Error('Could not set Authorization header for proxy request');
+            throw new Error('Could not set Authorization header for downstream api proxy request');
           }
         },
         (error) => reject(error),
