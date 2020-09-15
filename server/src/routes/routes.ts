@@ -40,22 +40,6 @@ const setup = (authClient: Client, config: Config) => {
   // Static page
   router.use('/', express.static(path.join(__dirname, '../../../client/build')));
 
-  // TODO: maybe remove if it is not going to be used
-  router.get('/logout', (req: Request, res: Response) => {
-    req.logOut();
-    req.session?.destroy((error) => {
-      if (!error) {
-        if (config.azureAd.logoutRedirectUri) {
-          res.status(200).send('logged out').redirect(config.azureAd.logoutRedirectUri);
-        } else {
-          res.status(200).send('logged out');
-        }
-      } else {
-        res.status(500).send('Could not log out due to a server error');
-      }
-    });
-  });
-
   upstreamApiReverseProxy.setup(router, authClient, config);
   modiacontextholderReverseProxy.setup(router, authClient, config);
 
