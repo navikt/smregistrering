@@ -15,7 +15,7 @@ export const getOnBehalfOfAccessToken = (
     if (hasValidAccessToken(req, forApi)) {
       return resolve(req.user?.tokenSets[forApi]?.access_token);
     } else {
-      logger.error('The request does not contain a valid access token for token exchange');
+      logger.error(`The request does not contain a valid access token for token exchange for ${forApi}`);
     }
 
     // request new access token
@@ -27,6 +27,7 @@ export const getOnBehalfOfAccessToken = (
         scope: createOnBehalfOfScope(api),
         assertion: req.user?.tokenSets.self.access_token,
       };
+      logger.info(`Requesting on-behalf-of access token for ${forApi}`);
       authClient
         .grant(grantBody)
         .then((tokenSet) => {
