@@ -10,10 +10,9 @@ import { Client } from 'openid-client';
 const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
-    return new Promise<RequestOptions>((reject, resolve) => {
+    return new Promise<RequestOptions>((resolve, reject) => {
       getOnBehalfOfAccessToken(authClient, srcReq, api, 'graph').then(
         (access_token) => {
-          logger.info(`access_token for graph ${access_token}`);
           if (proxyReqOpts && proxyReqOpts.headers) {
             proxyReqOpts.headers['Cookie'] = `isso-accesstoken=${access_token}`;
             return resolve(proxyReqOpts);

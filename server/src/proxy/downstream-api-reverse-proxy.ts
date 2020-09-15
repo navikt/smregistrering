@@ -14,7 +14,6 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
     return new Promise<RequestOptions>((resolve, reject) =>
       getOnBehalfOfAccessToken(authClient, req, api, 'proxy').then(
         (access_token) => {
-          logger.info(`access_token for proxy ${access_token}`);
           if (proxyReqOpts && proxyReqOpts.headers) {
             proxyReqOpts.headers['Authorization'] = `Bearer ${access_token}`;
             return resolve(proxyReqOpts);
