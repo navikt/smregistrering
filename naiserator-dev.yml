@@ -58,6 +58,10 @@ spec:
       value: backend
     - name: DOWNSTREAM_API_URL
       value: http://smregistrering-backend/
+    - name: GRAPH_API_CLIENT_ID
+      value: https://graph.microsoft.com
+    - name: GRAPH_API_SCOPES
+      value: https://graph.microsoft.com/.default
     - name: MODIACONTEXTHOLDER_PATH
       value: modiacontextholder/api
     - name: MODIACONTEXTHOLDER_URL

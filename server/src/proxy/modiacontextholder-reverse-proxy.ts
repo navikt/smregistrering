@@ -1,18 +1,28 @@
 import proxy, { ProxyOptions } from 'express-http-proxy';
-import { ModiacontextholderReverseProxy } from '../types/Config';
+import { ApiReverseProxy } from '../types/Config';
 import { Router } from 'express';
 import { Config } from '../config';
 import logger from '../logging';
+import { RequestOptions } from 'http';
+import { getOnBehalfOfAccessToken } from '../auth/azureUtils';
+import { Client } from 'openid-client';
 
-const options = (api: ModiacontextholderReverseProxy): ProxyOptions => ({
+const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
-    if (proxyReqOpts && proxyReqOpts.headers && srcReq.user?.tokenSets.self.access_token) {
-      proxyReqOpts.headers['Authorization'] = `Bearer ${srcReq.user?.tokenSets.self.access_token}`;
-      return proxyReqOpts;
-    } else {
-      throw new Error('Could not set Authorization header for modiacontextholder-proxy request');
-    }
+    return new Promise<RequestOptions>((reject, resolve) => {
+      getOnBehalfOfAccessToken(authClient, srcReq, api, 'graph').then(
+        (access_token) => {
+          if (proxyReqOpts && proxyReqOpts.headers) {
+            proxyReqOpts.headers['Cookie'] = `isso-accesstoken=${access_token}`;
+            return resolve(proxyReqOpts);
+          } else {
+            throw new Error('Could not set Authorization header for modiacontextholder-proxy request');
+          }
+        },
+        (error) => reject(error),
+      );
+    });
   },
   proxyReqPathResolver: (srcReq) => {
     logger.info(`Proxying request from '${srcReq.originalUrl} to '${api.url + srcReq.originalUrl}'`);
@@ -20,10 +30,10 @@ const options = (api: ModiacontextholderReverseProxy): ProxyOptions => ({
   },
 });
 
-const setup = (router: Router, config: Config) => {
+const setup = (router: Router, authClient: Client, config: Config) => {
   const { path, url } = config.modiacontextReverseProxy;
   logger.info(`Setting up proxy for '${path}'`);
-  router.use(`/${path}/*`, proxy(url, options(config.modiacontextReverseProxy)));
+  router.use(`/${path}/*`, proxy(url, options(config.modiacontextReverseProxy, authClient)));
 };
 
 export default { setup };

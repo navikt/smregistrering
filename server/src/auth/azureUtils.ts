@@ -1,16 +1,18 @@
 import { TokenSet, Client, GrantBody } from 'openid-client';
 import { Request } from 'express';
-import { DownstreamApiReverseProxy } from '../types/Config';
+import { ApiReverseProxy } from '../types/Config';
 import logger from '../logging';
+import { TokenSets } from '../../@types/express';
 
 export const getOnBehalfOfAccessToken = (
   authClient: Client,
   req: Request,
-  api: DownstreamApiReverseProxy,
+  api: ApiReverseProxy,
+  forApi: keyof TokenSets,
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     // check if request has has valid api access token
-    if (hasValidAccessToken(req, 'proxy')) {
+    if (hasValidAccessToken(req, forApi)) {
       return resolve(req.user?.tokenSets.proxy?.access_token);
     } else {
       logger.error('The request does not contain a valid access token for API requests');
@@ -51,14 +53,14 @@ export const appendDefaultScope = (scope: string): string => `${scope}/.default`
 
 const formatClientIdScopeForV2Clients = (clientId: string): string => appendDefaultScope(`api://${clientId}`);
 
-const createOnBehalfOfScope = (api: DownstreamApiReverseProxy): string => {
+const createOnBehalfOfScope = (api: ApiReverseProxy): string => {
   if (api.scopes) {
     return `${api.scopes.join(' ')}`;
   }
   return `${formatClientIdScopeForV2Clients(api.clientId)}`;
 };
 
-export const hasValidAccessToken = (req: Request, key: 'self' | 'proxy') => {
+export const hasValidAccessToken = (req: Request, key: keyof TokenSets) => {
   const tokenSets = req.user?.tokenSets;
   if (!tokenSets) {
     return false;

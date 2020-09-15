@@ -57,7 +57,7 @@ const setup = (authClient: Client, config: Config) => {
   });
 
   upstreamApiReverseProxy.setup(router, authClient, config);
-  modiacontextholderReverseProxy.setup(router, config);
+  modiacontextholderReverseProxy.setup(router, authClient, config);
 
   router.use('/*', (req, res) => {
     res.status(404).send('Not found');

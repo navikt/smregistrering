@@ -5,14 +5,14 @@ import url from 'url';
 import { Router, Request } from 'express';
 import { RequestOptions } from 'http';
 import { Client } from 'openid-client';
-import { DownstreamApiReverseProxy } from '../types/Config';
+import { ApiReverseProxy } from '../types/Config';
 import logger from '../logging';
 
-const options = (api: DownstreamApiReverseProxy, authClient: Client): ProxyOptions => ({
+const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts: RequestOptions, req: Request) => {
     return new Promise<RequestOptions>((resolve, reject) =>
-      getOnBehalfOfAccessToken(authClient, req, api).then(
+      getOnBehalfOfAccessToken(authClient, req, api, 'proxy').then(
         (access_token) => {
           if (proxyReqOpts && proxyReqOpts.headers) {
             proxyReqOpts.headers['Authorization'] = `Bearer ${access_token}`;
@@ -53,6 +53,7 @@ const stripTrailingSlash = (str: string): string => (str.endsWith('/') ? str.sli
 
 const setup = (router: Router, authClient: Client, config: Config) => {
   const { path, url } = config.downstreamApiReverseProxy;
+  logger.info(`Setting up proxy for '${path}'`);
   router.use(`/${path}/*`, proxy(url, options(config.downstreamApiReverseProxy, authClient)));
 };
 
