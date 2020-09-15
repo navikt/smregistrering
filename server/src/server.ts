@@ -1,5 +1,4 @@
 import express from 'express';
-import setupLogging from './logging';
 import helmet from 'helmet';
 import passport from 'passport';
 import azure from './auth/azure';

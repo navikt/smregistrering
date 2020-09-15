@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import { Server, AzureAd, Redis, ApiReverseProxy } from './types/Config';
 import * as iotsPromise from 'io-ts-promise';
 import logger from './logging';
