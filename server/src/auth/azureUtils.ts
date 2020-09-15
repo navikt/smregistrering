@@ -13,7 +13,7 @@ export const getOnBehalfOfAccessToken = (
   return new Promise((resolve, reject) => {
     // check if request has has valid api access token
     if (hasValidAccessToken(req, forApi)) {
-      return resolve(req.user?.tokenSets.proxy?.access_token);
+      return resolve(req.user?.tokenSets[forApi]?.access_token);
     } else {
       logger.error('The request does not contain a valid access token for API requests');
     }
@@ -31,7 +31,8 @@ export const getOnBehalfOfAccessToken = (
         .grant(grantBody)
         .then((tokenSet) => {
           if (req.user) {
-            req.user.tokenSets.proxy = tokenSet;
+            logger.info(`Received on-behalf-of token for ${forApi}`);
+            req.user.tokenSets[forApi] = tokenSet;
             return resolve(tokenSet.access_token);
           } else {
             throw new Error('Could not attach tokenSet to user object');
