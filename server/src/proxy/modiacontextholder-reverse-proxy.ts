@@ -13,11 +13,12 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
     return new Promise<RequestOptions>((resolve, reject) => {
       getOnBehalfOfAccessToken(authClient, srcReq, api, 'graph').then(
         (access_token) => {
-          if (proxyReqOpts && proxyReqOpts.headers) {
+          if (proxyReqOpts && proxyReqOpts.headers && srcReq.user?.tokenSets.self.access_token) {
+            proxyReqOpts.headers['Authorization'] = `Bearer ${srcReq.user?.tokenSets.self.access_token}`;
             proxyReqOpts.headers['Cookie'] = `isso-accesstoken=${access_token}`;
             return resolve(proxyReqOpts);
           } else {
-            throw new Error('Could not set Authorization header for modiacontextholder proxy request');
+            throw new Error('Could not set Authorization header and Cookie for modiacontextholder proxy request');
           }
         },
         (error) => reject(error),
