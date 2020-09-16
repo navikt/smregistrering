@@ -14,6 +14,8 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
       getOnBehalfOfAccessToken(authClient, srcReq, api, 'graph').then(
         (access_token) => {
           if (proxyReqOpts && proxyReqOpts.headers && srcReq.user?.tokenSets.self.access_token) {
+            // Need to set self-token as Authorization header and graph-token as isso-accesstoken cookie
+            // for modicontextholder to work
             proxyReqOpts.headers['Authorization'] = `Bearer ${srcReq.user?.tokenSets.self.access_token}`;
             proxyReqOpts.headers['Cookie'] = `isso-accesstoken=${access_token}`;
             return resolve(proxyReqOpts);

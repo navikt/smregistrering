@@ -5,6 +5,7 @@ import { Oppgave } from '../types/Oppgave';
 import { getOppgaveidFromSearchParams } from './urlUtils';
 
 export class OppgaveAlreadySolvedError extends Error {}
+export class BadRequestError extends Error {}
 
 export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
     const diagnosekoderRaw = {
@@ -22,6 +23,13 @@ export const getOppgave = (): Promise<Oppgave> => {
                 : getOppgaveidFromSearchParams(window.location.search);
         return fetch(`backend/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=${oppgaveid}`)
             .then((response) => {
+                if (response.status === 400) {
+                    return Promise.reject(
+                        new BadRequestError(
+                            `Klarte ikke å hente en gyldig oppgave-id fra lenken: ${window.location.href}`,
+                        ),
+                    );
+                }
                 if (response.status === 404) {
                     return Promise.reject(new OppgaveAlreadySolvedError('Oppgaven du prøver å hente er allerede løst'));
                 }

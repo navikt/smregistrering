@@ -107,7 +107,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: 
                 <>
                     <AlertStripeFeil>
                         <Element>Enhet mangler.</Element>
-                        <Normaltekst>Velg enhet i headeren øverst på siden.</Normaltekst>
+                        <Normaltekst>Velg enhet i nedtrekksmenyen øverst på siden.</Normaltekst>
                     </AlertStripeFeil>
                     <br />
                 </>

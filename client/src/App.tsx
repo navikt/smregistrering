@@ -8,9 +8,9 @@ import Form from './components/Form/Form';
 import LoadingView from './components/LoadingView';
 import Menu from './components/Menu/Menu';
 import Pdf from './components/Pdf/Pdf';
+import { BadRequestError, OppgaveAlreadySolvedError, getDiagnosekoder, getOppgave } from './utils/dataUtils';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
-import { OppgaveAlreadySolvedError, getDiagnosekoder, getOppgave } from './utils/dataUtils';
 import { SectionTitle, Sections } from './types/Section';
 
 export interface AppProps {
@@ -34,13 +34,16 @@ const App = ({ enhet, height }: AppProps) => {
             })
             .catch((error) => {
                 if (iotsPromise.isDecodeError(error)) {
-                    const errorMessage = 'Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet';
-                    setError(new Error(errorMessage));
-                    console.error(new Error(errorMessage));
-                } else if (error instanceof URIError) {
-                    setError(error);
-                    console.error(error);
-                } else if (error instanceof OppgaveAlreadySolvedError) {
+                    const sanitizedError = new Error(
+                        'Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet',
+                    );
+                    setError(sanitizedError);
+                    console.error(sanitizedError);
+                } else if (
+                    error instanceof URIError ||
+                    error instanceof OppgaveAlreadySolvedError ||
+                    error instanceof BadRequestError
+                ) {
                     setError(error);
                     console.error(error);
                 } else {
