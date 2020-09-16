@@ -23,7 +23,7 @@ context('Oppgave mapping', () => {
     it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', () => {
         cy.route({
             method: 'GET',
-            url: '/backend/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=123',
+            url: '/backend/api/v1/hentPapirSykmeldingManuellOppgave/123',
             response: 'fixture:fullOppgave.json', // Gets the response from ../fixtures/fullOppgave.json
         });
         cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
@@ -320,7 +320,7 @@ context('Oppgave mapping', () => {
     it('Should not map any field when "oppgave.papirSmRegistrering" is null', () => {
         cy.route({
             method: 'GET',
-            url: '/backend/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=123',
+            url: '/backend/api/v1/hentPapirSykmeldingManuellOppgave/123',
             response: 'fixture:emptyOppgave.json', // Gets the response from ../fixtures/emptyOppgave.json
         });
         cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json

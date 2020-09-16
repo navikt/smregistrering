@@ -39,7 +39,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
             const sykmelding = buildRegistrertSykmelding(schema);
             if (sykmelding) {
                 setIsLoading(true);
-                fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`, {
+                fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/${oppgave.oppgaveid}`, {
                     method: 'PUT',
                     credentials: 'include',
                     headers: {
