@@ -1,5 +1,7 @@
 import FetchMock, { MiddlewareUtils } from 'yet-another-fetch-mock';
 
+import aktivenhet from './aktivenhet.json';
+import decorator from './decorator.json';
 import oppgave from './oppgave.json';
 
 // Uncomment to use "invalid form" endpoint below
@@ -23,6 +25,9 @@ const mock = FetchMock.configure({
     ],
 }; */
 
+mock.get('/modiacontextholder/api/decorator', decorator);
+mock.get('/modiacontextholder/api/context/aktivenhet', aktivenhet);
+mock.delete('/modiacontextholder/api/context/aktivbruker', () => Promise.resolve({ status: 200 }));
 mock.get('backend/api/v1/hentPapirSykmeldingManuellOppgave/', oppgave);
 mock.put('backend/api/v1/sendPapirSykmeldingManuellOppgave/', () => Promise.resolve({ status: 204 })); // For status ok
 // mock.put('backend/api/v1/sendPapirSykmeldingManuellOppgave/', () => Promise.resolve({ body: resBody, status: 400 })); // For invalid form response. Errors returned in body. TODO: Something wrong with the mock, works in dev.
