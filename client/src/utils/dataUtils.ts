@@ -20,7 +20,7 @@ export const getOppgave = (): Promise<Oppgave> => {
             process.env.REACT_APP_START_WITH_MOCK === 'true'
                 ? 'test'
                 : getOppgaveidFromSearchParams(window.location.search);
-        return fetch(`backend/api/v1/hentPapirSykmeldingManuellOppgave/${oppgaveid}`)
+        return fetch(`backend/api/v1/oppgave/${oppgaveid}`)
             .then((response) => {
                 if (response.status === 404) {
                     return Promise.reject(new OppgaveAlreadySolvedError('Oppgaven du prøver å hente er allerede løst'));
