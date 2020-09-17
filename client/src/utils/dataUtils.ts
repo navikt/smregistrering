@@ -21,7 +21,7 @@ export const getOppgave = (): Promise<Oppgave> => {
             process.env.REACT_APP_START_WITH_MOCK === 'true'
                 ? 'test'
                 : getOppgaveidFromSearchParams(window.location.search);
-        return fetch(`backend/api/v1/hentPapirSykmeldingManuellOppgave/?oppgaveid=${oppgaveid}`)
+        return fetch(`backend/api/v1/oppgave/${oppgaveid}`)
             .then((response) => {
                 if (response.status === 400) {
                     return Promise.reject(

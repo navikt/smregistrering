@@ -39,8 +39,8 @@ const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: 
             const sykmelding = buildRegistrertSykmelding(schema);
             if (sykmelding) {
                 setIsLoading(true);
-                fetch(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`, {
-                    method: 'PUT',
+                fetch(`backend/api/v1/oppgave/${oppgave.oppgaveid}/send`, {
+                    method: 'POST',
                     credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
