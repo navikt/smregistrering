@@ -1,15 +1,21 @@
 import { TokenSet, Client, GrantBody } from 'openid-client';
 import { Request } from 'express';
-import { ReverseProxy } from '../types/Config';
+import { ApiReverseProxy } from '../types/Config';
 import logger from '../logging';
+import { TokenSets } from '../../@types/express';
 
-export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: ReverseProxy): Promise<string> => {
+export const getOnBehalfOfAccessToken = (
+  authClient: Client,
+  req: Request,
+  api: ApiReverseProxy,
+  forApi: keyof TokenSets,
+): Promise<string> => {
   return new Promise((resolve, reject) => {
     // check if request has has valid api access token
-    if (hasValidAccessToken(req, 'proxy')) {
-      return resolve(req.user?.tokenSets.proxy?.access_token);
+    if (hasValidAccessToken(req, forApi)) {
+      return resolve(req.user?.tokenSets[forApi]?.access_token);
     } else {
-      logger.error('The request does not contain a valid access token for API requests');
+      logger.error(`The request does not contain a valid access token for token exchange for ${forApi}`);
     }
 
     // request new access token
@@ -21,18 +27,20 @@ export const getOnBehalfOfAccessToken = (authClient: Client, req: Request, api: 
         scope: createOnBehalfOfScope(api),
         assertion: req.user?.tokenSets.self.access_token,
       };
+      logger.info(`Requesting on-behalf-of access token for ${forApi}`);
       authClient
         .grant(grantBody)
         .then((tokenSet) => {
+          logger.info(`Received on-behalf-of token for ${forApi}`);
           if (req.user) {
-            req.user.tokenSets.proxy = tokenSet;
+            req.user.tokenSets[forApi] = tokenSet;
             return resolve(tokenSet.access_token);
           } else {
             throw new Error('Could not attach tokenSet to user object');
           }
         })
         .catch((error) => {
-          console.error(error);
+          logger.error(error);
           reject(error);
         });
     } else {
@@ -47,14 +55,14 @@ export const appendDefaultScope = (scope: string): string => `${scope}/.default`
 
 const formatClientIdScopeForV2Clients = (clientId: string): string => appendDefaultScope(`api://${clientId}`);
 
-const createOnBehalfOfScope = (api: ReverseProxy): string => {
+const createOnBehalfOfScope = (api: ApiReverseProxy): string => {
   if (api.scopes) {
     return `${api.scopes.join(' ')}`;
   }
   return `${formatClientIdScopeForV2Clients(api.clientId)}`;
 };
 
-export const hasValidAccessToken = (req: Request, key: 'self' | 'proxy') => {
+export const hasValidAccessToken = (req: Request, key: keyof TokenSets) => {
   const tokenSets = req.user?.tokenSets;
   if (!tokenSets) {
     return false;

@@ -58,7 +58,17 @@ spec:
       value: backend
     - name: DOWNSTREAM_API_URL
       value: http://smregistrering-backend/
+    - name: GRAPH_API_CLIENT_ID
+      value: https://graph.microsoft.com
+    - name: GRAPH_API_SCOPES
+      value: https://graph.microsoft.com/.default
+    - name: MODIACONTEXTHOLDER_PATH
+      value: modiacontextholder/api
+    - name: MODIACONTEXTHOLDER_URL
+      value: https://modiacontextholder-q1.nais.preprod.local
     - name: REDIS_HOST
       value: smregistrering-redis.default.svc.nais.local
     - name: REDIS_PORT
       value: '6379'
+    - name: NODE_EXTRA_CA_CERTS
+      value: /etc/ssl/ca-bundle.pem

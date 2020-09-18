@@ -3,6 +3,7 @@ import './components/formComponents/Flatpickr.less';
 
 import React, { RefObject, useRef, useState } from 'react';
 
+import FormErrorSummary from './components/FormErrorSummary';
 import FormHeader from './components/FormHeader';
 import FormSubmit from './components/FormSubmit';
 import Panel from '../Panel/Panel';
@@ -10,7 +11,6 @@ import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/Arbei
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BekreftelseSection, { Bekreftelse } from './components/formSections/BekreftelseSection';
 import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection/DiagnoseSection';
-import FormErrorSummary, { hasFormErrors } from './components/FormErrorSummary';
 import FriskmeldingSection, { Friskmelding } from './components/formSections/FriskmeldingSection';
 import MeldingTilArbeidsgiverSection, {
     MeldingTilArbeidsgiver,
@@ -206,9 +206,10 @@ type FormProps = {
     sections: Sections;
     oppgave: Oppgave;
     diagnosekoder: Diagnosekoder;
+    enhet: string | null | undefined;
 };
 
-const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
+const Form = ({ schemaRef, sections, oppgave, diagnosekoder, enhet }: FormProps) => {
     const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave, diagnosekoder));
     const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
     const errorSummaryRef = useRef<HTMLDivElement>(null);
@@ -333,9 +334,9 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder }: FormProps) => {
                 <FormSubmit
                     oppgave={oppgave}
                     schema={schema}
-                    hasFormErrors={hasFormErrors(formErrors)}
                     validateAll={validateAll}
                     focusErrorSummary={focusErrorSummary}
+                    enhet={enhet}
                 />
             </form>
         </section>

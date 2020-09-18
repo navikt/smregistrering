@@ -17,12 +17,12 @@ import { buildRegistrertSykmelding } from '../../../utils/registrertSykmeldingUt
 interface FormSubmitProps {
     oppgave: Oppgave;
     schema: SchemaType;
-    hasFormErrors?: boolean;
     validateAll: () => boolean;
     focusErrorSummary: () => void;
+    enhet: string | null | undefined;
 }
 
-const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSummary }: FormSubmitProps) => {
+const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: FormSubmitProps) => {
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [apiErrors, setApiErrors] = useState<RuleHitErrors | undefined>(undefined);
@@ -35,7 +35,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
     Modal.setAppElement('#root');
 
     const registrerSykmelding = () => {
-        if (validateAll()) {
+        if (validateAll() && !!enhet) {
             const sykmelding = buildRegistrertSykmelding(schema);
             if (sykmelding) {
                 setIsLoading(true);
@@ -44,6 +44,7 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                     credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
+                        'X-Nav-Enhet': enhet,
                     },
                     body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
                 })
@@ -102,8 +103,17 @@ const FormSubmit = ({ oppgave, schema, hasFormErrors, validateAll, focusErrorSum
                     <br />
                 </>
             )}
+            {!enhet && (
+                <>
+                    <AlertStripeFeil>
+                        <Element>Enhet mangler.</Element>
+                        <Normaltekst>Velg enhet i nedtrekksmenyen øverst på siden.</Normaltekst>
+                    </AlertStripeFeil>
+                    <br />
+                </>
+            )}
             <Hovedknapp
-                disabled={!checked}
+                disabled={!checked || !enhet}
                 spinner={isLoading}
                 onClick={(e) => {
                     e.preventDefault();

@@ -3,6 +3,7 @@ import * as iots from 'io-ts';
 const TokenSets = iots.partial({
   self: iots.any,
   proxy: iots.any,
+  graph: iots.any,
 });
 
 export const User = iots.type({

@@ -3,18 +3,22 @@ import './App.less';
 import * as iotsPromise from 'io-ts-promise';
 import React, { useEffect, useRef, useState } from 'react';
 
-import Banner from './components/Banner/Banner';
 import ErrorView from './components/ErrorView';
 import Form from './components/Form/Form';
 import LoadingView from './components/LoadingView';
 import Menu from './components/Menu/Menu';
 import Pdf from './components/Pdf/Pdf';
+import { BadRequestError, OppgaveAlreadySolvedError, getDiagnosekoder, getOppgave } from './utils/dataUtils';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
-import { OppgaveAlreadySolvedError, getDiagnosekoder, getOppgave } from './utils/dataUtils';
 import { SectionTitle, Sections } from './types/Section';
 
-const App = () => {
+export interface AppProps {
+    height: number;
+    enhet: string | null | undefined;
+}
+
+const App = ({ enhet, height }: AppProps) => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
@@ -30,13 +34,16 @@ const App = () => {
             })
             .catch((error) => {
                 if (iotsPromise.isDecodeError(error)) {
-                    const errorMessage = 'Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet';
-                    setError(new Error(errorMessage));
-                    console.error(new Error(errorMessage));
-                } else if (error instanceof URIError) {
-                    setError(error);
-                    console.error(error);
-                } else if (error instanceof OppgaveAlreadySolvedError) {
+                    const sanitizedError = new Error(
+                        'Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet',
+                    );
+                    setError(sanitizedError);
+                    console.error(sanitizedError);
+                } else if (
+                    error instanceof URIError ||
+                    error instanceof OppgaveAlreadySolvedError ||
+                    error instanceof BadRequestError
+                ) {
                     setError(error);
                     console.error(error);
                 } else {
@@ -109,39 +116,37 @@ const App = () => {
 
     if (error) {
         return (
-            <>
-                <Banner />
-                <main className="error-container">
-                    <ErrorView error={error} />
-                </main>
-            </>
+            <main className="error-container">
+                <ErrorView error={error} />
+            </main>
         );
     }
 
     if (isLoading) {
         return (
-            <>
-                <Banner />
-                <main className="spinner-container">
-                    <LoadingView />
-                </main>
-            </>
+            <main className="spinner-container">
+                <LoadingView />
+            </main>
         );
     }
 
     if (!oppgave || !diagnosekoder) {
+        console.error('Oppgave or/and diagnosekoder is undefined');
         return null;
     }
 
     return (
-        <>
-            <Banner />
-            <main className="main-content-container">
-                <Menu sections={sections} />
-                <Form schemaRef={schemaRef} sections={sections} oppgave={oppgave} diagnosekoder={diagnosekoder} />
-                <Pdf pdf={oppgave.pdfPapirSykmelding} />
-            </main>
-        </>
+        <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height}px)` }}>
+            <Menu sections={sections} />
+            <Form
+                schemaRef={schemaRef}
+                sections={sections}
+                oppgave={oppgave}
+                diagnosekoder={diagnosekoder}
+                enhet={enhet}
+            />
+            <Pdf pdf={oppgave.pdfPapirSykmelding} />
+        </main>
     );
 };
 

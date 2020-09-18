@@ -1,0 +1,10 @@
+{
+    "ident": "Z123456",
+    "navn": "F_Z123456 E_Z123456",
+    "fornavn": "F_Z123456",
+    "etternavn": "E_Z123456",
+    "enheter": [
+        { "enhetId": "0314", "navn": "NAV Sagene" },
+        { "enhetId": "0393", "navn": "NAV Oppfølging utland" }
+    ]
+}
