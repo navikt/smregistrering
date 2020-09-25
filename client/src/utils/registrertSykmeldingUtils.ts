@@ -323,7 +323,7 @@ export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmeld
     // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
         !schema.pasientFnr ||
-        !schema.sykmelderFnr ||
+        !schema.hpr ||
         !schema.aktoerId ||
         !schema.sykmeldersEtternavn ||
         !schema.sykmeldersFornavn ||
@@ -340,7 +340,7 @@ export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmeld
 
     const registrertSykmelding: RegistrertSykmelding = {
         pasientFnr: schema.pasientFnr,
-        sykmelderFnr: schema.sykmelderFnr,
+        sykmelderFnr: "",
         perioder: buildPerioder(schema),
         medisinskVurdering: {
             svangerskap: schema.svangerskap,
@@ -364,7 +364,7 @@ export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmeld
         behandletDato: schema.behandletDato,
         skjermesForPasient: schema.skjermesForPasient,
         behandler: {
-            fnr: schema.sykmelderFnr,
+            fnr: "",
             fornavn: schema.sykmeldersFornavn,
             etternavn: schema.sykmeldersEtternavn,
             hpr: schema.hpr,
