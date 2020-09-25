@@ -39,7 +39,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
         if (schema.hpr) {
             hentSykmelder(schema.hpr);
         }
-    }, []);
+    }, [schema.hpr]);
 
     const hentSykmelder = (hpr: string) => {
         fetch(`/backend/api/v1/sykmelder/${hpr}`, { credentials: 'include' })
