@@ -1,9 +1,11 @@
+import * as iotsPromise from 'io-ts-promise';
 import React, { useEffect, useState } from 'react';
-import { Element } from 'nav-frontend-typografi';
 import { Input } from 'nav-frontend-skjema';
 
 import DatePicker from '../formComponents/DatePicker';
+import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
+import SykmelderInformation from '../formComponents/SykmelderInformation';
 import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Sykmelder } from '../../../../types/Sykmelder';
@@ -36,8 +38,11 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
     const [sykmelder, setSykmelder] = useState<Sykmelder | undefined | null>(undefined);
 
     useEffect(() => {
-        if (schema.hpr) {
+        // Number must be in synch with validationFuncitons.hpr in validation.ts
+        if (schema.hpr?.length === 7) {
             hentSykmelder(schema.hpr);
+        } else {
+            setSykmelder(null);
         }
     }, [schema.hpr]);
 
@@ -50,9 +55,11 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                     setSykmelder(null);
                 }
             })
-            .then((jsonResponse: Sykmelder) => {
-                console.log(jsonResponse);
-                setSykmelder(jsonResponse);
+            .then((jsonResponse) => {
+                return iotsPromise.decode(Sykmelder, jsonResponse);
+            })
+            .then((sykmelder) => {
+                setSykmelder(sykmelder);
             })
             .catch((error) => {
                 console.error(error);
@@ -77,48 +84,46 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 feil={errors.behandletDato}
             />
 
-            <Input
-                id="hpr"
-                className="form-margin-bottom half"
-                value={schema.hpr ? schema.hpr : undefined}
-                onChange={({ target: { value } }) => {
-                    hentSykmelder(value);
-                    setSchema(
-                        (state): SchemaType => {
-                            const updatedSchema = {
-                                ...state,
-                                hpr: value,
-                            };
-                            validate('hpr', updatedSchema);
-                            return updatedSchema;
-                        },
-                    );
-                }}
-                feil={errors.hpr}
-                label={<Element>12.4 HPR-nummer</Element>}
-            />
+            <Row>
+                <Input
+                    id="hpr"
+                    value={schema.hpr ? schema.hpr : undefined}
+                    onChange={({ target: { value } }) => {
+                        setSchema(
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    hpr: value,
+                                };
+                                validate('hpr', updatedSchema);
+                                return updatedSchema;
+                            },
+                        );
+                    }}
+                    feil={errors.hpr}
+                    label="12.4 HPR-nummer"
+                />
+                <Input
+                    id="sykmelderTelefon"
+                    value={schema.sykmelderTelefon ? schema.sykmelderTelefon : undefined}
+                    onChange={({ target: { value } }) => {
+                        setSchema(
+                            (state): SchemaType => {
+                                const updatedSchema = {
+                                    ...state,
+                                    sykmelderTelefon: value,
+                                };
+                                validate('sykmelderTelefon', updatedSchema);
+                                return updatedSchema;
+                            },
+                        );
+                    }}
+                    feil={errors.sykmelderTelefon}
+                    label="12.5 Telefon"
+                />
+            </Row>
 
-            <p>{JSON.stringify(sykmelder)}</p>
-
-            <Input
-                id="sykmelderTelefon"
-                className="form-margin-bottom half"
-                value={schema.sykmelderTelefon ? schema.sykmelderTelefon : undefined}
-                onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => {
-                            const updatedSchema = {
-                                ...state,
-                                sykmelderTelefon: value,
-                            };
-                            validate('sykmelderTelefon', updatedSchema);
-                            return updatedSchema;
-                        },
-                    );
-                }}
-                feil={errors.sykmelderTelefon}
-                label={<Element>12.5 Telefon</Element>}
-            />
+            {sykmelder ? <SykmelderInformation sykmelder={sykmelder} /> : null}
         </SectionContainer>
     );
 };

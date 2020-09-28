@@ -268,6 +268,10 @@ export const validationFunctions: ValidationType = {
         if (!schema.hpr) {
             return 'Sykmelders HPR-nummer må være definert';
         }
+        // Number must be in synch with schema.hpr.length in BekreftelseSection.ts
+        if (schema.hpr.length !== 7) {
+            return 'Sykmelders HPR-nummer må være 7 siffer';
+        }
         if (!schema.hpr.match('^\\+?[- _0-9]+$')) {
             return 'Sykmelders HPR-nummer er ikke på et gyldig format';
         }

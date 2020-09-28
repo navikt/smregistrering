@@ -23,6 +23,7 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
         <SectionContainer section={section}>
             <Input
                 id="pasientFnr"
+                className="half"
                 value={schema.pasientFnr ? schema.pasientFnr : undefined}
                 onChange={({ target: { value } }) => {
                     setSchema(
