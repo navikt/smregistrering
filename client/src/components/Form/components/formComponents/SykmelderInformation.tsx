@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
 import { Sykmelder } from '../../../../types/Sykmelder';

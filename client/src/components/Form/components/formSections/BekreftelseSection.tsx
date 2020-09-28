@@ -1,6 +1,8 @@
 import * as iotsPromise from 'io-ts-promise';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 import React, { useEffect, useState } from 'react';
 import { Input } from 'nav-frontend-skjema';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 import DatePicker from '../formComponents/DatePicker';
 import Row from '../formComponents/Row';
@@ -36,6 +38,7 @@ type BekreftelseSectionProps = {
 
 const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: BekreftelseSectionProps) => {
     const [sykmelder, setSykmelder] = useState<Sykmelder | undefined | null>(undefined);
+    const [isLoading, setIsloading] = useState<boolean>(false);
 
     useEffect(() => {
         // Number must be in synch with validationFuncitons.hpr in validation.ts
@@ -47,6 +50,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
     }, [schema.hpr]);
 
     const hentSykmelder = (hpr: string) => {
+        setIsloading(true);
         fetch(`/backend/api/v1/sykmelder/${hpr}`, { credentials: 'include' })
             .then((res) => {
                 if (res.ok) {
@@ -63,7 +67,8 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             })
             .catch((error) => {
                 console.error(error);
-            });
+            })
+            .finally(() => setIsloading(false));
     };
 
     return (
@@ -124,6 +129,12 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             </Row>
 
             {sykmelder ? <SykmelderInformation sykmelder={sykmelder} /> : null}
+            {isLoading ? (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Normaltekst style={{ marginRight: '1rem' }}>Henter informasjon om sykmelder</Normaltekst>
+                    <NavFrontendSpinner />
+                </div>
+            ) : null}
         </SectionContainer>
     );
 };
