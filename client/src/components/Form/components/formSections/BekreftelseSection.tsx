@@ -39,37 +39,39 @@ type BekreftelseSectionProps = {
 const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: BekreftelseSectionProps) => {
     const [sykmelder, setSykmelder] = useState<Sykmelder | undefined | null>(undefined);
     const [isLoading, setIsloading] = useState<boolean>(false);
+    const [error, setError] = useState<Error | null>(null);
+
+    //const hentSykmelder = (hpr: string) => {};
 
     useEffect(() => {
         // Number must be in synch with validationFuncitons.hpr in validation.ts
         if (schema.hpr?.length === 7) {
-            hentSykmelder(schema.hpr);
+            setIsloading(true);
+            setError(null);
+            fetch(`/backend/api/v1/sykmelder/${schema.hpr}`, { credentials: 'include' })
+                .then((res) => {
+                    if (res.ok) {
+                        return res.json();
+                    } else if (res.status === 500) {
+                        setSykmelder(null);
+                        throw new Error('Fant ikke behandler med hprNummer: ' + schema.hpr);
+                    }
+                })
+                .then((jsonResponse) => {
+                    return iotsPromise.decode(Sykmelder, jsonResponse);
+                })
+                .then((sykmelder) => {
+                    setSykmelder(sykmelder);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setError(error);
+                })
+                .finally(() => setIsloading(false));
         } else {
             setSykmelder(null);
         }
     }, [schema.hpr]);
-
-    const hentSykmelder = (hpr: string) => {
-        setIsloading(true);
-        fetch(`/backend/api/v1/sykmelder/${hpr}`, { credentials: 'include' })
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else if (res.status === 500) {
-                    setSykmelder(null);
-                }
-            })
-            .then((jsonResponse) => {
-                return iotsPromise.decode(Sykmelder, jsonResponse);
-            })
-            .then((sykmelder) => {
-                setSykmelder(sykmelder);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => setIsloading(false));
-    };
 
     return (
         <SectionContainer section={section}>
@@ -106,7 +108,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                             },
                         );
                     }}
-                    feil={errors.hpr}
+                    feil={errors.hpr || error?.message}
                     label="12.4 HPR-nummer"
                 />
                 <Input
