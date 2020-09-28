@@ -23,7 +23,7 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
             </section>
             <section style={{ marginBottom: '0.5rem' }}>
                 <Element tag="h4">Aktør ID</Element>
-                <Normaltekst>{sykmelder.fnr}</Normaltekst>
+                <Normaltekst>{sykmelder.aktorId}</Normaltekst>
             </section>
             {sykmelder.fornavn ? (
                 <section style={{ marginBottom: '0.5rem' }}>
