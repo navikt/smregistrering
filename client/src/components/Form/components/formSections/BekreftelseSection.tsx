@@ -93,6 +93,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 <Input
                     id="hpr"
                     value={schema.hpr ? schema.hpr : undefined}
+                    disabled={isLoading}
                     onChange={({ target: { value } }) => {
                         setSchema(
                             (state): SchemaType => {
