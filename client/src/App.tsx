@@ -91,10 +91,10 @@ const App = ({ enhet, height }: AppProps) => {
             ref: useRef<HTMLDivElement>(null),
             title: SectionTitle.TILBAKEDATERING,
         },
-        [SectionTitle.BEKREFTELSE]: {
+        [SectionTitle.BEHANDLER]: {
             index: 12,
             ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.BEKREFTELSE,
+            title: SectionTitle.BEHANDLER,
         },
     };
 

@@ -13,7 +13,7 @@ import { Section } from '../../../../types/Section';
 import { Sykmelder } from '../../../../types/Sykmelder';
 import { Validate } from '../../validation';
 
-export type Bekreftelse = {
+export type Behandler = {
     behandletDato?: Date | null;
     sykmeldersFornavn?: string | null;
     sykmeldersEtternavn?: string | null;
@@ -28,7 +28,7 @@ export type Bekreftelse = {
     sykmelderLand?: string | null;
 };
 
-type BekreftelseSectionProps = {
+type BehandlerSectionProps = {
     section: Section;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
@@ -36,7 +36,7 @@ type BekreftelseSectionProps = {
     validate: Validate;
 };
 
-const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: BekreftelseSectionProps) => {
+const BehandlerSection = ({ section, setSchema, schema, errors, validate }: BehandlerSectionProps) => {
     const [sykmelder, setSykmelder] = useState<Sykmelder | undefined | null>(undefined);
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
@@ -133,7 +133,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
             {sykmelder ? <SykmelderInformation sykmelder={sykmelder} /> : null}
             {isLoading ? (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Normaltekst style={{ marginRight: '1rem' }}>Henter informasjon om sykmelder</Normaltekst>
+                    <Normaltekst style={{ marginRight: '1rem' }}>Henter informasjon om behandler</Normaltekst>
                     <NavFrontendSpinner />
                 </div>
             ) : null}
@@ -141,4 +141,4 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
     );
 };
 
-export default BekreftelseSection;
+export default BehandlerSection;
