@@ -340,7 +340,7 @@ export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmeld
 
     const registrertSykmelding: RegistrertSykmelding = {
         pasientFnr: schema.pasientFnr,
-        sykmelderFnr: "",
+        sykmelderFnr: '',
         perioder: buildPerioder(schema),
         medisinskVurdering: {
             svangerskap: schema.svangerskap,
@@ -364,7 +364,7 @@ export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmeld
         behandletDato: schema.behandletDato,
         skjermesForPasient: schema.skjermesForPasient,
         behandler: {
-            fnr: "",
+            fnr: '',
             fornavn: schema.sykmeldersFornavn,
             etternavn: schema.sykmeldersEtternavn,
             hpr: schema.hpr,

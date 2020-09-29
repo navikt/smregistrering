@@ -296,24 +296,12 @@ context('Oppgave mapping', () => {
                 oppgave.papirSmRegistering.kontaktMedPasient.begrunnelseIkkeKontakt,
             );
 
-            cy.get('#sykmelderFnr').should('have.value', oppgave.papirSmRegistering.behandler.fnr);
-            cy.get('#aktoerId').should('have.value', oppgave.papirSmRegistering.behandler.aktoerId);
             cy.get('#behandletDato').should(
                 'have.value',
                 dayjs(oppgave.papirSmRegistering.behandletTidspunkt).format('DD.MM.YYYY'),
             );
-            cy.get('#sykmeldersFornavn').should('have.value', oppgave.papirSmRegistering.behandler.fornavn);
-            cy.get('#sykmeldersEtternavn').should('have.value', oppgave.papirSmRegistering.behandler.etternavn);
             cy.get('#hpr').should('have.value', oppgave.papirSmRegistering.behandler.hpr);
             cy.get('#sykmelderTelefon').should('have.value', oppgave.papirSmRegistering.behandler.tlf);
-            cy.get('#sykmelderGate').should('have.value', oppgave.papirSmRegistering.behandler.adresse.gate);
-            cy.get('#sykmelderPostnummer').should(
-                'have.value',
-                oppgave.papirSmRegistering.behandler.adresse.postnummer,
-            );
-            cy.get('#sykmelderKommune').should('have.value', oppgave.papirSmRegistering.behandler.adresse.kommune);
-            cy.get('#sykmelderPostboks').should('have.value', oppgave.papirSmRegistering.behandler.adresse.postboks);
-            cy.get('#sykmelderLand').should('have.value', oppgave.papirSmRegistering.behandler.adresse.land);
         });
     });
 
@@ -427,17 +415,8 @@ context('Oppgave mapping', () => {
         cy.get('#kunneIkkeIvaretaEgneInteresser').should('not.be.checked');
         cy.get('#begrunnelseIkkeKontakt').should('not.exist');
 
-        cy.get('#sykmelderFnr').should('not.have.value');
-        cy.get('#aktoerId').should('not.have.value');
         cy.get('#behandletDato').should('not.have.value');
-        cy.get('#sykmeldersFornavn').should('not.have.value');
-        cy.get('#sykmeldersEtternavn').should('not.have.value');
         cy.get('#hpr').should('not.have.value');
         cy.get('#sykmelderTelefon').should('not.have.value');
-        cy.get('#sykmelderGate').should('not.have.value');
-        cy.get('#sykmelderPostnummer').should('not.have.value');
-        cy.get('#sykmelderKommune').should('not.have.value');
-        cy.get('#sykmelderPostboks').should('not.have.value');
-        cy.get('#sykmelderLand').should('not.have.value');
     });
 });

@@ -15,6 +15,7 @@ const schema: SchemaType = {
     aktoerId: '12345',
     sykmeldersEtternavn: 'Legesen',
     sykmeldersFornavn: 'Lege',
+    hpr: '1234567',
     harArbeidsgiver: 'EN_ARBEIDSGIVER',
     syketilfelleStartDato: new Date('2018-11-29'),
     behandletDato: new Date('2018-12-29'),
@@ -83,9 +84,10 @@ const registrertSykmelding: any = {
             postboks: '7064',
             land: 'Norge',
         },
+        hpr: '1234567',
         aktoerId: '12345',
         etternavn: 'Legesen',
-        fnr: '12345678920',
+        fnr: '', // TODO: remove when backedn is ready
         fornavn: 'Lege',
         tlf: '45000022',
     },
@@ -108,7 +110,7 @@ const registrertSykmelding: any = {
     perioder: [],
     skjermesForPasient: false,
     syketilfelleStartDato: '2018-11-29',
-    sykmelderFnr: '12345678920',
+    sykmelderFnr: '', // TODO: remove when backend is ready
     utdypendeOpplysninger: {
         '6.1': {
             '6.1.1': 'Dette er utdypende opplysnigner 6.1.1',
@@ -163,7 +165,7 @@ describe('FormSubmit', () => {
         mock = FetchMock.configure({
             middleware: spy.middleware,
         });
-        mock.put('backend/api/v1/sendPapirSykmeldingManuellOppgave/', () => Promise.resolve({ status: 204 }));
+        mock.post(`backend/api/v1/oppgave/${oppgave.oppgaveid}/send`, () => Promise.resolve({ status: 204 }));
         expect(spy.size()).toBe(0);
     });
 
@@ -178,6 +180,7 @@ describe('FormSubmit', () => {
                 schema={schema}
                 validateAll={validateAll}
                 focusErrorSummary={focusErrorSummary}
+                enhet={'1234'}
             />,
         );
         expect(getByText('Informasjonen stemmer overens med papirsykmelding')).toBeInTheDocument();
@@ -192,7 +195,7 @@ describe('FormSubmit', () => {
 
         await findByText('Sykmeldingen ble registrert', { exact: false });
         expect(spy.size()).toBe(1);
-        expect(spy.lastUrl()).toBe(`backend/api/v1/sendPapirSykmeldingManuellOppgave/?oppgaveid=${oppgave.oppgaveid}`);
+        expect(spy.lastUrl()).toBe(`backend/api/v1/oppgave/${oppgave.oppgaveid}/send`);
         expect(spy.lastCall()?.request.body).toEqual(registrertSykmelding);
     });
 });
