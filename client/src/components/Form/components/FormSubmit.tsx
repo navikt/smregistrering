@@ -124,7 +124,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: 
                 </>
             )}
             <Hovedknapp
-                disabled={!checked || !enhet}
+                disabled={!checked || !enhet || isLoading}
                 spinner={isLoading}
                 onClick={(e) => {
                     e.preventDefault();

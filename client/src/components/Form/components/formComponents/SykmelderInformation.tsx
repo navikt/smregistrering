@@ -1,3 +1,5 @@
+import './SykmelderInformation.less';
+
 import React from 'react';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
@@ -13,20 +15,20 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
     }
 
     return (
-        <article style={{ marginBottom: '0rem' }}>
-            <header style={{ marginBottom: '0.5rem' }}>
+        <article className="sykmelder-information">
+            <header>
                 <Undertittel tag="h3">Informasjon on sykmelder</Undertittel>
             </header>
-            <section style={{ marginBottom: '0.5rem' }}>
+            <section>
                 <Element tag="h4">Fødselsnummer:</Element>
                 <Normaltekst>{sykmelder.fnr}</Normaltekst>
             </section>
-            <section style={{ marginBottom: '0.5rem' }}>
+            <section>
                 <Element tag="h4">Aktør ID</Element>
                 <Normaltekst>{sykmelder.aktorId}</Normaltekst>
             </section>
             {sykmelder.fornavn ? (
-                <section style={{ marginBottom: '0.5rem' }}>
+                <section>
                     <Element tag="h4">Navn:</Element>
                     <Normaltekst>
                         {sykmelder.fornavn} {sykmelder.mellomnavn} {sykmelder.etternavn}
