@@ -41,8 +41,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
 
-    //const hentSykmelder = (hpr: string) => {};
-
+    // GET information about sykmelder on every schema.hpr change
     useEffect(() => {
         // Number must be in synch with validationFuncitons.hpr in validation.ts
         if (schema.hpr?.length === 7) {
@@ -52,8 +51,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 .then((res) => {
                     if (res.ok) {
                         return res.json();
-                    } else if (res.status === 500) {
-                        setSykmelder(null);
+                    } else {
                         throw new Error('Fant ikke behandler med hprNummer: ' + schema.hpr);
                     }
                 })
@@ -65,6 +63,7 @@ const BekreftelseSection = ({ section, setSchema, schema, errors, validate }: Be
                 })
                 .catch((error) => {
                     console.log(error);
+                    setSykmelder(null);
                     setError(error);
                 })
                 .finally(() => setIsloading(false));
