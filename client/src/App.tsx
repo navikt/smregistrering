@@ -1,6 +1,5 @@
 import './App.less';
 
-import * as iotsPromise from 'io-ts-promise';
 import React, { useEffect, useRef, useState } from 'react';
 
 import ErrorView from './components/ErrorView';
@@ -8,10 +7,10 @@ import Form from './components/Form/Form';
 import LoadingView from './components/LoadingView';
 import Menu from './components/Menu/Menu';
 import Pdf from './components/Pdf/Pdf';
-import { BadRequestError, OppgaveAlreadySolvedError, getDiagnosekoder, getOppgave } from './utils/dataUtils';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { SectionTitle, Sections } from './types/Section';
+import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
 
 export interface AppProps {
     height: number;
@@ -33,23 +32,8 @@ const App = ({ enhet, height }: AppProps) => {
                 setOppgave(_oppgave);
             })
             .catch((error) => {
-                if (iotsPromise.isDecodeError(error)) {
-                    const sanitizedError = new Error(
-                        'Henting av oppgave feilet grunnet ugyldig data mottatt fra baksystemet',
-                    );
-                    setError(sanitizedError);
-                    console.error(sanitizedError);
-                } else if (
-                    error instanceof URIError ||
-                    error instanceof OppgaveAlreadySolvedError ||
-                    error instanceof BadRequestError
-                ) {
-                    setError(error);
-                    console.error(error);
-                } else {
-                    setError(new Error('Henting av data feilet grunnet nettverksfeil'));
-                    console.error(error);
-                }
+                console.error(error);
+                setError(error);
             })
             .finally(() => {
                 setIsLoading(false);
