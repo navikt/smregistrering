@@ -48,8 +48,8 @@ const BidiagnoseRow = ({
                         label={<Element>3.2.1 Kodesystem</Element>}
                     >
                         <option value="undefined">Velg kodesystem</option>
-                        <option value={DiagnosekodeSystem.ICPC2}>ICPC-2</option>
                         <option value={DiagnosekodeSystem.ICD10}>ICD-10</option>
+                        <option value={DiagnosekodeSystem.ICPC2}>ICPC-2</option>
                     </Select>
                     <SearchableInput
                         id={'bidiagnose-' + index + '-kode'}
