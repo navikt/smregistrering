@@ -9,7 +9,6 @@ import Menu from './components/Menu/Menu';
 import Pdf from './components/Pdf/Pdf';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
-import { SectionTitle, Sections } from './types/Section';
 import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
 
 export interface AppProps {
@@ -40,64 +39,6 @@ const App = ({ enhet, height }: AppProps) => {
             });
     }, []);
 
-    const sections: Sections = {
-        [SectionTitle.PASIENTOPPLYSNINGER]: {
-            index: 1,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.PASIENTOPPLYSNINGER,
-        },
-        [SectionTitle.ARBEIDSGIVER]: {
-            index: 2,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.ARBEIDSGIVER,
-        },
-        [SectionTitle.DIAGNOSE]: {
-            index: 3,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.DIAGNOSE,
-        },
-        [SectionTitle.MULIGHET_FOR_ARBEID]: {
-            index: 4,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.MULIGHET_FOR_ARBEID,
-        },
-        [SectionTitle.FRISKMELDING_PROGNOSE]: {
-            index: 5,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.FRISKMELDING_PROGNOSE,
-        },
-        [SectionTitle.UTDYPENDE_OPPLYSNIGNER]: {
-            index: 6,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.UTDYPENDE_OPPLYSNIGNER,
-        },
-        [SectionTitle.ARBEIDSEVNE]: {
-            index: 7,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.ARBEIDSEVNE,
-        },
-        [SectionTitle.TIL_NAV]: {
-            index: 8,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.TIL_NAV,
-        },
-        [SectionTitle.TIL_ARBEIDSGIVER]: {
-            index: 9,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.TIL_ARBEIDSGIVER,
-        },
-        [SectionTitle.TILBAKEDATERING]: {
-            index: 11,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.TILBAKEDATERING,
-        },
-        [SectionTitle.BEHANDLER]: {
-            index: 12,
-            ref: useRef<HTMLDivElement>(null),
-            title: SectionTitle.BEHANDLER,
-        },
-    };
-
     if (error) {
         return (
             <main className="error-container">
@@ -121,14 +62,8 @@ const App = ({ enhet, height }: AppProps) => {
 
     return (
         <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height}px)` }}>
-            <Menu sections={sections} />
-            <Form
-                schemaRef={schemaRef}
-                sections={sections}
-                oppgave={oppgave}
-                diagnosekoder={diagnosekoder}
-                enhet={enhet}
-            />
+            <Menu />
+            <Form schemaRef={schemaRef} oppgave={oppgave} diagnosekoder={diagnosekoder} enhet={enhet} />
             <Pdf pdf={oppgave.pdfPapirSykmelding} />
         </main>
     );

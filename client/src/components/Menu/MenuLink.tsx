@@ -18,14 +18,7 @@ type MenuLinkProps = {
 
 const MenuLink = ({ section }: MenuLinkProps) => {
     return (
-        <Lenke
-            className="menu-link"
-            href=""
-            onClick={(e) => {
-                e.preventDefault();
-                scrollToRef(section.ref);
-            }}
-        >
+        <Lenke className="menu-link" href={`#${section.title}`}>
             {section.title}
         </Lenke>
     );
