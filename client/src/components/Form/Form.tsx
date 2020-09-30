@@ -27,7 +27,6 @@ import UtdypendeOpplysningerSection, {
 } from './components/formSections/UtdypendeOpplysningerSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
-import { SectionTitle, Sections } from '../../types/Section';
 import { Validate, validationFunctions } from './validation';
 import {
     getAktivitetIkkeMuligSykmelding,
@@ -38,7 +37,7 @@ import {
 } from '../../utils/periodeUtils';
 import { getKeys } from '../../utils/objectUtils';
 import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../utils/diagnoseUtils';
-import { scrollToRef } from '../Menu/MenuLink';
+import { sections } from '../../types/Section';
 
 export interface SchemaType
     extends Pasientopplysninger,
@@ -203,13 +202,12 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
 
 type FormProps = {
     schemaRef: RefObject<HTMLDivElement>;
-    sections: Sections;
     oppgave: Oppgave;
     diagnosekoder: Diagnosekoder;
     enhet: string | null | undefined;
 };
 
-const Form = ({ schemaRef, sections, oppgave, diagnosekoder, enhet }: FormProps) => {
+const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
     const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave, diagnosekoder));
     const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
     const errorSummaryRef = useRef<HTMLDivElement>(null);
@@ -240,7 +238,7 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder, enhet }: FormProps)
         setTimeout(() => {
             if (errorSummaryRef.current) {
                 errorSummaryRef.current.focus();
-                scrollToRef(errorSummaryRef);
+                errorSummaryRef.current.scrollIntoView({ behavior: 'smooth' });
             }
         }, 300);
     };
@@ -252,21 +250,21 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder, enhet }: FormProps)
                     <FormHeader />
                     <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
                     <PasientopplysningerSection
-                        section={sections[SectionTitle.PASIENTOPPLYSNINGER]}
+                        section={sections.PASIENTOPPLYSNINGER}
                         setSchema={setSchema}
                         errors={formErrors}
                         schema={schema}
                         validate={validate}
                     />
                     <ArbeidsgiverSection
-                        section={sections[SectionTitle.ARBEIDSGIVER]}
+                        section={sections.ARBEIDSGIVER}
                         setSchema={setSchema}
                         errors={formErrors}
                         schema={schema}
                         validate={validate}
                     />
                     <DiagnoseSection
-                        section={sections[SectionTitle.DIAGNOSE]}
+                        section={sections.DIAGNOSE}
                         setSchema={setSchema}
                         errors={formErrors}
                         schema={schema}
@@ -274,56 +272,56 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder, enhet }: FormProps)
                         diagnosekoder={diagnosekoder}
                     />
                     <MulighetForArbeidSection
-                        section={sections[SectionTitle.MULIGHET_FOR_ARBEID]}
+                        section={sections.MULIGHET_FOR_ARBEID}
                         setSchema={setSchema}
                         schema={schema}
                         errors={formErrors}
                         validate={validate}
                     />
                     <FriskmeldingSection
-                        section={sections[SectionTitle.FRISKMELDING_PROGNOSE]}
+                        section={sections.FRISKMELDING_PROGNOSE}
                         setSchema={setSchema}
                         schema={schema}
                         errors={formErrors}
                         validate={validate}
                     />
                     <UtdypendeOpplysningerSection
-                        section={sections[SectionTitle.UTDYPENDE_OPPLYSNIGNER]}
+                        section={sections.UTDYPENDE_OPPLYSNINGER}
                         setSchema={setSchema}
                         schema={schema}
                         errors={formErrors}
                         validate={validate}
                     />
                     <ArbeidsevneSection
-                        section={sections[SectionTitle.ARBEIDSEVNE]}
+                        section={sections.ARBEIDSEVNE}
                         setSchema={setSchema}
                         schema={schema}
                         errors={formErrors}
                         validate={validate}
                     />
                     <MeldingTilNavSection
-                        section={sections[SectionTitle.TIL_NAV]}
+                        section={sections.MELDING_TIL_NAV}
                         setSchema={setSchema}
                         schema={schema}
                         errors={formErrors}
                         validate={validate}
                     />
                     <MeldingTilArbeidsgiverSection
-                        section={sections[SectionTitle.TIL_ARBEIDSGIVER]}
+                        section={sections.MELDING_TIL_ARBEIDSGIVER}
                         setSchema={setSchema}
                         schema={schema}
                         errors={formErrors}
                         validate={validate}
                     />
                     <TilbakedateringSection
-                        section={sections[SectionTitle.TILBAKEDATERING]}
+                        section={sections.TILBAKEDATERING}
                         setSchema={setSchema}
                         schema={schema}
                         errors={formErrors}
                         validate={validate}
                     />
                     <BehandlerSection
-                        section={sections[SectionTitle.BEHANDLER]}
+                        section={sections.BEHANDLER}
                         setSchema={setSchema}
                         schema={schema}
                         errors={formErrors}

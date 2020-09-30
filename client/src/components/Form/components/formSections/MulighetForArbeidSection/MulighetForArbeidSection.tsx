@@ -53,7 +53,7 @@ type MulighetForArbeidSectionProps = {
 
 const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate }: MulighetForArbeidSectionProps) => {
     return (
-        <SectionContainer id="mulighetForArbeid" section={section} sectionError={errors.mulighetForArbeid}>
+        <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
             <Subsection sectionIdentifier="4.1">
                 <Checkbox
                     id="avventendeSykmelding"

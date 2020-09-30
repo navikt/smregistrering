@@ -11,7 +11,7 @@ type SectionHeaderProps = {
 
 const SectionHeader = ({ section }: SectionHeaderProps) => {
     return (
-        <header ref={section.ref} className="section-header">
+        <header className="section-header">
             <Undertittel className="section-header-title">
                 {section.index} {section.title}
             </Undertittel>
