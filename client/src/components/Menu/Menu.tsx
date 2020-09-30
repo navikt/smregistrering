@@ -5,13 +5,9 @@ import { Systemtittel } from 'nav-frontend-typografi';
 
 import MenuLink from './MenuLink';
 import Panel from '../Panel/Panel';
-import { Sections } from '../../types/Section';
+import { sections } from '../../types/Section';
 
-type MenuProps = {
-    sections: Sections;
-};
-
-const Menu = ({ sections }: MenuProps) => {
+const Menu = () => {
     const sectionValues = Object.values(sections);
 
     return (

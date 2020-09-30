@@ -1,25 +1,64 @@
-import { RefObject } from 'react';
-
-export enum SectionTitle {
-    PASIENTOPPLYSNINGER = 'Pasientopplysninger',
-    ARBEIDSGIVER = 'Arbeidsgiver',
-    DIAGNOSE = 'Diagnose',
-    MULIGHET_FOR_ARBEID = 'Mulighet for arbeid',
-    FRISKMELDING_PROGNOSE = 'Friskmelding/prognose',
-    UTDYPENDE_OPPLYSNIGNER = 'Utdypende opplysninger',
-    ARBEIDSEVNE = 'Hva skal til for å bedre arbeidsevnen',
-    TIL_NAV = 'Melding til NAV',
-    TIL_ARBEIDSGIVER = 'Melding til arbeidsgiver',
-    TILBAKEDATERING = 'Tilbakedatering',
-    BEHANDLER = 'Behandler',
-}
+type SectionName =
+    | 'PASIENTOPPLYSNINGER'
+    | 'ARBEIDSGIVER'
+    | 'DIAGNOSE'
+    | 'MULIGHET_FOR_ARBEID'
+    | 'FRISKMELDING_PROGNOSE'
+    | 'UTDYPENDE_OPPLYSNINGER'
+    | 'ARBEIDSEVNE'
+    | 'MELDING_TIL_NAV'
+    | 'MELDING_TIL_ARBEIDSGIVER'
+    | 'TILBAKEDATERING'
+    | 'BEHANDLER';
 
 export type Section = {
     index: number;
-    ref: RefObject<HTMLDivElement>;
-    title: SectionTitle;
+    title: string;
 };
 
-export type Sections = {
-    [key in SectionTitle]: Section;
+export const sections: Record<SectionName, Section> = {
+    PASIENTOPPLYSNINGER: {
+        index: 1,
+        title: 'Pasientopplysninger',
+    },
+    ARBEIDSGIVER: {
+        index: 2,
+        title: 'Arbeidsgiver',
+    },
+    DIAGNOSE: {
+        index: 3,
+        title: 'Diagnose',
+    },
+    MULIGHET_FOR_ARBEID: {
+        index: 4,
+        title: 'Mulighet for arbeid',
+    },
+    FRISKMELDING_PROGNOSE: {
+        index: 5,
+        title: 'Friskmelding/prognose',
+    },
+    UTDYPENDE_OPPLYSNINGER: {
+        index: 6,
+        title: 'Utdypende opplysninger',
+    },
+    ARBEIDSEVNE: {
+        index: 7,
+        title: 'Hva skal til for å bedre arbeidsevnen',
+    },
+    MELDING_TIL_NAV: {
+        index: 8,
+        title: 'Melding til NAV',
+    },
+    MELDING_TIL_ARBEIDSGIVER: {
+        index: 9,
+        title: 'Melding til arbeidsgiver',
+    },
+    TILBAKEDATERING: {
+        index: 10,
+        title: 'Tilbakedatering',
+    },
+    BEHANDLER: {
+        index: 11,
+        title: 'Behandler',
+    },
 };

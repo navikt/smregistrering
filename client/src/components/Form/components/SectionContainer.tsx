@@ -6,15 +6,14 @@ import SectionHeader from './SectionHeader';
 import { Section } from '../../../types/Section';
 
 type SectionProps = {
-    id?: string;
     children: React.ReactNode | React.ReactChild | React.ReactChildren;
     section: Section;
     sectionError?: string;
 };
 
-const SectionContainer = ({ id, children, section, sectionError }: SectionProps) => {
+const SectionContainer = ({ children, section, sectionError }: SectionProps) => {
     return (
-        <section id={id}>
+        <section id={section.title}>
             <SectionHeader section={section} />
             <fieldset className={`section-content ${sectionError ? 'section-content--feil' : ''}`}>{children}</fieldset>
             {sectionError && <p className="section-error typo-feilmelding">{sectionError}</p>}
