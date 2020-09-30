@@ -5,6 +5,7 @@ import { Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import DatePicker from '../formComponents/DatePicker';
+import FormLabel from '../formComponents/FormLabel';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import SykmelderInformation from '../formComponents/SykmelderInformation';
@@ -108,7 +109,12 @@ const BehandlerSection = ({ section, setSchema, schema, errors, validate }: Beha
                         );
                     }}
                     feil={errors.hpr || error?.message}
-                    label="12.4 HPR-nummer"
+                    label={
+                        <FormLabel
+                            label="12.4 HPR-nummer"
+                            helpText='Dersom HPR-nummeret du finner i PDF-en har færre enn 9 siffer fyller du inn "0" foran nummeret til det blir riktig antall'
+                        />
+                    }
                 />
                 <Input
                     id="sykmelderTelefon"
@@ -126,7 +132,7 @@ const BehandlerSection = ({ section, setSchema, schema, errors, validate }: Beha
                         );
                     }}
                     feil={errors.sykmelderTelefon}
-                    label="12.5 Telefon"
+                    label={<FormLabel label="12.5 Telefon" />}
                 />
             </Row>
 
