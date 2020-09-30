@@ -37,7 +37,6 @@ import {
 } from '../../utils/periodeUtils';
 import { getKeys } from '../../utils/objectUtils';
 import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../utils/diagnoseUtils';
-import { scrollToRef } from '../Menu/MenuLink';
 import { sections } from '../../types/Section';
 
 export interface SchemaType
@@ -239,7 +238,7 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
         setTimeout(() => {
             if (errorSummaryRef.current) {
                 errorSummaryRef.current.focus();
-                scrollToRef(errorSummaryRef);
+                errorSummaryRef.current.scrollIntoView({ behavior: 'smooth' });
             }
         }, 300);
     };
