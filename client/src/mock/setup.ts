@@ -3,6 +3,7 @@ import FetchMock, { MiddlewareUtils } from 'yet-another-fetch-mock';
 import aktivenhet from './aktivenhet.json';
 import decorator from './decorator.json';
 import oppgave from './oppgave.json';
+import sykmelder from './sykmelder.json';
 
 // Uncomment to use "invalid form" endpoint below
 // import { RuleHitErrors } from '../types/RuleHitErrors';
@@ -30,6 +31,7 @@ mock.get('/modiacontextholder/api/context/aktivenhet', aktivenhet);
 mock.delete('/modiacontextholder/api/context/aktivbruker', () => Promise.resolve({ status: 200 }));
 
 mock.get('backend/api/v1/oppgave/:oppgaveid', oppgave);
-mock.post('backend/api/v1/oppgave/:oppgaveid/send', () => Promise.resolve({ status: 204 })); // For status ok
+mock.post('backend/api/v1/oppgave/:oppgaveid/send', () => Promise.resolve({ status: 500 })); // For status ok
 // mock.put('backend/api/v1/sendPapirSykmeldingManuellOppgave/', () => Promise.resolve({ body: resBody, status: 400 })); // For invalid form response. Errors returned in body. TODO: Something wrong with the mock, works in dev.
 
+mock.get('/backend/api/v1/sykmelder/:hpr', sykmelder);

@@ -9,7 +9,7 @@ import FormSubmit from './components/FormSubmit';
 import Panel from '../Panel/Panel';
 import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/ArbeidsevneSection';
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
-import BekreftelseSection, { Bekreftelse } from './components/formSections/BekreftelseSection';
+import BehandlerSection, { Behandler } from './components/formSections/BehandlerSection';
 import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection/DiagnoseSection';
 import FriskmeldingSection, { Friskmelding } from './components/formSections/FriskmeldingSection';
 import MeldingTilArbeidsgiverSection, {
@@ -51,7 +51,7 @@ export interface SchemaType
         MeldingTilNav,
         MeldingTilArbeidsgiver,
         Tilbakedatering,
-        Bekreftelse,
+        Behandler,
         Other {}
 
 export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined };
@@ -322,8 +322,8 @@ const Form = ({ schemaRef, sections, oppgave, diagnosekoder, enhet }: FormProps)
                         errors={formErrors}
                         validate={validate}
                     />
-                    <BekreftelseSection
-                        section={sections[SectionTitle.BEKREFTELSE]}
+                    <BehandlerSection
+                        section={sections[SectionTitle.BEHANDLER]}
                         setSchema={setSchema}
                         schema={schema}
                         errors={formErrors}

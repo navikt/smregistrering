@@ -894,9 +894,9 @@ describe('registrertSykmeldingUtils', () => {
                     begrunnelseIkkeKontakt: schema.begrunnelseIkkeKontakt,
                 },
                 behandletDato: schema.behandletDato!,
-                sykmelderFnr: schema.sykmelderFnr!,
+                sykmelderFnr: '', // TODO: remove when backend is ready
                 behandler: {
-                    fnr: schema.sykmelderFnr!,
+                    fnr: '', // TODO: remove when backend is ready
                     fornavn: schema.sykmeldersFornavn!,
                     etternavn: schema.sykmeldersEtternavn!,
                     hpr: schema.hpr,

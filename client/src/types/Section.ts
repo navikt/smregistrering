@@ -11,7 +11,7 @@ export enum SectionTitle {
     TIL_NAV = 'Melding til NAV',
     TIL_ARBEIDSGIVER = 'Melding til arbeidsgiver',
     TILBAKEDATERING = 'Tilbakedatering',
-    BEKREFTELSE = 'Bekreftelse',
+    BEHANDLER = 'Behandler',
 }
 
 export type Section = {

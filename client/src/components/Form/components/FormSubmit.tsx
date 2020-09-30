@@ -25,7 +25,8 @@ interface FormSubmitProps {
 const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: FormSubmitProps) => {
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [apiErrors, setApiErrors] = useState<RuleHitErrors | undefined>(undefined);
+    const [ruleHitErrors, setRuleHitErrors] = useState<RuleHitErrors | undefined>(undefined);
+    const [error, setError] = useState<Error | null>(null);
     const [modalState, setModalState] = useState<{ isOpen: boolean; textContent: string; contentLabel: string }>({
         isOpen: false,
         textContent: '',
@@ -39,6 +40,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: 
             const sykmelding = buildRegistrertSykmelding(schema);
             if (sykmelding) {
                 setIsLoading(true);
+                setError(null);
                 fetch(`backend/api/v1/oppgave/${oppgave.oppgaveid}/send`, {
                     method: 'POST',
                     credentials: 'include',
@@ -55,8 +57,10 @@ const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: 
                                 textContent: 'Sykmeldingen ble registrert.',
                                 contentLabel: 'Sykmelding registrert',
                             });
-                        } else {
+                        } else if (res.status === 400) {
                             return res.json();
+                        } else {
+                            throw new Error('Det oppsto en feil i baksystemet med feilkode: ' + res.status);
                         }
                     })
                     .then((json) => {
@@ -65,9 +69,10 @@ const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: 
                         }
                     })
                     .then((ruleHitErrors) => {
-                        setApiErrors(ruleHitErrors);
+                        setRuleHitErrors(ruleHitErrors);
                     })
                     .catch((error) => {
+                        setError(error);
                         console.error(error);
                     })
                     .finally(() => setIsLoading(false));
@@ -87,7 +92,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: 
                 label="Informasjonen stemmer overens med papirsykmelding"
                 onChange={() => setChecked((state) => !state)}
             />
-            {apiErrors && (
+            {ruleHitErrors && (
                 <>
                     <AlertStripeFeil>
                         <Element>
@@ -95,11 +100,17 @@ const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: 
                             registrere sykmeldingen på nytt.
                         </Element>
                         <ul>
-                            {apiErrors.ruleHits.map((ruleHit) => (
+                            {ruleHitErrors.ruleHits.map((ruleHit) => (
                                 <li>{ruleHit.messageForSender}</li>
                             ))}
                         </ul>
                     </AlertStripeFeil>
+                    <br />
+                </>
+            )}
+            {error && (
+                <>
+                    <AlertStripeFeil>{error.message}</AlertStripeFeil>
                     <br />
                 </>
             )}
@@ -113,7 +124,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: 
                 </>
             )}
             <Hovedknapp
-                disabled={!checked || !enhet}
+                disabled={!checked || !enhet || isLoading}
                 spinner={isLoading}
                 onClick={(e) => {
                     e.preventDefault();

@@ -260,34 +260,23 @@ export const validationFunctions: ValidationType = {
         }
         return undefined;
     },
-    sykmelderFnr: (schema) => {
-        if (!schema.sykmelderFnr) {
-            return 'Sykmelders fødselsnummer må være definert';
+    sykmelderFnr: () => undefined,
+    aktoerId: () => undefined,
+    sykmeldersFornavn: () => undefined,
+    sykmeldersEtternavn: () => undefined,
+    hpr: (schema) => {
+        if (!schema.hpr) {
+            return 'Behandlers HPR-nummer må være definert';
         }
-        if (schema.sykmelderFnr.length !== 11) {
-            return 'Sykmelders fødselsnummer må være 11 siffer';
+        // Number must be in synch with schema.hpr.length in BekreftelseSection.ts
+        if (schema.hpr.length !== 7) {
+            return 'Behandlers HPR-nummer må være 7 siffer';
         }
-        if (!schema.sykmelderFnr.match('^\\+?[- _0-9]+$')) {
-            return 'Sykmelders fødselsnummer er ikke på et gyldig format';
+        if (!schema.hpr.match('^\\+?[- _0-9]+$')) {
+            return 'Behandlers HPR-nummer er ikke på et gyldig format';
         }
         return undefined;
     },
-    aktoerId: (schema) => {
-        if (!schema.aktoerId) {
-            return 'AktørID er et påkrevd felt';
-        }
-    },
-    sykmeldersFornavn: (schema) => {
-        if (!schema.sykmeldersFornavn) {
-            return 'Sykmelders fornavn må være definert';
-        }
-    },
-    sykmeldersEtternavn: (schema) => {
-        if (!schema.sykmeldersEtternavn) {
-            return 'Sykmelders etternavn må være definert';
-        }
-    },
-    hpr: () => undefined,
     sykmelderTelefon: () => undefined,
     sykmelderGate: () => undefined,
     sykmelderKommune: () => undefined,
