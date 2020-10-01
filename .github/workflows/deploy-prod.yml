@@ -1,0 +1,72 @@
+name: Deploy to prod
+on:
+  push:
+    branches:
+      - "master"
+env:
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering:${{ github.sha }}
+jobs:
+  build-push-deploy:
+    name: Checkout code and create docker tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Use Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install dependencies for server
+        run: |
+          npm install
+        working-directory: ./server
+      - name: Run tests for server
+        run: |
+          npm run test
+        working-directory: ./server
+      - name: Install dependencies for client
+        run: |
+          npm install
+        working-directory: ./client
+      - name: Run unit tests for client
+        env:
+          CI: true
+        run: |
+          npm run test
+        working-directory: ./client
+      - name: Run integration tests for client
+        env:
+          CI: true
+        run: |
+          npm run start & npx wait-on http://localhost:4000 && npm run test-integration
+        working-directory: ./client
+      - name: Build server
+        run: |
+          npm run compile
+        working-directory: ./server
+      - name: Build client
+        env:
+          REACT_APP_HEAD_URL: https://app.adeo.no
+          REACT_APP_GOSYS_URL: https://gosys.nais.adeo.no/gosys/bruker/brukeroversikt.jsf
+        run: |
+          npm run build
+        working-directory: ./client
+      - name: Build and publish Docker image
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker build --tag ${IMAGE} .
+          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+          docker push ${IMAGE}
+      - name: Deploy Redis to prod
+        uses: nais/deploy/actions/deploy@master
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-fss
+          RESOURCE: redis-config.yml
+      - name: Deploy app to prod
+        uses: nais/deploy/actions/deploy@master
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-fss
+          RESOURCE: naiserator-prod.yml
