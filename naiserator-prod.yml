@@ -36,11 +36,11 @@ spec:
   vault:
     enabled: true
     paths:
-      - kvPath: /azuread/data/dev/creds/smregistrering
+      - kvPath: /azuread/data/prod/creds/smregistrering
         mountPath: /secrets/azuread/smregistrering
-      - kvPath: /azuread/data/dev/creds/smregistrering-backend
+      - kvPath: /azuread/data/prod/creds/smregistrering-backend
         mountPath: /secrets/azuread/smregistrering-backend
-      - kvPath: /kv/preprod/fss/smregistrering/default
+      - kvPath: /kv/prod/fss/smregistrering/default
         mountPath: /var/run/secrets/nais.io/vault
   webproxy: true
   ingresses:
