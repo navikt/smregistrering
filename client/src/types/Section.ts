@@ -58,7 +58,7 @@ export const sections: Record<SectionName, Section> = {
         title: 'Tilbakedatering',
     },
     BEHANDLER: {
-        index: 11,
+        index: 12,
         title: 'Behandler',
     },
 };
