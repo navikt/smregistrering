@@ -328,7 +328,6 @@ export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmeld
         !schema.sykmeldersEtternavn ||
         !schema.sykmeldersFornavn ||
         !schema.harArbeidsgiver ||
-        !schema.syketilfelleStartDato ||
         !schema.behandletDato ||
         !schema.sykmeldersEtternavn ||
         !schema.sykmeldersFornavn ||

@@ -8,12 +8,7 @@ export type ValidationType = {
 
 export const validationFunctions: ValidationType = {
     // Other
-    syketilfelleStartDato: (schema) => {
-        if (!schema.syketilfelleStartDato) {
-            return 'Startdato må være definert';
-        }
-        return undefined;
-    },
+    syketilfelleStartDato: () => undefined,
 
     // Pasientopplysninger
     pasientFnr: (schema) => {

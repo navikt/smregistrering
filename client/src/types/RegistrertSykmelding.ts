@@ -288,7 +288,6 @@ export const RegistrertSykmelding = iots.intersection([
         sykmelderFnr: iots.string,
         perioder: iots.array(Periode),
         medisinskVurdering: MedisinskVurdering,
-        syketilfelleStartDato: DateFromString,
         arbeidsgiver: Arbeidsgiver,
         behandletDato: DateFromString,
         skjermesForPasient: iots.boolean,
@@ -297,6 +296,7 @@ export const RegistrertSykmelding = iots.intersection([
     }),
     iots.partial({
         prognose: Prognose,
+        syketilfelleStartDato: iots.union([DateFromString, iots.null]),
         meldingTilNAV: MeldingTilNAV,
         meldingTilArbeidsgiver: iots.union([iots.string, iots.null]),
         tiltakNAV: iots.union([iots.string, iots.null]),
