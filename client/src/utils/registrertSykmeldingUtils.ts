@@ -189,6 +189,13 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
 };
 
 export const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefined => {
+    // Catches the cases where a bidiagnoseRow exists but is not filled
+    console.log(diagnose);
+    console.log(diagnose, diagnose?.system, diagnose?.system?.length === 0);
+    if (diagnose && diagnose.system !== undefined && diagnose.system.length === 0) {
+        return undefined;
+    }
+
     if (diagnose && diagnose.kode && diagnose.system && diagnose.tekst) {
         // Can not return diagnose parameter. Typescript does not understand that all properties exist
         return {
