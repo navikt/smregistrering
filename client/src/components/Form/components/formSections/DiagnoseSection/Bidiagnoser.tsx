@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Knapp } from 'nav-frontend-knapper';
 
 import BidiagnoseRow from './BidiagnoseRow';
@@ -26,6 +26,7 @@ const emptyBidiagnose = {
 const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: BidiagnoserProps) => {
     const addRow = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
+        setNewRow(true);
         setSchema(
             (state): SchemaType => {
                 if (!state.biDiagnoser) {
@@ -129,6 +130,16 @@ const Bidiagnoser = ({ id, setSchema, schema, validate, diagnosekoder, feil }: B
             },
         );
     };
+
+    const [newRow, setNewRow] = useState(false);
+
+    // Moves the users focus to the newly created biDiagnose row
+    useEffect(() => {
+        if (newRow) {
+            document.getElementById(`bidiagnose-${schema.biDiagnoser.length - 1}-system`)?.focus();
+            setNewRow(false);
+        }
+    }, [newRow, schema.biDiagnoser]);
 
     return (
         <div id={id}>

@@ -30,7 +30,7 @@ const BidiagnoseRow = ({
 }: BidiagnoseRowProps) => {
     return (
         <>
-            <div className={`bidiagnoserow`}>
+            <div className={`bidiagnoserow`} id={`bidiagnose-${index}`}>
                 <div className="bidiagnoserow__deletebutton">
                     <Fareknapp kompakt onClick={(event) => deleteRow(index, event)}>
                         <Garbage />
