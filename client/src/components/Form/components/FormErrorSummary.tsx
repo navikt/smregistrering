@@ -20,7 +20,13 @@ const FormErrorSummary = ({ formErrors, errorSummaryRef }: FormErrorSummaryProps
         .map(([key, value]) => ({ skjemaelementId: key, feilmelding: value })) as FeiloppsummeringFeil[];
 
     return (
-        <div role="region" aria-label="skjemafeilbeholder" className="form-error-summary" ref={errorSummaryRef}>
+        <div
+            role="region"
+            aria-label="skjemafeilbeholder"
+            className="form-error-summary"
+            tabIndex={0}
+            ref={errorSummaryRef}
+        >
             {hasFormErrors(formErrors) && (
                 <Feiloppsummering tittel="For å gå videre må du rette opp følgende:" feil={feil} />
             )}
