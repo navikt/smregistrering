@@ -115,7 +115,7 @@ const BehandlerSection = ({ section, setSchema, schema, errors, validate }: Beha
                     label={
                         <FormLabel
                             label="12.4 HPR-nummer"
-                            helpText='Dersom HPR-nummeret du finner i PDF-en har færre enn 9 siffer fyller du inn "0" (null) foran nummeret til det blir riktig antall'
+                            helpText="HPR-nummer skal være et tall på mellom 7 og 9 siffer"
                         />
                     }
                 />
