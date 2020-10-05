@@ -257,8 +257,8 @@ export const validationFunctions: ValidationType = {
             return 'Behandlers HPR-nummer må være definert';
         }
         // Number must be in synch with schema.hpr.length in BekreftelseSection.ts
-        if (schema.hpr.length !== 9) {
-            return 'Behandlers HPR-nummer må være 9 siffer';
+        if (schema.hpr.length < 7 || schema.hpr.length > 9) {
+            return 'Behandlers HPR-nummer må være mellom 7 og 9 siffer';
         }
         if (!schema.hpr.match('^\\+?[- _0-9]+$')) {
             return 'Behandlers HPR-nummer er ikke på et gyldig format';
