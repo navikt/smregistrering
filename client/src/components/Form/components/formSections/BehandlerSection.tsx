@@ -45,8 +45,9 @@ const BehandlerSection = ({ section, setSchema, schema, errors, validate }: Beha
     // GET information about sykmelder on every schema.hpr change
     useEffect(() => {
         // Number must be in synch with validationFuncitons.hpr in validation.ts
-        if (schema.hpr?.length === 9) {
+        if (schema.hpr?.length && schema.hpr.length >= 7 && schema.hpr.length <= 9) {
             setIsloading(true);
+            setSykmelder(null);
             setError(null);
             fetch(`/backend/api/v1/sykmelder/${schema.hpr}`, { credentials: 'include' })
                 .then((res) => {
@@ -67,7 +68,9 @@ const BehandlerSection = ({ section, setSchema, schema, errors, validate }: Beha
                     setSykmelder(null);
                     setError(error);
                 })
-                .finally(() => setIsloading(false));
+                .finally(() => {
+                    setIsloading(false);
+                });
         } else {
             setSykmelder(null);
         }
