@@ -71,7 +71,7 @@
                 "tom": "2020-06-05",
                 "aktivitetIkkeMulig": {
                     "medisinskArsak": {
-                        "arsak": ["TILSTAND_HINDRER_AKTIVITET", "AKTIVITET_FORHINDRER_BEDRING"],
+                        "arsak": [],
                         "beskrivelse": "Dette er beskrivelsen på den medisinske årsaken"
                     },
                     "arbeidsrelatertArsak": {

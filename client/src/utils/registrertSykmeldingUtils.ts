@@ -55,9 +55,9 @@ export const buildMedisinskArsak = (
     aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[],
     aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string | null,
 ): MedisinskArsak | undefined => {
-    if (aktivitetIkkeMuligMedisinskArsak && aktivitetIkkeMuligMedisinskArsakType?.length) {
+    if (aktivitetIkkeMuligMedisinskArsak) {
         return {
-            arsak: aktivitetIkkeMuligMedisinskArsakType,
+            arsak: aktivitetIkkeMuligMedisinskArsakType || [],
             beskrivelse: aktivitetIkkeMuligMedisinskArsakBeskrivelse,
         };
     }
@@ -68,9 +68,9 @@ export const buildArbeidsrelatertArsak = (
     aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[],
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string | null,
 ): ArbeidsrelatertArsak | undefined => {
-    if (aktivitetIkkeMuligArbeidsrelatertArsak && aktivitetIkkeMuligArbeidsrelatertArsakType?.length) {
+    if (aktivitetIkkeMuligArbeidsrelatertArsak) {
         return {
-            arsak: aktivitetIkkeMuligArbeidsrelatertArsakType,
+            arsak: aktivitetIkkeMuligArbeidsrelatertArsakType || [],
             beskrivelse: aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
         };
     }
