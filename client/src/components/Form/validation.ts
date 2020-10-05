@@ -8,12 +8,7 @@ export type ValidationType = {
 
 export const validationFunctions: ValidationType = {
     // Other
-    syketilfelleStartDato: (schema) => {
-        if (!schema.syketilfelleStartDato) {
-            return 'Startdato må være definert';
-        }
-        return undefined;
-    },
+    syketilfelleStartDato: () => undefined,
 
     // Pasientopplysninger
     pasientFnr: (schema) => {
@@ -151,20 +146,13 @@ export const validationFunctions: ValidationType = {
         }
     },
     aktivitetIkkeMuligMedisinskArsak: () => undefined,
-    aktivitetIkkeMuligMedisinskArsakType: (schema) => {
-        if (schema.aktivitetIkkeMuligMedisinskArsak && !schema.aktivitetIkkeMuligMedisinskArsakType?.length) {
-            return 'Minst én medisinsk årsak må være valgt når det er medisinske årsaker som hindrer arbeidsrelatert aktivitet';
-        }
+    aktivitetIkkeMuligMedisinskArsakType: () => {
+        return undefined;
     },
     aktivitetIkkeMuligMedisinskArsakBeskrivelse: () => undefined,
     aktivitetIkkeMuligArbeidsrelatertArsak: () => undefined,
-    aktivitetIkkeMuligArbeidsrelatertArsakType: (schema) => {
-        if (
-            schema.aktivitetIkkeMuligArbeidsrelatertArsak &&
-            !schema.aktivitetIkkeMuligArbeidsrelatertArsakType?.length
-        ) {
-            return 'Minst én arbeidsrelatert årsak må være valgt når forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet';
-        }
+    aktivitetIkkeMuligArbeidsrelatertArsakType: () => {
+        return undefined;
     },
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: () => undefined,
     // Perioder for sykmelding for behandlignsdager
