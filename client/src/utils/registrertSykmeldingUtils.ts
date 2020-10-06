@@ -329,13 +329,8 @@ export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmeld
     if (
         !schema.pasientFnr ||
         !schema.hpr ||
-        !schema.aktoerId ||
-        !schema.sykmeldersEtternavn ||
-        !schema.sykmeldersFornavn ||
         !schema.harArbeidsgiver ||
         !schema.behandletDato ||
-        !schema.sykmeldersEtternavn ||
-        !schema.sykmeldersFornavn ||
         schema.skjermesForPasient === undefined ||
         schema.skjermesForPasient === null
     ) {
@@ -369,10 +364,10 @@ export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmeld
         skjermesForPasient: schema.skjermesForPasient,
         behandler: {
             fnr: '',
-            fornavn: schema.sykmeldersFornavn,
-            etternavn: schema.sykmeldersEtternavn,
+            fornavn: '',
+            etternavn: '',
             hpr: schema.hpr,
-            aktoerId: schema.aktoerId,
+            aktoerId: '',
             adresse: {
                 gate: schema.sykmelderGate,
                 kommune: schema.sykmelderKommune,
