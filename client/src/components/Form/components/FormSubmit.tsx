@@ -18,11 +18,11 @@ interface FormSubmitProps {
     oppgave: Oppgave;
     schema: SchemaType;
     validateAll: () => boolean;
-    focusErrorSummary: () => void;
+    errorSummaryRef: React.RefObject<HTMLDivElement>;
     enhet: string | null | undefined;
 }
 
-const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: FormSubmitProps) => {
+const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: FormSubmitProps) => {
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [ruleHitErrors, setRuleHitErrors] = useState<RuleHitErrors | undefined>(undefined);
@@ -80,7 +80,12 @@ const FormSubmit = ({ oppgave, schema, validateAll, focusErrorSummary, enhet }: 
                 console.error('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
             }
         } else {
-            focusErrorSummary();
+            setTimeout(() => {
+                if (errorSummaryRef.current) {
+                    errorSummaryRef.current.focus();
+                    errorSummaryRef.current.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 300);
         }
     };
 

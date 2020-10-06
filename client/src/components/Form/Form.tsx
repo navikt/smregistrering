@@ -234,15 +234,6 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
         return !hasErrors;
     };
 
-    const focusErrorSummary = (): void => {
-        setTimeout(() => {
-            if (errorSummaryRef.current) {
-                errorSummaryRef.current.focus();
-                errorSummaryRef.current.scrollIntoView({ behavior: 'smooth' });
-            }
-        }, 300);
-    };
-
     return (
         <section className="form">
             <form autoComplete="off">
@@ -333,7 +324,7 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
                     oppgave={oppgave}
                     schema={schema}
                     validateAll={validateAll}
-                    focusErrorSummary={focusErrorSummary}
+                    errorSummaryRef={errorSummaryRef}
                     enhet={enhet}
                 />
             </form>
