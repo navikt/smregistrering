@@ -87,6 +87,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelTo="4.1.2 t.o.m."
                             value={schema.avventendePeriode || []}
                             onChange={(newDates) => {
+                                console.log(newDates);
                                 setSchema(
                                     (state): SchemaType => {
                                         const updatedSchema = {
