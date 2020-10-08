@@ -5,8 +5,8 @@ import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Checkbox } from 'nav-frontend-skjema';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Fareknapp, Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 
 import { Oppgave } from '../../../types/Oppgave';
 import { RegistrertSykmelding } from '../../../types/RegistrertSykmelding';
@@ -23,15 +23,17 @@ interface FormSubmitProps {
 }
 
 const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: FormSubmitProps) => {
+    // Registrer sykmelding
     const [checked, setChecked] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoadingSuccess, setIsLoadingSuccess] = useState<boolean>(false);
     const [ruleHitErrors, setRuleHitErrors] = useState<RuleHitErrors | undefined>(undefined);
-    const [error, setError] = useState<Error | null>(null);
-    const [modalState, setModalState] = useState<{ isOpen: boolean; textContent: string; contentLabel: string }>({
-        isOpen: false,
-        textContent: '',
-        contentLabel: '',
-    });
+    const [successModalOpen, setSuccessModalOpen] = useState<boolean>(false);
+    const [successError, setSuccessError] = useState<Error | null>(null);
+
+    // Avvis sykmelding
+    const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
+    const [isLoadingReject, setIsLoadingReject] = useState<boolean>(false);
+    const [rejectError, setRejectError] = useState<Error | null>(null);
 
     Modal.setAppElement('#root');
 
@@ -39,11 +41,11 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
         if (validateAll() && !!enhet) {
             const sykmelding = buildRegistrertSykmelding(schema);
             if (sykmelding) {
-                setIsLoading(true);
-                setError(null);
+                setIsLoadingSuccess(true);
+                setSuccessError(null);
                 fetch(`backend/api/v1/oppgave/${oppgave.oppgaveid}/send`, {
                     method: 'POST',
-                    credentials: 'include',
+                    credentials: 'same-origin',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-Nav-Enhet': enhet,
@@ -52,11 +54,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                 })
                     .then((res) => {
                         if (res.status === 204) {
-                            setModalState({
-                                isOpen: true,
-                                textContent: 'Sykmeldingen ble registrert.',
-                                contentLabel: 'Sykmelding registrert',
-                            });
+                            setSuccessModalOpen(true);
                         } else if (res.status === 400) {
                             return res.json();
                         } else {
@@ -72,10 +70,10 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                         setRuleHitErrors(ruleHitErrors);
                     })
                     .catch((error) => {
-                        setError(error);
+                        setSuccessError(error);
                         console.error(error);
                     })
-                    .finally(() => setIsLoading(false));
+                    .finally(() => setIsLoadingSuccess(false));
             } else {
                 console.error('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
             }
@@ -86,6 +84,39 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                     errorSummaryRef.current.scrollIntoView({ behavior: 'smooth' });
                 }
             }, 300);
+        }
+    };
+
+    const rejectSykmelding = () => {
+        if (!enhet) {
+            setRejectError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'));
+        } else {
+            setIsLoadingReject(true);
+            setRejectError(null);
+            fetch(`backend/api/v1/oppgave/${oppgave.oppgaveid}/avvis`, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Nav-Enhet': enhet,
+                },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        setRejectModalOpen(false);
+                        setSuccessModalOpen(true);
+                    } else {
+                        throw new Error(
+                            `En feil oppsto ved avvisning av oppgave: ${oppgave.oppgaveid}. Feilkode: ${response.status}`,
+                        );
+                    }
+                })
+                .catch((error) => {
+                    setRejectError(error);
+                })
+                .finally(() => {
+                    setIsLoadingReject(false);
+                });
         }
     };
 
@@ -113,9 +144,9 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                     <br />
                 </>
             )}
-            {error && (
+            {successError && (
                 <>
-                    <AlertStripeFeil>{error.message}</AlertStripeFeil>
+                    <AlertStripeFeil>{successError.message}</AlertStripeFeil>
                     <br />
                 </>
             )}
@@ -129,8 +160,8 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                 </>
             )}
             <Hovedknapp
-                disabled={!checked || !enhet || isLoading}
-                spinner={isLoading}
+                disabled={!checked || !enhet || isLoadingSuccess}
+                spinner={isLoadingSuccess}
                 onClick={(e) => {
                     e.preventDefault();
                     registrerSykmelding();
@@ -138,29 +169,44 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
             >
                 Registrer sykmelding
             </Hovedknapp>
-            <Flatknapp
-                htmlType="button"
-                onClick={() => {
-                    setModalState({
-                        isOpen: true,
-                        textContent: 'Er du sikker på at du vil avbryte oppgaven og gå tilbake til GOSYS?',
-                        contentLabel: 'Avbryt sykmelding og gå tilbake til gosys',
-                    });
-                }}
-            >
-                Avbryt
+            <Flatknapp htmlType="button" onClick={() => setRejectModalOpen(true)}>
+                Sykmeldingen kan ikke brukes
             </Flatknapp>
             <Modal
-                isOpen={modalState.isOpen}
-                onRequestClose={() => setModalState({ isOpen: false, textContent: '', contentLabel: '' })}
+                isOpen={successModalOpen}
+                onRequestClose={() => setSuccessModalOpen(false)}
                 closeButton={true}
-                contentLabel={modalState.contentLabel}
+                contentLabel="Oppgaven er ferdigstilt"
             >
                 <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
-                    <Normaltekst style={{ marginBottom: '2rem' }}>{modalState.textContent}</Normaltekst>
+                    <Normaltekst style={{ marginBottom: '2rem' }}>Oppgaven er ferdigstilt</Normaltekst>
                     <a href={process.env.REACT_APP_GOSYS_URL} tabIndex={0} className="knapp knapp--hoved">
                         Tilbake til GOSYS
                     </a>
+                </div>
+            </Modal>
+            <Modal
+                isOpen={rejectModalOpen}
+                onRequestClose={() => setRejectModalOpen(false)}
+                closeButton={true}
+                contentLabel="Bekreft avvisning av sykmelding"
+            >
+                <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
+                    <Undertittel tag="h1" style={{ marginBottom: '2rem' }}>
+                        Er du sikker på at du vil avvise sykmeldingen?
+                    </Undertittel>
+                    <Normaltekst tag="p" style={{ marginBottom: '2rem', maxWidth: '30rem' }}>
+                        Dette vil ferdigstille oppgaven. Sykmeldingen blir ikke registrert i infotrygd. Behandler og
+                        pasient blir ikke varslet.
+                    </Normaltekst>
+                    <Fareknapp
+                        style={{ marginBottom: '1rem', margin: 'auto' }}
+                        spinner={isLoadingReject}
+                        onClick={() => rejectSykmelding()}
+                    >
+                        AVVIS SYKMELDING
+                    </Fareknapp>
+                    {rejectError && <AlertStripeFeil>{rejectError.message}</AlertStripeFeil>}
                 </div>
             </Modal>
         </div>
