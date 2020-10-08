@@ -30,10 +30,10 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                     value={value}
                     className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
                     placeholder="DD.MM.ÅÅÅÅ - DD.MM.ÅÅÅÅ"
-                    onClose={(selectedDates, _dateStr, instance) => {
+                    onClose={(selectedDates) => {
                         if (selectedDates.length === 0) {
                             onChange(undefined);
-                        } else if (selectedDates.length == 1) {
+                        } else if (selectedDates.length === 1) {
                             onChange([selectedDates[0], selectedDates[0]]);
                         } else {
                             onChange(selectedDates);
