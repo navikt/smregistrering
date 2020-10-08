@@ -39,7 +39,7 @@ export const getOppgave = (): Promise<Oppgave> => {
                 } else if (response.status === 404) {
                     return Promise.reject(
                         new OppgaveAlreadySolvedError(
-                            `Oppgaven med oppgave-id: ${oppgaveid} du prøver å hente finnes ikke i baksystemet`,
+                            `Fant ingen uløste manuelloppgaver med oppgave-id: ${oppgaveid}. Oppgaven finnes ikke eller er allerede løst.`,
                         ),
                     );
                 } else {
