@@ -125,7 +125,8 @@ export const validationFunctions: ValidationType = {
     },
     // Perioder for gradert sykmelding
     gradertSykmelding: () => undefined,
-    gradertPeriode: (schema) => {
+    gradertSykeldingPerioder: () => undefined,
+    /* gradertPeriode: (schema) => {
         if (
             (schema.gradertSykmelding && !schema.gradertPeriode) ||
             (schema.gradertPeriode && schema.gradertPeriode.length === 1)
@@ -135,6 +136,7 @@ export const validationFunctions: ValidationType = {
     },
     gradertGrad: () => undefined,
     gradertReisetilskudd: () => undefined,
+    */
     // Perioder for full sykmelding
     aktivitetIkkeMuligSykmelding: () => undefined,
     aktivitetIkkeMuligPeriode: (schema) => {

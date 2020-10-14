@@ -99,9 +99,16 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
             ? avventendePeriode.avventendeInnspillTilArbeidsgiver
             : undefined,
         gradertSykmelding: !!gradertPeriode,
-        gradertPeriode: !!gradertPeriode ? [gradertPeriode.fom, gradertPeriode.tom] : undefined,
-        gradertReisetilskudd: !!gradertPeriode?.gradert?.reisetilskudd,
-        gradertGrad: gradertPeriode?.gradert?.grad ? gradertPeriode?.gradert?.grad : undefined,
+        gradertSykeldingPerioder: !!gradertPeriode
+            ? [
+                  {
+                      gradertPeriode: [gradertPeriode.fom, gradertPeriode.tom],
+                      gradertReisetilskudd: gradertPeriode.gradert?.reisetilskudd,
+                      gradertGrad: gradertPeriode.gradert?.grad || undefined,
+                  },
+              ]
+            : [],
+
         aktivitetIkkeMuligSykmelding: !!aktivitetIkkeMuligPeriode,
         aktivitetIkkeMuligPeriode: !!aktivitetIkkeMuligPeriode
             ? [aktivitetIkkeMuligPeriode.fom, aktivitetIkkeMuligPeriode.tom]

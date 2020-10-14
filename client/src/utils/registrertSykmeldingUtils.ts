@@ -1,3 +1,5 @@
+import { foldM } from 'fp-ts/lib/Foldable';
+
 import {
     AktivitetIkkeMulig,
     AnnenFraverGrunn,
@@ -12,6 +14,7 @@ import {
     RegistrertSykmelding,
     UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
+import { GradertSykmelding } from '../components/Form/components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
 import { SchemaType } from '../components/Form/Form';
 
 export const buildAvventendeSykmelding = (
@@ -32,21 +35,33 @@ export const buildAvventendeSykmelding = (
 
 export const buildGradertSykmelding = (
     gradertSykmelding: boolean,
-    gradertReisetilskudd: boolean,
-    gradertPeriode?: Date[],
-    gradertGrad?: number,
-): Periode | undefined => {
-    if (gradertSykmelding && gradertPeriode) {
-        const periode: Periode = {
-            fom: gradertPeriode[0],
-            tom: gradertPeriode[1],
-            reisetilskudd: false,
-            gradert: {
-                reisetilskudd: gradertReisetilskudd,
-                grad: gradertGrad,
-            },
-        };
-        return periode;
+    gradertSykmeldingPerioder: GradertSykmelding[],
+): Periode[] | undefined => {
+    if (gradertSykmelding) {
+        const p: Periode[] = gradertSykmeldingPerioder.reduce((mappedPerioder, periode) => {
+            if (!periode.gradertPeriode) {
+                return mappedPerioder;
+            }
+
+            return [
+                ...mappedPerioder,
+                {
+                    fom: periode.gradertPeriode[0],
+                    tom: periode.gradertPeriode[1],
+                    reisetilskudd: false,
+                    gradert: {
+                        reisetilskudd: !!periode.gradertReisetilskudd,
+                        grad: periode.gradertGrad,
+                    },
+                },
+            ];
+        }, [] as Periode[]);
+
+        if (p.length === 0) {
+            return undefined;
+        }
+
+        return p;
     }
 };
 
@@ -152,13 +167,8 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
     );
     if (avventendeSykmelding) perioder.push(avventendeSykmelding);
 
-    const gradertSykmelding = buildGradertSykmelding(
-        schema.gradertSykmelding,
-        schema.gradertReisetilskudd,
-        schema.gradertPeriode,
-        schema.gradertGrad,
-    );
-    if (gradertSykmelding) perioder.push(gradertSykmelding);
+    const gradertSykmelding = buildGradertSykmelding(schema.gradertSykmelding, schema.gradertSykeldingPerioder);
+    if (gradertSykmelding) perioder.push(...gradertSykmelding);
 
     const aktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding(
         schema.aktivitetIkkeMuligSykmelding,

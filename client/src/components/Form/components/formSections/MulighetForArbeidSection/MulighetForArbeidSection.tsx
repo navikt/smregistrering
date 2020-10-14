@@ -11,6 +11,12 @@ import { ErrorSchemaType, SchemaType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
 import { Validate } from '../../../validation';
 
+export type GradertSykmelding = {
+    gradertPeriode: Date[] | undefined;
+    gradertGrad: number | undefined;
+    gradertReisetilskudd: boolean | undefined;
+};
+
 export type MulighetForArbeid = {
     // For validering av minimum én periode valgt
     mulighetForArbeid?: boolean;
@@ -20,9 +26,7 @@ export type MulighetForArbeid = {
     avventendeInnspillTilArbeidsgiver?: string;
     // Perioder for gradert sykmelding
     gradertSykmelding: boolean;
-    gradertPeriode?: Date[];
-    gradertGrad?: number;
-    gradertReisetilskudd: boolean;
+    gradertSykeldingPerioder: GradertSykmelding[];
     // Perioder for full sykmelding
     aktivitetIkkeMuligSykmelding: boolean;
     aktivitetIkkeMuligPeriode?: Date[];
