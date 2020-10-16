@@ -125,7 +125,7 @@ export const validationFunctions: ValidationType = {
     },
     // Perioder for gradert sykmelding
     gradertSykmelding: () => undefined,
-    gradertSykeldingPerioder: () => undefined,
+    gradertSykmeldingPerioder: () => undefined,
     /* gradertPeriode: (schema) => {
         if (
             (schema.gradertSykmelding && !schema.gradertPeriode) ||

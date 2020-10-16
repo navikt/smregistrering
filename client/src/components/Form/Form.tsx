@@ -99,7 +99,7 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
             ? avventendePeriode.avventendeInnspillTilArbeidsgiver
             : undefined,
         gradertSykmelding: !!gradertPeriode,
-        gradertSykeldingPerioder: !!gradertPeriode
+        gradertSykmeldingPerioder: !!gradertPeriode
             ? [
                   {
                       gradertPeriode: [gradertPeriode.fom, gradertPeriode.tom],

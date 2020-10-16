@@ -167,7 +167,7 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
     );
     if (avventendeSykmelding) perioder.push(avventendeSykmelding);
 
-    const gradertSykmelding = buildGradertSykmelding(schema.gradertSykmelding, schema.gradertSykeldingPerioder);
+    const gradertSykmelding = buildGradertSykmelding(schema.gradertSykmelding, schema.gradertSykmeldingPerioder);
     if (gradertSykmelding) perioder.push(...gradertSykmelding);
 
     const aktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding(

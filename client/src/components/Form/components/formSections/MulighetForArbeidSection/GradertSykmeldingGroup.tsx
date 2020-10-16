@@ -1,21 +1,23 @@
 import React from 'react';
 import { Checkbox, Input } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
 
 import ExpandableField from '../../formComponents/ExpandableField';
+import Plus from '../../../../../svg/Plus';
 import RangePicker from '../../formComponents/RangePicker';
 import Subsection from '../../formComponents/Subsection';
 import { ErrorSchemaType, SchemaType } from '../../../Form';
 import { Validate } from '../../../validation';
 
-type GradertSykmeldingProps = {
+type GradertSykmeldingGroupProps = {
     schema: SchemaType;
     setSchema: (value: React.SetStateAction<SchemaType>) => void;
     errors: ErrorSchemaType;
     validate: Validate;
 };
 
-const GradertSykmelding = ({ setSchema, schema, errors, validate }: GradertSykmeldingProps) => {
+const GradertSykmeldingGroup = ({ setSchema, schema, errors, validate }: GradertSykmeldingGroupProps) => {
     return (
         <Subsection sectionIdentifier="4.2">
             <Checkbox
@@ -28,7 +30,7 @@ const GradertSykmelding = ({ setSchema, schema, errors, validate }: GradertSykme
                             const updatedSchema = {
                                 ...state,
                                 gradertSykmelding: !state.gradertSykmelding,
-                                gradertSykmeldingPerioder: undefined,
+                                gradertSykmeldingPerioder: [],
                             };
                             validate('gradertSykmelding', updatedSchema);
                             //validate('gradertSykmeldingPerioder', updatedSchema);
@@ -41,8 +43,8 @@ const GradertSykmelding = ({ setSchema, schema, errors, validate }: GradertSykme
             <br />
 
             <ExpandableField show={schema.gradertSykmelding}>
-                {schema.gradertSykeldingPerioder.map((periode, index) => (
-                    <>
+                {schema.gradertSykmeldingPerioder.map((periode, index) => (
+                    <div key={`gradert-periode-${index}`}>
                         <RangePicker
                             id="gradertPeriode"
                             labelFrom="4.2.1 f.o.m."
@@ -52,16 +54,16 @@ const GradertSykmelding = ({ setSchema, schema, errors, validate }: GradertSykme
                                 setSchema(
                                     (state): SchemaType => {
                                         const updatedPerioder = [
-                                            ...state.gradertSykeldingPerioder.slice(undefined, index),
+                                            ...state.gradertSykmeldingPerioder.slice(undefined, index),
                                             {
-                                                ...state.gradertSykeldingPerioder[index],
+                                                ...state.gradertSykmeldingPerioder[index],
                                                 gradertPeriode: newDates,
                                             },
-                                            ...state.gradertSykeldingPerioder.slice(index + 1),
+                                            ...state.gradertSykmeldingPerioder.slice(index + 1),
                                         ];
                                         const updatedSchema = {
                                             ...state,
-                                            gradertSykeldingPerioder: updatedPerioder,
+                                            gradertSykmeldingPerioder: updatedPerioder,
                                         };
                                         //validate('gradertPeriode', updatedSchema);
 
@@ -80,16 +82,16 @@ const GradertSykmelding = ({ setSchema, schema, errors, validate }: GradertSykme
                                 setSchema(
                                     (state): SchemaType => {
                                         const updatedPerioder = [
-                                            ...state.gradertSykeldingPerioder.slice(undefined, index),
+                                            ...state.gradertSykmeldingPerioder.slice(undefined, index),
                                             {
-                                                ...state.gradertSykeldingPerioder[index],
+                                                ...state.gradertSykmeldingPerioder[index],
                                                 gradertGrad: parseInt(value),
                                             },
-                                            ...state.gradertSykeldingPerioder.slice(index + 1),
+                                            ...state.gradertSykmeldingPerioder.slice(index + 1),
                                         ];
                                         const updatedSchema = {
                                             ...state,
-                                            gradertSykeldingPerioder: updatedPerioder,
+                                            gradertSykmeldingPerioder: updatedPerioder,
                                         };
                                         //validate('gradertGrad', updatedSchema);
                                         return updatedSchema;
@@ -108,17 +110,17 @@ const GradertSykmelding = ({ setSchema, schema, errors, validate }: GradertSykme
                                 setSchema(
                                     (state): SchemaType => {
                                         const updatedPerioder = [
-                                            ...state.gradertSykeldingPerioder.slice(undefined, index),
+                                            ...state.gradertSykmeldingPerioder.slice(undefined, index),
                                             {
-                                                ...state.gradertSykeldingPerioder[index],
-                                                gradertReisetilskudd: !state.gradertSykeldingPerioder[index]
+                                                ...state.gradertSykmeldingPerioder[index],
+                                                gradertReisetilskudd: !state.gradertSykmeldingPerioder[index]
                                                     .gradertReisetilskudd,
                                             },
-                                            ...state.gradertSykeldingPerioder.slice(index + 1),
+                                            ...state.gradertSykmeldingPerioder.slice(index + 1),
                                         ];
                                         const updatedSchema = {
                                             ...state,
-                                            gradertSykeldingPerioder: updatedPerioder,
+                                            gradertSykmeldingPerioder: updatedPerioder,
                                         };
                                         //validate('gradertReisetilskudd', updatedSchema);
                                         return updatedSchema;
@@ -127,11 +129,30 @@ const GradertSykmelding = ({ setSchema, schema, errors, validate }: GradertSykme
                             }}
                             feil={/*errors.gradertReisetilskudd*/ undefined}
                         />
-                    </>
+                    </div>
                 ))}
             </ExpandableField>
+            <Knapp
+                form="kompakt"
+                onClick={() => {
+                    setSchema(
+                        (state): SchemaType => {
+                            return {
+                                ...state,
+                                gradertSykmeldingPerioder: [
+                                    ...state.gradertSykmeldingPerioder,
+                                    { gradertPeriode: undefined, gradertGrad: undefined, gradertReisetilskudd: false },
+                                ],
+                            };
+                        },
+                    );
+                }}
+            >
+                <Plus />
+                <span>Legg til periode</span>
+            </Knapp>
         </Subsection>
     );
 };
 
-export default GradertSykmelding;
+export default GradertSykmeldingGroup;

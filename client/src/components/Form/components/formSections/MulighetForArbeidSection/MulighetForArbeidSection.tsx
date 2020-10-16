@@ -3,7 +3,7 @@ import React from 'react';
 import AktivitetIkkeMuligSykmelding from './AktivitetIkkeMuligSykmelding';
 import AvventendeSykmelding from './AvventendeSykmelding';
 import BehandlingsdagerSykmelding from './BehandlingsdagerSykmelding';
-import GradertSykmelding from './GradertSykmelding';
+import GradertSykmeldingGroup from './GradertSykmeldingGroup';
 import ReisetilskuddSykmelding from './ReisetilskuddSykmelding';
 import SectionContainer from '../../SectionContainer';
 import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
@@ -26,7 +26,7 @@ export type MulighetForArbeid = {
     avventendeInnspillTilArbeidsgiver?: string;
     // Perioder for gradert sykmelding
     gradertSykmelding: boolean;
-    gradertSykeldingPerioder: GradertSykmelding[];
+    gradertSykmeldingPerioder: GradertSykmelding[];
     // Perioder for full sykmelding
     aktivitetIkkeMuligSykmelding: boolean;
     aktivitetIkkeMuligPeriode?: Date[];
@@ -57,7 +57,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
     return (
         <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
             <AvventendeSykmelding setSchema={setSchema} schema={schema} errors={errors} validate={validate} />
-            <GradertSykmelding setSchema={setSchema} schema={schema} errors={errors} validate={validate} />
+            <GradertSykmeldingGroup setSchema={setSchema} schema={schema} errors={errors} validate={validate} />
             <AktivitetIkkeMuligSykmelding setSchema={setSchema} schema={schema} errors={errors} validate={validate} />
             <BehandlingsdagerSykmelding setSchema={setSchema} schema={schema} errors={errors} validate={validate} />
             <ReisetilskuddSykmelding setSchema={setSchema} schema={schema} errors={errors} validate={validate} />
