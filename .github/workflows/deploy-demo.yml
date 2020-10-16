@@ -41,6 +41,7 @@ jobs:
         env:
           REACT_APP_HEAD_URL: https://app-q1.adeo.no
           REACT_APP_GOSYS_URL: https://gosys.nais.preprod.local/gosys/bruker/brukeroversikt.jsf
+          REACT_APP_START_WITH_MOCK: true
         run: |
           npm run build
         working-directory: ./client
