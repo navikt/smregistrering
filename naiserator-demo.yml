@@ -13,7 +13,7 @@ spec:
     cpuThresholdPercentage: 90
     port: 3000
     env:
-    - name: DECORATOR_URL
+      - name: DECORATOR_URL
         value: https://www.nav.no/dekoratoren
   ingresses:
     - 'https://smregistrering.labs.nais.io/'
