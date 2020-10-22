@@ -27,7 +27,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
     const [checked, setChecked] = useState<boolean>(false);
     const [isLoadingSuccess, setIsLoadingSuccess] = useState<boolean>(false);
     const [ruleHitErrors, setRuleHitErrors] = useState<RuleHitErrors | undefined>(undefined);
-    const [successModalOpen, setSuccessModalOpen] = useState<boolean>(false);
+    const [successModalContent, setSuccessModalContent] = useState<string | undefined>(undefined);
     const [successError, setSuccessError] = useState<Error | null>(null);
 
     // Avvis sykmelding
@@ -59,7 +59,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                 })
                     .then((res) => {
                         if (res.status === 204) {
-                            setSuccessModalOpen(true);
+                            setSuccessModalContent("Oppgaven ble ferdigstilt.");
                         } else if (res.status === 400) {
                             return res.json();
                         } else {
@@ -109,7 +109,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                 .then((response) => {
                     if (response.ok) {
                         setRejectModalOpen(false);
-                        setSuccessModalOpen(true);
+                        setSuccessModalContent("Oppgaven ble ferdigstilt.");
                     } else {
                         throw new Error(
                             `En feil oppsto ved avvisning av oppgave: ${oppgave.oppgaveid}. Feilkode: ${response.status}`,
@@ -142,7 +142,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                 .then((response) => {
                     if (response.ok) {
                         setRevertModalOpen(false);
-                        setSuccessModalOpen(true);
+                        setSuccessModalContent("Oppgaven ble sendt tilbake til GOSYS.");
                     } else {
                         throw new Error(
                             `En feil oppsto ved sending av oppgave til GOSYS: ${oppgave.oppgaveid}. Feilkode: ${response.status}`,
@@ -212,17 +212,17 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
             </Flatknapp>
 
             <Flatknapp htmlType="button" onClick={() => setRevertModalOpen(true)}>
-                Send sykmelding tilbake til GOSYS
+                Send oppgave tilbake til GOSYS
             </Flatknapp>
 
             <Modal
-                isOpen={successModalOpen}
-                onRequestClose={() => setSuccessModalOpen(false)}
-                closeButton={true}
-                contentLabel="Oppgaven er ferdigstilt"
+                isOpen={!!successModalContent}
+                onRequestClose={() => setSuccessModalContent(undefined)}
+                closeButton
+                contentLabel={successModalContent || ''}
             >
                 <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
-                    <Normaltekst style={{ marginBottom: '2rem' }}>Oppgaven er ferdigstilt</Normaltekst>
+                    <Normaltekst style={{ marginBottom: '2rem' }}>{successModalContent}</Normaltekst>
                     <a href={process.env.REACT_APP_GOSYS_URL} tabIndex={0} className="knapp knapp--hoved">
                         Tilbake til GOSYS
                     </a>
@@ -231,19 +231,19 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
             <Modal
                 isOpen={rejectModalOpen}
                 onRequestClose={() => setRejectModalOpen(false)}
-                closeButton={true}
+                closeButton
                 contentLabel="Bekreft avvisning av sykmelding"
             >
-                <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
-                    <Undertittel tag="h1" style={{ marginBottom: '2rem' }}>
+                <div className="cancelmodal">
+                    <Undertittel tag="h1" className="cancelmodal--title">
                         Er du sikker på at du vil avvise sykmeldingen?
                     </Undertittel>
-                    <Normaltekst tag="p" style={{ marginBottom: '2rem', maxWidth: '30rem' }}>
+                    <Normaltekst tag="p" className="cancelmodal--content">
                         Dette vil ferdigstille oppgaven. Sykmeldingen blir ikke registrert i infotrygd. Behandler og
                         pasient blir ikke varslet.
                     </Normaltekst>
                     <Fareknapp
-                        style={{ marginBottom: '1rem', margin: 'auto' }}
+                        className="cancelmodal--button"
                         spinner={isLoadingReject}
                         onClick={() => rejectSykmelding()}
                     >
@@ -255,18 +255,18 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
             <Modal
                 isOpen={revertModalOpen}
                 onRequestClose={() => setRevertModalOpen(false)}
-                closeButton={true}
+                closeButton
                 contentLabel="Send sykmelding tilbake til GOSYS"
             >
-                <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
-                    <Undertittel tag="h1" style={{ marginBottom: '2rem' }}>
+            <div className="cancelmodal">
+                <Undertittel tag="h1" className="cancelmodal--title">
                         Er du sikker på at du vil sende oppgaven tilbake til GOSYS?
                     </Undertittel>
-                    <Normaltekst tag="p" style={{ marginBottom: '2rem', maxWidth: '30rem' }}>
+                    <Normaltekst tag="p" className="cancelmodal--content">
                         Dette vil ikke ferdigstille oppgaven, men gjør det mulig å behandle den i GOSYS.
                     </Normaltekst>
                     <Fareknapp
-                        style={{ marginBottom: '1rem', margin: 'auto' }}
+                        className="cancelmodal--button"
                         spinner={isLoadingRevert}
                         onClick={() => revertSykmelding()}
                     >
