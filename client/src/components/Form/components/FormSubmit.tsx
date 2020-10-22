@@ -35,6 +35,11 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
     const [isLoadingReject, setIsLoadingReject] = useState<boolean>(false);
     const [rejectError, setRejectError] = useState<Error | null>(null);
 
+    // Reverter til GOSYS
+    const [revertModalOpen, setRevertModalOpen] = useState<boolean>(false);
+    const [isLoadingRevert, setIsLoadingRevert] = useState<boolean>(false);
+    const [revertError, setRevertError] = useState<Error | null>(null);
+
     Modal.setAppElement('#root');
 
     const registrerSykmelding = () => {
@@ -120,6 +125,39 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
         }
     };
 
+    const revertSykmelding = () => {
+        if (!enhet) {
+            setRevertError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'));
+        } else {
+            setIsLoadingRevert(true);
+            setRevertError(null);
+            fetch(`backend/api/v1/oppgave/${oppgave.oppgaveid}/tilgosys`, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Nav-Enhet': enhet,
+                },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        setRevertModalOpen(false);
+                        setSuccessModalOpen(true);
+                    } else {
+                        throw new Error(
+                            `En feil oppsto ved sending av oppgave til GOSYS: ${oppgave.oppgaveid}. Feilkode: ${response.status}`,
+                        );
+                    }
+                })
+                .catch((error) => {
+                    setRevertError(error);
+                })
+                .finally(() => {
+                    setIsLoadingRevert(false);
+                });
+        }
+    };
+
     return (
         <div role="region" aria-label="skjemainnsendingbeholder" className="form-submit-container">
             <Checkbox
@@ -170,8 +208,13 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                 Registrer sykmelding
             </Hovedknapp>
             <Flatknapp htmlType="button" onClick={() => setRejectModalOpen(true)}>
-                Sykmeldingen kan ikke brukes
+                Avvis sykmelding
             </Flatknapp>
+
+            <Flatknapp htmlType="button" onClick={() => setRevertModalOpen(true)}>
+                Send sykmelding tilbake til GOSYS
+            </Flatknapp>
+
             <Modal
                 isOpen={successModalOpen}
                 onRequestClose={() => setSuccessModalOpen(false)}
@@ -207,6 +250,29 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                         AVVIS SYKMELDING
                     </Fareknapp>
                     {rejectError && <AlertStripeFeil>{rejectError.message}</AlertStripeFeil>}
+                </div>
+            </Modal>
+            <Modal
+                isOpen={revertModalOpen}
+                onRequestClose={() => setRevertModalOpen(false)}
+                closeButton={true}
+                contentLabel="Send sykmelding tilbake til GOSYS"
+            >
+                <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
+                    <Undertittel tag="h1" style={{ marginBottom: '2rem' }}>
+                        Er du sikker på at du vil sende oppgaven tilbake til GOSYS?
+                    </Undertittel>
+                    <Normaltekst tag="p" style={{ marginBottom: '2rem', maxWidth: '30rem' }}>
+                        Dette vil ikke ferdigstille oppgaven, men gjør det mulig å behandle den i GOSYS.
+                    </Normaltekst>
+                    <Fareknapp
+                        style={{ marginBottom: '1rem', margin: 'auto' }}
+                        spinner={isLoadingRevert}
+                        onClick={() => revertSykmelding()}
+                    >
+                        Send til GOSYS
+                    </Fareknapp>
+                    {revertError && <AlertStripeFeil>{revertError.message}</AlertStripeFeil>}
                 </div>
             </Modal>
         </div>
