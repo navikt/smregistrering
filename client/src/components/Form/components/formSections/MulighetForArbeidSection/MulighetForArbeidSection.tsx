@@ -212,17 +212,16 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     event.preventDefault();
                     setSchema(
                         (state): SchemaType => {
-                            if (state.mulighetForArbeid.length === 0) {
-                                const updatedState = {
-                                    ...state,
-                                    mulighetForArbeid: [undefined, undefined],
-                                };
-                                return updatedState;
-                            }
+                            // Since the initial dropdown is not stored in the array, we need to add two undefined objects to the array if no data is currently stored
+                            // If there is data in the array, undefined is appended to it.
+                            const mulighetForArbeid =
+                                state.mulighetForArbeid.length === 0
+                                    ? [undefined, undefined]
+                                    : [...state.mulighetForArbeid, undefined];
 
                             const updatedState = {
                                 ...state,
-                                mulighetForArbeid: [...state.mulighetForArbeid, undefined],
+                                mulighetForArbeid,
                             };
                             return updatedState;
                         },
