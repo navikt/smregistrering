@@ -114,11 +114,16 @@ const Menu = ({ enhet, oppgaveid }: MenuProps) => {
                     <Systemtittel tag="h1" className="menu-header">
                         Hurtigvalg
                     </Systemtittel>
-                    <Flatknapp className="menu-button" mini onClick={() => setRevertModalOpen((prev) => !prev)}>
+                    <Flatknapp
+                        id="to-gosys-button"
+                        className="menu-button"
+                        mini
+                        onClick={() => setRevertModalOpen((prev) => !prev)}
+                    >
                         <BackArrow />
                         <span>Send til GOSYS</span>
                     </Flatknapp>
-                    <Flatknapp mini onClick={() => setRejectModalOpen((prev) => !prev)}>
+                    <Flatknapp id="avvis-button" mini onClick={() => setRejectModalOpen((prev) => !prev)}>
                         <WarningCircle />
                         <span>Avvis sykmeldingen</span>
                     </Flatknapp>
@@ -140,6 +145,7 @@ const Menu = ({ enhet, oppgaveid }: MenuProps) => {
                         pasient blir ikke varslet.
                     </Normaltekst>
                     <Fareknapp
+                        id="avvis-modal-button"
                         className="cancelmodal--button"
                         spinner={isLoadingReject}
                         onClick={() => rejectSykmelding()}
@@ -163,6 +169,7 @@ const Menu = ({ enhet, oppgaveid }: MenuProps) => {
                         Dette vil ikke ferdigstille oppgaven, men gjør det mulig å behandle den i GOSYS.
                     </Normaltekst>
                     <Fareknapp
+                        id="to-gosys-modal-button"
                         className="cancelmodal--button"
                         spinner={isLoadingRevert}
                         onClick={() => revertSykmelding()}
@@ -180,7 +187,12 @@ const Menu = ({ enhet, oppgaveid }: MenuProps) => {
             >
                 <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
                     <Normaltekst style={{ marginBottom: '2rem' }}>{successModalContent}</Normaltekst>
-                    <a href={process.env.REACT_APP_GOSYS_URL} tabIndex={0} className="knapp knapp--hoved">
+                    <a
+                        id="tilbake-til-gosys-lenke"
+                        href={process.env.REACT_APP_GOSYS_URL}
+                        tabIndex={0}
+                        className="knapp knapp--hoved"
+                    >
                         Tilbake til GOSYS
                     </a>
                 </div>
