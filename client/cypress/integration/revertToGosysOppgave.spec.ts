@@ -12,7 +12,7 @@ context('Revert to gosys oppgave', () => {
         cy.server(); // enable response stubbing
     });
 
-    it('Should display modal when clicking "avvis sykmeldingen"', () => {
+    it('Should display modal when clicking "Send til GOSYS"', () => {
         cy.route({
             method: 'GET',
             url: '/backend/api/v1/oppgave/123',
