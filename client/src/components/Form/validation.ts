@@ -96,6 +96,9 @@ export const validationFunctions: ValidationType = {
     },
 
     // MulighetForArbeid
+    // TODO:
+    mulighetForArbeid: () => undefined,
+    /*
     mulighetForArbeid: (schema) => {
         if (
             !schema.avventendeSykmelding &&
@@ -180,6 +183,7 @@ export const validationFunctions: ValidationType = {
             return 'Periode må være definert når pasienten krever sykmelding med reistilskudd';
         }
     },
+    */
 
     // Friskmelding
     arbeidsfoerEtterPeriode: () => undefined,

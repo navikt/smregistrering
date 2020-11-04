@@ -145,6 +145,8 @@ export const buildReisetilskuddSykmelding = (
 export const buildPerioder = (schema: SchemaType): Periode[] => {
     const perioder: Periode[] = [];
 
+    // TODO:
+    /*
     const avventendeSykmelding = buildAvventendeSykmelding(
         schema.avventendeSykmelding,
         schema.avventendePeriode,
@@ -184,6 +186,7 @@ export const buildPerioder = (schema: SchemaType): Periode[] => {
         schema.reisetilskuddPeriode,
     );
     if (reisetilskuddSykmelding) perioder.push(reisetilskuddSykmelding);
+    */
 
     return perioder;
 };

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Checkbox, Input, Textarea } from 'nav-frontend-skjema';
+import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
+import { Knapp } from 'nav-frontend-knapper';
 
 import ArbeidsrelatertArsak from './ArbeidsrelatertArsak';
 import ExpandableField from '../../formComponents/ExpandableField';
@@ -13,20 +14,24 @@ import { ErrorSchemaType, SchemaType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
 import { Validate } from '../../../validation';
 
-export type MulighetForArbeid = {
-    // For validering av minimum én periode valgt
-    mulighetForArbeid?: boolean;
+export type AvventendeMFA = {
+    type: MFAOptions;
     // Perioder for avventende sykmelding
-    avventendeSykmelding: boolean;
     avventendePeriode?: Date[];
     avventendeInnspillTilArbeidsgiver?: string;
+};
+
+export type GradertMFA = {
+    type: MFAOptions;
     // Perioder for gradert sykmelding
-    gradertSykmelding: boolean;
     gradertPeriode?: Date[];
     gradertGrad?: number;
     gradertReisetilskudd: boolean;
+};
+
+export type FullSykmeldingMFA = {
+    type: MFAOptions;
     // Perioder for full sykmelding
-    aktivitetIkkeMuligSykmelding: boolean;
     aktivitetIkkeMuligPeriode?: Date[];
     aktivitetIkkeMuligMedisinskArsak?: boolean;
     aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[];
@@ -34,13 +39,70 @@ export type MulighetForArbeid = {
     aktivitetIkkeMuligArbeidsrelatertArsak?: boolean;
     aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[];
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string | null;
+};
+
+export type BehandlingsdagerMFA = {
+    type: MFAOptions;
     // Perioder for sykmelding for behandlignsdager
-    behandlingsdagerSykmelding: boolean;
     behandlingsdagerPeriode?: Date[];
     behandlingsdagerAntall?: number;
+};
+
+export type ReisetilskuddMFA = {
+    type: MFAOptions;
     // Perioder for sykmelding med reisetilskudd
-    reisetilskuddSykmelding: boolean;
     reisetilskuddPeriode?: Date[];
+};
+
+export type MulighetForArbeidTypes =
+    | AvventendeMFA
+    | GradertMFA
+    | FullSykmeldingMFA
+    | BehandlingsdagerMFA
+    | ReisetilskuddMFA
+    | undefined;
+
+export type MulighetForArbeid = {
+    mulighetForArbeid: MulighetForArbeidTypes[];
+};
+
+type MFAOptions = 'velg' | 'avventende' | 'gradert' | 'fullsykmelding' | 'behandlingsdager' | 'reisetilskudd';
+
+const getPeriodType = (value: MFAOptions): MulighetForArbeidTypes => {
+    if (value === 'velg') {
+        return undefined;
+    }
+
+    if (value === 'avventende') {
+        return {
+            type: value,
+            avventendePeriode: undefined,
+            avventendeInnspillTilArbeidsgiver: undefined,
+        };
+    }
+
+    if (value === 'gradert') {
+        return { type: value, gradertPeriode: undefined, gradertGrad: undefined, gradertReisetilskudd: false };
+    }
+
+    if (value === 'fullsykmelding') {
+        return {
+            type: value,
+            aktivitetIkkeMuligPeriode: undefined,
+            aktivitetIkkeMuligMedisinskArsak: undefined,
+            aktivitetIkkeMuligMedisinskArsakType: undefined,
+            aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
+            aktivitetIkkeMuligArbeidsrelatertArsak: undefined,
+            aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
+            aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
+        };
+    }
+
+    if (value === 'behandlingsdager') {
+        return { type: value, behandlingsdagerPeriode: undefined, behandlingsdagerAntall: undefined };
+    }
+
+    return undefined;
 };
 
 type MulighetForArbeidSectionProps = {
@@ -52,7 +114,104 @@ type MulighetForArbeidSectionProps = {
 };
 
 const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate }: MulighetForArbeidSectionProps) => {
+    console.log(schema.mulighetForArbeid);
+
+    const periodOptions = [
+        <option value="velg">Velg</option>,
+        <option value="avventende">Kan benytte avventende sykmelding</option>,
+        <option value="gradert">Delvis (gradert sykmelding)</option>,
+        <option value="fullsykmelding">Nei (100% sykmelding)</option>,
+        <option value="behandlingsdager">Ikke på behandlingsdager</option>,
+        <option value="reisetilskudd">Ved bruk av reisetilskudd</option>,
+    ];
+
     return (
+        <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
+            {schema.mulighetForArbeid.length === 0 && (
+                <Select
+                    id="mulighetForArbeid"
+                    value={undefined}
+                    onChange={({ target: { value } }) => {
+                        setSchema(
+                            (state): SchemaType => {
+                                // TODO: Fix this so it doesn't require "as"
+                                const period = getPeriodType(value as MFAOptions);
+
+                                return {
+                                    ...state,
+                                    mulighetForArbeid: [period],
+                                };
+                            },
+                        );
+                    }}
+                    className="form-margin-bottom"
+                    label={<Element>Har pasienten mulighet til å være i arbeid?</Element>}
+                    feil={errors.harArbeidsgiver}
+                >
+                    {periodOptions}
+                </Select>
+            )}
+
+            {schema.mulighetForArbeid.length > 0 &&
+                schema.mulighetForArbeid.map((mulighetForArbeid, index) => (
+                    <Select
+                        id="mulighetForArbeid"
+                        value={mulighetForArbeid && mulighetForArbeid.type}
+                        onChange={({ target: { value } }) => {
+                            setSchema(
+                                (state): SchemaType => {
+                                    // TODO: Fix this so it doesn't require "as"
+                                    const period = getPeriodType(value as MFAOptions);
+
+                                    const updatedMulighetForArbeid = [
+                                        ...state.mulighetForArbeid.slice(0, index),
+                                        period,
+                                        ...state.mulighetForArbeid.slice(index + 1),
+                                    ];
+
+                                    return {
+                                        ...state,
+                                        mulighetForArbeid: updatedMulighetForArbeid,
+                                    };
+                                },
+                            );
+                        }}
+                        className="form-margin-bottom"
+                        label={<Element>Har pasienten mulighet til å være i arbeid?</Element>}
+                        feil={errors.harArbeidsgiver}
+                    >
+                        {periodOptions}
+                    </Select>
+                ))}
+
+            <Knapp
+                onClick={(event) => {
+                    event.preventDefault();
+                    setSchema(
+                        (state): SchemaType => {
+                            if (state.mulighetForArbeid.length === 0) {
+                                const updatedState = {
+                                    ...state,
+                                    mulighetForArbeid: [undefined, undefined],
+                                };
+                                return updatedState;
+                            }
+
+                            const updatedState = {
+                                ...state,
+                                mulighetForArbeid: [...state.mulighetForArbeid, undefined],
+                            };
+                            return updatedState;
+                        },
+                    );
+                }}
+            >
+                Legg til
+            </Knapp>
+        </SectionContainer>
+    );
+
+    /*
         <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
             <Subsection sectionIdentifier="4.1">
                 <Checkbox
@@ -504,7 +663,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 </ExpandableField>
             </Subsection>
         </SectionContainer>
-    );
+        */
 };
 
 export default MulighetForArbeidSection;

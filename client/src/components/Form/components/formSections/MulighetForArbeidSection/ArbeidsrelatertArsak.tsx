@@ -13,6 +13,9 @@ interface ArbeidsrelatertArsakProps {
 }
 
 const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: ArbeidsrelatertArsakProps) => {
+    // TODO:
+    return <div></div>;
+    /*
     const { aktivitetIkkeMuligArbeidsrelatertArsakType } = schema;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
@@ -58,6 +61,7 @@ const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: Arbeidsre
             />
         </div>
     );
+    */
 };
 
 export default ArbeidsrelatertArsak;

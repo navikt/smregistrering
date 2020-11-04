@@ -13,6 +13,9 @@ interface MedisinskArsakProps {
 }
 
 const MedisinskArsak = ({ schema, setSchema, errors, validate }: MedisinskArsakProps) => {
+    // TODO:
+    return <div></div>;
+    /*
     const { aktivitetIkkeMuligMedisinskArsakType } = schema;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(MedisinskArsakType).map(([key, value]) => {
@@ -58,6 +61,7 @@ const MedisinskArsak = ({ schema, setSchema, errors, validate }: MedisinskArsakP
             />
         </div>
     );
+    */
 };
 
 export default MedisinskArsak;

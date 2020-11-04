@@ -93,6 +93,10 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
         ),
 
         // MulighetForArbeid
+        // TODO:
+        mulighetForArbeid: [],
+        // old
+        /*
         avventendeSykmelding: !!avventendePeriode,
         avventendePeriode: !!avventendePeriode ? [avventendePeriode.fom, avventendePeriode.tom] : undefined,
         avventendeInnspillTilArbeidsgiver: !!avventendePeriode?.avventendeInnspillTilArbeidsgiver
@@ -124,6 +128,7 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
             : undefined,
         reisetilskuddSykmelding: !!reisetilskuddperiode,
         reisetilskuddPeriode: !!reisetilskuddperiode ? [reisetilskuddperiode.fom, reisetilskuddperiode.tom] : undefined,
+        */
 
         // Friskmelding
         arbeidsfoerEtterPeriode: !!oppgave.papirSmRegistering?.prognose?.arbeidsforEtterPeriode,
@@ -240,6 +245,13 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
                 <Panel ariaLabel="skjemapanel">
                     <FormHeader />
                     <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
+                    <MulighetForArbeidSection
+                        section={sections.MULIGHET_FOR_ARBEID}
+                        setSchema={setSchema}
+                        schema={schema}
+                        errors={formErrors}
+                        validate={validate}
+                    />
                     <PasientopplysningerSection
                         section={sections.PASIENTOPPLYSNINGER}
                         setSchema={setSchema}
@@ -261,13 +273,6 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
                         schema={schema}
                         validate={validate}
                         diagnosekoder={diagnosekoder}
-                    />
-                    <MulighetForArbeidSection
-                        section={sections.MULIGHET_FOR_ARBEID}
-                        setSchema={setSchema}
-                        schema={schema}
-                        errors={formErrors}
-                        validate={validate}
                     />
                     <FriskmeldingSection
                         section={sections.FRISKMELDING_PROGNOSE}
