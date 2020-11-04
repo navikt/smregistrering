@@ -4,6 +4,7 @@ import { Element } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 
 import ArbeidsrelatertArsak from './ArbeidsrelatertArsak';
+import AvventendeArsak from './AvventendeArsak';
 import ExpandableField from '../../formComponents/ExpandableField';
 import MedisinskArsak from './MedisinskArsak';
 import RangePicker from '../../formComponents/RangePicker';
@@ -66,44 +67,7 @@ export type MulighetForArbeid = {
     mulighetForArbeid: MulighetForArbeidTypes[];
 };
 
-type MFAOptions = 'velg' | 'avventende' | 'gradert' | 'fullsykmelding' | 'behandlingsdager' | 'reisetilskudd';
-
-const getPeriodType = (value: MFAOptions): MulighetForArbeidTypes => {
-    if (value === 'velg') {
-        return undefined;
-    }
-
-    if (value === 'avventende') {
-        return {
-            type: value,
-            avventendePeriode: undefined,
-            avventendeInnspillTilArbeidsgiver: undefined,
-        };
-    }
-
-    if (value === 'gradert') {
-        return { type: value, gradertPeriode: undefined, gradertGrad: undefined, gradertReisetilskudd: false };
-    }
-
-    if (value === 'fullsykmelding') {
-        return {
-            type: value,
-            aktivitetIkkeMuligPeriode: undefined,
-            aktivitetIkkeMuligMedisinskArsak: undefined,
-            aktivitetIkkeMuligMedisinskArsakType: undefined,
-            aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
-            aktivitetIkkeMuligArbeidsrelatertArsak: undefined,
-            aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
-            aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
-        };
-    }
-
-    if (value === 'behandlingsdager') {
-        return { type: value, behandlingsdagerPeriode: undefined, behandlingsdagerAntall: undefined };
-    }
-
-    return undefined;
-};
+export type MFAOptions = 'velg' | 'avventende' | 'gradert' | 'fullsykmelding' | 'behandlingsdager' | 'reisetilskudd';
 
 type MulighetForArbeidSectionProps = {
     section: Section;
@@ -125,6 +89,86 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
         <option value="reisetilskudd">Ved bruk av reisetilskudd</option>,
     ];
 
+    const getPeriodDisplay = (mulighetForArbeid: MulighetForArbeidTypes, index: number) => {
+        if (!mulighetForArbeid) {
+            return undefined;
+        }
+
+        if (mulighetForArbeid.type === 'avventende') {
+            return (
+                <AvventendeArsak
+                    updateMfa={(updatedMfa) =>
+                        setSchema(
+                            (state): SchemaType => {
+                                // TODO: Fix this so it doesn't require "as"
+                                const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
+
+                                return {
+                                    ...state,
+                                    mulighetForArbeid: updatedMulighetForArbeid,
+                                };
+                            },
+                        )
+                    }
+                    mulighetForArbeid={mulighetForArbeid as AvventendeMFA}
+                    errors={errors}
+                    validate={validate}
+                />
+            );
+        }
+
+        if (mulighetForArbeid.type === 'gradert') {
+            return <div>gradert</div>;
+        }
+
+        if (mulighetForArbeid.type === 'fullsykmelding') {
+            return <div>fullsykmelding</div>;
+        }
+
+        if (mulighetForArbeid.type === 'behandlingsdager') {
+            return <div>behandlingsdager</div>;
+        }
+
+        return undefined;
+    };
+
+    const createEmptyMFA = (type: MFAOptions): MulighetForArbeidTypes => {
+        if (type === 'avventende') {
+            return {
+                type,
+                avventendePeriode: undefined,
+                avventendeInnspillTilArbeidsgiver: undefined,
+            };
+        }
+
+        if (type === 'gradert') {
+            return { type, gradertPeriode: undefined, gradertGrad: undefined, gradertReisetilskudd: false };
+        }
+
+        if (type === 'fullsykmelding') {
+            return {
+                type,
+                aktivitetIkkeMuligPeriode: undefined,
+                aktivitetIkkeMuligMedisinskArsak: undefined,
+                aktivitetIkkeMuligMedisinskArsakType: undefined,
+                aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
+                aktivitetIkkeMuligArbeidsrelatertArsak: undefined,
+                aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
+                aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
+            };
+        }
+
+        if (type === 'behandlingsdager') {
+            return { type, behandlingsdagerPeriode: undefined, behandlingsdagerAntall: undefined };
+        }
+
+        return undefined;
+    };
+
+    const mergeMFAAtIndex = (mfa: MulighetForArbeidTypes, state: SchemaType, index: number) => {
+        return [...state.mulighetForArbeid.slice(0, index), mfa, ...state.mulighetForArbeid.slice(index + 1)];
+    };
+
     return (
         <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
             {schema.mulighetForArbeid.length === 0 && (
@@ -135,7 +179,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         setSchema(
                             (state): SchemaType => {
                                 // TODO: Fix this so it doesn't require "as"
-                                const period = getPeriodType(value as MFAOptions);
+                                const period = createEmptyMFA(value as MFAOptions);
 
                                 return {
                                     ...state,
@@ -154,34 +198,33 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
 
             {schema.mulighetForArbeid.length > 0 &&
                 schema.mulighetForArbeid.map((mulighetForArbeid, index) => (
-                    <Select
-                        id="mulighetForArbeid"
-                        value={mulighetForArbeid && mulighetForArbeid.type}
-                        onChange={({ target: { value } }) => {
-                            setSchema(
-                                (state): SchemaType => {
-                                    // TODO: Fix this so it doesn't require "as"
-                                    const period = getPeriodType(value as MFAOptions);
+                    <>
+                        <Select
+                            id="mulighetForArbeid"
+                            value={mulighetForArbeid && mulighetForArbeid.type}
+                            onChange={({ target: { value } }) => {
+                                setSchema(
+                                    (state): SchemaType => {
+                                        // TODO: Fix this so it doesn't require "as"
+                                        const mfa = createEmptyMFA(value as MFAOptions);
 
-                                    const updatedMulighetForArbeid = [
-                                        ...state.mulighetForArbeid.slice(0, index),
-                                        period,
-                                        ...state.mulighetForArbeid.slice(index + 1),
-                                    ];
+                                        const updatedMulighetForArbeid = mergeMFAAtIndex(mfa, state, index);
 
-                                    return {
-                                        ...state,
-                                        mulighetForArbeid: updatedMulighetForArbeid,
-                                    };
-                                },
-                            );
-                        }}
-                        className="form-margin-bottom"
-                        label={<Element>Har pasienten mulighet til å være i arbeid?</Element>}
-                        feil={errors.harArbeidsgiver}
-                    >
-                        {periodOptions}
-                    </Select>
+                                        return {
+                                            ...state,
+                                            mulighetForArbeid: updatedMulighetForArbeid,
+                                        };
+                                    },
+                                );
+                            }}
+                            className="form-margin-bottom"
+                            label={<Element>Har pasienten mulighet til å være i arbeid?</Element>}
+                            feil={errors.harArbeidsgiver}
+                        >
+                            {periodOptions}
+                        </Select>
+                        {getPeriodDisplay(mulighetForArbeid, index)}
+                    </>
                 ))}
 
             <Knapp
