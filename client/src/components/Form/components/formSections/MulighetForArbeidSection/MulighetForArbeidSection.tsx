@@ -89,49 +89,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
         <option value="reisetilskudd">Ved bruk av reisetilskudd</option>,
     ];
 
-    const getPeriodDisplay = (mulighetForArbeid: MulighetForArbeidTypes, index: number) => {
-        if (!mulighetForArbeid) {
-            return undefined;
-        }
-
-        if (mulighetForArbeid.type === 'avventende') {
-            return (
-                <AvventendeArsak
-                    updateMfa={(updatedMfa) =>
-                        setSchema(
-                            (state): SchemaType => {
-                                // TODO: Fix this so it doesn't require "as"
-                                const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
-
-                                return {
-                                    ...state,
-                                    mulighetForArbeid: updatedMulighetForArbeid,
-                                };
-                            },
-                        )
-                    }
-                    mulighetForArbeid={mulighetForArbeid as AvventendeMFA}
-                    errors={errors}
-                    validate={validate}
-                />
-            );
-        }
-
-        if (mulighetForArbeid.type === 'gradert') {
-            return <div>gradert</div>;
-        }
-
-        if (mulighetForArbeid.type === 'fullsykmelding') {
-            return <div>fullsykmelding</div>;
-        }
-
-        if (mulighetForArbeid.type === 'behandlingsdager') {
-            return <div>behandlingsdager</div>;
-        }
-
-        return undefined;
-    };
-
     const createEmptyMFA = (type: MFAOptions): MulighetForArbeidTypes => {
         if (type === 'avventende') {
             return {
@@ -223,7 +180,30 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         >
                             {periodOptions}
                         </Select>
-                        {getPeriodDisplay(mulighetForArbeid, index)}
+                        {mulighetForArbeid?.type === 'avventende' && (
+                            <AvventendeArsak
+                                updateMfa={(updatedMfa) =>
+                                    setSchema(
+                                        (state): SchemaType => {
+                                            // TODO: Fix this so it doesn't require "as"
+                                            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
+
+                                            return {
+                                                ...state,
+                                                mulighetForArbeid: updatedMulighetForArbeid,
+                                            };
+                                        },
+                                    )
+                                }
+                                mulighetForArbeid={mulighetForArbeid as AvventendeMFA}
+                                errors={errors}
+                                validate={validate}
+                            />
+                        )}
+                        {mulighetForArbeid?.type === 'gradert' && <div>gradert</div>}
+                        {mulighetForArbeid?.type === 'fullsykmelding' && <div>fullsykmelding</div>}
+                        {mulighetForArbeid?.type === 'behandlingsdager' && <div>behandlingsdager</div>}
+                        {mulighetForArbeid?.type === 'reisetilskudd' && <div>reisetilskudd</div>}
                     </>
                 ))}
 
