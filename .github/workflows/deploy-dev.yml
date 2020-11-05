@@ -39,7 +39,7 @@ jobs:
         env:
           CI: true
         run: |
-          npm run start & npx wait-on http://localhost:4000 && npm run test-integration
+          npm run test-integration
         working-directory: ./client
       - name: Build server
         run: |
