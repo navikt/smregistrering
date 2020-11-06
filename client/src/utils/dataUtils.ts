@@ -4,8 +4,9 @@ import { DiagnosekodeSystem, Diagnosekoder } from '../types/Diagnosekode';
 import { Oppgave } from '../types/Oppgave';
 import { getOppgaveidFromSearchParams } from './urlUtils';
 
-export class OppgaveAlreadySolvedError extends Error {}
-export class BadRequestError extends Error {}
+export class OppgaveAlreadySolvedError extends Error { }
+export class BadRequestError extends Error { }
+export class OppgaveGoneError extends Error { }
 
 export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
     try {
@@ -39,10 +40,18 @@ export const getOppgave = (): Promise<Oppgave> => {
                 } else if (response.status === 404) {
                     return Promise.reject(
                         new OppgaveAlreadySolvedError(
-                            `Fant ingen uløste manuelloppgaver med oppgave-id: ${oppgaveid}. Oppgaven finnes ikke eller er allerede løst.`,
+                            `Fant ingen uløste oppgaver med oppgave-id: ${oppgaveid}. Oppgaven finnes ikke eller er allerede løst.`,
                         ),
                     );
-                } else {
+                } else if (response.status === 410) {
+                    return Promise.reject(
+                        new OppgaveGoneError(
+                            `Fant ingen skannede dokumenter for oppgave-id: ${oppgaveid}. Oppgaven er sendt tilbake til GOSYS.`
+                        )
+                    )
+                }
+
+                else {
                     return Promise.reject(new Error('Ukjent feil med statuskode: ' + response.status));
                 }
             })
