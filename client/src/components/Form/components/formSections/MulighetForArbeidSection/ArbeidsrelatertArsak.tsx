@@ -2,21 +2,20 @@ import React from 'react';
 import { CheckboksPanelGruppe, CheckboksPanelProps } from 'nav-frontend-skjema';
 
 import { ArbeidsrelatertArsakType } from '../../../../../types/RegistrertSykmelding';
-import { ErrorSchemaType, SchemaType } from '../../../Form';
+import { ErrorSchemaType } from '../../../Form';
+import { FullSykmeldingMFA } from './FullSykmelding';
+import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
 import { Validate } from '../../../validation';
 
 interface ArbeidsrelatertArsakProps {
-    schema: SchemaType;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    mulighetForArbeid: FullSykmeldingMFA;
+    updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: ErrorSchemaType;
     validate: Validate;
 }
 
-const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: ArbeidsrelatertArsakProps) => {
-    // TODO:
-    return <div></div>;
-    /*
-    const { aktivitetIkkeMuligArbeidsrelatertArsakType } = schema;
+const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors, validate }: ArbeidsrelatertArsakProps) => {
+    const { aktivitetIkkeMuligArbeidsrelatertArsakType } = mulighetForArbeid;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
         return {
@@ -28,27 +27,27 @@ const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: Arbeidsre
     });
 
     const updateCheckboxes = (value: keyof typeof ArbeidsrelatertArsakType): void => {
-        setSchema((state) => {
-            if (!state.aktivitetIkkeMuligArbeidsrelatertArsakType) {
-                const updatedSchema = {
-                    ...state,
-                    aktivitetIkkeMuligArbeidsrelatertArsakType: [value as keyof typeof ArbeidsrelatertArsakType],
-                };
-                validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
-                return updatedSchema;
-            }
-            const shouldAddArsak: boolean = !state.aktivitetIkkeMuligArbeidsrelatertArsakType.includes(value);
-            const newArbeidsrelatertArsakType: (keyof typeof ArbeidsrelatertArsakType)[] = shouldAddArsak
-                ? [...state.aktivitetIkkeMuligArbeidsrelatertArsakType, value]
-                : state.aktivitetIkkeMuligArbeidsrelatertArsakType.filter((arsak) => arsak !== value);
-
+        if (!aktivitetIkkeMuligArbeidsrelatertArsakType) {
             const updatedSchema = {
-                ...state,
-                aktivitetIkkeMuligArbeidsrelatertArsakType: newArbeidsrelatertArsakType,
+                ...mulighetForArbeid,
+                aktivitetIkkeMuligArbeidsrelatertArsakType: [value as keyof typeof ArbeidsrelatertArsakType],
             };
-            validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
-            return updatedSchema;
-        });
+            // TODO: validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
+            updateMfa(updatedSchema);
+            return;
+        }
+        const shouldAddArsak: boolean = !aktivitetIkkeMuligArbeidsrelatertArsakType.includes(value);
+        const newArbeidsrelatertArsakType: (keyof typeof ArbeidsrelatertArsakType)[] = shouldAddArsak
+            ? [...aktivitetIkkeMuligArbeidsrelatertArsakType, value]
+            : aktivitetIkkeMuligArbeidsrelatertArsakType.filter((arsak) => arsak !== value);
+
+        const updatedSchema = {
+            ...mulighetForArbeid,
+            aktivitetIkkeMuligArbeidsrelatertArsakType: newArbeidsrelatertArsakType,
+        };
+        // TODO: validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
+        updateMfa(updatedSchema);
+        return;
     };
 
     return (
@@ -57,11 +56,10 @@ const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: Arbeidsre
                 legend="Arbeidsrelaterte årsaker"
                 checkboxes={checkboxes}
                 onChange={(_event, value) => updateCheckboxes(value)}
-                feil={errors.aktivitetIkkeMuligArbeidsrelatertArsakType}
+                feil={undefined /* // TODO: errors.aktivitetIkkeMuligArbeidsrelatertArsakType */}
             />
         </div>
     );
-    */
 };
 
 export default ArbeidsrelatertArsak;
