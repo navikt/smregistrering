@@ -1,15 +1,11 @@
 import React from 'react';
-import { Checkbox, Input, Select, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
+import { Select } from 'nav-frontend-skjema';
 
-import ArbeidsrelatertArsak from './ArbeidsrelatertArsak';
 import AvventendeArsak from './AvventendeArsak';
-import ExpandableField from '../../formComponents/ExpandableField';
-import MedisinskArsak from './MedisinskArsak';
-import RangePicker from '../../formComponents/RangePicker';
 import SectionContainer from '../../SectionContainer';
-import Subsection from '../../formComponents/Subsection';
+import GradertArsak, { GradertMFA } from './GradertArsak';
 import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
 import { ErrorSchemaType, SchemaType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
@@ -20,14 +16,6 @@ export type AvventendeMFA = {
     // Perioder for avventende sykmelding
     avventendePeriode?: Date[];
     avventendeInnspillTilArbeidsgiver?: string;
-};
-
-export type GradertMFA = {
-    type: MFAOptions;
-    // Perioder for gradert sykmelding
-    gradertPeriode?: Date[];
-    gradertGrad?: number;
-    gradertReisetilskudd: boolean;
 };
 
 export type FullSykmeldingMFA = {
@@ -119,6 +107,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
             return { type, behandlingsdagerPeriode: undefined, behandlingsdagerAntall: undefined };
         }
 
+        // reisetilskudd
+
         return undefined;
     };
 
@@ -185,7 +175,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 updateMfa={(updatedMfa) =>
                                     setSchema(
                                         (state): SchemaType => {
-                                            // TODO: Fix this so it doesn't require "as"
                                             const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
 
                                             return {
@@ -200,7 +189,25 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 validate={validate}
                             />
                         )}
-                        {mulighetForArbeid?.type === 'gradert' && <div>gradert</div>}
+                        {mulighetForArbeid?.type === 'gradert' && (
+                            <GradertArsak
+                                updateMfa={(updatedMfa) =>
+                                    setSchema(
+                                        (state): SchemaType => {
+                                            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
+
+                                            return {
+                                                ...state,
+                                                mulighetForArbeid: updatedMulighetForArbeid,
+                                            };
+                                        },
+                                    )
+                                }
+                                mulighetForArbeid={mulighetForArbeid as GradertMFA}
+                                errors={errors}
+                                validate={validate}
+                            />
+                        )}
                         {mulighetForArbeid?.type === 'fullsykmelding' && <div>fullsykmelding</div>}
                         {mulighetForArbeid?.type === 'behandlingsdager' && <div>behandlingsdager</div>}
                         {mulighetForArbeid?.type === 'reisetilskudd' && <div>reisetilskudd</div>}
