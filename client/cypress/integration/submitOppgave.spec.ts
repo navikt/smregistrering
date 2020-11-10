@@ -49,8 +49,8 @@ context('Submit oppgave', () => {
 
         cy.wait('@getOppgave')
         cy.wait(1000) // to allow for synchronization of enhet from decorator
-        cy.get('#form-submit-checkbox').click({ force: true }) // Force because the checkbox is slightly overlappet by another element
-        cy.get('#submit-form').click({ force: true })
+        cy.get('#form-submit-checkbox').scrollIntoView().should('be.visible').click({ force: true }); // Force because cypress complains that the label covers the input element.
+        cy.get('#submit-form').click();
         cy.get('#success-modal-text').contains("Oppgaven ble ferdigstilt.")
     })
 })
