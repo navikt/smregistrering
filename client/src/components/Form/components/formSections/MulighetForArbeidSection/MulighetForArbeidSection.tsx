@@ -5,6 +5,7 @@ import { Select } from 'nav-frontend-skjema';
 
 import AvventendeArsak from './AvventendeArsak';
 import SectionContainer from '../../SectionContainer';
+import BehandlingsDager, { BehandlingsdagerMFA } from './BehandlingsDager';
 import FullSykmelding, { FullSykmeldingMFA } from './FullSykmelding';
 import GradertArsak, { GradertMFA } from './GradertArsak';
 import { ErrorSchemaType, SchemaType } from '../../../Form';
@@ -16,13 +17,6 @@ export type AvventendeMFA = {
     // Perioder for avventende sykmelding
     avventendePeriode?: Date[];
     avventendeInnspillTilArbeidsgiver?: string;
-};
-
-export type BehandlingsdagerMFA = {
-    type: MFAOptions;
-    // Perioder for sykmelding for behandlignsdager
-    behandlingsdagerPeriode?: Date[];
-    behandlingsdagerAntall?: number;
 };
 
 export type ReisetilskuddMFA = {
@@ -215,7 +209,25 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 validate={validate}
                             />
                         )}
-                        {mulighetForArbeid?.type === 'behandlingsdager' && <div>behandlingsdager</div>}
+                        {mulighetForArbeid?.type === 'behandlingsdager' && (
+                            <BehandlingsDager
+                                updateMfa={(updatedMfa) =>
+                                    setSchema(
+                                        (state): SchemaType => {
+                                            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
+
+                                            return {
+                                                ...state,
+                                                mulighetForArbeid: updatedMulighetForArbeid,
+                                            };
+                                        },
+                                    )
+                                }
+                                mulighetForArbeid={mulighetForArbeid as BehandlingsdagerMFA}
+                                errors={errors}
+                                validate={validate}
+                            />
+                        )}
                         {mulighetForArbeid?.type === 'reisetilskudd' && <div>reisetilskudd</div>}
                     </>
                 ))}
@@ -247,236 +259,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
     );
 
     /*
-        <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
-            <Subsection sectionIdentifier="4.1">
-                <Checkbox
-                    id="avventendeSykmelding"
-                    checked={schema.avventendeSykmelding}
-                    label="Pasienten kan benytte avventende sykmelding"
-                    onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    avventendeSykmelding: !state.avventendeSykmelding,
-                                    avventendePeriode: undefined,
-                                    avventendeInnspillTilArbeidsgiver: undefined,
-                                };
-                                validate('avventendeSykmelding', updatedSchema);
-                                validate('avventendePeriode', updatedSchema);
-                                validate('avventendeInnspillTilArbeidsgiver', updatedSchema);
-                                validate('mulighetForArbeid', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
-                    }}
-                    feil={errors.avventendeSykmelding}
-                />
-                <br />
-                <ExpandableField show={schema.avventendeSykmelding}>
-                    <>
-                        <RangePicker
-                            id="avventendePeriode"
-                            labelFrom="4.1.1 f.o.m."
-                            labelTo="4.1.2 t.o.m."
-                            value={schema.avventendePeriode || []}
-                            onChange={(newDates) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            avventendePeriode: newDates,
-                                        };
-                                        validate('avventendePeriode', updatedSchema);
-
-                                        return updatedSchema;
-                                    },
-                                );
-                            }}
-                            feil={errors.avventendePeriode}
-                        />
-                        <Textarea
-                            id="avventendeInnspillTilArbeidsgiver"
-                            maxLength={0}
-                            value={schema.avventendeInnspillTilArbeidsgiver || ''}
-                            onChange={({ target: { value } }) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            avventendeInnspillTilArbeidsgiver: value,
-                                        };
-                                        validate('avventendeInnspillTilArbeidsgiver', updatedSchema);
-                                        return updatedSchema;
-                                    },
-                                );
-                            }}
-                            feil={errors.avventendeInnspillTilArbeidsgiver}
-                            label={<Element>4.1.3 Innspill til arbeidsgiver om tilrettelegging</Element>}
-                        />
-                    </>
-                </ExpandableField>
-            </Subsection>
-            <Subsection sectionIdentifier="4.2">
-                <Checkbox
-                    id="gradertSykmelding"
-                    checked={schema.gradertSykmelding}
-                    label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
-                    onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    gradertSykmelding: !state.gradertSykmelding,
-                                    gradertPeriode: undefined,
-                                    gradertGrad: undefined,
-                                };
-                                validate('gradertSykmelding', updatedSchema);
-                                validate('gradertPeriode', updatedSchema);
-                                validate('gradertGrad', updatedSchema);
-                                validate('mulighetForArbeid', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
-                    }}
-                    feil={errors.gradertSykmelding}
-                />
-                <br />
-                <ExpandableField show={schema.gradertSykmelding}>
-                    <>
-                        <RangePicker
-                            id="gradertPeriode"
-                            labelFrom="4.2.1 f.o.m."
-                            labelTo="4.2.2 t.o.m."
-                            value={schema.gradertPeriode || []}
-                            onChange={(newDates) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            gradertPeriode: newDates,
-                                        };
-                                        validate('gradertPeriode', updatedSchema);
-
-                                        return updatedSchema;
-                                    },
-                                );
-                            }}
-                            feil={errors.gradertPeriode}
-                        />
-                        <Input
-                            id="gradertGrad"
-                            className="form-margin-bottom half"
-                            type="number"
-                            value={schema.gradertGrad}
-                            onChange={({ target: { value } }) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            gradertGrad: parseInt(value),
-                                        };
-                                        validate('gradertGrad', updatedSchema);
-                                        return updatedSchema;
-                                    },
-                                );
-                            }}
-                            feil={errors.gradertGrad}
-                            label="4.2.3 Oppgi grad for sykmelding"
-                        />
-                    </>
-                </ExpandableField>
-                <Element className="form-label">4.2.4</Element>
-                <Checkbox
-                    id="gradertReisetilskudd"
-                    checked={schema.gradertReisetilskudd}
-                    label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
-                    onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    gradertReisetilskudd: !state.gradertReisetilskudd,
-                                };
-                                validate('gradertReisetilskudd', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
-                    }}
-                    feil={errors.gradertReisetilskudd}
-                />
-            </Subsection>
-
-            <Subsection sectionIdentifier="4.4">
-                <Checkbox
-                    id="behandlingsdagerSykmelding"
-                    checked={schema.behandlingsdagerSykmelding}
-                    label="Pasienten kan ikke være i arbeid på behandlingsdager"
-                    onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
-                                    behandlingsdagerPeriode: undefined,
-                                    behandlingsdagerAntall: undefined,
-                                };
-                                validate('behandlingsdagerSykmelding', updatedSchema);
-                                validate('behandlingsdagerPeriode', updatedSchema);
-                                validate('behandlingsdagerAntall', updatedSchema);
-                                validate('mulighetForArbeid', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
-                    }}
-                    feil={errors.behandlingsdagerSykmelding}
-                />
-                <br />
-                <ExpandableField show={schema.behandlingsdagerSykmelding}>
-                    <>
-                        <RangePicker
-                            id="behandlingsdagerPeriode"
-                            labelFrom="4.4.1 f.o.m."
-                            labelTo="4.4.2 t.o.m."
-                            value={schema.behandlingsdagerPeriode || []}
-                            onChange={(newDates) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            behandlingsdagerPeriode: newDates,
-                                        };
-                                        validate('behandlingsdagerPeriode', updatedSchema);
-                                        return updatedSchema;
-                                    },
-                                );
-                            }}
-                            feil={errors.behandlingsdagerPeriode}
-                        />
-
-                        <Input
-                            id="behandlingsdagerAntall"
-                            className="form-margin-bottom half"
-                            type="number"
-                            value={schema.behandlingsdagerAntall}
-                            onChange={({ target: { value } }) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            behandlingsdagerAntall: Number(value),
-                                        };
-                                        validate('behandlingsdagerAntall', updatedSchema);
-                                        return updatedSchema;
-                                    },
-                                );
-                            }}
-                            feil={errors.behandlingsdagerAntall}
-                            label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
-                        />
-                    </>
-                </ExpandableField>
-            </Subsection>
 
             <Subsection sectionIdentifier="4.5" underline={false}>
                 <Checkbox
