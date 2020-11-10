@@ -5,9 +5,9 @@ import { Select } from 'nav-frontend-skjema';
 
 import AvventendeArsak from './AvventendeArsak';
 import SectionContainer from '../../SectionContainer';
+import FullSykmelding, { FullSykmeldingMFA } from './FullSykmelding';
 import GradertArsak, { GradertMFA } from './GradertArsak';
 import { ErrorSchemaType, SchemaType } from '../../../Form';
-import { FullSykmeldingMFA } from './FullSykmelding';
 import { Section } from '../../../../../types/Section';
 import { Validate } from '../../../validation';
 
@@ -196,7 +196,25 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 validate={validate}
                             />
                         )}
-                        {mulighetForArbeid?.type === 'fullsykmelding' && <div>fullsykmelding</div>}
+                        {mulighetForArbeid?.type === 'fullsykmelding' && (
+                            <FullSykmelding
+                                updateMfa={(updatedMfa) =>
+                                    setSchema(
+                                        (state): SchemaType => {
+                                            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
+
+                                            return {
+                                                ...state,
+                                                mulighetForArbeid: updatedMulighetForArbeid,
+                                            };
+                                        },
+                                    )
+                                }
+                                mulighetForArbeid={mulighetForArbeid as FullSykmeldingMFA}
+                                errors={errors}
+                                validate={validate}
+                            />
+                        )}
                         {mulighetForArbeid?.type === 'behandlingsdager' && <div>behandlingsdager</div>}
                         {mulighetForArbeid?.type === 'reisetilskudd' && <div>reisetilskudd</div>}
                     </>
