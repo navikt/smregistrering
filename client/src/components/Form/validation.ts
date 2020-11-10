@@ -1,4 +1,5 @@
 import { SchemaType } from './Form';
+import { ValidationFunctions } from './formUtils/useForm';
 
 export type Validate = (name: keyof SchemaType, schema: SchemaType) => boolean;
 
@@ -6,8 +7,8 @@ export type ValidationType = {
     [key in Required<keyof SchemaType>]: (schema: SchemaType) => string | undefined;
 };
 
-export const validationFunctions: ValidationType = {
-    // Other
+export const validationFunctions: ValidationFunctions<SchemaType> = {
+// Other
     syketilfelleStartDato: () => undefined,
 
     // Pasientopplysninger

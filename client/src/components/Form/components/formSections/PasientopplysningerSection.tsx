@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input } from 'nav-frontend-skjema';
+import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
 import { ErrorSchemaType, SchemaType } from '../../Form';
@@ -12,13 +12,12 @@ export type Pasientopplysninger = {
 
 type PasientopplysningerProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
     schema: SchemaType;
 };
 
-const PasientopplysningerSection = ({ section, setSchema, errors, validate, schema }: PasientopplysningerProps) => {
+const PasientopplysningerSection = ({ section, setFormState, errors, schema }: PasientopplysningerProps) => {
     return (
         <SectionContainer section={section}>
             <Input
@@ -26,19 +25,14 @@ const PasientopplysningerSection = ({ section, setSchema, errors, validate, sche
                 className="half"
                 value={schema.pasientFnr ? schema.pasientFnr : undefined}
                 onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => {
-                            const updatedSchema = {
-                                ...state,
-                                pasientFnr: value,
-                            };
-                            validate('pasientFnr', updatedSchema);
-                            return updatedSchema;
-                        },
-                    );
+                    setFormState(
+                        (formState) => {
+                            return { ...formState, pasientFnr: value }
+                        }
+                    )
                 }}
                 label="1.2 Fødselsnummer (11 siffer)"
-                feil={errors.pasientFnr}
+                feil={errors.get('pasientFnr')?.feilmelding}
             />
         </SectionContainer>
     );

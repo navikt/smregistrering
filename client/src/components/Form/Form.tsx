@@ -38,20 +38,21 @@ import {
 import { getKeys } from '../../utils/objectUtils';
 import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../utils/diagnoseUtils';
 import { sections } from '../../types/Section';
+import useForm from './formUtils/useForm';
 
 export interface SchemaType
     extends Pasientopplysninger,
-        Arbeidsgiver,
-        Arbeidsevne,
-        MedisinskVurdering,
-        MulighetForArbeid,
-        Friskmelding,
-        UtdypendeOpplysninger,
-        MeldingTilNav,
-        MeldingTilArbeidsgiver,
-        Tilbakedatering,
-        Behandler,
-        Other {}
+    Arbeidsgiver,
+    Arbeidsevne,
+    MedisinskVurdering,
+    MulighetForArbeid,
+    Friskmelding,
+    UtdypendeOpplysninger,
+    MeldingTilNav,
+    MeldingTilArbeidsgiver,
+    Tilbakedatering,
+    Behandler,
+    Other { }
 
 export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined };
 
@@ -208,45 +209,22 @@ type FormProps = {
 };
 
 const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
-    const [schema, setSchema] = useState<SchemaType>(getInitialSchema(oppgave, diagnosekoder));
-    const [formErrors, setFormErrors] = useState<ErrorSchemaType>({});
+    const { formState, setFormState, errors, handleSubmit } = useForm<SchemaType>({ defaultValues: getInitialSchema(oppgave, diagnosekoder), validationFunctions: validationFunctions })
     const errorSummaryRef = useRef<HTMLDivElement>(null);
-
-    const validate: Validate = (name, updatedSchema) => {
-        const validationFunction = validationFunctions[name];
-        const error = validationFunction(updatedSchema);
-        setFormErrors((state) => ({ ...state, [name]: error }));
-        if (error) {
-            return false;
-        }
-        return true;
-    };
-
-    const validateAll = (): boolean => {
-        const keys = getKeys(validationFunctions);
-        let hasErrors: boolean = false;
-        keys.forEach((key) => {
-            const validation = validate(key, schema);
-            if (!validation) {
-                hasErrors = true;
-            }
-        });
-        return !hasErrors;
-    };
 
     return (
         <section className="form">
             <form autoComplete="off">
                 <Panel ariaLabel="skjemapanel">
                     <FormHeader />
-                    <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
+                    <OtherSection setFormState={setFormState} errors={errors} schema={formState} />
                     <PasientopplysningerSection
                         section={sections.PASIENTOPPLYSNINGER}
-                        setSchema={setSchema}
-                        errors={formErrors}
-                        schema={schema}
-                        validate={validate}
+                        setFormState={setFormState}
+                        errors={errors}
+                        schema={formState}
                     />
+                    {/*                     
                     <ArbeidsgiverSection
                         section={sections.ARBEIDSGIVER}
                         setSchema={setSchema}
@@ -317,15 +295,16 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
                         schema={schema}
                         errors={formErrors}
                         validate={validate}
-                    />
+                    /> */}
                 </Panel>
-                <FormErrorSummary formErrors={formErrors} errorSummaryRef={errorSummaryRef} />
+                {<FormErrorSummary formErrors={errors} errorSummaryRef={errorSummaryRef} />}
                 <FormSubmit
                     oppgave={oppgave}
-                    schema={schema}
-                    validateAll={validateAll}
+                    schema={formState}
+                    errors={errors}
                     errorSummaryRef={errorSummaryRef}
                     enhet={enhet}
+                    handleSubmit={handleSubmit}
                 />
             </form>
         </section>

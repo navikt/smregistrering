@@ -3,19 +3,19 @@ import React from 'react';
 import DatePicker from '../formComponents/DatePicker';
 import { ErrorSchemaType, SchemaType } from '../../Form';
 import { Validate } from '../../validation';
+import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 export type Other = {
     syketilfelleStartDato?: Date | null;
 };
 
 type OtherSectionProps = {
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
+    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
     schema: SchemaType;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
 };
 
-const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps) => {
+const OtherSection = ({ setFormState, schema, errors }: OtherSectionProps) => {
     return (
         <section aria-label="other">
             <fieldset className=" section-content">
@@ -24,15 +24,13 @@ const OtherSection = ({ setSchema, schema, errors, validate }: OtherSectionProps
                     label="Startdato for legemeldt fravær"
                     value={schema.syketilfelleStartDato ? schema.syketilfelleStartDato : undefined}
                     onChange={(newDates) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = { ...state, syketilfelleStartDato: newDates };
-                                validate('syketilfelleStartDato', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState(
+                            (formState) => {
+                                return { ...formState, syketilfelleStartDato: newDates };
+                            }
+                        )
                     }}
-                    feil={errors.syketilfelleStartDato}
+                    feil={errors.get('syketilfelleStartDato')?.feilmelding}
                 />
             </fieldset>
         </section>
