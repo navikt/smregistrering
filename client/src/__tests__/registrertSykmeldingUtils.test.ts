@@ -897,10 +897,10 @@ describe('registrertSykmeldingUtils', () => {
                 sykmelderFnr: '', // TODO: remove when backend is ready
                 behandler: {
                     fnr: '', // TODO: remove when backend is ready
-                    fornavn: schema.sykmeldersFornavn!,
-                    etternavn: schema.sykmeldersEtternavn!,
+                    fornavn: '', // Information is gathered in backend based on hpr
+                    etternavn: '', // Information is gathered in backend based on hpr
                     hpr: schema.hpr,
-                    aktoerId: schema.aktoerId!,
+                    aktoerId: '', // Information is gathered in backend based on hpr
                     adresse: {
                         gate: schema.sykmelderGate,
                         kommune: schema.sykmelderKommune,
