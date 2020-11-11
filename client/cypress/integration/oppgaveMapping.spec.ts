@@ -13,11 +13,6 @@ context('Oppgave mapping', () => {
         });
 
         cy.server(); // enable response stubbing
-        cy.route({
-            method: 'GET',
-            url: '/user',
-            response: 'Ola Normann',
-        });
     });
 
     it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', () => {
@@ -86,8 +81,8 @@ context('Oppgave mapping', () => {
             cy.get('#avventendePeriode').should(
                 'have.value',
                 dayjs(avventendePeriode.fom).format('DD.MM.YYYY') +
-                    ' - ' +
-                    dayjs(avventendePeriode.tom).format('DD.MM.YYYY'),
+                ' - ' +
+                dayjs(avventendePeriode.tom).format('DD.MM.YYYY'),
             );
             cy.get('#avventendeInnspillTilArbeidsgiver').should(
                 'have.value',
@@ -110,8 +105,8 @@ context('Oppgave mapping', () => {
             cy.get('#aktivitetIkkeMuligPeriode').should(
                 'have.value',
                 dayjs(aktivitetIkkeMuligPeriode.fom).format('DD.MM.YYYY') +
-                    ' - ' +
-                    dayjs(aktivitetIkkeMuligPeriode.tom).format('DD.MM.YYYY'),
+                ' - ' +
+                dayjs(aktivitetIkkeMuligPeriode.tom).format('DD.MM.YYYY'),
             );
             cy.get('#aktivitetIkkeMuligMedisinskArsak').should('be.checked');
             cy.get('#aktivitetIkkeMuligMedisinskArsakType').within(() => {
@@ -141,8 +136,8 @@ context('Oppgave mapping', () => {
             cy.get('#behandlingsdagerPeriode').should(
                 'have.value',
                 dayjs(behandlingsdagerSykmelding.fom).format('DD.MM.YYYY') +
-                    ' - ' +
-                    dayjs(behandlingsdagerSykmelding.tom).format('DD.MM.YYYY'),
+                ' - ' +
+                dayjs(behandlingsdagerSykmelding.tom).format('DD.MM.YYYY'),
             );
             cy.get('#behandlingsdagerAntall').should('have.value', behandlingsdagerSykmelding.behandlingsdager);
 
@@ -153,8 +148,8 @@ context('Oppgave mapping', () => {
             cy.get('#reisetilskuddPeriode').should(
                 'have.value',
                 dayjs(reisetilskuddSykmelding.fom).format('DD.MM.YYYY') +
-                    ' - ' +
-                    dayjs(reisetilskuddSykmelding.tom).format('DD.MM.YYYY'),
+                ' - ' +
+                dayjs(reisetilskuddSykmelding.tom).format('DD.MM.YYYY'),
             );
 
             cy.get('#arbeidsfoerEtterPeriode').should('be.checked');

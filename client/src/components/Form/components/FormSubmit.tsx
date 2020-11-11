@@ -85,6 +85,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
     return (
         <div role="region" aria-label="skjemainnsendingbeholder" className="form-submit-container">
             <Checkbox
+                id="form-submit-checkbox"
                 className="form-submit-checkbox"
                 checked={checked}
                 label="Informasjonen stemmer overens med papirsykmelding"
@@ -122,6 +123,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                 </>
             )}
             <Hovedknapp
+                id="submit-form"
                 disabled={!checked || !enhet || isLoadingSuccess}
                 spinner={isLoadingSuccess}
                 onClick={(e) => {
@@ -138,7 +140,7 @@ const FormSubmit = ({ oppgave, schema, validateAll, errorSummaryRef, enhet }: Fo
                 contentLabel={successModalContent || ''}
             >
                 <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
-                    <Normaltekst style={{ marginBottom: '2rem' }}>{successModalContent}</Normaltekst>
+                    <Normaltekst id="success-modal-text" style={{ marginBottom: '2rem' }}>{successModalContent}</Normaltekst>
                     <a href={process.env.REACT_APP_GOSYS_URL} tabIndex={0} className="knapp knapp--hoved">
                         Tilbake til GOSYS
                     </a>
