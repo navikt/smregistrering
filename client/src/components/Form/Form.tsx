@@ -289,9 +289,7 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
                 </Panel>
                 {<FormErrorSummary formErrors={errors} errorSummaryRef={errorSummaryRef} />}
                 <FormSubmit
-                    oppgave={oppgave}
-                    schema={formState}
-                    errors={errors}
+                    oppgaveid={oppgave.oppgaveid}
                     errorSummaryRef={errorSummaryRef}
                     enhet={enhet}
                     handleSubmit={handleSubmit}
