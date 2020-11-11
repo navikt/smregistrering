@@ -3,27 +3,15 @@ import { Element } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
 
-import AvventendeArsak from './AvventendeArsak';
 import SectionContainer from '../../SectionContainer';
+import AvventendeArsak, { AvventendeMFA } from './AvventendeArsak';
 import BehandlingsDager, { BehandlingsdagerMFA } from './BehandlingsDager';
 import FullSykmelding, { FullSykmeldingMFA } from './FullSykmelding';
 import GradertArsak, { GradertMFA } from './GradertArsak';
+import Reisetilskudd, { ReisetilskuddMFA } from './Reisetilskudd';
 import { ErrorSchemaType, SchemaType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
 import { Validate } from '../../../validation';
-
-export type AvventendeMFA = {
-    type: MFAOptions;
-    // Perioder for avventende sykmelding
-    avventendePeriode?: Date[];
-    avventendeInnspillTilArbeidsgiver?: string;
-};
-
-export type ReisetilskuddMFA = {
-    type: MFAOptions;
-    // Perioder for sykmelding med reisetilskudd
-    reisetilskuddPeriode?: Date[];
-};
 
 export type MulighetForArbeidTypes =
     | AvventendeMFA
@@ -89,7 +77,9 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
             return { type, behandlingsdagerPeriode: undefined, behandlingsdagerAntall: undefined };
         }
 
-        // reisetilskudd
+        if (type === 'reisetilskudd') {
+            return { type, reisetilskuddPeriode: undefined };
+        }
 
         return undefined;
     };
@@ -228,7 +218,25 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 validate={validate}
                             />
                         )}
-                        {mulighetForArbeid?.type === 'reisetilskudd' && <div>reisetilskudd</div>}
+                        {mulighetForArbeid?.type === 'reisetilskudd' && (
+                            <Reisetilskudd
+                                updateMfa={(updatedMfa) =>
+                                    setSchema(
+                                        (state): SchemaType => {
+                                            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
+
+                                            return {
+                                                ...state,
+                                                mulighetForArbeid: updatedMulighetForArbeid,
+                                            };
+                                        },
+                                    )
+                                }
+                                mulighetForArbeid={mulighetForArbeid as ReisetilskuddMFA}
+                                errors={errors}
+                                validate={validate}
+                            />
+                        )}
                     </>
                 ))}
 
@@ -257,56 +265,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
             </Knapp>
         </SectionContainer>
     );
-
-    /*
-
-            <Subsection sectionIdentifier="4.5" underline={false}>
-                <Checkbox
-                    id="reisetilskuddSykmelding"
-                    checked={schema.reisetilskuddSykmelding}
-                    label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
-                    onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
-                                    reisetilskuddPeriode: undefined,
-                                };
-                                validate('reisetilskuddSykmelding', updatedSchema);
-                                validate('reisetilskuddPeriode', updatedSchema);
-                                validate('mulighetForArbeid', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
-                    }}
-                    feil={errors.reisetilskuddSykmelding}
-                />
-                <br />
-                <ExpandableField show={schema.reisetilskuddSykmelding}>
-                    <RangePicker
-                        id="reisetilskuddPeriode"
-                        labelFrom="4.5.1 f.o.m."
-                        labelTo="4.5.2 t.o.m."
-                        value={schema.reisetilskuddPeriode || []}
-                        onChange={(newDates) => {
-                            setSchema(
-                                (state): SchemaType => {
-                                    const updatedSchema = {
-                                        ...state,
-                                        reisetilskuddPeriode: newDates,
-                                    };
-                                    validate('reisetilskuddPeriode', updatedSchema);
-                                    return updatedSchema;
-                                },
-                            );
-                        }}
-                        feil={errors.reisetilskuddPeriode}
-                    />
-                </ExpandableField>
-            </Subsection>
-        </SectionContainer>
-        */
 };
 
 export default MulighetForArbeidSection;
