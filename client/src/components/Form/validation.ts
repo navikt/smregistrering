@@ -47,9 +47,6 @@ export const validationFunctions: ValidationFunctions<SchemaType> = {
 
     // Diagnose
     hovedDiagnose: (schema) => {
-        if (!schema.hovedDiagnose) {
-            return 'Hoveddiagnose må være definert';
-        }
         if (schema.hovedDiagnose && schema.hovedDiagnose.system) {
             if (!schema.hovedDiagnose.kode) return 'Kode tilhørende hoveddiagnose må være definert når system er valgt';
         }
