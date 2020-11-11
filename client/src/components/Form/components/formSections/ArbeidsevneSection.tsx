@@ -1,11 +1,10 @@
 import React from 'react';
-import { Textarea } from 'nav-frontend-skjema';
+import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
 
 export type Arbeidsevne = {
     tiltakArbeidsplassen?: string | null;
@@ -15,13 +14,12 @@ export type Arbeidsevne = {
 
 export type ArbeidsevneSectionProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
 
-const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: ArbeidsevneSectionProps) => {
+const ArbeidsevneSection = ({ section, setFormState, schema, errors }: ArbeidsevneSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="7.1">
@@ -30,19 +28,10 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     maxLength={0}
                     value={schema.tiltakArbeidsplassen || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    tiltakArbeidsplassen: value,
-                                };
-                                validate('tiltakArbeidsplassen', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, tiltakArbeidsplassen: value }))
                     }}
                     label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
-                    feil={errors.tiltakArbeidsplassen}
+                    feil={errors.get('tiltakArbeidsplassen')?.feilmelding}
                 />
             </Subsection>
 
@@ -52,18 +41,9 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     maxLength={0}
                     value={schema.tiltakNav || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    tiltakNav: value,
-                                };
-                                validate('tiltakNav', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, tiltakNav: value }))
                     }}
-                    feil={errors.tiltakNav}
+                    feil={errors.get('tiltakNav')?.feilmelding}
                     label="Tiltak i regi av NAV. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)"
                 />
             </Subsection>
@@ -74,19 +54,10 @@ const ArbeidsevneSection = ({ section, setSchema, schema, errors, validate }: Ar
                     maxLength={0}
                     value={schema.andreTiltak || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    andreTiltak: value,
-                                };
-                                validate('andreTiltak', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, andreTiltak: value }))
                     }}
                     label="Eventuelle andre innspill til NAV"
-                    feil={errors.andreTiltak}
+                    feil={errors.get('andreTiltak')?.feilmelding}
                 />
             </Subsection>
         </SectionContainer>

@@ -1,8 +1,7 @@
 import React from 'react';
 
 import DatePicker from '../formComponents/DatePicker';
-import { ErrorSchemaType, SchemaType } from '../../Form';
-import { Validate } from '../../validation';
+import { SchemaType } from '../../Form';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 export type Other = {

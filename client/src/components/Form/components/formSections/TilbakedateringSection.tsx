@@ -1,13 +1,12 @@
 import React from 'react';
-import { Checkbox, Textarea } from 'nav-frontend-skjema';
+import { Checkbox, FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import DatePicker from '../formComponents/DatePicker';
 import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
 
 export type Tilbakedatering = {
     erTilbakedatert: boolean;
@@ -18,13 +17,12 @@ export type Tilbakedatering = {
 
 type TilbakedateringSectionProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
 
-const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }: TilbakedateringSectionProps) => {
+const TilbakedateringSection = ({ section, setFormState, schema, errors }: TilbakedateringSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="11.1" underline={false}>
@@ -33,20 +31,13 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                     checked={schema.erTilbakedatert}
                     label="Er sykmelding tilbakedatert?"
                     onChange={() =>
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    erTilbakedatert: !state.erTilbakedatert,
-                                    kontaktDato: undefined,
-                                };
-                                validate('erTilbakedatert', updatedSchema);
-                                validate('kontaktDato', updatedSchema);
-                                return updatedSchema;
-                            },
-                        )
+                        setFormState((formState) => ({
+                            ...formState,
+                            erTilbakedatert: !formState.erTilbakedatert,
+                            kontaktDato: undefined,
+                        }))
                     }
-                    feil={errors.erTilbakedatert}
+                    feil={errors.get('erTilbakedatert')?.feilmelding}
                 />
                 <br />
                 <ExpandableField show={schema.erTilbakedatert}>
@@ -55,17 +46,9 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
                         value={schema.kontaktDato ? schema.kontaktDato : undefined}
                         onChange={(newDate) => {
-                            setSchema(
-                                (state): SchemaType => {
-                                    const updatedSchema = {
-                                        ...state,
-                                        kontaktDato: newDate,
-                                    };
-                                    validate('kontaktDato', updatedSchema);
-                                    return updatedSchema;
-                                },
-                            );
+                            setFormState((formState) => ({ ...formState, kontaktDato: newDate }))
                         }}
+                        feil={errors.get('kontaktDato')?.feilmelding}
                     />
                 </ExpandableField>
             </Subsection>
@@ -76,20 +59,14 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                     checked={schema.kunneIkkeIvaretaEgneInteresser}
                     label="Pasienten har ikke kunnet ivareta egne interesser"
                     onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    kunneIkkeIvaretaEgneInteresser: !state.kunneIkkeIvaretaEgneInteresser,
-                                    begrunnelseIkkeKontakt: undefined,
-                                };
-                                validate('kunneIkkeIvaretaEgneInteresser', updatedSchema);
-                                validate('begrunnelseIkkeKontakt', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({
+
+                            ...formState,
+                            kunneIkkeIvaretaEgneInteresser: !formState.kunneIkkeIvaretaEgneInteresser,
+                            begrunnelseIkkeKontakt: undefined,
+                        }))
                     }}
-                    feil={errors.kunneIkkeIvaretaEgneInteresser}
+                    feil={errors.get('kunneIkkeIvaretaEgneInteresser')?.feilmelding}
                 />
                 <br />
                 <ExpandableField show={schema.kunneIkkeIvaretaEgneInteresser}>
@@ -98,18 +75,9 @@ const TilbakedateringSection = ({ section, setSchema, schema, errors, validate }
                         maxLength={0}
                         value={schema.begrunnelseIkkeKontakt || ''}
                         onChange={({ target: { value } }) => {
-                            setSchema(
-                                (state): SchemaType => {
-                                    const updatedSchema = {
-                                        ...state,
-                                        begrunnelseIkkeKontakt: value,
-                                    };
-                                    validate('begrunnelseIkkeKontakt', updatedSchema);
-                                    return updatedSchema;
-                                },
-                            );
+                            setFormState((formState) => ({ ...formState, begrunnelseIkkeKontakt: value }))
                         }}
-                        feil={errors.begrunnelseIkkeKontakt}
+                        feil={errors.get('begrunnelseIkkeKontakt')?.feilmelding}
                         label="Begrunn"
                     />
                 </ExpandableField>

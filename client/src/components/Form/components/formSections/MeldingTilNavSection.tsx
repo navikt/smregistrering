@@ -1,12 +1,11 @@
 import React from 'react';
-import { Checkbox, Textarea } from 'nav-frontend-skjema';
+import { Checkbox, FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
 
 export type MeldingTilNav = {
     meldingTilNavBistand: boolean;
@@ -15,13 +14,12 @@ export type MeldingTilNav = {
 
 type MeldingTilNavSectionProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
 
-const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: MeldingTilNavSectionProps) => {
+const MeldingTilNavSection = ({ section, setFormState, schema, errors }: MeldingTilNavSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="8.1" underline={false}>
@@ -30,20 +28,13 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                     checked={schema.meldingTilNavBistand}
                     label="Ønskes bistand fra NAV nå?"
                     onChange={() =>
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    meldingTilNavBistand: !state.meldingTilNavBistand,
-                                    meldingTilNavBegrunn: undefined,
-                                };
-                                validate('meldingTilNavBistand', updatedSchema);
-                                validate('meldingTilNavBegrunn', updatedSchema);
-                                return updatedSchema;
-                            },
-                        )
+                        setFormState((formState) => ({
+                            ...formState,
+                            meldingTilNavBistand: !formState.meldingTilNavBistand,
+                            meldingTilNavBegrunn: undefined,
+                        }))
                     }
-                    feil={errors.meldingTilNavBistand}
+                    feil={errors.get('meldingTilNavBistand')?.feilmelding}
                 />
                 <br />
                 <ExpandableField show={schema.meldingTilNavBistand}>
@@ -52,18 +43,9 @@ const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: 
                         maxLength={0}
                         value={schema.meldingTilNavBegrunn || ''}
                         onChange={({ target: { value } }) => {
-                            setSchema(
-                                (state): SchemaType => {
-                                    const updatedSchema = {
-                                        ...state,
-                                        meldingTilNavBegrunn: value,
-                                    };
-                                    validate('meldingTilNavBegrunn', updatedSchema);
-                                    return updatedSchema;
-                                },
-                            );
+                            setFormState((formState) => ({ ...formState, meldingTilNavBegrunn: value }))
                         }}
-                        feil={errors.meldingTilNavBegrunn}
+                        feil={errors.get('meldingTilNavBegrunn')?.feilmelding}
                         label="Begrunn nærmere"
                     />
                 </ExpandableField>

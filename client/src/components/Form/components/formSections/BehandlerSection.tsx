@@ -1,7 +1,7 @@
 import * as iotsPromise from 'io-ts-promise';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import React, { useEffect, useState } from 'react';
-import { Input } from 'nav-frontend-skjema';
+import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import DatePicker from '../formComponents/DatePicker';
@@ -9,10 +9,9 @@ import FormLabel from '../formComponents/FormLabel';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import SykmelderInformation from '../formComponents/SykmelderInformation';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Sykmelder } from '../../../../types/Sykmelder';
-import { Validate } from '../../validation';
 
 export type Behandler = {
     behandletDato?: Date | null;
@@ -31,13 +30,12 @@ export type Behandler = {
 
 type BehandlerSectionProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
     schema: SchemaType;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
 
-const BehandlerSection = ({ section, setSchema, schema, errors, validate }: BehandlerSectionProps) => {
+const BehandlerSection = ({ section, setFormState, schema, errors }: BehandlerSectionProps) => {
     const [sykmelder, setSykmelder] = useState<Sykmelder | undefined | null>(undefined);
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
@@ -83,15 +81,9 @@ const BehandlerSection = ({ section, setSchema, schema, errors, validate }: Beha
                 label="12.1 Behandletdato"
                 value={schema.behandletDato ? schema.behandletDato : undefined}
                 onChange={(newDates) => {
-                    setSchema(
-                        (state): SchemaType => {
-                            const updatedSchema = { ...state, behandletDato: newDates };
-                            validate('behandletDato', updatedSchema);
-                            return updatedSchema;
-                        },
-                    );
+                    setFormState((formState) => ({ ...formState, behandletDato: newDates }))
                 }}
-                feil={errors.behandletDato}
+                feil={errors.get('behandletDato')?.feilmelding}
             />
 
             <Row>
@@ -100,18 +92,9 @@ const BehandlerSection = ({ section, setSchema, schema, errors, validate }: Beha
                     value={schema.hpr ? schema.hpr : undefined}
                     disabled={isLoading}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    hpr: value,
-                                };
-                                validate('hpr', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, hpr: value }))
                     }}
-                    feil={errors.hpr || error?.message}
+                    feil={errors.get('hpr')?.feilmelding || error?.message}
                     label={
                         <FormLabel
                             label="12.4 HPR-nummer"
@@ -123,18 +106,9 @@ const BehandlerSection = ({ section, setSchema, schema, errors, validate }: Beha
                     id="sykmelderTelefon"
                     value={schema.sykmelderTelefon ? schema.sykmelderTelefon : undefined}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    sykmelderTelefon: value,
-                                };
-                                validate('sykmelderTelefon', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, sykmelderTelefon: value }))
                     }}
-                    feil={errors.sykmelderTelefon}
+                    feil={errors.get('sykmelderTelefon')?.feilmelding}
                     label={<FormLabel label="12.5 Telefon" />}
                 />
             </Row>

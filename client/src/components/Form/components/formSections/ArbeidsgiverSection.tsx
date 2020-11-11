@@ -1,12 +1,11 @@
 import React from 'react';
 import { Element } from 'nav-frontend-typografi';
-import { Input, Select } from 'nav-frontend-skjema';
+import { FeiloppsummeringFeil, Input, Select } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { SchemaType } from '../../Form';
 import { HarArbeidsgiver } from '../../../../types/RegistrertSykmelding';
 import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
 
 export type Arbeidsgiver = {
     harArbeidsgiver?: keyof typeof HarArbeidsgiver | null;
@@ -17,13 +16,12 @@ export type Arbeidsgiver = {
 
 type ArbeidsgiverSectionProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
     schema: SchemaType;
 };
 
-const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: ArbeidsgiverSectionProps) => {
+const ArbeidsgiverSection = ({ section, setFormState, errors, schema }: ArbeidsgiverSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Select
@@ -31,32 +29,14 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 value={schema.harArbeidsgiver ? schema.harArbeidsgiver : undefined}
                 onChange={({ target: { value } }) => {
                     if (value === '0') {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    harArbeidsgiver: undefined,
-                                };
-                                validate('harArbeidsgiver', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, harArbeidsgiver: undefined }))
                     } else {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    harArbeidsgiver: value as keyof typeof HarArbeidsgiver,
-                                };
-                                validate('harArbeidsgiver', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, harArbeidsgiver: value as keyof typeof HarArbeidsgiver }))
                     }
                 }}
                 className="form-margin-bottom"
                 label={<Element>2.1 Pasienten har</Element>}
-                feil={errors.harArbeidsgiver}
+                feil={errors.get('harArbeidsgiver')?.feilmelding}
             >
                 <option value="0">Velg</option>
                 {Object.entries(HarArbeidsgiver).map(([key, value]) => {
@@ -73,19 +53,10 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 type="text"
                 value={schema.arbeidsgiverNavn ? schema.arbeidsgiverNavn : undefined}
                 onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => {
-                            const updatedSchema = {
-                                ...state,
-                                arbeidsgiverNavn: value,
-                            };
-                            validate('arbeidsgiverNavn', updatedSchema);
-                            return updatedSchema;
-                        },
-                    );
+                    setFormState((formState => ({ ...formState, arbeidsgiverNavn: value })))
                 }}
                 label={<Element>2.2 Arbeidsgiver for denne sykmeldingen</Element>}
-                feil={errors.arbeidsgiverNavn}
+                feil={errors.get('arbeidsgiverNavn')?.feilmelding}
             />
             <Input
                 id="yrkesbetegnelse"
@@ -93,19 +64,10 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 type="text"
                 value={schema.yrkesbetegnelse ? schema.yrkesbetegnelse : undefined}
                 onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => {
-                            const updatedSchema = {
-                                ...state,
-                                yrkesbetegnelse: value,
-                            };
-                            validate('yrkesbetegnelse', updatedSchema);
-                            return updatedSchema;
-                        },
-                    );
+                    setFormState((formState) => ({ ...formState, yrkesbetegnelse: value }))
                 }}
                 label={<Element>2.3 Yrke/stilling for dette arbeidsforholdet</Element>}
-                feil={errors.yrkesbetegnelse}
+                feil={errors.get('yrkesbetegnelse')?.feilmelding}
             />
             <Input
                 id="stillingsprosent"
@@ -113,19 +75,10 @@ const ArbeidsgiverSection = ({ section, setSchema, errors, validate, schema }: A
                 type="number"
                 value={schema.stillingsprosent ? schema.stillingsprosent : undefined}
                 onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => {
-                            const updatedSchema = {
-                                ...state,
-                                stillingsprosent: Number(value),
-                            };
-                            validate('stillingsprosent', updatedSchema);
-                            return updatedSchema;
-                        },
-                    );
+                    setFormState((formState) => ({ ...formState, stillingsprosent: Number(value) }))
                 }}
                 label={<Element>2.4 Stillingsprosent</Element>}
-                feil={errors.stillingsprosent}
+                feil={errors.get('stillingsprosent')?.feilmelding}
             />
         </SectionContainer>
     );

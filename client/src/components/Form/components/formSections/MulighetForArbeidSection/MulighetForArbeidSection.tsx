@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Input, Textarea } from 'nav-frontend-skjema';
+import { Checkbox, FeiloppsummeringFeil, Input, Textarea } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
 import ArbeidsrelatertArsak from './ArbeidsrelatertArsak';
@@ -9,9 +9,8 @@ import RangePicker from '../../formComponents/RangePicker';
 import SectionContainer from '../../SectionContainer';
 import Subsection from '../../formComponents/Subsection';
 import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
-import { ErrorSchemaType, SchemaType } from '../../../Form';
+import { SchemaType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
-import { Validate } from '../../../validation';
 
 export type MulighetForArbeid = {
     // For validering av minimum én periode valgt
@@ -46,37 +45,28 @@ export type MulighetForArbeid = {
 type MulighetForArbeidSectionProps = {
     section: Section;
     schema: SchemaType;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
 
-const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate }: MulighetForArbeidSectionProps) => {
+const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: MulighetForArbeidSectionProps) => {
     return (
-        <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
+        <SectionContainer section={section} sectionError={errors.get('mulighetForArbeid')?.feilmelding}>
             <Subsection sectionIdentifier="4.1">
                 <Checkbox
                     id="avventendeSykmelding"
                     checked={schema.avventendeSykmelding}
                     label="Pasienten kan benytte avventende sykmelding"
                     onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    avventendeSykmelding: !state.avventendeSykmelding,
-                                    avventendePeriode: undefined,
-                                    avventendeInnspillTilArbeidsgiver: undefined,
-                                };
-                                validate('avventendeSykmelding', updatedSchema);
-                                validate('avventendePeriode', updatedSchema);
-                                validate('avventendeInnspillTilArbeidsgiver', updatedSchema);
-                                validate('mulighetForArbeid', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({
+                            ...formState,
+
+                            avventendeSykmelding: !formState.avventendeSykmelding,
+                            avventendePeriode: undefined,
+                            avventendeInnspillTilArbeidsgiver: undefined,
+                        }))
                     }}
-                    feil={errors.avventendeSykmelding}
+                    feil={errors.get('avventendeSykmelding')?.feilmelding}
                 />
                 <br />
                 <ExpandableField show={schema.avventendeSykmelding}>
@@ -87,37 +77,18 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelTo="4.1.2 t.o.m."
                             value={schema.avventendePeriode || []}
                             onChange={(newDates) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            avventendePeriode: newDates,
-                                        };
-                                        validate('avventendePeriode', updatedSchema);
-
-                                        return updatedSchema;
-                                    },
-                                );
+                                setFormState((formState) => ({ ...formState, avventendePeriode: newDates }))
                             }}
-                            feil={errors.avventendePeriode}
+                            feil={errors.get('avventendePeriode')?.feilmelding}
                         />
                         <Textarea
                             id="avventendeInnspillTilArbeidsgiver"
                             maxLength={0}
                             value={schema.avventendeInnspillTilArbeidsgiver || ''}
                             onChange={({ target: { value } }) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            avventendeInnspillTilArbeidsgiver: value,
-                                        };
-                                        validate('avventendeInnspillTilArbeidsgiver', updatedSchema);
-                                        return updatedSchema;
-                                    },
-                                );
+                                setFormState((formState) => ({ ...formState, avventendeInnspillTilArbeidsgiver: value }))
                             }}
-                            feil={errors.avventendeInnspillTilArbeidsgiver}
+                            feil={errors.get('avventendeInnspillTilArbeidsgiver')?.feilmelding}
                             label={<Element>4.1.3 Innspill til arbeidsgiver om tilrettelegging</Element>}
                         />
                     </>
@@ -129,23 +100,14 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.gradertSykmelding}
                     label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
                     onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    gradertSykmelding: !state.gradertSykmelding,
-                                    gradertPeriode: undefined,
-                                    gradertGrad: undefined,
-                                };
-                                validate('gradertSykmelding', updatedSchema);
-                                validate('gradertPeriode', updatedSchema);
-                                validate('gradertGrad', updatedSchema);
-                                validate('mulighetForArbeid', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({
+                            ...formState,
+                            gradertSykmelding: !formState.gradertSykmelding,
+                            gradertPeriode: undefined,
+                            gradertGrad: undefined,
+                        }))
                     }}
-                    feil={errors.gradertSykmelding}
+                    feil={errors.get('gradertSykmelding')?.feilmelding}
                 />
                 <br />
                 <ExpandableField show={schema.gradertSykmelding}>
@@ -156,19 +118,9 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelTo="4.2.2 t.o.m."
                             value={schema.gradertPeriode || []}
                             onChange={(newDates) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            gradertPeriode: newDates,
-                                        };
-                                        validate('gradertPeriode', updatedSchema);
-
-                                        return updatedSchema;
-                                    },
-                                );
+                                setFormState((formState) => ({ ...formState, gradertPeriode: newDates }))
                             }}
-                            feil={errors.gradertPeriode}
+                            feil={errors.get('gradertPeriode')?.feilmelding}
                         />
                         <Input
                             id="gradertGrad"
@@ -176,18 +128,9 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             type="number"
                             value={schema.gradertGrad}
                             onChange={({ target: { value } }) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            gradertGrad: parseInt(value),
-                                        };
-                                        validate('gradertGrad', updatedSchema);
-                                        return updatedSchema;
-                                    },
-                                );
+                                setFormState((formState) => ({ ...formState, gradertGrad: parseInt(value) }))
                             }}
-                            feil={errors.gradertGrad}
+                            feil={errors.get('gradertGrad')?.feilmelding}
                             label="4.2.3 Oppgi grad for sykmelding"
                         />
                     </>
@@ -198,18 +141,9 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.gradertReisetilskudd}
                     label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
                     onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    gradertReisetilskudd: !state.gradertReisetilskudd,
-                                };
-                                validate('gradertReisetilskudd', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, gradertReisetilskudd: !formState.gradertReisetilskudd }))
                     }}
-                    feil={errors.gradertReisetilskudd}
+                    feil={errors.get('gradertReisetilskudd')?.feilmelding}
                 />
             </Subsection>
 
@@ -219,33 +153,19 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.aktivitetIkkeMuligSykmelding}
                     label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
                     onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    aktivitetIkkeMuligSykmelding: !state.aktivitetIkkeMuligSykmelding,
-                                    aktivitetIkkeMuligPeriode: undefined,
-                                    aktivitetIkkeMuligMedisinskArsak: undefined,
-                                    aktivitetIkkeMuligMedisinskArsakType: undefined,
-                                    aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
-                                    aktivitetIkkeMuligArbeidsrelatertArsak: undefined,
-                                    aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
-                                    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
-                                };
-                                validate('aktivitetIkkeMuligSykmelding', updatedSchema);
-                                validate('aktivitetIkkeMuligPeriode', updatedSchema);
-                                validate('aktivitetIkkeMuligMedisinskArsak', updatedSchema);
-                                validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
-                                validate('aktivitetIkkeMuligMedisinskArsakBeskrivelse', updatedSchema);
-                                validate('aktivitetIkkeMuligArbeidsrelatertArsak', updatedSchema);
-                                validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
-                                validate('aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse', updatedSchema);
-                                validate('mulighetForArbeid', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({
+                            ...formState,
+                            aktivitetIkkeMuligSykmelding: !formState.aktivitetIkkeMuligSykmelding,
+                            aktivitetIkkeMuligPeriode: undefined,
+                            aktivitetIkkeMuligMedisinskArsak: undefined,
+                            aktivitetIkkeMuligMedisinskArsakType: undefined,
+                            aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
+                            aktivitetIkkeMuligArbeidsrelatertArsak: undefined,
+                            aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
+                            aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
+                        }))
                     }}
-                    feil={errors.aktivitetIkkeMuligSykmelding}
+                    feil={errors.get('aktivitetIkkeMuligSykmelding')}
                 />
                 <br />
                 <ExpandableField show={schema.aktivitetIkkeMuligSykmelding}>
@@ -256,19 +176,9 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelTo="4.3.2 t.o.m."
                             value={schema.aktivitetIkkeMuligPeriode || []}
                             onChange={(newDates) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            aktivitetIkkeMuligPeriode: newDates,
-                                        };
-                                        validate('aktivitetIkkeMuligPeriode', updatedSchema);
-
-                                        return updatedSchema;
-                                    },
-                                );
+                                setFormState((formState) => ({ ...formState, aktivitetIkkeMuligPeriode: newDates }))
                             }}
-                            feil={errors.aktivitetIkkeMuligPeriode}
+                            feil={errors.get('aktivitetIkkeMuligPeriode')?.feilmelding}
                         />
                         <Element className="form-label">4.3.3</Element>
                         <Checkbox
@@ -277,30 +187,21 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             checked={schema.aktivitetIkkeMuligMedisinskArsak}
                             label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
                             onChange={() =>
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            aktivitetIkkeMuligMedisinskArsak: !state.aktivitetIkkeMuligMedisinskArsak,
-                                            aktivitetIkkeMuligMedisinskArsakType: undefined,
-                                            aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
-                                        };
-                                        validate('aktivitetIkkeMuligMedisinskArsak', updatedSchema);
-                                        validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
-                                        validate('aktivitetIkkeMuligMedisinskArsakBeskrivelse', updatedSchema);
-                                        return updatedSchema;
-                                    },
-                                )
+                                setFormState((formState) => ({
+                                    ...formState,
+                                    aktivitetIkkeMuligMedisinskArsak: !formState.aktivitetIkkeMuligMedisinskArsak,
+                                    aktivitetIkkeMuligMedisinskArsakType: undefined,
+                                    aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
+                                }))
                             }
-                            feil={errors.aktivitetIkkeMuligMedisinskArsak}
+                            feil={errors.get('aktivitetIkkeMuligMedisinskArsak')?.feilmelding}
                         />
                         <ExpandableField show={schema.aktivitetIkkeMuligMedisinskArsak}>
                             <>
                                 <MedisinskArsak
                                     schema={schema}
-                                    setSchema={setSchema}
+                                    setFormState={setFormState}
                                     errors={errors}
-                                    validate={validate}
                                 />
                                 <Input
                                     id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
@@ -312,19 +213,10 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     }
                                     type="text"
                                     onChange={({ target: { value } }) => {
-                                        setSchema(
-                                            (state): SchemaType => {
-                                                const updatedSchema = {
-                                                    ...state,
-                                                    aktivitetIkkeMuligMedisinskArsakBeskrivelse: value,
-                                                };
-                                                validate('aktivitetIkkeMuligMedisinskArsakBeskrivelse', updatedSchema);
-                                                return updatedSchema;
-                                            },
-                                        );
+                                        setFormState((formState) => ({ ...formState, aktivitetIkkeMuligMedisinskArsakBeskrivelse: value }))
                                     }}
                                     label={<Element>Beskrivelse</Element>}
-                                    feil={errors.aktivitetIkkeMuligMedisinskArsakBeskrivelse}
+                                    feil={errors.get('aktivitetIkkeMuligMedisinskArsakBeskrivelse')?.feilmelding}
                                 />
                             </>
                         </ExpandableField>
@@ -335,24 +227,21 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             checked={schema.aktivitetIkkeMuligArbeidsrelatertArsak}
                             label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
                             onChange={() =>
-                                setSchema(
-                                    (state): SchemaType => ({
-                                        ...state,
-                                        aktivitetIkkeMuligArbeidsrelatertArsak: !state.aktivitetIkkeMuligArbeidsrelatertArsak,
-                                        aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
-                                        aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
-                                    }),
-                                )
+                                setFormState((formState) => ({
+                                    ...formState,
+                                    aktivitetIkkeMuligArbeidsrelatertArsak: !formState.aktivitetIkkeMuligArbeidsrelatertArsak,
+                                    aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
+                                    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
+                                }))
                             }
-                            feil={errors.aktivitetIkkeMuligArbeidsrelatertArsak}
+                            feil={errors.get('aktivitetIkkeMuligArbeidsrelatertArsak')?.feilmelding}
                         />
                         <ExpandableField show={schema.aktivitetIkkeMuligArbeidsrelatertArsak}>
                             <>
                                 <ArbeidsrelatertArsak
                                     schema={schema}
-                                    setSchema={setSchema}
+                                    setFormState={setFormState}
                                     errors={errors}
-                                    validate={validate}
                                 />
                                 <Input
                                     id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
@@ -364,22 +253,10 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                     }
                                     type="text"
                                     onChange={({ target: { value } }) => {
-                                        setSchema(
-                                            (state): SchemaType => {
-                                                const updatedSchema = {
-                                                    ...state,
-                                                    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: value,
-                                                };
-                                                validate(
-                                                    'aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse',
-                                                    updatedSchema,
-                                                );
-                                                return updatedSchema;
-                                            },
-                                        );
+                                        setFormState((formState) => ({ ...formState, aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: value }))
                                     }}
                                     label={<Element>Beskrivelse</Element>}
-                                    feil={errors.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse}
+                                    feil={errors.get('aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse')?.feilmelding}
                                 />
                             </>
                         </ExpandableField>
@@ -393,23 +270,14 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.behandlingsdagerSykmelding}
                     label="Pasienten kan ikke være i arbeid på behandlingsdager"
                     onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    behandlingsdagerSykmelding: !state.behandlingsdagerSykmelding,
-                                    behandlingsdagerPeriode: undefined,
-                                    behandlingsdagerAntall: undefined,
-                                };
-                                validate('behandlingsdagerSykmelding', updatedSchema);
-                                validate('behandlingsdagerPeriode', updatedSchema);
-                                validate('behandlingsdagerAntall', updatedSchema);
-                                validate('mulighetForArbeid', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({
+                            ...formState,
+                            behandlingsdagerSykmelding: !formState.behandlingsdagerSykmelding,
+                            behandlingsdagerPeriode: undefined,
+                            behandlingsdagerAntall: undefined,
+                        }))
                     }}
-                    feil={errors.behandlingsdagerSykmelding}
+                    feil={errors.get('behandlingsdagerSykmelding')?.feilmelding}
                 />
                 <br />
                 <ExpandableField show={schema.behandlingsdagerSykmelding}>
@@ -420,18 +288,9 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             labelTo="4.4.2 t.o.m."
                             value={schema.behandlingsdagerPeriode || []}
                             onChange={(newDates) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            behandlingsdagerPeriode: newDates,
-                                        };
-                                        validate('behandlingsdagerPeriode', updatedSchema);
-                                        return updatedSchema;
-                                    },
-                                );
+                                setFormState((formState) => ({ ...formState, behandlingsdagerPeriode: newDates }))
                             }}
-                            feil={errors.behandlingsdagerPeriode}
+                            feil={errors.get('behandlingsdagerPeriode')?.feilmelding}
                         />
 
                         <Input
@@ -440,18 +299,9 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             type="number"
                             value={schema.behandlingsdagerAntall}
                             onChange={({ target: { value } }) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            behandlingsdagerAntall: Number(value),
-                                        };
-                                        validate('behandlingsdagerAntall', updatedSchema);
-                                        return updatedSchema;
-                                    },
-                                );
+                                setFormState((formState) => ({ ...formState, behandlingsdagerAntall: Number(value) }))
                             }}
-                            feil={errors.behandlingsdagerAntall}
+                            feil={errors.get('behandlingsdagerAntall')?.feilmelding}
                             label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
                         />
                     </>
@@ -464,21 +314,13 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     checked={schema.reisetilskuddSykmelding}
                     label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
                     onChange={() => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    reisetilskuddSykmelding: !state.reisetilskuddSykmelding,
-                                    reisetilskuddPeriode: undefined,
-                                };
-                                validate('reisetilskuddSykmelding', updatedSchema);
-                                validate('reisetilskuddPeriode', updatedSchema);
-                                validate('mulighetForArbeid', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({
+                            ...formState,
+                            reisetilskuddSykmelding: !formState.reisetilskuddSykmelding,
+                            reisetilskuddPeriode: undefined,
+                        }))
                     }}
-                    feil={errors.reisetilskuddSykmelding}
+                    feil={errors.get('reisetilskuddSykmelding')?.feilmelding}
                 />
                 <br />
                 <ExpandableField show={schema.reisetilskuddSykmelding}>
@@ -488,18 +330,9 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         labelTo="4.5.2 t.o.m."
                         value={schema.reisetilskuddPeriode || []}
                         onChange={(newDates) => {
-                            setSchema(
-                                (state): SchemaType => {
-                                    const updatedSchema = {
-                                        ...state,
-                                        reisetilskuddPeriode: newDates,
-                                    };
-                                    validate('reisetilskuddPeriode', updatedSchema);
-                                    return updatedSchema;
-                                },
-                            );
+                            setFormState((formState) => ({ ...formState, reisetilskuddPeriode: newDates }))
                         }}
-                        feil={errors.reisetilskuddPeriode}
+                        feil={errors.get('reisetilskuddPeriode')?.feilmelding}
                     />
                 </ExpandableField>
             </Subsection>

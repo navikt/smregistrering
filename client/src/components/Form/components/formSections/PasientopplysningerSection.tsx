@@ -2,9 +2,8 @@ import React from 'react';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { SchemaType } from '../../Form';
 import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
 
 export type Pasientopplysninger = {
     pasientFnr?: string | null;

@@ -7,18 +7,16 @@ import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
 import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/Diagnosekode';
 import { SchemaType } from '../../../Form';
-import { Validate } from '../../../validation';
 
 type HoveddiagnoseProps = {
     id: string;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    validate: Validate;
+    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
     schema: SchemaType;
     diagnosekoder: Diagnosekoder;
     feil?: string;
 };
 
-const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }: HoveddiagnoseProps) => {
+const Hoveddiagnose = ({ id, setFormState, schema, diagnosekoder, feil }: HoveddiagnoseProps) => {
     const hoveddiagnose = schema.hovedDiagnose;
     const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
         hoveddiagnose && (hoveddiagnose.system as keyof Diagnosekoder);
@@ -38,18 +36,7 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                             kode: '',
                             tekst: '',
                         };
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    hovedDiagnose: system ? updatedDiagnose : undefined,
-                                };
-                                if (system === undefined) {
-                                    validate('hovedDiagnose', updatedSchema);
-                                }
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, hovedDiagnose: system ? updatedDiagnose : undefined }))
                     }}
                     label={<Element>3.1.1 Kodesystem</Element>}
                 >
@@ -63,20 +50,7 @@ const Hoveddiagnose = ({ id, setSchema, validate, schema, diagnosekoder, feil }:
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
                     onChange={(kode?: string, tekst?: string) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    hovedDiagnose: {
-                                        ...state.hovedDiagnose,
-                                        kode,
-                                        tekst,
-                                    },
-                                };
-                                validate('hovedDiagnose', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, hovedDiagnose: { ...formState.hovedDiagnose, kode, tekst } }))
                     }}
                     value={hoveddiagnose}
                 />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Input } from 'nav-frontend-skjema';
+import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
 import AnnenFraversArsak from './AnnenFraversArsak';
 import Bidiagnoser from './Bidiagnoser';
@@ -10,9 +10,8 @@ import SectionContainer from '../../SectionContainer';
 import Subsection from '../../formComponents/Subsection';
 import { AnnenFraverGrunn, Diagnose } from '../../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
-import { ErrorSchemaType, SchemaType } from '../../../Form';
+import { SchemaType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
-import { Validate } from '../../../validation';
 
 export type MedisinskVurdering = {
     hovedDiagnose?: Partial<Diagnose>;
@@ -28,32 +27,29 @@ export type MedisinskVurdering = {
 
 type DiagnoseSectionProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
     schema: SchemaType;
     diagnosekoder: Diagnosekoder;
 };
 
-const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnosekoder }: DiagnoseSectionProps) => {
+const DiagnoseSection = ({ section, setFormState, schema, errors, diagnosekoder }: DiagnoseSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Hoveddiagnose
                 id="hovedDiagnose"
-                setSchema={setSchema}
-                validate={validate}
+                setFormState={setFormState}
                 schema={schema}
                 diagnosekoder={diagnosekoder}
-                feil={errors.hovedDiagnose}
+                feil={errors.get('hovedDiagnose')?.feilmelding}
             />
 
             <Bidiagnoser
                 id="biDiagnoser"
-                setSchema={setSchema}
+                setFormState={setFormState}
                 schema={schema}
-                validate={validate}
                 diagnosekoder={diagnosekoder}
-                feil={errors.biDiagnoser}
+                feil={errors.get('biDiagnoser')?.feilmelding}
             />
 
             <hr />
@@ -63,27 +59,19 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     checked={schema.annenFraversArsak}
                     label="Annen lovfestet fraværsgrunn § 8-4, 3. ledd oppgis hvis relevant"
                     onChange={() =>
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    annenFraversArsak: !state.annenFraversArsak,
-                                    annenFraversArsakGrunn: undefined,
-                                    annenFraversArsakBeskrivelse: undefined,
-                                };
-                                validate('annenFraversArsak', updatedSchema);
-                                validate('annenFraversArsakGrunn', updatedSchema);
-                                validate('annenFraversArsakBeskrivelse', updatedSchema);
-                                return updatedSchema;
-                            },
-                        )
+                        setFormState((formState) => ({
+                            ...formState,
+                            annenFraversArsak: !formState.annenFraversArsak,
+                            annenFraversArsakGrunn: undefined,
+                            annenFraversArsakBeskrivelse: undefined,
+                        }))
                     }
-                    feil={errors.annenFraversArsak}
+                    feil={errors.get('annenFraversArsak')?.feilmelding}
                 />
                 <br />
                 <ExpandableField show={schema.annenFraversArsak}>
                     <>
-                        <AnnenFraversArsak schema={schema} setSchema={setSchema} errors={errors} validate={validate} />
+                        <AnnenFraversArsak schema={schema} setFormState={setFormState} errors={errors} />
                         <Input
                             id="annenFraversArsakBeskrivelse"
                             className="form-margin-bottom"
@@ -92,19 +80,10 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                                 schema.annenFraversArsakBeskrivelse ? schema.annenFraversArsakBeskrivelse : undefined
                             }
                             onChange={({ target: { value } }) => {
-                                setSchema(
-                                    (state): SchemaType => {
-                                        const updatedSchema = {
-                                            ...state,
-                                            annenFraversArsakBeskrivelse: value,
-                                        };
-                                        validate('annenFraversArsakBeskrivelse', updatedSchema);
-                                        return updatedSchema;
-                                    },
-                                );
+                                setFormState((formState) => ({ ...formState, annenFraversArsakBeskrivelse: value }))
                             }}
                             label="3.3.2 Beskriv fravær (valgfritt)"
-                            feil={errors.annenFraversArsakBeskrivelse}
+                            feil={errors.get('annenFraversArsakBeskrivelse')?.feilmelding}
                         />
                     </>
                 </ExpandableField>
@@ -116,18 +95,9 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     checked={schema.svangerskap}
                     label="Sykdommen er svangerskapsrelatert"
                     onChange={() =>
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    svangerskap: !state.svangerskap,
-                                };
-                                validate('svangerskap', updatedSchema);
-                                return updatedSchema;
-                            },
-                        )
+                        setFormState((formState) => ({ ...formState, svangerskap: !formState.svangerskap }))
                     }
-                    feil={errors.svangerskap}
+                    feil={errors.get('svangerskap')?.feilmelding}
                 />
             </Subsection>
 
@@ -137,20 +107,9 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     checked={schema.yrkesskade}
                     label="Sykmeldingen kan skyldes en yrkesskade / yrkessykdom"
                     onChange={() =>
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    yrkesskade: !state.yrkesskade,
-                                    yrkesskadeDato: undefined,
-                                };
-                                validate('yrkesskade', updatedSchema);
-                                validate('yrkesskadeDato', updatedSchema);
-                                return updatedSchema;
-                            },
-                        )
+                        setFormState((formState) => ({ ...formState, yrkesskade: !formState.yrkesskade, yrkesskadeDato: undefined }))
                     }
-                    feil={errors.yrkesskade}
+                    feil={errors.get('yrkesskade')?.feilmelding}
                 />
                 <br />
                 <ExpandableField show={schema.yrkesskade}>
@@ -159,16 +118,7 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                         label="3.6 Eventuell skadedato"
                         value={schema.yrkesskadeDato ? schema.yrkesskadeDato : undefined}
                         onChange={(newDates) => {
-                            setSchema(
-                                (state): SchemaType => {
-                                    const updatedSchema = {
-                                        ...state,
-                                        yrkesskadeDato: newDates,
-                                    };
-                                    validate('yrkesskadeDato', updatedSchema);
-                                    return updatedSchema;
-                                },
-                            );
+                            setFormState((formState) => ({ ...formState, yrkesskadeDato: newDates }))
                         }}
                     />
                 </ExpandableField>
@@ -180,18 +130,9 @@ const DiagnoseSection = ({ section, setSchema, schema, errors, validate, diagnos
                     checked={schema.skjermesForPasient ? schema.skjermesForPasient : undefined}
                     label="Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1"
                     onChange={() =>
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    skjermesForPasient: !state.skjermesForPasient,
-                                };
-                                validate('skjermesForPasient', updatedSchema);
-                                return updatedSchema;
-                            },
-                        )
+                        setFormState((formState) => ({ ...formState, skjermesForPasient: !formState.skjermesForPasient }))
                     }
-                    feil={errors.skjermesForPasient}
+                    feil={errors.get('skjermesForPasient')?.feilmelding}
                 />
             </Subsection>
         </SectionContainer>

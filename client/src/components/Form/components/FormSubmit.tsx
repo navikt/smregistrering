@@ -34,7 +34,11 @@ const FormSubmit = ({ oppgave, schema, errors, errorSummaryRef, enhet, handleSub
     Modal.setAppElement('#root');
 
     const registrerSykmelding = () => {
-        handleSubmit((formState) => { console.log(formState) })
+        handleSubmit((formState) => {
+            console.log(formState)
+            
+            // send to backend
+        })
 
         /*         if (errors.size === 0 && !!enhet) {
                     const sykmelding = buildRegistrertSykmelding(schema);

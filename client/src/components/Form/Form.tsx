@@ -1,7 +1,7 @@
 import './Form.less';
 import './components/formComponents/Flatpickr.less';
 
-import React, { RefObject, useRef, useState } from 'react';
+import React, { RefObject, useRef } from 'react';
 
 import FormErrorSummary from './components/FormErrorSummary';
 import FormHeader from './components/FormHeader';
@@ -27,7 +27,7 @@ import UtdypendeOpplysningerSection, {
 } from './components/formSections/UtdypendeOpplysningerSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
-import { Validate, validationFunctions } from './validation';
+import { validationFunctions } from './validation';
 import {
     getAktivitetIkkeMuligSykmelding,
     getAvventendePeriode,
@@ -35,7 +35,6 @@ import {
     getGradertSykmelding,
     getReisetilskuddSykmelding,
 } from '../../utils/periodeUtils';
-import { getKeys } from '../../utils/objectUtils';
 import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../utils/diagnoseUtils';
 import { sections } from '../../types/Section';
 import useForm from './formUtils/useForm';
@@ -224,78 +223,69 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
                         errors={errors}
                         schema={formState}
                     />
-                    {/*                     
+
                     <ArbeidsgiverSection
                         section={sections.ARBEIDSGIVER}
-                        setSchema={setSchema}
-                        errors={formErrors}
-                        schema={schema}
-                        validate={validate}
+                        errors={errors}
+                        schema={formState}
+                        setFormState={setFormState}
                     />
+
                     <DiagnoseSection
                         section={sections.DIAGNOSE}
-                        setSchema={setSchema}
-                        errors={formErrors}
-                        schema={schema}
-                        validate={validate}
+                        setFormState={setFormState}
+                        errors={errors}
+                        schema={formState}
                         diagnosekoder={diagnosekoder}
                     />
                     <MulighetForArbeidSection
                         section={sections.MULIGHET_FOR_ARBEID}
-                        setSchema={setSchema}
-                        schema={schema}
-                        errors={formErrors}
-                        validate={validate}
+                        setFormState={setFormState}
+                        schema={formState}
+                        errors={errors}
                     />
                     <FriskmeldingSection
                         section={sections.FRISKMELDING_PROGNOSE}
-                        setSchema={setSchema}
-                        schema={schema}
-                        errors={formErrors}
-                        validate={validate}
+                        setFormState={setFormState}
+                        schema={formState}
+                        errors={errors}
                     />
                     <UtdypendeOpplysningerSection
                         section={sections.UTDYPENDE_OPPLYSNINGER}
-                        setSchema={setSchema}
-                        schema={schema}
-                        errors={formErrors}
-                        validate={validate}
+                        setFormState={setFormState}
+                        schema={formState}
+                        errors={errors}
                     />
                     <ArbeidsevneSection
                         section={sections.ARBEIDSEVNE}
-                        setSchema={setSchema}
-                        schema={schema}
-                        errors={formErrors}
-                        validate={validate}
+                        setFormState={setFormState}
+                        schema={formState}
+                        errors={errors}
                     />
                     <MeldingTilNavSection
                         section={sections.MELDING_TIL_NAV}
-                        setSchema={setSchema}
-                        schema={schema}
-                        errors={formErrors}
-                        validate={validate}
+                        setFormState={setFormState}
+                        schema={formState}
+                        errors={errors}
                     />
                     <MeldingTilArbeidsgiverSection
                         section={sections.MELDING_TIL_ARBEIDSGIVER}
-                        setSchema={setSchema}
-                        schema={schema}
-                        errors={formErrors}
-                        validate={validate}
+                        setFormState={setFormState}
+                        schema={formState}
+                        errors={errors}
                     />
                     <TilbakedateringSection
                         section={sections.TILBAKEDATERING}
-                        setSchema={setSchema}
-                        schema={schema}
-                        errors={formErrors}
-                        validate={validate}
+                        setFormState={setFormState}
+                        schema={formState}
+                        errors={errors}
                     />
                     <BehandlerSection
                         section={sections.BEHANDLER}
-                        setSchema={setSchema}
-                        schema={schema}
-                        errors={formErrors}
-                        validate={validate}
-                    /> */}
+                        setFormState={setFormState}
+                        schema={formState}
+                        errors={errors}
+                    />
                 </Panel>
                 {<FormErrorSummary formErrors={errors} errorSummaryRef={errorSummaryRef} />}
                 <FormSubmit
