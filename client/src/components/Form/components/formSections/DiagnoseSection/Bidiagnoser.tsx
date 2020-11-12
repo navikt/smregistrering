@@ -5,12 +5,12 @@ import BidiagnoseRow from './BidiagnoseRow';
 import FormLabel from '../../formComponents/FormLabel';
 import Plus from '../../../../../svg/Plus';
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
-import { SchemaType } from '../../../Form';
+import { FormType } from '../../../Form';
 
 type BidiagnoserProps = {
     id?: string;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    formState: SchemaType;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    formState: FormType;
     diagnosekoder: Diagnosekoder;
     feil?: string;
 };

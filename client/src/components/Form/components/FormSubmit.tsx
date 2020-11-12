@@ -10,14 +10,14 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 
 import { RegistrertSykmelding } from '../../../types/RegistrertSykmelding';
 import { RuleHitErrors } from '../../../types/RuleHitErrors';
-import { SchemaType } from '../Form';
+import { FormType } from '../Form';
 import { buildRegistrertSykmelding } from '../../../utils/registrertSykmeldingUtils';
 
 interface FormSubmitProps {
     oppgaveid: number;
     errorSummaryRef: React.RefObject<HTMLDivElement>;
     enhet: string | null | undefined;
-    handleSubmit: (onSubmit: (state: SchemaType) => void) => void;
+    handleSubmit: (onSubmit: (state: FormType) => void) => void;
 }
 
 const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSubmitProps) => {

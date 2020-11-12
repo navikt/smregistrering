@@ -3,10 +3,10 @@ import './FormErrorSummary.less';
 import React, { RefObject } from 'react';
 import { Feiloppsummering, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
-import { SchemaType } from '../Form';
+import { FormType } from '../Form';
 
 type FormErrorSummaryProps = {
-    formErrors: Map<keyof SchemaType, FeiloppsummeringFeil>;
+    formErrors: Map<keyof FormType, FeiloppsummeringFeil>;
     errorSummaryRef: RefObject<HTMLDivElement>;
 };
 

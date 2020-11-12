@@ -3,7 +3,7 @@ import React from 'react';
 import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
-import { SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export type UtdypendeOpplysninger = {
@@ -37,9 +37,9 @@ export type UtdypendeOpplysninger = {
 
 interface UtdypendeOpplysningerSectionProps {
     section: Section;
-    formState: SchemaType;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 }
 
 const UtdypendeOpplysningerSection = ({ section, setFormState, formState, errors }: UtdypendeOpplysningerSectionProps) => {

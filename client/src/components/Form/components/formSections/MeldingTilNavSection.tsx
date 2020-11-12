@@ -4,7 +4,7 @@ import { Checkbox, FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export type MeldingTilNav = {
@@ -14,9 +14,9 @@ export type MeldingTilNav = {
 
 type MeldingTilNavSectionProps = {
     section: Section;
-    formState: SchemaType;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 };
 
 const MeldingTilNavSection = ({ section, setFormState, formState, errors }: MeldingTilNavSectionProps) => {

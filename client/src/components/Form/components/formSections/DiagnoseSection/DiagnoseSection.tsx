@@ -10,7 +10,7 @@ import SectionContainer from '../../SectionContainer';
 import Subsection from '../../formComponents/Subsection';
 import { AnnenFraverGrunn, Diagnose } from '../../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
-import { SchemaType } from '../../../Form';
+import { FormType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
 
 export type MedisinskVurdering = {
@@ -27,9 +27,9 @@ export type MedisinskVurdering = {
 
 type DiagnoseSectionProps = {
     section: Section;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    formState: SchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    formState: FormType;
     diagnosekoder: Diagnosekoder;
 };
 

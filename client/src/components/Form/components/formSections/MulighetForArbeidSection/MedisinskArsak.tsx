@@ -2,12 +2,12 @@ import React from 'react';
 import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
-import { SchemaType } from '../../../Form';
+import { FormType } from '../../../Form';
 
 interface MedisinskArsakProps {
-    formState: SchemaType;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 }
 
 const MedisinskArsak = ({ formState, setFormState, errors }: MedisinskArsakProps) => {

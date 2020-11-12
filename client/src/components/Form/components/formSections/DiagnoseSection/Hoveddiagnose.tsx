@@ -6,12 +6,12 @@ import FormLabel from '../../formComponents/FormLabel';
 import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
 import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/Diagnosekode';
-import { SchemaType } from '../../../Form';
+import { FormType } from '../../../Form';
 
 type HoveddiagnoseProps = {
     id: string;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    formState: SchemaType;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    formState: FormType;
     diagnosekoder: Diagnosekoder;
     feil?: string;
 };

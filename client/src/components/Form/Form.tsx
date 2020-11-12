@@ -32,7 +32,7 @@ import { getInitialFormState } from './formUtils/formUtils';
 import { sections } from '../../types/Section';
 import { validationFunctions } from './validation';
 
-export interface SchemaType
+export interface FormType
     extends Pasientopplysninger,
         Arbeidsgiver,
         Arbeidsevne,
@@ -53,7 +53,7 @@ type FormProps = {
 };
 
 const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
-    const { formState, setFormState, errors, handleSubmit } = useForm<SchemaType>({
+    const { formState, setFormState, errors, handleSubmit } = useForm<FormType>({
         defaultValues: getInitialFormState(oppgave, diagnosekoder),
         validationFunctions: validationFunctions,
     });

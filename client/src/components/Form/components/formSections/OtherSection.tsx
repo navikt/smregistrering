@@ -2,16 +2,16 @@ import React from 'react';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import DatePicker from '../formComponents/DatePicker';
-import { SchemaType } from '../../Form';
+import {FormType} from '../../Form';
 
 export type Other = {
     syketilfelleStartDato?: Date | null;
 };
 
 type OtherSectionProps = {
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    formState: SchemaType;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
 const OtherSection = ({ setFormState, formState, errors }: OtherSectionProps) => {

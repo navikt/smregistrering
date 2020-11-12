@@ -5,7 +5,7 @@ import { FeiloppsummeringFeil, Input, Select } from 'nav-frontend-skjema';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import { HarArbeidsgiver } from '../../../../types/RegistrertSykmelding';
-import { SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export type Arbeidsgiver = {
@@ -17,9 +17,9 @@ export type Arbeidsgiver = {
 
 type ArbeidsgiverSectionProps = {
     section: Section;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    formState: SchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    formState: FormType;
 };
 
 const ArbeidsgiverSection = ({ section, setFormState, errors, formState }: ArbeidsgiverSectionProps) => {

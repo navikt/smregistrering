@@ -53,4 +53,6 @@ context('Submit oppgave', () => {
         cy.get('#submit-form').click();
         cy.get('#success-modal-text').contains("Oppgaven ble ferdigstilt.")
     })
+
+    it('Should be able to fill out form and ')
 })

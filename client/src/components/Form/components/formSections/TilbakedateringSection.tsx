@@ -5,7 +5,7 @@ import DatePicker from '../formComponents/DatePicker';
 import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export type Tilbakedatering = {
@@ -17,9 +17,9 @@ export type Tilbakedatering = {
 
 type TilbakedateringSectionProps = {
     section: Section;
-    formState: SchemaType;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 };
 
 const TilbakedateringSection = ({ section, setFormState, formState, errors }: TilbakedateringSectionProps) => {

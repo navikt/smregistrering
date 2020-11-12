@@ -9,7 +9,7 @@ import RangePicker from '../../formComponents/RangePicker';
 import SectionContainer from '../../SectionContainer';
 import Subsection from '../../formComponents/Subsection';
 import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
-import { SchemaType } from '../../../Form';
+import { FormType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
 
 export type MulighetForArbeid = {
@@ -44,9 +44,9 @@ export type MulighetForArbeid = {
 
 type MulighetForArbeidSectionProps = {
     section: Section;
-    formState: SchemaType;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 };
 
 const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: MulighetForArbeidSectionProps) => {

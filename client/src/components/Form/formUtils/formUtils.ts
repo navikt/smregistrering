@@ -2,9 +2,9 @@ import { Diagnosekoder } from "../../../types/Diagnosekode";
 import { Oppgave } from "../../../types/Oppgave";
 import { getPrefilledDiagnose, getPrefilledBidiagnoser } from "../../../utils/diagnoseUtils";
 import { getAvventendePeriode, getAktivitetIkkeMuligSykmelding, getBehandlingsdagerSykmelding, getGradertSykmelding, getReisetilskuddSykmelding } from "../../../utils/periodeUtils";
-import { SchemaType } from "../Form";
+import { FormType } from "../Form";
 
-export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): SchemaType => {
+export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): FormType => {
     const avventendePeriode = getAvventendePeriode(oppgave.papirSmRegistering?.perioder);
     const aktivitetIkkeMuligPeriode = getAktivitetIkkeMuligSykmelding(oppgave.papirSmRegistering?.perioder);
     const behandlingsdagerPeriode = getBehandlingsdagerSykmelding(oppgave.papirSmRegistering?.perioder);

@@ -3,7 +3,7 @@ import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export type Arbeidsevne = {
@@ -14,9 +14,9 @@ export type Arbeidsevne = {
 
 export type ArbeidsevneSectionProps = {
     section: Section;
-    formState: SchemaType;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 };
 
 const ArbeidsevneSection = ({ section, setFormState, formState, errors }: ArbeidsevneSectionProps) => {

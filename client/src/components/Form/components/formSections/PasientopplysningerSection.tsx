@@ -2,7 +2,7 @@ import React from 'react';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
-import { SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export type Pasientopplysninger = {
@@ -11,9 +11,9 @@ export type Pasientopplysninger = {
 
 type PasientopplysningerProps = {
     section: Section;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    formState: SchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    formState: FormType;
 };
 
 const PasientopplysningerSection = ({ section, setFormState, errors, formState }: PasientopplysningerProps) => {

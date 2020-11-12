@@ -9,7 +9,7 @@ import FormLabel from '../formComponents/FormLabel';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import SykmelderInformation from '../formComponents/SykmelderInformation';
-import { SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Sykmelder } from '../../../../types/Sykmelder';
 
@@ -30,9 +30,9 @@ export type Behandler = {
 
 type BehandlerSectionProps = {
     section: Section;
-    formState: SchemaType;
-    errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 };
 
 const BehandlerSection = ({ section, setFormState, formState, errors }: BehandlerSectionProps) => {
