@@ -26,6 +26,7 @@ const Bidiagnoser = ({ id, setFormState, formState, diagnosekoder, feil }: Bidia
         event.preventDefault();
         setFormState((formState) => {
             if (!formState.biDiagnoser) {
+                // Add two because the initial visible biDiagnose-row isn't in the form data yet
                 return {
                     ...formState,
                     biDiagnoser: [emptyBidiagnose, emptyBidiagnose],
