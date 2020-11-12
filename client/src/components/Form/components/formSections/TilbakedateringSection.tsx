@@ -46,7 +46,7 @@ const TilbakedateringSection = ({ section, setFormState, schema, errors }: Tilba
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
                         value={schema.kontaktDato ? schema.kontaktDato : undefined}
                         onChange={(newDate) => {
-                            setFormState((formState) => ({ ...formState, kontaktDato: newDate }))
+                            setFormState((formState) => ({ ...formState, kontaktDato: newDate }));
                         }}
                         feil={errors.get('kontaktDato')?.feilmelding}
                     />
@@ -60,11 +60,10 @@ const TilbakedateringSection = ({ section, setFormState, schema, errors }: Tilba
                     label="Pasienten har ikke kunnet ivareta egne interesser"
                     onChange={() => {
                         setFormState((formState) => ({
-
                             ...formState,
                             kunneIkkeIvaretaEgneInteresser: !formState.kunneIkkeIvaretaEgneInteresser,
                             begrunnelseIkkeKontakt: undefined,
-                        }))
+                        }));
                     }}
                     feil={errors.get('kunneIkkeIvaretaEgneInteresser')?.feilmelding}
                 />
@@ -75,7 +74,7 @@ const TilbakedateringSection = ({ section, setFormState, schema, errors }: Tilba
                         maxLength={0}
                         value={schema.begrunnelseIkkeKontakt || ''}
                         onChange={({ target: { value } }) => {
-                            setFormState((formState) => ({ ...formState, begrunnelseIkkeKontakt: value }))
+                            setFormState((formState) => ({ ...formState, begrunnelseIkkeKontakt: value }));
                         }}
                         feil={errors.get('begrunnelseIkkeKontakt')?.feilmelding}
                         label="Begrunn"

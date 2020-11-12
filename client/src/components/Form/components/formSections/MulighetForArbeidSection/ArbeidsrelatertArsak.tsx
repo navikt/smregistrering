@@ -39,7 +39,7 @@ const ArbeidsrelatertArsak = ({ schema, setFormState, errors }: ArbeidsrelatertA
                 ...formState,
                 aktivitetIkkeMuligArbeidsrelatertArsakType: newArbeidsrelatertArsakType,
             };
-        })
+        });
     };
 
     return (

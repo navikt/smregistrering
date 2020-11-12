@@ -26,16 +26,16 @@ const Bidiagnoser = ({ id, setFormState, schema, diagnosekoder, feil }: Bidiagno
         event.preventDefault();
         setFormState((formState) => {
             if (!formState.biDiagnoser) {
-                return ({
+                return {
                     ...formState,
-                    biDiagnoser: [emptyBidiagnose, emptyBidiagnose]
-                })
+                    biDiagnoser: [emptyBidiagnose, emptyBidiagnose],
+                };
             }
-            return ({
+            return {
                 ...formState,
-                biDiagnoser: [...formState.biDiagnoser, emptyBidiagnose]
-            })
-        })
+                biDiagnoser: [...formState.biDiagnoser, emptyBidiagnose],
+            };
+        });
     };
 
     const deleteRow = (index: number, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -45,18 +45,18 @@ const Bidiagnoser = ({ id, setFormState, schema, diagnosekoder, feil }: Bidiagno
                 return formState;
             }
             if (formState.biDiagnoser.length === 1) {
-                return ({
+                return {
                     ...formState,
                     biDiagnoser: [],
-                });
+                };
             }
             const bidiagnoser = formState.biDiagnoser;
             const withoutIndex = [...bidiagnoser.slice(0, index), ...bidiagnoser.slice(index + 1)];
-            return ({
+            return {
                 ...formState,
                 biDiagnoser: withoutIndex,
-            });
-        })
+            };
+        });
     };
 
     const updateDiagnosesystem = (index: number, system: string) => {
@@ -78,7 +78,7 @@ const Bidiagnoser = ({ id, setFormState, schema, diagnosekoder, feil }: Bidiagno
                     ...biDiagnoser.slice(index + 1),
                 ],
             };
-        })
+        });
     };
 
     const updateDiagnosecode = (index: number, code: string, text: string) => {
@@ -97,7 +97,7 @@ const Bidiagnoser = ({ id, setFormState, schema, diagnosekoder, feil }: Bidiagno
                 ...formState,
                 biDiagnoser: [...biDiagnoser.slice(0, index), updatedBidiagnose, ...biDiagnoser.slice(index + 1)],
             };
-        })
+        });
     };
 
     return (

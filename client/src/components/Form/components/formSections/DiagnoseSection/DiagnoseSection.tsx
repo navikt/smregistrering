@@ -80,7 +80,7 @@ const DiagnoseSection = ({ section, setFormState, schema, errors, diagnosekoder 
                                 schema.annenFraversArsakBeskrivelse ? schema.annenFraversArsakBeskrivelse : undefined
                             }
                             onChange={({ target: { value } }) => {
-                                setFormState((formState) => ({ ...formState, annenFraversArsakBeskrivelse: value }))
+                                setFormState((formState) => ({ ...formState, annenFraversArsakBeskrivelse: value }));
                             }}
                             label="3.3.2 Beskriv fravær (valgfritt)"
                             feil={errors.get('annenFraversArsakBeskrivelse')?.feilmelding}
@@ -107,7 +107,11 @@ const DiagnoseSection = ({ section, setFormState, schema, errors, diagnosekoder 
                     checked={schema.yrkesskade}
                     label="Sykmeldingen kan skyldes en yrkesskade / yrkessykdom"
                     onChange={() =>
-                        setFormState((formState) => ({ ...formState, yrkesskade: !formState.yrkesskade, yrkesskadeDato: undefined }))
+                        setFormState((formState) => ({
+                            ...formState,
+                            yrkesskade: !formState.yrkesskade,
+                            yrkesskadeDato: undefined,
+                        }))
                     }
                     feil={errors.get('yrkesskade')?.feilmelding}
                 />
@@ -118,7 +122,7 @@ const DiagnoseSection = ({ section, setFormState, schema, errors, diagnosekoder 
                         label="3.6 Eventuell skadedato"
                         value={schema.yrkesskadeDato ? schema.yrkesskadeDato : undefined}
                         onChange={(newDates) => {
-                            setFormState((formState) => ({ ...formState, yrkesskadeDato: newDates }))
+                            setFormState((formState) => ({ ...formState, yrkesskadeDato: newDates }));
                         }}
                     />
                 </ExpandableField>
@@ -130,7 +134,10 @@ const DiagnoseSection = ({ section, setFormState, schema, errors, diagnosekoder 
                     checked={schema.skjermesForPasient ? schema.skjermesForPasient : undefined}
                     label="Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1"
                     onChange={() =>
-                        setFormState((formState) => ({ ...formState, skjermesForPasient: !formState.skjermesForPasient }))
+                        setFormState((formState) => ({
+                            ...formState,
+                            skjermesForPasient: !formState.skjermesForPasient,
+                        }))
                     }
                     feil={errors.get('skjermesForPasient')?.feilmelding}
                 />

@@ -29,7 +29,7 @@ const MeldingTilArbeidsgiverSection = ({
                 maxLength={0}
                 value={schema.meldingTilArbeidsgiverBeskriv || ''}
                 onChange={({ target: { value } }) => {
-                    setFormState((formState) => ({ ...formState, meldingTilArbeidsgiverBeskriv: value }))
+                    setFormState((formState) => ({ ...formState, meldingTilArbeidsgiverBeskriv: value }));
                 }}
                 feil={errors.get('meldingTilArbeidsgiverBeskriv')?.feilmelding}
                 label="9.1 Andre innspill til arbeidsgiver"

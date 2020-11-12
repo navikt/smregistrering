@@ -1,12 +1,13 @@
 import './Form.less';
 import './components/formComponents/Flatpickr.less';
 
-import React, { RefObject, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import FormErrorSummary from './components/FormErrorSummary';
 import FormHeader from './components/FormHeader';
 import FormSubmit from './components/FormSubmit';
 import Panel from '../Panel/Panel';
+import useForm from './formUtils/useForm';
 import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/ArbeidsevneSection';
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BehandlerSection, { Behandler } from './components/formSections/BehandlerSection';
@@ -27,7 +28,6 @@ import UtdypendeOpplysningerSection, {
 } from './components/formSections/UtdypendeOpplysningerSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
 import { Oppgave } from '../../types/Oppgave';
-import { validationFunctions } from './validation';
 import {
     getAktivitetIkkeMuligSykmelding,
     getAvventendePeriode,
@@ -37,23 +37,21 @@ import {
 } from '../../utils/periodeUtils';
 import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../utils/diagnoseUtils';
 import { sections } from '../../types/Section';
-import useForm from './formUtils/useForm';
+import { validationFunctions } from './validation';
 
 export interface SchemaType
     extends Pasientopplysninger,
-    Arbeidsgiver,
-    Arbeidsevne,
-    MedisinskVurdering,
-    MulighetForArbeid,
-    Friskmelding,
-    UtdypendeOpplysninger,
-    MeldingTilNav,
-    MeldingTilArbeidsgiver,
-    Tilbakedatering,
-    Behandler,
-    Other { }
-
-export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined };
+        Arbeidsgiver,
+        Arbeidsevne,
+        MedisinskVurdering,
+        MulighetForArbeid,
+        Friskmelding,
+        UtdypendeOpplysninger,
+        MeldingTilNav,
+        MeldingTilArbeidsgiver,
+        Tilbakedatering,
+        Behandler,
+        Other {}
 
 const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): SchemaType => {
     const avventendePeriode = getAvventendePeriode(oppgave.papirSmRegistering?.perioder);
@@ -201,14 +199,16 @@ const getInitialSchema = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): Schem
 };
 
 type FormProps = {
-    schemaRef: RefObject<HTMLDivElement>;
     oppgave: Oppgave;
     diagnosekoder: Diagnosekoder;
     enhet: string | null | undefined;
 };
 
-const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
-    const { formState, setFormState, errors, handleSubmit } = useForm<SchemaType>({ defaultValues: getInitialSchema(oppgave, diagnosekoder), validationFunctions: validationFunctions })
+const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
+    const { formState, setFormState, errors, handleSubmit } = useForm<SchemaType>({
+        defaultValues: getInitialSchema(oppgave, diagnosekoder),
+        validationFunctions: validationFunctions,
+    });
     const errorSummaryRef = useRef<HTMLDivElement>(null);
 
     return (
@@ -223,14 +223,12 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
                         errors={errors}
                         schema={formState}
                     />
-
                     <ArbeidsgiverSection
                         section={sections.ARBEIDSGIVER}
                         errors={errors}
                         schema={formState}
                         setFormState={setFormState}
                     />
-
                     <DiagnoseSection
                         section={sections.DIAGNOSE}
                         setFormState={setFormState}
@@ -287,7 +285,7 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
                         errors={errors}
                     />
                 </Panel>
-                {<FormErrorSummary formErrors={errors} errorSummaryRef={errorSummaryRef} />}
+                <FormErrorSummary formErrors={errors} errorSummaryRef={errorSummaryRef} />
                 <FormSubmit
                     oppgaveid={oppgave.oppgaveid}
                     errorSummaryRef={errorSummaryRef}

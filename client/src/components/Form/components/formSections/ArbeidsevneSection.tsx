@@ -28,7 +28,7 @@ const ArbeidsevneSection = ({ section, setFormState, schema, errors }: Arbeidsev
                     maxLength={0}
                     value={schema.tiltakArbeidsplassen || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, tiltakArbeidsplassen: value }))
+                        setFormState((formState) => ({ ...formState, tiltakArbeidsplassen: value }));
                     }}
                     label="Tilrettelegging/hensyn som bør tas på arbeidsplassen"
                     feil={errors.get('tiltakArbeidsplassen')?.feilmelding}
@@ -41,7 +41,7 @@ const ArbeidsevneSection = ({ section, setFormState, schema, errors }: Arbeidsev
                     maxLength={0}
                     value={schema.tiltakNav || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, tiltakNav: value }))
+                        setFormState((formState) => ({ ...formState, tiltakNav: value }));
                     }}
                     feil={errors.get('tiltakNav')?.feilmelding}
                     label="Tiltak i regi av NAV. (Hvis det er behov for bistand fra NAV nå, bruk felt 8.)"
@@ -54,7 +54,7 @@ const ArbeidsevneSection = ({ section, setFormState, schema, errors }: Arbeidsev
                     maxLength={0}
                     value={schema.andreTiltak || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, andreTiltak: value }))
+                        setFormState((formState) => ({ ...formState, andreTiltak: value }));
                     }}
                     label="Eventuelle andre innspill til NAV"
                     feil={errors.get('andreTiltak')?.feilmelding}

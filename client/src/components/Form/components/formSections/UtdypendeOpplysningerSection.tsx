@@ -42,12 +42,7 @@ interface UtdypendeOpplysningerSectionProps {
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 }
 
-const UtdypendeOpplysningerSection = ({
-    section,
-    setFormState,
-    schema,
-    errors,
-}: UtdypendeOpplysningerSectionProps) => {
+const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }: UtdypendeOpplysningerSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Ekspanderbartpanel
@@ -65,7 +60,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende611 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende611: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende611: value }));
                     }}
                     feil={errors.get('utdypende611')?.feilmelding}
                     label="6.1.1 Er det sykdommen, utredningen og/eller behandlingen som hindrer økt aktivitet? Beskriv."
@@ -76,7 +71,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende612 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende612: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende612: value }));
                     }}
                     feil={errors.get('utdypende612')?.feilmelding}
                     label="6.1.2 Har behandlingen frem til nå bedret arbeidsevnen?"
@@ -87,7 +82,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende613 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende613: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende613: value }));
                     }}
                     feil={errors.get('utdypende613')?.feilmelding}
                     label="6.1.3 Hva er videre plan for behandling?"
@@ -98,7 +93,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende614 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende614: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende614: value }));
                     }}
                     feil={errors.get('utdypende614')?.feilmelding}
                     label="6.1.4 Er det arbeidsforholdet som hindrer (økt) aktivitet? Beskriv."
@@ -109,7 +104,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende615 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende615: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende615: value }));
                     }}
                     feil={errors.get('utdypende612')?.feilmelding}
                     label="6.1.5 Er det andre forhold som hindrer (økt) aktivitet?"
@@ -125,7 +120,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende621 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende621: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende621: value }));
                     }}
                     feil={errors.get('utdypende621')?.feilmelding}
                     label="6.2.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon."
@@ -136,7 +131,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende622 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende622: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende622: value }));
                     }}
                     feil={errors.get('utdypende622')?.feilmelding}
                     label="6.2.2 Hvordan påvirker sykdommen arbeidsevnen?"
@@ -147,7 +142,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende623 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende623: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende623: value }));
                     }}
                     feil={errors.get('utdypende623')?.feilmelding}
                     label="6.2.3 Har behandlingen frem til nå bedret arbeidsevnen?"
@@ -158,7 +153,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende624 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende624: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende624: value }));
                     }}
                     feil={errors.get('utdypende624')?.feilmelding}
                     label="6.2.4 Beskriv pågående og planlagt henvisning,utredning og/eller behandling."
@@ -171,7 +166,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende631 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende631: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende631: value }));
                     }}
                     feil={errors.get('utdypende631')?.feilmelding}
                     label="6.3.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon"
@@ -182,7 +177,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende632 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende632: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende632: value }));
                     }}
                     feil={errors.get('utdypende632')?.feilmelding}
                     label="6.3.2 Beskriv pågående og planlagt henvisning, utredning og/eller behandling. Lar dette seg kombinere med delvis arbeid?"
@@ -198,7 +193,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende641 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende641: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende641: value }));
                     }}
                     feil={errors.get('utdypende641')?.feilmelding}
                     label="6.4.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon"
@@ -209,7 +204,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende642 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende642: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende642: value }));
                     }}
                     feil={errors.get('utdypende642')?.feilmelding}
                     label="6.4.2 Beskriv pågående og planlagt henvisning, utredning og/eller behandling"
@@ -220,7 +215,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende643 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende643: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende643: value }));
                     }}
                     feil={errors.get('utdypende643')?.feilmelding}
                     label="6.4.3 Hva mener du skal til for at pasienten kan komme tilbake i eget eller annet arbeid?"
@@ -236,7 +231,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende651 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende651: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende651: value }));
                     }}
                     feil={errors.get('utdypende651')?.feilmelding}
                     label="6.5.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon."
@@ -247,7 +242,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende652 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende652: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende652: value }));
                     }}
                     feil={errors.get('utdypende652')?.feilmelding}
                     label="6.5.2 Hvordan påvirker dette funksjons-/arbeidsevnen?"
@@ -258,7 +253,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende653 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende653: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende653: value }));
                     }}
                     feil={errors.get('utdypende653')?.feilmelding}
                     label="6.5.3 Beskriv pågående og planlagt henvisning, utredning og/eller medisinsk behandling"
@@ -269,7 +264,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende654 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende654: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende654: value }));
                     }}
                     feil={errors.get('utdypende654')?.feilmelding}
                     label="6.5.4 Kan arbeidsevnen bedres gjennom medisinsk behandling og/eller arbeidsrelatert aktivitet? I så fall hvordan? Angi tidsperspektiv"
@@ -285,7 +280,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende661 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende661: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende661: value }));
                     }}
                     feil={errors.get('utdypende661')?.feilmelding}
                     label="6.6.1 Hva antar du at pasienten kan utføre av eget arbeid/arbeidsoppgaver i dag eller i nær framtid?"
@@ -296,7 +291,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende662 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende662: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende662: value }));
                     }}
                     feil={errors.get('utdypende662')?.feilmelding}
                     label="6.6.2 Hvis pasienten ikke kan gå tilbake til eget arbeid, hva antar du at pasienten kan utføre av annet arbeid/arbeidsoppgaver?"
@@ -307,7 +302,7 @@ const UtdypendeOpplysningerSection = ({
                     maxLength={0}
                     value={schema.utdypende663 || ''}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, utdypende663: value, }))
+                        setFormState((formState) => ({ ...formState, utdypende663: value }));
                     }}
                     feil={errors.get('utdypende663')?.feilmelding}
                     label="6.6.3 Hvilken betydning har denne sykdommen for den nedsatte arbeidsevnen?"

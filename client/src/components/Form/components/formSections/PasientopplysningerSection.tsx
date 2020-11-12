@@ -24,11 +24,9 @@ const PasientopplysningerSection = ({ section, setFormState, errors, schema }: P
                 className="half"
                 value={schema.pasientFnr ? schema.pasientFnr : undefined}
                 onChange={({ target: { value } }) => {
-                    setFormState(
-                        (formState) => {
-                            return { ...formState, pasientFnr: value }
-                        }
-                    )
+                    setFormState((formState) => {
+                        return { ...formState, pasientFnr: value };
+                    });
                 }}
                 label="1.2 Fødselsnummer (11 siffer)"
                 feil={errors.get('pasientFnr')?.feilmelding}

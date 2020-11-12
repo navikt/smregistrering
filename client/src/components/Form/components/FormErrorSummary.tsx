@@ -20,7 +20,10 @@ const FormErrorSummary = ({ formErrors, errorSummaryRef }: FormErrorSummaryProps
             ref={errorSummaryRef}
         >
             {formErrors.size > 0 && (
-                <Feiloppsummering tittel="For å gå videre må du rette opp følgende:" feil={Array.from(formErrors.values())} />
+                <Feiloppsummering
+                    tittel="For å gå videre må du rette opp følgende:"
+                    feil={Array.from(formErrors.values())}
+                />
             )}
         </div>
     );

@@ -81,7 +81,7 @@ const BehandlerSection = ({ section, setFormState, schema, errors }: BehandlerSe
                 label="12.1 Behandletdato"
                 value={schema.behandletDato ? schema.behandletDato : undefined}
                 onChange={(newDates) => {
-                    setFormState((formState) => ({ ...formState, behandletDato: newDates }))
+                    setFormState((formState) => ({ ...formState, behandletDato: newDates }));
                 }}
                 feil={errors.get('behandletDato')?.feilmelding}
             />
@@ -92,7 +92,7 @@ const BehandlerSection = ({ section, setFormState, schema, errors }: BehandlerSe
                     value={schema.hpr ? schema.hpr : undefined}
                     disabled={isLoading}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, hpr: value }))
+                        setFormState((formState) => ({ ...formState, hpr: value }));
                     }}
                     feil={errors.get('hpr')?.feilmelding || error?.message}
                     label={
@@ -106,7 +106,7 @@ const BehandlerSection = ({ section, setFormState, schema, errors }: BehandlerSe
                     id="sykmelderTelefon"
                     value={schema.sykmelderTelefon ? schema.sykmelderTelefon : undefined}
                     onChange={({ target: { value } }) => {
-                        setFormState((formState) => ({ ...formState, sykmelderTelefon: value }))
+                        setFormState((formState) => ({ ...formState, sykmelderTelefon: value }));
                     }}
                     feil={errors.get('sykmelderTelefon')?.feilmelding}
                     label={<FormLabel label="12.5 Telefon" />}

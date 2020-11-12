@@ -64,7 +64,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             avventendeSykmelding: !formState.avventendeSykmelding,
                             avventendePeriode: undefined,
                             avventendeInnspillTilArbeidsgiver: undefined,
-                        }))
+                        }));
                     }}
                     feil={errors.get('avventendeSykmelding')?.feilmelding}
                 />
@@ -77,7 +77,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             labelTo="4.1.2 t.o.m."
                             value={schema.avventendePeriode || []}
                             onChange={(newDates) => {
-                                setFormState((formState) => ({ ...formState, avventendePeriode: newDates }))
+                                setFormState((formState) => ({ ...formState, avventendePeriode: newDates }));
                             }}
                             feil={errors.get('avventendePeriode')?.feilmelding}
                         />
@@ -86,7 +86,10 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             maxLength={0}
                             value={schema.avventendeInnspillTilArbeidsgiver || ''}
                             onChange={({ target: { value } }) => {
-                                setFormState((formState) => ({ ...formState, avventendeInnspillTilArbeidsgiver: value }))
+                                setFormState((formState) => ({
+                                    ...formState,
+                                    avventendeInnspillTilArbeidsgiver: value,
+                                }));
                             }}
                             feil={errors.get('avventendeInnspillTilArbeidsgiver')?.feilmelding}
                             label={<Element>4.1.3 Innspill til arbeidsgiver om tilrettelegging</Element>}
@@ -105,7 +108,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             gradertSykmelding: !formState.gradertSykmelding,
                             gradertPeriode: undefined,
                             gradertGrad: undefined,
-                        }))
+                        }));
                     }}
                     feil={errors.get('gradertSykmelding')?.feilmelding}
                 />
@@ -118,7 +121,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             labelTo="4.2.2 t.o.m."
                             value={schema.gradertPeriode || []}
                             onChange={(newDates) => {
-                                setFormState((formState) => ({ ...formState, gradertPeriode: newDates }))
+                                setFormState((formState) => ({ ...formState, gradertPeriode: newDates }));
                             }}
                             feil={errors.get('gradertPeriode')?.feilmelding}
                         />
@@ -128,7 +131,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             type="number"
                             value={schema.gradertGrad}
                             onChange={({ target: { value } }) => {
-                                setFormState((formState) => ({ ...formState, gradertGrad: parseInt(value) }))
+                                setFormState((formState) => ({ ...formState, gradertGrad: parseInt(value) }));
                             }}
                             feil={errors.get('gradertGrad')?.feilmelding}
                             label="4.2.3 Oppgi grad for sykmelding"
@@ -141,7 +144,10 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                     checked={schema.gradertReisetilskudd}
                     label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
                     onChange={() => {
-                        setFormState((formState) => ({ ...formState, gradertReisetilskudd: !formState.gradertReisetilskudd }))
+                        setFormState((formState) => ({
+                            ...formState,
+                            gradertReisetilskudd: !formState.gradertReisetilskudd,
+                        }));
                     }}
                     feil={errors.get('gradertReisetilskudd')?.feilmelding}
                 />
@@ -163,7 +169,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             aktivitetIkkeMuligArbeidsrelatertArsak: undefined,
                             aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
                             aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
-                        }))
+                        }));
                     }}
                     feil={errors.get('aktivitetIkkeMuligSykmelding')}
                 />
@@ -176,7 +182,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             labelTo="4.3.2 t.o.m."
                             value={schema.aktivitetIkkeMuligPeriode || []}
                             onChange={(newDates) => {
-                                setFormState((formState) => ({ ...formState, aktivitetIkkeMuligPeriode: newDates }))
+                                setFormState((formState) => ({ ...formState, aktivitetIkkeMuligPeriode: newDates }));
                             }}
                             feil={errors.get('aktivitetIkkeMuligPeriode')?.feilmelding}
                         />
@@ -198,11 +204,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                         />
                         <ExpandableField show={schema.aktivitetIkkeMuligMedisinskArsak}>
                             <>
-                                <MedisinskArsak
-                                    schema={schema}
-                                    setFormState={setFormState}
-                                    errors={errors}
-                                />
+                                <MedisinskArsak schema={schema} setFormState={setFormState} errors={errors} />
                                 <Input
                                     id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
                                     className="form-margin-bottom"
@@ -213,7 +215,10 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                                     }
                                     type="text"
                                     onChange={({ target: { value } }) => {
-                                        setFormState((formState) => ({ ...formState, aktivitetIkkeMuligMedisinskArsakBeskrivelse: value }))
+                                        setFormState((formState) => ({
+                                            ...formState,
+                                            aktivitetIkkeMuligMedisinskArsakBeskrivelse: value,
+                                        }));
                                     }}
                                     label={<Element>Beskrivelse</Element>}
                                     feil={errors.get('aktivitetIkkeMuligMedisinskArsakBeskrivelse')?.feilmelding}
@@ -238,11 +243,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                         />
                         <ExpandableField show={schema.aktivitetIkkeMuligArbeidsrelatertArsak}>
                             <>
-                                <ArbeidsrelatertArsak
-                                    schema={schema}
-                                    setFormState={setFormState}
-                                    errors={errors}
-                                />
+                                <ArbeidsrelatertArsak schema={schema} setFormState={setFormState} errors={errors} />
                                 <Input
                                     id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
                                     className="form-margin-bottom"
@@ -253,7 +254,10 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                                     }
                                     type="text"
                                     onChange={({ target: { value } }) => {
-                                        setFormState((formState) => ({ ...formState, aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: value }))
+                                        setFormState((formState) => ({
+                                            ...formState,
+                                            aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: value,
+                                        }));
                                     }}
                                     label={<Element>Beskrivelse</Element>}
                                     feil={errors.get('aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse')?.feilmelding}
@@ -275,7 +279,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             behandlingsdagerSykmelding: !formState.behandlingsdagerSykmelding,
                             behandlingsdagerPeriode: undefined,
                             behandlingsdagerAntall: undefined,
-                        }))
+                        }));
                     }}
                     feil={errors.get('behandlingsdagerSykmelding')?.feilmelding}
                 />
@@ -288,7 +292,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             labelTo="4.4.2 t.o.m."
                             value={schema.behandlingsdagerPeriode || []}
                             onChange={(newDates) => {
-                                setFormState((formState) => ({ ...formState, behandlingsdagerPeriode: newDates }))
+                                setFormState((formState) => ({ ...formState, behandlingsdagerPeriode: newDates }));
                             }}
                             feil={errors.get('behandlingsdagerPeriode')?.feilmelding}
                         />
@@ -299,7 +303,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             type="number"
                             value={schema.behandlingsdagerAntall}
                             onChange={({ target: { value } }) => {
-                                setFormState((formState) => ({ ...formState, behandlingsdagerAntall: Number(value) }))
+                                setFormState((formState) => ({ ...formState, behandlingsdagerAntall: Number(value) }));
                             }}
                             feil={errors.get('behandlingsdagerAntall')?.feilmelding}
                             label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
@@ -318,7 +322,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             ...formState,
                             reisetilskuddSykmelding: !formState.reisetilskuddSykmelding,
                             reisetilskuddPeriode: undefined,
-                        }))
+                        }));
                     }}
                     feil={errors.get('reisetilskuddSykmelding')?.feilmelding}
                 />
@@ -330,7 +334,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                         labelTo="4.5.2 t.o.m."
                         value={schema.reisetilskuddPeriode || []}
                         onChange={(newDates) => {
-                            setFormState((formState) => ({ ...formState, reisetilskuddPeriode: newDates }))
+                            setFormState((formState) => ({ ...formState, reisetilskuddPeriode: newDates }));
                         }}
                         feil={errors.get('reisetilskuddPeriode')?.feilmelding}
                     />

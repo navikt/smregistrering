@@ -1,8 +1,8 @@
 import React from 'react';
+import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import DatePicker from '../formComponents/DatePicker';
 import { SchemaType } from '../../Form';
-import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 export type Other = {
     syketilfelleStartDato?: Date | null;
@@ -23,11 +23,9 @@ const OtherSection = ({ setFormState, schema, errors }: OtherSectionProps) => {
                     label="Startdato for legemeldt fravær"
                     value={schema.syketilfelleStartDato ? schema.syketilfelleStartDato : undefined}
                     onChange={(newDates) => {
-                        setFormState(
-                            (formState) => {
-                                return { ...formState, syketilfelleStartDato: newDates };
-                            }
-                        )
+                        setFormState((formState) => {
+                            return { ...formState, syketilfelleStartDato: newDates };
+                        });
                     }}
                     feil={errors.get('syketilfelleStartDato')?.feilmelding}
                 />

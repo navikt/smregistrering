@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 // helper function for infering types with Object.entries

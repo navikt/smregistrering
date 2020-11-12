@@ -1,8 +1,8 @@
 import React from 'react';
 import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
-import { SchemaType } from '../../../Form';
 import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
+import { SchemaType } from '../../../Form';
 
 interface MedisinskArsakProps {
     schema: SchemaType;
@@ -39,7 +39,7 @@ const MedisinskArsak = ({ schema, setFormState, errors }: MedisinskArsakProps) =
                 ...formState,
                 aktivitetIkkeMuligMedisinskArsakType: newMedisinskArsakType,
             };
-        })
+        });
     };
 
     return (

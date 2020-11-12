@@ -8,7 +8,7 @@ export type ValidationType = {
 };
 
 export const validationFunctions: ValidationFunctions<SchemaType> = {
-// Other
+    // Other
     syketilfelleStartDato: () => undefined,
 
     // Pasientopplysninger

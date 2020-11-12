@@ -43,7 +43,7 @@ const MeldingTilNavSection = ({ section, setFormState, schema, errors }: Melding
                         maxLength={0}
                         value={schema.meldingTilNavBegrunn || ''}
                         onChange={({ target: { value } }) => {
-                            setFormState((formState) => ({ ...formState, meldingTilNavBegrunn: value }))
+                            setFormState((formState) => ({ ...formState, meldingTilNavBegrunn: value }));
                         }}
                         feil={errors.get('meldingTilNavBegrunn')?.feilmelding}
                         label="Begrunn nærmere"

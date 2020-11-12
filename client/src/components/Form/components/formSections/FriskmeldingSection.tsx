@@ -54,7 +54,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                         maxLength={0}
                         value={schema.hensynArbeidsplassen || ''}
                         onChange={({ target: { value } }) => {
-                            setFormState((formState) => ({ ...formState, hensynArbeidsplassen: value }))
+                            setFormState((formState) => ({ ...formState, hensynArbeidsplassen: value }));
                         }}
                         feil={errors.get('hensynArbeidsplassen')?.feilmelding}
                         label={<Element>5.1.1 Beskrive eventuelle hensyn som må tas på arbeidsplassen</Element>}
@@ -75,7 +75,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                             arbeidFOM: undefined,
                             annetArbeidPaSikt: false,
                             vurderingsDatoIArbeid: undefined,
-                        }))
+                        }));
                     }}
                     feil={errors.get('erIArbeid')?.feilmelding}
                 />
@@ -103,7 +103,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                                 label="Anslå når dette kan skje"
                                 value={schema.arbeidFOM ? schema.arbeidFOM : undefined}
                                 onChange={(newDate) => {
-                                    setFormState((formState) => ({ ...formState, arbeidFOM: newDate }))
+                                    setFormState((formState) => ({ ...formState, arbeidFOM: newDate }));
                                 }}
                                 feil={errors.get('arbeidFOM')?.feilmelding}
                             />
@@ -116,7 +116,10 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                             checked={schema.annetArbeidPaSikt}
                             label="Pasienten kan på sikt komme i arbeid hos annen arbeidsgiver"
                             onChange={() =>
-                                setFormState((formState) => ({ ...formState, annetArbeidPaSikt: !formState.annetArbeidPaSikt }))
+                                setFormState((formState) => ({
+                                    ...formState,
+                                    annetArbeidPaSikt: !formState.annetArbeidPaSikt,
+                                }))
                             }
                             feil={errors.get('annetArbeidPaSikt')?.feilmelding}
                         />
@@ -127,7 +130,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                         label="5.2.3 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?"
                         value={schema.vurderingsDatoIArbeid ? schema.vurderingsDatoIArbeid : undefined}
                         onChange={(newDate) => {
-                            setFormState((formState) => ({ ...formState, vurderingsDatoIArbeid: newDate }))
+                            setFormState((formState) => ({ ...formState, vurderingsDatoIArbeid: newDate }));
                         }}
                         feil={errors.get('vurderingsDatoIArbeid')?.feilmelding}
                     />
@@ -146,7 +149,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                             arbeidsforPaSikt: false,
                             arbeidsforFOM: undefined,
                             vurderingsDatoUtenArbeid: undefined,
-                        }))
+                        }));
                     }}
                     feil={errors.get('erIkkeIArbeid')?.feilmelding}
                 />
@@ -174,7 +177,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                                 label="Anslå når dette kan skje"
                                 value={schema.arbeidsforFOM ? schema.arbeidsforFOM : undefined}
                                 onChange={(newDate) => {
-                                    setFormState((formState) => ({ ...formState, arbeidsforFOM: newDate }))
+                                    setFormState((formState) => ({ ...formState, arbeidsforFOM: newDate }));
                                 }}
                                 feil={errors.get('arbeidsforFOM')?.feilmelding}
                             />
@@ -185,7 +188,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                         label="5.3.2 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?"
                         value={schema.vurderingsDatoUtenArbeid ? schema.vurderingsDatoUtenArbeid : undefined}
                         onChange={(newDate) => {
-                            setFormState((formState) => ({ ...formState, vurderingsDatoUtenArbeid: newDate }))
+                            setFormState((formState) => ({ ...formState, vurderingsDatoUtenArbeid: newDate }));
                         }}
                         feil={errors.get('vurderingsDatoUtenArbeid')?.feilmelding}
                     />

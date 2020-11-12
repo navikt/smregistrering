@@ -38,7 +38,7 @@ const AnnenFraversArsak = ({ schema, setFormState, errors }: AnnenFraversArsakPr
                 ...formState,
                 annenFraversArsakGrunn: newAnnenFraversArsakGrunn,
             };
-        })
+        });
     };
 
     return (

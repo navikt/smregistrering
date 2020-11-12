@@ -36,7 +36,10 @@ const Hoveddiagnose = ({ id, setFormState, schema, diagnosekoder, feil }: Hovedd
                             kode: '',
                             tekst: '',
                         };
-                        setFormState((formState) => ({ ...formState, hovedDiagnose: system ? updatedDiagnose : undefined }))
+                        setFormState((formState) => ({
+                            ...formState,
+                            hovedDiagnose: system ? updatedDiagnose : undefined,
+                        }));
                     }}
                     label={<Element>3.1.1 Kodesystem</Element>}
                 >
@@ -50,7 +53,10 @@ const Hoveddiagnose = ({ id, setFormState, schema, diagnosekoder, feil }: Hovedd
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
                     onChange={(kode?: string, tekst?: string) => {
-                        setFormState((formState) => ({ ...formState, hovedDiagnose: { ...formState.hovedDiagnose, kode, tekst } }))
+                        setFormState((formState) => ({
+                            ...formState,
+                            hovedDiagnose: { ...formState.hovedDiagnose, kode, tekst },
+                        }));
                     }}
                     value={hoveddiagnose}
                 />

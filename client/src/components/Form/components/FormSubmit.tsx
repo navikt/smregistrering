@@ -79,7 +79,7 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                     }
                 }, 300);
             }
-        })
+        });
     };
 
     return (
@@ -140,7 +140,9 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                 contentLabel={successModalContent || ''}
             >
                 <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
-                    <Normaltekst id="success-modal-text" style={{ marginBottom: '2rem' }}>{successModalContent}</Normaltekst>
+                    <Normaltekst id="success-modal-text" style={{ marginBottom: '2rem' }}>
+                        {successModalContent}
+                    </Normaltekst>
                     <a href={process.env.REACT_APP_GOSYS_URL} tabIndex={0} className="knapp knapp--hoved">
                         Tilbake til GOSYS
                     </a>
