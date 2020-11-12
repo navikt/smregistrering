@@ -10,7 +10,7 @@ import { SchemaType } from '../../../Form';
 type BidiagnoserProps = {
     id?: string;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    schema: SchemaType;
+    formState: SchemaType;
     diagnosekoder: Diagnosekoder;
     feil?: string;
 };
@@ -21,7 +21,7 @@ const emptyBidiagnose = {
     tekst: '',
 };
 
-const Bidiagnoser = ({ id, setFormState, schema, diagnosekoder, feil }: BidiagnoserProps) => {
+const Bidiagnoser = ({ id, setFormState, formState, diagnosekoder, feil }: BidiagnoserProps) => {
     const addRow = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         setFormState((formState) => {
@@ -103,7 +103,7 @@ const Bidiagnoser = ({ id, setFormState, schema, diagnosekoder, feil }: Bidiagno
     return (
         <div id={id}>
             <FormLabel label="3.2 Bidiagnose" />
-            {schema.biDiagnoser.map((biDiagnose, index) => (
+            {formState.biDiagnoser.map((biDiagnose, index) => (
                 <BidiagnoseRow
                     key={index}
                     index={index}

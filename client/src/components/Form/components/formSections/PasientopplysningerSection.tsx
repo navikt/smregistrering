@@ -13,16 +13,16 @@ type PasientopplysningerProps = {
     section: Section;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    schema: SchemaType;
+    formState: SchemaType;
 };
 
-const PasientopplysningerSection = ({ section, setFormState, errors, schema }: PasientopplysningerProps) => {
+const PasientopplysningerSection = ({ section, setFormState, errors, formState }: PasientopplysningerProps) => {
     return (
         <SectionContainer section={section}>
             <Input
                 id="pasientFnr"
                 className="half"
-                value={schema.pasientFnr ? schema.pasientFnr : undefined}
+                value={formState.pasientFnr ? formState.pasientFnr : undefined}
                 onChange={({ target: { value } }) => {
                     setFormState((formState) => {
                         return { ...formState, pasientFnr: value };

@@ -44,18 +44,18 @@ export type MulighetForArbeid = {
 
 type MulighetForArbeidSectionProps = {
     section: Section;
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
 
-const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: MulighetForArbeidSectionProps) => {
+const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: MulighetForArbeidSectionProps) => {
     return (
         <SectionContainer section={section} sectionError={errors.get('mulighetForArbeid')?.feilmelding}>
             <Subsection sectionIdentifier="4.1">
                 <Checkbox
                     id="avventendeSykmelding"
-                    checked={schema.avventendeSykmelding}
+                    checked={formState.avventendeSykmelding}
                     label="Pasienten kan benytte avventende sykmelding"
                     onChange={() => {
                         setFormState((formState) => ({
@@ -69,13 +69,13 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                     feil={errors.get('avventendeSykmelding')?.feilmelding}
                 />
                 <br />
-                <ExpandableField show={schema.avventendeSykmelding}>
+                <ExpandableField show={formState.avventendeSykmelding}>
                     <>
                         <RangePicker
                             id="avventendePeriode"
                             labelFrom="4.1.1 f.o.m."
                             labelTo="4.1.2 t.o.m."
-                            value={schema.avventendePeriode || []}
+                            value={formState.avventendePeriode || []}
                             onChange={(newDates) => {
                                 setFormState((formState) => ({ ...formState, avventendePeriode: newDates }));
                             }}
@@ -84,7 +84,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                         <Textarea
                             id="avventendeInnspillTilArbeidsgiver"
                             maxLength={0}
-                            value={schema.avventendeInnspillTilArbeidsgiver || ''}
+                            value={formState.avventendeInnspillTilArbeidsgiver || ''}
                             onChange={({ target: { value } }) => {
                                 setFormState((formState) => ({
                                     ...formState,
@@ -100,7 +100,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
             <Subsection sectionIdentifier="4.2">
                 <Checkbox
                     id="gradertSykmelding"
-                    checked={schema.gradertSykmelding}
+                    checked={formState.gradertSykmelding}
                     label="Pasienten kan være delvis i arbeid (gradert sykmelding)"
                     onChange={() => {
                         setFormState((formState) => ({
@@ -113,13 +113,13 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                     feil={errors.get('gradertSykmelding')?.feilmelding}
                 />
                 <br />
-                <ExpandableField show={schema.gradertSykmelding}>
+                <ExpandableField show={formState.gradertSykmelding}>
                     <>
                         <RangePicker
                             id="gradertPeriode"
                             labelFrom="4.2.1 f.o.m."
                             labelTo="4.2.2 t.o.m."
-                            value={schema.gradertPeriode || []}
+                            value={formState.gradertPeriode || []}
                             onChange={(newDates) => {
                                 setFormState((formState) => ({ ...formState, gradertPeriode: newDates }));
                             }}
@@ -129,7 +129,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             id="gradertGrad"
                             className="form-margin-bottom half"
                             type="number"
-                            value={schema.gradertGrad}
+                            value={formState.gradertGrad}
                             onChange={({ target: { value } }) => {
                                 setFormState((formState) => ({ ...formState, gradertGrad: parseInt(value) }));
                             }}
@@ -141,7 +141,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                 <Element className="form-label">4.2.4</Element>
                 <Checkbox
                     id="gradertReisetilskudd"
-                    checked={schema.gradertReisetilskudd}
+                    checked={formState.gradertReisetilskudd}
                     label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
                     onChange={() => {
                         setFormState((formState) => ({
@@ -156,7 +156,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
             <Subsection sectionIdentifier="4.3">
                 <Checkbox
                     id="aktivitetIkkeMuligSykmelding"
-                    checked={schema.aktivitetIkkeMuligSykmelding}
+                    checked={formState.aktivitetIkkeMuligSykmelding}
                     label="Pasienten kan ikke være i arbeid (100 prosent sykmelding)"
                     onChange={() => {
                         setFormState((formState) => ({
@@ -174,13 +174,13 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                     feil={errors.get('aktivitetIkkeMuligSykmelding')}
                 />
                 <br />
-                <ExpandableField show={schema.aktivitetIkkeMuligSykmelding}>
+                <ExpandableField show={formState.aktivitetIkkeMuligSykmelding}>
                     <>
                         <RangePicker
                             id="aktivitetIkkeMuligPeriode"
                             labelFrom="4.3.1 f.o.m."
                             labelTo="4.3.2 t.o.m."
-                            value={schema.aktivitetIkkeMuligPeriode || []}
+                            value={formState.aktivitetIkkeMuligPeriode || []}
                             onChange={(newDates) => {
                                 setFormState((formState) => ({ ...formState, aktivitetIkkeMuligPeriode: newDates }));
                             }}
@@ -190,7 +190,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                         <Checkbox
                             id="aktivitetIkkeMuligMedisinskArsak"
                             className="form-margin-bottom"
-                            checked={schema.aktivitetIkkeMuligMedisinskArsak}
+                            checked={formState.aktivitetIkkeMuligMedisinskArsak}
                             label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
                             onChange={() =>
                                 setFormState((formState) => ({
@@ -202,15 +202,15 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             }
                             feil={errors.get('aktivitetIkkeMuligMedisinskArsak')?.feilmelding}
                         />
-                        <ExpandableField show={schema.aktivitetIkkeMuligMedisinskArsak}>
+                        <ExpandableField show={formState.aktivitetIkkeMuligMedisinskArsak}>
                             <>
-                                <MedisinskArsak schema={schema} setFormState={setFormState} errors={errors} />
+                                <MedisinskArsak formState={formState} setFormState={setFormState} errors={errors} />
                                 <Input
                                     id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
                                     className="form-margin-bottom"
                                     value={
-                                        schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse
-                                            ? schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse
+                                        formState.aktivitetIkkeMuligMedisinskArsakBeskrivelse
+                                            ? formState.aktivitetIkkeMuligMedisinskArsakBeskrivelse
                                             : undefined
                                     }
                                     type="text"
@@ -229,7 +229,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                         <Checkbox
                             id="aktivitetIkkeMuligArbeidsrelatertArsak"
                             className="form-margin-bottom"
-                            checked={schema.aktivitetIkkeMuligArbeidsrelatertArsak}
+                            checked={formState.aktivitetIkkeMuligArbeidsrelatertArsak}
                             label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
                             onChange={() =>
                                 setFormState((formState) => ({
@@ -241,15 +241,15 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             }
                             feil={errors.get('aktivitetIkkeMuligArbeidsrelatertArsak')?.feilmelding}
                         />
-                        <ExpandableField show={schema.aktivitetIkkeMuligArbeidsrelatertArsak}>
+                        <ExpandableField show={formState.aktivitetIkkeMuligArbeidsrelatertArsak}>
                             <>
-                                <ArbeidsrelatertArsak schema={schema} setFormState={setFormState} errors={errors} />
+                                <ArbeidsrelatertArsak formState={formState} setFormState={setFormState} errors={errors} />
                                 <Input
                                     id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
                                     className="form-margin-bottom"
                                     value={
-                                        schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
-                                            ? schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
+                                        formState.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
+                                            ? formState.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
                                             : undefined
                                     }
                                     type="text"
@@ -271,7 +271,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
             <Subsection sectionIdentifier="4.4">
                 <Checkbox
                     id="behandlingsdagerSykmelding"
-                    checked={schema.behandlingsdagerSykmelding}
+                    checked={formState.behandlingsdagerSykmelding}
                     label="Pasienten kan ikke være i arbeid på behandlingsdager"
                     onChange={() => {
                         setFormState((formState) => ({
@@ -284,13 +284,13 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                     feil={errors.get('behandlingsdagerSykmelding')?.feilmelding}
                 />
                 <br />
-                <ExpandableField show={schema.behandlingsdagerSykmelding}>
+                <ExpandableField show={formState.behandlingsdagerSykmelding}>
                     <>
                         <RangePicker
                             id="behandlingsdagerPeriode"
                             labelFrom="4.4.1 f.o.m."
                             labelTo="4.4.2 t.o.m."
-                            value={schema.behandlingsdagerPeriode || []}
+                            value={formState.behandlingsdagerPeriode || []}
                             onChange={(newDates) => {
                                 setFormState((formState) => ({ ...formState, behandlingsdagerPeriode: newDates }));
                             }}
@@ -301,7 +301,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                             id="behandlingsdagerAntall"
                             className="form-margin-bottom half"
                             type="number"
-                            value={schema.behandlingsdagerAntall}
+                            value={formState.behandlingsdagerAntall}
                             onChange={({ target: { value } }) => {
                                 setFormState((formState) => ({ ...formState, behandlingsdagerAntall: Number(value) }));
                             }}
@@ -315,7 +315,7 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
             <Subsection sectionIdentifier="4.5" underline={false}>
                 <Checkbox
                     id="reisetilskuddSykmelding"
-                    checked={schema.reisetilskuddSykmelding}
+                    checked={formState.reisetilskuddSykmelding}
                     label="Pasienten kan være i fullt arbeid ved bruk av reisetilskudd"
                     onChange={() => {
                         setFormState((formState) => ({
@@ -327,12 +327,12 @@ const MulighetForArbeidSection = ({ section, setFormState, schema, errors }: Mul
                     feil={errors.get('reisetilskuddSykmelding')?.feilmelding}
                 />
                 <br />
-                <ExpandableField show={schema.reisetilskuddSykmelding}>
+                <ExpandableField show={formState.reisetilskuddSykmelding}>
                     <RangePicker
                         id="reisetilskuddPeriode"
                         labelFrom="4.5.1 f.o.m."
                         labelTo="4.5.2 t.o.m."
-                        value={schema.reisetilskuddPeriode || []}
+                        value={formState.reisetilskuddPeriode || []}
                         onChange={(newDates) => {
                             setFormState((formState) => ({ ...formState, reisetilskuddPeriode: newDates }));
                         }}

@@ -64,72 +64,72 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
             <form autoComplete="off">
                 <Panel ariaLabel="skjemapanel">
                     <FormHeader />
-                    <OtherSection setFormState={setFormState} errors={errors} schema={formState} />
+                    <OtherSection setFormState={setFormState} errors={errors} formState={formState} />
                     <PasientopplysningerSection
                         section={sections.PASIENTOPPLYSNINGER}
                         setFormState={setFormState}
                         errors={errors}
-                        schema={formState}
+                        formState={formState}
                     />
                     <ArbeidsgiverSection
                         section={sections.ARBEIDSGIVER}
                         errors={errors}
-                        schema={formState}
+                        formState={formState}
                         setFormState={setFormState}
                     />
                     <DiagnoseSection
                         section={sections.DIAGNOSE}
                         setFormState={setFormState}
                         errors={errors}
-                        schema={formState}
+                        formState={formState}
                         diagnosekoder={diagnosekoder}
                     />
                     <MulighetForArbeidSection
                         section={sections.MULIGHET_FOR_ARBEID}
                         setFormState={setFormState}
-                        schema={formState}
+                        formState={formState}
                         errors={errors}
                     />
                     <FriskmeldingSection
                         section={sections.FRISKMELDING_PROGNOSE}
                         setFormState={setFormState}
-                        schema={formState}
+                        formState={formState}
                         errors={errors}
                     />
                     <UtdypendeOpplysningerSection
                         section={sections.UTDYPENDE_OPPLYSNINGER}
                         setFormState={setFormState}
-                        schema={formState}
+                        formState={formState}
                         errors={errors}
                     />
                     <ArbeidsevneSection
                         section={sections.ARBEIDSEVNE}
                         setFormState={setFormState}
-                        schema={formState}
+                        formState={formState}
                         errors={errors}
                     />
                     <MeldingTilNavSection
                         section={sections.MELDING_TIL_NAV}
                         setFormState={setFormState}
-                        schema={formState}
+                        formState={formState}
                         errors={errors}
                     />
                     <MeldingTilArbeidsgiverSection
                         section={sections.MELDING_TIL_ARBEIDSGIVER}
                         setFormState={setFormState}
-                        schema={formState}
+                        formState={formState}
                         errors={errors}
                     />
                     <TilbakedateringSection
                         section={sections.TILBAKEDATERING}
                         setFormState={setFormState}
-                        schema={formState}
+                        formState={formState}
                         errors={errors}
                     />
                     <BehandlerSection
                         section={sections.BEHANDLER}
                         setFormState={setFormState}
-                        schema={formState}
+                        formState={formState}
                         errors={errors}
                     />
                 </Panel>

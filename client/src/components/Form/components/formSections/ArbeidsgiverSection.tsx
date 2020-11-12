@@ -19,16 +19,16 @@ type ArbeidsgiverSectionProps = {
     section: Section;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    schema: SchemaType;
+    formState: SchemaType;
 };
 
-const ArbeidsgiverSection = ({ section, setFormState, errors, schema }: ArbeidsgiverSectionProps) => {
+const ArbeidsgiverSection = ({ section, setFormState, errors, formState }: ArbeidsgiverSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Row>
                 <Select
                     id="harArbeidsgiver"
-                    value={schema.harArbeidsgiver ? schema.harArbeidsgiver : undefined}
+                    value={formState.harArbeidsgiver ? formState.harArbeidsgiver : undefined}
                     onChange={({ target: { value } }) => {
                         if (value === '0') {
                             setFormState((formState) => ({ ...formState, harArbeidsgiver: undefined }));
@@ -56,7 +56,7 @@ const ArbeidsgiverSection = ({ section, setFormState, errors, schema }: Arbeidsg
                     id="arbeidsgiverNavn"
                     className="form-margin-bottom"
                     type="text"
-                    value={schema.arbeidsgiverNavn ? schema.arbeidsgiverNavn : undefined}
+                    value={formState.arbeidsgiverNavn ? formState.arbeidsgiverNavn : undefined}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, arbeidsgiverNavn: value }));
                     }}
@@ -69,7 +69,7 @@ const ArbeidsgiverSection = ({ section, setFormState, errors, schema }: Arbeidsg
                     id="yrkesbetegnelse"
                     className="form-margin-bottom"
                     type="text"
-                    value={schema.yrkesbetegnelse ? schema.yrkesbetegnelse : undefined}
+                    value={formState.yrkesbetegnelse ? formState.yrkesbetegnelse : undefined}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, yrkesbetegnelse: value }));
                     }}
@@ -80,7 +80,7 @@ const ArbeidsgiverSection = ({ section, setFormState, errors, schema }: Arbeidsg
                     id="stillingsprosent"
                     className="form-margin-bottom"
                     type="number"
-                    value={schema.stillingsprosent ? schema.stillingsprosent : undefined}
+                    value={formState.stillingsprosent ? formState.stillingsprosent : undefined}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, stillingsprosent: Number(value) }));
                     }}

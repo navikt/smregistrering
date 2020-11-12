@@ -5,13 +5,13 @@ import { ArbeidsrelatertArsakType } from '../../../../../types/RegistrertSykmeld
 import { SchemaType } from '../../../Form';
 
 interface ArbeidsrelatertArsakProps {
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 }
 
-const ArbeidsrelatertArsak = ({ schema, setFormState, errors }: ArbeidsrelatertArsakProps) => {
-    const { aktivitetIkkeMuligArbeidsrelatertArsakType } = schema;
+const ArbeidsrelatertArsak = ({ formState, setFormState, errors }: ArbeidsrelatertArsakProps) => {
+    const { aktivitetIkkeMuligArbeidsrelatertArsakType } = formState;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
         return {

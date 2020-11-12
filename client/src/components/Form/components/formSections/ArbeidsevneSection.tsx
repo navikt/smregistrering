@@ -14,19 +14,19 @@ export type Arbeidsevne = {
 
 export type ArbeidsevneSectionProps = {
     section: Section;
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
 
-const ArbeidsevneSection = ({ section, setFormState, schema, errors }: ArbeidsevneSectionProps) => {
+const ArbeidsevneSection = ({ section, setFormState, formState, errors }: ArbeidsevneSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="7.1">
                 <Textarea
                     id="tiltakArbeidsplassen"
                     maxLength={0}
-                    value={schema.tiltakArbeidsplassen || ''}
+                    value={formState.tiltakArbeidsplassen || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, tiltakArbeidsplassen: value }));
                     }}
@@ -39,7 +39,7 @@ const ArbeidsevneSection = ({ section, setFormState, schema, errors }: Arbeidsev
                 <Textarea
                     id="tiltakNav"
                     maxLength={0}
-                    value={schema.tiltakNav || ''}
+                    value={formState.tiltakNav || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, tiltakNav: value }));
                     }}
@@ -52,7 +52,7 @@ const ArbeidsevneSection = ({ section, setFormState, schema, errors }: Arbeidsev
                 <Textarea
                     id="andreTiltak"
                     maxLength={0}
-                    value={schema.andreTiltak || ''}
+                    value={formState.andreTiltak || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, andreTiltak: value }));
                     }}

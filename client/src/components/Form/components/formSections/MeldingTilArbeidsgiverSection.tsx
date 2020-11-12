@@ -11,7 +11,7 @@ export type MeldingTilArbeidsgiver = {
 
 type MeldingTilArbeidsgiverSectionProps = {
     section: Section;
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
@@ -19,7 +19,7 @@ type MeldingTilArbeidsgiverSectionProps = {
 const MeldingTilArbeidsgiverSection = ({
     section,
     setFormState,
-    schema,
+    formState,
     errors,
 }: MeldingTilArbeidsgiverSectionProps) => {
     return (
@@ -27,7 +27,7 @@ const MeldingTilArbeidsgiverSection = ({
             <Textarea
                 id="meldingTilArbeidsgiverBeskriv"
                 maxLength={0}
-                value={schema.meldingTilArbeidsgiverBeskriv || ''}
+                value={formState.meldingTilArbeidsgiverBeskriv || ''}
                 onChange={({ target: { value } }) => {
                     setFormState((formState) => ({ ...formState, meldingTilArbeidsgiverBeskriv: value }));
                 }}

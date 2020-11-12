@@ -37,28 +37,28 @@ export type UtdypendeOpplysninger = {
 
 interface UtdypendeOpplysningerSectionProps {
     section: Section;
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 }
 
-const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }: UtdypendeOpplysningerSectionProps) => {
+const UtdypendeOpplysningerSection = ({ section, setFormState, formState, errors }: UtdypendeOpplysningerSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Ekspanderbartpanel
                 tittel="6.1"
                 apen={
-                    !!schema.utdypende611 ||
-                    !!schema.utdypende612 ||
-                    !!schema.utdypende613 ||
-                    !!schema.utdypende614 ||
-                    !!schema.utdypende615
+                    !!formState.utdypende611 ||
+                    !!formState.utdypende612 ||
+                    !!formState.utdypende613 ||
+                    !!formState.utdypende614 ||
+                    !!formState.utdypende615
                 }
             >
                 <Textarea
                     id="utdypende611"
                     maxLength={0}
-                    value={schema.utdypende611 || ''}
+                    value={formState.utdypende611 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende611: value }));
                     }}
@@ -69,7 +69,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende612"
                     maxLength={0}
-                    value={schema.utdypende612 || ''}
+                    value={formState.utdypende612 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende612: value }));
                     }}
@@ -80,7 +80,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende613"
                     maxLength={0}
-                    value={schema.utdypende613 || ''}
+                    value={formState.utdypende613 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende613: value }));
                     }}
@@ -91,7 +91,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende614"
                     maxLength={0}
-                    value={schema.utdypende614 || ''}
+                    value={formState.utdypende614 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende614: value }));
                     }}
@@ -102,7 +102,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende615"
                     maxLength={0}
-                    value={schema.utdypende615 || ''}
+                    value={formState.utdypende615 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende615: value }));
                     }}
@@ -113,12 +113,12 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
             <br />
             <Ekspanderbartpanel
                 tittel="6.2"
-                apen={!!schema.utdypende621 || !!schema.utdypende622 || !!schema.utdypende623 || !!schema.utdypende624}
+                apen={!!formState.utdypende621 || !!formState.utdypende622 || !!formState.utdypende623 || !!formState.utdypende624}
             >
                 <Textarea
                     id="utdypende621"
                     maxLength={0}
-                    value={schema.utdypende621 || ''}
+                    value={formState.utdypende621 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende621: value }));
                     }}
@@ -129,7 +129,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende622"
                     maxLength={0}
-                    value={schema.utdypende622 || ''}
+                    value={formState.utdypende622 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende622: value }));
                     }}
@@ -140,7 +140,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende623"
                     maxLength={0}
-                    value={schema.utdypende623 || ''}
+                    value={formState.utdypende623 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende623: value }));
                     }}
@@ -151,7 +151,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende624"
                     maxLength={0}
-                    value={schema.utdypende624 || ''}
+                    value={formState.utdypende624 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende624: value }));
                     }}
@@ -160,11 +160,11 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 />
             </Ekspanderbartpanel>
             <br />
-            <Ekspanderbartpanel tittel="6.3" apen={!!schema.utdypende631 || !!schema.utdypende632}>
+            <Ekspanderbartpanel tittel="6.3" apen={!!formState.utdypende631 || !!formState.utdypende632}>
                 <Textarea
                     id="utdypende631"
                     maxLength={0}
-                    value={schema.utdypende631 || ''}
+                    value={formState.utdypende631 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende631: value }));
                     }}
@@ -175,7 +175,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende632"
                     maxLength={0}
-                    value={schema.utdypende632 || ''}
+                    value={formState.utdypende632 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende632: value }));
                     }}
@@ -186,12 +186,12 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
             <br />
             <Ekspanderbartpanel
                 tittel="6.4"
-                apen={!!schema.utdypende641 || !!schema.utdypende642 || !!schema.utdypende643}
+                apen={!!formState.utdypende641 || !!formState.utdypende642 || !!formState.utdypende643}
             >
                 <Textarea
                     id="utdypende641"
                     maxLength={0}
-                    value={schema.utdypende641 || ''}
+                    value={formState.utdypende641 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende641: value }));
                     }}
@@ -202,7 +202,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende642"
                     maxLength={0}
-                    value={schema.utdypende642 || ''}
+                    value={formState.utdypende642 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende642: value }));
                     }}
@@ -213,7 +213,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende643"
                     maxLength={0}
-                    value={schema.utdypende643 || ''}
+                    value={formState.utdypende643 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende643: value }));
                     }}
@@ -224,12 +224,12 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
             <br />
             <Ekspanderbartpanel
                 tittel="6.5"
-                apen={!!schema.utdypende651 || !!schema.utdypende652 || !!schema.utdypende653 || !!schema.utdypende654}
+                apen={!!formState.utdypende651 || !!formState.utdypende652 || !!formState.utdypende653 || !!formState.utdypende654}
             >
                 <Textarea
                     id="utdypende651"
                     maxLength={0}
-                    value={schema.utdypende651 || ''}
+                    value={formState.utdypende651 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende651: value }));
                     }}
@@ -240,7 +240,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende652"
                     maxLength={0}
-                    value={schema.utdypende652 || ''}
+                    value={formState.utdypende652 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende652: value }));
                     }}
@@ -251,7 +251,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende653"
                     maxLength={0}
-                    value={schema.utdypende653 || ''}
+                    value={formState.utdypende653 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende653: value }));
                     }}
@@ -262,7 +262,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende654"
                     maxLength={0}
-                    value={schema.utdypende654 || ''}
+                    value={formState.utdypende654 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende654: value }));
                     }}
@@ -273,12 +273,12 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
             <br />
             <Ekspanderbartpanel
                 tittel="6.6"
-                apen={!!schema.utdypende661 || !!schema.utdypende662 || !!schema.utdypende663}
+                apen={!!formState.utdypende661 || !!formState.utdypende662 || !!formState.utdypende663}
             >
                 <Textarea
                     id="utdypende661"
                     maxLength={0}
-                    value={schema.utdypende661 || ''}
+                    value={formState.utdypende661 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende661: value }));
                     }}
@@ -289,7 +289,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende662"
                     maxLength={0}
-                    value={schema.utdypende662 || ''}
+                    value={formState.utdypende662 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende662: value }));
                     }}
@@ -300,7 +300,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, schema, errors }:
                 <Textarea
                     id="utdypende663"
                     maxLength={0}
-                    value={schema.utdypende663 || ''}
+                    value={formState.utdypende663 || ''}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, utdypende663: value }));
                     }}

@@ -11,13 +11,13 @@ import { SchemaType } from '../../../Form';
 type HoveddiagnoseProps = {
     id: string;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    schema: SchemaType;
+    formState: SchemaType;
     diagnosekoder: Diagnosekoder;
     feil?: string;
 };
 
-const Hoveddiagnose = ({ id, setFormState, schema, diagnosekoder, feil }: HoveddiagnoseProps) => {
-    const hoveddiagnose = schema.hovedDiagnose;
+const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: HoveddiagnoseProps) => {
+    const hoveddiagnose = formState.hovedDiagnose;
     const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
         hoveddiagnose && (hoveddiagnose.system as keyof Diagnosekoder);
 

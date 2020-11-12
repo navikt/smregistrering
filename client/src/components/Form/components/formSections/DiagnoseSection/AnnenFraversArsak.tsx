@@ -5,13 +5,13 @@ import { AnnenFraverGrunn } from '../../../../../types/RegistrertSykmelding';
 import { SchemaType } from '../../../Form';
 
 interface AnnenFraversArsakProps {
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 }
 
-const AnnenFraversArsak = ({ schema, setFormState, errors }: AnnenFraversArsakProps) => {
-    const { annenFraversArsakGrunn } = schema;
+const AnnenFraversArsak = ({ formState, setFormState, errors }: AnnenFraversArsakProps) => {
+    const { annenFraversArsakGrunn } = formState;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(AnnenFraverGrunn).map(([key, value]) => {
         return {

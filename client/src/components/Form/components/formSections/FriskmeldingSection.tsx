@@ -25,18 +25,18 @@ export type Friskmelding = {
 
 type FriskmeldingSectionProps = {
     section: Section;
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
 
-const FriskmeldingSection = ({ section, setFormState, schema, errors }: FriskmeldingSectionProps) => {
+const FriskmeldingSection = ({ section, setFormState, formState, errors }: FriskmeldingSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="5.1" underline={true}>
                 <Checkbox
                     id="arbeidsfoerEtterPeriode"
-                    checked={schema.arbeidsfoerEtterPeriode}
+                    checked={formState.arbeidsfoerEtterPeriode}
                     label="Pasienten er 100 prosent arbeidsfør etter denne perioden"
                     onChange={() =>
                         setFormState((formState) => ({
@@ -48,11 +48,11 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                     feil={errors.get('arbeidsfoerEtterPeriode')?.feilmelding}
                 />
                 <br />
-                <ExpandableField show={schema.arbeidsfoerEtterPeriode}>
+                <ExpandableField show={formState.arbeidsfoerEtterPeriode}>
                     <Textarea
                         id="hensynArbeidsplassen"
                         maxLength={0}
-                        value={schema.hensynArbeidsplassen || ''}
+                        value={formState.hensynArbeidsplassen || ''}
                         onChange={({ target: { value } }) => {
                             setFormState((formState) => ({ ...formState, hensynArbeidsplassen: value }));
                         }}
@@ -65,7 +65,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
             <Subsection sectionIdentifier="5.2" underline={true}>
                 <Checkbox
                     id="erIArbeid"
-                    checked={schema.erIArbeid}
+                    checked={formState.erIArbeid}
                     label="Pasienten har arbeidsgiver"
                     onChange={() => {
                         setFormState((formState) => ({
@@ -81,11 +81,11 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                 />
                 <br />
 
-                <ExpandableField show={schema.erIArbeid}>
+                <ExpandableField show={formState.erIArbeid}>
                     <Subsection sectionIdentifier="5.2.1" underline={false}>
                         <Checkbox
                             id="egetArbeidPaSikt"
-                            checked={schema.egetArbeidPaSikt}
+                            checked={formState.egetArbeidPaSikt}
                             label="Pasienten kan på sikt komme tilbake til samme arbeidsgiver"
                             onChange={() =>
                                 setFormState((formState) => ({
@@ -97,11 +97,11 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                             feil={errors.get('egetArbeidPaSikt')?.feilmelding}
                         />
                         <br />
-                        <ExpandableField show={schema.egetArbeidPaSikt}>
+                        <ExpandableField show={formState.egetArbeidPaSikt}>
                             <DatePicker
                                 id="arbeidFOM"
                                 label="Anslå når dette kan skje"
-                                value={schema.arbeidFOM ? schema.arbeidFOM : undefined}
+                                value={formState.arbeidFOM ? formState.arbeidFOM : undefined}
                                 onChange={(newDate) => {
                                     setFormState((formState) => ({ ...formState, arbeidFOM: newDate }));
                                 }}
@@ -113,7 +113,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                     <Subsection sectionIdentifier="5.2.2" underline={false}>
                         <Checkbox
                             id="annetArbeidPaSikt"
-                            checked={schema.annetArbeidPaSikt}
+                            checked={formState.annetArbeidPaSikt}
                             label="Pasienten kan på sikt komme i arbeid hos annen arbeidsgiver"
                             onChange={() =>
                                 setFormState((formState) => ({
@@ -128,7 +128,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                     <DatePicker
                         id="vurderingsDatoIArbeid"
                         label="5.2.3 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?"
-                        value={schema.vurderingsDatoIArbeid ? schema.vurderingsDatoIArbeid : undefined}
+                        value={formState.vurderingsDatoIArbeid ? formState.vurderingsDatoIArbeid : undefined}
                         onChange={(newDate) => {
                             setFormState((formState) => ({ ...formState, vurderingsDatoIArbeid: newDate }));
                         }}
@@ -140,7 +140,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
             <Subsection sectionIdentifier="5.3" underline={false}>
                 <Checkbox
                     id="erIkkeIArbeid"
-                    checked={schema.erIkkeIArbeid}
+                    checked={formState.erIkkeIArbeid}
                     label="Pasienten har ikke arbeidsgiver"
                     onChange={() => {
                         setFormState((formState) => ({
@@ -155,11 +155,11 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                 />
                 <br />
 
-                <ExpandableField show={schema.erIkkeIArbeid}>
+                <ExpandableField show={formState.erIkkeIArbeid}>
                     <Subsection sectionIdentifier="5.3.1" underline={false}>
                         <Checkbox
                             id="arbeidsforPaSikt"
-                            checked={schema.arbeidsforPaSikt}
+                            checked={formState.arbeidsforPaSikt}
                             label="Pasienten kan komme tilbake i arbeid på sikt"
                             onChange={() =>
                                 setFormState((formState) => ({
@@ -171,11 +171,11 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                             feil={errors.get('arbeidsforPaSikt')?.feilmelding}
                         />
                         <br />
-                        <ExpandableField show={schema.arbeidsforPaSikt}>
+                        <ExpandableField show={formState.arbeidsforPaSikt}>
                             <DatePicker
                                 id="arbeidsforFOM"
                                 label="Anslå når dette kan skje"
-                                value={schema.arbeidsforFOM ? schema.arbeidsforFOM : undefined}
+                                value={formState.arbeidsforFOM ? formState.arbeidsforFOM : undefined}
                                 onChange={(newDate) => {
                                     setFormState((formState) => ({ ...formState, arbeidsforFOM: newDate }));
                                 }}
@@ -186,7 +186,7 @@ const FriskmeldingSection = ({ section, setFormState, schema, errors }: Friskmel
                     <DatePicker
                         id="vurderingsDatoUtenArbeid"
                         label="5.3.2 Hvis usikker: Når antar du å kunne gi tilbakemelding på dette?"
-                        value={schema.vurderingsDatoUtenArbeid ? schema.vurderingsDatoUtenArbeid : undefined}
+                        value={formState.vurderingsDatoUtenArbeid ? formState.vurderingsDatoUtenArbeid : undefined}
                         onChange={(newDate) => {
                             setFormState((formState) => ({ ...formState, vurderingsDatoUtenArbeid: newDate }));
                         }}

@@ -10,18 +10,18 @@ export type Other = {
 
 type OtherSectionProps = {
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
 };
 
-const OtherSection = ({ setFormState, schema, errors }: OtherSectionProps) => {
+const OtherSection = ({ setFormState, formState, errors }: OtherSectionProps) => {
     return (
         <section aria-label="other">
             <fieldset className=" section-content">
                 <DatePicker
                     id="syketilfelleStartDato"
                     label="Startdato for legemeldt fravær"
-                    value={schema.syketilfelleStartDato ? schema.syketilfelleStartDato : undefined}
+                    value={formState.syketilfelleStartDato ? formState.syketilfelleStartDato : undefined}
                     onChange={(newDates) => {
                         setFormState((formState) => {
                             return { ...formState, syketilfelleStartDato: newDates };

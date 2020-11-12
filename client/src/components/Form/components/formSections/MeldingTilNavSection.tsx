@@ -14,18 +14,18 @@ export type MeldingTilNav = {
 
 type MeldingTilNavSectionProps = {
     section: Section;
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
 
-const MeldingTilNavSection = ({ section, setFormState, schema, errors }: MeldingTilNavSectionProps) => {
+const MeldingTilNavSection = ({ section, setFormState, formState, errors }: MeldingTilNavSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="8.1" underline={false}>
                 <Checkbox
                     id="meldingTilNavBistand"
-                    checked={schema.meldingTilNavBistand}
+                    checked={formState.meldingTilNavBistand}
                     label="Ønskes bistand fra NAV nå?"
                     onChange={() =>
                         setFormState((formState) => ({
@@ -37,11 +37,11 @@ const MeldingTilNavSection = ({ section, setFormState, schema, errors }: Melding
                     feil={errors.get('meldingTilNavBistand')?.feilmelding}
                 />
                 <br />
-                <ExpandableField show={schema.meldingTilNavBistand}>
+                <ExpandableField show={formState.meldingTilNavBistand}>
                     <Textarea
                         id="meldingTilNavBegrunn"
                         maxLength={0}
-                        value={schema.meldingTilNavBegrunn || ''}
+                        value={formState.meldingTilNavBegrunn || ''}
                         onChange={({ target: { value } }) => {
                             setFormState((formState) => ({ ...formState, meldingTilNavBegrunn: value }));
                         }}

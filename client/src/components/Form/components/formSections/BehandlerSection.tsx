@@ -30,29 +30,29 @@ export type Behandler = {
 
 type BehandlerSectionProps = {
     section: Section;
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 };
 
-const BehandlerSection = ({ section, setFormState, schema, errors }: BehandlerSectionProps) => {
+const BehandlerSection = ({ section, setFormState, formState, errors }: BehandlerSectionProps) => {
     const [sykmelder, setSykmelder] = useState<Sykmelder | undefined | null>(undefined);
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
 
-    // GET information about sykmelder on every schema.hpr change
+    // GET information about sykmelder on every formState.hpr change
     useEffect(() => {
         // Number must be in synch with validationFuncitons.hpr in validation.ts
-        if (schema.hpr?.length && schema.hpr.length >= 7 && schema.hpr.length <= 9) {
+        if (formState.hpr?.length && formState.hpr.length >= 7 && formState.hpr.length <= 9) {
             setIsloading(true);
             setSykmelder(null);
             setError(null);
-            fetch(`/backend/api/v1/sykmelder/${schema.hpr}`, { credentials: 'include' })
+            fetch(`/backend/api/v1/sykmelder/${formState.hpr}`, { credentials: 'include' })
                 .then((res) => {
                     if (res.ok) {
                         return res.json();
                     } else {
-                        throw new Error('Fant ikke behandler med hprNummer: ' + schema.hpr);
+                        throw new Error('Fant ikke behandler med hprNummer: ' + formState.hpr);
                     }
                 })
                 .then((jsonResponse) => {
@@ -72,14 +72,14 @@ const BehandlerSection = ({ section, setFormState, schema, errors }: BehandlerSe
         } else {
             setSykmelder(null);
         }
-    }, [schema.hpr]);
+    }, [formState.hpr]);
 
     return (
         <SectionContainer section={section}>
             <DatePicker
                 id="behandletDato"
                 label="12.1 Behandletdato"
-                value={schema.behandletDato ? schema.behandletDato : undefined}
+                value={formState.behandletDato ? formState.behandletDato : undefined}
                 onChange={(newDates) => {
                     setFormState((formState) => ({ ...formState, behandletDato: newDates }));
                 }}
@@ -89,7 +89,7 @@ const BehandlerSection = ({ section, setFormState, schema, errors }: BehandlerSe
             <Row>
                 <Input
                     id="hpr"
-                    value={schema.hpr ? schema.hpr : undefined}
+                    value={formState.hpr ? formState.hpr : undefined}
                     disabled={isLoading}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, hpr: value }));
@@ -104,7 +104,7 @@ const BehandlerSection = ({ section, setFormState, schema, errors }: BehandlerSe
                 />
                 <Input
                     id="sykmelderTelefon"
-                    value={schema.sykmelderTelefon ? schema.sykmelderTelefon : undefined}
+                    value={formState.sykmelderTelefon ? formState.sykmelderTelefon : undefined}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({ ...formState, sykmelderTelefon: value }));
                     }}

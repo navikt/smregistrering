@@ -5,13 +5,13 @@ import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
 import { SchemaType } from '../../../Form';
 
 interface MedisinskArsakProps {
-    schema: SchemaType;
+    formState: SchemaType;
     errors: Map<keyof SchemaType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<SchemaType>>;
 }
 
-const MedisinskArsak = ({ schema, setFormState, errors }: MedisinskArsakProps) => {
-    const { aktivitetIkkeMuligMedisinskArsakType } = schema;
+const MedisinskArsak = ({ formState, setFormState, errors }: MedisinskArsakProps) => {
+    const { aktivitetIkkeMuligMedisinskArsakType } = formState;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(MedisinskArsakType).map(([key, value]) => {
         return {
