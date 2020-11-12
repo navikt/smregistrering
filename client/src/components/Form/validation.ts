@@ -1,12 +1,6 @@
 import { FormType } from './Form';
 import { ValidationFunctions } from './formUtils/useForm';
 
-export type Validate = (name: keyof FormType, schema: FormType) => boolean;
-
-export type ValidationType = {
-    [key in Required<keyof FormType>]: (schema: FormType) => string | undefined;
-};
-
 export const validationFunctions: ValidationFunctions<FormType> = {
     // Other
     syketilfelleStartDato: () => undefined,
