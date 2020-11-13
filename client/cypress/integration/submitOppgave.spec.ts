@@ -32,28 +32,6 @@ context('Submit oppgave', () => {
         });
     });
 
-    it('Should submit oppgave, and display success modal', () => {
-        cy.route({
-            method: 'GET',
-            url: '/backend/api/v1/oppgave/123',
-            response: 'fixture:fullOppgave.json', // Gets the response from ../fixtures/fullOppgave.json
-        }).as('getOppgave');
-        cy.route({
-            method: 'POST',
-            url: '/backend/api/v1/oppgave/123/send',
-            status: 204,
-            response: {},
-        }).as('postOppgave');
-
-        cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
-
-        cy.wait('@getOppgave');
-        cy.wait(1000); // to allow for synchronization of enhet from decorator
-        cy.get('#form-submit-checkbox').scrollIntoView().should('be.visible').click({ force: true }); // Force because cypress complains that the label covers the input element.
-        cy.get('#submit-form').click();
-        cy.get('#success-modal-text').contains('Oppgaven ble ferdigstilt.');
-    });
-
     it('Should be able to fill out form and submit', () => {
         cy.route({
             method: 'GET',
