@@ -17,15 +17,13 @@ type OtherSectionProps = {
 const OtherSection = ({ setFormState, formState, errors }: OtherSectionProps) => {
     return (
         <section aria-label="other">
-            <fieldset className=" section-content">
+            <fieldset className="section-content">
                 <DatePicker
                     id="syketilfelleStartDato"
                     label="Startdato for legemeldt fravær"
                     value={formState.syketilfelleStartDato ? formState.syketilfelleStartDato : undefined}
                     onChange={(newDates) => {
-                        setFormState((formState) => {
-                            return { ...formState, syketilfelleStartDato: newDates };
-                        });
+                        setFormState((formState) => ({ ...formState, syketilfelleStartDato: newDates }));
                     }}
                     feil={errors.get('syketilfelleStartDato')?.feilmelding}
                 />
