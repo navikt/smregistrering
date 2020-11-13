@@ -27,5 +27,5 @@
 /// <reference types="cypress" />
 
 Cypress.Commands.add('getAndScrollIntoView', (selector, options) => {
-    cy.get(selector, options).scrollIntoView().should('be.visible');
+    cy.get(selector, options).scrollIntoView().should('be.visible').wait(500); // Needs delat because the test execution is too fast for the browser to scroll the page far enough
 });
