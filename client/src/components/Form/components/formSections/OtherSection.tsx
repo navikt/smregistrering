@@ -2,7 +2,7 @@ import React from 'react';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import DatePicker from '../formComponents/DatePicker';
-import {FormType} from '../../Form';
+import { FormType } from '../../Form';
 
 export type Other = {
     syketilfelleStartDato?: Date | null;

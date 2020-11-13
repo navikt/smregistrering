@@ -42,10 +42,16 @@ interface UtdypendeOpplysningerSectionProps {
     setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 }
 
-const UtdypendeOpplysningerSection = ({ section, setFormState, formState, errors }: UtdypendeOpplysningerSectionProps) => {
+const UtdypendeOpplysningerSection = ({
+    section,
+    setFormState,
+    formState,
+    errors,
+}: UtdypendeOpplysningerSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Ekspanderbartpanel
+                id="utdypende61"
                 tittel="6.1"
                 apen={
                     !!formState.utdypende611 ||
@@ -112,8 +118,14 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, formState, errors
             </Ekspanderbartpanel>
             <br />
             <Ekspanderbartpanel
+                id="utdypende62"
                 tittel="6.2"
-                apen={!!formState.utdypende621 || !!formState.utdypende622 || !!formState.utdypende623 || !!formState.utdypende624}
+                apen={
+                    !!formState.utdypende621 ||
+                    !!formState.utdypende622 ||
+                    !!formState.utdypende623 ||
+                    !!formState.utdypende624
+                }
             >
                 <Textarea
                     id="utdypende621"
@@ -160,7 +172,11 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, formState, errors
                 />
             </Ekspanderbartpanel>
             <br />
-            <Ekspanderbartpanel tittel="6.3" apen={!!formState.utdypende631 || !!formState.utdypende632}>
+            <Ekspanderbartpanel
+                id="utdypende63"
+                tittel="6.3"
+                apen={!!formState.utdypende631 || !!formState.utdypende632}
+            >
                 <Textarea
                     id="utdypende631"
                     maxLength={0}
@@ -185,6 +201,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, formState, errors
             </Ekspanderbartpanel>
             <br />
             <Ekspanderbartpanel
+                id="utdypende64"
                 tittel="6.4"
                 apen={!!formState.utdypende641 || !!formState.utdypende642 || !!formState.utdypende643}
             >
@@ -223,8 +240,14 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, formState, errors
             </Ekspanderbartpanel>
             <br />
             <Ekspanderbartpanel
+                id="utdypende65"
                 tittel="6.5"
-                apen={!!formState.utdypende651 || !!formState.utdypende652 || !!formState.utdypende653 || !!formState.utdypende654}
+                apen={
+                    !!formState.utdypende651 ||
+                    !!formState.utdypende652 ||
+                    !!formState.utdypende653 ||
+                    !!formState.utdypende654
+                }
             >
                 <Textarea
                     id="utdypende651"
@@ -272,6 +295,7 @@ const UtdypendeOpplysningerSection = ({ section, setFormState, formState, errors
             </Ekspanderbartpanel>
             <br />
             <Ekspanderbartpanel
+                id="utdypende66"
                 tittel="6.6"
                 apen={!!formState.utdypende661 || !!formState.utdypende662 || !!formState.utdypende663}
             >
