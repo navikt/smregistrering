@@ -19,7 +19,6 @@ import MeldingTilNavSection, { MeldingTilNav } from './components/formSections/M
 import MulighetForArbeidSection, {
     MulighetForArbeid,
 } from './components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
-import OtherSection, { Other } from './components/formSections/OtherSection';
 import PasientopplysningerSection, { Pasientopplysninger } from './components/formSections/PasientopplysningerSection';
 import TilbakedateringSection, { Tilbakedatering } from './components/formSections/TilbakedateringSection';
 import UtdypendeOpplysningerSection, {
@@ -50,8 +49,9 @@ export interface SchemaType
         MeldingTilNav,
         MeldingTilArbeidsgiver,
         Tilbakedatering,
-        Behandler,
-        Other {}
+        Behandler {
+    syketilfelleStartDato?: Date | null;
+}
 
 export type ErrorSchemaType = { [key in keyof SchemaType]?: string | undefined };
 
@@ -239,7 +239,6 @@ const Form = ({ schemaRef, oppgave, diagnosekoder, enhet }: FormProps) => {
             <form autoComplete="off">
                 <Panel ariaLabel="skjemapanel">
                     <FormHeader />
-                    <OtherSection setSchema={setSchema} errors={formErrors} schema={schema} validate={validate} />
                     <PasientopplysningerSection
                         section={sections.PASIENTOPPLYSNINGER}
                         setSchema={setSchema}

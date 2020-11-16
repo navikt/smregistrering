@@ -24,10 +24,6 @@ context('Oppgave mapping', () => {
         cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
 
         cy.fixture('fullOppgave').then((oppgave: Oppgave) => {
-            cy.get('#syketilfelleStartDato').should(
-                'have.value',
-                dayjs(oppgave.papirSmRegistering.syketilfelleStartDato).format('DD.MM.YYYY'),
-            );
             cy.get('#pasientFnr').should('have.value', oppgave.fnr);
             cy.get('#harArbeidsgiver')
                 .should('have.value', oppgave.papirSmRegistering.arbeidsgiver.harArbeidsgiver)
@@ -81,8 +77,8 @@ context('Oppgave mapping', () => {
             cy.get('#avventendePeriode').should(
                 'have.value',
                 dayjs(avventendePeriode.fom).format('DD.MM.YYYY') +
-                ' - ' +
-                dayjs(avventendePeriode.tom).format('DD.MM.YYYY'),
+                    ' - ' +
+                    dayjs(avventendePeriode.tom).format('DD.MM.YYYY'),
             );
             cy.get('#avventendeInnspillTilArbeidsgiver').should(
                 'have.value',
@@ -105,8 +101,8 @@ context('Oppgave mapping', () => {
             cy.get('#aktivitetIkkeMuligPeriode').should(
                 'have.value',
                 dayjs(aktivitetIkkeMuligPeriode.fom).format('DD.MM.YYYY') +
-                ' - ' +
-                dayjs(aktivitetIkkeMuligPeriode.tom).format('DD.MM.YYYY'),
+                    ' - ' +
+                    dayjs(aktivitetIkkeMuligPeriode.tom).format('DD.MM.YYYY'),
             );
             cy.get('#aktivitetIkkeMuligMedisinskArsak').should('be.checked');
             cy.get('#aktivitetIkkeMuligMedisinskArsakType').within(() => {
@@ -136,8 +132,8 @@ context('Oppgave mapping', () => {
             cy.get('#behandlingsdagerPeriode').should(
                 'have.value',
                 dayjs(behandlingsdagerSykmelding.fom).format('DD.MM.YYYY') +
-                ' - ' +
-                dayjs(behandlingsdagerSykmelding.tom).format('DD.MM.YYYY'),
+                    ' - ' +
+                    dayjs(behandlingsdagerSykmelding.tom).format('DD.MM.YYYY'),
             );
             cy.get('#behandlingsdagerAntall').should('have.value', behandlingsdagerSykmelding.behandlingsdager);
 
@@ -148,8 +144,8 @@ context('Oppgave mapping', () => {
             cy.get('#reisetilskuddPeriode').should(
                 'have.value',
                 dayjs(reisetilskuddSykmelding.fom).format('DD.MM.YYYY') +
-                ' - ' +
-                dayjs(reisetilskuddSykmelding.tom).format('DD.MM.YYYY'),
+                    ' - ' +
+                    dayjs(reisetilskuddSykmelding.tom).format('DD.MM.YYYY'),
             );
 
             cy.get('#arbeidsfoerEtterPeriode').should('be.checked');
@@ -308,7 +304,6 @@ context('Oppgave mapping', () => {
         });
         cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
 
-        cy.get('#syketilfelleStartDato').should('not.have.value');
         cy.get('#pasientFnr').should('not.have.value');
         cy.get('#harArbeidsgiver').should('not.have.value');
         cy.get('#arbeidsgiverNavn').should('not.have.value');
