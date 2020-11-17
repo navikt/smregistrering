@@ -20,7 +20,6 @@ import MeldingTilNavSection, { MeldingTilNav } from './components/formSections/M
 import MulighetForArbeidSection, {
     MulighetForArbeid,
 } from './components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
-import OtherSection, { Other } from './components/formSections/OtherSection';
 import PasientopplysningerSection, { Pasientopplysninger } from './components/formSections/PasientopplysningerSection';
 import TilbakedateringSection, { Tilbakedatering } from './components/formSections/TilbakedateringSection';
 import UtdypendeOpplysningerSection, {
@@ -43,8 +42,9 @@ export interface FormType
         MeldingTilNav,
         MeldingTilArbeidsgiver,
         Tilbakedatering,
-        Behandler,
-        Other {}
+        Behandler {
+    syketilfelleStartDato?: Date | null;
+}
 
 type FormProps = {
     oppgave: Oppgave;
@@ -64,7 +64,6 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
             <form autoComplete="off">
                 <Panel ariaLabel="skjemapanel">
                     <FormHeader />
-                    <OtherSection setFormState={setFormState} errors={errors} formState={formState} />
                     <PasientopplysningerSection
                         section={sections.PASIENTOPPLYSNINGER}
                         setFormState={setFormState}
