@@ -204,8 +204,6 @@ export const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefine
             kode: diagnose.kode,
             tekst: diagnose.tekst,
         };
-    } else {
-        throw new Error('Manglende informasjon til diagnose');
     }
 };
 

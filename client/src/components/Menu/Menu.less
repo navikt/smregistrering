@@ -2,22 +2,49 @@
 @import '../../App.less';
 
 .menu {
-    margin: 10px;
-    width: @menu-width;
+    background-color: #f1f6f8;
+    padding: 0.5rem;
+    padding-top: 10vh;
+    max-width: 16rem;
     position: sticky;
+    overflow-y: auto;
 }
 
 .menu-header {
-    background-color: @navLysBlaLighten80;
-    margin: auto;
-    padding: 10px;
+    padding-left: 1.3rem;
+    margin-bottom: 2rem;
 }
 
 .menu-link {
-    padding: 15px;
+    padding: 0.8rem 1.3rem;
 }
 
-.menu-link-container {
+.menu-button {
+    margin-bottom: .7rem;
+}
+
+nav {
     display: flex;
     flex-direction: column;
+    margin-bottom: 4rem;
+}
+
+.cancelmodal {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2.5rem;
+}
+
+.cancelmodal--title {
+    margin-bottom: 2rem;
+}
+
+.cancelmodal--content {
+    margin-bottom: 2rem;
+    max-width: 30rem;
+}
+
+.cancelmodal--button {
+    margin-bottom: 1rem;
+    margin: auto;
 }

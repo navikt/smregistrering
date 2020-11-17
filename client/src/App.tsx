@@ -62,7 +62,7 @@ const App = ({ enhet, height }: AppProps) => {
 
     return (
         <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height}px)` }}>
-            <Menu />
+            <Menu enhet={enhet} oppgaveid={oppgave.oppgaveid} />
             <Form schemaRef={schemaRef} oppgave={oppgave} diagnosekoder={diagnosekoder} enhet={enhet} />
             <Pdf pdf={oppgave.pdfPapirSykmelding} />
         </main>

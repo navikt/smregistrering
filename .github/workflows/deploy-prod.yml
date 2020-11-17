@@ -32,13 +32,13 @@ jobs:
         env:
           CI: true
         run: |
-          npm run test
+          npm run test-unit
         working-directory: ./client
       - name: Run integration tests for client
         env:
           CI: true
         run: |
-          npm run start & npx wait-on http://localhost:4000 && npm run test-integration
+          npm start & npm run cypress-start # Can not use "npm run test-integration", because process does not terminate.
         working-directory: ./client
       - name: Build server
         run: |

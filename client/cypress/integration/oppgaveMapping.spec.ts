@@ -13,11 +13,6 @@ context('Oppgave mapping', () => {
         });
 
         cy.server(); // enable response stubbing
-        cy.route({
-            method: 'GET',
-            url: '/user',
-            response: 'Ola Normann',
-        });
     });
 
     it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', () => {
@@ -29,10 +24,6 @@ context('Oppgave mapping', () => {
         cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
 
         cy.fixture('fullOppgave').then((oppgave: Oppgave) => {
-            cy.get('#syketilfelleStartDato').should(
-                'have.value',
-                dayjs(oppgave.papirSmRegistering.syketilfelleStartDato).format('DD.MM.YYYY'),
-            );
             cy.get('#pasientFnr').should('have.value', oppgave.fnr);
             cy.get('#harArbeidsgiver')
                 .should('have.value', oppgave.papirSmRegistering.arbeidsgiver.harArbeidsgiver)
@@ -313,7 +304,6 @@ context('Oppgave mapping', () => {
         });
         cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
 
-        cy.get('#syketilfelleStartDato').should('not.have.value');
         cy.get('#pasientFnr').should('not.have.value');
         cy.get('#harArbeidsgiver').should('not.have.value');
         cy.get('#arbeidsgiverNavn').should('not.have.value');
