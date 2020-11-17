@@ -44,6 +44,7 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
 
                 <div className="flatpickr-clear">
                     <Fareknapp
+                        htmlType="button"
                         kompakt
                         onClick={(event) => {
                             event.preventDefault();

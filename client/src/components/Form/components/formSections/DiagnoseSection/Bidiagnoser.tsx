@@ -120,7 +120,7 @@ const Bidiagnoser = ({ id, setFormState, formState, diagnosekoder, feil }: Bidia
                     {feil}
                 </p>
             ) : null}
-            <Knapp form="kompakt" onClick={addRow}>
+            <Knapp htmlType="button" form="kompakt" onClick={addRow}>
                 <Plus />
                 <span>Legg til bidiagnose</span>
             </Knapp>
