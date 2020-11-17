@@ -1,19 +1,17 @@
 import React from 'react';
-import { CheckboksPanelGruppe, CheckboksPanelProps } from 'nav-frontend-skjema';
+import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
-import { ErrorSchemaType, SchemaType } from '../../../Form';
 import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
-import { Validate } from '../../../validation';
+import { FormType } from '../../../Form';
 
 interface MedisinskArsakProps {
-    schema: SchemaType;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 }
 
-const MedisinskArsak = ({ schema, setSchema, errors, validate }: MedisinskArsakProps) => {
-    const { aktivitetIkkeMuligMedisinskArsakType } = schema;
+const MedisinskArsak = ({ formState, setFormState, errors }: MedisinskArsakProps) => {
+    const { aktivitetIkkeMuligMedisinskArsakType } = formState;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(MedisinskArsakType).map(([key, value]) => {
         return {
@@ -25,26 +23,22 @@ const MedisinskArsak = ({ schema, setSchema, errors, validate }: MedisinskArsakP
     });
 
     const updateCheckboxes = (value: keyof typeof MedisinskArsakType): void => {
-        setSchema((state) => {
-            if (!state.aktivitetIkkeMuligMedisinskArsakType) {
-                const updatedSchema = {
-                    ...state,
+        setFormState((formState) => {
+            if (!formState.aktivitetIkkeMuligMedisinskArsakType) {
+                return {
+                    ...formState,
                     aktivitetIkkeMuligMedisinskArsakType: [value as keyof typeof MedisinskArsakType],
                 };
-                validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
-                return updatedSchema;
             }
-            const shouldAddArsak: boolean = !state.aktivitetIkkeMuligMedisinskArsakType.includes(value);
+            const shouldAddArsak: boolean = !formState.aktivitetIkkeMuligMedisinskArsakType.includes(value);
             const newMedisinskArsakType: (keyof typeof MedisinskArsakType)[] = shouldAddArsak
-                ? [...state.aktivitetIkkeMuligMedisinskArsakType, value]
-                : state.aktivitetIkkeMuligMedisinskArsakType.filter((arsak) => arsak !== value);
+                ? [...formState.aktivitetIkkeMuligMedisinskArsakType, value]
+                : formState.aktivitetIkkeMuligMedisinskArsakType.filter((arsak) => arsak !== value);
 
-            const updatedSchema = {
-                ...state,
+            return {
+                ...formState,
                 aktivitetIkkeMuligMedisinskArsakType: newMedisinskArsakType,
             };
-            validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
-            return updatedSchema;
         });
     };
 
@@ -54,7 +48,7 @@ const MedisinskArsak = ({ schema, setSchema, errors, validate }: MedisinskArsakP
                 legend="Medisinske årsaker"
                 checkboxes={checkboxes}
                 onChange={(_event, value) => updateCheckboxes(value)}
-                feil={errors.aktivitetIkkeMuligMedisinskArsakType}
+                feil={errors.get('aktivitetIkkeMuligMedisinskArsakType')?.feilmelding}
             />
         </div>
     );

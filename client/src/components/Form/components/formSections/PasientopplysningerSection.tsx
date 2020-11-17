@@ -1,10 +1,9 @@
 import React from 'react';
-import { Input } from 'nav-frontend-skjema';
+import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
 
 export type Pasientopplysninger = {
     pasientFnr?: string | null;
@@ -12,33 +11,25 @@ export type Pasientopplysninger = {
 
 type PasientopplysningerProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
-    validate: Validate;
-    schema: SchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    formState: FormType;
 };
 
-const PasientopplysningerSection = ({ section, setSchema, errors, validate, schema }: PasientopplysningerProps) => {
+const PasientopplysningerSection = ({ section, setFormState, errors, formState }: PasientopplysningerProps) => {
     return (
         <SectionContainer section={section}>
             <Input
                 id="pasientFnr"
                 className="half"
-                value={schema.pasientFnr ? schema.pasientFnr : undefined}
+                value={formState.pasientFnr ? formState.pasientFnr : undefined}
                 onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => {
-                            const updatedSchema = {
-                                ...state,
-                                pasientFnr: value,
-                            };
-                            validate('pasientFnr', updatedSchema);
-                            return updatedSchema;
-                        },
-                    );
+                    setFormState((formState) => {
+                        return { ...formState, pasientFnr: value };
+                    });
                 }}
                 label="1.2 Fødselsnummer (11 siffer)"
-                feil={errors.pasientFnr}
+                feil={errors.get('pasientFnr')?.feilmelding}
             />
         </SectionContainer>
     );

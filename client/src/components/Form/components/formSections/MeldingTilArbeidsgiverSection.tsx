@@ -1,10 +1,9 @@
 import React from 'react';
-import { Textarea } from 'nav-frontend-skjema';
+import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
 
 export type MeldingTilArbeidsgiver = {
     meldingTilArbeidsgiverBeskriv?: string | null;
@@ -12,38 +11,27 @@ export type MeldingTilArbeidsgiver = {
 
 type MeldingTilArbeidsgiverSectionProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    schema: SchemaType;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 };
 
 const MeldingTilArbeidsgiverSection = ({
     section,
-    setSchema,
-    schema,
+    setFormState,
+    formState,
     errors,
-    validate,
 }: MeldingTilArbeidsgiverSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Textarea
                 id="meldingTilArbeidsgiverBeskriv"
                 maxLength={0}
-                value={schema.meldingTilArbeidsgiverBeskriv || ''}
+                value={formState.meldingTilArbeidsgiverBeskriv || ''}
                 onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => {
-                            const updatedSchema = {
-                                ...state,
-                                meldingTilArbeidsgiverBeskriv: value,
-                            };
-                            validate('meldingTilArbeidsgiverBeskriv', updatedSchema);
-                            return updatedSchema;
-                        },
-                    );
+                    setFormState((formState) => ({ ...formState, meldingTilArbeidsgiverBeskriv: value }));
                 }}
-                feil={errors.meldingTilArbeidsgiverBeskriv}
+                feil={errors.get('meldingTilArbeidsgiverBeskriv')?.feilmelding}
                 label="9.1 Andre innspill til arbeidsgiver"
             />
         </SectionContainer>

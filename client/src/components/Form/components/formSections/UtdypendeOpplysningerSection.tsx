@@ -1,11 +1,10 @@
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import React from 'react';
-import { Textarea } from 'nav-frontend-skjema';
+import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import SectionContainer from '../SectionContainer';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
 
 export type UtdypendeOpplysninger = {
     utdypende611?: string;
@@ -38,472 +37,298 @@ export type UtdypendeOpplysninger = {
 
 interface UtdypendeOpplysningerSectionProps {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    schema: SchemaType;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 }
 
 const UtdypendeOpplysningerSection = ({
     section,
-    setSchema,
-    schema,
+    setFormState,
+    formState,
     errors,
-    validate,
 }: UtdypendeOpplysningerSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Ekspanderbartpanel
+                id="utdypende61"
                 tittel="6.1"
                 apen={
-                    !!schema.utdypende611 ||
-                    !!schema.utdypende612 ||
-                    !!schema.utdypende613 ||
-                    !!schema.utdypende614 ||
-                    !!schema.utdypende615
+                    !!formState.utdypende611 ||
+                    !!formState.utdypende612 ||
+                    !!formState.utdypende613 ||
+                    !!formState.utdypende614 ||
+                    !!formState.utdypende615
                 }
             >
                 <Textarea
                     id="utdypende611"
                     maxLength={0}
-                    value={schema.utdypende611 || ''}
+                    value={formState.utdypende611 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende611: value,
-                                };
-                                validate('utdypende611', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende611: value }));
                     }}
-                    feil={errors.utdypende611}
+                    feil={errors.get('utdypende611')?.feilmelding}
                     label="6.1.1 Er det sykdommen, utredningen og/eller behandlingen som hindrer økt aktivitet? Beskriv."
                 />
                 <br />
                 <Textarea
                     id="utdypende612"
                     maxLength={0}
-                    value={schema.utdypende612 || ''}
+                    value={formState.utdypende612 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende612: value,
-                                };
-
-                                validate('utdypende612', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende612: value }));
                     }}
-                    feil={errors.utdypende612}
+                    feil={errors.get('utdypende612')?.feilmelding}
                     label="6.1.2 Har behandlingen frem til nå bedret arbeidsevnen?"
                 />
                 <br />
                 <Textarea
                     id="utdypende613"
                     maxLength={0}
-                    value={schema.utdypende613 || ''}
+                    value={formState.utdypende613 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende613: value,
-                                };
-                                validate('utdypende613', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende613: value }));
                     }}
-                    feil={errors.utdypende613}
+                    feil={errors.get('utdypende613')?.feilmelding}
                     label="6.1.3 Hva er videre plan for behandling?"
                 />
                 <br />
                 <Textarea
                     id="utdypende614"
                     maxLength={0}
-                    value={schema.utdypende614 || ''}
+                    value={formState.utdypende614 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende614: value,
-                                };
-
-                                validate('utdypende614', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende614: value }));
                     }}
-                    feil={errors.utdypende614}
+                    feil={errors.get('utdypende614')?.feilmelding}
                     label="6.1.4 Er det arbeidsforholdet som hindrer (økt) aktivitet? Beskriv."
                 />
                 <br />
                 <Textarea
                     id="utdypende615"
                     maxLength={0}
-                    value={schema.utdypende615 || ''}
+                    value={formState.utdypende615 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende615: value,
-                                };
-                                validate('utdypende615', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende615: value }));
                     }}
-                    feil={errors.utdypende612}
+                    feil={errors.get('utdypende612')?.feilmelding}
                     label="6.1.5 Er det andre forhold som hindrer (økt) aktivitet?"
                 />
             </Ekspanderbartpanel>
             <br />
             <Ekspanderbartpanel
+                id="utdypende62"
                 tittel="6.2"
-                apen={!!schema.utdypende621 || !!schema.utdypende622 || !!schema.utdypende623 || !!schema.utdypende624}
+                apen={
+                    !!formState.utdypende621 ||
+                    !!formState.utdypende622 ||
+                    !!formState.utdypende623 ||
+                    !!formState.utdypende624
+                }
             >
                 <Textarea
                     id="utdypende621"
                     maxLength={0}
-                    value={schema.utdypende621 || ''}
+                    value={formState.utdypende621 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende621: value,
-                                };
-                                validate('utdypende621', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende621: value }));
                     }}
-                    feil={errors.utdypende621}
+                    feil={errors.get('utdypende621')?.feilmelding}
                     label="6.2.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon."
                 />
                 <br />
                 <Textarea
                     id="utdypende622"
                     maxLength={0}
-                    value={schema.utdypende622 || ''}
+                    value={formState.utdypende622 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende622: value,
-                                };
-                                validate('utdypende622', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende622: value }));
                     }}
-                    feil={errors.utdypende622}
+                    feil={errors.get('utdypende622')?.feilmelding}
                     label="6.2.2 Hvordan påvirker sykdommen arbeidsevnen?"
                 />
                 <br />
                 <Textarea
                     id="utdypende623"
                     maxLength={0}
-                    value={schema.utdypende623 || ''}
+                    value={formState.utdypende623 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende623: value,
-                                };
-                                validate('utdypende623', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende623: value }));
                     }}
-                    feil={errors.utdypende623}
+                    feil={errors.get('utdypende623')?.feilmelding}
                     label="6.2.3 Har behandlingen frem til nå bedret arbeidsevnen?"
                 />
                 <br />
                 <Textarea
                     id="utdypende624"
                     maxLength={0}
-                    value={schema.utdypende624 || ''}
+                    value={formState.utdypende624 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende624: value,
-                                };
-                                validate('utdypende624', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende624: value }));
                     }}
-                    feil={errors.utdypende624}
+                    feil={errors.get('utdypende624')?.feilmelding}
                     label="6.2.4 Beskriv pågående og planlagt henvisning,utredning og/eller behandling."
                 />
             </Ekspanderbartpanel>
             <br />
-            <Ekspanderbartpanel tittel="6.3" apen={!!schema.utdypende631 || !!schema.utdypende632}>
+            <Ekspanderbartpanel
+                id="utdypende63"
+                tittel="6.3"
+                apen={!!formState.utdypende631 || !!formState.utdypende632}
+            >
                 <Textarea
                     id="utdypende631"
                     maxLength={0}
-                    value={schema.utdypende631 || ''}
+                    value={formState.utdypende631 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende631: value,
-                                };
-                                validate('utdypende631', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende631: value }));
                     }}
-                    feil={errors.utdypende631}
+                    feil={errors.get('utdypende631')?.feilmelding}
                     label="6.3.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon"
                 />
                 <br />
                 <Textarea
                     id="utdypende632"
                     maxLength={0}
-                    value={schema.utdypende632 || ''}
+                    value={formState.utdypende632 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende632: value,
-                                };
-                                validate('utdypende632', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende632: value }));
                     }}
-                    feil={errors.utdypende632}
+                    feil={errors.get('utdypende632')?.feilmelding}
                     label="6.3.2 Beskriv pågående og planlagt henvisning, utredning og/eller behandling. Lar dette seg kombinere med delvis arbeid?"
                 />
             </Ekspanderbartpanel>
             <br />
             <Ekspanderbartpanel
+                id="utdypende64"
                 tittel="6.4"
-                apen={!!schema.utdypende641 || !!schema.utdypende642 || !!schema.utdypende643}
+                apen={!!formState.utdypende641 || !!formState.utdypende642 || !!formState.utdypende643}
             >
                 <Textarea
                     id="utdypende641"
                     maxLength={0}
-                    value={schema.utdypende641 || ''}
+                    value={formState.utdypende641 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende641: value,
-                                };
-                                validate('utdypende641', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende641: value }));
                     }}
-                    feil={errors.utdypende641}
+                    feil={errors.get('utdypende641')?.feilmelding}
                     label="6.4.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon"
                 />
                 <br />
                 <Textarea
                     id="utdypende642"
                     maxLength={0}
-                    value={schema.utdypende642 || ''}
+                    value={formState.utdypende642 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende642: value,
-                                };
-                                validate('utdypende642', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende642: value }));
                     }}
-                    feil={errors.utdypende642}
+                    feil={errors.get('utdypende642')?.feilmelding}
                     label="6.4.2 Beskriv pågående og planlagt henvisning, utredning og/eller behandling"
                 />
                 <br />
                 <Textarea
                     id="utdypende643"
                     maxLength={0}
-                    value={schema.utdypende643 || ''}
+                    value={formState.utdypende643 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende643: value,
-                                };
-                                validate('utdypende643', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende643: value }));
                     }}
-                    feil={errors.utdypende643}
+                    feil={errors.get('utdypende643')?.feilmelding}
                     label="6.4.3 Hva mener du skal til for at pasienten kan komme tilbake i eget eller annet arbeid?"
                 />
             </Ekspanderbartpanel>
             <br />
             <Ekspanderbartpanel
+                id="utdypende65"
                 tittel="6.5"
-                apen={!!schema.utdypende651 || !!schema.utdypende652 || !!schema.utdypende653 || !!schema.utdypende654}
+                apen={
+                    !!formState.utdypende651 ||
+                    !!formState.utdypende652 ||
+                    !!formState.utdypende653 ||
+                    !!formState.utdypende654
+                }
             >
                 <Textarea
                     id="utdypende651"
                     maxLength={0}
-                    value={schema.utdypende651 || ''}
+                    value={formState.utdypende651 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende651: value,
-                                };
-                                validate('utdypende651', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende651: value }));
                     }}
-                    feil={errors.utdypende651}
+                    feil={errors.get('utdypende651')?.feilmelding}
                     label="6.5.1 Beskriv kort sykehistorie, symptomer og funn i dagens situasjon."
                 />
                 <br />
                 <Textarea
                     id="utdypende652"
                     maxLength={0}
-                    value={schema.utdypende652 || ''}
+                    value={formState.utdypende652 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende652: value,
-                                };
-                                validate('utdypende652', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende652: value }));
                     }}
-                    feil={errors.utdypende652}
+                    feil={errors.get('utdypende652')?.feilmelding}
                     label="6.5.2 Hvordan påvirker dette funksjons-/arbeidsevnen?"
                 />
                 <br />
                 <Textarea
                     id="utdypende653"
                     maxLength={0}
-                    value={schema.utdypende653 || ''}
+                    value={formState.utdypende653 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende653: value,
-                                };
-                                validate('utdypende653', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende653: value }));
                     }}
-                    feil={errors.utdypende653}
+                    feil={errors.get('utdypende653')?.feilmelding}
                     label="6.5.3 Beskriv pågående og planlagt henvisning, utredning og/eller medisinsk behandling"
                 />
                 <br />
                 <Textarea
                     id="utdypende654"
                     maxLength={0}
-                    value={schema.utdypende654 || ''}
+                    value={formState.utdypende654 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende654: value,
-                                };
-                                validate('utdypende654', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende654: value }));
                     }}
-                    feil={errors.utdypende654}
+                    feil={errors.get('utdypende654')?.feilmelding}
                     label="6.5.4 Kan arbeidsevnen bedres gjennom medisinsk behandling og/eller arbeidsrelatert aktivitet? I så fall hvordan? Angi tidsperspektiv"
                 />
             </Ekspanderbartpanel>
             <br />
             <Ekspanderbartpanel
+                id="utdypende66"
                 tittel="6.6"
-                apen={!!schema.utdypende661 || !!schema.utdypende662 || !!schema.utdypende663}
+                apen={!!formState.utdypende661 || !!formState.utdypende662 || !!formState.utdypende663}
             >
                 <Textarea
                     id="utdypende661"
                     maxLength={0}
-                    value={schema.utdypende661 || ''}
+                    value={formState.utdypende661 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende661: value,
-                                };
-                                validate('utdypende661', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende661: value }));
                     }}
-                    feil={errors.utdypende661}
+                    feil={errors.get('utdypende661')?.feilmelding}
                     label="6.6.1 Hva antar du at pasienten kan utføre av eget arbeid/arbeidsoppgaver i dag eller i nær framtid?"
                 />
                 <br />
                 <Textarea
                     id="utdypende662"
                     maxLength={0}
-                    value={schema.utdypende662 || ''}
+                    value={formState.utdypende662 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende662: value,
-                                };
-                                validate('utdypende662', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende662: value }));
                     }}
-                    feil={errors.utdypende662}
+                    feil={errors.get('utdypende662')?.feilmelding}
                     label="6.6.2 Hvis pasienten ikke kan gå tilbake til eget arbeid, hva antar du at pasienten kan utføre av annet arbeid/arbeidsoppgaver?"
                 />
                 <br />
                 <Textarea
                     id="utdypende663"
                     maxLength={0}
-                    value={schema.utdypende663 || ''}
+                    value={formState.utdypende663 || ''}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    utdypende663: value,
-                                };
-                                validate('utdypende663', updatedSchema);
-                                return updatedSchema;
-                            },
-                        );
+                        setFormState((formState) => ({ ...formState, utdypende663: value }));
                     }}
-                    feil={errors.utdypende663}
+                    feil={errors.get('utdypende663')?.feilmelding}
                     label="6.6.3 Hvilken betydning har denne sykdommen for den nedsatte arbeidsevnen?"
                 />
                 <br />

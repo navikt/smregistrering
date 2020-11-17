@@ -1,6 +1,6 @@
 import './App.less';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ErrorView from './components/ErrorView';
 import Form from './components/Form/Form';
@@ -21,7 +21,6 @@ const App = ({ enhet, height }: AppProps) => {
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const schemaRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setIsLoading(true);
@@ -63,7 +62,7 @@ const App = ({ enhet, height }: AppProps) => {
     return (
         <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height}px)` }}>
             <Menu enhet={enhet} oppgaveid={oppgave.oppgaveid} />
-            <Form schemaRef={schemaRef} oppgave={oppgave} diagnosekoder={diagnosekoder} enhet={enhet} />
+            <Form oppgave={oppgave} diagnosekoder={diagnosekoder} enhet={enhet} />
             <Pdf pdf={oppgave.pdfPapirSykmelding} />
         </main>
     );

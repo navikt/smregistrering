@@ -1,19 +1,17 @@
 import React from 'react';
-import { CheckboksPanelGruppe, CheckboksPanelProps } from 'nav-frontend-skjema';
+import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import { ArbeidsrelatertArsakType } from '../../../../../types/RegistrertSykmelding';
-import { ErrorSchemaType, SchemaType } from '../../../Form';
-import { Validate } from '../../../validation';
+import { FormType } from '../../../Form';
 
 interface ArbeidsrelatertArsakProps {
-    schema: SchemaType;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 }
 
-const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: ArbeidsrelatertArsakProps) => {
-    const { aktivitetIkkeMuligArbeidsrelatertArsakType } = schema;
+const ArbeidsrelatertArsak = ({ formState, setFormState, errors }: ArbeidsrelatertArsakProps) => {
+    const { aktivitetIkkeMuligArbeidsrelatertArsakType } = formState;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
         return {
@@ -25,26 +23,22 @@ const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: Arbeidsre
     });
 
     const updateCheckboxes = (value: keyof typeof ArbeidsrelatertArsakType): void => {
-        setSchema((state) => {
-            if (!state.aktivitetIkkeMuligArbeidsrelatertArsakType) {
-                const updatedSchema = {
-                    ...state,
+        setFormState((formState) => {
+            if (!formState.aktivitetIkkeMuligArbeidsrelatertArsakType) {
+                return {
+                    ...formState,
                     aktivitetIkkeMuligArbeidsrelatertArsakType: [value as keyof typeof ArbeidsrelatertArsakType],
                 };
-                validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
-                return updatedSchema;
             }
-            const shouldAddArsak: boolean = !state.aktivitetIkkeMuligArbeidsrelatertArsakType.includes(value);
+            const shouldAddArsak: boolean = !formState.aktivitetIkkeMuligArbeidsrelatertArsakType.includes(value);
             const newArbeidsrelatertArsakType: (keyof typeof ArbeidsrelatertArsakType)[] = shouldAddArsak
-                ? [...state.aktivitetIkkeMuligArbeidsrelatertArsakType, value]
-                : state.aktivitetIkkeMuligArbeidsrelatertArsakType.filter((arsak) => arsak !== value);
+                ? [...formState.aktivitetIkkeMuligArbeidsrelatertArsakType, value]
+                : formState.aktivitetIkkeMuligArbeidsrelatertArsakType.filter((arsak) => arsak !== value);
 
-            const updatedSchema = {
-                ...state,
+            return {
+                ...formState,
                 aktivitetIkkeMuligArbeidsrelatertArsakType: newArbeidsrelatertArsakType,
             };
-            validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
-            return updatedSchema;
         });
     };
 
@@ -54,7 +48,7 @@ const ArbeidsrelatertArsak = ({ schema, setSchema, errors, validate }: Arbeidsre
                 legend="Arbeidsrelaterte årsaker"
                 checkboxes={checkboxes}
                 onChange={(_event, value) => updateCheckboxes(value)}
-                feil={errors.aktivitetIkkeMuligArbeidsrelatertArsakType}
+                feil={errors.get('aktivitetIkkeMuligArbeidsrelatertArsakType')?.feilmelding}
             />
         </div>
     );

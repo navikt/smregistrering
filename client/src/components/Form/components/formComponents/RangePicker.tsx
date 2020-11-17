@@ -53,6 +53,7 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
 
                 <div className="flatpickr-clear">
                     <Fareknapp
+                        htmlType="button"
                         kompakt
                         onClick={(event) => {
                             event.preventDefault();
