@@ -38,7 +38,7 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                     if (res.ok) {
                         return res.json();
                     } else {
-                        throw new Error('Fant ikke pasient med hprNummer: ' + formState.hpr);
+                        throw new Error('Fant ikke pasient med pasientFnr: ' + formState.pasientFnr);
                     }
                 })
                 .then((jsonResponse) => {
