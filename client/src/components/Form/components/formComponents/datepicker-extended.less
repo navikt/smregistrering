@@ -25,8 +25,21 @@
 }
 
 .flatpickr-clear {
-    transform: scale(0.9);
+    border: none;
+    background: none;
+    margin-left: 12px;
+    align-self: center;
+    display: flex;
+    cursor: pointer;
+}
+
+.flatpickr-clear:hover {
+    text-decoration: underline;
+}
+
+.flatpickr-clear__text {
     margin-left: 5px;
+    color: @navBla;
 }
 
 .flatpickr-container {
