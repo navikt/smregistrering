@@ -8,7 +8,7 @@ import SectionContainer from '../../SectionContainer';
 import AvventendeArsak, { AvventendeMFA } from './AvventendeArsak';
 import BehandlingsDager, { BehandlingsdagerMFA } from './BehandlingsDager';
 import FullSykmelding, { FullSykmeldingMFA } from './FullSykmelding';
-import GradertArsak, { GradertMFA } from './GradertArsak';
+import GradertSykmelding, { GradertMFA } from './GradertSykmelding';
 import Reisetilskudd, { ReisetilskuddMFA } from './Reisetilskudd';
 import { ErrorSchemaType, SchemaType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
@@ -163,7 +163,7 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             />
                         )}
                         {mulighetForArbeid?.type === 'gradert' && (
-                            <GradertArsak
+                            <GradertSykmelding
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mulighetForArbeid={mulighetForArbeid as GradertMFA}
                                 errors={errors}
