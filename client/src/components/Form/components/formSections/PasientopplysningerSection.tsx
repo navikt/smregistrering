@@ -26,9 +26,9 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
 
-    // GET information about sykmelder on every formState.hpr change
+    // GET information about sykmelder on every formState.pasientFnr change
     useEffect(() => {
-        // Number must be in synch with validationFuncitons.hpr in validation.ts
+        // Number must be in synch with validationFuncitons.pasientFnr in validation.ts
         if (formState.pasientFnr?.length && formState.pasientFnr.length === 11) {
             setIsloading(true);
             setPasientNavn(null);
@@ -38,14 +38,15 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                     if (res.ok) {
                         return res.json();
                     } else {
-                        throw new Error('Fant ikke pasient med pasientFnr: ' + formState.pasientFnr);
+                        throw new Error('Fant ikke pasient med fødselsnummer: ' + formState.pasientFnr);
                     }
                 })
                 .then((jsonResponse) => {
                     return iotsPromise.decode(PasientNavn, jsonResponse);
                 })
-                .then((sykmelder) => {
-                    setPasientNavn(sykmelder);
+                .then((pasient) => {
+                    setPasientNavn(pasient);
+                    document.getElementById('pasientFnr')?.focus();
                 })
                 .catch((error) => {
                     console.log(error);
@@ -77,7 +78,7 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                 />
                 <div>
                     {pasientNavn ? (
-                        <div>
+                        <div id="pasientFnr--name">
                             <Element tag="h4" style={{ marginBottom: '1rem' }}>
                                 Navn:
                             </Element>
@@ -88,7 +89,7 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                     ) : null}
 
                     {isLoading ? (
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div id="pasientFnr--loading" style={{ display: 'flex', alignItems: 'center' }}>
                             <Normaltekst style={{ marginRight: '1rem' }}>Henter informasjon om pasient</Normaltekst>
                             <NavFrontendSpinner />
                         </div>
