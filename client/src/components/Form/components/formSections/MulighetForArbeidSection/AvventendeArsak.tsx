@@ -1,3 +1,5 @@
+import './MulighetForArbeidSection.less';
+
 import React from 'react';
 import { Element } from 'nav-frontend-typografi';
 import { Textarea } from 'nav-frontend-skjema';
@@ -21,7 +23,7 @@ type AvventendeArsakProps = {
 
 const AvventendeArsak = ({ updateMfa, mulighetForArbeid, errors }: AvventendeArsakProps) => {
     return (
-        <>
+        <div className="mulighetForArbeid__subsection-container">
             <RangePicker
                 id="avventendePeriode"
                 labelFrom="4.1.1 f.o.m."
@@ -52,7 +54,7 @@ const AvventendeArsak = ({ updateMfa, mulighetForArbeid, errors }: AvventendeArs
                 feil={undefined /* // TODO: errors.avventendeInnspillTilArbeidsgiver */}
                 label={<Element>4.1.3 Andre innspill til arbeidsgiver</Element>}
             />
-        </>
+        </div>
     );
 };
 

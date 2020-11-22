@@ -1,3 +1,5 @@
+import './MulighetForArbeidSection.less';
+
 import React from 'react';
 import { Checkbox, Input } from 'nav-frontend-skjema';
 
@@ -21,7 +23,7 @@ type GradertArsakProps = {
 
 const GradertArsak = ({ updateMfa, mulighetForArbeid, errors }: GradertArsakProps) => {
     return (
-        <>
+        <div className="mulighetForArbeid__subsection-container">
             <RangePicker
                 id="gradertPeriode"
                 labelFrom="4.2.1 f.o.m."
@@ -67,7 +69,7 @@ const GradertArsak = ({ updateMfa, mulighetForArbeid, errors }: GradertArsakProp
                 }}
                 feil={undefined /* // TODO: errors.gradertReisetilskudd */}
             />
-        </>
+        </div>
     );
 };
 

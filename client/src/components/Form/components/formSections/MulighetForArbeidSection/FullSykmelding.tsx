@@ -1,3 +1,5 @@
+import './MulighetForArbeidSection.less';
+
 import React from 'react';
 import { Checkbox, Input } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
@@ -9,7 +11,6 @@ import RangePicker from '../../formComponents/RangePicker';
 import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
 import { ErrorSchemaType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import { Validate } from '../../../validation';
 
 export type FullSykmeldingMFA = {
     type: MFAOptions;
@@ -31,7 +32,7 @@ type FullSykmeldingProps = {
 
 const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors }: FullSykmeldingProps) => {
     return (
-        <>
+        <div className="mulighetForArbeid__subsection-container">
             <RangePicker
                 id="aktivitetIkkeMuligPeriode"
                 labelFrom="4.3.1 f.o.m."
@@ -135,7 +136,7 @@ const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors }: FullSykmelding
                     />
                 </>
             </ExpandableField>
-        </>
+        </div>
     );
 };
 

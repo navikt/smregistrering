@@ -1,3 +1,5 @@
+import './MulighetForArbeidSection.less';
+
 import React from 'react';
 import { Element } from 'nav-frontend-typografi';
 import { Input } from 'nav-frontend-skjema';
@@ -21,7 +23,7 @@ type BehandlingsDagerProps = {
 
 const BehandlingsDager = ({ updateMfa, mulighetForArbeid, errors }: BehandlingsDagerProps) => {
     return (
-        <>
+        <div className="mulighetForArbeid__subsection-container">
             <RangePicker
                 id="behandlingsdagerPeriode"
                 labelFrom="4.4.1 f.o.m."
@@ -54,7 +56,7 @@ const BehandlingsDager = ({ updateMfa, mulighetForArbeid, errors }: BehandlingsD
                 feil={undefined /* // errors.behandlingsdagerAntall */}
                 label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
             />
-        </>
+        </div>
     );
 };
 
