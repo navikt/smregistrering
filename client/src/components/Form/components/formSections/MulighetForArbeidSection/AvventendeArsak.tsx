@@ -50,7 +50,7 @@ const AvventendeArsak = ({ updateMfa, mulighetForArbeid, errors }: AvventendeArs
                     updateMfa(updatedSchema);
                 }}
                 feil={undefined /* // TODO: errors.avventendeInnspillTilArbeidsgiver */}
-                label={<Element>4.1.3 Innspill til arbeidsgiver om tilrettelegging</Element>}
+                label={<Element>4.1.3 Andre innspill til arbeidsgiver</Element>}
             />
         </>
     );
