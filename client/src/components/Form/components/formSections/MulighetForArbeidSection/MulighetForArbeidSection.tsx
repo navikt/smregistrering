@@ -89,6 +89,18 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
         return [...state.mulighetForArbeid.slice(0, index), mfa, ...state.mulighetForArbeid.slice(index + 1)];
     };
 
+    const updateSubsectionMFA = (updatedMfa: MulighetForArbeidTypes, index: number) =>
+        setSchema(
+            (state): SchemaType => {
+                const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
+
+                return {
+                    ...state,
+                    mulighetForArbeid: updatedMulighetForArbeid,
+                };
+            },
+        );
+
     return (
         <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
             {schema.mulighetForArbeid.length === 0 && (
@@ -145,90 +157,35 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                         </Select>
                         {mulighetForArbeid?.type === 'avventende' && (
                             <AvventendeArsak
-                                updateMfa={(updatedMfa) =>
-                                    setSchema(
-                                        (state): SchemaType => {
-                                            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
-
-                                            return {
-                                                ...state,
-                                                mulighetForArbeid: updatedMulighetForArbeid,
-                                            };
-                                        },
-                                    )
-                                }
+                                updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mulighetForArbeid={mulighetForArbeid as AvventendeMFA}
                                 errors={errors}
                             />
                         )}
                         {mulighetForArbeid?.type === 'gradert' && (
                             <GradertArsak
-                                updateMfa={(updatedMfa) =>
-                                    setSchema(
-                                        (state): SchemaType => {
-                                            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
-
-                                            return {
-                                                ...state,
-                                                mulighetForArbeid: updatedMulighetForArbeid,
-                                            };
-                                        },
-                                    )
-                                }
+                                updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mulighetForArbeid={mulighetForArbeid as GradertMFA}
                                 errors={errors}
                             />
                         )}
                         {mulighetForArbeid?.type === 'fullsykmelding' && (
                             <FullSykmelding
-                                updateMfa={(updatedMfa) =>
-                                    setSchema(
-                                        (state): SchemaType => {
-                                            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
-
-                                            return {
-                                                ...state,
-                                                mulighetForArbeid: updatedMulighetForArbeid,
-                                            };
-                                        },
-                                    )
-                                }
+                                updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mulighetForArbeid={mulighetForArbeid as FullSykmeldingMFA}
                                 errors={errors}
                             />
                         )}
                         {mulighetForArbeid?.type === 'behandlingsdager' && (
                             <BehandlingsDager
-                                updateMfa={(updatedMfa) =>
-                                    setSchema(
-                                        (state): SchemaType => {
-                                            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
-
-                                            return {
-                                                ...state,
-                                                mulighetForArbeid: updatedMulighetForArbeid,
-                                            };
-                                        },
-                                    )
-                                }
+                                updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mulighetForArbeid={mulighetForArbeid as BehandlingsdagerMFA}
                                 errors={errors}
                             />
                         )}
                         {mulighetForArbeid?.type === 'reisetilskudd' && (
                             <Reisetilskudd
-                                updateMfa={(updatedMfa) =>
-                                    setSchema(
-                                        (state): SchemaType => {
-                                            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
-
-                                            return {
-                                                ...state,
-                                                mulighetForArbeid: updatedMulighetForArbeid,
-                                            };
-                                        },
-                                    )
-                                }
+                                updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mulighetForArbeid={mulighetForArbeid as ReisetilskuddMFA}
                                 errors={errors}
                             />
