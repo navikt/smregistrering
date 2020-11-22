@@ -48,7 +48,6 @@ const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors }: FullSykmelding
                 }}
                 feil={undefined /* // TODO: errors.aktivitetIkkeMuligPeriode */}
             />
-            <Element className="form-label">4.3.3</Element>
             <Checkbox
                 id="aktivitetIkkeMuligMedisinskArsak"
                 className="form-margin-bottom"
@@ -93,7 +92,6 @@ const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors }: FullSykmelding
                     />
                 </>
             </ExpandableField>
-            <Element className="form-label">4.3.4</Element>
             <Checkbox
                 id="aktivitetIkkeMuligArbeidsrelatertArsak"
                 className="form-margin-bottom"
