@@ -27,10 +27,9 @@ type FullSykmeldingProps = {
     mulighetForArbeid: FullSykmeldingMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: ErrorSchemaType;
-    validate: Validate;
 };
 
-const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors, validate }: FullSykmeldingProps) => {
+const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors }: FullSykmeldingProps) => {
     return (
         <>
             <RangePicker
@@ -44,7 +43,6 @@ const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors, validate }: Full
                         aktivitetIkkeMuligPeriode: newDates,
                     };
 
-                    // TODO: validate('aktivitetIkkeMuligPeriode', updatedSchema);
                     updateMfa(updatedSchema);
                 }}
                 feil={undefined /* // TODO: errors.aktivitetIkkeMuligPeriode */}
@@ -63,22 +61,13 @@ const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors, validate }: Full
                         aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
                     };
 
-                    // TODO: validate('aktivitetIkkeMuligMedisinskArsak', updatedSchema);
-                    // TODO: validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
-                    // TODO: validate('aktivitetIkkeMuligMedisinskArsakBeskrivelse', updatedSchema);
-
                     updateMfa(updatedSchema);
                 }}
                 feil={undefined /* // TODO: errors.aktivitetIkkeMuligMedisinskArsak */}
             />
             <ExpandableField show={mulighetForArbeid.aktivitetIkkeMuligMedisinskArsak}>
                 <>
-                    <MedisinskArsak
-                        mulighetForArbeid={mulighetForArbeid}
-                        updateMfa={updateMfa}
-                        errors={errors}
-                        validate={validate}
-                    />
+                    <MedisinskArsak mulighetForArbeid={mulighetForArbeid} updateMfa={updateMfa} errors={errors} />
                     <Input
                         id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
                         className="form-margin-bottom"
@@ -123,12 +112,7 @@ const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors, validate }: Full
             />
             <ExpandableField show={mulighetForArbeid.aktivitetIkkeMuligArbeidsrelatertArsak}>
                 <>
-                    <ArbeidsrelatertArsak
-                        mulighetForArbeid={mulighetForArbeid}
-                        updateMfa={updateMfa}
-                        errors={errors}
-                        validate={validate}
-                    />
+                    <ArbeidsrelatertArsak mulighetForArbeid={mulighetForArbeid} updateMfa={updateMfa} errors={errors} />
                     <Input
                         id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
                         className="form-margin-bottom"
@@ -143,8 +127,6 @@ const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors, validate }: Full
                                 ...mulighetForArbeid,
                                 aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: value,
                             };
-
-                            // TODO: validate('aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse', updatedSchema);
 
                             updateMfa(updatedSchema);
                         }}

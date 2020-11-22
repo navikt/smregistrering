@@ -5,16 +5,14 @@ import { ErrorSchemaType } from '../../../Form';
 import { FullSykmeldingMFA } from './FullSykmelding';
 import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import { Validate } from '../../../validation';
 
 interface MedisinskArsakProps {
     mulighetForArbeid: FullSykmeldingMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: ErrorSchemaType;
-    validate: Validate;
 }
 
-const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors, validate }: MedisinskArsakProps) => {
+const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors }: MedisinskArsakProps) => {
     const { aktivitetIkkeMuligMedisinskArsakType } = mulighetForArbeid;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(MedisinskArsakType).map(([key, value]) => {
@@ -32,7 +30,6 @@ const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors, validate }: Medi
                 ...mulighetForArbeid,
                 aktivitetIkkeMuligMedisinskArsakType: [value as keyof typeof MedisinskArsakType],
             };
-            // TODO: validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
             updateMfa(updatedSchema);
             return;
         }
@@ -46,7 +43,6 @@ const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors, validate }: Medi
             ...mulighetForArbeid,
             aktivitetIkkeMuligMedisinskArsakType: newMedisinskArsakType,
         };
-        // TODO: validate('aktivitetIkkeMuligMedisinskArsakType', updatedSchema);
         updateMfa(updatedSchema);
     };
 

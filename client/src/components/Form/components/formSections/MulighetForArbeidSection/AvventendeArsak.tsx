@@ -5,7 +5,6 @@ import { Textarea } from 'nav-frontend-skjema';
 import RangePicker from '../../formComponents/RangePicker';
 import { ErrorSchemaType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import { Validate } from '../../../validation';
 
 export type AvventendeMFA = {
     type: MFAOptions;
@@ -18,10 +17,9 @@ type AvventendeArsakProps = {
     mulighetForArbeid: AvventendeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: ErrorSchemaType;
-    validate: Validate;
 };
 
-const AvventendeArsak = ({ updateMfa, mulighetForArbeid, errors, validate }: AvventendeArsakProps) => {
+const AvventendeArsak = ({ updateMfa, mulighetForArbeid, errors }: AvventendeArsakProps) => {
     return (
         <>
             <RangePicker
@@ -34,7 +32,6 @@ const AvventendeArsak = ({ updateMfa, mulighetForArbeid, errors, validate }: Avv
                         ...mulighetForArbeid,
                         avventendePeriode: newDates,
                     };
-                    // TODO: validate('avventendePeriode', updatedSchema);
 
                     updateMfa(updatedSchema);
                 }}
@@ -49,7 +46,6 @@ const AvventendeArsak = ({ updateMfa, mulighetForArbeid, errors, validate }: Avv
                         ...mulighetForArbeid,
                         avventendeInnspillTilArbeidsgiver: value,
                     };
-                    // TODO: validate('avventendeInnspillTilArbeidsgiver', updatedSchema);
 
                     updateMfa(updatedSchema);
                 }}

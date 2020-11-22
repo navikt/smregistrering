@@ -4,7 +4,6 @@ import { Checkbox, Input } from 'nav-frontend-skjema';
 import RangePicker from '../../formComponents/RangePicker';
 import { ErrorSchemaType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import { Validate } from '../../../validation';
 
 export type GradertMFA = {
     type: MFAOptions;
@@ -18,10 +17,9 @@ type GradertArsakProps = {
     mulighetForArbeid: GradertMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: ErrorSchemaType;
-    validate: Validate;
 };
 
-const GradertArsak = ({ updateMfa, mulighetForArbeid, errors, validate }: GradertArsakProps) => {
+const GradertArsak = ({ updateMfa, mulighetForArbeid, errors }: GradertArsakProps) => {
     return (
         <>
             <RangePicker
@@ -35,7 +33,6 @@ const GradertArsak = ({ updateMfa, mulighetForArbeid, errors, validate }: Grader
                         gradertPeriode: newDates,
                     };
 
-                    // TODO: validate('gradertPeriode', updatedSchema);
                     updateMfa(updatedSchema);
                 }}
                 feil={undefined /* // TODO: errors.gradertPeriode */}
@@ -51,7 +48,6 @@ const GradertArsak = ({ updateMfa, mulighetForArbeid, errors, validate }: Grader
                         gradertGrad: parseInt(value),
                     };
 
-                    // TODO: validate('gradertGrad', updatedSchema);
                     updateMfa(updatedSchema);
                 }}
                 feil={undefined /* // TODO: errors.gradertGrad */}
@@ -67,7 +63,6 @@ const GradertArsak = ({ updateMfa, mulighetForArbeid, errors, validate }: Grader
                         gradertReisetilskudd: !mulighetForArbeid.gradertReisetilskudd,
                     };
 
-                    // TODO: validate('gradertReisetilskudd', updatedSchema);
                     updateMfa(updatedSchema);
                 }}
                 feil={undefined /* // TODO: errors.gradertReisetilskudd */}

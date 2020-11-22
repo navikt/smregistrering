@@ -5,16 +5,14 @@ import { ArbeidsrelatertArsakType } from '../../../../../types/RegistrertSykmeld
 import { ErrorSchemaType } from '../../../Form';
 import { FullSykmeldingMFA } from './FullSykmelding';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import { Validate } from '../../../validation';
 
 interface ArbeidsrelatertArsakProps {
     mulighetForArbeid: FullSykmeldingMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: ErrorSchemaType;
-    validate: Validate;
 }
 
-const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors, validate }: ArbeidsrelatertArsakProps) => {
+const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors }: ArbeidsrelatertArsakProps) => {
     const { aktivitetIkkeMuligArbeidsrelatertArsakType } = mulighetForArbeid;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
@@ -32,7 +30,6 @@ const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors, validate }
                 ...mulighetForArbeid,
                 aktivitetIkkeMuligArbeidsrelatertArsakType: [value as keyof typeof ArbeidsrelatertArsakType],
             };
-            // TODO: validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
             updateMfa(updatedSchema);
             return;
         }
@@ -45,7 +42,6 @@ const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors, validate }
             ...mulighetForArbeid,
             aktivitetIkkeMuligArbeidsrelatertArsakType: newArbeidsrelatertArsakType,
         };
-        // TODO: validate('aktivitetIkkeMuligArbeidsrelatertArsakType', updatedSchema);
         updateMfa(updatedSchema);
         return;
     };

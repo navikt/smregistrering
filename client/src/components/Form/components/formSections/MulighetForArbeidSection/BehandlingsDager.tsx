@@ -5,7 +5,6 @@ import { Input } from 'nav-frontend-skjema';
 import RangePicker from '../../formComponents/RangePicker';
 import { ErrorSchemaType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import { Validate } from '../../../validation';
 
 export type BehandlingsdagerMFA = {
     type: MFAOptions;
@@ -18,10 +17,9 @@ type BehandlingsDagerProps = {
     mulighetForArbeid: BehandlingsdagerMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: ErrorSchemaType;
-    validate: Validate;
 };
 
-const BehandlingsDager = ({ updateMfa, mulighetForArbeid, errors, validate }: BehandlingsDagerProps) => {
+const BehandlingsDager = ({ updateMfa, mulighetForArbeid, errors }: BehandlingsDagerProps) => {
     return (
         <>
             <RangePicker
@@ -35,7 +33,6 @@ const BehandlingsDager = ({ updateMfa, mulighetForArbeid, errors, validate }: Be
                         behandlingsdagerPeriode: newDates,
                     };
 
-                    // TODO: validate('behandlingsdagerPeriode', updatedSchema);
                     updateMfa(updatedSchema);
                 }}
                 feil={undefined /* // errors.behandlingsdagerPeriode */}
@@ -52,7 +49,6 @@ const BehandlingsDager = ({ updateMfa, mulighetForArbeid, errors, validate }: Be
                         behandlingsdagerAntall: Number(value),
                     };
 
-                    // TODO: validate('behandlingsdagerAntall', updatedSchema);
                     updateMfa(updatedSchema);
                 }}
                 feil={undefined /* // errors.behandlingsdagerAntall */}

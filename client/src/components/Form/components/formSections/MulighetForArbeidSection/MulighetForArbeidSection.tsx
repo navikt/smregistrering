@@ -159,7 +159,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 }
                                 mulighetForArbeid={mulighetForArbeid as AvventendeMFA}
                                 errors={errors}
-                                validate={validate}
                             />
                         )}
                         {mulighetForArbeid?.type === 'gradert' && (
@@ -178,7 +177,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 }
                                 mulighetForArbeid={mulighetForArbeid as GradertMFA}
                                 errors={errors}
-                                validate={validate}
                             />
                         )}
                         {mulighetForArbeid?.type === 'fullsykmelding' && (
@@ -197,7 +195,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 }
                                 mulighetForArbeid={mulighetForArbeid as FullSykmeldingMFA}
                                 errors={errors}
-                                validate={validate}
                             />
                         )}
                         {mulighetForArbeid?.type === 'behandlingsdager' && (
@@ -216,7 +213,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 }
                                 mulighetForArbeid={mulighetForArbeid as BehandlingsdagerMFA}
                                 errors={errors}
-                                validate={validate}
                             />
                         )}
                         {mulighetForArbeid?.type === 'reisetilskudd' && (
@@ -235,7 +231,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                                 }
                                 mulighetForArbeid={mulighetForArbeid as ReisetilskuddMFA}
                                 errors={errors}
-                                validate={validate}
                             />
                         )}
                     </>

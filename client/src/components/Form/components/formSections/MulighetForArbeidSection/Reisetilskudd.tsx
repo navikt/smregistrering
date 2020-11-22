@@ -3,7 +3,6 @@ import React from 'react';
 import RangePicker from '../../formComponents/RangePicker';
 import { ErrorSchemaType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import { Validate } from '../../../validation';
 
 export type ReisetilskuddMFA = {
     type: MFAOptions;
@@ -15,10 +14,9 @@ type ReisetilskuddProps = {
     mulighetForArbeid: ReisetilskuddMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: ErrorSchemaType;
-    validate: Validate;
 };
 
-const Reisetilskudd = ({ updateMfa, mulighetForArbeid, errors, validate }: ReisetilskuddProps) => {
+const Reisetilskudd = ({ updateMfa, mulighetForArbeid, errors }: ReisetilskuddProps) => {
     return (
         <RangePicker
             id="reisetilskuddPeriode"
@@ -31,7 +29,6 @@ const Reisetilskudd = ({ updateMfa, mulighetForArbeid, errors, validate }: Reise
                     reisetilskuddPeriode: newDates,
                 };
 
-                // TODO: validate('reisetilskuddPeriode', updatedSchema);
                 updateMfa(updatedSchema);
             }}
             feil={undefined /* // TODO: errors.reisetilskuddPeriode */}
