@@ -3,6 +3,7 @@ import FetchMock, { MiddlewareUtils } from 'yet-another-fetch-mock';
 import aktivenhet from './aktivenhet.json';
 import decorator from './decorator.json';
 import oppgave from './oppgave.json';
+import pasientNavn from './pasientNavn.json';
 import sykmelder from './sykmelder.json';
 
 // Uncomment to use "invalid form" endpoint below
@@ -37,3 +38,4 @@ mock.post('backend/api/v1/oppgave/:oppgaveid/avvis', () => Promise.resolve({ sta
 mock.post('backend/api/v1/oppgave/:oppgaveid/tilgosys', () => Promise.resolve({ status: 204 })); // For status ok
 
 mock.get('/backend/api/v1/sykmelder/:hpr', sykmelder);
+mock.get('/backend/api/v1/pasient/:20026900817', pasientNavn);
