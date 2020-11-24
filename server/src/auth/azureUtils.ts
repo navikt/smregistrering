@@ -4,6 +4,8 @@ import { ApiReverseProxy } from '../types/Config';
 import logger from '../logging';
 import { TokenSets } from '../../@types/express';
 
+class UserNotFoundError extends Error {}
+
 export const getOnBehalfOfAccessToken = (
   authClient: Client,
   req: Request,
@@ -36,12 +38,20 @@ export const getOnBehalfOfAccessToken = (
             req.user.tokenSets[forApi] = tokenSet;
             return resolve(tokenSet.access_token);
           } else {
-            throw new Error('Could not attach tokenSet to user object');
+            throw new UserNotFoundError('Could not attach tokenSet to user object');
           }
         })
         .catch((error) => {
-          logger.error(error);
-          reject(error);
+          if (error instanceof UserNotFoundError) {
+            logger.error(error);
+            reject(error);
+          } else {
+            const sanitizedError = new Error(
+              `An error occured while retrieving on-behalf-of-token for request: ${req.originalUrl}`,
+            );
+            logger.error(sanitizedError);
+            reject(sanitizedError);
+          }
         });
     } else {
       const error = new Error('The request does not contain a valid access token');
