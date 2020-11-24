@@ -1,6 +1,6 @@
 import * as iotsPromise from 'io-ts-promise';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
@@ -25,6 +25,9 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
     const [pasientNavn, setPasientNavn] = useState<PasientNavn | undefined | null>(undefined);
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
+
+    const [fnrTouched, setFnrTouched] = useState<boolean>(false);
+    const fnrRef = useRef<HTMLInputElement>();
 
     // GET information about sykmelder on every formState.pasientFnr change
     useEffect(() => {
@@ -55,20 +58,27 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                 })
                 .finally(() => {
                     setIsloading(false);
+                    if (fnrTouched) {
+                        fnrRef.current?.focus();
+                    }
                 });
         } else {
             setPasientNavn(null);
         }
-    }, [formState.pasientFnr]);
+    }, [formState.pasientFnr, fnrTouched]);
 
     return (
         <SectionContainer section={section}>
             <Row>
                 <Input
+                    inputRef={fnrRef as any}
                     id="pasientFnr"
                     disabled={isLoading}
                     value={formState.pasientFnr ? formState.pasientFnr : undefined}
                     onChange={({ target: { value } }) => {
+                        if (!fnrTouched) {
+                            setFnrTouched(true);
+                        }
                         setFormState((formState) => {
                             return { ...formState, pasientFnr: value };
                         });

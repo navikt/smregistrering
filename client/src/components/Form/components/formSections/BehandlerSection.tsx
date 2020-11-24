@@ -1,6 +1,6 @@
 import * as iotsPromise from 'io-ts-promise';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
 
@@ -40,6 +40,9 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [error, setError] = useState<Error | null>(null);
 
+    const [hprTouched, setHprTouched] = useState<boolean>(false);
+    const hprRef = useRef<HTMLInputElement>();
+
     // GET information about sykmelder on every formState.hpr change
     useEffect(() => {
         // Number must be in synch with validationFuncitons.hpr in validation.ts
@@ -68,11 +71,14 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                 })
                 .finally(() => {
                     setIsloading(false);
+                    if (hprTouched) {
+                        hprRef.current?.focus();
+                    }
                 });
         } else {
             setSykmelder(null);
         }
-    }, [formState.hpr]);
+    }, [formState.hpr, hprTouched]);
 
     return (
         <SectionContainer section={section}>
@@ -88,10 +94,14 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
 
             <Row>
                 <Input
+                    inputRef={hprRef as any}
                     id="hpr"
                     value={formState.hpr ? formState.hpr : undefined}
                     disabled={isLoading}
                     onChange={({ target: { value } }) => {
+                        if (!hprTouched) {
+                            setHprTouched(true);
+                        }
                         setFormState((formState) => ({ ...formState, hpr: value }));
                     }}
                     feil={errors.get('hpr')?.feilmelding || error?.message}
