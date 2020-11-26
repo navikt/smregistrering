@@ -55,6 +55,8 @@ async function startApp() {
   } catch (error) {
     if (iotsPromise.isDecodeError(error)) {
       logger.error('io-ts decode error. Are all required environment variables present?');
+    } else if (error.code === 'ETIMEDOUT') {
+      logger.error('ETIMEDOUT: Request timed out');
     } else {
       logger.error('Error during startup', error);
     }
