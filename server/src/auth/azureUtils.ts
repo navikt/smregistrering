@@ -46,9 +46,7 @@ export const getOnBehalfOfAccessToken = (
             logger.error(error);
             reject(error);
           } else {
-            const sanitizedError = new Error(
-              `An error occured while retrieving on-behalf-of-token for request: ${req.originalUrl}`,
-            );
+            const sanitizedError = new Error('An error occured while retrieving on-behalf-of-token');
             logger.error(sanitizedError);
             reject(sanitizedError);
           }
