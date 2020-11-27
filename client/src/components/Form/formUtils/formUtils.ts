@@ -1,15 +1,95 @@
-import { Diagnosekoder } from "../../../types/Diagnosekode";
-import { Oppgave } from "../../../types/Oppgave";
-import { getPrefilledDiagnose, getPrefilledBidiagnoser } from "../../../utils/diagnoseUtils";
-import { getAvventendePeriode, getAktivitetIkkeMuligSykmelding, getBehandlingsdagerSykmelding, getGradertSykmelding, getReisetilskuddSykmelding } from "../../../utils/periodeUtils";
-import { FormType } from "../Form";
+import { AktivitetIkkeMuligPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
+import { AvventendePeriodeMFA } from '../components/formSections/MulighetForArbeidSection/AvventendePeriode';
+import { BehandlingsdagerPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode';
+import { Diagnosekoder } from '../../../types/Diagnosekode';
+import { FormType } from '../Form';
+import { GradertPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/GradertPeriode';
+import { MulighetForArbeidTypes } from '../components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
+import { Oppgave } from '../../../types/Oppgave';
+import { ReisetilskuddPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode';
+import {
+    getAktivitetIkkeMuligSykmelding,
+    getAvventendePeriode,
+    getBehandlingsdagerSykmelding,
+    getGradertSykmelding,
+    getReisetilskuddSykmelding,
+} from '../../../utils/periodeUtils';
+import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../../utils/diagnoseUtils';
 
 export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): FormType => {
     const avventendePeriode = getAvventendePeriode(oppgave.papirSmRegistering?.perioder);
+    const gradertPeriode = getGradertSykmelding(oppgave.papirSmRegistering?.perioder);
     const aktivitetIkkeMuligPeriode = getAktivitetIkkeMuligSykmelding(oppgave.papirSmRegistering?.perioder);
     const behandlingsdagerPeriode = getBehandlingsdagerSykmelding(oppgave.papirSmRegistering?.perioder);
-    const gradertPeriode = getGradertSykmelding(oppgave.papirSmRegistering?.perioder);
-    const reisetilskuddperiode = getReisetilskuddSykmelding(oppgave.papirSmRegistering?.perioder);
+    const reisetilskuddPeriode = getReisetilskuddSykmelding(oppgave.papirSmRegistering?.perioder);
+
+    const createMulighetForArbeid = () => {
+        const mulighetForArbeid: MulighetForArbeidTypes[] = [];
+
+        if (avventendePeriode) {
+            const avventendePeriodeMFA: AvventendePeriodeMFA = {
+                type: 'avventende',
+                avventendePeriode: [avventendePeriode.fom, avventendePeriode.tom],
+                avventendeInnspillTilArbeidsgiver: avventendePeriode.avventendeInnspillTilArbeidsgiver || undefined,
+            };
+
+            mulighetForArbeid.push(avventendePeriodeMFA);
+        }
+
+        if (gradertPeriode) {
+            const gradertPeriodeMFA: GradertPeriodeMFA = {
+                type: 'gradert',
+                gradertPeriode: [gradertPeriode.fom, gradertPeriode.tom],
+                gradertGrad: gradertPeriode.gradert?.grad || undefined,
+                gradertReisetilskudd: gradertPeriode.reisetilskudd,
+            };
+
+            mulighetForArbeid.push(gradertPeriodeMFA);
+        }
+
+        if (aktivitetIkkeMuligPeriode) {
+            const aktivitetIkkeMuligPeriodeMFA: AktivitetIkkeMuligPeriodeMFA = {
+                type: 'fullsykmelding',
+                aktivitetIkkeMuligPeriode: !!aktivitetIkkeMuligPeriode
+                    ? [aktivitetIkkeMuligPeriode.fom, aktivitetIkkeMuligPeriode.tom]
+                    : undefined,
+                aktivitetIkkeMuligMedisinskArsak: !!aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak,
+                aktivitetIkkeMuligMedisinskArsakType:
+                    aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak?.arsak,
+                aktivitetIkkeMuligMedisinskArsakBeskrivelse:
+                    aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak?.beskrivelse,
+                aktivitetIkkeMuligArbeidsrelatertArsak: !!aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig
+                    ?.arbeidsrelatertArsak,
+                aktivitetIkkeMuligArbeidsrelatertArsakType:
+                    aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.arsak,
+                aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse:
+                    aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.beskrivelse,
+            };
+
+            mulighetForArbeid.push(aktivitetIkkeMuligPeriodeMFA);
+        }
+
+        if (behandlingsdagerPeriode) {
+            const behandlingsdagerPeriodeMFA: BehandlingsdagerPeriodeMFA = {
+                type: 'behandlingsdager',
+                behandlingsdagerPeriode: [behandlingsdagerPeriode.fom, behandlingsdagerPeriode.tom],
+                behandlingsdagerAntall: behandlingsdagerPeriode.behandlingsdager || undefined,
+            };
+
+            mulighetForArbeid.push(behandlingsdagerPeriodeMFA);
+        }
+
+        if (reisetilskuddPeriode) {
+            const reisetilskuddPeriodeMFA: ReisetilskuddPeriodeMFA = {
+                type: 'reisetilskudd',
+                reisetilskuddPeriode: [reisetilskuddPeriode.fom, reisetilskuddPeriode.tom],
+            };
+
+            mulighetForArbeid.push(reisetilskuddPeriodeMFA);
+        }
+
+        return mulighetForArbeid;
+    };
 
     return {
         // Other
@@ -42,42 +122,7 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
         ),
 
         // MulighetForArbeid
-        // TODO:
-        mulighetForArbeid: [],
-        // old
-        /*
-        avventendeSykmelding: !!avventendePeriode,
-        avventendePeriode: !!avventendePeriode ? [avventendePeriode.fom, avventendePeriode.tom] : undefined,
-        avventendeInnspillTilArbeidsgiver: !!avventendePeriode?.avventendeInnspillTilArbeidsgiver
-            ? avventendePeriode.avventendeInnspillTilArbeidsgiver
-            : undefined,
-        gradertSykmelding: !!gradertPeriode,
-        gradertPeriode: !!gradertPeriode ? [gradertPeriode.fom, gradertPeriode.tom] : undefined,
-        gradertReisetilskudd: !!gradertPeriode?.gradert?.reisetilskudd,
-        gradertGrad: gradertPeriode?.gradert?.grad ? gradertPeriode?.gradert?.grad : undefined,
-        aktivitetIkkeMuligSykmelding: !!aktivitetIkkeMuligPeriode,
-        aktivitetIkkeMuligPeriode: !!aktivitetIkkeMuligPeriode
-            ? [aktivitetIkkeMuligPeriode.fom, aktivitetIkkeMuligPeriode.tom]
-            : undefined,
-        aktivitetIkkeMuligMedisinskArsak: !!aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak,
-        aktivitetIkkeMuligMedisinskArsakType: aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak?.arsak,
-        aktivitetIkkeMuligMedisinskArsakBeskrivelse:
-            aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak?.beskrivelse,
-        aktivitetIkkeMuligArbeidsrelatertArsak: !!aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak,
-        aktivitetIkkeMuligArbeidsrelatertArsakType:
-            aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.arsak,
-        aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse:
-            aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.beskrivelse,
-        behandlingsdagerSykmelding: !!behandlingsdagerPeriode,
-        behandlingsdagerPeriode: !!behandlingsdagerPeriode
-            ? [behandlingsdagerPeriode.fom, behandlingsdagerPeriode.tom]
-            : undefined,
-        behandlingsdagerAntall: behandlingsdagerPeriode?.behandlingsdager
-            ? behandlingsdagerPeriode?.behandlingsdager
-            : undefined,
-        reisetilskuddSykmelding: !!reisetilskuddperiode,
-        reisetilskuddPeriode: !!reisetilskuddperiode ? [reisetilskuddperiode.fom, reisetilskuddperiode.tom] : undefined,
-        */
+        mulighetForArbeid: createMulighetForArbeid(),
 
         // Friskmelding
         arbeidsfoerEtterPeriode: !!oppgave.papirSmRegistering?.prognose?.arbeidsforEtterPeriode,

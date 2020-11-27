@@ -5,20 +5,20 @@ import { Element } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Select } from 'nav-frontend-skjema';
 
 import SectionContainer from '../../SectionContainer';
-import AvventendeArsak, { AvventendeMFA } from './AvventendeArsak';
-import BehandlingsDager, { BehandlingsdagerMFA } from './BehandlingsDager';
-import FullSykmelding, { FullSykmeldingMFA } from './FullSykmelding';
-import GradertSykmelding, { GradertMFA } from './GradertSykmelding';
-import Reisetilskudd, { ReisetilskuddMFA } from './Reisetilskudd';
+import AktivitetIkkeMuligPeriode, { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
+import AvventendePeriode, { AvventendePeriodeMFA } from './AvventendePeriode';
+import BehandlingsdagerPeriode, { BehandlingsdagerPeriodeMFA } from './BehandlingsdagerPeriode';
+import GradertPeriode, { GradertPeriodeMFA } from './GradertPeriode';
+import ReisetilskuddPeriode, { ReisetilskuddPeriodeMFA } from './ReisetilskuddPeriode';
 import { FormType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
 
 export type MulighetForArbeidTypes =
-    | AvventendeMFA
-    | GradertMFA
-    | FullSykmeldingMFA
-    | BehandlingsdagerMFA
-    | ReisetilskuddMFA
+    | AvventendePeriodeMFA
+    | GradertPeriodeMFA
+    | AktivitetIkkeMuligPeriodeMFA
+    | BehandlingsdagerPeriodeMFA
+    | ReisetilskuddPeriodeMFA
     | undefined;
 
 export type MulighetForArbeid = {
@@ -152,37 +152,37 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                             {periodOptions}
                         </Select>
                         {mulighetForArbeid?.type === 'avventende' && (
-                            <AvventendeArsak
+                            <AvventendePeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid as AvventendeMFA}
+                                mulighetForArbeid={mulighetForArbeid as AvventendePeriodeMFA}
                                 errors={errors}
                             />
                         )}
                         {mulighetForArbeid?.type === 'gradert' && (
-                            <GradertSykmelding
+                            <GradertPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid as GradertMFA}
+                                mulighetForArbeid={mulighetForArbeid as GradertPeriodeMFA}
                                 errors={errors}
                             />
                         )}
                         {mulighetForArbeid?.type === 'fullsykmelding' && (
-                            <FullSykmelding
+                            <AktivitetIkkeMuligPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid as FullSykmeldingMFA}
+                                mulighetForArbeid={mulighetForArbeid as AktivitetIkkeMuligPeriodeMFA}
                                 errors={errors}
                             />
                         )}
                         {mulighetForArbeid?.type === 'behandlingsdager' && (
-                            <BehandlingsDager
+                            <BehandlingsdagerPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid as BehandlingsdagerMFA}
+                                mulighetForArbeid={mulighetForArbeid as BehandlingsdagerPeriodeMFA}
                                 errors={errors}
                             />
                         )}
                         {mulighetForArbeid?.type === 'reisetilskudd' && (
-                            <Reisetilskudd
+                            <ReisetilskuddPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid as ReisetilskuddMFA}
+                                mulighetForArbeid={mulighetForArbeid as ReisetilskuddPeriodeMFA}
                                 errors={errors}
                             />
                         )}

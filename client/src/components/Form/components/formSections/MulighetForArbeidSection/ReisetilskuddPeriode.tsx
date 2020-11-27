@@ -1,23 +1,23 @@
-import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import React from 'react';
-import { FormType } from '../../../Form';
+import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';
+import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
-export type ReisetilskuddMFA = {
+export type ReisetilskuddPeriodeMFA = {
     type: MFAOptions;
     // Perioder for sykmelding med reisetilskudd
     reisetilskuddPeriode?: Date[];
 };
 
-type ReisetilskuddProps = {
-    mulighetForArbeid: ReisetilskuddMFA;
+type ReisetilskuddPeriodeProps = {
+    mulighetForArbeid: ReisetilskuddPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
-const Reisetilskudd = ({ updateMfa, mulighetForArbeid, errors }: ReisetilskuddProps) => {
+const ReisetilskuddPeriode = ({ updateMfa, mulighetForArbeid, errors }: ReisetilskuddPeriodeProps) => {
     return (
         <RangePicker
             id="reisetilskuddPeriode"
@@ -37,4 +37,4 @@ const Reisetilskudd = ({ updateMfa, mulighetForArbeid, errors }: ReisetilskuddPr
     );
 };
 
-export default Reisetilskudd;
+export default ReisetilskuddPeriode;

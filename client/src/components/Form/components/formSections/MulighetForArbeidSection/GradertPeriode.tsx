@@ -7,7 +7,7 @@ import RangePicker from '../../formComponents/RangePicker';
 import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
-export type GradertMFA = {
+export type GradertPeriodeMFA = {
     type: MFAOptions;
     // Perioder for gradert sykmelding
     gradertPeriode?: Date[];
@@ -15,13 +15,13 @@ export type GradertMFA = {
     gradertReisetilskudd: boolean;
 };
 
-type GradertSykmeldingProps = {
-    mulighetForArbeid: GradertMFA;
+type GradertPeriodeProps = {
+    mulighetForArbeid: GradertPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
-const GradertSykmelding = ({ updateMfa, mulighetForArbeid, errors }: GradertSykmeldingProps) => {
+const GradertPeriode = ({ updateMfa, mulighetForArbeid, errors }: GradertPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <div className="mulighetForArbeid__gradert-row">
@@ -76,4 +76,4 @@ const GradertSykmelding = ({ updateMfa, mulighetForArbeid, errors }: GradertSykm
     );
 };
 
-export default GradertSykmelding;
+export default GradertPeriode;

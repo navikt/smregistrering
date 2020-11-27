@@ -12,7 +12,7 @@ import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../typ
 import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
-export type FullSykmeldingMFA = {
+export type AktivitetIkkeMuligPeriodeMFA = {
     type: MFAOptions;
     // Perioder for full sykmelding
     aktivitetIkkeMuligPeriode?: Date[];
@@ -24,13 +24,13 @@ export type FullSykmeldingMFA = {
     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string | null;
 };
 
-type FullSykmeldingProps = {
-    mulighetForArbeid: FullSykmeldingMFA;
+type AktivitetIkkeMuligPeriodeProps = {
+    mulighetForArbeid: AktivitetIkkeMuligPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
-const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors }: FullSykmeldingProps) => {
+const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: AktivitetIkkeMuligPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
@@ -138,4 +138,4 @@ const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors }: FullSykmelding
     );
 };
 
-export default FullSykmelding;
+export default AktivitetIkkeMuligPeriode;

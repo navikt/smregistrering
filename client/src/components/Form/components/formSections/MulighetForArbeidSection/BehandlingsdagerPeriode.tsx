@@ -5,23 +5,23 @@ import { Element } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';
-import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 import { FormType } from '../../../Form';
+import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
-export type BehandlingsdagerMFA = {
+export type BehandlingsdagerPeriodeMFA = {
     type: MFAOptions;
     // Perioder for sykmelding for behandlignsdager
     behandlingsdagerPeriode?: Date[];
     behandlingsdagerAntall?: number;
 };
 
-type BehandlingsDagerProps = {
-    mulighetForArbeid: BehandlingsdagerMFA;
+type BehandlingsdagerPeriodeProps = {
+    mulighetForArbeid: BehandlingsdagerPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
-const BehandlingsDager = ({ updateMfa, mulighetForArbeid, errors }: BehandlingsDagerProps) => {
+const BehandlingsdagerPeriode = ({ updateMfa, mulighetForArbeid, errors }: BehandlingsdagerPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
@@ -60,4 +60,4 @@ const BehandlingsDager = ({ updateMfa, mulighetForArbeid, errors }: BehandlingsD
     );
 };
 
-export default BehandlingsDager;
+export default BehandlingsdagerPeriode;

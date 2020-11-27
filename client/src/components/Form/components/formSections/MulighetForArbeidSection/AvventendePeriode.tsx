@@ -8,20 +8,20 @@ import RangePicker from '../../formComponents/RangePicker';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 import { FormType } from '../../../Form';
 
-export type AvventendeMFA = {
+export type AvventendePeriodeMFA = {
     type: MFAOptions;
     // Perioder for avventende sykmelding
     avventendePeriode?: Date[];
     avventendeInnspillTilArbeidsgiver?: string;
 };
 
-type AvventendeArsakProps = {
-    mulighetForArbeid: AvventendeMFA;
+type AvventendePeriodeProps = {
+    mulighetForArbeid: AvventendePeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
-const AvventendeArsak = ({ updateMfa, mulighetForArbeid, errors }: AvventendeArsakProps) => {
+const AvventendePeriode = ({ updateMfa, mulighetForArbeid, errors }: AvventendePeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
@@ -58,4 +58,4 @@ const AvventendeArsak = ({ updateMfa, mulighetForArbeid, errors }: AvventendeArs
     );
 };
 
-export default AvventendeArsak;
+export default AvventendePeriode;

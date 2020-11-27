@@ -3,11 +3,11 @@ import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 
 
 import { ArbeidsrelatertArsakType } from '../../../../../types/RegistrertSykmelding';
 import { FormType } from '../../../Form';
-import { FullSykmeldingMFA } from './FullSykmelding';
+import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 interface ArbeidsrelatertArsakProps {
-    mulighetForArbeid: FullSykmeldingMFA;
+    mulighetForArbeid: AktivitetIkkeMuligPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
-import { FullSykmeldingMFA } from './FullSykmelding';
+import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
 import { FormType } from '../../../Form';
 
 interface MedisinskArsakProps {
-    mulighetForArbeid: FullSykmeldingMFA;
+    mulighetForArbeid: AktivitetIkkeMuligPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
 }
