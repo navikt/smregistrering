@@ -1,10 +1,10 @@
 import './MulighetForArbeidSection.less';
 
 import React from 'react';
-import { Checkbox, Input } from 'nav-frontend-skjema';
+import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';
-import { ErrorSchemaType } from '../../../Form';
+import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 export type GradertMFA = {
@@ -18,7 +18,7 @@ export type GradertMFA = {
 type GradertSykmeldingProps = {
     mulighetForArbeid: GradertMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: ErrorSchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
 const GradertSykmelding = ({ updateMfa, mulighetForArbeid, errors }: GradertSykmeldingProps) => {

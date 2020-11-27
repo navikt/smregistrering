@@ -12,7 +12,7 @@ import {
     RegistrertSykmelding,
     UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
-import { SchemaType } from '../components/Form/Form';
+import { FormType } from '../components/Form/Form';
 
 export const buildAvventendeSykmelding = (
     avventendeSykmelding: boolean,
@@ -142,7 +142,7 @@ export const buildReisetilskuddSykmelding = (
     }
 };
 
-export const buildPerioder = (schema: SchemaType): Periode[] => {
+export const buildPerioder = (schema: FormType): Periode[] => {
     const perioder: Periode[] = [];
 
     // TODO:
@@ -287,7 +287,7 @@ export const buildPrognose = (
     }
 };
 
-export const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysningerReturn => {
+export const buildUtdypendeOpplysninger = (schema: FormType): UtdypendeOpplysningerReturn => {
     return {
         6.1: {
             '6.1.1': schema.utdypende611,
@@ -325,7 +325,7 @@ export const buildUtdypendeOpplysninger = (schema: SchemaType): UtdypendeOpplysn
     };
 };
 
-export const buildRegistrertSykmelding = (schema: SchemaType): RegistrertSykmelding | undefined => {
+export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmelding | undefined => {
     // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
         !schema.pasientFnr ||

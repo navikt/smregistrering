@@ -2,11 +2,11 @@ import './MulighetForArbeidSection.less';
 
 import React from 'react';
 import { Element } from 'nav-frontend-typografi';
-import { Input } from 'nav-frontend-skjema';
+import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';
-import { ErrorSchemaType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { FormType } from '../../../Form';
 
 export type BehandlingsdagerMFA = {
     type: MFAOptions;
@@ -18,7 +18,7 @@ export type BehandlingsdagerMFA = {
 type BehandlingsDagerProps = {
     mulighetForArbeid: BehandlingsdagerMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: ErrorSchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
 const BehandlingsDager = ({ updateMfa, mulighetForArbeid, errors }: BehandlingsDagerProps) => {

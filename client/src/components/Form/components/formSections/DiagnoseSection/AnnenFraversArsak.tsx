@@ -1,19 +1,17 @@
 import React from 'react';
-import { CheckboksPanelGruppe, CheckboksPanelProps } from 'nav-frontend-skjema';
+import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import { AnnenFraverGrunn } from '../../../../../types/RegistrertSykmelding';
-import { ErrorSchemaType, SchemaType } from '../../../Form';
-import { Validate } from '../../../validation';
+import { FormType } from '../../../Form';
 
 interface AnnenFraversArsakProps {
-    schema: SchemaType;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 }
 
-const AnnenFraversArsak = ({ schema, setSchema, errors, validate }: AnnenFraversArsakProps) => {
-    const { annenFraversArsakGrunn } = schema;
+const AnnenFraversArsak = ({ formState, setFormState, errors }: AnnenFraversArsakProps) => {
+    const { annenFraversArsakGrunn } = formState;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(AnnenFraverGrunn).map(([key, value]) => {
         return {
@@ -25,25 +23,21 @@ const AnnenFraversArsak = ({ schema, setSchema, errors, validate }: AnnenFravers
     });
 
     const updateCheckboxes = (value: keyof typeof AnnenFraverGrunn): void => {
-        setSchema((state) => {
-            if (!state.annenFraversArsakGrunn) {
-                const updatedSchema = {
-                    ...state,
+        setFormState((formState) => {
+            if (!formState.annenFraversArsakGrunn) {
+                return {
+                    ...formState,
                     annenFraversArsakGrunn: [value as keyof typeof AnnenFraverGrunn],
                 };
-                validate('annenFraversArsakGrunn', updatedSchema);
-                return updatedSchema;
             }
-            const shouldAddArsak: boolean = !state.annenFraversArsakGrunn.includes(value);
+            const shouldAddArsak: boolean = !formState.annenFraversArsakGrunn.includes(value);
             const newAnnenFraversArsakGrunn: (keyof typeof AnnenFraverGrunn)[] = shouldAddArsak
-                ? [...state.annenFraversArsakGrunn, value]
-                : state.annenFraversArsakGrunn.filter((arsak) => arsak !== value);
-            const updatedSchema = {
-                ...state,
+                ? [...formState.annenFraversArsakGrunn, value]
+                : formState.annenFraversArsakGrunn.filter((arsak) => arsak !== value);
+            return {
+                ...formState,
                 annenFraversArsakGrunn: newAnnenFraversArsakGrunn,
             };
-            validate('annenFraversArsakGrunn', updatedSchema);
-            return updatedSchema;
         });
     };
 
@@ -53,7 +47,7 @@ const AnnenFraversArsak = ({ schema, setSchema, errors, validate }: AnnenFravers
                 legend="3.3.1 Lovfestet fraværsgrunn"
                 checkboxes={checkboxes}
                 onChange={(_event, value) => updateCheckboxes(value)}
-                feil={errors.annenFraversArsakGrunn}
+                feil={errors.get('annenFraversArsakGrunn')?.feilmelding}
             />
         </div>
     );

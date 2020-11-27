@@ -2,11 +2,11 @@ import './MulighetForArbeidSection.less';
 
 import React from 'react';
 import { Element } from 'nav-frontend-typografi';
-import { Textarea } from 'nav-frontend-skjema';
+import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';
-import { ErrorSchemaType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { FormType } from '../../../Form';
 
 export type AvventendeMFA = {
     type: MFAOptions;
@@ -18,7 +18,7 @@ export type AvventendeMFA = {
 type AvventendeArsakProps = {
     mulighetForArbeid: AvventendeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: ErrorSchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
 const AvventendeArsak = ({ updateMfa, mulighetForArbeid, errors }: AvventendeArsakProps) => {

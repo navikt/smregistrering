@@ -1,7 +1,8 @@
+import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import React from 'react';
+import { FormType } from '../../../Form';
 
 import RangePicker from '../../formComponents/RangePicker';
-import { ErrorSchemaType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 export type ReisetilskuddMFA = {
@@ -13,7 +14,7 @@ export type ReisetilskuddMFA = {
 type ReisetilskuddProps = {
     mulighetForArbeid: ReisetilskuddMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: ErrorSchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
 const Reisetilskudd = ({ updateMfa, mulighetForArbeid, errors }: ReisetilskuddProps) => {

@@ -2,7 +2,7 @@ import './MulighetForArbeidSection.less';
 
 import React from 'react';
 import { Element } from 'nav-frontend-typografi';
-import { Select } from 'nav-frontend-skjema';
+import { FeiloppsummeringFeil, Select } from 'nav-frontend-skjema';
 
 import SectionContainer from '../../SectionContainer';
 import AvventendeArsak, { AvventendeMFA } from './AvventendeArsak';
@@ -10,9 +10,8 @@ import BehandlingsDager, { BehandlingsdagerMFA } from './BehandlingsDager';
 import FullSykmelding, { FullSykmeldingMFA } from './FullSykmelding';
 import GradertSykmelding, { GradertMFA } from './GradertSykmelding';
 import Reisetilskudd, { ReisetilskuddMFA } from './Reisetilskudd';
-import { ErrorSchemaType, SchemaType } from '../../../Form';
+import { FormType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
-import { Validate } from '../../../validation';
 
 export type MulighetForArbeidTypes =
     | AvventendeMFA
@@ -30,14 +29,13 @@ export type MFAOptions = 'velg' | 'avventende' | 'gradert' | 'fullsykmelding' | 
 
 type MulighetForArbeidSectionProps = {
     section: Section;
-    schema: SchemaType;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 };
 
-const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate }: MulighetForArbeidSectionProps) => {
-    console.log(schema.mulighetForArbeid);
+const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: MulighetForArbeidSectionProps) => {
+    console.log(formState.mulighetForArbeid);
 
     const periodOptions = [
         <option value="velg">Velg</option>,
@@ -85,13 +83,13 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
         return undefined;
     };
 
-    const mergeMFAAtIndex = (mfa: MulighetForArbeidTypes, state: SchemaType, index: number) => {
+    const mergeMFAAtIndex = (mfa: MulighetForArbeidTypes, state: FormType, index: number) => {
         return [...state.mulighetForArbeid.slice(0, index), mfa, ...state.mulighetForArbeid.slice(index + 1)];
     };
 
     const updateSubsectionMFA = (updatedMfa: MulighetForArbeidTypes, index: number) =>
-        setSchema(
-            (state): SchemaType => {
+        setFormState(
+            (state): FormType => {
                 const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
 
                 return {
@@ -102,14 +100,14 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
         );
 
     return (
-        <SectionContainer section={section} sectionError={errors.mulighetForArbeid}>
-            {schema.mulighetForArbeid.length === 0 && (
+        <SectionContainer section={section} sectionError={errors.get('mulighetForArbeid')?.feilmelding}>
+            {formState.mulighetForArbeid.length === 0 && (
                 <Select
                     id="mulighetForArbeid"
                     value={undefined}
                     onChange={({ target: { value } }) => {
-                        setSchema(
-                            (state): SchemaType => {
+                        setFormState(
+                            (state): FormType => {
                                 // TODO: Fix this so it doesn't require "as"
                                 const period = createEmptyMFA(value as MFAOptions);
 
@@ -122,21 +120,20 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                     }}
                     className="form-margin-bottom"
                     label={<Element>Har pasienten mulighet til å være i arbeid?</Element>}
-                    feil={errors.harArbeidsgiver}
                 >
                     {periodOptions}
                 </Select>
             )}
 
-            {schema.mulighetForArbeid.length > 0 &&
-                schema.mulighetForArbeid.map((mulighetForArbeid, index) => (
+            {formState.mulighetForArbeid.length > 0 &&
+                formState.mulighetForArbeid.map((mulighetForArbeid, index) => (
                     <>
                         <Select
                             id="mulighetForArbeid"
                             value={mulighetForArbeid && mulighetForArbeid.type}
                             onChange={({ target: { value } }) => {
-                                setSchema(
-                                    (state): SchemaType => {
+                                setFormState(
+                                    (state): FormType => {
                                         // TODO: Fix this so it doesn't require "as"
                                         const mfa = createEmptyMFA(value as MFAOptions);
 
@@ -151,7 +148,6 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                             }}
                             className="form-margin-bottom"
                             label={<Element>Har pasienten mulighet til å være i arbeid?</Element>}
-                            feil={errors.harArbeidsgiver}
                         >
                             {periodOptions}
                         </Select>
@@ -198,8 +194,8 @@ const MulighetForArbeidSection = ({ section, setSchema, schema, errors, validate
                 className="mulighetForArbeid__add"
                 onClick={(event) => {
                     event.preventDefault();
-                    setSchema(
-                        (state): SchemaType => {
+                    setFormState(
+                        (state): FormType => {
                             // Since the initial dropdown is not stored in the array, we need to add two undefined objects to the array if no data is currently stored
                             // If there is data in the array, undefined is appended to it.
                             const mulighetForArbeid =

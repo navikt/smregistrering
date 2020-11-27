@@ -1,15 +1,15 @@
 import React from 'react';
-import { CheckboksPanelGruppe, CheckboksPanelProps } from 'nav-frontend-skjema';
+import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
-import { ErrorSchemaType } from '../../../Form';
 import { FullSykmeldingMFA } from './FullSykmelding';
 import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { FormType } from '../../../Form';
 
 interface MedisinskArsakProps {
     mulighetForArbeid: FullSykmeldingMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: ErrorSchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
 }
 
 const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors }: MedisinskArsakProps) => {
@@ -52,7 +52,7 @@ const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors }: MedisinskArsak
                 legend="Medisinske årsaker"
                 checkboxes={checkboxes}
                 onChange={(_event, value) => updateCheckboxes(value)}
-                feil={undefined /* // TODO: errors.aktivitetIkkeMuligMedisinskArsakType */}
+                feil={undefined /* // TODO: errors.get('aktivitetIkkeMuligMedisinskArsakType')?.feilmelding */}
             />
         </div>
     );

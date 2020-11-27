@@ -23,3 +23,12 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+/// <reference types="cypress" />
+
+Cypress.Commands.add('getAndScrollIntoView', (selector, options) => {
+    cy.get(selector, options)
+        .scrollIntoView({ offset: { top: -250 } })
+        .should('be.visible')
+        .wait(500); // Needs delat because the test execution is too fast for the browser to scroll the page far enough
+});

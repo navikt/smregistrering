@@ -1,10 +1,14 @@
-import React from 'react';
-import { Input } from 'nav-frontend-skjema';
+import * as iotsPromise from 'io-ts-promise';
+import NavFrontendSpinner from 'nav-frontend-spinner';
+import React, { useEffect, useRef, useState } from 'react';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
+import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { FormType } from '../../Form';
+import { PasientNavn } from '../../../../types/Pasient';
 import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
 
 export type Pasientopplysninger = {
     pasientFnr?: string | null;
@@ -12,34 +16,96 @@ export type Pasientopplysninger = {
 
 type PasientopplysningerProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    errors: ErrorSchemaType;
-    validate: Validate;
-    schema: SchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    formState: FormType;
 };
 
-const PasientopplysningerSection = ({ section, setSchema, errors, validate, schema }: PasientopplysningerProps) => {
+const PasientopplysningerSection = ({ section, setFormState, errors, formState }: PasientopplysningerProps) => {
+    const [pasientNavn, setPasientNavn] = useState<PasientNavn | undefined | null>(undefined);
+    const [isLoading, setIsloading] = useState<boolean>(false);
+    const [error, setError] = useState<Error | null>(null);
+
+    const [fnrTouched, setFnrTouched] = useState<boolean>(false);
+    const fnrRef = useRef<HTMLInputElement>();
+
+    // GET information about sykmelder on every formState.pasientFnr change
+    useEffect(() => {
+        // Number must be in synch with validationFuncitons.pasientFnr in validation.ts
+        if (formState.pasientFnr?.length && formState.pasientFnr.length === 11) {
+            setIsloading(true);
+            setPasientNavn(null);
+            setError(null);
+            fetch(`/backend/api/v1/pasient/${formState.pasientFnr}`, { credentials: 'include' })
+                .then((res) => {
+                    if (res.ok) {
+                        return res.json();
+                    } else {
+                        throw new Error('Fant ikke pasient med fødselsnummer: ' + formState.pasientFnr);
+                    }
+                })
+                .then((jsonResponse) => {
+                    return iotsPromise.decode(PasientNavn, jsonResponse);
+                })
+                .then((pasient) => {
+                    setPasientNavn(pasient);
+                    document.getElementById('pasientFnr')?.focus();
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setPasientNavn(null);
+                    setError(error);
+                })
+                .finally(() => {
+                    setIsloading(false);
+                    if (fnrTouched) {
+                        fnrRef.current?.focus();
+                    }
+                });
+        } else {
+            setPasientNavn(null);
+        }
+    }, [formState.pasientFnr, fnrTouched]);
+
     return (
         <SectionContainer section={section}>
-            <Input
-                id="pasientFnr"
-                className="half"
-                value={schema.pasientFnr ? schema.pasientFnr : undefined}
-                onChange={({ target: { value } }) => {
-                    setSchema(
-                        (state): SchemaType => {
-                            const updatedSchema = {
-                                ...state,
-                                pasientFnr: value,
-                            };
-                            validate('pasientFnr', updatedSchema);
-                            return updatedSchema;
-                        },
-                    );
-                }}
-                label="1.2 Fødselsnummer (11 siffer)"
-                feil={errors.pasientFnr}
-            />
+            <Row>
+                <Input
+                    inputRef={fnrRef as any}
+                    id="pasientFnr"
+                    disabled={isLoading}
+                    value={formState.pasientFnr ? formState.pasientFnr : undefined}
+                    onChange={({ target: { value } }) => {
+                        if (!fnrTouched) {
+                            setFnrTouched(true);
+                        }
+                        setFormState((formState) => {
+                            return { ...formState, pasientFnr: value };
+                        });
+                    }}
+                    label="1.2 Fødselsnummer (11 siffer)"
+                    feil={errors.get('pasientFnr')?.feilmelding || error?.message}
+                />
+                <div>
+                    {pasientNavn ? (
+                        <div id="pasientFnr--name">
+                            <Element tag="h4" style={{ marginBottom: '1rem' }}>
+                                Navn:
+                            </Element>
+                            <Normaltekst>
+                                {pasientNavn.fornavn} {pasientNavn?.mellomnavn} {pasientNavn.etternavn}
+                            </Normaltekst>
+                        </div>
+                    ) : null}
+
+                    {isLoading ? (
+                        <div id="pasientFnr--loading" style={{ display: 'flex', alignItems: 'center' }}>
+                            <Normaltekst style={{ marginRight: '1rem' }}>Henter informasjon om pasient</Normaltekst>
+                            <NavFrontendSpinner />
+                        </div>
+                    ) : null}
+                </div>
+            </Row>
         </SectionContainer>
     );
 };

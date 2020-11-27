@@ -44,7 +44,6 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
       (pathFromRequest ? pathFromRequest : '') +
       (queryString ? '?' + queryString : '');
 
-    logger.info(`Proxying request from '${req.originalUrl}' to '${stripTrailingSlash(urlFromApi.href)}${newPath}'`);
     return newPath;
   },
 });

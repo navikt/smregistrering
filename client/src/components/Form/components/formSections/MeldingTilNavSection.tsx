@@ -1,12 +1,11 @@
 import React from 'react';
-import { Checkbox, Textarea } from 'nav-frontend-skjema';
+import { Checkbox, FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import ExpandableField from '../formComponents/ExpandableField';
 import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
-import { ErrorSchemaType, SchemaType } from '../../Form';
+import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
-import { Validate } from '../../validation';
 
 export type MeldingTilNav = {
     meldingTilNavBistand: boolean;
@@ -15,55 +14,38 @@ export type MeldingTilNav = {
 
 type MeldingTilNavSectionProps = {
     section: Section;
-    setSchema: (value: React.SetStateAction<SchemaType>) => void;
-    schema: SchemaType;
-    errors: ErrorSchemaType;
-    validate: Validate;
+    formState: FormType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 };
 
-const MeldingTilNavSection = ({ section, setSchema, schema, errors, validate }: MeldingTilNavSectionProps) => {
+const MeldingTilNavSection = ({ section, setFormState, formState, errors }: MeldingTilNavSectionProps) => {
     return (
         <SectionContainer section={section}>
             <Subsection sectionIdentifier="8.1" underline={false}>
                 <Checkbox
                     id="meldingTilNavBistand"
-                    checked={schema.meldingTilNavBistand}
+                    checked={formState.meldingTilNavBistand}
                     label="Ønskes bistand fra NAV nå?"
                     onChange={() =>
-                        setSchema(
-                            (state): SchemaType => {
-                                const updatedSchema = {
-                                    ...state,
-                                    meldingTilNavBistand: !state.meldingTilNavBistand,
-                                    meldingTilNavBegrunn: undefined,
-                                };
-                                validate('meldingTilNavBistand', updatedSchema);
-                                validate('meldingTilNavBegrunn', updatedSchema);
-                                return updatedSchema;
-                            },
-                        )
+                        setFormState((formState) => ({
+                            ...formState,
+                            meldingTilNavBistand: !formState.meldingTilNavBistand,
+                            meldingTilNavBegrunn: undefined,
+                        }))
                     }
-                    feil={errors.meldingTilNavBistand}
+                    feil={errors.get('meldingTilNavBistand')?.feilmelding}
                 />
                 <br />
-                <ExpandableField show={schema.meldingTilNavBistand}>
+                <ExpandableField show={formState.meldingTilNavBistand}>
                     <Textarea
                         id="meldingTilNavBegrunn"
                         maxLength={0}
-                        value={schema.meldingTilNavBegrunn || ''}
+                        value={formState.meldingTilNavBegrunn || ''}
                         onChange={({ target: { value } }) => {
-                            setSchema(
-                                (state): SchemaType => {
-                                    const updatedSchema = {
-                                        ...state,
-                                        meldingTilNavBegrunn: value,
-                                    };
-                                    validate('meldingTilNavBegrunn', updatedSchema);
-                                    return updatedSchema;
-                                },
-                            );
+                            setFormState((formState) => ({ ...formState, meldingTilNavBegrunn: value }));
                         }}
-                        feil={errors.meldingTilNavBegrunn}
+                        feil={errors.get('meldingTilNavBegrunn')?.feilmelding}
                         label="Begrunn nærmere"
                     />
                 </ExpandableField>

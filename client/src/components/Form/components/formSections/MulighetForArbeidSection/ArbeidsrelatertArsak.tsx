@@ -1,15 +1,15 @@
 import React from 'react';
-import { CheckboksPanelGruppe, CheckboksPanelProps } from 'nav-frontend-skjema';
+import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import { ArbeidsrelatertArsakType } from '../../../../../types/RegistrertSykmelding';
-import { ErrorSchemaType } from '../../../Form';
+import { FormType } from '../../../Form';
 import { FullSykmeldingMFA } from './FullSykmelding';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 interface ArbeidsrelatertArsakProps {
     mulighetForArbeid: FullSykmeldingMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: ErrorSchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
 }
 
 const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors }: ArbeidsrelatertArsakProps) => {
@@ -52,7 +52,7 @@ const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors }: Arbeidsr
                 legend="Arbeidsrelaterte årsaker"
                 checkboxes={checkboxes}
                 onChange={(_event, value) => updateCheckboxes(value)}
-                feil={undefined /* // TODO: errors.aktivitetIkkeMuligArbeidsrelatertArsakType */}
+                feil={undefined /* // TODO: errors.get('aktivitetIkkeMuligArbeidsrelatertArsakType')?.feilmelding */}
             />
         </div>
     );

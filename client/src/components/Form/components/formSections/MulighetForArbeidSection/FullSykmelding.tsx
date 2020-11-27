@@ -1,7 +1,7 @@
 import './MulighetForArbeidSection.less';
 
 import React from 'react';
-import { Checkbox, Input } from 'nav-frontend-skjema';
+import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
 import ArbeidsrelatertArsak from './ArbeidsrelatertArsak';
@@ -9,7 +9,7 @@ import ExpandableField from '../../formComponents/ExpandableField';
 import MedisinskArsak from './MedisinskArsak';
 import RangePicker from '../../formComponents/RangePicker';
 import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
-import { ErrorSchemaType } from '../../../Form';
+import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 export type FullSykmeldingMFA = {
@@ -27,7 +27,7 @@ export type FullSykmeldingMFA = {
 type FullSykmeldingProps = {
     mulighetForArbeid: FullSykmeldingMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: ErrorSchemaType;
+    errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
 const FullSykmelding = ({ updateMfa, mulighetForArbeid, errors }: FullSykmeldingProps) => {
