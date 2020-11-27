@@ -41,7 +41,7 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
                 <section className="sykmelder-information__col">
                     <FormLabel
                         label="Autorisasjoner"
-                        helpText="Viser behandlers lisenser og autorisasjoner fra Helsedirektoratet. Du trenger ikke ta stilling til dette: ugyldige autorisasjoner vil bli avvist i baksystemet."
+                        helpText="Viser behandlers lisenser og autorisasjoner fra Helsedirektoratet."
                     />
                     {sykmelder.godkjenninger.length > 0 ? (
                         <table className="tabell tabell--stripet">
