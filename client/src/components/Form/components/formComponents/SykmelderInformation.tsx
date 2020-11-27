@@ -6,6 +6,7 @@ import React from 'react';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { EtikettAdvarsel, EtikettSuksess } from 'nav-frontend-etiketter';
 
+import FormLabel from './FormLabel';
 import { Helsepersonellkategori, Sykmelder, autorisasjon } from '../../../../types/Sykmelder';
 
 interface SykmelderInformationProps {
@@ -26,21 +27,24 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
                 <div className="sykmelder-information__col">
                     {sykmelder.fornavn ? (
                         <section>
-                            <Element tag="h4">Navn:</Element>
+                            <Element tag="h4">Navn</Element>
                             <Normaltekst>
                                 {sykmelder.fornavn} {sykmelder.mellomnavn} {sykmelder.etternavn}
                             </Normaltekst>
                         </section>
                     ) : null}
                     <section>
-                        <Element tag="h4">Fødselsnummer:</Element>
+                        <Element tag="h4">Fødselsnummer</Element>
                         <Normaltekst>{sykmelder.fnr}</Normaltekst>
                     </section>
                 </div>
                 <section className="sykmelder-information__col">
-                    <Element tag="h4">Godkjenninger:</Element>
+                    <FormLabel
+                        label="Autorisasjoner"
+                        helpText="Viser behandlers lisenser og autorisasjoner fra Helsedirektoratet. Du trenger ikke ta stilling til dette: ugyldige autorisasjoner vil bli avvist i baksystemet."
+                    />
                     {sykmelder.godkjenninger.length > 0 ? (
-                        <table className="tabell">
+                        <table className="tabell tabell--stripet">
                             <thead>
                                 <tr>
                                     <th>Kategori</th>
@@ -61,7 +65,11 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
                                                             ]
                                                         }
                                                     </td>
-                                                    <td>{autorisasjon[godkjenning.autorisasjon?.verdi]}</td>
+                                                    <td>
+                                                        {`${godkjenning.autorisasjon.verdi} ${
+                                                            autorisasjon[godkjenning.autorisasjon.verdi]
+                                                        }`}
+                                                    </td>
                                                     <td>
                                                         {godkjenning.autorisasjon.aktiv ? (
                                                             <EtikettSuksess>Ja</EtikettSuksess>
