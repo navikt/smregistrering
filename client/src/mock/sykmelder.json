@@ -4,5 +4,43 @@
     "aktorId": "Dette er en aktørid",
     "fornavn": "Nobel",
     "mellomnavn": null,
-    "etternavn": "Busk"
+    "etternavn": "Busk",
+    "godkjenninger": [
+        {
+            "helsepersonellkategori": {
+                "aktiv": true,
+                "oid": 9060,
+                "verdi": "LE"
+            },
+            "autorisasjon": {
+                "aktiv": true,
+                "oid": 7704,
+                "verdi": "1"
+            }
+        },
+        {
+            "helsepersonellkategori": {
+                "aktiv": true,
+                "oid": 9060,
+                "verdi": "KI"
+            },
+            "autorisasjon": {
+                "aktiv": false,
+                "oid": 7704,
+                "verdi": "2"
+            }
+        },
+        {
+            "helsepersonellkategori": {
+                "aktiv": true,
+                "oid": 9060,
+                "verdi": "FA1"
+            },
+            "autorisasjon": {
+                "aktiv": false,
+                "oid": 7704,
+                "verdi": "4"
+            }
+        }
+    ]
 }
