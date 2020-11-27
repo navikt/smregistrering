@@ -4,6 +4,7 @@ import './SykmelderInformation.less';
 
 import React from 'react';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { EtikettAdvarsel, EtikettSuksess } from 'nav-frontend-etiketter';
 
 import { Helsepersonellkategori, Sykmelder, autorisasjon } from '../../../../types/Sykmelder';
 
@@ -61,7 +62,13 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
                                                         }
                                                     </td>
                                                     <td>{autorisasjon[godkjenning.autorisasjon?.verdi]}</td>
-                                                    <td>{godkjenning.autorisasjon.aktiv ? 'Ja' : 'Nei'}</td>
+                                                    <td>
+                                                        {godkjenning.autorisasjon.aktiv ? (
+                                                            <EtikettSuksess>Ja</EtikettSuksess>
+                                                        ) : (
+                                                            <EtikettAdvarsel>Nei</EtikettAdvarsel>
+                                                        )}
+                                                    </td>
                                                 </tr>
                                             </>
                                         );
