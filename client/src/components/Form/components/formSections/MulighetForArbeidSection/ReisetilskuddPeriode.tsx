@@ -14,7 +14,7 @@ export type ReisetilskuddPeriodeMFA = {
 type ReisetilskuddPeriodeProps = {
     mulighetForArbeid: ReisetilskuddPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
 };
 
 const ReisetilskuddPeriode = ({ updateMfa, mulighetForArbeid, errors }: ReisetilskuddPeriodeProps) => {

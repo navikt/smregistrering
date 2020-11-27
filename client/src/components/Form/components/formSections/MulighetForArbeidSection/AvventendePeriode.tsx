@@ -5,8 +5,8 @@ import { Element } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';
-import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 import { FormType } from '../../../Form';
+import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 export type AvventendePeriodeMFA = {
     type: MFAOptions;
@@ -18,10 +18,11 @@ export type AvventendePeriodeMFA = {
 type AvventendePeriodeProps = {
     mulighetForArbeid: AvventendePeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
 };
 
 const AvventendePeriode = ({ updateMfa, mulighetForArbeid, errors }: AvventendePeriodeProps) => {
+    console.log(errors);
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
@@ -40,7 +41,7 @@ const AvventendePeriode = ({ updateMfa, mulighetForArbeid, errors }: AvventendeP
                 feil={undefined /* // TODO: errors.avventendePeriode */}
             />
             <Textarea
-                id="avventendeInnspillTilArbeidsgiver"
+                id="avventendePeriode-1-avventendeInnspillTilArbeidsgiver"
                 maxLength={0}
                 value={mulighetForArbeid.avventendeInnspillTilArbeidsgiver || ''}
                 onChange={({ target: { value } }) => {
@@ -51,7 +52,7 @@ const AvventendePeriode = ({ updateMfa, mulighetForArbeid, errors }: AvventendeP
 
                     updateMfa(updatedSchema);
                 }}
-                feil={undefined /* // TODO: errors.avventendeInnspillTilArbeidsgiver */}
+                feil={errors.get('avventendePeriode-1-avventendeInnspillTilArbeidsgiver')?.feilmelding}
                 label={<Element>4.1.3 Andre innspill til arbeidsgiver</Element>}
             />
         </div>

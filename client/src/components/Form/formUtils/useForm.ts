@@ -2,10 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 // helper function for infering types with Object.entries
-export const getEntries = <T extends {}>(object: T): Array<[keyof T, T[keyof T]]> =>
-    Object.entries(object) as Array<[keyof T, T[keyof T]]>;
+export const getEntries = <T extends {}>(object: T): Array<[string, T[keyof T]]> =>
+    Object.entries(object) as Array<[string, T[keyof T]]>;
 
-export type ValidationFunctions<T> = { [key in Required<keyof T>]: (value: Partial<T>) => string | undefined };
+export type ValidationFunctions<T> = {
+    [key in Required<keyof T>]: (
+        value: Partial<T>,
+    ) => string | { errorKey: string; errorMessage: string }[] | undefined;
+};
 
 interface FormConfig<T> {
     validationFunctions: ValidationFunctions<T>;
@@ -14,24 +18,38 @@ interface FormConfig<T> {
 
 interface Form<T> {
     formState: T;
-    errors: Map<keyof T, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<T>>;
     handleSubmit: (onSubmit: (state: T) => void) => void;
 }
 
 const useForm = <T>({ validationFunctions, defaultValues }: FormConfig<T>): Form<T> => {
     const [state, setState] = useState<T>(defaultValues);
-    const [errors, setErrors] = useState<Map<keyof T, FeiloppsummeringFeil>>(new Map<keyof T, FeiloppsummeringFeil>());
+    const [errors, setErrors] = useState<Map<string, FeiloppsummeringFeil>>(new Map<string, FeiloppsummeringFeil>());
     const [isFirstSubmit, setIsFirstSubmit] = useState<boolean>(true);
 
-    const getErrors = useCallback((): Map<keyof T, FeiloppsummeringFeil> => {
-        const errorMap = new Map<keyof T, FeiloppsummeringFeil>();
+    const getErrors = useCallback((): Map<string, FeiloppsummeringFeil> => {
+        const errorMap = new Map<string, FeiloppsummeringFeil>();
         getEntries(validationFunctions).forEach(([key, validationFunction]) => {
             const maybeError = validationFunction(state);
-            if (maybeError) {
-                errorMap.set(key, { feilmelding: maybeError, skjemaelementId: String(key) });
+
+            if (Array.isArray(maybeError)) {
+                maybeError.forEach(({ errorKey, errorMessage }) => {
+                    if (errorMessage) {
+                        errorMap.set(errorKey, {
+                            feilmelding: errorMessage,
+                            skjemaelementId: errorKey,
+                        });
+                    } else {
+                        errorMap.delete(errorKey);
+                    }
+                });
             } else {
-                errorMap.delete(key);
+                if (maybeError) {
+                    errorMap.set(key, { feilmelding: maybeError, skjemaelementId: String(key) });
+                } else {
+                    errorMap.delete(key);
+                }
             }
         });
         return errorMap;

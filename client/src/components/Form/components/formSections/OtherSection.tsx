@@ -11,7 +11,7 @@ export type Other = {
 type OtherSectionProps = {
     setFormState: React.Dispatch<React.SetStateAction<FormType>>;
     formState: FormType;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
 };
 
 const OtherSection = ({ setFormState, formState, errors }: OtherSectionProps) => {

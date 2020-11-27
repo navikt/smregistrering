@@ -26,7 +26,7 @@ export type Friskmelding = {
 type FriskmeldingSectionProps = {
     section: Section;
     formState: FormType;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 };
 

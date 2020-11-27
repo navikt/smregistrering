@@ -16,7 +16,7 @@ export type Pasientopplysninger = {
 
 type PasientopplysningerProps = {
     section: Section;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<FormType>>;
     formState: FormType;
 };

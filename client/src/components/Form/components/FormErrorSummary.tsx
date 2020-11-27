@@ -6,7 +6,7 @@ import { Feiloppsummering, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { FormType } from '../Form';
 
 type FormErrorSummaryProps = {
-    formErrors: Map<keyof FormType, FeiloppsummeringFeil>;
+    formErrors: Map<string, FeiloppsummeringFeil>;
     errorSummaryRef: RefObject<HTMLDivElement>;
 };
 

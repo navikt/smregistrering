@@ -6,7 +6,7 @@ import { FormType } from '../../../Form';
 
 interface AnnenFraversArsakProps {
     formState: FormType;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 }
 

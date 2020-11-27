@@ -88,21 +88,36 @@ export const validationFunctions: ValidationFunctions<FormType> = {
     },
 
     // MulighetForArbeid
-    // TODO:
-    mulighetForArbeid: () => undefined,
-    /*
     mulighetForArbeid: (schema) => {
-        if (
-            !schema.avventendeSykmelding &&
-            !schema.gradertSykmelding &&
-            !schema.aktivitetIkkeMuligSykmelding &&
-            !schema.behandlingsdagerSykmelding &&
-            !schema.reisetilskuddSykmelding
-        ) {
+        if (!schema.mulighetForArbeid) {
             return 'Minimum én sykmeldingsperiode må være definert';
         }
+
+        const definedMFA = schema.mulighetForArbeid.filter((mfa) => mfa);
+
+        if (definedMFA.filter((mfa) => mfa).length === 0) {
+            return 'Minimum én sykmeldingsperiode må være definert';
+        }
+
+        const avventendeMFA = definedMFA.filter((mfa) => mfa?.type === 'avventende');
+        const gradertMFA = definedMFA.filter((mfa) => mfa?.type === 'gradert');
+        const aktivitetIkkeMuligMFA = definedMFA.filter((mfa) => mfa?.type === 'fullsykmelding');
+        const behandlingsdagerMFA = definedMFA.filter((mfa) => mfa?.type === 'behandlingsdager');
+        const reistilskuddMFA = definedMFA.filter((mfa) => mfa?.type === 'reisetilskudd');
+
+        // Perioder for avventende sykmelding
+        if (avventendeMFA.length > 0) {
+            return [{ errorKey: 'avventendePeriode-1-avventendeInnspillTilArbeidsgiver', errorMessage: 'yo error' }];
+        }
+
+        /*
+        if any period has avventendeSykmelding and not avventendePeriode or
+        if any period has avventendePeriode with a length of 1, then error
+        */
+
         return undefined;
     },
+    /*
     // Perioder for avventende sykmelding
     avventendeSykmelding: () => undefined,
     avventendePeriode: (schema) => {
@@ -113,6 +128,7 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             return 'Periode må være definert når avventende sykmelding er krysset av';
         }
     },
+    /*
     avventendeInnspillTilArbeidsgiver: (schema) => {
         if (schema.avventendeSykmelding && !schema.avventendeInnspillTilArbeidsgiver) {
             return 'Innspill til arbeidsgiver om tilrettelegging må være utfylt når avventende sykmelding er krysset av';

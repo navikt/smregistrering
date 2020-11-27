@@ -31,7 +31,7 @@ export type MFAOptions = 'velg' | 'avventende' | 'gradert' | 'fullsykmelding' | 
 type MulighetForArbeidSectionProps = {
     section: Section;
     formState: FormType;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<FormType>>;
 };
 
@@ -128,7 +128,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
 
             {formState.mulighetForArbeid.length > 0 &&
                 formState.mulighetForArbeid.map((mulighetForArbeid, index) => (
-                    <div className="mulighetForArbeid__container">
+                    <div key={`mulighetForArbeid-${index}`} className="mulighetForArbeid__container">
                         <div style={{ display: 'flex' }}>
                             <Select
                                 style={{ flex: 'auto' }}

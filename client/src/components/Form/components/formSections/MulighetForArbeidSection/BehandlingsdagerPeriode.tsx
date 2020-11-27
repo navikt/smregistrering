@@ -18,7 +18,7 @@ export type BehandlingsdagerPeriodeMFA = {
 type BehandlingsdagerPeriodeProps = {
     mulighetForArbeid: BehandlingsdagerPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
 };
 
 const BehandlingsdagerPeriode = ({ updateMfa, mulighetForArbeid, errors }: BehandlingsdagerPeriodeProps) => {

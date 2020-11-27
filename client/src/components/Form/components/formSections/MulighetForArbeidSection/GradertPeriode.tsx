@@ -18,7 +18,7 @@ export type GradertPeriodeMFA = {
 type GradertPeriodeProps = {
     mulighetForArbeid: GradertPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
 };
 
 const GradertPeriode = ({ updateMfa, mulighetForArbeid, errors }: GradertPeriodeProps) => {

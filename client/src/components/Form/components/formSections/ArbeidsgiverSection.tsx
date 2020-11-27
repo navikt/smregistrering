@@ -4,8 +4,8 @@ import { FeiloppsummeringFeil, Input, Select } from 'nav-frontend-skjema';
 
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
-import { HarArbeidsgiver } from '../../../../types/RegistrertSykmelding';
 import { FormType } from '../../Form';
+import { HarArbeidsgiver } from '../../../../types/RegistrertSykmelding';
 import { Section } from '../../../../types/Section';
 
 export type Arbeidsgiver = {
@@ -17,7 +17,7 @@ export type Arbeidsgiver = {
 
 type ArbeidsgiverSectionProps = {
     section: Section;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<FormType>>;
     formState: FormType;
 };

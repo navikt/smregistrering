@@ -27,7 +27,7 @@ export type AktivitetIkkeMuligPeriodeMFA = {
 type AktivitetIkkeMuligPeriodeProps = {
     mulighetForArbeid: AktivitetIkkeMuligPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
 };
 
 const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: AktivitetIkkeMuligPeriodeProps) => {

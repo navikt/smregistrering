@@ -27,7 +27,7 @@ export type MedisinskVurdering = {
 
 type DiagnoseSectionProps = {
     section: Section;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    errors: Map<string, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<FormType>>;
     formState: FormType;
     diagnosekoder: Diagnosekoder;
@@ -77,7 +77,9 @@ const DiagnoseSection = ({ section, setFormState, formState, errors, diagnosekod
                             className="form-margin-bottom"
                             type="text"
                             value={
-                                formState.annenFraversArsakBeskrivelse ? formState.annenFraversArsakBeskrivelse : undefined
+                                formState.annenFraversArsakBeskrivelse
+                                    ? formState.annenFraversArsakBeskrivelse
+                                    : undefined
                             }
                             onChange={({ target: { value } }) => {
                                 setFormState((formState) => ({ ...formState, annenFraversArsakBeskrivelse: value }));
