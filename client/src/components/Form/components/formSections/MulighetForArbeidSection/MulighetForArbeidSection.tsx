@@ -128,7 +128,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
 
             {formState.mulighetForArbeid.length > 0 &&
                 formState.mulighetForArbeid.map((mulighetForArbeid, index) => (
-                    <>
+                    <div className="mulighetForArbeid__container">
                         <div style={{ display: 'flex' }}>
                             <Select
                                 style={{ flex: 'auto' }}
@@ -216,7 +216,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                                 errors={errors}
                             />
                         )}
-                    </>
+                    </div>
                 ))}
 
             <button
