@@ -4,6 +4,7 @@ import React from 'react';
 import { Element } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Select } from 'nav-frontend-skjema';
 
+import ClearButton from '../../formComponents/ClearButton';
 import SectionContainer from '../../SectionContainer';
 import AktivitetIkkeMuligPeriode, { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import AvventendePeriode, { AvventendePeriodeMFA } from './AvventendePeriode';
@@ -128,29 +129,58 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
             {formState.mulighetForArbeid.length > 0 &&
                 formState.mulighetForArbeid.map((mulighetForArbeid, index) => (
                     <>
-                        <Select
-                            id="mulighetForArbeid"
-                            value={mulighetForArbeid && mulighetForArbeid.type}
-                            onChange={({ target: { value } }) => {
-                                setFormState(
-                                    (state): FormType => {
-                                        // TODO: Fix this so it doesn't require "as"
-                                        const mfa = createEmptyMFA(value as MFAOptions);
+                        <div style={{ display: 'flex' }}>
+                            <Select
+                                style={{ flex: 'auto' }}
+                                id="mulighetForArbeid"
+                                value={mulighetForArbeid && mulighetForArbeid.type}
+                                onChange={({ target: { value } }) => {
+                                    setFormState(
+                                        (state): FormType => {
+                                            // TODO: Fix this so it doesn't require "as"
+                                            const mfa = createEmptyMFA(value as MFAOptions);
 
-                                        const updatedMulighetForArbeid = mergeMFAAtIndex(mfa, state, index);
+                                            const updatedMulighetForArbeid = mergeMFAAtIndex(mfa, state, index);
 
+                                            return {
+                                                ...state,
+                                                mulighetForArbeid: updatedMulighetForArbeid,
+                                            };
+                                        },
+                                    );
+                                }}
+                                className="form-margin-bottom"
+                                label={<Element>Har pasienten mulighet til å være i arbeid?</Element>}
+                            >
+                                {periodOptions}
+                            </Select>
+                            <ClearButton
+                                onChange={(event) => {
+                                    event.preventDefault();
+                                    setFormState((formState) => {
+                                        if (!formState.mulighetForArbeid) {
+                                            return formState;
+                                        }
+                                        if (formState.mulighetForArbeid.length === 1) {
+                                            return {
+                                                ...formState,
+                                                mulighetForArbeid: [],
+                                            };
+                                        }
+                                        const mulighetForArbeid = formState.mulighetForArbeid;
+                                        const withoutIndex = [
+                                            ...mulighetForArbeid.slice(0, index),
+                                            ...mulighetForArbeid.slice(index + 1),
+                                        ];
                                         return {
-                                            ...state,
-                                            mulighetForArbeid: updatedMulighetForArbeid,
+                                            ...formState,
+                                            mulighetForArbeid: withoutIndex,
                                         };
-                                    },
-                                );
-                            }}
-                            className="form-margin-bottom"
-                            label={<Element>Har pasienten mulighet til å være i arbeid?</Element>}
-                        >
-                            {periodOptions}
-                        </Select>
+                                    });
+                                }}
+                                buttonText="Fjern"
+                            />
+                        </div>
                         {mulighetForArbeid?.type === 'avventende' && (
                             <AvventendePeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
