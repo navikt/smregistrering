@@ -5,7 +5,7 @@ import './SykmelderInformation.less';
 import React from 'react';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 
-import { Helsepersonellkategori, Sykmelder } from '../../../../types/Sykmelder';
+import { Helsepersonellkategori, Sykmelder, autorisasjon } from '../../../../types/Sykmelder';
 
 interface SykmelderInformationProps {
     sykmelder: Sykmelder | null | undefined;
@@ -43,14 +43,13 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
                             <thead>
                                 <tr>
                                     <th>Kategori</th>
-                                    <th>Aktiv</th>
-                                    <th>Godkjenningstype</th>
-                                    <th>Rett til å sykmelde</th>
+                                    <th>Autorisasjonstype</th>
+                                    <th>Autorisert</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {sykmelder.godkjenninger.map((godkjenning) => {
-                                    if (godkjenning.helsepersonellkategori?.verdi) {
+                                    if (godkjenning.helsepersonellkategori?.verdi && godkjenning.autorisasjon?.verdi) {
                                         return (
                                             <>
                                                 <tr>
@@ -61,13 +60,13 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
                                                             ]
                                                         }
                                                     </td>
-                                                    <td>{godkjenning.helsepersonellkategori?.aktiv ? 'Ja' : 'Nei'}</td>
-                                                    <td>Student</td>
-                                                    <td>Ja</td>
+                                                    <td>{autorisasjon[godkjenning.autorisasjon?.verdi]}</td>
+                                                    <td>{godkjenning.autorisasjon.aktiv ? 'Ja' : 'Nei'}</td>
                                                 </tr>
                                             </>
                                         );
                                     }
+                                    return null;
                                 })}
                             </tbody>
                         </table>
