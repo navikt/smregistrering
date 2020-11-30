@@ -1,5 +1,6 @@
 import { AktivitetIkkeMuligPeriodeMFA } from './components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
 import { AvventendePeriodeMFA } from './components/formSections/MulighetForArbeidSection/AvventendePeriode';
+import { BehandlingsdagerPeriodeMFA } from './components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode';
 import { FormType } from './Form';
 import { GradertPeriodeMFA } from './components/formSections/MulighetForArbeidSection/GradertPeriode';
 import { ValidationFunctions } from './formUtils/useForm';
@@ -108,7 +109,9 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         const aktivitetIkkeMuligMFA = definedMFA.filter(
             (mfa) => mfa?.type === 'fullsykmelding',
         ) as AktivitetIkkeMuligPeriodeMFA[];
-        const behandlingsdagerMFA = definedMFA.filter((mfa) => mfa?.type === 'behandlingsdager');
+        const behandlingsdagerMFA = definedMFA.filter(
+            (mfa) => mfa?.type === 'behandlingsdager',
+        ) as BehandlingsdagerPeriodeMFA[];
         const reistilskuddMFA = definedMFA.filter((mfa) => mfa?.type === 'reisetilskudd');
 
         // Perioder for avventende sykmelding
@@ -145,6 +148,20 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             )
         ) {
             return 'Periode må være definert når aktivitet ikke er mulig';
+        }
+
+        // Perioder for sykmelding for behandlingsdager
+        if (
+            behandlingsdagerMFA.some(
+                (behandlingsdager) =>
+                    !behandlingsdager.behandlingsdagerPeriode || behandlingsdager.behandlingsdagerPeriode.length === 1,
+            )
+        ) {
+            return 'Periode må være definert når pasienten krever sykmelding for behandlingsdager';
+        }
+
+        if (behandlingsdagerMFA.some((behandlingsdager) => !behandlingsdager.behandlingsdagerAntall)) {
+            return 'Antall dager må være definert når pasienten krever sykmelding for behandlingsdager';
         }
 
         return undefined;
