@@ -1,3 +1,4 @@
+import { AktivitetIkkeMuligPeriodeMFA } from './components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
 import { AvventendePeriodeMFA } from './components/formSections/MulighetForArbeidSection/AvventendePeriode';
 import { FormType } from './Form';
 import { GradertPeriodeMFA } from './components/formSections/MulighetForArbeidSection/GradertPeriode';
@@ -104,7 +105,9 @@ export const validationFunctions: ValidationFunctions<FormType> = {
 
         const avventendeMFA = definedMFA.filter((mfa) => mfa?.type === 'avventende') as AvventendePeriodeMFA[];
         const gradertMFA = definedMFA.filter((mfa) => mfa?.type === 'gradert') as GradertPeriodeMFA[];
-        const aktivitetIkkeMuligMFA = definedMFA.filter((mfa) => mfa?.type === 'fullsykmelding');
+        const aktivitetIkkeMuligMFA = definedMFA.filter(
+            (mfa) => mfa?.type === 'fullsykmelding',
+        ) as AktivitetIkkeMuligPeriodeMFA[];
         const behandlingsdagerMFA = definedMFA.filter((mfa) => mfa?.type === 'behandlingsdager');
         const reistilskuddMFA = definedMFA.filter((mfa) => mfa?.type === 'reisetilskudd');
 
@@ -133,30 +136,22 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             return 'Periode må være definert når gradert sykmelding er valgt';
         }
 
+        // Perioder for full sykmelding
+        if (
+            aktivitetIkkeMuligMFA.some(
+                (aktivitetIkkeMulig) =>
+                    !aktivitetIkkeMulig.aktivitetIkkeMuligPeriode ||
+                    aktivitetIkkeMulig.aktivitetIkkeMuligPeriode.length === 1,
+            )
+        ) {
+            return 'Periode må være definert når aktivitet ikke er mulig';
+        }
+
         return undefined;
     },
     /*
     
-    // Perioder for full sykmelding
-    aktivitetIkkeMuligSykmelding: () => undefined,
-    aktivitetIkkeMuligPeriode: (schema) => {
-        if (
-            (schema.aktivitetIkkeMuligSykmelding && !schema.aktivitetIkkeMuligPeriode) ||
-            (schema.aktivitetIkkeMuligPeriode && schema.aktivitetIkkeMuligPeriode.length === 1)
-        ) {
-            return 'Periode må være definert når aktivitet ikke er mulig';
-        }
-    },
-    aktivitetIkkeMuligMedisinskArsak: () => undefined,
-    aktivitetIkkeMuligMedisinskArsakType: () => {
-        return undefined;
-    },
-    aktivitetIkkeMuligMedisinskArsakBeskrivelse: () => undefined,
-    aktivitetIkkeMuligArbeidsrelatertArsak: () => undefined,
-    aktivitetIkkeMuligArbeidsrelatertArsakType: () => {
-        return undefined;
-    },
-    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: () => undefined,
+    /
     // Perioder for sykmelding for behandlignsdager
     behandlingsdagerSykmelding: () => undefined,
     behandlingsdagerPeriode: (schema) => {
