@@ -3,6 +3,7 @@ import { AvventendePeriodeMFA } from './components/formSections/MulighetForArbei
 import { BehandlingsdagerPeriodeMFA } from './components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode';
 import { FormType } from './Form';
 import { GradertPeriodeMFA } from './components/formSections/MulighetForArbeidSection/GradertPeriode';
+import { ReisetilskuddPeriodeMFA } from './components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode';
 import { ValidationFunctions } from './formUtils/useForm';
 
 export const validationFunctions: ValidationFunctions<FormType> = {
@@ -112,7 +113,7 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         const behandlingsdagerMFA = definedMFA.filter(
             (mfa) => mfa?.type === 'behandlingsdager',
         ) as BehandlingsdagerPeriodeMFA[];
-        const reistilskuddMFA = definedMFA.filter((mfa) => mfa?.type === 'reisetilskudd');
+        const reisetilskuddMFA = definedMFA.filter((mfa) => mfa?.type === 'reisetilskudd') as ReisetilskuddPeriodeMFA[];
 
         // Perioder for avventende sykmelding
         if (
@@ -164,37 +165,18 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             return 'Antall dager må være definert når pasienten krever sykmelding for behandlingsdager';
         }
 
-        return undefined;
-    },
-    /*
-    
-    /
-    // Perioder for sykmelding for behandlignsdager
-    behandlingsdagerSykmelding: () => undefined,
-    behandlingsdagerPeriode: (schema) => {
+        // Perioder for sykmelding med reisetilskudd
         if (
-            (schema.behandlingsdagerSykmelding && !schema.behandlingsdagerPeriode) ||
-            (schema.behandlingsdagerPeriode && schema.behandlingsdagerPeriode.length === 1)
-        ) {
-            return 'Periode må være definert når pasienten krever sykmelding for behandlingsdager';
-        }
-    },
-    behandlingsdagerAntall: (schema) => {
-        if (schema.behandlingsdagerSykmelding && !schema.behandlingsdagerAntall) {
-            return 'Antall dager må være definert når pasienten krever sykmelding for behandlingsdager';
-        }
-    },
-    // Perioder for sykmelding med reisetilskudd
-    reisetilskuddSykmelding: () => undefined,
-    reisetilskuddPeriode: (schema) => {
-        if (
-            (schema.reisetilskuddSykmelding && !schema.reisetilskuddPeriode) ||
-            (schema.reisetilskuddPeriode && schema.reisetilskuddPeriode.length === 1)
+            reisetilskuddMFA.some(
+                (reisetilskudd) =>
+                    !reisetilskudd.reisetilskuddPeriode || reisetilskudd.reisetilskuddPeriode.length === 1,
+            )
         ) {
             return 'Periode må være definert når pasienten krever sykmelding med reistilskudd';
         }
+
+        return undefined;
     },
-    */
 
     // Friskmelding
     arbeidsfoerEtterPeriode: () => undefined,
