@@ -1,9 +1,13 @@
+import 'nav-frontend-tabell-style';
+
 import './SykmelderInformation.less';
 
 import React from 'react';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { EtikettAdvarsel, EtikettSuksess } from 'nav-frontend-etiketter';
 
-import { Sykmelder } from '../../../../types/Sykmelder';
+import FormLabel from './FormLabel';
+import { Helsepersonellkategori, Sykmelder, autorisasjon } from '../../../../types/Sykmelder';
 
 interface SykmelderInformationProps {
     sykmelder: Sykmelder | null | undefined;
@@ -19,22 +23,73 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
             <header>
                 <Undertittel tag="h3">Informasjon om behandler</Undertittel>
             </header>
-            <section>
-                <Element tag="h4">Fødselsnummer:</Element>
-                <Normaltekst>{sykmelder.fnr}</Normaltekst>
-            </section>
-            <section>
-                <Element tag="h4">Aktør ID</Element>
-                <Normaltekst>{sykmelder.aktorId}</Normaltekst>
-            </section>
-            {sykmelder.fornavn ? (
-                <section>
-                    <Element tag="h4">Navn:</Element>
-                    <Normaltekst>
-                        {sykmelder.fornavn} {sykmelder.mellomnavn} {sykmelder.etternavn}
-                    </Normaltekst>
+            <div className="sykmelder-information__content">
+                <div className="sykmelder-information__col">
+                    {sykmelder.fornavn ? (
+                        <section>
+                            <Element tag="h4">Navn</Element>
+                            <Normaltekst>
+                                {sykmelder.fornavn} {sykmelder.mellomnavn} {sykmelder.etternavn}
+                            </Normaltekst>
+                        </section>
+                    ) : null}
+                    <section>
+                        <Element tag="h4">Fødselsnummer</Element>
+                        <Normaltekst>{sykmelder.fnr}</Normaltekst>
+                    </section>
+                </div>
+                <section className="sykmelder-information__col">
+                    <FormLabel
+                        label="Autorisasjoner"
+                        helpText="Viser behandlers lisenser og autorisasjoner fra Helsedirektoratet."
+                    />
+                    {sykmelder.godkjenninger.length > 0 ? (
+                        <table className="tabell tabell--stripet">
+                            <thead>
+                                <tr>
+                                    <th>Kategori</th>
+                                    <th>Autorisasjonstype</th>
+                                    <th>Autorisert</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {sykmelder.godkjenninger.map((godkjenning) => {
+                                    if (godkjenning.helsepersonellkategori?.verdi && godkjenning.autorisasjon?.verdi) {
+                                        return (
+                                            <>
+                                                <tr>
+                                                    <td>
+                                                        {
+                                                            Helsepersonellkategori[
+                                                                godkjenning.helsepersonellkategori.verdi
+                                                            ]
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        {`${godkjenning.autorisasjon.verdi} ${
+                                                            autorisasjon[godkjenning.autorisasjon.verdi]
+                                                        }`}
+                                                    </td>
+                                                    <td>
+                                                        {godkjenning.autorisasjon.aktiv ? (
+                                                            <EtikettSuksess>Ja</EtikettSuksess>
+                                                        ) : (
+                                                            <EtikettAdvarsel>Nei</EtikettAdvarsel>
+                                                        )}
+                                                    </td>
+                                                </tr>
+                                            </>
+                                        );
+                                    }
+                                    return null;
+                                })}
+                            </tbody>
+                        </table>
+                    ) : (
+                        <Normaltekst>Behandler mangler godkjenninger</Normaltekst>
+                    )}
                 </section>
-            ) : null}
+            </div>
         </article>
     );
 };

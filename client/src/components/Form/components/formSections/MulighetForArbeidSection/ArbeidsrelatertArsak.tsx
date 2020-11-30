@@ -1,9 +1,9 @@
 import React from 'react';
 import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
+import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import { ArbeidsrelatertArsakType } from '../../../../../types/RegistrertSykmelding';
 import { FormType } from '../../../Form';
-import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 interface ArbeidsrelatertArsakProps {

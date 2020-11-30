@@ -12,7 +12,11 @@ const FormLabel = ({ label, helpText }: FormLabelProps) => {
     return (
         <div className="form-label">
             <Element>{label}</Element>
-            {helpText && <Hjelpetekst className="form-label__help-text">{helpText}</Hjelpetekst>}
+            {helpText && (
+                <Hjelpetekst className="form-label__help-text">
+                    <div style={{ maxWidth: '20rem' }}>{helpText}</div>
+                </Hjelpetekst>
+            )}
         </div>
     );
 };
