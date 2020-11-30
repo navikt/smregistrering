@@ -89,20 +89,26 @@ export const validationFunctions: ValidationFunctions<FormType> = {
 
     // MulighetForArbeid
     // TODO:
-    mulighetForArbeid: () => undefined,
-    /*
     mulighetForArbeid: (schema) => {
-        if (
-            !schema.avventendeSykmelding &&
-            !schema.gradertSykmelding &&
-            !schema.aktivitetIkkeMuligSykmelding &&
-            !schema.behandlingsdagerSykmelding &&
-            !schema.reisetilskuddSykmelding
-        ) {
+        if (!schema.mulighetForArbeid) {
             return 'Minimum én sykmeldingsperiode må være definert';
         }
+
+        const definedMFA = schema.mulighetForArbeid.filter((mfa) => mfa);
+
+        if (definedMFA.filter((mfa) => mfa).length === 0) {
+            return 'Minimum én sykmeldingsperiode må være definert';
+        }
+
+        const avventendeMFA = definedMFA.filter((mfa) => mfa?.type === 'avventende');
+        const gradertMFA = definedMFA.filter((mfa) => mfa?.type === 'gradert');
+        const aktivitetIkkeMuligMFA = definedMFA.filter((mfa) => mfa?.type === 'fullsykmelding');
+        const behandlingsdagerMFA = definedMFA.filter((mfa) => mfa?.type === 'behandlingsdager');
+        const reistilskuddMFA = definedMFA.filter((mfa) => mfa?.type === 'reisetilskudd');
+
         return undefined;
     },
+    /*
     // Perioder for avventende sykmelding
     avventendeSykmelding: () => undefined,
     avventendePeriode: (schema) => {
