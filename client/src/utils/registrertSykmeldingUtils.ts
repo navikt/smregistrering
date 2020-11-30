@@ -12,42 +12,49 @@ import {
     RegistrertSykmelding,
     UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
+import { AktivitetIkkeMuligPeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
+import { AvventendePeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/AvventendePeriode';
+import { BehandlingsdagerPeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode';
 import { FormType } from '../components/Form/Form';
+import { GradertPeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/GradertPeriode';
+import { MulighetForArbeidTypes } from '../components/Form/components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
+import { ReisetilskuddPeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode';
 
-export const buildAvventendeSykmelding = (
-    avventendeSykmelding: boolean,
-    avventendePeriode: Date[] | undefined,
-    avventendeInnspillTilArbeidsgiver: string | undefined,
-): Periode | undefined => {
-    if (avventendeSykmelding && avventendePeriode && avventendeInnspillTilArbeidsgiver) {
-        const periode: Periode = {
-            fom: avventendePeriode[0],
-            tom: avventendePeriode[1],
-            reisetilskudd: false,
-            avventendeInnspillTilArbeidsgiver,
-        };
-        return periode;
-    }
+export const buildAvventendeSykmelding = (mulighetForArbeid: MulighetForArbeidTypes[]): Periode[] | undefined => {
+    const avventendeMFA = mulighetForArbeid.filter((mfa) => mfa?.type === 'avventende') as AvventendePeriodeMFA[];
+
+    return avventendeMFA.reduce((acc, mfa) => {
+        if (mfa.avventendePeriode && mfa.avventendeInnspillTilArbeidsgiver) {
+            const periode: Periode = {
+                fom: mfa.avventendePeriode[0],
+                tom: mfa.avventendePeriode[1],
+                reisetilskudd: false,
+                avventendeInnspillTilArbeidsgiver: mfa.avventendeInnspillTilArbeidsgiver,
+            };
+            acc.push(periode);
+        }
+        return acc;
+    }, [] as Periode[]);
 };
 
-export const buildGradertSykmelding = (
-    gradertSykmelding: boolean,
-    gradertReisetilskudd: boolean,
-    gradertPeriode?: Date[],
-    gradertGrad?: number,
-): Periode | undefined => {
-    if (gradertSykmelding && gradertPeriode) {
-        const periode: Periode = {
-            fom: gradertPeriode[0],
-            tom: gradertPeriode[1],
-            reisetilskudd: false,
-            gradert: {
-                reisetilskudd: gradertReisetilskudd,
-                grad: gradertGrad,
-            },
-        };
-        return periode;
-    }
+export const buildGradertSykmelding = (mulighetForArbeid: MulighetForArbeidTypes[]): Periode[] | undefined => {
+    const gradertMFA = mulighetForArbeid.filter((mfa) => mfa?.type === 'gradert') as GradertPeriodeMFA[];
+
+    return gradertMFA.reduce((acc, mfa) => {
+        if (mfa.gradertPeriode) {
+            const periode: Periode = {
+                fom: mfa.gradertPeriode[0],
+                tom: mfa.gradertPeriode[1],
+                reisetilskudd: false,
+                gradert: {
+                    reisetilskudd: mfa.gradertReisetilskudd,
+                    grad: mfa.gradertGrad,
+                },
+            };
+            acc.push(periode);
+        }
+        return acc;
+    }, [] as Periode[]);
 };
 
 export const buildMedisinskArsak = (
@@ -77,116 +84,95 @@ export const buildArbeidsrelatertArsak = (
 };
 
 export const buildAktivitetIkkeMuligSykmelding = (
-    aktivitetIkkeMuligSykmelding: boolean,
-    aktivitetIkkeMuligPeriode?: Date[],
-    aktivitetIkkeMuligMedisinskArsak?: boolean,
-    aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[],
-    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string | null,
-    aktivitetIkkeMuligArbeidsrelatertArsak?: boolean,
-    aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[],
-    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string | null,
-): Periode | undefined => {
-    if (aktivitetIkkeMuligSykmelding && aktivitetIkkeMuligPeriode) {
-        const medisinskArsak = buildMedisinskArsak(
-            aktivitetIkkeMuligMedisinskArsak,
-            aktivitetIkkeMuligMedisinskArsakType,
-            aktivitetIkkeMuligMedisinskArsakBeskrivelse,
-        );
-        const arbeidsrelatertArsak = buildArbeidsrelatertArsak(
-            aktivitetIkkeMuligArbeidsrelatertArsak,
-            aktivitetIkkeMuligArbeidsrelatertArsakType,
-            aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
-        );
-        const aktivitetIkkeMulig: AktivitetIkkeMulig = {
-            medisinskArsak,
-            arbeidsrelatertArsak,
-        };
+    mulighetForArbeid: MulighetForArbeidTypes[],
+): Periode[] | undefined => {
+    const aktivitetIkkeMuligMFA = mulighetForArbeid.filter(
+        (mfa) => mfa?.type === 'fullsykmelding',
+    ) as AktivitetIkkeMuligPeriodeMFA[];
 
-        const periode: Periode = {
-            fom: aktivitetIkkeMuligPeriode[0],
-            tom: aktivitetIkkeMuligPeriode[1],
-            reisetilskudd: false,
-            aktivitetIkkeMulig,
-        };
-        return periode;
-    }
+    return aktivitetIkkeMuligMFA.reduce((acc, mfa) => {
+        if (mfa.aktivitetIkkeMuligPeriode) {
+            const medisinskArsak = buildMedisinskArsak(
+                mfa.aktivitetIkkeMuligMedisinskArsak,
+                mfa.aktivitetIkkeMuligMedisinskArsakType,
+                mfa.aktivitetIkkeMuligMedisinskArsakBeskrivelse,
+            );
+            const arbeidsrelatertArsak = buildArbeidsrelatertArsak(
+                mfa.aktivitetIkkeMuligArbeidsrelatertArsak,
+                mfa.aktivitetIkkeMuligArbeidsrelatertArsakType,
+                mfa.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
+            );
+            const aktivitetIkkeMulig: AktivitetIkkeMulig = {
+                medisinskArsak,
+                arbeidsrelatertArsak,
+            };
+
+            const periode: Periode = {
+                fom: mfa.aktivitetIkkeMuligPeriode[0],
+                tom: mfa.aktivitetIkkeMuligPeriode[1],
+                reisetilskudd: false,
+                aktivitetIkkeMulig,
+            };
+            acc.push(periode);
+        }
+        return acc;
+    }, [] as Periode[]);
 };
 
-export const buildBehandlingsdagerSykmelding = (
-    behandlingsdagerSykmelding: boolean,
-    behandlingsdagerPeriode?: Date[],
-    behandlingsdagerAntall?: number,
-): Periode | undefined => {
-    if (behandlingsdagerSykmelding && behandlingsdagerPeriode && behandlingsdagerAntall) {
-        const periode: Periode = {
-            fom: behandlingsdagerPeriode[0],
-            tom: behandlingsdagerPeriode[1],
-            reisetilskudd: false,
-            behandlingsdager: behandlingsdagerAntall,
-        };
-        return periode;
-    }
+export const buildBehandlingsdagerSykmelding = (mulighetForArbeid: MulighetForArbeidTypes[]): Periode[] | undefined => {
+    const behandlingsdagerMFA = mulighetForArbeid.filter(
+        (mfa) => mfa?.type === 'behandlingsdager',
+    ) as BehandlingsdagerPeriodeMFA[];
+
+    return behandlingsdagerMFA.reduce((acc, mfa) => {
+        if (mfa.behandlingsdagerPeriode && mfa.behandlingsdagerAntall) {
+            const periode: Periode = {
+                fom: mfa.behandlingsdagerPeriode[0],
+                tom: mfa.behandlingsdagerPeriode[1],
+                reisetilskudd: false,
+                behandlingsdager: mfa.behandlingsdagerAntall,
+            };
+            acc.push(periode);
+        }
+        return acc;
+    }, [] as Periode[]);
 };
 
-export const buildReisetilskuddSykmelding = (
-    reisetilskuddSykmelding: boolean,
-    reisetilskuddPeriode?: Date[],
-): Periode | undefined => {
-    if (reisetilskuddSykmelding && reisetilskuddPeriode) {
-        const periode: Periode = {
-            fom: reisetilskuddPeriode[0],
-            tom: reisetilskuddPeriode[1],
-            reisetilskudd: true,
-        };
-        return periode;
-    }
+export const buildReisetilskuddSykmelding = (mulighetForArbeid: MulighetForArbeidTypes[]): Periode[] | undefined => {
+    const reisetilskuddMFA = mulighetForArbeid.filter(
+        (mfa) => mfa?.type === 'reisetilskudd',
+    ) as ReisetilskuddPeriodeMFA[];
+
+    return reisetilskuddMFA.reduce((acc, mfa) => {
+        if (mfa.reisetilskuddPeriode) {
+            const periode: Periode = {
+                fom: mfa.reisetilskuddPeriode[0],
+                tom: mfa.reisetilskuddPeriode[1],
+                reisetilskudd: true,
+            };
+            acc.push(periode);
+        }
+        return acc;
+    }, [] as Periode[]);
 };
 
 export const buildPerioder = (schema: FormType): Periode[] => {
     const perioder: Periode[] = [];
 
-    // TODO:
-    /*
-    const avventendeSykmelding = buildAvventendeSykmelding(
-        schema.avventendeSykmelding,
-        schema.avventendePeriode,
-        schema.avventendeInnspillTilArbeidsgiver,
-    );
-    if (avventendeSykmelding) perioder.push(avventendeSykmelding);
+    const avventendeSykmelding = buildAvventendeSykmelding(schema.mulighetForArbeid);
+    if (avventendeSykmelding) perioder.push(...avventendeSykmelding);
 
-    const gradertSykmelding = buildGradertSykmelding(
-        schema.gradertSykmelding,
-        schema.gradertReisetilskudd,
-        schema.gradertPeriode,
-        schema.gradertGrad,
-    );
-    if (gradertSykmelding) perioder.push(gradertSykmelding);
+    const gradertSykmelding = buildGradertSykmelding(schema.mulighetForArbeid);
+    if (gradertSykmelding) perioder.push(...gradertSykmelding);
 
-    const aktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding(
-        schema.aktivitetIkkeMuligSykmelding,
-        schema.aktivitetIkkeMuligPeriode,
-        schema.aktivitetIkkeMuligMedisinskArsak,
-        schema.aktivitetIkkeMuligMedisinskArsakType,
-        schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse,
-        schema.aktivitetIkkeMuligArbeidsrelatertArsak,
-        schema.aktivitetIkkeMuligArbeidsrelatertArsakType,
-        schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
-    );
-    if (aktivitetIkkeMuligSykmelding) perioder.push(aktivitetIkkeMuligSykmelding);
+    const aktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding(schema.mulighetForArbeid);
+    if (aktivitetIkkeMuligSykmelding) perioder.push(...aktivitetIkkeMuligSykmelding);
 
-    const behandlingsdagerSykmelding = buildBehandlingsdagerSykmelding(
-        schema.behandlingsdagerSykmelding,
-        schema.behandlingsdagerPeriode,
-        schema.behandlingsdagerAntall,
-    );
-    if (behandlingsdagerSykmelding) perioder.push(behandlingsdagerSykmelding);
+    const behandlingsdagerSykmelding = buildBehandlingsdagerSykmelding(schema.mulighetForArbeid);
+    if (behandlingsdagerSykmelding) perioder.push(...behandlingsdagerSykmelding);
 
-    const reisetilskuddSykmelding = buildReisetilskuddSykmelding(
-        schema.reisetilskuddSykmelding,
-        schema.reisetilskuddPeriode,
-    );
-    if (reisetilskuddSykmelding) perioder.push(reisetilskuddSykmelding);
-    */
+    const reisetilskuddSykmelding = buildReisetilskuddSykmelding(schema.mulighetForArbeid);
+    if (reisetilskuddSykmelding) perioder.push(...reisetilskuddSykmelding);
 
     return perioder;
 };
