@@ -5,8 +5,8 @@ import { Element } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';
-import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 import { FormType } from '../../../Form';
+import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 export type AvventendePeriodeMFA = {
     type: MFAOptions;
@@ -37,7 +37,6 @@ const AvventendePeriode = ({ updateMfa, mulighetForArbeid, errors }: AvventendeP
 
                     updateMfa(updatedSchema);
                 }}
-                feil={undefined /* // TODO: errors.avventendePeriode */}
             />
             <Textarea
                 id="avventendeInnspillTilArbeidsgiver"
@@ -51,7 +50,6 @@ const AvventendePeriode = ({ updateMfa, mulighetForArbeid, errors }: AvventendeP
 
                     updateMfa(updatedSchema);
                 }}
-                feil={undefined /* // TODO: errors.avventendeInnspillTilArbeidsgiver */}
                 label={<Element>4.1.3 Andre innspill til arbeidsgiver</Element>}
             />
         </div>

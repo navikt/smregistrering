@@ -38,7 +38,6 @@ const GradertPeriode = ({ updateMfa, mulighetForArbeid, errors }: GradertPeriode
 
                         updateMfa(updatedSchema);
                     }}
-                    feil={undefined /* // TODO: errors.gradertGrad */}
                     label="Oppgi grad"
                 />
                 <RangePicker
@@ -54,7 +53,6 @@ const GradertPeriode = ({ updateMfa, mulighetForArbeid, errors }: GradertPeriode
 
                         updateMfa(updatedSchema);
                     }}
-                    feil={undefined /* // TODO: errors.gradertPeriode */}
                 />
             </div>
 
@@ -70,7 +68,6 @@ const GradertPeriode = ({ updateMfa, mulighetForArbeid, errors }: GradertPeriode
 
                     updateMfa(updatedSchema);
                 }}
-                feil={undefined /* // TODO: errors.gradertReisetilskudd */}
             />
         </div>
     );

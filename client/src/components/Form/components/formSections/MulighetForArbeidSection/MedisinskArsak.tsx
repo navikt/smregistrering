@@ -52,7 +52,6 @@ const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors }: MedisinskArsak
                 legend="Medisinske årsaker"
                 checkboxes={checkboxes}
                 onChange={(_event, value) => updateCheckboxes(value)}
-                feil={undefined /* // TODO: errors.get('aktivitetIkkeMuligMedisinskArsakType')?.feilmelding */}
             />
         </div>
     );

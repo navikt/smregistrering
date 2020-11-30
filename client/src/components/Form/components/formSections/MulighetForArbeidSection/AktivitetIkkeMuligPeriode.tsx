@@ -46,7 +46,6 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: Akt
 
                     updateMfa(updatedSchema);
                 }}
-                feil={undefined /* // TODO: errors.aktivitetIkkeMuligPeriode */}
             />
             <Checkbox
                 id="aktivitetIkkeMuligMedisinskArsak"
@@ -63,7 +62,6 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: Akt
 
                     updateMfa(updatedSchema);
                 }}
-                feil={undefined /* // TODO: errors.aktivitetIkkeMuligMedisinskArsak */}
             />
             <ExpandableField show={mulighetForArbeid.aktivitetIkkeMuligMedisinskArsak}>
                 <>
@@ -83,12 +81,9 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: Akt
                                 aktivitetIkkeMuligMedisinskArsakBeskrivelse: value,
                             };
 
-                            // TODO: validate('aktivitetIkkeMuligMedisinskArsakBeskrivelse', updatedSchema);
-
                             updateMfa(updatedSchema);
                         }}
                         label={<Element>Beskrivelse</Element>}
-                        feil={undefined /* // TODO: errors.aktivitetIkkeMuligMedisinskArsakBeskrivelse */}
                     />
                 </>
             </ExpandableField>
@@ -107,7 +102,6 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: Akt
 
                     updateMfa(updatedSchema);
                 }}
-                feil={undefined /* // TODO: errors.aktivitetIkkeMuligArbeidsrelatertArsak */}
             />
             <ExpandableField show={mulighetForArbeid.aktivitetIkkeMuligArbeidsrelatertArsak}>
                 <>
@@ -130,7 +124,6 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: Akt
                             updateMfa(updatedSchema);
                         }}
                         label={<Element>Beskrivelse</Element>}
-                        feil={undefined /* // TODO: errors.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse */}
                     />
                 </>
             </ExpandableField>

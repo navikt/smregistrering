@@ -37,7 +37,6 @@ const BehandlingsdagerPeriode = ({ updateMfa, mulighetForArbeid, errors }: Behan
 
                     updateMfa(updatedSchema);
                 }}
-                feil={undefined /* // errors.behandlingsdagerPeriode */}
             />
 
             <Input
@@ -53,7 +52,6 @@ const BehandlingsdagerPeriode = ({ updateMfa, mulighetForArbeid, errors }: Behan
 
                     updateMfa(updatedSchema);
                 }}
-                feil={undefined /* // errors.behandlingsdagerAntall */}
                 label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
             />
         </div>

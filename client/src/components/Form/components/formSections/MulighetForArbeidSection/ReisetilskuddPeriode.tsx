@@ -32,7 +32,6 @@ const ReisetilskuddPeriode = ({ updateMfa, mulighetForArbeid, errors }: Reisetil
 
                 updateMfa(updatedSchema);
             }}
-            feil={undefined /* // TODO: errors.reisetilskuddPeriode */}
         />
     );
 };

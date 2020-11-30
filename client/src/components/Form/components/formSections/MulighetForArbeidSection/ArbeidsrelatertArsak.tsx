@@ -52,7 +52,6 @@ const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors }: Arbeidsr
                 legend="Arbeidsrelaterte årsaker"
                 checkboxes={checkboxes}
                 onChange={(_event, value) => updateCheckboxes(value)}
-                feil={undefined /* // TODO: errors.get('aktivitetIkkeMuligArbeidsrelatertArsakType')?.feilmelding */}
             />
         </div>
     );
