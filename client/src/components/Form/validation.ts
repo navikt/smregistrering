@@ -1,5 +1,6 @@
 import { AvventendePeriodeMFA } from './components/formSections/MulighetForArbeidSection/AvventendePeriode';
 import { FormType } from './Form';
+import { GradertPeriodeMFA } from './components/formSections/MulighetForArbeidSection/GradertPeriode';
 import { ValidationFunctions } from './formUtils/useForm';
 
 export const validationFunctions: ValidationFunctions<FormType> = {
@@ -101,10 +102,8 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             return 'Minimum én sykmeldingsperiode må være definert';
         }
 
-        const avventendeMFA: AvventendePeriodeMFA[] = definedMFA.filter(
-            (mfa) => mfa?.type === 'avventende',
-        ) as AvventendePeriodeMFA[];
-        const gradertMFA = definedMFA.filter((mfa) => mfa?.type === 'gradert');
+        const avventendeMFA = definedMFA.filter((mfa) => mfa?.type === 'avventende') as AvventendePeriodeMFA[];
+        const gradertMFA = definedMFA.filter((mfa) => mfa?.type === 'gradert') as GradertPeriodeMFA[];
         const aktivitetIkkeMuligMFA = definedMFA.filter((mfa) => mfa?.type === 'fullsykmelding');
         const behandlingsdagerMFA = definedMFA.filter((mfa) => mfa?.type === 'behandlingsdager');
         const reistilskuddMFA = definedMFA.filter((mfa) => mfa?.type === 'reisetilskudd');
@@ -117,27 +116,27 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             )
         ) {
             // TODO: This check will never occur as RangePicker will set end date to start date if no end date is selected by the user. Currently not an issue as this allows the user to set a period of 1 day
-            return 'Periode må være definert når avventende sykmelding er krysset av';
+            return 'Periode må være definert når avventende sykmelding er valgt';
         }
+
         if (avventendeMFA.some((avventendeSykmelding) => !avventendeSykmelding.avventendeInnspillTilArbeidsgiver)) {
             return 'Innspill til arbeidsgiver om tilrettelegging må være utfylt når avventende sykmelding er krysset av';
+        }
+
+        // Perioder for gradert sykmelding
+        if (
+            gradertMFA.some(
+                (gradertSykmelding) =>
+                    !gradertSykmelding.gradertPeriode || gradertSykmelding.gradertPeriode.length === 1,
+            )
+        ) {
+            return 'Periode må være definert når gradert sykmelding er valgt';
         }
 
         return undefined;
     },
     /*
-    // Perioder for gradert sykmelding
-    gradertSykmelding: () => undefined,
-    gradertPeriode: (schema) => {
-        if (
-            (schema.gradertSykmelding && !schema.gradertPeriode) ||
-            (schema.gradertPeriode && schema.gradertPeriode.length === 1)
-        ) {
-            return 'Periode må være definert når gradert sykmelding er krysset av';
-        }
-    },
-    gradertGrad: () => undefined,
-    gradertReisetilskudd: () => undefined,
+    
     // Perioder for full sykmelding
     aktivitetIkkeMuligSykmelding: () => undefined,
     aktivitetIkkeMuligPeriode: (schema) => {
