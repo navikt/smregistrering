@@ -93,7 +93,6 @@ export const validationFunctions: ValidationFunctions<FormType> = {
     },
 
     // MulighetForArbeid
-    // TODO:
     mulighetForArbeid: (schema) => {
         if (!schema.mulighetForArbeid) {
             return 'Minimum én sykmeldingsperiode må være definert';
