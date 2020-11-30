@@ -64,12 +64,6 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
             <form autoComplete="off">
                 <Panel ariaLabel="skjemapanel">
                     <FormHeader />
-                    <MulighetForArbeidSection
-                        section={sections.MULIGHET_FOR_ARBEID}
-                        setFormState={setFormState}
-                        formState={formState}
-                        errors={errors}
-                    />
                     <PasientopplysningerSection
                         section={sections.PASIENTOPPLYSNINGER}
                         setFormState={setFormState}
@@ -88,6 +82,12 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
                         errors={errors}
                         formState={formState}
                         diagnosekoder={diagnosekoder}
+                    />
+                    <MulighetForArbeidSection
+                        section={sections.MULIGHET_FOR_ARBEID}
+                        setFormState={setFormState}
+                        formState={formState}
+                        errors={errors}
                     />
                     <FriskmeldingSection
                         section={sections.FRISKMELDING_PROGNOSE}
