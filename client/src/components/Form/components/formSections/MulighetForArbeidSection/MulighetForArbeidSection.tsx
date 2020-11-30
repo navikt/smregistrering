@@ -36,8 +36,6 @@ type MulighetForArbeidSectionProps = {
 };
 
 const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: MulighetForArbeidSectionProps) => {
-    console.log(formState.mulighetForArbeid);
-
     const periodOptions = [
         <option value="velg">Velg</option>,
         <option value="avventende">Kan benytte avventende sykmelding</option>,
