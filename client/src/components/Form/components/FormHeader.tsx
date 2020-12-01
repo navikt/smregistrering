@@ -6,8 +6,8 @@ import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 const FormHeader = () => {
     return (
         <legend className="form-header">
-            <Innholdstittel>Digital sykmeldingsskjema</Innholdstittel>
-            <Undertittel>Vennligst fyll inn feltene fra papirsykmeldingen</Undertittel>
+            <Innholdstittel>Digitalisering av papirsykmeldingen</Innholdstittel>
+            <Undertittel>Vennligst legg inn opplysningene fra papirsykmeldingen</Undertittel>
         </legend>
     );
 };
