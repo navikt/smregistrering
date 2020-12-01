@@ -10,15 +10,16 @@ interface ArbeidsrelatertArsakProps {
     mulighetForArbeid: AktivitetIkkeMuligPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    index: number;
 }
 
-const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors }: ArbeidsrelatertArsakProps) => {
+const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors, index }: ArbeidsrelatertArsakProps) => {
     const { aktivitetIkkeMuligArbeidsrelatertArsakType } = mulighetForArbeid;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
         return {
             label: value,
-            id: key + '-arbeidsrelatert',
+            id: `${key}-arbeidsrelatert-${index}`,
             value: key,
             checked: aktivitetIkkeMuligArbeidsrelatertArsakType?.includes(key as keyof typeof ArbeidsrelatertArsakType),
         };

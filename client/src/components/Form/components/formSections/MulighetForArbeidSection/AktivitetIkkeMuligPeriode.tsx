@@ -28,9 +28,10 @@ type AktivitetIkkeMuligPeriodeProps = {
     mulighetForArbeid: AktivitetIkkeMuligPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    index: number;
 };
 
-const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: AktivitetIkkeMuligPeriodeProps) => {
+const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors, index }: AktivitetIkkeMuligPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
@@ -48,7 +49,7 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: Akt
                 }}
             />
             <Checkbox
-                id="aktivitetIkkeMuligMedisinskArsak"
+                id={`aktivitetIkkeMuligMedisinskArsak-${index}`}
                 className="form-margin-bottom"
                 checked={mulighetForArbeid.aktivitetIkkeMuligMedisinskArsak}
                 label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
@@ -65,7 +66,12 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: Akt
             />
             <ExpandableField show={mulighetForArbeid.aktivitetIkkeMuligMedisinskArsak}>
                 <>
-                    <MedisinskArsak mulighetForArbeid={mulighetForArbeid} updateMfa={updateMfa} errors={errors} />
+                    <MedisinskArsak
+                        mulighetForArbeid={mulighetForArbeid}
+                        updateMfa={updateMfa}
+                        errors={errors}
+                        index={index}
+                    />
                     <Input
                         id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
                         className="form-margin-bottom"
@@ -88,7 +94,7 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: Akt
                 </>
             </ExpandableField>
             <Checkbox
-                id="aktivitetIkkeMuligArbeidsrelatertArsak"
+                id={`aktivitetIkkeMuligArbeidsrelatertArsak-${index}`}
                 className="form-margin-bottom"
                 checked={mulighetForArbeid.aktivitetIkkeMuligArbeidsrelatertArsak}
                 label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
@@ -105,7 +111,12 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors }: Akt
             />
             <ExpandableField show={mulighetForArbeid.aktivitetIkkeMuligArbeidsrelatertArsak}>
                 <>
-                    <ArbeidsrelatertArsak mulighetForArbeid={mulighetForArbeid} updateMfa={updateMfa} errors={errors} />
+                    <ArbeidsrelatertArsak
+                        mulighetForArbeid={mulighetForArbeid}
+                        updateMfa={updateMfa}
+                        errors={errors}
+                        index={index}
+                    />
                     <Input
                         id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
                         className="form-margin-bottom"

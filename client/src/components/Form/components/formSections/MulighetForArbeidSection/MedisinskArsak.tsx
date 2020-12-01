@@ -10,15 +10,16 @@ interface MedisinskArsakProps {
     mulighetForArbeid: AktivitetIkkeMuligPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    index: number;
 }
 
-const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors }: MedisinskArsakProps) => {
+const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors, index }: MedisinskArsakProps) => {
     const { aktivitetIkkeMuligMedisinskArsakType } = mulighetForArbeid;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(MedisinskArsakType).map(([key, value]) => {
         return {
             label: value,
-            id: key + '-medisinsk',
+            id: `${key}-medisinsk-${index}`,
             value: key,
             checked: aktivitetIkkeMuligMedisinskArsakType?.includes(key as keyof typeof MedisinskArsakType),
         };

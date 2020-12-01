@@ -191,6 +191,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mulighetForArbeid={mulighetForArbeid as GradertPeriodeMFA}
                                 errors={errors}
+                                index={index}
                             />
                         )}
                         {mulighetForArbeid?.type === 'fullsykmelding' && (
@@ -198,6 +199,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mulighetForArbeid={mulighetForArbeid as AktivitetIkkeMuligPeriodeMFA}
                                 errors={errors}
+                                index={index}
                             />
                         )}
                         {mulighetForArbeid?.type === 'behandlingsdager' && (
