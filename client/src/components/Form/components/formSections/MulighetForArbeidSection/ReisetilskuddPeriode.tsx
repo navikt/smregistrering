@@ -12,21 +12,21 @@ export type ReisetilskuddPeriodeMFA = {
 };
 
 type ReisetilskuddPeriodeProps = {
-    mulighetForArbeid: ReisetilskuddPeriodeMFA;
+    mfaPeriode: ReisetilskuddPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
-const ReisetilskuddPeriode = ({ updateMfa, mulighetForArbeid, errors }: ReisetilskuddPeriodeProps) => {
+const ReisetilskuddPeriode = ({ updateMfa, mfaPeriode, errors }: ReisetilskuddPeriodeProps) => {
     return (
         <RangePicker
             id="reisetilskuddPeriode"
             labelFrom="F.o.m"
             labelTo="t.o.m"
-            value={mulighetForArbeid.reisetilskuddPeriode || []}
+            value={mfaPeriode.reisetilskuddPeriode || []}
             onChange={(newDates) => {
                 const updatedSchema = {
-                    ...mulighetForArbeid,
+                    ...mfaPeriode,
                     reisetilskuddPeriode: newDates,
                 };
 

@@ -136,12 +136,12 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
             )}
 
             {formState.mulighetForArbeid.length > 0 &&
-                formState.mulighetForArbeid.map((mulighetForArbeid, index) => (
+                formState.mulighetForArbeid.map((mfaPeriode, index) => (
                     <div className="mulighetForArbeid__container">
                         <Select
                             style={{ flex: 'auto' }}
                             id="mulighetForArbeid"
-                            value={mulighetForArbeid && mulighetForArbeid.type}
+                            value={mfaPeriode && mfaPeriode.type}
                             onChange={({ target: { value } }) => {
                                 setFormState(
                                     (state): FormType => {
@@ -161,40 +161,40 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                         >
                             {periodOptions}
                         </Select>
-                        {isAvventendePeriode(mulighetForArbeid) && (
+                        {isAvventendePeriode(mfaPeriode) && (
                             <AvventendePeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid}
+                                mfaPeriode={mfaPeriode}
                                 errors={errors}
                             />
                         )}
-                        {isGradertPeriode(mulighetForArbeid) && (
+                        {isGradertPeriode(mfaPeriode) && (
                             <GradertPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid}
+                                mfaPeriode={mfaPeriode}
                                 errors={errors}
                                 index={index}
                             />
                         )}
-                        {isAktivitetIkkeMuligPeriode(mulighetForArbeid) && (
+                        {isAktivitetIkkeMuligPeriode(mfaPeriode) && (
                             <AktivitetIkkeMuligPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid}
+                                mfaPeriode={mfaPeriode}
                                 errors={errors}
                                 index={index}
                             />
                         )}
-                        {isBehandlingsdagerPeriode(mulighetForArbeid) && (
+                        {isBehandlingsdagerPeriode(mfaPeriode) && (
                             <BehandlingsdagerPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid}
+                                mfaPeriode={mfaPeriode}
                                 errors={errors}
                             />
                         )}
-                        {isReisetilskuddPeriode(mulighetForArbeid) && (
+                        {isReisetilskuddPeriode(mfaPeriode) && (
                             <ReisetilskuddPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid}
+                                mfaPeriode={mfaPeriode}
                                 errors={errors}
                             />
                         )}

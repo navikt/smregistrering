@@ -7,14 +7,14 @@ import { FormType } from '../../../Form';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 interface ArbeidsrelatertArsakProps {
-    mulighetForArbeid: AktivitetIkkeMuligPeriodeMFA;
+    mfaPeriode: AktivitetIkkeMuligPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
     index: number;
 }
 
-const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors, index }: ArbeidsrelatertArsakProps) => {
-    const { aktivitetIkkeMuligArbeidsrelatertArsakType } = mulighetForArbeid;
+const ArbeidsrelatertArsak = ({ mfaPeriode, updateMfa, errors, index }: ArbeidsrelatertArsakProps) => {
+    const { aktivitetIkkeMuligArbeidsrelatertArsakType } = mfaPeriode;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
         return {
@@ -28,7 +28,7 @@ const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors, index }: A
     const updateCheckboxes = (value: keyof typeof ArbeidsrelatertArsakType): void => {
         if (!aktivitetIkkeMuligArbeidsrelatertArsakType) {
             const updatedSchema = {
-                ...mulighetForArbeid,
+                ...mfaPeriode,
                 aktivitetIkkeMuligArbeidsrelatertArsakType: [value as keyof typeof ArbeidsrelatertArsakType],
             };
             updateMfa(updatedSchema);
@@ -40,7 +40,7 @@ const ArbeidsrelatertArsak = ({ mulighetForArbeid, updateMfa, errors, index }: A
             : aktivitetIkkeMuligArbeidsrelatertArsakType.filter((arsak) => arsak !== value);
 
         const updatedSchema = {
-            ...mulighetForArbeid,
+            ...mfaPeriode,
             aktivitetIkkeMuligArbeidsrelatertArsakType: newArbeidsrelatertArsakType,
         };
         updateMfa(updatedSchema);

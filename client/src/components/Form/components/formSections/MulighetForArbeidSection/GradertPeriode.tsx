@@ -16,13 +16,13 @@ export type GradertPeriodeMFA = {
 };
 
 type GradertPeriodeProps = {
-    mulighetForArbeid: GradertPeriodeMFA;
+    mfaPeriode: GradertPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
     index: number;
 };
 
-const GradertPeriode = ({ updateMfa, mulighetForArbeid, errors, index }: GradertPeriodeProps) => {
+const GradertPeriode = ({ updateMfa, mfaPeriode, errors, index }: GradertPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <div className="mulighetForArbeid__gradert-row">
@@ -30,10 +30,10 @@ const GradertPeriode = ({ updateMfa, mulighetForArbeid, errors, index }: Gradert
                     id="gradertGrad"
                     className="mulighetForArbeid__gradert-row__grad"
                     type="number"
-                    value={mulighetForArbeid.gradertGrad}
+                    value={mfaPeriode.gradertGrad}
                     onChange={({ target: { value } }) => {
                         const updatedSchema = {
-                            ...mulighetForArbeid,
+                            ...mfaPeriode,
                             gradertGrad: parseInt(value),
                         };
 
@@ -45,10 +45,10 @@ const GradertPeriode = ({ updateMfa, mulighetForArbeid, errors, index }: Gradert
                     id="gradertPeriode"
                     labelFrom="F.o.m"
                     labelTo="t.o.m"
-                    value={mulighetForArbeid.gradertPeriode || []}
+                    value={mfaPeriode.gradertPeriode || []}
                     onChange={(newDates) => {
                         const updatedSchema = {
-                            ...mulighetForArbeid,
+                            ...mfaPeriode,
                             gradertPeriode: newDates,
                         };
 
@@ -59,12 +59,12 @@ const GradertPeriode = ({ updateMfa, mulighetForArbeid, errors, index }: Gradert
 
             <Checkbox
                 id={`gradertReisetilskudd-${index}`}
-                checked={mulighetForArbeid.gradertReisetilskudd}
+                checked={mfaPeriode.gradertReisetilskudd}
                 label="Pasienten kan være delvis i arbeid ved bruk av reisetilskudd"
                 onChange={() => {
                     const updatedSchema = {
-                        ...mulighetForArbeid,
-                        gradertReisetilskudd: !mulighetForArbeid.gradertReisetilskudd,
+                        ...mfaPeriode,
+                        gradertReisetilskudd: !mfaPeriode.gradertReisetilskudd,
                     };
 
                     updateMfa(updatedSchema);

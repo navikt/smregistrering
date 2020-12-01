@@ -16,22 +16,22 @@ export type BehandlingsdagerPeriodeMFA = {
 };
 
 type BehandlingsdagerPeriodeProps = {
-    mulighetForArbeid: BehandlingsdagerPeriodeMFA;
+    mfaPeriode: BehandlingsdagerPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
 };
 
-const BehandlingsdagerPeriode = ({ updateMfa, mulighetForArbeid, errors }: BehandlingsdagerPeriodeProps) => {
+const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, errors }: BehandlingsdagerPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
                 id="behandlingsdagerPeriode"
                 labelFrom="F.o.m"
                 labelTo="t.o.m"
-                value={mulighetForArbeid.behandlingsdagerPeriode || []}
+                value={mfaPeriode.behandlingsdagerPeriode || []}
                 onChange={(newDates) => {
                     const updatedSchema = {
-                        ...mulighetForArbeid,
+                        ...mfaPeriode,
                         behandlingsdagerPeriode: newDates,
                     };
 
@@ -43,10 +43,10 @@ const BehandlingsdagerPeriode = ({ updateMfa, mulighetForArbeid, errors }: Behan
                 id="behandlingsdagerAntall"
                 className="form-margin-bottom half"
                 type="number"
-                value={mulighetForArbeid.behandlingsdagerAntall}
+                value={mfaPeriode.behandlingsdagerAntall}
                 onChange={({ target: { value } }) => {
                     const updatedSchema = {
-                        ...mulighetForArbeid,
+                        ...mfaPeriode,
                         behandlingsdagerAntall: Number(value),
                     };
 

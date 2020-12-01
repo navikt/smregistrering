@@ -25,23 +25,23 @@ export type AktivitetIkkeMuligPeriodeMFA = {
 };
 
 type AktivitetIkkeMuligPeriodeProps = {
-    mulighetForArbeid: AktivitetIkkeMuligPeriodeMFA;
+    mfaPeriode: AktivitetIkkeMuligPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
     index: number;
 };
 
-const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors, index }: AktivitetIkkeMuligPeriodeProps) => {
+const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: AktivitetIkkeMuligPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
                 id="aktivitetIkkeMuligPeriode"
                 labelFrom="F.o.m"
                 labelTo="t.o.m"
-                value={mulighetForArbeid.aktivitetIkkeMuligPeriode || []}
+                value={mfaPeriode.aktivitetIkkeMuligPeriode || []}
                 onChange={(newDates) => {
                     const updatedSchema = {
-                        ...mulighetForArbeid,
+                        ...mfaPeriode,
                         aktivitetIkkeMuligPeriode: newDates,
                     };
 
@@ -51,12 +51,12 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors, index
             <Checkbox
                 id={`aktivitetIkkeMuligMedisinskArsak-${index}`}
                 className="form-margin-bottom"
-                checked={mulighetForArbeid.aktivitetIkkeMuligMedisinskArsak}
+                checked={mfaPeriode.aktivitetIkkeMuligMedisinskArsak}
                 label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
                 onChange={() => {
                     const updatedSchema = {
-                        ...mulighetForArbeid,
-                        aktivitetIkkeMuligMedisinskArsak: !mulighetForArbeid.aktivitetIkkeMuligMedisinskArsak,
+                        ...mfaPeriode,
+                        aktivitetIkkeMuligMedisinskArsak: !mfaPeriode.aktivitetIkkeMuligMedisinskArsak,
                         aktivitetIkkeMuligMedisinskArsakType: undefined,
                         aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
                     };
@@ -64,26 +64,21 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors, index
                     updateMfa(updatedSchema);
                 }}
             />
-            <ExpandableField show={mulighetForArbeid.aktivitetIkkeMuligMedisinskArsak}>
+            <ExpandableField show={mfaPeriode.aktivitetIkkeMuligMedisinskArsak}>
                 <>
-                    <MedisinskArsak
-                        mulighetForArbeid={mulighetForArbeid}
-                        updateMfa={updateMfa}
-                        errors={errors}
-                        index={index}
-                    />
+                    <MedisinskArsak mfaPeriode={mfaPeriode} updateMfa={updateMfa} errors={errors} index={index} />
                     <Input
                         id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
                         className="form-margin-bottom"
                         value={
-                            mulighetForArbeid.aktivitetIkkeMuligMedisinskArsakBeskrivelse
-                                ? mulighetForArbeid.aktivitetIkkeMuligMedisinskArsakBeskrivelse
+                            mfaPeriode.aktivitetIkkeMuligMedisinskArsakBeskrivelse
+                                ? mfaPeriode.aktivitetIkkeMuligMedisinskArsakBeskrivelse
                                 : undefined
                         }
                         type="text"
                         onChange={({ target: { value } }) => {
                             const updatedSchema = {
-                                ...mulighetForArbeid,
+                                ...mfaPeriode,
                                 aktivitetIkkeMuligMedisinskArsakBeskrivelse: value,
                             };
 
@@ -96,12 +91,12 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors, index
             <Checkbox
                 id={`aktivitetIkkeMuligArbeidsrelatertArsak-${index}`}
                 className="form-margin-bottom"
-                checked={mulighetForArbeid.aktivitetIkkeMuligArbeidsrelatertArsak}
+                checked={mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsak}
                 label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
                 onChange={() => {
                     const updatedSchema = {
-                        ...mulighetForArbeid,
-                        aktivitetIkkeMuligArbeidsrelatertArsak: !mulighetForArbeid.aktivitetIkkeMuligArbeidsrelatertArsak,
+                        ...mfaPeriode,
+                        aktivitetIkkeMuligArbeidsrelatertArsak: !mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsak,
                         aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
                         aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
                     };
@@ -109,26 +104,21 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors, index
                     updateMfa(updatedSchema);
                 }}
             />
-            <ExpandableField show={mulighetForArbeid.aktivitetIkkeMuligArbeidsrelatertArsak}>
+            <ExpandableField show={mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsak}>
                 <>
-                    <ArbeidsrelatertArsak
-                        mulighetForArbeid={mulighetForArbeid}
-                        updateMfa={updateMfa}
-                        errors={errors}
-                        index={index}
-                    />
+                    <ArbeidsrelatertArsak mfaPeriode={mfaPeriode} updateMfa={updateMfa} errors={errors} index={index} />
                     <Input
                         id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
                         className="form-margin-bottom"
                         value={
-                            mulighetForArbeid.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
-                                ? mulighetForArbeid.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
+                            mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
+                                ? mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
                                 : undefined
                         }
                         type="text"
                         onChange={({ target: { value } }) => {
                             const updatedSchema = {
-                                ...mulighetForArbeid,
+                                ...mfaPeriode,
                                 aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: value,
                             };
 

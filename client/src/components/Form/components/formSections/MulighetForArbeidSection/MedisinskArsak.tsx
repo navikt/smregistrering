@@ -7,14 +7,14 @@ import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 interface MedisinskArsakProps {
-    mulighetForArbeid: AktivitetIkkeMuligPeriodeMFA;
+    mfaPeriode: AktivitetIkkeMuligPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
     index: number;
 }
 
-const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors, index }: MedisinskArsakProps) => {
-    const { aktivitetIkkeMuligMedisinskArsakType } = mulighetForArbeid;
+const MedisinskArsak = ({ mfaPeriode, updateMfa, errors, index }: MedisinskArsakProps) => {
+    const { aktivitetIkkeMuligMedisinskArsakType } = mfaPeriode;
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(MedisinskArsakType).map(([key, value]) => {
         return {
@@ -28,7 +28,7 @@ const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors, index }: Medisin
     const updateCheckboxes = (value: keyof typeof MedisinskArsakType): void => {
         if (aktivitetIkkeMuligMedisinskArsakType === undefined) {
             const updatedSchema = {
-                ...mulighetForArbeid,
+                ...mfaPeriode,
                 aktivitetIkkeMuligMedisinskArsakType: [value as keyof typeof MedisinskArsakType],
             };
             updateMfa(updatedSchema);
@@ -41,7 +41,7 @@ const MedisinskArsak = ({ mulighetForArbeid, updateMfa, errors, index }: Medisin
             : aktivitetIkkeMuligMedisinskArsakType.filter((arsak) => arsak !== value);
 
         const updatedSchema = {
-            ...mulighetForArbeid,
+            ...mfaPeriode,
             aktivitetIkkeMuligMedisinskArsakType: newMedisinskArsakType,
         };
         updateMfa(updatedSchema);
