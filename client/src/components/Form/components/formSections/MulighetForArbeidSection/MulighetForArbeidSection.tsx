@@ -6,6 +6,7 @@ import { FeiloppsummeringFeil, Select } from 'nav-frontend-skjema';
 import { Knapp } from 'nav-frontend-knapper';
 
 import ClearButton from '../../formComponents/ClearButton';
+import Divider from '../../formComponents/Divider';
 import SectionContainer from '../../SectionContainer';
 import AktivitetIkkeMuligPeriode, { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import AvventendePeriode, { AvventendePeriodeMFA } from './AvventendePeriode';
@@ -216,9 +217,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                             }}
                             buttonText="Slett periode"
                         />
-                        {index !== formState.mulighetForArbeid.length - 1 && (
-                            <hr className="mulighetForArbeid__divider" />
-                        )}
+                        {index !== formState.mulighetForArbeid.length - 1 && <Divider />}
                     </div>
                 ))}
 
