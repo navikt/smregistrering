@@ -164,8 +164,6 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             return 'Periode må være definert når aktivitet ikke er mulig';
         }
 
-        console.log(aktivitetIkkeMuligMFA);
-
         if (
             aktivitetIkkeMuligMFA.some(
                 (aktivitetIkkeMulig) =>
