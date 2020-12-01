@@ -27,65 +27,63 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
         const mulighetForArbeid: MulighetForArbeidTypes[] = [];
 
         if (avventendePeriode) {
-            const avventendePeriodeMFA: AvventendePeriodeMFA = {
+            const avventendePeriodeMFA: AvventendePeriodeMFA[] = avventendePeriode.map((periode) => ({
                 type: 'avventende',
-                avventendePeriode: [avventendePeriode.fom, avventendePeriode.tom],
-                avventendeInnspillTilArbeidsgiver: avventendePeriode.avventendeInnspillTilArbeidsgiver || undefined,
-            };
+                avventendePeriode: [periode.fom, periode.tom],
+                avventendeInnspillTilArbeidsgiver: periode.avventendeInnspillTilArbeidsgiver || undefined,
+            }));
 
-            mulighetForArbeid.push(avventendePeriodeMFA);
+            mulighetForArbeid.push(...avventendePeriodeMFA);
         }
 
         if (gradertPeriode) {
-            const gradertPeriodeMFA: GradertPeriodeMFA = {
+            const gradertPeriodeMFA: GradertPeriodeMFA[] = gradertPeriode.map((periode) => ({
                 type: 'gradert',
-                gradertPeriode: [gradertPeriode.fom, gradertPeriode.tom],
-                gradertGrad: gradertPeriode.gradert?.grad || undefined,
-                gradertReisetilskudd: gradertPeriode.reisetilskudd,
-            };
+                gradertPeriode: [periode.fom, periode.tom],
+                gradertGrad: periode.gradert?.grad || undefined,
+                gradertReisetilskudd: periode.reisetilskudd,
+            }));
 
-            mulighetForArbeid.push(gradertPeriodeMFA);
+            mulighetForArbeid.push(...gradertPeriodeMFA);
         }
 
         if (aktivitetIkkeMuligPeriode) {
-            const aktivitetIkkeMuligPeriodeMFA: AktivitetIkkeMuligPeriodeMFA = {
-                type: 'fullsykmelding',
-                aktivitetIkkeMuligPeriode: !!aktivitetIkkeMuligPeriode
-                    ? [aktivitetIkkeMuligPeriode.fom, aktivitetIkkeMuligPeriode.tom]
-                    : undefined,
-                aktivitetIkkeMuligMedisinskArsak: !!aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak,
-                aktivitetIkkeMuligMedisinskArsakType:
-                    aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak?.arsak,
-                aktivitetIkkeMuligMedisinskArsakBeskrivelse:
-                    aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.medisinskArsak?.beskrivelse,
-                aktivitetIkkeMuligArbeidsrelatertArsak: !!aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig
-                    ?.arbeidsrelatertArsak,
-                aktivitetIkkeMuligArbeidsrelatertArsakType:
-                    aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.arsak,
-                aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse:
-                    aktivitetIkkeMuligPeriode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.beskrivelse,
-            };
+            const aktivitetIkkeMuligPeriodeMFA: AktivitetIkkeMuligPeriodeMFA[] = aktivitetIkkeMuligPeriode.map(
+                (periode) => ({
+                    type: 'fullsykmelding',
+                    aktivitetIkkeMuligPeriode: !!periode ? [periode.fom, periode.tom] : undefined,
+                    aktivitetIkkeMuligMedisinskArsak: !!periode?.aktivitetIkkeMulig?.medisinskArsak,
+                    aktivitetIkkeMuligMedisinskArsakType: periode?.aktivitetIkkeMulig?.medisinskArsak?.arsak,
+                    aktivitetIkkeMuligMedisinskArsakBeskrivelse:
+                        periode?.aktivitetIkkeMulig?.medisinskArsak?.beskrivelse,
+                    aktivitetIkkeMuligArbeidsrelatertArsak: !!periode?.aktivitetIkkeMulig?.arbeidsrelatertArsak,
+                    aktivitetIkkeMuligArbeidsrelatertArsakType:
+                        periode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.arsak,
+                    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse:
+                        periode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.beskrivelse,
+                }),
+            );
 
-            mulighetForArbeid.push(aktivitetIkkeMuligPeriodeMFA);
+            mulighetForArbeid.push(...aktivitetIkkeMuligPeriodeMFA);
         }
 
         if (behandlingsdagerPeriode) {
-            const behandlingsdagerPeriodeMFA: BehandlingsdagerPeriodeMFA = {
+            const behandlingsdagerPeriodeMFA: BehandlingsdagerPeriodeMFA[] = behandlingsdagerPeriode.map((periode) => ({
                 type: 'behandlingsdager',
-                behandlingsdagerPeriode: [behandlingsdagerPeriode.fom, behandlingsdagerPeriode.tom],
-                behandlingsdagerAntall: behandlingsdagerPeriode.behandlingsdager || undefined,
-            };
+                behandlingsdagerPeriode: [periode.fom, periode.tom],
+                behandlingsdagerAntall: periode.behandlingsdager || undefined,
+            }));
 
-            mulighetForArbeid.push(behandlingsdagerPeriodeMFA);
+            mulighetForArbeid.push(...behandlingsdagerPeriodeMFA);
         }
 
         if (reisetilskuddPeriode) {
-            const reisetilskuddPeriodeMFA: ReisetilskuddPeriodeMFA = {
+            const reisetilskuddPeriodeMFA: ReisetilskuddPeriodeMFA[] = reisetilskuddPeriode.map((periode) => ({
                 type: 'reisetilskudd',
-                reisetilskuddPeriode: [reisetilskuddPeriode.fom, reisetilskuddPeriode.tom],
-            };
+                reisetilskuddPeriode: [periode.fom, periode.tom],
+            }));
 
-            mulighetForArbeid.push(reisetilskuddPeriodeMFA);
+            mulighetForArbeid.push(...reisetilskuddPeriodeMFA);
         }
 
         return mulighetForArbeid;
