@@ -150,6 +150,26 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             return 'Periode må være definert når aktivitet ikke er mulig';
         }
 
+        if (
+            aktivitetIkkeMuligMFA.some(
+                (aktivitetIkkeMulig) =>
+                    aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsak &&
+                    aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsakType?.length === 0,
+            )
+        ) {
+            return 'Minst én medisinsk årsak må være valgt når det er medisinske årsaker som hindrer aktivitet';
+        }
+
+        if (
+            aktivitetIkkeMuligMFA.some(
+                (aktivitetIkkeMulig) =>
+                    aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsak &&
+                    aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsakType?.length === 0,
+            )
+        ) {
+            return 'Minst én arbeidsrelatert årsak må være valgt når det er arbeidsrelaterte årsaker som hindrer aktivitet';
+        }
+
         // Perioder for sykmelding for behandlingsdager
         if (
             behandlingsdagerMFA.some(
