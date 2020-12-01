@@ -112,151 +112,153 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
 
     return (
         <SectionContainer section={section} sectionError={errors.get('mulighetForArbeid')?.feilmelding}>
-            {formState.mulighetForArbeid.length === 0 && (
-                <Select
-                    id="mulighetForArbeid"
-                    value={undefined}
-                    onChange={({ target: { value } }) => {
+            <div id="mulighetForArbeid">
+                {formState.mulighetForArbeid.length === 0 && (
+                    <Select
+                        id="mulighetForArbeid-selector"
+                        value={undefined}
+                        onChange={({ target: { value } }) => {
+                            setFormState(
+                                (state): FormType => {
+                                    const period = createEmptyMFA(value as MFAOptions);
+
+                                    return {
+                                        ...state,
+                                        mulighetForArbeid: [period],
+                                    };
+                                },
+                            );
+                        }}
+                        className="form-margin-bottom half"
+                        label={<Element>Periodetype</Element>}
+                    >
+                        {periodOptions}
+                    </Select>
+                )}
+
+                {formState.mulighetForArbeid.length > 0 &&
+                    formState.mulighetForArbeid.map((mfaPeriode, index) => (
+                        <div className="mulighetForArbeid__container">
+                            <Select
+                                style={{ flex: 'auto' }}
+                                id={`mulighetForArbeid-selector-${index}`}
+                                value={mfaPeriode && mfaPeriode.type}
+                                onChange={({ target: { value } }) => {
+                                    setFormState(
+                                        (state): FormType => {
+                                            const mfa = createEmptyMFA(value as MFAOptions);
+
+                                            const updatedMulighetForArbeid = mergeMFAAtIndex(mfa, state, index);
+
+                                            return {
+                                                ...state,
+                                                mulighetForArbeid: updatedMulighetForArbeid,
+                                            };
+                                        },
+                                    );
+                                }}
+                                className="form-margin-bottom half"
+                                label={<Element>Periodetype</Element>}
+                            >
+                                {periodOptions}
+                            </Select>
+                            {isAvventendePeriode(mfaPeriode) && (
+                                <AvventendePeriode
+                                    updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
+                                    mfaPeriode={mfaPeriode}
+                                    errors={errors}
+                                    index={index}
+                                />
+                            )}
+                            {isGradertPeriode(mfaPeriode) && (
+                                <GradertPeriode
+                                    updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
+                                    mfaPeriode={mfaPeriode}
+                                    errors={errors}
+                                    index={index}
+                                />
+                            )}
+                            {isAktivitetIkkeMuligPeriode(mfaPeriode) && (
+                                <AktivitetIkkeMuligPeriode
+                                    updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
+                                    mfaPeriode={mfaPeriode}
+                                    errors={errors}
+                                    index={index}
+                                />
+                            )}
+                            {isBehandlingsdagerPeriode(mfaPeriode) && (
+                                <BehandlingsdagerPeriode
+                                    updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
+                                    mfaPeriode={mfaPeriode}
+                                    errors={errors}
+                                    index={index}
+                                />
+                            )}
+                            {isReisetilskuddPeriode(mfaPeriode) && (
+                                <ReisetilskuddPeriode
+                                    updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
+                                    mfaPeriode={mfaPeriode}
+                                    errors={errors}
+                                    index={index}
+                                />
+                            )}
+                            <ClearButton
+                                iconType="Can"
+                                onChange={(event) => {
+                                    event.preventDefault();
+                                    setFormState((formState) => {
+                                        if (!formState.mulighetForArbeid) {
+                                            return formState;
+                                        }
+                                        if (formState.mulighetForArbeid.length === 1) {
+                                            return {
+                                                ...formState,
+                                                mulighetForArbeid: [],
+                                            };
+                                        }
+                                        const mulighetForArbeid = formState.mulighetForArbeid;
+                                        const withoutIndex = [
+                                            ...mulighetForArbeid.slice(0, index),
+                                            ...mulighetForArbeid.slice(index + 1),
+                                        ];
+                                        return {
+                                            ...formState,
+                                            mulighetForArbeid: withoutIndex,
+                                        };
+                                    });
+                                }}
+                                buttonText="Slett periode"
+                            />
+                            {index !== formState.mulighetForArbeid.length - 1 && <Divider />}
+                        </div>
+                    ))}
+
+                <Knapp
+                    htmlType="button"
+                    form="kompakt"
+                    onClick={(event) => {
+                        event.preventDefault();
                         setFormState(
                             (state): FormType => {
-                                const period = createEmptyMFA(value as MFAOptions);
+                                // Since the initial dropdown is not stored in the array, we need to add two undefined objects to the array if no data is currently stored
+                                // If there is data in the array, undefined is appended to it.
+                                const mulighetForArbeid =
+                                    state.mulighetForArbeid.length === 0
+                                        ? [undefined, undefined]
+                                        : [...state.mulighetForArbeid, undefined];
 
-                                return {
+                                const updatedState = {
                                     ...state,
-                                    mulighetForArbeid: [period],
+                                    mulighetForArbeid,
                                 };
+                                return updatedState;
                             },
                         );
                     }}
-                    className="form-margin-bottom half"
-                    label={<Element>Periodetype</Element>}
                 >
-                    {periodOptions}
-                </Select>
-            )}
-
-            {formState.mulighetForArbeid.length > 0 &&
-                formState.mulighetForArbeid.map((mfaPeriode, index) => (
-                    <div className="mulighetForArbeid__container">
-                        <Select
-                            style={{ flex: 'auto' }}
-                            id="mulighetForArbeid"
-                            value={mfaPeriode && mfaPeriode.type}
-                            onChange={({ target: { value } }) => {
-                                setFormState(
-                                    (state): FormType => {
-                                        const mfa = createEmptyMFA(value as MFAOptions);
-
-                                        const updatedMulighetForArbeid = mergeMFAAtIndex(mfa, state, index);
-
-                                        return {
-                                            ...state,
-                                            mulighetForArbeid: updatedMulighetForArbeid,
-                                        };
-                                    },
-                                );
-                            }}
-                            className="form-margin-bottom half"
-                            label={<Element>Periodetype</Element>}
-                        >
-                            {periodOptions}
-                        </Select>
-                        {isAvventendePeriode(mfaPeriode) && (
-                            <AvventendePeriode
-                                updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mfaPeriode={mfaPeriode}
-                                errors={errors}
-                                index={index}
-                            />
-                        )}
-                        {isGradertPeriode(mfaPeriode) && (
-                            <GradertPeriode
-                                updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mfaPeriode={mfaPeriode}
-                                errors={errors}
-                                index={index}
-                            />
-                        )}
-                        {isAktivitetIkkeMuligPeriode(mfaPeriode) && (
-                            <AktivitetIkkeMuligPeriode
-                                updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mfaPeriode={mfaPeriode}
-                                errors={errors}
-                                index={index}
-                            />
-                        )}
-                        {isBehandlingsdagerPeriode(mfaPeriode) && (
-                            <BehandlingsdagerPeriode
-                                updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mfaPeriode={mfaPeriode}
-                                errors={errors}
-                                index={index}
-                            />
-                        )}
-                        {isReisetilskuddPeriode(mfaPeriode) && (
-                            <ReisetilskuddPeriode
-                                updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mfaPeriode={mfaPeriode}
-                                errors={errors}
-                                index={index}
-                            />
-                        )}
-                        <ClearButton
-                            iconType="Can"
-                            onChange={(event) => {
-                                event.preventDefault();
-                                setFormState((formState) => {
-                                    if (!formState.mulighetForArbeid) {
-                                        return formState;
-                                    }
-                                    if (formState.mulighetForArbeid.length === 1) {
-                                        return {
-                                            ...formState,
-                                            mulighetForArbeid: [],
-                                        };
-                                    }
-                                    const mulighetForArbeid = formState.mulighetForArbeid;
-                                    const withoutIndex = [
-                                        ...mulighetForArbeid.slice(0, index),
-                                        ...mulighetForArbeid.slice(index + 1),
-                                    ];
-                                    return {
-                                        ...formState,
-                                        mulighetForArbeid: withoutIndex,
-                                    };
-                                });
-                            }}
-                            buttonText="Slett periode"
-                        />
-                        {index !== formState.mulighetForArbeid.length - 1 && <Divider />}
-                    </div>
-                ))}
-
-            <Knapp
-                htmlType="button"
-                form="kompakt"
-                onClick={(event) => {
-                    event.preventDefault();
-                    setFormState(
-                        (state): FormType => {
-                            // Since the initial dropdown is not stored in the array, we need to add two undefined objects to the array if no data is currently stored
-                            // If there is data in the array, undefined is appended to it.
-                            const mulighetForArbeid =
-                                state.mulighetForArbeid.length === 0
-                                    ? [undefined, undefined]
-                                    : [...state.mulighetForArbeid, undefined];
-
-                            const updatedState = {
-                                ...state,
-                                mulighetForArbeid,
-                            };
-                            return updatedState;
-                        },
-                    );
-                }}
-            >
-                Legg til periode
-            </Knapp>
+                    Legg til periode
+                </Knapp>
+            </div>
         </SectionContainer>
     );
 };
