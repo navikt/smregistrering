@@ -37,12 +37,12 @@ type MulighetForArbeidSectionProps = {
 
 const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: MulighetForArbeidSectionProps) => {
     const periodOptions = [
-        <option value="velg">Velg</option>,
-        <option value="avventende">Kan benytte avventende sykmelding</option>,
-        <option value="gradert">Delvis (gradert sykmelding)</option>,
-        <option value="fullsykmelding">Nei (100% sykmelding)</option>,
-        <option value="behandlingsdager">Ikke på behandlingsdager</option>,
-        <option value="reisetilskudd">Ved bruk av reisetilskudd</option>,
+        <option value="velg">Velg periodetype</option>,
+        <option value="avventende">Avventende sykmelding</option>,
+        <option value="gradert">Gradert sykmelding</option>,
+        <option value="fullsykmelding">100% sykmelding</option>,
+        <option value="behandlingsdager">Behandlingsdager</option>,
+        <option value="reisetilskudd">Reisetilskudd</option>,
     ];
 
     const createEmptyMFA = (type: MFAOptions): MulighetForArbeidTypes => {
@@ -118,7 +118,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                         );
                     }}
                     className="form-margin-bottom"
-                    label={<Element>Har pasienten mulighet til å være i arbeid?</Element>}
+                    label={<Element>Periodetype</Element>}
                 >
                     {periodOptions}
                 </Select>
@@ -148,7 +148,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                                     );
                                 }}
                                 className="form-margin-bottom"
-                                label={<Element>Har pasienten mulighet til å være i arbeid?</Element>}
+                                label={<Element>Periodetype</Element>}
                             >
                                 {periodOptions}
                             </Select>
