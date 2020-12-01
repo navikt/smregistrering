@@ -5,6 +5,7 @@ import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import { FormType } from '../../../Form';
 import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { getEntries } from '../../../formUtils/useForm';
 
 interface MedisinskArsakProps {
     mfaPeriode: AktivitetIkkeMuligPeriodeMFA;
@@ -16,12 +17,12 @@ interface MedisinskArsakProps {
 const MedisinskArsak = ({ mfaPeriode, updateMfa, errors, index }: MedisinskArsakProps) => {
     const { aktivitetIkkeMuligMedisinskArsakType } = mfaPeriode;
 
-    const checkboxes: CheckboksPanelProps[] = Object.entries(MedisinskArsakType).map(([key, value]) => {
+    const checkboxes: CheckboksPanelProps[] = getEntries(MedisinskArsakType).map(([key, value]) => {
         return {
             label: value,
             id: `${key}-medisinsk-${index}`,
             value: key,
-            checked: aktivitetIkkeMuligMedisinskArsakType?.includes(key as keyof typeof MedisinskArsakType),
+            checked: aktivitetIkkeMuligMedisinskArsakType?.includes(key),
         };
     });
 

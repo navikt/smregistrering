@@ -5,6 +5,7 @@ import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import { ArbeidsrelatertArsakType } from '../../../../../types/RegistrertSykmelding';
 import { FormType } from '../../../Form';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { getEntries } from '../../../formUtils/useForm';
 
 interface ArbeidsrelatertArsakProps {
     mfaPeriode: AktivitetIkkeMuligPeriodeMFA;
@@ -16,12 +17,12 @@ interface ArbeidsrelatertArsakProps {
 const ArbeidsrelatertArsak = ({ mfaPeriode, updateMfa, errors, index }: ArbeidsrelatertArsakProps) => {
     const { aktivitetIkkeMuligArbeidsrelatertArsakType } = mfaPeriode;
 
-    const checkboxes: CheckboksPanelProps[] = Object.entries(ArbeidsrelatertArsakType).map(([key, value]) => {
+    const checkboxes: CheckboksPanelProps[] = getEntries(ArbeidsrelatertArsakType).map(([key, value]) => {
         return {
             label: value,
             id: `${key}-arbeidsrelatert-${index}`,
             value: key,
-            checked: aktivitetIkkeMuligArbeidsrelatertArsakType?.includes(key as keyof typeof ArbeidsrelatertArsakType),
+            checked: aktivitetIkkeMuligArbeidsrelatertArsakType?.includes(key),
         };
     });
 
