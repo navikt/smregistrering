@@ -109,7 +109,6 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                     onChange={({ target: { value } }) => {
                         setFormState(
                             (state): FormType => {
-                                // TODO: Fix this so it doesn't require "as"
                                 const period = createEmptyMFA(value as MFAOptions);
 
                                 return {
@@ -136,7 +135,6 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                             onChange={({ target: { value } }) => {
                                 setFormState(
                                     (state): FormType => {
-                                        // TODO: Fix this so it doesn't require "as"
                                         const mfa = createEmptyMFA(value as MFAOptions);
 
                                         const updatedMulighetForArbeid = mergeMFAAtIndex(mfa, state, index);
