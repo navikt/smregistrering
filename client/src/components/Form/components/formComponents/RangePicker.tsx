@@ -51,6 +51,8 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                 <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar} />
 
                 <ClearButton
+                    leftSpacing
+                    iconType="CircledCross"
                     onChange={(event) => {
                         event.preventDefault();
                         onChange(undefined);

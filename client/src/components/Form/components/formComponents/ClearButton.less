@@ -13,10 +13,14 @@
 .clearbutton {
     border: none;
     background: none;
-    margin-left: 12px;
     align-self: center;
     display: flex;
     cursor: pointer;
+}
+
+.clearbutton__withmargin {
+    &:extend(.clearbutton);
+    margin-left: 12px;
 }
 
 .clearbutton:hover {

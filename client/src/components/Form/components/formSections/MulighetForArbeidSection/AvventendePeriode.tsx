@@ -26,8 +26,8 @@ const AvventendePeriode = ({ updateMfa, mulighetForArbeid, errors }: AvventendeP
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
                 id="avventendePeriode"
-                labelFrom="4.1.1 f.o.m."
-                labelTo="4.1.2 t.o.m."
+                labelFrom="F.o.m"
+                labelTo="t.o.m"
                 value={mulighetForArbeid.avventendePeriode || []}
                 onChange={(newDates) => {
                     const updatedSchema = {
@@ -50,7 +50,7 @@ const AvventendePeriode = ({ updateMfa, mulighetForArbeid, errors }: AvventendeP
 
                     updateMfa(updatedSchema);
                 }}
-                label={<Element>4.1.3 Andre innspill til arbeidsgiver</Element>}
+                label={<Element>Andre innspill til arbeidsgiver</Element>}
             />
         </div>
     );

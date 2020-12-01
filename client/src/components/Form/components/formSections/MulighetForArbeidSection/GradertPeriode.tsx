@@ -43,8 +43,8 @@ const GradertPeriode = ({ updateMfa, mulighetForArbeid, errors, index }: Gradert
                 />
                 <RangePicker
                     id="gradertPeriode"
-                    labelFrom="4.2.1 f.o.m."
-                    labelTo="4.2.2 t.o.m."
+                    labelFrom="F.o.m"
+                    labelTo="t.o.m"
                     value={mulighetForArbeid.gradertPeriode || []}
                     onChange={(newDates) => {
                         const updatedSchema = {

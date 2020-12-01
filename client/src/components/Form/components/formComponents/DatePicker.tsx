@@ -42,6 +42,8 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
                 <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar} />
 
                 <ClearButton
+                    leftSpacing
+                    iconType="CircledCross"
                     onChange={(event) => {
                         event.preventDefault();
                         onChange(undefined);

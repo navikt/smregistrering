@@ -36,8 +36,8 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mulighetForArbeid, errors, index
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
                 id="aktivitetIkkeMuligPeriode"
-                labelFrom="4.3.1 f.o.m."
-                labelTo="4.3.2 t.o.m."
+                labelFrom="F.o.m"
+                labelTo="t.o.m"
                 value={mulighetForArbeid.aktivitetIkkeMuligPeriode || []}
                 onChange={(newDates) => {
                     const updatedSchema = {

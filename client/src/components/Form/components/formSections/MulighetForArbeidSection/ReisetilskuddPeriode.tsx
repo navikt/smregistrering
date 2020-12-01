@@ -21,8 +21,8 @@ const ReisetilskuddPeriode = ({ updateMfa, mulighetForArbeid, errors }: Reisetil
     return (
         <RangePicker
             id="reisetilskuddPeriode"
-            labelFrom="4.5.1 f.o.m."
-            labelTo="4.5.2 t.o.m."
+            labelFrom="F.o.m"
+            labelTo="t.o.m"
             value={mulighetForArbeid.reisetilskuddPeriode || []}
             onChange={(newDates) => {
                 const updatedSchema = {

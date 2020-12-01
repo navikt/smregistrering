@@ -26,8 +26,8 @@ const BehandlingsdagerPeriode = ({ updateMfa, mulighetForArbeid, errors }: Behan
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
                 id="behandlingsdagerPeriode"
-                labelFrom="4.4.1 f.o.m."
-                labelTo="4.4.2 t.o.m."
+                labelFrom="F.o.m"
+                labelTo="t.o.m"
                 value={mulighetForArbeid.behandlingsdagerPeriode || []}
                 onChange={(newDates) => {
                     const updatedSchema = {
@@ -52,7 +52,7 @@ const BehandlingsdagerPeriode = ({ updateMfa, mulighetForArbeid, errors }: Behan
 
                     updateMfa(updatedSchema);
                 }}
-                label={<Element>4.4.3 Oppgi antall dager i perioden</Element>}
+                label={<Element>Oppgi antall dager i perioden</Element>}
             />
         </div>
     );
