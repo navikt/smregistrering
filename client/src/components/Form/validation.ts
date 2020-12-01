@@ -139,6 +139,20 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             return 'Periode må være definert når gradert sykmelding er valgt';
         }
 
+        if (gradertMFA.some((gradertSykmelding) => !gradertSykmelding.gradertGrad)) {
+            return 'Grad for gradert periode må være definert';
+        }
+
+        if (
+            gradertMFA.some(
+                (gradertSykmelding) =>
+                    gradertSykmelding.gradertGrad &&
+                    (gradertSykmelding.gradertGrad < 0 || gradertSykmelding.gradertGrad > 100),
+            )
+        ) {
+            return 'Grad for gradert periode må være et tall mellom 0 og 100';
+        }
+
         // Perioder for full sykmelding
         if (
             aktivitetIkkeMuligMFA.some(
