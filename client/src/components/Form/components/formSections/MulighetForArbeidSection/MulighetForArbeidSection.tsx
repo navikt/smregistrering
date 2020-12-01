@@ -118,7 +118,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                             },
                         );
                     }}
-                    className="form-margin-bottom"
+                    className="form-margin-bottom half"
                     label={<Element>Periodetype</Element>}
                 >
                     {periodOptions}
@@ -147,7 +147,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                                     },
                                 );
                             }}
-                            className="form-margin-bottom"
+                            className="form-margin-bottom half"
                             label={<Element>Periodetype</Element>}
                         >
                             {periodOptions}
@@ -216,6 +216,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                             }}
                             buttonText="Slett periode"
                         />
+                        <hr className="mulighetForArbeid__divider" />
                     </div>
                 ))}
 
