@@ -29,7 +29,7 @@ const MedisinskArsak = ({ mfaPeriode, updateMfa, errors, index }: MedisinskArsak
         if (aktivitetIkkeMuligMedisinskArsakType === undefined) {
             const updatedSchema = {
                 ...mfaPeriode,
-                aktivitetIkkeMuligMedisinskArsakType: [value as keyof typeof MedisinskArsakType],
+                aktivitetIkkeMuligMedisinskArsakType: [value],
             };
             updateMfa(updatedSchema);
             return;

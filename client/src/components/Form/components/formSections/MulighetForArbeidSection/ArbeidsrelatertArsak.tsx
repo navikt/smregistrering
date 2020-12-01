@@ -29,7 +29,7 @@ const ArbeidsrelatertArsak = ({ mfaPeriode, updateMfa, errors, index }: Arbeidsr
         if (!aktivitetIkkeMuligArbeidsrelatertArsakType) {
             const updatedSchema = {
                 ...mfaPeriode,
-                aktivitetIkkeMuligArbeidsrelatertArsakType: [value as keyof typeof ArbeidsrelatertArsakType],
+                aktivitetIkkeMuligArbeidsrelatertArsakType: [value],
             };
             updateMfa(updatedSchema);
             return;
