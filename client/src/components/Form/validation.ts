@@ -164,11 +164,14 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             return 'Periode må være definert når aktivitet ikke er mulig';
         }
 
+        console.log(aktivitetIkkeMuligMFA);
+
         if (
             aktivitetIkkeMuligMFA.some(
                 (aktivitetIkkeMulig) =>
                     aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsak &&
-                    aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsakType?.length === 0,
+                    (!aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsakType ||
+                        aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsakType?.length === 0),
             )
         ) {
             return 'Minst én medisinsk årsak må være valgt når det er medisinske årsaker som hindrer aktivitet';
@@ -177,8 +180,9 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         if (
             aktivitetIkkeMuligMFA.some(
                 (aktivitetIkkeMulig) =>
-                    aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsak &&
-                    aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsakType?.length === 0,
+                    aktivitetIkkeMulig.aktivitetIkkeMuligArbeidsrelatertArsak &&
+                    (!aktivitetIkkeMulig.aktivitetIkkeMuligArbeidsrelatertArsakType ||
+                        aktivitetIkkeMulig.aktivitetIkkeMuligArbeidsrelatertArsakType?.length === 0),
             )
         ) {
             return 'Minst én arbeidsrelatert årsak må være valgt når det er arbeidsrelaterte årsaker som hindrer aktivitet';
