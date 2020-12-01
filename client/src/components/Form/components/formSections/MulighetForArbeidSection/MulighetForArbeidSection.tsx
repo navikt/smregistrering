@@ -234,6 +234,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                     ))}
 
                 <Knapp
+                    id="mulighetForArbeid-leggTilPeriode"
                     htmlType="button"
                     form="kompakt"
                     onClick={(event) => {

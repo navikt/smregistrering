@@ -88,45 +88,59 @@ context('Submit oppgave', () => {
         cy.getAndScrollIntoView('#skjermesForPasient').click({ force: true }).should('be.checked');
 
         // 4 Mulighet for arbeid
-        cy.getAndScrollIntoView('#avventendeSykmelding').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#avventendePeriode').focus().should('be.focused').type('01.01.2020 - 03.01.2020');
-        cy.getAndScrollIntoView('#avventendeInnspillTilArbeidsgiver').type('Innspill til arbeidsgiver', {
+        //
+        // TODO: Make generic so that it doesn't rely on a specific count/order of periods
+
+        // Avventende
+        cy.getAndScrollIntoView('#mulighetForArbeid-selector').select('avventende', { force: true });
+        cy.getAndScrollIntoView('#avventendePeriode-0').focus().should('be.focused').type('01.01.2020 - 03.01.2020');
+        cy.getAndScrollIntoView('#avventendeInnspillTilArbeidsgiver-0').type('Innspill til arbeidsgiver', {
             force: true,
         });
+        cy.getAndScrollIntoView('#mulighetForArbeid-leggTilPeriode').click();
 
-        cy.getAndScrollIntoView('#gradertSykmelding').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#gradertPeriode').focus().should('be.focused').type('01.02.2020 - 03.02.2020');
-        cy.getAndScrollIntoView('#gradertGrad').type('80', { force: true });
-        cy.getAndScrollIntoView('#gradertReisetilskudd').click({ force: true }).should('be.checked');
+        // Gradert
+        cy.getAndScrollIntoView('#mulighetForArbeid-selector-1').select('gradert', { force: true });
+        cy.getAndScrollIntoView('#gradertPeriode-1').focus().should('be.focused').type('01.02.2020 - 03.02.2020');
+        cy.getAndScrollIntoView('#gradertGrad-1').type('80', { force: true });
+        cy.getAndScrollIntoView('#gradertReisetilskudd-1').click({ force: true }).should('be.checked');
+        cy.getAndScrollIntoView('#mulighetForArbeid-leggTilPeriode').click();
 
-        cy.getAndScrollIntoView('#aktivitetIkkeMuligSykmelding').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#aktivitetIkkeMuligPeriode')
+        // Aktivitet ikke mulig
+        cy.getAndScrollIntoView('#mulighetForArbeid-selector-2').select('fullsykmelding', { force: true });
+        cy.getAndScrollIntoView('#aktivitetIkkeMuligPeriode-2')
             .focus()
             .should('be.focused')
             .type('01.03.2020 - 03.03.2020');
-        cy.getAndScrollIntoView('#aktivitetIkkeMuligMedisinskArsak').click({ force: true }).should('be.checked');
-        cy.get('#TILSTAND_HINDRER_AKTIVITET-medisinsk').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#aktivitetIkkeMuligMedisinskArsakBeskrivelse').type('Medisinsk beskrivelse', {
+        cy.getAndScrollIntoView('#aktivitetIkkeMuligMedisinskArsak-2').click({ force: true }).should('be.checked');
+        cy.get('#TILSTAND_HINDRER_AKTIVITET-medisinsk-2').click({ force: true }).should('be.checked');
+        cy.getAndScrollIntoView('#aktivitetIkkeMuligMedisinskArsakBeskrivelse-2').type('Medisinsk beskrivelse', {
             force: true,
         });
-        cy.getAndScrollIntoView('#aktivitetIkkeMuligArbeidsrelatertArsak').click({ force: true }).should('be.checked');
-        cy.get('#MANGLENDE_TILRETTELEGGING-arbeidsrelatert').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse').type(
+        cy.getAndScrollIntoView('#aktivitetIkkeMuligArbeidsrelatertArsak-2')
+            .click({ force: true })
+            .should('be.checked');
+        cy.get('#MANGLENDE_TILRETTELEGGING-arbeidsrelatert-2').click({ force: true }).should('be.checked');
+        cy.getAndScrollIntoView('#aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse-2').type(
             'Arbeidsrelatert beskrivelse',
             {
                 force: true,
             },
         );
+        cy.getAndScrollIntoView('#mulighetForArbeid-leggTilPeriode').click();
 
-        cy.getAndScrollIntoView('#behandlingsdagerSykmelding').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#behandlingsdagerPeriode')
+        // Behandlingsdager
+        cy.getAndScrollIntoView('#mulighetForArbeid-selector-3').select('behandlingsdager', { force: true });
+        cy.getAndScrollIntoView('#behandlingsdagerPeriode-3')
             .focus()
             .should('be.focused')
             .type('01.04.2020 - 03.04.2020');
-        cy.getAndScrollIntoView('#behandlingsdagerAntall').type('1', { force: true });
+        cy.getAndScrollIntoView('#behandlingsdagerAntall-3').type('1', { force: true });
+        cy.getAndScrollIntoView('#mulighetForArbeid-leggTilPeriode').click();
 
-        cy.getAndScrollIntoView('#reisetilskuddSykmelding').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#reisetilskuddPeriode').focus().should('be.focused').type('01.05.2020 - 03.05.2020');
+        // Reisetilskudd
+        cy.getAndScrollIntoView('#mulighetForArbeid-selector-4').select('reisetilskudd', { force: true });
+        cy.getAndScrollIntoView('#reisetilskuddPeriode-4').focus().should('be.focused').type('01.05.2020 - 03.05.2020');
 
         // 5 Prognose
         cy.getAndScrollIntoView('#arbeidsfoerEtterPeriode').click({ force: true }).should('be.checked');
