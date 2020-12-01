@@ -216,7 +216,9 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                             }}
                             buttonText="Slett periode"
                         />
-                        <hr className="mulighetForArbeid__divider" />
+                        {index !== formState.mulighetForArbeid.length - 1 && (
+                            <hr className="mulighetForArbeid__divider" />
+                        )}
                     </div>
                 ))}
 
