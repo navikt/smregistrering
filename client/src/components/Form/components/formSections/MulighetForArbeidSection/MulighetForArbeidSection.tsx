@@ -166,6 +166,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mfaPeriode={mfaPeriode}
                                 errors={errors}
+                                index={index}
                             />
                         )}
                         {isGradertPeriode(mfaPeriode) && (
@@ -189,6 +190,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mfaPeriode={mfaPeriode}
                                 errors={errors}
+                                index={index}
                             />
                         )}
                         {isReisetilskuddPeriode(mfaPeriode) && (
@@ -196,6 +198,7 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
                                 mfaPeriode={mfaPeriode}
                                 errors={errors}
+                                index={index}
                             />
                         )}
                         <ClearButton

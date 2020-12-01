@@ -27,7 +27,7 @@ const GradertPeriode = ({ updateMfa, mfaPeriode, errors, index }: GradertPeriode
         <div className="mulighetForArbeid__subsection-container">
             <div className="mulighetForArbeid__gradert-row">
                 <Input
-                    id="gradertGrad"
+                    id={`gradertGrad-${index}`}
                     className="mulighetForArbeid__gradert-row__grad"
                     type="number"
                     value={mfaPeriode.gradertGrad}
@@ -42,7 +42,7 @@ const GradertPeriode = ({ updateMfa, mfaPeriode, errors, index }: GradertPeriode
                     label="Oppgi grad"
                 />
                 <RangePicker
-                    id="gradertPeriode"
+                    id={`gradertPeriode-${index}`}
                     labelFrom="F.o.m"
                     labelTo="t.o.m"
                     value={mfaPeriode.gradertPeriode || []}

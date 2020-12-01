@@ -15,12 +15,13 @@ type ReisetilskuddPeriodeProps = {
     mfaPeriode: ReisetilskuddPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    index: number;
 };
 
-const ReisetilskuddPeriode = ({ updateMfa, mfaPeriode, errors }: ReisetilskuddPeriodeProps) => {
+const ReisetilskuddPeriode = ({ updateMfa, mfaPeriode, errors, index }: ReisetilskuddPeriodeProps) => {
     return (
         <RangePicker
-            id="reisetilskuddPeriode"
+            id={`reisetilskuddPeriode-${index}`}
             labelFrom="F.o.m"
             labelTo="t.o.m"
             value={mfaPeriode.reisetilskuddPeriode || []}

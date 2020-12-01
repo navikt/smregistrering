@@ -19,13 +19,14 @@ type BehandlingsdagerPeriodeProps = {
     mfaPeriode: BehandlingsdagerPeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    index: number;
 };
 
-const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, errors }: BehandlingsdagerPeriodeProps) => {
+const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, errors, index }: BehandlingsdagerPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
-                id="behandlingsdagerPeriode"
+                id={`behandlingsdagerPeriode-${index}`}
                 labelFrom="F.o.m"
                 labelTo="t.o.m"
                 value={mfaPeriode.behandlingsdagerPeriode || []}
@@ -40,7 +41,7 @@ const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, errors }: Behandlingsd
             />
 
             <Input
-                id="behandlingsdagerAntall"
+                id={`behandlingsdagerAntall-${index}`}
                 className="form-margin-bottom half"
                 type="number"
                 value={mfaPeriode.behandlingsdagerAntall}

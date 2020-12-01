@@ -48,7 +48,7 @@ const MedisinskArsak = ({ mfaPeriode, updateMfa, errors, index }: MedisinskArsak
     };
 
     return (
-        <div id="aktivitetIkkeMuligMedisinskArsakType" className="form-margin-bottom">
+        <div id={`aktivitetIkkeMuligMedisinskArsakType-${index}`} className="form-margin-bottom">
             <CheckboksPanelGruppe
                 legend="Medisinske årsaker"
                 checkboxes={checkboxes}

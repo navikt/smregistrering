@@ -48,7 +48,7 @@ const ArbeidsrelatertArsak = ({ mfaPeriode, updateMfa, errors, index }: Arbeidsr
     };
 
     return (
-        <div id="aktivitetIkkeMuligArbeidsrelatertArsakType" className="form-margin-bottom">
+        <div id={`aktivitetIkkeMuligArbeidsrelatertArsakType-${index}`} className="form-margin-bottom">
             <CheckboksPanelGruppe
                 legend="Arbeidsrelaterte årsaker"
                 checkboxes={checkboxes}

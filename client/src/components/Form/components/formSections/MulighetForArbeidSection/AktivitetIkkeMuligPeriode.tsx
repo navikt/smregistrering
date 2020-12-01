@@ -35,7 +35,7 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
-                id="aktivitetIkkeMuligPeriode"
+                id={`aktivitetIkkeMuligPeriode-${index}`}
                 labelFrom="F.o.m"
                 labelTo="t.o.m"
                 value={mfaPeriode.aktivitetIkkeMuligPeriode || []}
@@ -68,7 +68,7 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                 <>
                     <MedisinskArsak mfaPeriode={mfaPeriode} updateMfa={updateMfa} errors={errors} index={index} />
                     <Input
-                        id="aktivitetIkkeMuligMedisinskArsakBeskrivelse"
+                        id={`aktivitetIkkeMuligMedisinskArsakBeskrivelse-${index}`}
                         className="form-margin-bottom"
                         value={
                             mfaPeriode.aktivitetIkkeMuligMedisinskArsakBeskrivelse
@@ -108,7 +108,7 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                 <>
                     <ArbeidsrelatertArsak mfaPeriode={mfaPeriode} updateMfa={updateMfa} errors={errors} index={index} />
                     <Input
-                        id="aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse"
+                        id={`aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse-${index}`}
                         className="form-margin-bottom"
                         value={
                             mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse

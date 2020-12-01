@@ -19,13 +19,14 @@ type AvventendePeriodeProps = {
     mfaPeriode: AvventendePeriodeMFA;
     updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
+    index: number;
 };
 
-const AvventendePeriode = ({ updateMfa, mfaPeriode, errors }: AvventendePeriodeProps) => {
+const AvventendePeriode = ({ updateMfa, mfaPeriode, errors, index }: AvventendePeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker
-                id="avventendePeriode"
+                id={`avventendePeriode-${index}`}
                 labelFrom="F.o.m"
                 labelTo="t.o.m"
                 value={mfaPeriode.avventendePeriode || []}
@@ -39,7 +40,7 @@ const AvventendePeriode = ({ updateMfa, mfaPeriode, errors }: AvventendePeriodeP
                 }}
             />
             <Textarea
-                id="avventendeInnspillTilArbeidsgiver"
+                id={`avventendeInnspillTilArbeidsgiver-${index}`}
                 maxLength={0}
                 value={mfaPeriode.avventendeInnspillTilArbeidsgiver || ''}
                 onChange={({ target: { value } }) => {
