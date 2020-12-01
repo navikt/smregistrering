@@ -30,6 +30,16 @@ export type MulighetForArbeid = {
 
 export type MFAOptions = 'velg' | 'avventende' | 'gradert' | 'fullsykmelding' | 'behandlingsdager' | 'reisetilskudd';
 
+const isAvventendePeriode = (periode: MulighetForArbeidTypes): periode is AvventendePeriodeMFA =>
+    periode?.type === 'avventende';
+const isGradertPeriode = (periode: MulighetForArbeidTypes): periode is GradertPeriodeMFA => periode?.type === 'gradert';
+const isAktivitetIkkeMuligPeriode = (periode: MulighetForArbeidTypes): periode is AktivitetIkkeMuligPeriodeMFA =>
+    periode?.type === 'fullsykmelding';
+const isBehandlingsdagerPeriode = (periode: MulighetForArbeidTypes): periode is BehandlingsdagerPeriodeMFA =>
+    periode?.type === 'behandlingsdager';
+const isReisetilskuddPeriode = (periode: MulighetForArbeidTypes): periode is ReisetilskuddPeriodeMFA =>
+    periode?.type === 'reisetilskudd';
+
 type MulighetForArbeidSectionProps = {
     section: Section;
     formState: FormType;
@@ -151,40 +161,40 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                         >
                             {periodOptions}
                         </Select>
-                        {mulighetForArbeid?.type === 'avventende' && (
+                        {isAvventendePeriode(mulighetForArbeid) && (
                             <AvventendePeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid as AvventendePeriodeMFA}
+                                mulighetForArbeid={mulighetForArbeid}
                                 errors={errors}
                             />
                         )}
-                        {mulighetForArbeid?.type === 'gradert' && (
+                        {isGradertPeriode(mulighetForArbeid) && (
                             <GradertPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid as GradertPeriodeMFA}
+                                mulighetForArbeid={mulighetForArbeid}
                                 errors={errors}
                                 index={index}
                             />
                         )}
-                        {mulighetForArbeid?.type === 'fullsykmelding' && (
+                        {isAktivitetIkkeMuligPeriode(mulighetForArbeid) && (
                             <AktivitetIkkeMuligPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid as AktivitetIkkeMuligPeriodeMFA}
+                                mulighetForArbeid={mulighetForArbeid}
                                 errors={errors}
                                 index={index}
                             />
                         )}
-                        {mulighetForArbeid?.type === 'behandlingsdager' && (
+                        {isBehandlingsdagerPeriode(mulighetForArbeid) && (
                             <BehandlingsdagerPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid as BehandlingsdagerPeriodeMFA}
+                                mulighetForArbeid={mulighetForArbeid}
                                 errors={errors}
                             />
                         )}
-                        {mulighetForArbeid?.type === 'reisetilskudd' && (
+                        {isReisetilskuddPeriode(mulighetForArbeid) && (
                             <ReisetilskuddPeriode
                                 updateMfa={(updatedMfa) => updateSubsectionMFA(updatedMfa, index)}
-                                mulighetForArbeid={mulighetForArbeid as ReisetilskuddPeriodeMFA}
+                                mulighetForArbeid={mulighetForArbeid}
                                 errors={errors}
                             />
                         )}
