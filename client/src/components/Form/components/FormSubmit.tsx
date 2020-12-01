@@ -8,9 +8,9 @@ import { Checkbox } from 'nav-frontend-skjema';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Hovedknapp } from 'nav-frontend-knapper';
 
+import { FormType } from '../Form';
 import { RegistrertSykmelding } from '../../../types/RegistrertSykmelding';
 import { RuleHitErrors } from '../../../types/RuleHitErrors';
-import { FormType } from '../Form';
 import { buildRegistrertSykmelding } from '../../../utils/registrertSykmeldingUtils';
 
 interface FormSubmitProps {
@@ -88,7 +88,7 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                 id="form-submit-checkbox"
                 className="form-submit-checkbox"
                 checked={checked}
-                label="Informasjonen stemmer overens med papirsykmelding"
+                label="Feltene stemmer overens med opplysningene i papirsykmeldingen"
                 onChange={() => setChecked((state) => !state)}
             />
             {ruleHitErrors && (

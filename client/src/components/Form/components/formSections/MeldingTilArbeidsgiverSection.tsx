@@ -32,7 +32,7 @@ const MeldingTilArbeidsgiverSection = ({
                     setFormState((formState) => ({ ...formState, meldingTilArbeidsgiverBeskriv: value }));
                 }}
                 feil={errors.get('meldingTilArbeidsgiverBeskriv')?.feilmelding}
-                label="9.1 Andre innspill til arbeidsgiver"
+                label="9.1 Andre innspill til arbeidsgiveren"
             />
         </SectionContainer>
     );
