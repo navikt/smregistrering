@@ -1,4 +1,9 @@
+import { AktivitetIkkeMuligPeriodeMFA } from './components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
+import { AvventendePeriodeMFA } from './components/formSections/MulighetForArbeidSection/AvventendePeriode';
+import { BehandlingsdagerPeriodeMFA } from './components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode';
 import { FormType } from './Form';
+import { GradertPeriodeMFA } from './components/formSections/MulighetForArbeidSection/GradertPeriode';
+import { ReisetilskuddPeriodeMFA } from './components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode';
 import { ValidationFunctions } from './formUtils/useForm';
 
 export const validationFunctions: ValidationFunctions<FormType> = {
@@ -89,88 +94,123 @@ export const validationFunctions: ValidationFunctions<FormType> = {
 
     // MulighetForArbeid
     mulighetForArbeid: (schema) => {
-        if (
-            !schema.avventendeSykmelding &&
-            !schema.gradertSykmelding &&
-            !schema.aktivitetIkkeMuligSykmelding &&
-            !schema.behandlingsdagerSykmelding &&
-            !schema.reisetilskuddSykmelding
-        ) {
+        if (!schema.mulighetForArbeid) {
             return 'Minimum én sykmeldingsperiode må være definert';
         }
-        return undefined;
-    },
-    // Perioder for avventende sykmelding
-    avventendeSykmelding: () => undefined,
-    avventendePeriode: (schema) => {
-        if (
-            (schema.avventendeSykmelding && !schema.avventendePeriode) ||
-            (schema.avventendePeriode && schema.avventendePeriode.length === 1)
-        ) {
-            return 'Periode må være definert når avventende sykmelding er krysset av';
+
+        const definedMFA = schema.mulighetForArbeid.filter((mfa) => mfa);
+
+        if (definedMFA.filter((mfa) => mfa).length === 0) {
+            return 'Minimum én sykmeldingsperiode må være definert';
         }
-    },
-    avventendeInnspillTilArbeidsgiver: (schema) => {
-        if (schema.avventendeSykmelding && !schema.avventendeInnspillTilArbeidsgiver) {
+
+        const avventendeMFA = definedMFA.filter((mfa) => mfa?.type === 'avventende') as AvventendePeriodeMFA[];
+        const gradertMFA = definedMFA.filter((mfa) => mfa?.type === 'gradert') as GradertPeriodeMFA[];
+        const aktivitetIkkeMuligMFA = definedMFA.filter(
+            (mfa) => mfa?.type === 'fullsykmelding',
+        ) as AktivitetIkkeMuligPeriodeMFA[];
+        const behandlingsdagerMFA = definedMFA.filter(
+            (mfa) => mfa?.type === 'behandlingsdager',
+        ) as BehandlingsdagerPeriodeMFA[];
+        const reisetilskuddMFA = definedMFA.filter((mfa) => mfa?.type === 'reisetilskudd') as ReisetilskuddPeriodeMFA[];
+
+        // Perioder for avventende sykmelding
+        if (
+            avventendeMFA.some(
+                (avventendeSykmelding) =>
+                    !avventendeSykmelding.avventendePeriode || avventendeSykmelding.avventendePeriode.length === 1,
+            )
+        ) {
+            // TODO: This check will never occur as RangePicker will set end date to start date if no end date is selected by the user. Currently not an issue as this allows the user to set a period of 1 day
+            return 'Periode må være definert når avventende sykmelding er valgt';
+        }
+
+        if (avventendeMFA.some((avventendeSykmelding) => !avventendeSykmelding.avventendeInnspillTilArbeidsgiver)) {
             return 'Innspill til arbeidsgiver om tilrettelegging må være utfylt når avventende sykmelding er krysset av';
         }
-    },
-    // Perioder for gradert sykmelding
-    gradertSykmelding: () => undefined,
-    gradertPeriode: (schema) => {
+
+        // Perioder for gradert sykmelding
         if (
-            (schema.gradertSykmelding && !schema.gradertPeriode) ||
-            (schema.gradertPeriode && schema.gradertPeriode.length === 1)
+            gradertMFA.some(
+                (gradertSykmelding) =>
+                    !gradertSykmelding.gradertPeriode || gradertSykmelding.gradertPeriode.length === 1,
+            )
         ) {
-            return 'Periode må være definert når gradert sykmelding er krysset av';
+            return 'Periode må være definert når gradert sykmelding er valgt';
         }
-    },
-    gradertGrad: () => undefined,
-    gradertReisetilskudd: () => undefined,
-    // Perioder for full sykmelding
-    aktivitetIkkeMuligSykmelding: () => undefined,
-    aktivitetIkkeMuligPeriode: (schema) => {
+
+        if (gradertMFA.some((gradertSykmelding) => !gradertSykmelding.gradertGrad)) {
+            return 'Grad for gradert periode må være definert';
+        }
+
         if (
-            (schema.aktivitetIkkeMuligSykmelding && !schema.aktivitetIkkeMuligPeriode) ||
-            (schema.aktivitetIkkeMuligPeriode && schema.aktivitetIkkeMuligPeriode.length === 1)
+            gradertMFA.some(
+                (gradertSykmelding) =>
+                    gradertSykmelding.gradertGrad &&
+                    (gradertSykmelding.gradertGrad < 0 || gradertSykmelding.gradertGrad > 100),
+            )
+        ) {
+            return 'Grad for gradert periode må være et tall mellom 0 og 100';
+        }
+
+        // Perioder for full sykmelding
+        if (
+            aktivitetIkkeMuligMFA.some(
+                (aktivitetIkkeMulig) =>
+                    !aktivitetIkkeMulig.aktivitetIkkeMuligPeriode ||
+                    aktivitetIkkeMulig.aktivitetIkkeMuligPeriode.length === 1,
+            )
         ) {
             return 'Periode må være definert når aktivitet ikke er mulig';
         }
-    },
-    aktivitetIkkeMuligMedisinskArsak: () => undefined,
-    aktivitetIkkeMuligMedisinskArsakType: () => {
-        return undefined;
-    },
-    aktivitetIkkeMuligMedisinskArsakBeskrivelse: () => undefined,
-    aktivitetIkkeMuligArbeidsrelatertArsak: () => undefined,
-    aktivitetIkkeMuligArbeidsrelatertArsakType: () => {
-        return undefined;
-    },
-    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: () => undefined,
-    // Perioder for sykmelding for behandlignsdager
-    behandlingsdagerSykmelding: () => undefined,
-    behandlingsdagerPeriode: (schema) => {
+
         if (
-            (schema.behandlingsdagerSykmelding && !schema.behandlingsdagerPeriode) ||
-            (schema.behandlingsdagerPeriode && schema.behandlingsdagerPeriode.length === 1)
+            aktivitetIkkeMuligMFA.some(
+                (aktivitetIkkeMulig) =>
+                    aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsak &&
+                    (!aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsakType ||
+                        aktivitetIkkeMulig.aktivitetIkkeMuligMedisinskArsakType?.length === 0),
+            )
+        ) {
+            return 'Minst én medisinsk årsak må være valgt når det er medisinske årsaker som hindrer aktivitet';
+        }
+
+        if (
+            aktivitetIkkeMuligMFA.some(
+                (aktivitetIkkeMulig) =>
+                    aktivitetIkkeMulig.aktivitetIkkeMuligArbeidsrelatertArsak &&
+                    (!aktivitetIkkeMulig.aktivitetIkkeMuligArbeidsrelatertArsakType ||
+                        aktivitetIkkeMulig.aktivitetIkkeMuligArbeidsrelatertArsakType?.length === 0),
+            )
+        ) {
+            return 'Minst én arbeidsrelatert årsak må være valgt når det er arbeidsrelaterte årsaker som hindrer aktivitet';
+        }
+
+        // Perioder for sykmelding for behandlingsdager
+        if (
+            behandlingsdagerMFA.some(
+                (behandlingsdager) =>
+                    !behandlingsdager.behandlingsdagerPeriode || behandlingsdager.behandlingsdagerPeriode.length === 1,
+            )
         ) {
             return 'Periode må være definert når pasienten krever sykmelding for behandlingsdager';
         }
-    },
-    behandlingsdagerAntall: (schema) => {
-        if (schema.behandlingsdagerSykmelding && !schema.behandlingsdagerAntall) {
+
+        if (behandlingsdagerMFA.some((behandlingsdager) => !behandlingsdager.behandlingsdagerAntall)) {
             return 'Antall dager må være definert når pasienten krever sykmelding for behandlingsdager';
         }
-    },
-    // Perioder for sykmelding med reisetilskudd
-    reisetilskuddSykmelding: () => undefined,
-    reisetilskuddPeriode: (schema) => {
+
+        // Perioder for sykmelding med reisetilskudd
         if (
-            (schema.reisetilskuddSykmelding && !schema.reisetilskuddPeriode) ||
-            (schema.reisetilskuddPeriode && schema.reisetilskuddPeriode.length === 1)
+            reisetilskuddMFA.some(
+                (reisetilskudd) =>
+                    !reisetilskudd.reisetilskuddPeriode || reisetilskudd.reisetilskuddPeriode.length === 1,
+            )
         ) {
             return 'Periode må være definert når pasienten krever sykmelding med reistilskudd';
         }
+
+        return undefined;
     },
 
     // Friskmelding

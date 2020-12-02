@@ -4,6 +4,7 @@ import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 import AnnenFraversArsak from './AnnenFraversArsak';
 import Bidiagnoser from './Bidiagnoser';
 import DatePicker from '../../formComponents/DatePicker';
+import Divider from '../../formComponents/Divider';
 import ExpandableField from '../../formComponents/ExpandableField';
 import Hoveddiagnose from './Hoveddiagnose';
 import SectionContainer from '../../SectionContainer';
@@ -52,7 +53,8 @@ const DiagnoseSection = ({ section, setFormState, formState, errors, diagnosekod
                 feil={errors.get('biDiagnoser')?.feilmelding}
             />
 
-            <hr />
+            <Divider />
+
             <Subsection sectionIdentifier="3.3">
                 <Checkbox
                     id="annenFraversArsak"
@@ -77,7 +79,9 @@ const DiagnoseSection = ({ section, setFormState, formState, errors, diagnosekod
                             className="form-margin-bottom"
                             type="text"
                             value={
-                                formState.annenFraversArsakBeskrivelse ? formState.annenFraversArsakBeskrivelse : undefined
+                                formState.annenFraversArsakBeskrivelse
+                                    ? formState.annenFraversArsakBeskrivelse
+                                    : undefined
                             }
                             onChange={({ target: { value } }) => {
                                 setFormState((formState) => ({ ...formState, annenFraversArsakBeskrivelse: value }));

@@ -3,9 +3,8 @@ import './datepicker-extended.less';
 
 import Flatpickr from 'react-flatpickr';
 import React from 'react';
-import { Fareknapp } from 'nav-frontend-knapper';
 
-import Cross from '../../../../svg/Cross';
+import ClearButton from './ClearButton';
 import calendar from '../../../../svg/calendar.svg';
 import { flatpickrLocale } from './flatpickrUtils';
 
@@ -42,19 +41,15 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
                 />
                 <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar} />
 
-                <div className="flatpickr-clear">
-                    <Fareknapp
-                        htmlType="button"
-                        kompakt
-                        onClick={(event) => {
-                            event.preventDefault();
-                            onChange(undefined);
-                        }}
-                    >
-                        <Cross />
-                        <span className="sr-only">Slett valgt dato</span>
-                    </Fareknapp>
-                </div>
+                <ClearButton
+                    leftSpacing
+                    iconType="CircledCross"
+                    onChange={(event) => {
+                        event.preventDefault();
+                        onChange(undefined);
+                    }}
+                    buttonText="Fjern dato"
+                />
             </div>
             {feil && (
                 <div className="skjemaelement__feilmelding">

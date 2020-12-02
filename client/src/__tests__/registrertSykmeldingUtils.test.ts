@@ -1,19 +1,15 @@
 import {
     AnnenFraversArsak,
-    Arbeidsgiver,
     ArbeidsrelatertArsak,
-    Behandler,
     Diagnose,
-    KontaktMedPasient,
     MedisinskArsak,
-    MedisinskArsakType,
     Periode,
     Prognose,
     RegistrertSykmelding,
     UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
 import { DiagnosekodeSystem } from '../types/Diagnosekode';
-import { SchemaType } from '../components/Form/Form';
+import { FormType } from '../components/Form/Form';
 import {
     buildAktivitetIkkeMuligSykmelding,
     buildAnnenFraversArsak,
@@ -35,65 +31,79 @@ describe('registrertSykmeldingUtils', () => {
     describe('Perioder', () => {
         describe('Avventende', () => {
             it('Returns avventende sykmelding', () => {
-                const builtAvventendeSykmelding = buildAvventendeSykmelding(
-                    true,
-                    [new Date('10-01-2020'), new Date('10-02-2020')],
-                    'Dette er et innspill til arbeidsgiver',
-                );
-                const expected: Periode = {
-                    fom: new Date('10-01-2020'),
-                    tom: new Date('10-02-2020'),
-                    reisetilskudd: false,
-                    avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
-                };
+                const builtAvventendeSykmelding = buildAvventendeSykmelding([
+                    {
+                        type: 'avventende',
+                        avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
+                        avventendePeriode: [new Date('10-01-2020'), new Date('10-02-2020')],
+                    },
+                ]);
+                const expected: Periode[] = [
+                    {
+                        fom: new Date('10-01-2020'),
+                        tom: new Date('10-02-2020'),
+                        reisetilskudd: false,
+                        avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
+                    },
+                ];
                 expect(builtAvventendeSykmelding).toEqual(expected);
             });
 
             it('Does not return avventende sykmelding', () => {
-                const builtAvventendeSykmelding = buildAvventendeSykmelding(
-                    false,
-                    [new Date('10-01-2020'), new Date('10-02-2020')],
-                    'Dette er et innspill til arbeidsgiver',
-                );
-                expect(builtAvventendeSykmelding).toBeUndefined();
+                const builtAvventendeSykmelding = buildAvventendeSykmelding([
+                    {
+                        type: 'gradert',
+                        gradertPeriode: [new Date('10-01-2020'), new Date('10-02-2020')],
+                        gradertGrad: 80,
+                        gradertReisetilskudd: true,
+                    },
+                ]);
+                expect(builtAvventendeSykmelding).toHaveLength(0);
             });
 
             it('Does not return avventende sykmelding if innspill is missing', () => {
-                const builtAvventendeSykmelding = buildAvventendeSykmelding(true, [
-                    new Date('10-01-2020'),
-                    new Date('10-02-2020'),
+                const builtAvventendeSykmelding = buildAvventendeSykmelding([
+                    {
+                        type: 'avventende',
+                        avventendePeriode: [new Date('10-01-2020'), new Date('10-02-2020')],
+                    },
                 ]);
-                expect(builtAvventendeSykmelding).toBeUndefined();
+                expect(builtAvventendeSykmelding).toHaveLength(0);
             });
         });
         describe('Gradert', () => {
             it('Returns gradert sykmelding', () => {
-                const builtGradertSykmelding = buildGradertSykmelding(
-                    true,
-                    true,
-                    [new Date('10-01-2020'), new Date('10-02-2020')],
-                    80,
-                );
-                const expected: Periode = {
-                    fom: new Date('10-01-2020'),
-                    tom: new Date('10-02-2020'),
-                    reisetilskudd: false,
-                    gradert: {
-                        reisetilskudd: true,
-                        grad: 80,
+                const builtGradertSykmelding = buildGradertSykmelding([
+                    {
+                        type: 'gradert',
+                        gradertPeriode: [new Date('10-01-2020'), new Date('10-02-2020')],
+                        gradertGrad: 80,
+                        gradertReisetilskudd: true,
                     },
-                };
+                ]);
+                const expected: Periode[] = [
+                    {
+                        fom: new Date('10-01-2020'),
+                        tom: new Date('10-02-2020'),
+                        reisetilskudd: false,
+                        gradert: {
+                            reisetilskudd: true,
+                            grad: 80,
+                        },
+                    },
+                ];
                 expect(builtGradertSykmelding).toEqual(expected);
             });
 
             it('Does not return gradert sykmelding', () => {
-                const builtGradertSykmelding = buildGradertSykmelding(
-                    false,
-                    true,
-                    [new Date('10-01-2020'), new Date('10-02-2020')],
-                    80,
-                );
-                expect(builtGradertSykmelding).toBeUndefined();
+                const builtGradertSykmelding = buildGradertSykmelding([
+                    {
+                        type: 'avventende',
+                        avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
+                        avventendePeriode: [new Date('10-01-2020'), new Date('10-02-2020')],
+                    },
+                ]);
+                expect(builtGradertSykmelding).toHaveLength(0);
             });
         });
         describe('Aktivitet ikke mulig', () => {
@@ -163,98 +173,110 @@ describe('registrertSykmeldingUtils', () => {
             });
 
             it('Return aktivitetIkkeMulig sykmelding', () => {
-                const builtAktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding(
-                    true,
-                    [new Date('10-01-2020'), new Date('10-02-2020')],
-                    true,
-                    ['AKTIVITET_FORVERRER_TILSTAND'],
-                    'Kan ikke være i aktivitet pga medisin',
-                    true,
-                    ['MANGLENDE_TILRETTELEGGING'],
-                    'Kan ikke være i aktivitet pga arbeid',
-                );
-                const expected: Periode = {
-                    fom: new Date('10-01-2020'),
-                    tom: new Date('10-02-2020'),
-                    reisetilskudd: false,
-                    aktivitetIkkeMulig: {
-                        medisinskArsak: {
-                            arsak: ['AKTIVITET_FORVERRER_TILSTAND'],
-                            beskrivelse: 'Kan ikke være i aktivitet pga medisin',
-                        },
-                        arbeidsrelatertArsak: {
-                            arsak: ['MANGLENDE_TILRETTELEGGING'],
-                            beskrivelse: 'Kan ikke være i aktivitet pga arbeid',
+                const builtAktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding([
+                    {
+                        type: 'fullsykmelding',
+                        aktivitetIkkeMuligPeriode: [new Date('10-01-2020'), new Date('10-02-2020')],
+                        aktivitetIkkeMuligMedisinskArsak: true,
+                        aktivitetIkkeMuligMedisinskArsakType: ['AKTIVITET_FORVERRER_TILSTAND'],
+                        aktivitetIkkeMuligMedisinskArsakBeskrivelse: 'Kan ikke være i aktivitet pga medisin',
+                        aktivitetIkkeMuligArbeidsrelatertArsak: true,
+                        aktivitetIkkeMuligArbeidsrelatertArsakType: ['MANGLENDE_TILRETTELEGGING'],
+                        aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: 'Kan ikke være i aktivitet pga arbeid',
+                    },
+                ]);
+                const expected: Periode[] = [
+                    {
+                        fom: new Date('10-01-2020'),
+                        tom: new Date('10-02-2020'),
+                        reisetilskudd: false,
+                        aktivitetIkkeMulig: {
+                            medisinskArsak: {
+                                arsak: ['AKTIVITET_FORVERRER_TILSTAND'],
+                                beskrivelse: 'Kan ikke være i aktivitet pga medisin',
+                            },
+                            arbeidsrelatertArsak: {
+                                arsak: ['MANGLENDE_TILRETTELEGGING'],
+                                beskrivelse: 'Kan ikke være i aktivitet pga arbeid',
+                            },
                         },
                     },
-                };
+                ];
                 expect(builtAktivitetIkkeMuligSykmelding).toEqual(expected);
             });
 
             it('Does not return aktivitetIkkeMulig sykmelding', () => {
-                const builtAktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding(
-                    false,
-                    [new Date('10-01-2020'), new Date('10-02-2020')],
-                    true,
-                    ['AKTIVITET_FORVERRER_TILSTAND'],
-                    'Kan ikke være i aktivitet pga medisin',
-                    true,
-                    ['MANGLENDE_TILRETTELEGGING'],
-                    'Kan ikke være i aktivitet pga arbeid',
-                );
-                expect(builtAktivitetIkkeMuligSykmelding).toBeUndefined();
+                const builtAktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding([
+                    {
+                        type: 'avventende',
+                        avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
+                        avventendePeriode: [new Date('10-01-2020'), new Date('10-02-2020')],
+                    },
+                ]);
+                expect(builtAktivitetIkkeMuligSykmelding).toHaveLength(0);
             });
         });
         describe('Behandlingsdager', () => {
             it('Returns behandlingsdager sykmelding', () => {
-                const builtBehandlingsdagerSykmelding = buildBehandlingsdagerSykmelding(
-                    true,
-                    [new Date('10-01-2020'), new Date('10-02-2020')],
-                    12,
-                );
-                const expected: Periode = {
-                    fom: new Date('10-01-2020'),
-                    tom: new Date('10-02-2020'),
-                    reisetilskudd: false,
-                    behandlingsdager: 12,
-                };
+                const builtBehandlingsdagerSykmelding = buildBehandlingsdagerSykmelding([
+                    {
+                        type: 'behandlingsdager',
+                        behandlingsdagerPeriode: [new Date('10-01-2020'), new Date('10-02-2020')],
+                        behandlingsdagerAntall: 12,
+                    },
+                ]);
+
+                const expected: Periode[] = [
+                    {
+                        fom: new Date('10-01-2020'),
+                        tom: new Date('10-02-2020'),
+                        reisetilskudd: false,
+                        behandlingsdager: 12,
+                    },
+                ];
                 expect(builtBehandlingsdagerSykmelding).toEqual(expected);
             });
 
             it('Does not return behandlingsdager sykmelding', () => {
-                const builtBehandlingsdagerSykmelding = buildBehandlingsdagerSykmelding(
-                    false,
-                    [new Date('10-01-2020'), new Date('10-02-2020')],
-                    12,
-                );
-                expect(builtBehandlingsdagerSykmelding).toBeUndefined();
+                const builtBehandlingsdagerSykmelding = buildBehandlingsdagerSykmelding([
+                    {
+                        type: 'avventende',
+                        avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
+                        avventendePeriode: [new Date('10-01-2020'), new Date('10-02-2020')],
+                    },
+                ]);
+                expect(builtBehandlingsdagerSykmelding).toHaveLength(0);
             });
         });
         describe('Reisetilskudd', () => {
             it('Returns reisetilskudd sykmelding', () => {
-                const builtReisetilskuddSykmelding = buildReisetilskuddSykmelding(true, [
-                    new Date('10-01-2020'),
-                    new Date('10-02-2020'),
+                const builtReisetilskuddSykmelding = buildReisetilskuddSykmelding([
+                    { type: 'reisetilskudd', reisetilskuddPeriode: [new Date('10-01-2020'), new Date('10-02-2020')] },
                 ]);
-                const expected: Periode = {
-                    fom: new Date('10-01-2020'),
-                    tom: new Date('10-02-2020'),
-                    reisetilskudd: true,
-                };
+                const expected: Periode[] = [
+                    {
+                        fom: new Date('10-01-2020'),
+                        tom: new Date('10-02-2020'),
+                        reisetilskudd: true,
+                    },
+                ];
                 expect(builtReisetilskuddSykmelding).toEqual(expected);
             });
 
             it('Does not return reisetilskudd sykmelding', () => {
-                const builtReisetilskuddSykmelding = buildReisetilskuddSykmelding(false, [
-                    new Date('10-01-2020'),
-                    new Date('10-02-2020'),
+                const builtReisetilskuddSykmelding = buildReisetilskuddSykmelding([
+                    {
+                        type: 'avventende',
+                        avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
+                        avventendePeriode: [new Date('10-01-2020'), new Date('10-02-2020')],
+                    },
                 ]);
-                expect(builtReisetilskuddSykmelding).toBeUndefined();
+                expect(builtReisetilskuddSykmelding).toHaveLength(0);
             });
         });
 
         it('Returns array containing all periods', () => {
-            const schema: SchemaType = {
+            const schema: FormType = {
                 yrkesskade: false,
                 svangerskap: false,
                 biDiagnoser: [],
@@ -266,20 +288,31 @@ describe('registrertSykmeldingUtils', () => {
                 meldingTilNavBistand: false,
                 erTilbakedatert: false,
                 kunneIkkeIvaretaEgneInteresser: false,
-                //
-                avventendeSykmelding: true,
-                avventendePeriode: [new Date('10-05-2020'), new Date('11-05-2020')],
-                avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
-                gradertSykmelding: true,
-                gradertPeriode: [new Date('10-05-2020'), new Date('11-05-2020')],
-                gradertReisetilskudd: true,
-                aktivitetIkkeMuligSykmelding: true,
-                aktivitetIkkeMuligPeriode: [new Date('10-05-2020'), new Date('11-05-2020')],
-                behandlingsdagerSykmelding: true,
-                behandlingsdagerPeriode: [new Date('10-05-2020'), new Date('11-05-2020')],
-                behandlingsdagerAntall: 12,
-                reisetilskuddSykmelding: true,
-                reisetilskuddPeriode: [new Date('10-05-2020'), new Date('11-05-2020')],
+                mulighetForArbeid: [
+                    {
+                        type: 'avventende',
+                        avventendePeriode: [new Date('10-05-2020'), new Date('11-05-2020')],
+                        avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
+                    },
+                    {
+                        type: 'gradert',
+                        gradertPeriode: [new Date('10-05-2020'), new Date('11-05-2020')],
+                        gradertReisetilskudd: true,
+                    },
+                    {
+                        type: 'fullsykmelding',
+                        aktivitetIkkeMuligPeriode: [new Date('10-05-2020'), new Date('11-05-2020')],
+                    },
+                    {
+                        type: 'behandlingsdager',
+                        behandlingsdagerPeriode: [new Date('10-05-2020'), new Date('11-05-2020')],
+                        behandlingsdagerAntall: 12,
+                    },
+                    {
+                        type: 'reisetilskudd',
+                        reisetilskuddPeriode: [new Date('10-05-2020'), new Date('11-05-2020')],
+                    },
+                ],
             };
 
             const builtPerioder = buildPerioder(schema);
@@ -509,17 +542,12 @@ describe('registrertSykmeldingUtils', () => {
 
     describe('Utdypende opplysninger', () => {
         it('Includes every utdypende opplysning if they exist', () => {
-            const schema: SchemaType = {
+            const schema: FormType = {
                 yrkesskade: false,
                 svangerskap: false,
                 biDiagnoser: [],
                 annenFraversArsak: false,
-                avventendeSykmelding: false,
-                gradertReisetilskudd: false,
-                gradertSykmelding: false,
-                aktivitetIkkeMuligSykmelding: false,
-                behandlingsdagerSykmelding: false,
-                reisetilskuddSykmelding: false,
+                mulighetForArbeid: [],
                 arbeidsfoerEtterPeriode: false,
                 egetArbeidPaSikt: false,
                 annetArbeidPaSikt: false,
@@ -591,17 +619,12 @@ describe('registrertSykmeldingUtils', () => {
         });
 
         it("Does not include utdypende opplysninger if they don't exist", () => {
-            const schema: SchemaType = {
+            const schema: FormType = {
                 yrkesskade: false,
                 svangerskap: false,
                 biDiagnoser: [],
                 annenFraversArsak: false,
-                avventendeSykmelding: false,
-                gradertReisetilskudd: false,
-                gradertSykmelding: false,
-                aktivitetIkkeMuligSykmelding: false,
-                behandlingsdagerSykmelding: false,
-                reisetilskuddSykmelding: false,
+                mulighetForArbeid: [],
                 arbeidsfoerEtterPeriode: false,
                 egetArbeidPaSikt: false,
                 annetArbeidPaSikt: false,
@@ -653,7 +676,7 @@ describe('registrertSykmeldingUtils', () => {
 
     describe('buildRegistrertSykmelding', () => {
         it('Builds complete registrert sykmelding object', () => {
-            const schema: SchemaType = {
+            const schema: FormType = {
                 pasientFnr: '12345678910',
                 syketilfelleStartDato: new Date(),
                 behandletDato: new Date(),
@@ -680,26 +703,38 @@ describe('registrertSykmeldingUtils', () => {
                 annenFraversArsak: true,
                 annenFraversArsakGrunn: ['ABORT', 'ARBEIDSRETTET_TILTAK'],
                 annenFraversArsakBeskrivelse: 'Fraværsbeskrivelse',
-                avventendeSykmelding: true,
-                avventendePeriode: [new Date(), new Date()],
-                avventendeInnspillTilArbeidsgiver: 'Innspill til arbeidsgiver',
-                gradertReisetilskudd: true,
-                gradertSykmelding: true,
-                gradertPeriode: [new Date(), new Date()],
-                gradertGrad: 80,
-                aktivitetIkkeMuligSykmelding: true,
-                aktivitetIkkeMuligPeriode: [new Date(), new Date()],
-                aktivitetIkkeMuligMedisinskArsak: true,
-                aktivitetIkkeMuligMedisinskArsakType: ['AKTIVITET_FORHINDRER_BEDRING', 'ANNET'],
-                aktivitetIkkeMuligMedisinskArsakBeskrivelse: 'Medisinsk beskrivelse',
-                aktivitetIkkeMuligArbeidsrelatertArsak: true,
-                aktivitetIkkeMuligArbeidsrelatertArsakType: ['MANGLENDE_TILRETTELEGGING', 'ANNET'],
-                aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: 'Arbeidsrelatert beskrivelse',
-                behandlingsdagerSykmelding: true,
-                behandlingsdagerPeriode: [new Date(), new Date()],
-                behandlingsdagerAntall: 20,
-                reisetilskuddSykmelding: true,
-                reisetilskuddPeriode: [new Date(), new Date()],
+                mulighetForArbeid: [
+                    {
+                        type: 'avventende',
+                        avventendePeriode: [new Date(), new Date()],
+                        avventendeInnspillTilArbeidsgiver: 'Innspill til arbeidsgiver',
+                    },
+                    {
+                        type: 'gradert',
+                        gradertReisetilskudd: true,
+                        gradertPeriode: [new Date(), new Date()],
+                        gradertGrad: 80,
+                    },
+                    {
+                        type: 'fullsykmelding',
+                        aktivitetIkkeMuligPeriode: [new Date(), new Date()],
+                        aktivitetIkkeMuligMedisinskArsak: true,
+                        aktivitetIkkeMuligMedisinskArsakType: ['AKTIVITET_FORHINDRER_BEDRING', 'ANNET'],
+                        aktivitetIkkeMuligMedisinskArsakBeskrivelse: 'Medisinsk beskrivelse',
+                        aktivitetIkkeMuligArbeidsrelatertArsak: true,
+                        aktivitetIkkeMuligArbeidsrelatertArsakType: ['MANGLENDE_TILRETTELEGGING', 'ANNET'],
+                        aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: 'Arbeidsrelatert beskrivelse',
+                    },
+                    {
+                        type: 'behandlingsdager',
+                        behandlingsdagerPeriode: [new Date(), new Date()],
+                        behandlingsdagerAntall: 20,
+                    },
+                    {
+                        type: 'reisetilskudd',
+                        reisetilskuddPeriode: [new Date(), new Date()],
+                    },
+                ],
                 arbeidsfoerEtterPeriode: true,
                 hensynArbeidsplassen: 'Hensyn på arbeidsplassen',
                 erIArbeid: true,
@@ -790,44 +825,46 @@ describe('registrertSykmeldingUtils', () => {
                 skjermesForPasient: schema.skjermesForPasient!,
                 perioder: [
                     {
-                        fom: schema.avventendePeriode![0],
-                        tom: schema.avventendePeriode![1],
-                        avventendeInnspillTilArbeidsgiver: schema.avventendeInnspillTilArbeidsgiver,
+                        fom: schema.mulighetForArbeid[0].avventendePeriode[0],
+                        tom: schema.mulighetForArbeid[0].avventendePeriode[1],
+                        avventendeInnspillTilArbeidsgiver:
+                            schema.mulighetForArbeid[0].avventendeInnspillTilArbeidsgiver,
                         reisetilskudd: false,
                     },
                     {
-                        fom: schema.gradertPeriode![0],
-                        tom: schema.gradertPeriode![1],
+                        fom: schema.mulighetForArbeid[1].gradertPeriode[0],
+                        tom: schema.mulighetForArbeid[1].gradertPeriode[1],
                         gradert: {
-                            grad: schema.gradertGrad,
-                            reisetilskudd: schema.gradertReisetilskudd!,
+                            grad: schema.mulighetForArbeid[1].gradertGrad,
+                            reisetilskudd: schema.mulighetForArbeid[1].gradertReisetilskudd!,
                         },
                         reisetilskudd: false,
                     },
                     {
-                        fom: schema.aktivitetIkkeMuligPeriode![0],
-                        tom: schema.aktivitetIkkeMuligPeriode![1],
+                        fom: schema.mulighetForArbeid[2].aktivitetIkkeMuligPeriode[0],
+                        tom: schema.mulighetForArbeid[2].aktivitetIkkeMuligPeriode[1],
                         aktivitetIkkeMulig: {
                             medisinskArsak: {
-                                arsak: schema.aktivitetIkkeMuligMedisinskArsakType!,
-                                beskrivelse: schema.aktivitetIkkeMuligMedisinskArsakBeskrivelse,
+                                arsak: schema.mulighetForArbeid[2].aktivitetIkkeMuligMedisinskArsakType!,
+                                beskrivelse: schema.mulighetForArbeid[2].aktivitetIkkeMuligMedisinskArsakBeskrivelse,
                             },
                             arbeidsrelatertArsak: {
-                                arsak: schema.aktivitetIkkeMuligArbeidsrelatertArsakType!,
-                                beskrivelse: schema.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
+                                arsak: schema.mulighetForArbeid[2].aktivitetIkkeMuligArbeidsrelatertArsakType!,
+                                beskrivelse:
+                                    schema.mulighetForArbeid[2].aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
                             },
                         },
                         reisetilskudd: false,
                     },
                     {
-                        fom: schema.behandlingsdagerPeriode![0],
-                        tom: schema.behandlingsdagerPeriode![1],
-                        behandlingsdager: schema.behandlingsdagerAntall,
+                        fom: schema.mulighetForArbeid[3].behandlingsdagerPeriode![0],
+                        tom: schema.mulighetForArbeid[3].behandlingsdagerPeriode![1],
+                        behandlingsdager: schema.mulighetForArbeid[3].behandlingsdagerAntall,
                         reisetilskudd: false,
                     },
                     {
-                        fom: schema.reisetilskuddPeriode![0],
-                        tom: schema.reisetilskuddPeriode![1],
+                        fom: schema.mulighetForArbeid[4].reisetilskuddPeriode![0],
+                        tom: schema.mulighetForArbeid[4].reisetilskuddPeriode![1],
                         reisetilskudd: true,
                     },
                 ],
