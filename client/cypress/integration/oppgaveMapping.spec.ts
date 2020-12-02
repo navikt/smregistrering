@@ -70,83 +70,90 @@ context('Oppgave mapping', () => {
             );
             cy.get('#skjermesForPasient').should('be.checked');
 
-            cy.get('#avventendeSykmelding').should('be.checked');
-            const avventendePeriode = oppgave.papirSmRegistering.perioder.filter(
-                (periode) => !!periode.avventendeInnspillTilArbeidsgiver,
-            )[0];
-            cy.get('#avventendePeriode').should(
-                'have.value',
-                dayjs(avventendePeriode.fom).format('DD.MM.YYYY') +
-                    ' - ' +
-                    dayjs(avventendePeriode.tom).format('DD.MM.YYYY'),
-            );
-            cy.get('#avventendeInnspillTilArbeidsgiver').should(
-                'have.value',
-                avventendePeriode.avventendeInnspillTilArbeidsgiver,
-            );
+            //
+            // Mulighet for arbeid
+            //
+            // TODO: Make generic so that it doesn't rely on a specific count/order of periods
 
-            cy.get('#gradertSykmelding').should('be.checked');
-            const gradertPeriode = oppgave.papirSmRegistering.perioder.filter((periode) => !!periode.gradert)[0];
-            cy.get('#gradertPeriode').should(
-                'have.value',
-                dayjs(gradertPeriode.fom).format('DD.MM.YYYY') + ' - ' + dayjs(gradertPeriode.tom).format('DD.MM.YYYY'),
-            );
-            cy.get('#gradertGrad').should('have.value', gradertPeriode.gradert.grad);
-            cy.get('#gradertReisetilskudd').should('be.checked');
+            cy.get(`#mulighetForArbeid`).within(() => {
+                // Avventende
+                cy.get(`#mulighetForArbeid-selector-0`).should('have.value', 'avventende');
+                cy.get('#avventendePeriode-0').should(
+                    'have.value',
+                    dayjs(oppgave.papirSmRegistering.perioder[0].fom).format('DD.MM.YYYY') +
+                        ' - ' +
+                        dayjs(oppgave.papirSmRegistering.perioder[0].tom).format('DD.MM.YYYY'),
+                );
+                cy.get('#avventendeInnspillTilArbeidsgiver-0').should('have.value', 'Må avvente');
 
-            cy.get('#aktivitetIkkeMuligSykmelding').should('be.checked');
-            const aktivitetIkkeMuligPeriode = oppgave.papirSmRegistering.perioder.filter(
-                (periode) => !!periode.aktivitetIkkeMulig,
-            )[0];
-            cy.get('#aktivitetIkkeMuligPeriode').should(
-                'have.value',
-                dayjs(aktivitetIkkeMuligPeriode.fom).format('DD.MM.YYYY') +
-                    ' - ' +
-                    dayjs(aktivitetIkkeMuligPeriode.tom).format('DD.MM.YYYY'),
-            );
-            cy.get('#aktivitetIkkeMuligMedisinskArsak').should('be.checked');
-            cy.get('#aktivitetIkkeMuligMedisinskArsakType').within(() => {
-                aktivitetIkkeMuligPeriode.aktivitetIkkeMulig.medisinskArsak.arsak.forEach((arsak) => {
-                    cy.get('#' + arsak + '-medisinsk').should('be.checked');
+                // Gradert
+                cy.get(`#mulighetForArbeid-selector-1`).should('have.value', 'gradert');
+                cy.get('#gradertGrad-1').should('have.value', '80');
+                cy.get('#gradertPeriode-1').should(
+                    'have.value',
+                    dayjs(oppgave.papirSmRegistering.perioder[1].fom).format('DD.MM.YYYY') +
+                        ' - ' +
+                        dayjs(oppgave.papirSmRegistering.perioder[1].tom).format('DD.MM.YYYY'),
+                );
+                cy.get('#gradertReisetilskudd-1').should('not.be.checked');
+
+                // Aktivitet ikke mulig
+                cy.get(`#mulighetForArbeid-selector-2`).should('have.value', 'fullsykmelding');
+                cy.get('#aktivitetIkkeMuligPeriode-2').should(
+                    'have.value',
+                    dayjs(oppgave.papirSmRegistering.perioder[2].fom).format('DD.MM.YYYY') +
+                        ' - ' +
+                        dayjs(oppgave.papirSmRegistering.perioder[2].tom).format('DD.MM.YYYY'),
+                );
+                cy.get('#aktivitetIkkeMuligMedisinskArsak-2').should('be.checked');
+                cy.get('#aktivitetIkkeMuligMedisinskArsakType-2').within(() => {
+                    oppgave.papirSmRegistering.perioder[2].aktivitetIkkeMulig.medisinskArsak.arsak.forEach((arsak) => {
+                        cy.get('#' + arsak + '-medisinsk-2').should('be.checked');
+                    });
                 });
-            });
-            cy.get('#aktivitetIkkeMuligMedisinskArsakBeskrivelse').should(
-                'have.value',
-                aktivitetIkkeMuligPeriode.aktivitetIkkeMulig.medisinskArsak.beskrivelse,
-            );
-            cy.get('#aktivitetIkkeMuligArbeidsrelatertArsak').should('be.checked');
-            cy.get('#aktivitetIkkeMuligArbeidsrelatertArsakType').within(() => {
-                aktivitetIkkeMuligPeriode.aktivitetIkkeMulig.arbeidsrelatertArsak.arsak.forEach((arsak) => {
-                    cy.get('#' + arsak + '-arbeidsrelatert').should('be.checked');
+                cy.get('#aktivitetIkkeMuligMedisinskArsakBeskrivelse-2').should(
+                    'have.value',
+                    oppgave.papirSmRegistering.perioder[2].aktivitetIkkeMulig.medisinskArsak.beskrivelse,
+                );
+                cy.get('#aktivitetIkkeMuligArbeidsrelatertArsak-2').should('be.checked');
+                cy.get('#aktivitetIkkeMuligArbeidsrelatertArsakType-2').within(() => {
+                    oppgave.papirSmRegistering.perioder[2].aktivitetIkkeMulig.arbeidsrelatertArsak.arsak.forEach(
+                        (arsak) => {
+                            cy.get('#' + arsak + '-arbeidsrelatert-2').should('be.checked');
+                        },
+                    );
                 });
+                cy.get('#aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse-2').should(
+                    'have.value',
+                    oppgave.papirSmRegistering.perioder[2].aktivitetIkkeMulig.arbeidsrelatertArsak.beskrivelse,
+                );
+
+                // Behandlingsdager
+                cy.get(`#mulighetForArbeid-selector-3`).should('have.value', 'behandlingsdager');
+                cy.get('#behandlingsdagerPeriode-3').should(
+                    'have.value',
+                    dayjs(oppgave.papirSmRegistering.perioder[3].fom).format('DD.MM.YYYY') +
+                        ' - ' +
+                        dayjs(oppgave.papirSmRegistering.perioder[3].tom).format('DD.MM.YYYY'),
+                );
+                cy.get('#behandlingsdagerAntall-3').should(
+                    'have.value',
+                    oppgave.papirSmRegistering.perioder[3].behandlingsdager,
+                );
+
+                // Reisetilskudd
+                cy.get(`#mulighetForArbeid-selector-4`).should('have.value', 'reisetilskudd');
+                cy.get('#reisetilskuddPeriode-4').should(
+                    'have.value',
+                    dayjs(oppgave.papirSmRegistering.perioder[4].fom).format('DD.MM.YYYY') +
+                        ' - ' +
+                        dayjs(oppgave.papirSmRegistering.perioder[4].tom).format('DD.MM.YYYY'),
+                );
             });
-            cy.get('#aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse').should(
-                'have.value',
-                aktivitetIkkeMuligPeriode.aktivitetIkkeMulig.arbeidsrelatertArsak.beskrivelse,
-            );
 
-            cy.get('#behandlingsdagerSykmelding').should('be.checked');
-            const behandlingsdagerSykmelding = oppgave.papirSmRegistering.perioder.filter(
-                (periode) => !!periode.behandlingsdager,
-            )[0];
-            cy.get('#behandlingsdagerPeriode').should(
-                'have.value',
-                dayjs(behandlingsdagerSykmelding.fom).format('DD.MM.YYYY') +
-                    ' - ' +
-                    dayjs(behandlingsdagerSykmelding.tom).format('DD.MM.YYYY'),
-            );
-            cy.get('#behandlingsdagerAntall').should('have.value', behandlingsdagerSykmelding.behandlingsdager);
-
-            cy.get('#reisetilskuddSykmelding').should('be.checked');
-            const reisetilskuddSykmelding = oppgave.papirSmRegistering.perioder.filter(
-                (periode) => !!periode.reisetilskudd,
-            )[0];
-            cy.get('#reisetilskuddPeriode').should(
-                'have.value',
-                dayjs(reisetilskuddSykmelding.fom).format('DD.MM.YYYY') +
-                    ' - ' +
-                    dayjs(reisetilskuddSykmelding.tom).format('DD.MM.YYYY'),
-            );
+            //
+            // END - Mulighet for arbeid
+            //
 
             cy.get('#arbeidsfoerEtterPeriode').should('be.checked');
             cy.get('#hensynArbeidsplassen').should(

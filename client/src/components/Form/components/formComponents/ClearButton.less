@@ -1,0 +1,25 @@
+@import '~nav-frontend-core/less/_variabler.less';
+
+.clearbutton__text {
+    margin-left: 8px;
+    color: @navBla;
+}
+
+.clearbutton {
+    border: none;
+    background: none;
+    align-self: center;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    padding: 0;
+}
+
+.clearbutton__withmargin {
+    &:extend(.clearbutton);
+    margin-left: 18px;
+}
+
+.clearbutton:hover {
+    text-decoration: underline;
+}
