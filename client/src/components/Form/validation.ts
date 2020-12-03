@@ -164,6 +164,7 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             return 'Periode må være definert når aktivitet ikke er mulig';
         }
 
+        /*
         if (
             aktivitetIkkeMuligMFA.some(
                 (aktivitetIkkeMulig) =>
@@ -174,6 +175,7 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         ) {
             return 'Minst én medisinsk årsak må være valgt når det er medisinske årsaker som hindrer aktivitet';
         }
+        
 
         if (
             aktivitetIkkeMuligMFA.some(
@@ -185,6 +187,7 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         ) {
             return 'Minst én arbeidsrelatert årsak må være valgt når det er arbeidsrelaterte årsaker som hindrer aktivitet';
         }
+        */
 
         // Perioder for sykmelding for behandlingsdager
         if (
