@@ -1,0 +1,21 @@
+name: Deploy Redis to prod
+on:
+  push:
+    branches:
+      - "master"
+    path:
+      - server/**
+      - .github/workflows/deploy-redis-prod.yml
+env:
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering:${{ github.sha }}
+jobs:
+  deploy-redis:
+    name: Checkout code and create docker tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Redis to prod
+        uses: nais/deploy/actions/deploy@master
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-fss
+          RESOURCE: redis-config.yml
