@@ -2,6 +2,7 @@ import './Subsection.less';
 
 import React from 'react';
 
+import Divider from './Divider';
 import FormLabel from './FormLabel';
 
 type Subsection = {
@@ -15,7 +16,7 @@ const Subsection = ({ sectionIdentifier, children, underline = true }: Subsectio
         <section className="subsection">
             <FormLabel label={sectionIdentifier} />
             {children}
-            {underline && <hr className="subsection-hr" />}
+            {underline && <Divider />}
         </section>
     );
 };

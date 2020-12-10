@@ -21,7 +21,7 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
     return (
         <article className="sykmelder-information">
             <header>
-                <Undertittel tag="h3">Informasjon om behandler</Undertittel>
+                <Undertittel tag="h3">Informasjon om behandleren</Undertittel>
             </header>
             <div className="sykmelder-information__content">
                 <div className="sykmelder-information__col">

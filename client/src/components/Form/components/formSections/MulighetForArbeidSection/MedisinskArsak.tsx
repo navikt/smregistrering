@@ -1,54 +1,59 @@
 import React from 'react';
 import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
-import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
+import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import { FormType } from '../../../Form';
+import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
+import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { getEntries } from '../../../formUtils/useForm';
 
 interface MedisinskArsakProps {
-    formState: FormType;
+    mfaPeriode: AktivitetIkkeMuligPeriodeMFA;
+    updateMfa: (mfa: MulighetForArbeidTypes) => void;
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    index: number;
 }
 
-const MedisinskArsak = ({ formState, setFormState, errors }: MedisinskArsakProps) => {
-    const { aktivitetIkkeMuligMedisinskArsakType } = formState;
+const MedisinskArsak = ({ mfaPeriode, updateMfa, errors, index }: MedisinskArsakProps) => {
+    const { aktivitetIkkeMuligMedisinskArsakType } = mfaPeriode;
 
-    const checkboxes: CheckboksPanelProps[] = Object.entries(MedisinskArsakType).map(([key, value]) => {
+    const checkboxes: CheckboksPanelProps[] = getEntries(MedisinskArsakType).map(([key, value]) => {
         return {
             label: value,
-            id: key + '-medisinsk',
+            id: `${key}-medisinsk-${index}`,
             value: key,
-            checked: aktivitetIkkeMuligMedisinskArsakType?.includes(key as keyof typeof MedisinskArsakType),
+            checked: aktivitetIkkeMuligMedisinskArsakType?.includes(key),
         };
     });
 
     const updateCheckboxes = (value: keyof typeof MedisinskArsakType): void => {
-        setFormState((formState) => {
-            if (!formState.aktivitetIkkeMuligMedisinskArsakType) {
-                return {
-                    ...formState,
-                    aktivitetIkkeMuligMedisinskArsakType: [value as keyof typeof MedisinskArsakType],
-                };
-            }
-            const shouldAddArsak: boolean = !formState.aktivitetIkkeMuligMedisinskArsakType.includes(value);
-            const newMedisinskArsakType: (keyof typeof MedisinskArsakType)[] = shouldAddArsak
-                ? [...formState.aktivitetIkkeMuligMedisinskArsakType, value]
-                : formState.aktivitetIkkeMuligMedisinskArsakType.filter((arsak) => arsak !== value);
-
-            return {
-                ...formState,
-                aktivitetIkkeMuligMedisinskArsakType: newMedisinskArsakType,
+        if (aktivitetIkkeMuligMedisinskArsakType === undefined) {
+            const updatedSchema = {
+                ...mfaPeriode,
+                aktivitetIkkeMuligMedisinskArsakType: [value],
             };
-        });
+            updateMfa(updatedSchema);
+            return;
+        }
+
+        const shouldAddArsak: boolean = !aktivitetIkkeMuligMedisinskArsakType.includes(value);
+        const newMedisinskArsakType: (keyof typeof MedisinskArsakType)[] = shouldAddArsak
+            ? [...aktivitetIkkeMuligMedisinskArsakType, value]
+            : aktivitetIkkeMuligMedisinskArsakType.filter((arsak) => arsak !== value);
+
+        const updatedSchema = {
+            ...mfaPeriode,
+            aktivitetIkkeMuligMedisinskArsakType: newMedisinskArsakType,
+        };
+        updateMfa(updatedSchema);
     };
 
     return (
-        <div id="aktivitetIkkeMuligMedisinskArsakType" className="form-margin-bottom">
+        <div id={`aktivitetIkkeMuligMedisinskArsakType-${index}`} className="form-margin-bottom">
             <CheckboksPanelGruppe
                 legend="Medisinske årsaker"
                 checkboxes={checkboxes}
                 onChange={(_event, value) => updateCheckboxes(value)}
-                feil={errors.get('aktivitetIkkeMuligMedisinskArsakType')?.feilmelding}
             />
         </div>
     );

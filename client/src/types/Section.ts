@@ -51,7 +51,7 @@ export const sections: Record<SectionName, Section> = {
     },
     MELDING_TIL_ARBEIDSGIVER: {
         index: 9,
-        title: 'Melding til arbeidsgiver',
+        title: 'Melding til arbeidsgiveren',
     },
     TILBAKEDATERING: {
         index: 10,
