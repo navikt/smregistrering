@@ -14,6 +14,8 @@ jobs:
     name: Checkout code and create docker tag
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
       - name: Deploy Redis to preprod
         uses: nais/deploy/actions/deploy@master
         env:
