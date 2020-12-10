@@ -6,6 +6,7 @@ on:
     path:
       - server/**
       - .github/workflows/deploy-redis-prod.yml
+      - redis-config.yml
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering:${{ github.sha }}
 jobs:
