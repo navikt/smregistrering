@@ -1,24 +1,20 @@
-import './Menu.less';
+import './FormReject.less';
 
 import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import { Fareknapp, Flatknapp } from 'nav-frontend-knapper';
-import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Fareknapp, Knapp } from 'nav-frontend-knapper';
 
-import BackArrow from '../../svg/BackArrow';
-import MenuLink from './MenuLink';
-import WarningCircle from '../../svg/WarningCircle';
-import { sections } from '../../types/Section';
+import BackArrow from '../../../svg/BackArrow';
+import WarningCircle from '../../../svg/WarningCircle';
 
-interface MenuProps {
+interface FormRejectProps {
     enhet: string | undefined | null;
     oppgaveid: number;
 }
 
-const Menu = ({ enhet, oppgaveid }: MenuProps) => {
-    const sectionValues = Object.values(sections);
-
+const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
     // Avvis sykmelding
     const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
     const [isLoadingReject, setIsLoadingReject] = useState<boolean>(false);
@@ -99,36 +95,27 @@ const Menu = ({ enhet, oppgaveid }: MenuProps) => {
                 });
         }
     };
+
     return (
         <>
-            <aside className="menu">
-                <nav>
-                    <Systemtittel tag="h1" className="menu-header">
-                        Kategorier
-                    </Systemtittel>
-                    {sectionValues.map((section) => (
-                        <MenuLink key={section.index} section={section} />
-                    ))}
-                </nav>
-                <div className="hurtigvalg">
-                    <Systemtittel tag="h1" className="menu-header">
-                        Hurtigvalg
-                    </Systemtittel>
-                    <Flatknapp
+            <div className="form-reject-container">
+                <Element>Er det noe galt med sykmeldingen?</Element>
+                <div className="form-reject-container__action-buttons">
+                    <Knapp
+                        htmlType="button"
                         id="to-gosys-button"
                         className="menu-button"
-                        mini
                         onClick={() => setRevertModalOpen((prev) => !prev)}
                     >
                         <BackArrow />
                         <span>Send til GOSYS</span>
-                    </Flatknapp>
-                    <Flatknapp id="avvis-button" mini onClick={() => setRejectModalOpen((prev) => !prev)}>
+                    </Knapp>
+                    <Knapp htmlType="button" id="avvis-button" onClick={() => setRejectModalOpen((prev) => !prev)}>
                         <WarningCircle />
                         <span>Avvis sykmeldingen</span>
-                    </Flatknapp>
+                    </Knapp>
                 </div>
-            </aside>
+            </div>
 
             <Modal
                 isOpen={rejectModalOpen}
@@ -145,6 +132,7 @@ const Menu = ({ enhet, oppgaveid }: MenuProps) => {
                         pasient blir ikke varslet.
                     </Normaltekst>
                     <Fareknapp
+                        htmlType="button"
                         id="avvis-modal-button"
                         className="cancelmodal--button"
                         spinner={isLoadingReject}
@@ -169,6 +157,7 @@ const Menu = ({ enhet, oppgaveid }: MenuProps) => {
                         Dette vil ikke ferdigstille oppgaven, men gjør det mulig å behandle den i GOSYS.
                     </Normaltekst>
                     <Fareknapp
+                        htmlType="button"
                         id="to-gosys-modal-button"
                         className="cancelmodal--button"
                         spinner={isLoadingRevert}
@@ -201,4 +190,4 @@ const Menu = ({ enhet, oppgaveid }: MenuProps) => {
     );
 };
 
-export default Menu;
+export default FormReject;

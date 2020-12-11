@@ -5,6 +5,7 @@ import React, { useRef } from 'react';
 
 import FormErrorSummary from './components/FormErrorSummary';
 import FormHeader from './components/FormHeader';
+import FormReject from './components/FormReject';
 import FormSubmit from './components/FormSubmit';
 import Panel from '../Panel/Panel';
 import useForm from './formUtils/useForm';
@@ -139,6 +140,7 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
                     enhet={enhet}
                     handleSubmit={handleSubmit}
                 />
+                <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} />
             </form>
         </section>
     );

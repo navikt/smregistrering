@@ -47,7 +47,7 @@ context('Revert to gosys oppgave', () => {
 
         cy.fixture('emptyOppgave').then(() => {
             cy.wait(2000); // To make sure enhet is fetched in decorator
-            cy.get('#to-gosys-button').contains('Send til GOSYS').click();
+            cy.getAndScrollIntoView('#to-gosys-button').wait(500).contains('Send til GOSYS').click();
             cy.get('#to-gosys-modal-button').contains('Send til GOSYS').click();
             cy.get('#tilbake-til-gosys-lenke').contains('Tilbake til GOSYS');
         });

@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import ErrorView from './components/ErrorView';
 import Form from './components/Form/Form';
 import LoadingView from './components/LoadingView';
-import Menu from './components/Menu/Menu';
 import Pdf from './components/Pdf/Pdf';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
@@ -61,7 +60,6 @@ const App = ({ enhet, height }: AppProps) => {
 
     return (
         <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height}px)` }}>
-            <Menu enhet={enhet} oppgaveid={oppgave.oppgaveid} />
             <Form oppgave={oppgave} diagnosekoder={diagnosekoder} enhet={enhet} />
             <Pdf pdf={oppgave.pdfPapirSykmelding} />
         </main>
