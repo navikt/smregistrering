@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import ErrorView from './components/ErrorView';
 import Form from './components/Form/Form';
 import LoadingView from './components/LoadingView';
-import Menu from './components/Menu/Menu';
 import Pdf from './components/Pdf/Pdf';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
