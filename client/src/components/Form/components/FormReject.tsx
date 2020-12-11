@@ -3,8 +3,8 @@ import './FormReject.less';
 import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import { Fareknapp, Knapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Fareknapp, Knapp } from 'nav-frontend-knapper';
 
 import BackArrow from '../../../svg/BackArrow';
 import WarningCircle from '../../../svg/WarningCircle';
@@ -99,7 +99,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
     return (
         <>
             <div className="form-reject-container">
-                <Element>Kan ikke sykmeldingen registreres?</Element>
+                <Element>Er det noe galt med sykmeldingen?</Element>
                 <div className="form-reject-container__action-buttons">
                     <Knapp
                         htmlType="button"
