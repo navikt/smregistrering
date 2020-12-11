@@ -47,7 +47,7 @@ context('Avvis oppgave', () => {
 
         cy.fixture('emptyOppgave').then(() => {
             cy.wait(2000); // To make sure enhet is fetched in decorator
-            cy.get('#avvis-button').contains('Avvis sykmeldingen').click();
+            cy.getAndScrollIntoView('#avvis-button').wait(100).contains('Avvis sykmeldingen').click();
             cy.get('#avvis-modal-button').contains('AVVIS SYKMELDING').click();
             cy.get('#tilbake-til-gosys-lenke').contains('Tilbake til GOSYS');
         });
