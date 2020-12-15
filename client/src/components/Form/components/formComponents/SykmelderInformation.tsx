@@ -53,32 +53,30 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {sykmelder.godkjenninger.map((godkjenning) => {
+                                {sykmelder.godkjenninger.map((godkjenning, index) => {
                                     if (godkjenning.helsepersonellkategori?.verdi && godkjenning.autorisasjon?.verdi) {
                                         return (
-                                            <>
-                                                <tr>
-                                                    <td>
-                                                        {
-                                                            Helsepersonellkategori[
-                                                                godkjenning.helsepersonellkategori.verdi
-                                                            ]
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        {`${godkjenning.autorisasjon.verdi} ${
-                                                            autorisasjon[godkjenning.autorisasjon.verdi]
-                                                        }`}
-                                                    </td>
-                                                    <td>
-                                                        {godkjenning.autorisasjon.aktiv ? (
-                                                            <EtikettSuksess>Ja</EtikettSuksess>
-                                                        ) : (
-                                                            <EtikettAdvarsel>Nei</EtikettAdvarsel>
-                                                        )}
-                                                    </td>
-                                                </tr>
-                                            </>
+                                            <tr key={index}>
+                                                <td>
+                                                    {
+                                                        Helsepersonellkategori[
+                                                            godkjenning.helsepersonellkategori.verdi
+                                                        ]
+                                                    }
+                                                </td>
+                                                <td>
+                                                    {`${godkjenning.autorisasjon.verdi} ${
+                                                        autorisasjon[godkjenning.autorisasjon.verdi]
+                                                    }`}
+                                                </td>
+                                                <td>
+                                                    {godkjenning.autorisasjon.aktiv ? (
+                                                        <EtikettSuksess>Ja</EtikettSuksess>
+                                                    ) : (
+                                                        <EtikettAdvarsel>Nei</EtikettAdvarsel>
+                                                    )}
+                                                </td>
+                                            </tr>
                                         );
                                     }
                                     return null;
