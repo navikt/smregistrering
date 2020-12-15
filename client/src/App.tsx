@@ -19,7 +19,7 @@ const App = ({ enhet, height }: AppProps) => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         setIsLoading(true);
@@ -53,8 +53,13 @@ const App = ({ enhet, height }: AppProps) => {
         );
     }
 
-    if (!oppgave || !diagnosekoder) {
-        console.error('Oppgave or/and diagnosekoder is undefined');
+    if (!oppgave) {
+        console.error('Oppgave is undefined');
+        return null;
+    }
+
+    if (!diagnosekoder) {
+        console.error('Diagnosekoder is undefined');
         return null;
     }
 
