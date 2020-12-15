@@ -27,7 +27,7 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
     const [error, setError] = useState<Error | null>(null);
 
     const [fnrTouched, setFnrTouched] = useState<boolean>(false);
-    const fnrRef = useRef<HTMLInputElement>();
+    const fnrRef = useRef<HTMLInputElement>(null);
 
     // GET information about sykmelder on every formState.pasientFnr change
     useEffect(() => {
