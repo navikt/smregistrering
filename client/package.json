@@ -80,8 +80,8 @@
         "yet-another-fetch-mock": "^3.4.0"
     },
     "scripts": {
-        "start-with-mock": "PORT=4000 REACT_APP_START_WITH_MOCK=true REACT_APP_HEAD_URL=https://navikt.github.io craco start",
-        "start": "PORT=4321 REACT_APP_HEAD_URL=https://navikt.github.io REACT_APP_FRONTEND_LOGGER_URL=https://navikt.github.io craco start",
+        "start-with-mock": "PORT=4000 REACT_APP_START_WITH_MOCK=true REACT_APP_HEAD_URL=https://navikt.github.io REACT_APP_FRONTEND_LOGGER_URL=test craco start",
+        "start": "PORT=4321 REACT_APP_HEAD_URL=https://navikt.github.io REACT_APP_FRONTEND_LOGGER_URL=test craco start",
         "cypress-start": "wait-on http://localhost:4321 && cypress run",
         "test-integration": "npm-run-all --parallel start cypress-start",
         "test-unit": "craco test --env jest-environment-jsdom-fourteen",
