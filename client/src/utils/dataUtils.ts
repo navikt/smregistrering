@@ -4,9 +4,9 @@ import { DiagnosekodeSystem, Diagnosekoder } from '../types/Diagnosekode';
 import { Oppgave } from '../types/Oppgave';
 import { getOppgaveidFromSearchParams } from './urlUtils';
 
-export class OppgaveAlreadySolvedError extends Error { }
-export class BadRequestError extends Error { }
-export class OppgaveGoneError extends Error { }
+export class OppgaveAlreadySolvedError extends Error {}
+export class BadRequestError extends Error {}
+export class OppgaveGoneError extends Error {}
 
 export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
     try {
@@ -21,7 +21,7 @@ export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
     }
 };
 
-export const getOppgave = (): Promise<Oppgave> => {
+export const getOppgave = async (): Promise<Oppgave> => {
     try {
         const oppgaveid =
             process.env.REACT_APP_START_WITH_MOCK === 'true'
@@ -46,12 +46,10 @@ export const getOppgave = (): Promise<Oppgave> => {
                 } else if (response.status === 410) {
                     return Promise.reject(
                         new OppgaveGoneError(
-                            `Fant ingen skannede dokumenter for oppgave-id: ${oppgaveid}. Oppgaven er sendt tilbake til GOSYS.`
-                        )
-                    )
-                }
-
-                else {
+                            `Fant ingen skannede dokumenter for oppgave-id: ${oppgaveid}. Oppgaven er sendt tilbake til GOSYS.`,
+                        ),
+                    );
+                } else {
                     return Promise.reject(new Error('Ukjent feil med statuskode: ' + response.status));
                 }
             })
