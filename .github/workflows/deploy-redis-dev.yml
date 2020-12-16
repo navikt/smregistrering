@@ -4,7 +4,7 @@ on:
     branches:
       - "*"
       - "!master"
-    path:
+    paths:
       - server/**
       - .github/workflows/deploy-redis-dev.yml
       - redis-config.yml
