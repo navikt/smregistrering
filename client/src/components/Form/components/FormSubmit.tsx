@@ -48,6 +48,7 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                     })
                         .then((res) => {
                             if (res.status === 204) {
+                                console.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
                                 setSuccessModalContent('Oppgaven ble ferdigstilt.');
                             } else if (res.status === 400) {
                                 return res.json();

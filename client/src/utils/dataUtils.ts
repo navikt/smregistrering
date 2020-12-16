@@ -7,6 +7,7 @@ import { getOppgaveidFromSearchParams } from './urlUtils';
 export class OppgaveAlreadySolvedError extends Error {}
 export class BadRequestError extends Error {}
 export class OppgaveGoneError extends Error {}
+export class UnauthorizedError extends Error {}
 
 export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
     try {
@@ -35,6 +36,12 @@ export const getOppgave = async (): Promise<Oppgave> => {
                     return Promise.reject(
                         new BadRequestError(
                             `Klarte ikke å hente en gyldig oppgave-id fra lenken: ${window.location.href}`,
+                        ),
+                    );
+                } else if (response.status === 401) {
+                    return Promise.reject(
+                        new UnauthorizedError(
+                            `Ugyldig sesjon for opppgave med oppgave-id: ${oppgaveid}. Sjekk om du har riktige tilganger for å behandle slike oppgaver`,
                         ),
                     );
                 } else if (response.status === 404) {

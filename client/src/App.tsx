@@ -25,6 +25,7 @@ const App = ({ enhet, height }: AppProps) => {
         setIsLoading(true);
         Promise.all([getDiagnosekoder(), getOppgave()])
             .then(([_diagnosekoder, _oppgave]) => {
+                console.info(`Oppgave hentet ut. oppgaveid: ${_oppgave.oppgaveid}`);
                 setDiagnosekoder(_diagnosekoder);
                 setOppgave(_oppgave);
             })
