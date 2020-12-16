@@ -4,7 +4,7 @@ import session from 'express-session';
 import { Application } from 'express';
 import logger from './logging';
 
-const SESSION_MAX_AGE_MILLISECONDS = 60 * 60 * 1000;
+const SESSION_MAX_AGE_MILLISECONDS = 12 * 60 * 60 * 1000; // 12 hours
 
 const setup = (server: Application, config: Config): Promise<null> => {
   return new Promise((resolve, reject) => {
