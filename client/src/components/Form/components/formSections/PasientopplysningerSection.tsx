@@ -40,7 +40,7 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                     if (res.ok) {
                         return res.json();
                     } else {
-                        throw new Error('Fant ikke fødselsnummer knyttet til pasient');
+                        throw new Error('Fant ikke pasient knyttet til det aktuelle fødselsnummeret');
                     }
                 })
                 .then((jsonResponse) => {

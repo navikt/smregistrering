@@ -28,6 +28,6 @@ context('Load pasient info', () => {
 
         cy.wait('@getOppgave');
         cy.get('#pasientFnr').type('12345678910');
-        cy.get('#Pasientopplysninger').contains('Fant ikke pasient med fødselsnummer: 12345678910');
+        cy.get('#Pasientopplysninger').contains('Fant ikke pasient knyttet til det aktuelle fødselsnummeret');
     });
 });
