@@ -50,18 +50,27 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                             if (res.status === 204) {
                                 setSuccessModalContent('Oppgaven ble ferdigstilt.');
                             } else if (res.status === 400) {
-                                return res.json();
+                                // Try to parse body as json. if it fails, catch the error and parse the body as text instead
+                                return res
+                                    .clone()
+                                    .json()
+                                    .then((json) => {
+                                        return iotsPromise.decode(RuleHitErrors, json);
+                                    })
+                                    .then((ruleHitErrors) => {
+                                        setRuleHitErrors(ruleHitErrors);
+                                    })
+                                    .catch(() => res.text());
+                            } else if ([401, 404, 500].includes(res.status)) {
+                                return res.text();
                             } else {
                                 throw new Error('Det oppsto en feil i baksystemet med feilkode: ' + res.status);
                             }
                         })
-                        .then((json) => {
-                            if (json) {
-                                return iotsPromise.decode(RuleHitErrors, json);
+                        .then((errorText) => {
+                            if (errorText) {
+                                throw new Error(errorText);
                             }
-                        })
-                        .then((ruleHitErrors) => {
-                            setRuleHitErrors(ruleHitErrors);
                         })
                         .catch((error) => {
                             setSuccessError(error);
