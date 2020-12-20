@@ -50,7 +50,8 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                             if (res.status === 204) {
                                 setSuccessModalContent('Oppgaven ble ferdigstilt.');
                             } else if (res.status === 400) {
-                                // Try to parse body as json. if it fails, catch the error and parse the body as text instead
+                                // Try to parse body as json. if it fails, catch the error and parse the body as text instead.
+                                // Clone because the res.body stream cannot be read more than one time.
                                 return res
                                     .clone()
                                     .json()
@@ -60,7 +61,14 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                                     .then((ruleHitErrors) => {
                                         setRuleHitErrors(ruleHitErrors);
                                     })
-                                    .catch(() => res.text());
+                                    .catch((error) => {
+                                        // If the json received is not of the expected shape
+                                        if (iotsPromise.isDecodeError(error)) {
+                                            throw new Error('Det oppsto en valideringsfeil. Feilkode: ' + res.status);
+                                        } else {
+                                            return res.text();
+                                        }
+                                    });
                             } else if ([401, 404, 500].includes(res.status)) {
                                 return res.text();
                             } else {
@@ -101,7 +109,7 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                 onChange={() => setChecked((state) => !state)}
             />
             {ruleHitErrors && (
-                <>
+                <div id="api-validation-rulehits">
                     <AlertStripeFeil>
                         <Element>
                             Baksystemet fant ytterligere feil som må behandles. Rett feilene nedenfor, og forsøk å
@@ -114,13 +122,13 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                         </ul>
                     </AlertStripeFeil>
                     <br />
-                </>
+                </div>
             )}
             {successError && (
-                <>
+                <div id="api-error">
                     <AlertStripeFeil>{successError.message}</AlertStripeFeil>
                     <br />
-                </>
+                </div>
             )}
             {!enhet && (
                 <>
