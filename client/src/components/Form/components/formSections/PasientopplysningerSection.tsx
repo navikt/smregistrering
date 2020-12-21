@@ -50,7 +50,12 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                     setPasientNavn(pasient);
                 })
                 .catch((error) => {
-                    console.info(error);
+                    // Sanitizing the error
+                    if (iotsPromise.isDecodeError(error)) {
+                        window.frontendlogger.error('Data mottatt for /pasient/{fnr} er er feil format');
+                    } else {
+                        window.frontendlogger.info(error);
+                    }
                     setPasientNavn(null);
                     setError(error);
                 })

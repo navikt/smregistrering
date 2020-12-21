@@ -17,7 +17,7 @@ export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
         };
         return iotsPromise.decode(Diagnosekoder, diagnosekoderRaw);
     } catch (error) {
-        console.error(error);
+        window.frontendlogger.error(error);
         return Promise.reject(new Error('Feil med dianosekoder. Sjekke logger for utdypende feilbeskrivelse'));
     }
 };

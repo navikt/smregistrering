@@ -9,6 +9,19 @@ import React, { useRef, useState } from 'react';
 import App from './App';
 import { DecoratorProps, EnhetDisplay } from './types/DecoratorProps';
 
+declare global {
+    type Data = string | { message: string; [key: string]: any };
+    type Extra = { [key: string]: any };
+    interface Window {
+        frontendlogger: {
+            info(data: Data): void;
+            warn(data: Data): void;
+            error(data: Data): void;
+            event(name: string, fields?: Extra, tags?: Extra): void;
+        };
+    }
+}
+
 if (process.env.REACT_APP_START_WITH_MOCK === 'true') {
     require('./mock/setup');
 }

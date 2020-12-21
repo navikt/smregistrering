@@ -64,7 +64,12 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                     setSykmelder(sykmelder);
                 })
                 .catch((error) => {
-                    console.info(error);
+                    // Sanitizing the error
+                    if (iotsPromise.isDecodeError(error)) {
+                        window.frontendlogger.error(`Data mottatt for /sykmelder/${formState.hpr} er er feil format`);
+                    } else {
+                        window.frontendlogger.info(error);
+                    }
                     setSykmelder(null);
                     setError(error);
                 })

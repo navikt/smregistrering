@@ -34,7 +34,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
         if (!enhet) {
             setRejectError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'));
         } else {
-            console.info(`Avviser oppgave. oppgaveid: ${oppgaveid}`);
+            window.frontendlogger.info(`Avviser oppgave. oppgaveid: ${oppgaveid}`);
             setIsLoadingReject(true);
             setRejectError(null);
             fetch(`backend/api/v1/oppgave/${oppgaveid}/avvis`, {
@@ -47,7 +47,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
             })
                 .then((response) => {
                     if (response.ok) {
-                        console.info(`Oppgaven ble avvist. oppgaveid: ${oppgaveid}`);
+                        window.frontendlogger.info(`Oppgaven ble avvist. oppgaveid: ${oppgaveid}`);
                         setRejectModalOpen(false);
                         setSuccessModalContent('Oppgaven ble ferdigstilt.');
                     } else {
@@ -57,7 +57,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                     }
                 })
                 .catch((error) => {
-                    console.error(error);
+                    window.frontendlogger.error(error);
                     setRejectError(error);
                 })
                 .finally(() => {
@@ -70,7 +70,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
         if (!enhet) {
             setRevertError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'));
         } else {
-            console.info(`Sender oppgave til gosys. oppgaveid: ${oppgaveid}`);
+            window.frontendlogger.info(`Sender oppgave til gosys. oppgaveid: ${oppgaveid}`);
             setIsLoadingRevert(true);
             setRevertError(null);
             fetch(`backend/api/v1/oppgave/${oppgaveid}/tilgosys`, {
@@ -83,7 +83,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
             })
                 .then((response) => {
                     if (response.ok) {
-                        console.info(`Oppgaven ble sendt til gosys. oppgaveid: ${oppgaveid}`);
+                        window.frontendlogger.info(`Oppgaven ble sendt til gosys. oppgaveid: ${oppgaveid}`);
                         setRevertModalOpen(false);
                         setSuccessModalContent('Oppgaven ble sendt tilbake til GOSYS.');
                     } else {
@@ -93,7 +93,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                     }
                 })
                 .catch((error) => {
-                    console.error(error);
+                    window.frontendlogger.error(error);
                     setRevertError(error);
                 })
                 .finally(() => {

@@ -25,12 +25,12 @@ const App = ({ enhet, height }: AppProps) => {
         setIsLoading(true);
         Promise.all([getDiagnosekoder(), getOppgave()])
             .then(([_diagnosekoder, _oppgave]) => {
-                console.info(`Oppgave hentet ut. oppgaveid: ${_oppgave.oppgaveid}`);
+                window.frontendlogger.info(`Oppgave hentet ut. oppgaveid: ${_oppgave.oppgaveid}`);
                 setDiagnosekoder(_diagnosekoder);
                 setOppgave(_oppgave);
             })
             .catch((error) => {
-                console.error(error);
+                window.frontendlogger.error(error);
                 setError(error);
             })
             .finally(() => {
@@ -55,12 +55,12 @@ const App = ({ enhet, height }: AppProps) => {
     }
 
     if (!oppgave) {
-        console.error('Oppgave is undefined');
+        window.frontendlogger.error('Oppgave is undefined');
         return null;
     }
 
     if (!diagnosekoder) {
-        console.error('Diagnosekoder is undefined');
+        window.frontendlogger.error('Diagnosekoder is undefined');
         return null;
     }
 
