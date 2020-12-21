@@ -1,0 +1,11 @@
+{
+    "status": "INVALID",
+    "ruleHits": [
+        {
+            "ruleName": "RULE_NUMBER_ONE",
+            "ruleStatus": "INVALID",
+            "messageForSender": "Dont break the rules, please",
+            "messageForUser": "message for user"
+        }
+    ]
+}
