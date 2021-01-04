@@ -44,16 +44,16 @@ spec:
         mountPath: /var/run/secrets/nais.io/vault
   webproxy: true
   ingresses:
-    - "https://smregistrering.nais.preprod.local"
+    - "https://smregistrering.dev.adeo.no"
   env:
     - name: HOST
-      value: https://smregistrering.nais.preprod.local
+      value: https://smregistrering.dev.adeo.no
     - name: PORT
       value: '3000'
     - name: AAD_DISCOVERY_URL
       value: https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/v2.0/.well-known/openid-configuration
     - name: AAD_REDIRECT_URL
-      value: https://smregistrering.nais.preprod.local/callback
+      value: https://smregistrering.dev.adeo.no/callback
     - name: DOWNSTREAM_API_PATH
       value: backend
     - name: DOWNSTREAM_API_URL
@@ -65,7 +65,7 @@ spec:
     - name: MODIACONTEXTHOLDER_PATH
       value: modiacontextholder/api
     - name: MODIACONTEXTHOLDER_URL
-      value: https://modiacontextholder-q1.nais.preprod.local
+      value: https://modiacontextholder-q1.dev.adeo.no
     - name: REDIS_HOST
       value: smregistrering-redis.default.svc.nais.local
     - name: REDIS_PORT

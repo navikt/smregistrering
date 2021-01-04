@@ -48,15 +48,6 @@ type MulighetForArbeidSectionProps = {
 };
 
 const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: MulighetForArbeidSectionProps) => {
-    const periodOptions = [
-        <option value="velg">Velg periodetype</option>,
-        <option value="avventende">4.1 Avventende sykmelding</option>,
-        <option value="gradert">4.2 Gradert sykmelding</option>,
-        <option value="fullsykmelding">4.3 100% sykmelding</option>,
-        <option value="behandlingsdager">4.4 Behandlingsdager</option>,
-        <option value="reisetilskudd">4.5 Reisetilskudd</option>,
-    ];
-
     const createEmptyMFA = (type: MFAOptions): MulighetForArbeidTypes => {
         if (type === 'avventende') {
             return {
@@ -132,13 +123,18 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                         className="form-margin-bottom half"
                         label={<Element>Periodetype</Element>}
                     >
-                        {periodOptions}
+                        <option value="velg">Velg periodetype</option>,
+                        <option value="avventende">4.1 Avventende sykmelding</option>,
+                        <option value="gradert">4.2 Gradert sykmelding</option>,
+                        <option value="fullsykmelding">4.3 100% sykmelding</option>,
+                        <option value="behandlingsdager">4.4 Behandlingsdager</option>,
+                        <option value="reisetilskudd">4.5 Reisetilskudd</option>,
                     </Select>
                 )}
 
                 {formState.mulighetForArbeid.length > 0 &&
                     formState.mulighetForArbeid.map((mfaPeriode, index) => (
-                        <div className="mulighetForArbeid__container">
+                        <div key={index} className="mulighetForArbeid__container">
                             <Select
                                 style={{ flex: 'auto' }}
                                 id={`mulighetForArbeid-selector-${index}`}
@@ -160,7 +156,12 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                                 className="form-margin-bottom half"
                                 label={<Element>Periodetype</Element>}
                             >
-                                {periodOptions}
+                                <option value="velg">Velg periodetype</option>,
+                                <option value="avventende">4.1 Avventende sykmelding</option>,
+                                <option value="gradert">4.2 Gradert sykmelding</option>,
+                                <option value="fullsykmelding">4.3 100% sykmelding</option>,
+                                <option value="behandlingsdager">4.4 Behandlingsdager</option>,
+                                <option value="reisetilskudd">4.5 Reisetilskudd</option>,
                             </Select>
                             {isAvventendePeriode(mfaPeriode) && (
                                 <AvventendePeriode

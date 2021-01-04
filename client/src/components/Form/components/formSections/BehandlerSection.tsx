@@ -1,6 +1,6 @@
 import * as iotsPromise from 'io-ts-promise';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
 
@@ -41,7 +41,6 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
     const [error, setError] = useState<Error | null>(null);
 
     const [hprTouched, setHprTouched] = useState<boolean>(false);
-    const hprRef = useRef<HTMLInputElement>();
 
     // GET information about sykmelder on every formState.hpr change
     useEffect(() => {
@@ -65,14 +64,19 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                     setSykmelder(sykmelder);
                 })
                 .catch((error) => {
-                    console.log(error);
+                    // Sanitizing the error
+                    if (iotsPromise.isDecodeError(error)) {
+                        window.frontendlogger.error(`Data mottatt for /sykmelder/${formState.hpr} er er feil format`);
+                    } else {
+                        window.frontendlogger.info(error);
+                    }
                     setSykmelder(null);
                     setError(error);
                 })
                 .finally(() => {
                     setIsloading(false);
                     if (hprTouched) {
-                        hprRef.current?.focus();
+                        document.getElementById('hpr')?.focus();
                     }
                 });
         } else {
@@ -94,7 +98,6 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
 
             <Row>
                 <Input
-                    inputRef={hprRef as any}
                     id="hpr"
                     value={formState.hpr ? formState.hpr : undefined}
                     disabled={isLoading}

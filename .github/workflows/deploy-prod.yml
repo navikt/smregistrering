@@ -47,6 +47,7 @@ jobs:
       - name: Build client
         env:
           REACT_APP_HEAD_URL: https://app.adeo.no
+          REACT_APP_FRONTEND_LOGGER_URL: https://app.adeo.no/frontendlogger
           REACT_APP_GOSYS_URL: https://gosys-nais.nais.adeo.no/gosys/bruker/brukeroversikt.jsf
         run: |
           npm run build

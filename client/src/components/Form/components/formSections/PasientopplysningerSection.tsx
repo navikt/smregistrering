@@ -1,6 +1,6 @@
 import * as iotsPromise from 'io-ts-promise';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
@@ -27,7 +27,6 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
     const [error, setError] = useState<Error | null>(null);
 
     const [fnrTouched, setFnrTouched] = useState<boolean>(false);
-    const fnrRef = useRef<HTMLInputElement>();
 
     // GET information about sykmelder on every formState.pasientFnr change
     useEffect(() => {
@@ -41,7 +40,7 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                     if (res.ok) {
                         return res.json();
                     } else {
-                        throw new Error('Fant ikke pasient med fødselsnummer: ' + formState.pasientFnr);
+                        throw new Error('Fant ikke pasient knyttet til det aktuelle fødselsnummeret');
                     }
                 })
                 .then((jsonResponse) => {
@@ -49,17 +48,21 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                 })
                 .then((pasient) => {
                     setPasientNavn(pasient);
-                    document.getElementById('pasientFnr')?.focus();
                 })
                 .catch((error) => {
-                    console.log(error);
+                    // Sanitizing the error
+                    if (iotsPromise.isDecodeError(error)) {
+                        window.frontendlogger.error('Data mottatt for /pasient/{fnr} er er feil format');
+                    } else {
+                        window.frontendlogger.info(error);
+                    }
                     setPasientNavn(null);
                     setError(error);
                 })
                 .finally(() => {
                     setIsloading(false);
                     if (fnrTouched) {
-                        fnrRef.current?.focus();
+                        document.getElementById('pasientFnr')?.focus();
                     }
                 });
         } else {
@@ -71,7 +74,6 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
         <SectionContainer section={section}>
             <Row>
                 <Input
-                    inputRef={fnrRef as any}
                     id="pasientFnr"
                     disabled={isLoading}
                     value={formState.pasientFnr ? formState.pasientFnr : undefined}

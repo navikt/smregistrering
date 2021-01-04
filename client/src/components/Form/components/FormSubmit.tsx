@@ -48,6 +48,7 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                     })
                         .then((res) => {
                             if (res.status === 204) {
+                                window.frontendlogger.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
                                 setSuccessModalContent('Oppgaven ble ferdigstilt.');
                             } else if (res.status === 400) {
                                 // Try to parse body as json. if it fails, catch the error and parse the body as text instead.
@@ -82,11 +83,11 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                         })
                         .catch((error) => {
                             setSuccessError(error);
-                            console.error(error);
+                            window.frontendlogger.error(error);
                         })
                         .finally(() => setIsLoadingSuccess(false));
                 } else {
-                    console.error('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
+                    window.frontendlogger.error('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
                 }
             } else {
                 setTimeout(() => {
