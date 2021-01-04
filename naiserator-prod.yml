@@ -45,7 +45,6 @@ spec:
   webproxy: true
   ingresses:
     - "https://smregistrering.nais.adeo.no"
-    - "https://smregistrering.intern.adeo.no"
   env:
     - name: HOST
       value: https://smregistrering.nais.adeo.no
@@ -54,7 +53,7 @@ spec:
     - name: AAD_DISCOVERY_URL
       value: https://login.microsoftonline.com/62366534-1ec3-4962-8869-9b5535279d0b/v2.0/.well-known/openid-configuration 
     - name: AAD_REDIRECT_URL
-      value: https://smregistrering.intern.adeo.no/callback
+      value: https://smregistrering.nais.adeo.no/callback
     - name: DOWNSTREAM_API_PATH
       value: backend
     - name: DOWNSTREAM_API_URL
@@ -66,7 +65,7 @@ spec:
     - name: MODIACONTEXTHOLDER_PATH
       value: modiacontextholder/api
     - name: MODIACONTEXTHOLDER_URL
-      value: https://modiacontextholder.adeo.no
+      value: https://modiacontextholder.nais.adeo.no
     - name: REDIS_HOST
       value: smregistrering-redis.default.svc.nais.local
     - name: REDIS_PORT

@@ -44,7 +44,6 @@ spec:
         mountPath: /var/run/secrets/nais.io/vault
   webproxy: true
   ingresses:
-    - "https://smregistrering.nais.preprod.local"
     - "https://smregistrering.dev.adeo.no"
   env:
     - name: HOST
