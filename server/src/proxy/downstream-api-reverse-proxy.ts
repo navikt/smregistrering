@@ -27,6 +27,7 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
   },
   proxyReqPathResolver: (req: Request) => {
     logger.info(`${req.method} request received for downstream API`);
+
     const urlFromApi = url.parse(api.url);
     const pathFromApi = urlFromApi.pathname === '/' ? '' : urlFromApi.pathname;
 
