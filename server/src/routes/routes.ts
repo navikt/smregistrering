@@ -6,6 +6,7 @@ import passport from 'passport';
 import upstreamApiReverseProxy from '../proxy/downstream-api-reverse-proxy';
 import modiacontextholderReverseProxy from '../proxy/modiacontextholder-reverse-proxy';
 import { Client } from 'openid-client';
+import logger from '../logging';
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ const ensureAuthenticated = async (req: Request, res: Response, next: NextFuncti
     if (req.session && req.query.oppgaveid) {
       req.session.redirectTo = req.url;
     }
+    logger.info('not logged in. redirecting to /login');
     res.redirect('/login');
   }
 };
