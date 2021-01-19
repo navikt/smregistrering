@@ -35,7 +35,10 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
             setIsloading(true);
             setPasientNavn(null);
             setError(null);
-            fetch(`/backend/api/v1/pasient/${formState.pasientFnr}`, { credentials: 'include' })
+            fetch(`/backend/api/v1/pasient`, {
+                credentials: 'include',
+                headers: { 'X-Pasient-Fnr': formState.pasientFnr },
+            })
                 .then((res) => {
                     if (res.ok) {
                         return res.json();

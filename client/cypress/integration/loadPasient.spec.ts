@@ -7,7 +7,7 @@ context('Load pasient info', () => {
         }).as('getOppgave');
     });
     it('Should search for name of pasient when typing 11 digits in pasientFnr input field', () => {
-        cy.route2('GET', '/backend/api/v1/pasient/12345678910', {
+        cy.route2('GET', '/backend/api/v1/pasient', {
             delayMs: 1000,
             fixture: 'pasient.json',
         });
@@ -19,7 +19,7 @@ context('Load pasient info', () => {
         cy.get('#pasientFnr--name').contains('Per Anders Persson');
     });
     it('Should display error when request fails', () => {
-        cy.route2('GET', '/backend/api/v1/pasient/12345678910', {
+        cy.route2('GET', '/backend/api/v1/pasient', {
             delayMs: 1000,
             statusCode: 500,
         });
