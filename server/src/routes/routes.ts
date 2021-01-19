@@ -32,10 +32,10 @@ const setup = (authClient: Client, config: Config) => {
   router.get('/login', passport.authenticate('azureOidc', { failureRedirect: '/login' }));
   router.use('/callback', passport.authenticate('azureOidc', { failureRedirect: '/login' }), (req, res) => {
     if (req.session?.redirectTo) {
-      logger.info(`succsessfully logged in. ridirecting to ${req.session.redirectTo}`);
+      logger.info(`succsessfully logged in. redirecting to ${req.session.redirectTo}`);
       res.redirect(req.session.redirectTo);
     } else {
-      logger.info('succsessfully logged in. ridirecting to "/"');
+      logger.info('succsessfully logged in. redirecting to "/"');
       res.redirect('/');
     }
   });

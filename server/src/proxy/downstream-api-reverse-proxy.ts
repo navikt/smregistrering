@@ -26,8 +26,6 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
     );
   },
   proxyReqPathResolver: (req: Request) => {
-    logger.info(`${req.method} request received for downstream API`);
-
     const urlFromApi = url.parse(api.url);
     const pathFromApi = urlFromApi.pathname === '/' ? '' : urlFromApi.pathname;
 
@@ -46,11 +44,10 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
       (pathFromRequest ? pathFromRequest : '') +
       (queryString ? '?' + queryString : '');
 
+    logger.info(`Proxying request from ${req.originalUrl} to ${newPath}`);
     return newPath;
   },
 });
-
-const stripTrailingSlash = (str: string): string => (str.endsWith('/') ? str.slice(0, -1) : str);
 
 const setup = (router: Router, authClient: Client, config: Config) => {
   const { path, url } = config.downstreamApiReverseProxy;
