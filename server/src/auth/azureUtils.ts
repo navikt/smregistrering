@@ -17,7 +17,7 @@ export const getOnBehalfOfAccessToken = (
     if (hasValidAccessToken(req, forApi)) {
       return resolve(req.user?.tokenSets[forApi]?.access_token);
     } else {
-      logger.error(`The request does not contain a valid access token for token exchange for ${forApi}`);
+      logger.info(`The request does not contain a valid access token for token exchange for ${forApi}`);
     }
 
     // request new access token
@@ -43,17 +43,17 @@ export const getOnBehalfOfAccessToken = (
         })
         .catch((error) => {
           if (error instanceof UserNotFoundError) {
-            logger.error(error);
+            logger.error(error.message);
             reject(error);
           } else {
             const sanitizedError = new Error('An error occured while retrieving on-behalf-of-token');
-            logger.error(sanitizedError);
+            logger.error(sanitizedError.message);
             reject(sanitizedError);
           }
         });
     } else {
       const error = new Error('The request does not contain a valid access token');
-      logger.error(error);
+      logger.error(error.message);
       reject(error);
     }
   });
