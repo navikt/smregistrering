@@ -36,6 +36,9 @@ export const getOnBehalfOfAccessToken = (
           logger.info(
             `Received on-behalf-of token for request ${req.originalUrl}. Token expires at ${tokenSet.expires_at}`,
           );
+          if (!tokenSet.access_token?.length) {
+            logger.error(`on-behalf-of access_token for request ${req.originalUrl} is null og empty`);
+          }
           if (req.user) {
             req.user.tokenSets[forApi] = tokenSet;
             return resolve(tokenSet.access_token);

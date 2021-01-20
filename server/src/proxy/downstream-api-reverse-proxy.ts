@@ -24,12 +24,12 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
             }
           },
           (error) => {
-            logger.error(`Could not get access token for request to ${req.originalUrl}`);
+            logger.error(`Could not get access token for request to ${req.originalUrl}. ${error}`);
             reject(error);
           },
         )
         .catch((error) => {
-          logger.error(error.message);
+          logger.error(error);
           reject(error);
         }),
     );
