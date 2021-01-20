@@ -2,7 +2,7 @@ import { getOnBehalfOfAccessToken } from '../auth/azureUtils';
 import { Config } from '../config';
 import proxy, { ProxyOptions } from 'express-http-proxy';
 import url from 'url';
-import { Router, Request } from 'express';
+import { Router, Request, Response } from 'express';
 import { RequestOptions } from 'http';
 import { Client } from 'openid-client';
 import { ApiReverseProxy } from '../types/Config';
@@ -46,6 +46,12 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
 
     logger.info(`Proxying request from ${req.originalUrl} to ${newPath}`);
     return newPath;
+  },
+  userResDecorator: (proxyRes: Response, proxyResData: any, userReq: Request, userRes: Response) => {
+    logger.info(
+      `Received response with statuscode: ${proxyRes.statusCode} from proxied request to ${userReq.method} ${userReq.originalUrl}`,
+    );
+    return proxyResData;
   },
 });
 
