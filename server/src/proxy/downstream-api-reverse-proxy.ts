@@ -47,7 +47,7 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
     logger.info(`Proxying request from ${req.originalUrl} to ${newPath}`);
     return newPath;
   },
-  userResDecorator: (proxyRes: Response, proxyResData: any, userReq: Request, userRes: Response) => {
+  userResDecorator: (proxyRes: Response, proxyResData: any, userReq: Request, _userRes: Response) => {
     logger.info(
       `Received response with statuscode: ${proxyRes.statusCode} from proxied request to ${userReq.method} ${userReq.originalUrl}`,
     );
