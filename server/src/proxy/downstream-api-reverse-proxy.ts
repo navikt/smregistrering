@@ -12,17 +12,26 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: (proxyReqOpts: RequestOptions, req: Request) => {
     return new Promise<RequestOptions>((resolve, reject) =>
-      getOnBehalfOfAccessToken(authClient, req, api, 'proxy').then(
-        (access_token) => {
-          if (proxyReqOpts && proxyReqOpts.headers) {
-            proxyReqOpts.headers['Authorization'] = `Bearer ${access_token}`;
-            return resolve(proxyReqOpts);
-          } else {
-            throw new Error('Could not set Authorization header for downstream api proxy request');
-          }
-        },
-        (error) => reject(error),
-      ),
+      getOnBehalfOfAccessToken(authClient, req, api, 'proxy')
+        .then(
+          (access_token) => {
+            if (proxyReqOpts && proxyReqOpts.headers) {
+              logger.info(`Setting access_token as Authorization header for request to ${req.originalUrl}`);
+              proxyReqOpts.headers['Authorization'] = `Bearer ${access_token}`;
+              return resolve(proxyReqOpts);
+            } else {
+              throw new Error('Could not set Authorization header for downstream api proxy request');
+            }
+          },
+          (error) => {
+            logger.error(`Could not get access token for request to ${req.originalUrl}`);
+            reject(error);
+          },
+        )
+        .catch((error) => {
+          logger.error(error.message);
+          reject(error);
+        }),
     );
   },
   proxyReqPathResolver: (req: Request) => {
