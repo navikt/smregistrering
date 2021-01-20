@@ -17,7 +17,7 @@ export const getOnBehalfOfAccessToken = (
     if (hasValidAccessToken(req, forApi)) {
       return resolve(req.user?.tokenSets[forApi]?.access_token);
     } else {
-      logger.info(`The request does not contain a valid access token for token exchange for ${forApi}`);
+      logger.info(`The request to ${req.originalUrl} does not have a valid on-behalf-of token`);
     }
 
     // request new access token
@@ -29,11 +29,13 @@ export const getOnBehalfOfAccessToken = (
         scope: createOnBehalfOfScope(api),
         assertion: req.user?.tokenSets.self.access_token,
       };
-      logger.info(`Requesting on-behalf-of access token for ${forApi}`);
+      logger.info(`Requesting on-behalf-of token for request to ${req.originalUrl}`);
       authClient
         .grant(grantBody)
         .then((tokenSet) => {
-          logger.info(`Received on-behalf-of token for ${forApi}`);
+          logger.info(
+            `Received on-behalf-of token for request ${req.originalUrl}. Token expires at ${tokenSet.expires_at}`,
+          );
           if (req.user) {
             req.user.tokenSets[forApi] = tokenSet;
             return resolve(tokenSet.access_token);
