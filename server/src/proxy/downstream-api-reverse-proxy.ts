@@ -2,7 +2,7 @@ import { getOnBehalfOfAccessToken } from '../auth/azureUtils';
 import { Config } from '../config';
 import proxy, { ProxyOptions } from 'express-http-proxy';
 import url from 'url';
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
 import { RequestOptions } from 'http';
 import { Client } from 'openid-client';
 import { ApiReverseProxy } from '../types/Config';
@@ -56,22 +56,10 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
   },
 });
 
-const authHeaderCheckMiddleware = (req: Request, _res: Response, next: NextFunction) => {
-  const authHeader = req.header('Authorization');
-  if (authHeader?.length) {
-    logger.info(`Authorization header is set for request to ${req.originalUrl}`);
-  }
-  next();
-};
-
 const setup = (router: Router, authClient: Client, config: Config) => {
   const { path, url } = config.downstreamApiReverseProxy;
   logger.info(`Setting up proxy for '${path}'`);
-  router.use(
-    `/${path}/*`,
-    proxy(url, options(config.downstreamApiReverseProxy, authClient)),
-    authHeaderCheckMiddleware,
-  );
+  router.use(`/${path}/*`, proxy(url, options(config.downstreamApiReverseProxy, authClient)));
 };
 
 export default { setup };
