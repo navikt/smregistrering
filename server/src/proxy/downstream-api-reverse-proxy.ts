@@ -1,14 +1,12 @@
 import { getOnBehalfOfAccessToken } from '../auth/azureUtils';
 import { Config } from '../config';
 import proxy, { ProxyOptions } from 'express-http-proxy';
-import { URL } from 'url';
+import url from 'url';
 import { Router, Request, Response } from 'express';
 import { RequestOptions } from 'http';
 import { Client } from 'openid-client';
 import { ApiReverseProxy } from '../types/Config';
 import logger from '../logging';
-
-const proxyPath = '/backend';
 
 function options(api: ApiReverseProxy, authClient: Client): ProxyOptions {
   return {
@@ -30,8 +28,23 @@ function options(api: ApiReverseProxy, authClient: Client): ProxyOptions {
       return proxyReqOpts;
     },
     proxyReqPathResolver: (req: Request) => {
-      const requestUrl = new URL(req.originalUrl);
-      const newPath = requestUrl.pathname.replace(proxyPath, '') + requestUrl.search;
+      const urlFromApi = url.parse(api.url);
+      const pathFromApi = urlFromApi.pathname === '/' ? '' : urlFromApi.pathname;
+
+      const urlFromRequest = url.parse(req.originalUrl);
+
+      let pathFromRequest;
+      if (urlFromRequest.pathname) {
+        pathFromRequest = urlFromRequest.pathname.replace(`/${api.path}/`, '/');
+      } else {
+        logger.error('Error replacing downstream proxy prefix to "/"');
+      }
+
+      const queryString = urlFromRequest.query;
+      const newPath =
+        (pathFromApi ? pathFromApi : '') +
+        (pathFromRequest ? pathFromRequest : '') +
+        (queryString ? '?' + queryString : '');
 
       logger.info(`Proxying request from ${req.originalUrl} to ${newPath}`);
       return newPath;
@@ -47,8 +60,8 @@ function options(api: ApiReverseProxy, authClient: Client): ProxyOptions {
 
 function setup(router: Router, authClient: Client, config: Config) {
   const { url } = config.downstreamApiReverseProxy;
-  logger.info(`Setting up proxy for ${proxyPath}`);
-  router.use(`${proxyPath}*`, proxy(url, options(config.downstreamApiReverseProxy, authClient)));
+  logger.info(`Setting up proxy for '/backend/'`);
+  router.use(`/backend/*`, proxy(url, options(config.downstreamApiReverseProxy, authClient)));
 }
 
 export default { setup };
