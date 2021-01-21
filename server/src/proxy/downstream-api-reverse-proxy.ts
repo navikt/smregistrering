@@ -58,9 +58,9 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
     // @ts-ignore
     var r = proxyReq.getHeader('Authorization');
     if (r.length > 0) {
-      logger.info('Request Has Authorization header');
+      logger.info(`Request Has Authorization header for request to ${proxyReq.originalUrl}`);
     } else {
-      logger.info('Request has not Authorization header');
+      logger.info(`Request has not Authorization header for request to ${proxyReq.originalUrl}`);
     }
     return headers;
   },
