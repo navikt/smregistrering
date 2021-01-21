@@ -3,14 +3,14 @@ import { Config } from '../config';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import passport from 'passport';
-import upstreamApiReverseProxy from '../proxy/downstream-api-reverse-proxy';
 import modiacontextholderReverseProxy from '../proxy/modiacontextholder-reverse-proxy';
 import { Client } from 'openid-client';
 import logger from '../logging';
+import downstreamApiReverseProxy from '../proxy/downstream-api-reverse-proxy';
 
 const router = express.Router();
 
-const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
   if (req.isAuthenticated() && hasValidAccessToken(req, 'self')) {
     next();
   } else {
@@ -20,9 +20,9 @@ const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) =>
     logger.info('not logged in. redirecting to /login');
     res.redirect('/login');
   }
-};
+}
 
-const setup = (authClient: Client, config: Config) => {
+function setup(authClient: Client, config: Config) {
   // Unprotected routes
   // Nais routes
   router.get('/is_alive', (_req, res) => res.send('Alive'));
@@ -44,7 +44,7 @@ const setup = (authClient: Client, config: Config) => {
   router.use(ensureAuthenticated);
 
   // Proxy for /backend/*
-  upstreamApiReverseProxy.setup(router, authClient, config);
+  downstreamApiReverseProxy.setup(router, authClient, config);
   // Proxy for /modiacontextholder/*
   modiacontextholderReverseProxy.setup(router, authClient, config);
 
@@ -55,6 +55,6 @@ const setup = (authClient: Client, config: Config) => {
   });
 
   return router;
-};
+}
 
 export default { setup };

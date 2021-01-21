@@ -8,66 +8,60 @@ import { Client } from 'openid-client';
 import { ApiReverseProxy } from '../types/Config';
 import logger from '../logging';
 
-const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
-  parseReqBody: true,
-  proxyReqOptDecorator: (proxyReqOpts: RequestOptions, req: Request) => {
-    return new Promise<RequestOptions>((resolve, reject) =>
-      getOnBehalfOfAccessToken(authClient, req, api, 'proxy')
-        .then(
-          (access_token) => {
-            if (proxyReqOpts && proxyReqOpts.headers) {
-              logger.info(`Setting access_token as Authorization header for request to ${req.originalUrl}`);
-              proxyReqOpts.headers['Authorization'] = `Bearer ${access_token}`;
-              return resolve(proxyReqOpts);
-            } else {
-              throw new Error('Could not set Authorization header for downstream api proxy request');
-            }
-          },
-          (error) => {
-            logger.error(`Could not get access token for request to ${req.originalUrl}. ${error}`);
-            reject(error);
-          },
-        )
-        .catch((error) => {
-          logger.error(error);
-          reject(error);
-        }),
-    );
-  },
-  proxyReqPathResolver: (req: Request) => {
-    const urlFromApi = url.parse(api.url);
-    const pathFromApi = urlFromApi.pathname === '/' ? '' : urlFromApi.pathname;
+function options(api: ApiReverseProxy, authClient: Client): ProxyOptions {
+  return {
+    parseReqBody: true,
+    proxyReqOptDecorator: async (proxyReqOpts: RequestOptions, req: Request) => {
+      const oboAccessToken = await getOnBehalfOfAccessToken(authClient, req, api, 'proxy');
 
-    const urlFromRequest = url.parse(req.originalUrl);
+      if (oboAccessToken === undefined) {
+        logger.error(`on-behalf-of access token is undefined for request to ${req.originalUrl}`);
+      } else if (oboAccessToken.length === 0) {
+        logger.error(`on-behalf-of access token length is "0" for request to ${req.originalUrl}`);
+      } else if (!proxyReqOpts.headers) {
+        logger.error(`Could not set Authorization header for request to ${req.originalUrl}`);
+      } else {
+        logger.info(`Setting access_token as Authorization header for request to ${req.originalUrl}`);
+        proxyReqOpts.headers['Authorization'] = `Bearer ${oboAccessToken}`;
+      }
 
-    let pathFromRequest;
-    if (urlFromRequest.pathname) {
-      pathFromRequest = urlFromRequest.pathname.replace(`/${api.path}/`, '/');
-    } else {
-      logger.error('Error replacing downstream proxy prefix to "/"');
-    }
+      return proxyReqOpts;
+    },
+    proxyReqPathResolver: (req: Request) => {
+      const urlFromApi = url.parse(api.url);
+      const pathFromApi = urlFromApi.pathname === '/' ? '' : urlFromApi.pathname;
 
-    const queryString = urlFromRequest.query;
-    const newPath =
-      (pathFromApi ? pathFromApi : '') +
-      (pathFromRequest ? pathFromRequest : '') +
-      (queryString ? '?' + queryString : '');
+      const urlFromRequest = url.parse(req.originalUrl);
 
-    logger.info(`Proxying request from ${req.originalUrl} to ${newPath}`);
-    return newPath;
-  },
-  userResDecorator: (proxyRes: Response, proxyResData: any, userReq: Request, _userRes: Response) => {
-    logger.info(
-      `Received response with statuscode: ${proxyRes.statusCode} from proxied request to ${userReq.method} ${userReq.originalUrl}`,
-    );
-    return proxyResData;
-  },
-});
+      let pathFromRequest;
+      if (urlFromRequest.pathname) {
+        pathFromRequest = urlFromRequest.pathname.replace(`/${api.path}/`, '/');
+      } else {
+        logger.error('Error replacing downstream proxy prefix to "/"');
+      }
 
-const setup = (router: Router, authClient: Client, config: Config) => {
-  const { path, url } = config.downstreamApiReverseProxy;
-  logger.info(`Setting up proxy for '${path}'`);
-  router.use(`/${path}/*`, proxy(url, options(config.downstreamApiReverseProxy, authClient)));
-};
+      const queryString = urlFromRequest.query;
+      const newPath =
+        (pathFromApi ? pathFromApi : '') +
+        (pathFromRequest ? pathFromRequest : '') +
+        (queryString ? '?' + queryString : '');
+
+      logger.info(`Proxying request from ${req.originalUrl} to ${newPath}`);
+      return newPath;
+    },
+    userResDecorator: (proxyRes: Response, proxyResData: any, userReq: Request, _userRes: Response) => {
+      logger.info(
+        `Received response with statuscode: ${proxyRes.statusCode} from proxied request to ${userReq.method} ${userReq.originalUrl}`,
+      );
+      return proxyResData;
+    },
+  };
+}
+
+function setup(router: Router, authClient: Client, config: Config) {
+  const { url } = config.downstreamApiReverseProxy;
+  logger.info(`Setting up proxy for '/backend/'`);
+  router.use(`/backend/*`, proxy(url, options(config.downstreamApiReverseProxy, authClient)));
+}
 
 export default { setup };

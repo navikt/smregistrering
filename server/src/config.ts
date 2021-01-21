@@ -15,7 +15,7 @@ export interface Config {
   modiacontextReverseProxy: ApiReverseProxy;
 }
 
-const loadConfig = async (): Promise<Config> => {
+async function loadConfig(): Promise<Config> {
   const server = await iotsPromise.decode(Server, {
     host: process.env['HOST'],
     port: process.env['PORT'],
@@ -52,6 +52,6 @@ const loadConfig = async (): Promise<Config> => {
   });
 
   return { server, azureAd, redis, downstreamApiReverseProxy, modiacontextReverseProxy };
-};
+}
 
 export default loadConfig;

@@ -1,7 +1,7 @@
 import { Config } from './config';
 import { Request, Response, NextFunction, Application } from 'express';
 
-const setupCors = (server: Application, config: Config) => {
+function setupCors(server: Application, config: Config) {
   server.use((_req: Request, res: Response, next: NextFunction) => {
     res.setHeader('Access-Control-Allow-Origin', config.server.host);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -13,6 +13,6 @@ const setupCors = (server: Application, config: Config) => {
     res.setHeader('Access-Control-Expose-Headers', 'Location');
     return next();
   });
-};
+}
 
 export default setupCors;

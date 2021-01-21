@@ -4,78 +4,68 @@ import { ApiReverseProxy } from '../types/Config';
 import logger from '../logging';
 import { TokenSets } from '../../@types/express';
 
-class UserNotFoundError extends Error {}
-
-export const getOnBehalfOfAccessToken = (
+export async function getOnBehalfOfAccessToken(
   authClient: Client,
   req: Request,
   api: ApiReverseProxy,
   forApi: keyof TokenSets,
-): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    // check if request has has valid api access token
-    if (hasValidAccessToken(req, forApi)) {
-      return resolve(req.user?.tokenSets[forApi]?.access_token);
+): Promise<string | undefined> {
+  if (!req.user) {
+    logger.error(`Could not find user object attached to request ${req.originalUrl}`);
+    return undefined;
+  } else {
+    const oboToken = req.user.tokenSets[forApi];
+    const hasValidOboAccessToken = oboToken?.expired() === false;
+
+    if (hasValidOboAccessToken) {
+      logger.info(`The request to ${req.originalUrl} has a valid on-behalf-of token`);
+      return oboToken?.access_token;
     } else {
       logger.info(`The request to ${req.originalUrl} does not have a valid on-behalf-of token`);
+      const selfToken = req.user.tokenSets.self;
+      const hasValidSelfToken = !selfToken.expired();
+
+      if (hasValidSelfToken) {
+        const grantBody: GrantBody = {
+          grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+          client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+          requested_token_use: 'on_behalf_of',
+          scope: createOnBehalfOfScope(api),
+          assertion: selfToken,
+        };
+
+        logger.info(`Requesting on-behalf-of tokenSet for request to ${req.originalUrl}`);
+        const oboTokenSet = await authClient.grant(grantBody);
+
+        logger.info(`Attaching oboTokenSet to session for request to ${req.originalUrl}`);
+        req.user.tokenSets[forApi] = oboTokenSet;
+
+        return oboTokenSet.access_token;
+      } else {
+        logger.error(
+          `The request to ${req.originalUrl} does not have a valid access_token for on-behalf-of token exchange`,
+        );
+      }
     }
+  }
+}
 
-    // request new access token
-    if (hasValidAccessToken(req, 'self')) {
-      const grantBody: GrantBody = {
-        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-        client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
-        requested_token_use: 'on_behalf_of',
-        scope: createOnBehalfOfScope(api),
-        assertion: req.user?.tokenSets.self.access_token,
-      };
-      logger.info(`Requesting on-behalf-of token for request to ${req.originalUrl}`);
-      authClient
-        .grant(grantBody)
-        .then((tokenSet) => {
-          logger.info(
-            `Received on-behalf-of token for request ${req.originalUrl}. Token expires at ${tokenSet.expires_at}`,
-          );
-          if (!tokenSet.access_token?.length) {
-            logger.error(`on-behalf-of access_token for request ${req.originalUrl} is null og empty`);
-          }
-          if (req.user) {
-            req.user.tokenSets[forApi] = tokenSet;
-            return resolve(tokenSet.access_token);
-          } else {
-            throw new UserNotFoundError('Could not attach tokenSet to user object');
-          }
-        })
-        .catch((error) => {
-          if (error instanceof UserNotFoundError) {
-            logger.error(error.message);
-            reject(error);
-          } else {
-            const sanitizedError = new Error('An error occured while retrieving on-behalf-of-token');
-            logger.error(sanitizedError.message);
-            reject(sanitizedError);
-          }
-        });
-    } else {
-      const error = new Error('The request does not contain a valid access token');
-      logger.error(error.message);
-      reject(error);
-    }
-  });
-};
+export function appendDefaultScope(scope: string): string {
+  return `${scope}/.default`;
+}
 
-export const appendDefaultScope = (scope: string): string => `${scope}/.default`;
+function formatClientIdScopeForV2Clients(clientId: string): string {
+  return appendDefaultScope(`api://${clientId}`);
+}
 
-const formatClientIdScopeForV2Clients = (clientId: string): string => appendDefaultScope(`api://${clientId}`);
-
-const createOnBehalfOfScope = (api: ApiReverseProxy): string => {
+function createOnBehalfOfScope(api: ApiReverseProxy): string {
   if (api.scopes) {
     return `${api.scopes.join(' ')}`;
   }
   return `${formatClientIdScopeForV2Clients(api.clientId)}`;
-};
+}
 
-export const hasValidAccessToken = (req: Request, key: keyof TokenSets) => {
+export function hasValidAccessToken(req: Request, key: keyof TokenSets) {
   const tokenSets = req.user?.tokenSets;
   if (!tokenSets) {
     return false;
@@ -85,4 +75,4 @@ export const hasValidAccessToken = (req: Request, key: keyof TokenSets) => {
   }
   const tokenSet = tokenSets[key];
   return new TokenSet(tokenSet).expired() === false;
-};
+}

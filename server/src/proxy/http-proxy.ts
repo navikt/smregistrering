@@ -2,7 +2,7 @@ import { Config } from '../config';
 import tunnel from 'tunnel';
 import logger from '../logging';
 
-const httpProxyAgent = (config: Config) => {
+function httpProxyAgent(config: Config) {
   const proxyUri = config.server.proxy;
   if (proxyUri) {
     logger.info(`Proxying requests via ${proxyUri} for openid-client`);
@@ -17,6 +17,6 @@ const httpProxyAgent = (config: Config) => {
     logger.warn(`Environment variable HTTP_PROXY is not set. Not proxying requests for openid-client`);
     return null;
   }
-};
+}
 
 export default httpProxyAgent;

@@ -5,7 +5,7 @@ import httpProxyAgent from '../proxy/http-proxy';
 import { User } from '../types/User';
 import logger from '../logging';
 
-const client = async (config: Config) => {
+async function client(config: Config) {
   // see https://github.com/panva/node-openid-client/blob/master/docs/README.md#customizing-individual-http-requests
   const metadata: ClientMetadata = {
     client_id: config.azureAd.clientId,
@@ -22,9 +22,9 @@ const client = async (config: Config) => {
   const issuer = await Issuer.discover(config.azureAd.discoveryUrl);
   logger.info(`Discovered issuer ${issuer.issuer}`);
   return new issuer.Client(metadata);
-};
+}
 
-const strategy = (client: Client, config: Config) => {
+function strategy(client: Client, config: Config) {
   const verify = (tokenSet: TokenSet, done: (err: Error | null, user: any | boolean) => any) => {
     if (tokenSet.expired()) {
       return done(null, false);
@@ -48,6 +48,6 @@ const strategy = (client: Client, config: Config) => {
     usePKCE: 'S256',
   };
   return new Strategy(options, verify);
-};
+}
 
 export default { client, strategy };
