@@ -7,7 +7,6 @@ import session from './session';
 import loadConfig from './config';
 import setupCors from './cors';
 import * as iotsPromise from 'io-ts-promise';
-import { User } from './types/User';
 import logger from './logging';
 
 async function startApp() {
@@ -42,9 +41,7 @@ async function startApp() {
     passport.serializeUser((user, done) => done(null, user));
     // type check the user object returned from session storage
     // attach user object from session to req.user object
-    passport.deserializeUser((user, done) => {
-      iotsPromise.decode(User, user).then((user) => done(null, user));
-    });
+    passport.deserializeUser((user, done) => done(null, user));
 
     // setup routes
     server.use('/', routes.setup(azureAuthClient, config));
