@@ -14,16 +14,16 @@ export async function getOnBehalfOfAccessToken(
     logger.error(`Could not find user object attached to request ${req.originalUrl}`);
     return undefined;
   } else {
-    const oboToken = new TokenSet(req.user.tokenSets[forApi]);
-    const hasValidOboAccessToken = oboToken?.expired() === false;
+    const oboTokenSet = new TokenSet(req.user.tokenSets[forApi]);
+    const hasValidOboAccessToken = oboTokenSet?.expired() === false;
 
     if (hasValidOboAccessToken) {
       logger.info(`The request to ${req.originalUrl} has a valid on-behalf-of token`);
-      return oboToken?.access_token;
+      return oboTokenSet?.access_token;
     } else {
       logger.info(`The request to ${req.originalUrl} does not have a valid on-behalf-of token`);
-      const selfToken = new TokenSet(req.user.tokenSets.self);
-      const hasValidSelfToken = !selfToken.expired();
+      const selfTokenSet = new TokenSet(req.user.tokenSets.self);
+      const hasValidSelfToken = !selfTokenSet.expired();
 
       if (hasValidSelfToken) {
         const grantBody: GrantBody = {
@@ -31,7 +31,7 @@ export async function getOnBehalfOfAccessToken(
           client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
           requested_token_use: 'on_behalf_of',
           scope: createOnBehalfOfScope(api),
-          assertion: selfToken,
+          assertion: selfTokenSet.access_token,
         };
 
         logger.info(`Requesting on-behalf-of tokenSet for request to ${req.originalUrl}`);
