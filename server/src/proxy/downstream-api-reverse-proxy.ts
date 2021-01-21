@@ -11,7 +11,7 @@ import logger from '../logging';
 const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
   parseReqBody: true,
   proxyReqOptDecorator: async (proxyReqOpts: RequestOptions, req: Request) => {
-    const oboAccessToken = getOnBehalfOfAccessToken(authClient, req, api, 'proxy');
+    const oboAccessToken = await getOnBehalfOfAccessToken(authClient, req, api, 'proxy');
     logger.info(`the access token is: ${oboAccessToken}`);
 
     if (oboAccessToken) {
