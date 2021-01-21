@@ -54,6 +54,16 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
     );
     return proxyResData;
   },
+  userResHeaderDecorator: (headers, _userReq, _userRes, proxyReq, _proxyRes) => {
+    // @ts-ignore
+    var r = proxyReq.getHeader('Authorization');
+    if (r.length > 0) {
+      logger.info('Request Has Authorization header');
+    } else {
+      logger.info('Request has not Authorization header');
+    }
+    return headers;
+  },
 });
 
 const setup = (router: Router, authClient: Client, config: Config) => {
