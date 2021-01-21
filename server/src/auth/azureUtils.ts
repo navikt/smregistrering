@@ -18,7 +18,7 @@ export async function getOnBehalfOfAccessToken(
     const hasValidOboAccessToken = oboTokenSet?.expired() === false;
 
     if (hasValidOboAccessToken) {
-      logger.info(`The request to ${req.originalUrl} has a valid on-behalf-of token`);
+      logger.info(`The request to ${req.originalUrl} has a valid on-behalf-of token: ${oboTokenSet.access_token}`);
       return oboTokenSet?.access_token;
     } else {
       logger.info(`The request to ${req.originalUrl} does not have a valid on-behalf-of token`);
