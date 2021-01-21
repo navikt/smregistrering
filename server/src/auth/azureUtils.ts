@@ -5,7 +5,7 @@ import logger from '../logging';
 import { TokenSets } from '../../@types/express';
 
 export const hasValidAccessToken = (req: Request, key: keyof TokenSets) => {
-  logger.info(`user object: ${JSON.stringify(req.user)}`);
+  logger.info(`tokenset for request ${req.originalUrl}: ${JSON.stringify(req.user?.tokenSets)}`);
 
   const tokenSets = req.user?.tokenSets;
   if (!tokenSets) {
@@ -15,6 +15,7 @@ export const hasValidAccessToken = (req: Request, key: keyof TokenSets) => {
     return false;
   }
   const tokenSet = tokenSets[key];
+  logger.info(`tokenset is expired? ${new TokenSet(tokenSet).expired() === false}. request ${req.originalUrl}`);
   return new TokenSet(tokenSet).expired() === false;
 };
 
