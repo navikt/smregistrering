@@ -11,16 +11,17 @@ import logger from '../logging';
 const router = express.Router();
 
 const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-  logger.info(`is authenticated: ${req.isAuthenticated()} for request ${req.originalUrl}`);
-  logger.info(`has valid access token: ${hasValidAccessToken(req, 'self')} for request ${req.originalUrl}`);
-
   if (req.isAuthenticated() && hasValidAccessToken(req, 'self')) {
     next();
   } else {
     if (req.session && req.query.oppgaveid) {
       req.session.redirectTo = req.url;
     }
+
     logger.info('not logged in. redirecting to /login');
+    logger.info(`is authenticated: ${req.isAuthenticated()} for request ${req.originalUrl}`);
+    logger.info(`has valid access token: ${hasValidAccessToken(req, 'self')} for request ${req.originalUrl}`);
+
     res.redirect('/login');
   }
 };

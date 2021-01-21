@@ -5,8 +5,6 @@ import logger from '../logging';
 import { TokenSets } from '../../@types/express';
 
 export const hasValidAccessToken = (req: Request, key: keyof TokenSets) => {
-  logger.info(`tokenset for request ${req.originalUrl}: ${JSON.stringify(req.user?.tokenSets)}`);
-
   const tokenSets = req.user?.tokenSets;
   if (!tokenSets) {
     return false;
@@ -15,7 +13,8 @@ export const hasValidAccessToken = (req: Request, key: keyof TokenSets) => {
     return false;
   }
   const tokenSet = tokenSets[key];
-  logger.info(`tokenset is expired? ${new TokenSet(tokenSet).expired() === false}. request ${req.originalUrl}`);
+
+  logger.info(`tokenset is expired? ${new TokenSet(tokenSet).expired()}. request ${req.originalUrl}`);
   return new TokenSet(tokenSet).expired() === false;
 };
 
@@ -45,7 +44,8 @@ export const getOnBehalfOfAccessToken = async (
 
       logger.info(`Requesting on-behalf-of token for request to ${req.originalUrl}`);
       const oboTokenSet = await authClient.grant(grantBody);
-      logger.info(JSON.stringify(oboTokenSet));
+
+      logger.info(`Access token length: ${oboTokenSet.access_token?.length}`);
 
       if (req.user) {
         req.user.tokenSets[forApi] = oboTokenSet;
