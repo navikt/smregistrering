@@ -14,7 +14,7 @@ export async function getOnBehalfOfAccessToken(
     logger.error(`Could not find user object attached to request ${req.originalUrl}`);
     return undefined;
   } else {
-    const oboToken = req.user.tokenSets[forApi];
+    const oboToken = new TokenSet(req.user.tokenSets[forApi]);
     const hasValidOboAccessToken = oboToken?.expired() === false;
 
     if (hasValidOboAccessToken) {
@@ -22,7 +22,7 @@ export async function getOnBehalfOfAccessToken(
       return oboToken?.access_token;
     } else {
       logger.info(`The request to ${req.originalUrl} does not have a valid on-behalf-of token`);
-      const selfToken = req.user.tokenSets.self;
+      const selfToken = new TokenSet(req.user.tokenSets.self);
       const hasValidSelfToken = !selfToken.expired();
 
       if (hasValidSelfToken) {
