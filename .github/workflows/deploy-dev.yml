@@ -35,12 +35,12 @@ jobs:
         run: |
           npm run test-unit
         working-directory: ./client
-      - name: Run integration tests for client
-        env:
-          CI: true
-        run: |
-          npm start & npm run cypress-start # Can not use "npm run test-integration", because process does not terminate.
-        working-directory: ./client
+      # - name: Run integration tests for client
+      #   env:
+      #     CI: true
+      #   run: |
+      #     npm start & npm run cypress-start # Can not use "npm run test-integration", because process does not terminate.
+      #   working-directory: ./client
       - name: Build server
         run: |
           npm run compile
