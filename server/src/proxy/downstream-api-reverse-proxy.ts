@@ -56,8 +56,10 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
   },
   userResHeaderDecorator: (headers, _userReq, _userRes, proxyReq, _proxyRes) => {
     // @ts-ignore
-    var r = proxyReq.getHeader('Authorization');
-    if (r.length > 0) {
+    const authHeader = proxyReq.getHeader('Authorization');
+    if (authHeader === undefined) {
+      logger.error(`Authorization header is undefined for request to ${proxyReq.originalUrl}`);
+    } else if (authHeader.length > 0) {
       logger.info(`Request has Authorization header for request to ${proxyReq.originalUrl}`);
     } else {
       logger.error(`Request does not have Authorization header for request to ${proxyReq.originalUrl}`);
