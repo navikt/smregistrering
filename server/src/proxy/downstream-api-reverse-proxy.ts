@@ -52,9 +52,6 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
     logger.info(
       `Received response with statuscode: ${proxyRes.statusCode} from proxied request to ${userReq.method} ${userReq.originalUrl}`,
     );
-    if (proxyRes.getHeader('Authorization')) {
-      logger.info(`Authorization header is set for request to ${userReq.originalUrl}`);
-    }
     return proxyResData;
   },
 });
