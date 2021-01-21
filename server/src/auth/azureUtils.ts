@@ -5,6 +5,8 @@ import logger from '../logging';
 import { TokenSets } from '../../@types/express';
 
 export const hasValidAccessToken = (req: Request, key: keyof TokenSets) => {
+  logger.info(`user object: ${JSON.stringify(req.user)}`);
+
   const tokenSets = req.user?.tokenSets;
   if (!tokenSets) {
     return false;
