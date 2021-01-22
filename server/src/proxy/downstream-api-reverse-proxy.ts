@@ -15,6 +15,7 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
 
     if (oboAccessToken) {
       if (proxyReqOpts && proxyReqOpts.headers) {
+        logger.info(`on-behalf-of access_token has length: ${oboAccessToken.length} for request to ${req.originalUrl}`);
         logger.info(`Setting access_token as Authorization header for request to ${req.originalUrl}`);
         proxyReqOpts.headers['Authorization'] = `Bearer ${oboAccessToken}`;
       } else {
