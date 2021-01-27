@@ -8,7 +8,6 @@ import {
     MedisinskArsak,
     MedisinskArsakType,
     Periode,
-    Prognose,
     RegistrertSykmelding,
     UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
@@ -215,64 +214,6 @@ export const buildAnnenFraversArsak = (
     }
 };
 
-export const buildPrognose = (
-    arbeidsfoerEtterPeriode: boolean,
-    egetArbeidPaSikt: boolean,
-    annetArbeidPaSikt: boolean,
-    arbeidsforPaSikt: boolean,
-    hensynArbeidsplassen?: string | null,
-    erIArbeid?: boolean,
-    erIkkeIArbeid?: boolean,
-    arbeidFOM?: Date | null,
-    vurderingsDatoIArbeid?: Date | null,
-    arbeidsforFOM?: Date | null,
-    vurderingsDatoUtenArbeid?: Date | null,
-): Prognose | undefined => {
-    if (erIArbeid && erIkkeIArbeid) {
-        return {
-            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen: hensynArbeidsplassen,
-            erIArbeid: {
-                egetArbeidPaSikt: egetArbeidPaSikt,
-                annetArbeidPaSikt: annetArbeidPaSikt,
-                arbeidFOM: arbeidFOM,
-                vurderingsdato: vurderingsDatoIArbeid,
-            },
-            erIkkeIArbeid: {
-                arbeidsforPaSikt: arbeidsforPaSikt,
-                arbeidsforFOM: arbeidsforFOM,
-                vurderingsdato: vurderingsDatoUtenArbeid,
-            },
-        };
-    } else if (erIArbeid) {
-        return {
-            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen: hensynArbeidsplassen,
-            erIArbeid: {
-                egetArbeidPaSikt: egetArbeidPaSikt,
-                annetArbeidPaSikt: annetArbeidPaSikt,
-                arbeidFOM: arbeidFOM,
-                vurderingsdato: vurderingsDatoIArbeid,
-            },
-        };
-    } else if (erIkkeIArbeid) {
-        return {
-            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen: hensynArbeidsplassen,
-            erIkkeIArbeid: {
-                arbeidsforPaSikt: arbeidsforPaSikt,
-                arbeidsforFOM: arbeidsforFOM,
-                vurderingsdato: vurderingsDatoUtenArbeid,
-            },
-        };
-    } else if (arbeidsfoerEtterPeriode) {
-        return {
-            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen,
-        };
-    }
-};
-
 export const buildUtdypendeOpplysninger = (schema: FormType): UtdypendeOpplysningerReturn => {
     return {
         6.1: {
@@ -372,19 +313,6 @@ export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmeldin
         tiltakNAV: schema.tiltakNav,
         tiltakArbeidsplassen: schema.tiltakArbeidsplassen,
         andreTiltak: schema.andreTiltak,
-        prognose: buildPrognose(
-            schema.arbeidsfoerEtterPeriode,
-            schema.egetArbeidPaSikt,
-            schema.annetArbeidPaSikt,
-            schema.arbeidsforPaSikt,
-            schema.hensynArbeidsplassen,
-            schema.erIArbeid,
-            schema.erIkkeIArbeid,
-            schema.arbeidFOM,
-            schema.vurderingsDatoIArbeid,
-            schema.arbeidsforFOM,
-            schema.vurderingsDatoUtenArbeid,
-        ),
         utdypendeOpplysninger: buildUtdypendeOpplysninger(schema),
         kontaktMedPasient: {
             kontaktDato: schema.kontaktDato,

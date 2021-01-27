@@ -325,107 +325,6 @@ describe('registrertSykmeldingUtils', () => {
         });
     });
 
-    describe('Prognose', () => {
-        it('Should return complete erIArbeid property if it exists', () => {
-            const builtPrognose = buildPrognose(
-                false,
-                true,
-                true,
-                false,
-                null,
-                true,
-                false,
-                new Date('10-05-2020'),
-                new Date('11-05-2020'),
-                null,
-                null,
-            );
-            const expected: Prognose = {
-                arbeidsforEtterPeriode: false,
-                hensynArbeidsplassen: null,
-                erIArbeid: {
-                    annetArbeidPaSikt: true,
-                    arbeidFOM: new Date('10-05-2020'),
-                    egetArbeidPaSikt: true,
-                    vurderingsdato: new Date('11-05-2020'),
-                },
-            };
-            expect(builtPrognose).toEqual(expected);
-        });
-
-        it('Should return complete erIkkeIArbeid property if it exists', () => {
-            const builtPrognose = buildPrognose(
-                false,
-                true,
-                true,
-                false,
-                null,
-                false,
-                true,
-                null,
-                null,
-                new Date('10-05-2020'),
-                new Date('11-05-2020'),
-            );
-            const expected: Prognose = {
-                arbeidsforEtterPeriode: false,
-                hensynArbeidsplassen: null,
-                erIkkeIArbeid: {
-                    arbeidsforPaSikt: false,
-                    arbeidsforFOM: new Date('10-05-2020'),
-                    vurderingsdato: new Date('11-05-2020'),
-                },
-            };
-            expect(builtPrognose).toEqual(expected);
-        });
-
-        it('Should return complete erIArbeid and erIkkeIArbeid properties if both exist', () => {
-            const builtPrognose = buildPrognose(
-                false,
-                true,
-                true,
-                false,
-                null,
-                true,
-                true,
-                new Date('10-05-2020'),
-                new Date('10-06-2020'),
-                new Date('10-07-2020'),
-                new Date('10-08-2020'),
-            );
-            const expected: Prognose = {
-                arbeidsforEtterPeriode: false,
-                hensynArbeidsplassen: null,
-                erIArbeid: {
-                    annetArbeidPaSikt: true,
-                    arbeidFOM: new Date('10-05-2020'),
-                    egetArbeidPaSikt: true,
-                    vurderingsdato: new Date('10-06-2020'),
-                },
-                erIkkeIArbeid: {
-                    arbeidsforPaSikt: false,
-                    arbeidsforFOM: new Date('10-07-2020'),
-                    vurderingsdato: new Date('10-08-2020'),
-                },
-            };
-            expect(builtPrognose).toEqual(expected);
-        });
-
-        it('Returns prognose if only arbeidsfoerEtterPeriode is present', () => {
-            const builtPrognose = buildPrognose(true, false, false, false, 'Hensyn på arbeidsplassen');
-            const expected: Prognose = {
-                arbeidsforEtterPeriode: true,
-                hensynArbeidsplassen: 'Hensyn på arbeidsplassen',
-            };
-            expect(builtPrognose).toEqual(expected);
-        });
-
-        it('Does not return prognose if none of neither arbeidsforeEtterPeriode nor erIArbeid nor erIkkeIArbeid are present', () => {
-            const builtPrognose = buildPrognose(false, false, false, false, null, false, false);
-            expect(builtPrognose).toBeUndefined();
-        });
-    });
-
     describe('Medisinsk vurdering', () => {
         describe('Diagnose', () => {
             it('Should return diagnose', () => {
@@ -735,17 +634,6 @@ describe('registrertSykmeldingUtils', () => {
                         reisetilskuddPeriode: [new Date(), new Date()],
                     },
                 ],
-                arbeidsfoerEtterPeriode: true,
-                hensynArbeidsplassen: 'Hensyn på arbeidsplassen',
-                erIArbeid: true,
-                egetArbeidPaSikt: true,
-                annetArbeidPaSikt: true,
-                arbeidFOM: new Date(),
-                vurderingsDatoIArbeid: new Date(),
-                erIkkeIArbeid: true,
-                arbeidsforPaSikt: true,
-                arbeidsforFOM: new Date(),
-                vurderingsDatoUtenArbeid: new Date(),
                 tiltakArbeidsplassen: 'Tiltak arbeidsplassen',
                 tiltakNav: 'Tiltak NAV',
                 andreTiltak: 'Andre tiltak',
@@ -868,21 +756,6 @@ describe('registrertSykmeldingUtils', () => {
                         reisetilskudd: true,
                     },
                 ],
-                prognose: {
-                    arbeidsforEtterPeriode: schema.arbeidsfoerEtterPeriode,
-                    hensynArbeidsplassen: schema.hensynArbeidsplassen,
-                    erIArbeid: {
-                        annetArbeidPaSikt: schema.annetArbeidPaSikt,
-                        arbeidFOM: schema.arbeidFOM,
-                        egetArbeidPaSikt: schema.egetArbeidPaSikt,
-                        vurderingsdato: schema.vurderingsDatoIArbeid,
-                    },
-                    erIkkeIArbeid: {
-                        arbeidsforPaSikt: schema.arbeidsforPaSikt,
-                        arbeidsforFOM: schema.arbeidsforFOM,
-                        vurderingsdato: schema.vurderingsDatoUtenArbeid,
-                    },
-                },
                 utdypendeOpplysninger: {
                     '6.1': {
                         '6.1.1': '611',

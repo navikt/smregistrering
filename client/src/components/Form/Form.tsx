@@ -13,7 +13,6 @@ import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/Arbei
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BehandlerSection, { Behandler } from './components/formSections/BehandlerSection';
 import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection/DiagnoseSection';
-import FriskmeldingSection, { Friskmelding } from './components/formSections/FriskmeldingSection';
 import MeldingTilArbeidsgiverSection, {
     MeldingTilArbeidsgiver,
 } from './components/formSections/MeldingTilArbeidsgiverSection';
@@ -38,7 +37,6 @@ export interface FormType
         Arbeidsevne,
         MedisinskVurdering,
         MulighetForArbeid,
-        Friskmelding,
         UtdypendeOpplysninger,
         MeldingTilNav,
         MeldingTilArbeidsgiver,
@@ -86,12 +84,6 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
                     />
                     <MulighetForArbeidSection
                         section={sections.MULIGHET_FOR_ARBEID}
-                        setFormState={setFormState}
-                        formState={formState}
-                        errors={errors}
-                    />
-                    <FriskmeldingSection
-                        section={sections.FRISKMELDING_PROGNOSE}
                         setFormState={setFormState}
                         formState={formState}
                         errors={errors}
