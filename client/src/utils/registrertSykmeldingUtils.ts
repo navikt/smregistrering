@@ -10,7 +10,6 @@ import {
     Periode,
     Prognose,
     RegistrertSykmelding,
-    UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
 import { AktivitetIkkeMuligPeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
 import { AvventendePeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/AvventendePeriode';
@@ -273,44 +272,6 @@ export const buildPrognose = (
     }
 };
 
-export const buildUtdypendeOpplysninger = (schema: FormType): UtdypendeOpplysningerReturn => {
-    return {
-        6.1: {
-            '6.1.1': schema.utdypende611,
-            '6.1.2': schema.utdypende612,
-            '6.1.3': schema.utdypende613,
-            '6.1.4': schema.utdypende614,
-            '6.1.5': schema.utdypende615,
-        },
-        6.2: {
-            '6.2.1': schema.utdypende621,
-            '6.2.2': schema.utdypende622,
-            '6.2.3': schema.utdypende623,
-            '6.2.4': schema.utdypende624,
-        },
-        6.3: {
-            '6.3.1': schema.utdypende631,
-            '6.3.2': schema.utdypende632,
-        },
-        6.4: {
-            '6.4.1': schema.utdypende641,
-            '6.4.2': schema.utdypende642,
-            '6.4.3': schema.utdypende643,
-        },
-        6.5: {
-            '6.5.1': schema.utdypende651,
-            '6.5.2': schema.utdypende652,
-            '6.5.3': schema.utdypende653,
-            '6.5.4': schema.utdypende654,
-        },
-        6.6: {
-            '6.6.1': schema.utdypende661,
-            '6.6.2': schema.utdypende662,
-            '6.6.3': schema.utdypende663,
-        },
-    };
-};
-
 export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmelding | undefined => {
     // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
@@ -385,7 +346,7 @@ export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmeldin
             schema.arbeidsforFOM,
             schema.vurderingsDatoUtenArbeid,
         ),
-        utdypendeOpplysninger: buildUtdypendeOpplysninger(schema),
+        utdypendeOpplysninger: !!schema.harUtdypendeOpplysninger,
         kontaktMedPasient: {
             kontaktDato: schema.kontaktDato,
             begrunnelseIkkeKontakt: schema.begrunnelseIkkeKontakt,

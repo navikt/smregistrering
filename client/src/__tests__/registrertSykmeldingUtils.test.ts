@@ -540,140 +540,6 @@ describe('registrertSykmeldingUtils', () => {
         });
     });
 
-    describe('Utdypende opplysninger', () => {
-        it('Includes every utdypende opplysning if they exist', () => {
-            const schema: FormType = {
-                yrkesskade: false,
-                svangerskap: false,
-                biDiagnoser: [],
-                annenFraversArsak: false,
-                mulighetForArbeid: [],
-                arbeidsfoerEtterPeriode: false,
-                egetArbeidPaSikt: false,
-                annetArbeidPaSikt: false,
-                arbeidsforPaSikt: false,
-                meldingTilNavBistand: false,
-                erTilbakedatert: false,
-                kunneIkkeIvaretaEgneInteresser: false,
-                //
-                utdypende611: '611',
-                utdypende612: '612',
-                utdypende613: '613',
-                utdypende614: '614',
-                utdypende615: '615',
-                utdypende621: '621',
-                utdypende622: '622',
-                utdypende623: '623',
-                utdypende624: '624',
-                utdypende631: '631',
-                utdypende632: '632',
-                utdypende641: '641',
-                utdypende642: '642',
-                utdypende643: '643',
-                utdypende651: '651',
-                utdypende652: '652',
-                utdypende653: '653',
-                utdypende654: '654',
-                utdypende661: '661',
-                utdypende662: '662',
-                utdypende663: '663',
-            };
-
-            const expected: UtdypendeOpplysningerReturn = {
-                '6.1': {
-                    '6.1.1': '611',
-                    '6.1.2': '612',
-                    '6.1.3': '613',
-                    '6.1.4': '614',
-                    '6.1.5': '615',
-                },
-                '6.2': {
-                    '6.2.1': '621',
-                    '6.2.2': '622',
-                    '6.2.3': '623',
-                    '6.2.4': '624',
-                },
-                '6.3': {
-                    '6.3.1': '631',
-                    '6.3.2': '632',
-                },
-                '6.4': {
-                    '6.4.1': '641',
-                    '6.4.2': '642',
-                    '6.4.3': '643',
-                },
-                '6.5': {
-                    '6.5.1': '651',
-                    '6.5.2': '652',
-                    '6.5.3': '653',
-                    '6.5.4': '654',
-                },
-                '6.6': {
-                    '6.6.1': '661',
-                    '6.6.2': '662',
-                    '6.6.3': '663',
-                },
-            };
-
-            expect(buildUtdypendeOpplysninger(schema)).toEqual(expected);
-        });
-
-        it("Does not include utdypende opplysninger if they don't exist", () => {
-            const schema: FormType = {
-                yrkesskade: false,
-                svangerskap: false,
-                biDiagnoser: [],
-                annenFraversArsak: false,
-                mulighetForArbeid: [],
-                arbeidsfoerEtterPeriode: false,
-                egetArbeidPaSikt: false,
-                annetArbeidPaSikt: false,
-                arbeidsforPaSikt: false,
-                meldingTilNavBistand: false,
-                erTilbakedatert: false,
-                kunneIkkeIvaretaEgneInteresser: false,
-            };
-
-            const expected: UtdypendeOpplysningerReturn = {
-                '6.1': {
-                    '6.1.1': undefined,
-                    '6.1.2': undefined,
-                    '6.1.3': undefined,
-                    '6.1.4': undefined,
-                    '6.1.5': undefined,
-                },
-                '6.2': {
-                    '6.2.1': undefined,
-                    '6.2.2': undefined,
-                    '6.2.3': undefined,
-                    '6.2.4': undefined,
-                },
-                '6.3': {
-                    '6.3.1': undefined,
-                    '6.3.2': undefined,
-                },
-                '6.4': {
-                    '6.4.1': undefined,
-                    '6.4.2': undefined,
-                    '6.4.3': undefined,
-                },
-                '6.5': {
-                    '6.5.1': undefined,
-                    '6.5.2': undefined,
-                    '6.5.3': undefined,
-                    '6.5.4': undefined,
-                },
-                '6.6': {
-                    '6.6.1': undefined,
-                    '6.6.2': undefined,
-                    '6.6.3': undefined,
-                },
-            };
-
-            expect(buildUtdypendeOpplysninger(schema)).toEqual(expected);
-        });
-    });
-
     describe('buildRegistrertSykmelding', () => {
         it('Builds complete registrert sykmelding object', () => {
             const schema: FormType = {
@@ -771,27 +637,7 @@ describe('registrertSykmeldingUtils', () => {
                 kontaktDato: new Date('01-02-2020'),
                 kunneIkkeIvaretaEgneInteresser: true,
                 begrunnelseIkkeKontakt: 'Pasienten hadde omgangssjuke',
-                utdypende611: '611',
-                utdypende612: '612',
-                utdypende613: '613',
-                utdypende614: '614',
-                utdypende615: '615',
-                utdypende621: '621',
-                utdypende622: '622',
-                utdypende623: '623',
-                utdypende624: '624',
-                utdypende631: '631',
-                utdypende632: '632',
-                utdypende641: '641',
-                utdypende642: '642',
-                utdypende643: '643',
-                utdypende651: '651',
-                utdypende652: '652',
-                utdypende653: '653',
-                utdypende654: '654',
-                utdypende661: '661',
-                utdypende662: '662',
-                utdypende663: '663',
+                harUtdypendeOpplysninger: true,
             };
 
             const expected: RegistrertSykmelding = {
@@ -883,41 +729,7 @@ describe('registrertSykmeldingUtils', () => {
                         vurderingsdato: schema.vurderingsDatoUtenArbeid,
                     },
                 },
-                utdypendeOpplysninger: {
-                    '6.1': {
-                        '6.1.1': '611',
-                        '6.1.2': '612',
-                        '6.1.3': '613',
-                        '6.1.4': '614',
-                        '6.1.5': '615',
-                    },
-                    '6.2': {
-                        '6.2.1': '621',
-                        '6.2.2': '622',
-                        '6.2.3': '623',
-                        '6.2.4': '624',
-                    },
-                    '6.3': {
-                        '6.3.1': '631',
-                        '6.3.2': '632',
-                    },
-                    '6.4': {
-                        '6.4.1': '641',
-                        '6.4.2': '642',
-                        '6.4.3': '643',
-                    },
-                    '6.5': {
-                        '6.5.1': '651',
-                        '6.5.2': '652',
-                        '6.5.3': '653',
-                        '6.5.4': '654',
-                    },
-                    '6.6': {
-                        '6.6.1': '661',
-                        '6.6.2': '662',
-                        '6.6.3': '663',
-                    },
-                },
+                harUtdypendeOpplysninger: true,
                 tiltakArbeidsplassen: schema.tiltakArbeidsplassen,
                 tiltakNAV: schema.tiltakNav,
                 andreTiltak: schema.andreTiltak,

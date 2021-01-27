@@ -183,90 +183,7 @@ context('Oppgave mapping', () => {
                 dayjs(oppgave.papirSmRegistering.prognose.erIkkeIArbeid.vurderingsdato).format('DD.MM.YYYY'),
             );
 
-            cy.get('#utdypende611').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.1']['6.1.1'].svar,
-            );
-            cy.get('#utdypende612').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.1']['6.1.2'].svar,
-            );
-            cy.get('#utdypende613').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.1']['6.1.3'].svar,
-            );
-            cy.get('#utdypende614').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.1']['6.1.4'].svar,
-            );
-            cy.get('#utdypende615').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.1']['6.1.5'].svar,
-            );
-            cy.get('#utdypende621').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.2']['6.2.1'].svar,
-            );
-            cy.get('#utdypende622').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.2']['6.2.2'].svar,
-            );
-            cy.get('#utdypende623').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.2']['6.2.3'].svar,
-            );
-            cy.get('#utdypende624').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.2']['6.2.4'].svar,
-            );
-            cy.get('#utdypende631').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.3']['6.3.1'].svar,
-            );
-            cy.get('#utdypende632').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.3']['6.3.2'].svar,
-            );
-            cy.get('#utdypende641').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.4']['6.4.1'].svar,
-            );
-            cy.get('#utdypende642').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.4']['6.4.2'].svar,
-            );
-            cy.get('#utdypende643').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.4']['6.4.3'].svar,
-            );
-            cy.get('#utdypende651').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.5']['6.5.1'].svar,
-            );
-            cy.get('#utdypende652').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.5']['6.5.2'].svar,
-            );
-            cy.get('#utdypende653').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.5']['6.5.3'].svar,
-            );
-            cy.get('#utdypende654').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.5']['6.5.4'].svar,
-            );
-            cy.get('#utdypende661').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.6']['6.6.1'].svar,
-            );
-            cy.get('#utdypende662').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.6']['6.6.2'].svar,
-            );
-            cy.get('#utdypende663').should(
-                'have.value',
-                oppgave.papirSmRegistering.utdypendeOpplysninger['6.6']['6.6.3'].svar,
-            );
+            cy.get('#harUtdypendeOpplysninger').should('not.be.checked');
 
             cy.get('#tiltakArbeidsplassen').should('have.value', oppgave.papirSmRegistering.tiltakArbeidsplassen);
             cy.get('#tiltakNav').should('have.value', oppgave.papirSmRegistering.tiltakNAV);
@@ -375,27 +292,7 @@ context('Oppgave mapping', () => {
         cy.get('#arbeidsforFOM').should('not.exist');
         cy.get('#vurderingsDatoUtenArbeid').should('not.exist');
 
-        cy.get('#utdypende611').should('not.exist');
-        cy.get('#utdypende612').should('not.exist');
-        cy.get('#utdypende613').should('not.exist');
-        cy.get('#utdypende614').should('not.exist');
-        cy.get('#utdypende615').should('not.exist');
-        cy.get('#utdypende621').should('not.exist');
-        cy.get('#utdypende622').should('not.exist');
-        cy.get('#utdypende623').should('not.exist');
-        cy.get('#utdypende624').should('not.exist');
-        cy.get('#utdypende631').should('not.exist');
-        cy.get('#utdypende632').should('not.exist');
-        cy.get('#utdypende641').should('not.exist');
-        cy.get('#utdypende642').should('not.exist');
-        cy.get('#utdypende643').should('not.exist');
-        cy.get('#utdypende651').should('not.exist');
-        cy.get('#utdypende652').should('not.exist');
-        cy.get('#utdypende653').should('not.exist');
-        cy.get('#utdypende654').should('not.exist');
-        cy.get('#utdypende661').should('not.exist');
-        cy.get('#utdypende662').should('not.exist');
-        cy.get('#utdypende663').should('not.exist');
+        cy.get('#harUtdypendeOpplysninger').should('not.be.checked');
 
         cy.get('#tiltakArbeidsplassen').should('not.have.value');
         cy.get('#tiltakNav').should('not.have.value');
