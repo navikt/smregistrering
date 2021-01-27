@@ -6,7 +6,6 @@ import {
     Periode,
     Prognose,
     RegistrertSykmelding,
-    UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
 import { DiagnosekodeSystem } from '../types/Diagnosekode';
 import { FormType } from '../components/Form/Form';
@@ -24,7 +23,6 @@ import {
     buildPrognose,
     buildRegistrertSykmelding,
     buildReisetilskuddSykmelding,
-    buildUtdypendeOpplysninger,
 } from '../utils/registrertSykmeldingUtils';
 
 describe('registrertSykmeldingUtils', () => {
@@ -287,6 +285,7 @@ describe('registrertSykmeldingUtils', () => {
                 arbeidsforPaSikt: false,
                 meldingTilNavBistand: false,
                 erTilbakedatert: false,
+                harUtdypendeOpplysninger: false,
                 kunneIkkeIvaretaEgneInteresser: false,
                 mulighetForArbeid: [
                     {

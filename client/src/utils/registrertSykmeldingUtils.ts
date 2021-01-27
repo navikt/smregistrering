@@ -346,7 +346,7 @@ export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmeldin
             schema.arbeidsforFOM,
             schema.vurderingsDatoUtenArbeid,
         ),
-        utdypendeOpplysninger: !!schema.harUtdypendeOpplysninger,
+        harUtdypendeOpplysninger: !!schema.harUtdypendeOpplysninger,
         kontaktMedPasient: {
             kontaktDato: schema.kontaktDato,
             begrunnelseIkkeKontakt: schema.begrunnelseIkkeKontakt,

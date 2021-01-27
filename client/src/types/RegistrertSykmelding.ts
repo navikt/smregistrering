@@ -195,11 +195,6 @@ export const Behandler = iots.intersection([
 ]);
 export type Behandler = iots.TypeOf<typeof Behandler>;
 
-export const UtdypendeOpplysningerReturn = iots.partial({
-    harUtdypendeOpplysninger: iots.boolean,
-});
-export type UtdypendeOpplysningerReturn = iots.TypeOf<typeof UtdypendeOpplysningerReturn>;
-
 export const KontaktMedPasient = iots.partial({
     kontaktDato: iots.union([DateFromString, iots.null]),
     begrunnelseIkkeKontakt: iots.union([iots.string, iots.null]),
