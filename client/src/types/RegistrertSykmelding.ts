@@ -162,87 +162,6 @@ export const Behandler = iots.intersection([
 ]);
 export type Behandler = iots.TypeOf<typeof Behandler>;
 
-const UtdypendeOpplysning = iots.type({
-    sporsmal: iots.string,
-    svar: iots.string,
-    restriksjoner: iots.array(iots.string),
-});
-export type UtdypendeOpplysning = iots.TypeOf<typeof UtdypendeOpplysning>;
-
-export const UtdypendeOpplysninger = iots.partial({
-    '6.1': iots.partial({
-        '6.1.1': UtdypendeOpplysning,
-        '6.1.2': UtdypendeOpplysning,
-        '6.1.3': UtdypendeOpplysning,
-        '6.1.4': UtdypendeOpplysning,
-        '6.1.5': UtdypendeOpplysning,
-    }),
-    '6.2': iots.partial({
-        '6.2.1': UtdypendeOpplysning,
-        '6.2.2': UtdypendeOpplysning,
-        '6.2.3': UtdypendeOpplysning,
-        '6.2.4': UtdypendeOpplysning,
-    }),
-    '6.3': iots.partial({
-        '6.3.1': UtdypendeOpplysning,
-        '6.3.2': UtdypendeOpplysning,
-    }),
-    '6.4': iots.partial({
-        '6.4.1': UtdypendeOpplysning,
-        '6.4.2': UtdypendeOpplysning,
-        '6.4.3': UtdypendeOpplysning,
-    }),
-    '6.5': iots.partial({
-        '6.5.1': UtdypendeOpplysning,
-        '6.5.2': UtdypendeOpplysning,
-        '6.5.3': UtdypendeOpplysning,
-        '6.5.4': UtdypendeOpplysning,
-    }),
-    '6.6': iots.partial({
-        '6.6.1': UtdypendeOpplysning,
-        '6.6.2': UtdypendeOpplysning,
-        '6.6.3': UtdypendeOpplysning,
-    }),
-});
-export type UtdypendeOpplysninger = iots.TypeOf<typeof UtdypendeOpplysninger>;
-
-export const UtdypendeOpplysningerReturn = iots.partial({
-    '6.1': iots.partial({
-        '6.1.1': iots.string,
-        '6.1.2': iots.string,
-        '6.1.3': iots.string,
-        '6.1.4': iots.string,
-        '6.1.5': iots.string,
-    }),
-    '6.2': iots.partial({
-        '6.2.1': iots.string,
-        '6.2.2': iots.string,
-        '6.2.3': iots.string,
-        '6.2.4': iots.string,
-    }),
-    '6.3': iots.partial({
-        '6.3.1': iots.string,
-        '6.3.2': iots.string,
-    }),
-    '6.4': iots.partial({
-        '6.4.1': iots.string,
-        '6.4.2': iots.string,
-        '6.4.3': iots.string,
-    }),
-    '6.5': iots.partial({
-        '6.5.1': iots.string,
-        '6.5.2': iots.string,
-        '6.5.3': iots.string,
-        '6.5.4': iots.string,
-    }),
-    '6.6': iots.partial({
-        '6.6.1': iots.string,
-        '6.6.2': iots.string,
-        '6.6.3': iots.string,
-    }),
-});
-export type UtdypendeOpplysningerReturn = iots.TypeOf<typeof UtdypendeOpplysningerReturn>;
-
 export const KontaktMedPasient = iots.partial({
     kontaktDato: iots.union([DateFromString, iots.null]),
     begrunnelseIkkeKontakt: iots.union([iots.string, iots.null]),
@@ -265,7 +184,7 @@ export const RegistrertSykmelding = iots.intersection([
         syketilfelleStartDato: iots.union([DateFromString, iots.null]),
         meldingTilNAV: MeldingTilNAV,
         meldingTilArbeidsgiver: iots.union([iots.string, iots.null]),
-        utdypendeOpplysninger: UtdypendeOpplysningerReturn,
+        harUtdypendeOpplysninger: iots.boolean,
         navnFastlege: iots.union([iots.string, iots.null]),
     }),
 ]);

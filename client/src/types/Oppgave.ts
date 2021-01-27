@@ -7,7 +7,6 @@ import {
     MedisinskVurdering,
     MeldingTilNAV,
     Periode,
-    UtdypendeOpplysninger,
 } from './RegistrertSykmelding';
 import { Base64Pdf, DateFromString, DateTimeFromString } from './CustomTypes';
 
@@ -19,7 +18,6 @@ const PapirSmRegistering = iots.partial({
     medisinskVurdering: iots.union([MedisinskVurdering, iots.null]),
     skjermesForPasient: iots.union([iots.boolean, iots.null]),
     perioder: iots.union([iots.array(Periode), iots.null]),
-    utdypendeOpplysninger: iots.union([UtdypendeOpplysninger, iots.null]),
     meldingTilNAV: iots.union([MeldingTilNAV, iots.null]),
     meldingTilArbeidsgiver: iots.union([iots.string, iots.null]),
     kontaktMedPasient: iots.union([KontaktMedPasient, iots.null]),
