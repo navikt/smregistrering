@@ -24,7 +24,18 @@ const UtdypendeOpplysningerSection = ({
 }: UtdypendeOpplysningerSectionProps) => {
     return (
         <SectionContainer section={section}>
-            <Checkbox id="harUtdypendeOpplysninger" label="Sykmeldingen har utdypende opplysninger" />
+            <Checkbox
+                id="harUtdypendeOpplysninger"
+                label="Sykmeldingen har utdypende opplysninger"
+                checked={formState.harUtdypendeOpplysninger}
+                onClick={() =>
+                    setFormState((formState) => ({
+                        ...formState,
+                        harUtdypendeOpplysninger: !formState.harUtdypendeOpplysninger,
+                    }))
+                }
+                feil={errors.get('harUtdypendeOpplysninger')}
+            />
         </SectionContainer>
     );
 };

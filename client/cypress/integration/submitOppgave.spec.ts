@@ -157,7 +157,7 @@ context('Submit oppgave', () => {
         cy.getAndScrollIntoView('#vurderingsDatoUtenArbeid').focus().should('be.focused').type('25.10.2020');
 
         // 6 Utdypende opplysninger
-        cy.getAndScrollIntoView('#harUtdypendeOpplysninger').click({ force: true });
+        cy.getAndScrollIntoView('#harUtdypendeOpplysninger').click({ force: true }).should('be.checked');
 
         // 7 Hva skal til for å bedre arbeidsevnen
         cy.getAndScrollIntoView('#tiltakArbeidsplassen').type('Tiltak på arbeidsplassen', { force: true });
