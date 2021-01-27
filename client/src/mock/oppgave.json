@@ -103,21 +103,6 @@
                 "reisetilskudd": true
             }
         ],
-        "prognose": {
-            "arbeidsforEtterPeriode": true,
-            "hensynArbeidsplassen": "Dette er hensyn som må tas på arbeidsplassen",
-            "erIArbeid": {
-                "egetArbeidPaSikt": true,
-                "annetArbeidPaSikt": true,
-                "arbeidFOM": "2020-06-01",
-                "vurderingsdato": "2020-06-01"
-            },
-            "erIkkeIArbeid": {
-                "arbeidsforPaSikt": true,
-                "arbeidsforFOM": "2020-06-01",
-                "vurderingsdato": "2020-06-01"
-            }
-        },
         "utdypendeOpplysninger": {
             "6.1": {
                 "6.1.1": {

@@ -216,25 +216,6 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         return undefined;
     },
 
-    // Friskmelding
-    arbeidsfoerEtterPeriode: () => undefined,
-    hensynArbeidsplassen: () => undefined,
-    erIArbeid: () => undefined,
-    erIkkeIArbeid: () => undefined,
-    egetArbeidPaSikt: () => undefined,
-    annetArbeidPaSikt: () => undefined,
-    arbeidFOM: (schema) => {
-        if (schema.erIArbeid && schema.egetArbeidPaSikt) {
-            if (schema.arbeidFOM === undefined) {
-                return 'Du må svare på når pasienten på sikt kan komme tilbake til samme arbeidsgiver';
-            }
-        }
-    },
-    vurderingsDatoIArbeid: () => undefined,
-    arbeidsforPaSikt: () => undefined,
-    arbeidsforFOM: () => undefined,
-    vurderingsDatoUtenArbeid: () => undefined,
-
     // Utdypende opplysninger
     utdypende611: () => undefined,
     utdypende612: () => undefined,

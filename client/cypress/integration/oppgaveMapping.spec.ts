@@ -155,34 +155,6 @@ context('Oppgave mapping', () => {
             // END - Mulighet for arbeid
             //
 
-            cy.get('#arbeidsfoerEtterPeriode').should('be.checked');
-            cy.get('#hensynArbeidsplassen').should(
-                'have.value',
-                oppgave.papirSmRegistering.prognose.hensynArbeidsplassen,
-            );
-
-            cy.get('#erIArbeid').should('be.checked');
-            cy.get('#egetArbeidPaSikt').should('be.checked');
-            cy.get('#arbeidFOM').should(
-                'have.value',
-                dayjs(oppgave.papirSmRegistering.prognose.erIArbeid.arbeidFOM).format('DD.MM.YYYY'),
-            );
-            cy.get('#annetArbeidPaSikt').should('be.checked');
-            cy.get('#vurderingsDatoIArbeid').should(
-                'have.value',
-                dayjs(oppgave.papirSmRegistering.prognose.erIArbeid.vurderingsdato).format('DD.MM.YYYY'),
-            );
-            cy.get('#erIkkeIArbeid').should('be.checked');
-            cy.get('#arbeidsforPaSikt').should('be.checked');
-            cy.get('#arbeidsforFOM').should(
-                'have.value',
-                dayjs(oppgave.papirSmRegistering.prognose.erIkkeIArbeid.arbeidsforFOM).format('DD.MM.YYYY'),
-            );
-            cy.get('#vurderingsDatoUtenArbeid').should(
-                'have.value',
-                dayjs(oppgave.papirSmRegistering.prognose.erIkkeIArbeid.vurderingsdato).format('DD.MM.YYYY'),
-            );
-
             cy.get('#utdypende611').should(
                 'have.value',
                 oppgave.papirSmRegistering.utdypendeOpplysninger['6.1']['6.1.1'].svar,
@@ -360,16 +332,6 @@ context('Oppgave mapping', () => {
 
         cy.get('#arbeidsfoerEtterPeriode').should('not.be.checked');
         cy.get('#hensynArbeidsplassen').should('not.exist');
-
-        cy.get('#erIArbeid').should('not.be.checked');
-        cy.get('#egetArbeidPaSikt').should('not.exist');
-        cy.get('#arbeidFOM').should('not.exist');
-        cy.get('#annetArbeidPaSikt').should('not.exist');
-        cy.get('#vurderingsDatoIArbeid').should('not.exist');
-        cy.get('#erIkkeIArbeid').should('not.be.checked');
-        cy.get('#arbeidsforPaSikt').should('not.exist');
-        cy.get('#arbeidsforFOM').should('not.exist');
-        cy.get('#vurderingsDatoUtenArbeid').should('not.exist');
 
         cy.get('#utdypende611').should('not.exist');
         cy.get('#utdypende612').should('not.exist');

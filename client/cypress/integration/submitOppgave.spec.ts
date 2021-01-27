@@ -142,20 +142,6 @@ context('Submit oppgave', () => {
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-4').select('reisetilskudd', { force: true });
         cy.getAndScrollIntoView('#reisetilskuddPeriode-4').focus().should('be.focused').type('01.05.2020 - 03.05.2020');
 
-        // 5 Prognose
-        cy.getAndScrollIntoView('#arbeidsfoerEtterPeriode').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#hensynArbeidsplassen').type('Hensyn arbeidsplassen', { force: true });
-        cy.getAndScrollIntoView('#erIArbeid').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#egetArbeidPaSikt').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#arbeidFOM').focus().should('be.focused').type('21.10.2020');
-        cy.getAndScrollIntoView('#annetArbeidPaSikt').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#vurderingsDatoIArbeid').focus().should('be.focused').type('24.10.2020');
-
-        cy.getAndScrollIntoView('#erIkkeIArbeid').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#arbeidsforPaSikt').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#arbeidsforFOM').focus().should('be.focused').type('10.10.2020');
-        cy.getAndScrollIntoView('#vurderingsDatoUtenArbeid').focus().should('be.focused').type('25.10.2020');
-
         // 6 Utdypende opplysninger
         cy.getAndScrollIntoView('#utdypende61').click();
         cy.getAndScrollIntoView('#utdypende611').type('utdypende611', { force: true });
@@ -290,21 +276,6 @@ context('Submit oppgave', () => {
                 },
                 meldingTilArbeidsgiver: 'Melding til arbeidsgiver',
                 meldingTilNAV: { bistandUmiddelbart: true, beskrivBistand: 'Meldin til NAV' },
-                prognose: {
-                    arbeidsforEtterPeriode: true,
-                    hensynArbeidsplassen: 'Hensyn arbeidsplassen',
-                    erIArbeid: {
-                        egetArbeidPaSikt: true,
-                        annetArbeidPaSikt: true,
-                        arbeidFOM: '2020-10-21',
-                        vurderingsdato: '2020-10-24',
-                    },
-                    erIkkeIArbeid: {
-                        arbeidsforPaSikt: true,
-                        arbeidsforFOM: '2020-10-10',
-                        vurderingsdato: '2020-10-25',
-                    },
-                },
                 utdypendeOpplysninger: {
                     '6.1': {
                         '6.1.1': 'utdypende611',
