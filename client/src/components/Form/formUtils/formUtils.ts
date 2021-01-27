@@ -163,11 +163,6 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
         utdypende662: oppgave.papirSmRegistering?.utdypendeOpplysninger?.['6.6']?.['6.6.2']?.svar,
         utdypende663: oppgave.papirSmRegistering?.utdypendeOpplysninger?.['6.6']?.['6.6.3']?.svar,
 
-        // Arbeidsevne
-        tiltakNav: oppgave.papirSmRegistering?.tiltakNAV,
-        tiltakArbeidsplassen: oppgave.papirSmRegistering?.tiltakArbeidsplassen,
-        andreTiltak: oppgave.papirSmRegistering?.andreTiltak,
-
         // MeldingTilNav
         meldingTilNavBistand: !!oppgave.papirSmRegistering?.meldingTilNAV?.bistandUmiddelbart,
         meldingTilNavBegrunn: oppgave.papirSmRegistering?.meldingTilNAV?.beskrivBistand,

@@ -9,7 +9,6 @@ import FormReject from './components/FormReject';
 import FormSubmit from './components/FormSubmit';
 import Panel from '../Panel/Panel';
 import useForm from './formUtils/useForm';
-import ArbeidsevneSection, { Arbeidsevne } from './components/formSections/ArbeidsevneSection';
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BehandlerSection, { Behandler } from './components/formSections/BehandlerSection';
 import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection/DiagnoseSection';
@@ -35,7 +34,6 @@ import { validationFunctions } from './validation';
 export interface FormType
     extends Pasientopplysninger,
         Arbeidsgiver,
-        Arbeidsevne,
         MedisinskVurdering,
         MulighetForArbeid,
         Friskmelding,
@@ -98,12 +96,6 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
                     />
                     <UtdypendeOpplysningerSection
                         section={sections.UTDYPENDE_OPPLYSNINGER}
-                        setFormState={setFormState}
-                        formState={formState}
-                        errors={errors}
-                    />
-                    <ArbeidsevneSection
-                        section={sections.ARBEIDSEVNE}
                         setFormState={setFormState}
                         formState={formState}
                         errors={errors}

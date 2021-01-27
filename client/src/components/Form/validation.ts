@@ -258,11 +258,6 @@ export const validationFunctions: ValidationFunctions<FormType> = {
     utdypende662: () => undefined,
     utdypende663: () => undefined,
 
-    // Arbeidsevne
-    tiltakArbeidsplassen: () => undefined,
-    tiltakNav: () => undefined,
-    andreTiltak: () => undefined,
-
     // MeldingTilNav
     meldingTilNavBistand: () => undefined,
     meldingTilNavBegrunn: () => undefined,

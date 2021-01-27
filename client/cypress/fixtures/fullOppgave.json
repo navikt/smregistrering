@@ -222,9 +222,6 @@
                 }
             }
         },
-        "tiltakNAV": "Dette er tiltak som må gjøres av NAV",
-        "tiltakArbeidsplassen": "Dette er tiltak som må gjøres på arbeidsplassen",
-        "andreTiltak": "Dette er andre tiltak",
         "meldingTilNAV": { "bistandUmiddelbart": true, "beskrivBistand": "Dette er en beskrivelse av bistand" },
         "meldingTilArbeidsgiver": "Melding til arbeidsgiver",
         "kontaktMedPasient": {

@@ -369,9 +369,6 @@ export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmeldin
             bistandUmiddelbart: schema.meldingTilNavBistand,
             beskrivBistand: schema.meldingTilNavBegrunn,
         },
-        tiltakNAV: schema.tiltakNav,
-        tiltakArbeidsplassen: schema.tiltakArbeidsplassen,
-        andreTiltak: schema.andreTiltak,
         prognose: buildPrognose(
             schema.arbeidsfoerEtterPeriode,
             schema.egetArbeidPaSikt,

@@ -268,10 +268,6 @@ context('Oppgave mapping', () => {
                 oppgave.papirSmRegistering.utdypendeOpplysninger['6.6']['6.6.3'].svar,
             );
 
-            cy.get('#tiltakArbeidsplassen').should('have.value', oppgave.papirSmRegistering.tiltakArbeidsplassen);
-            cy.get('#tiltakNav').should('have.value', oppgave.papirSmRegistering.tiltakNAV);
-            cy.get('#andreTiltak').should('have.value', oppgave.papirSmRegistering.andreTiltak);
-
             cy.get('#meldingTilNavBistand').should('be.checked');
             cy.get('#meldingTilNavBegrunn').should(
                 'have.value',
@@ -396,10 +392,6 @@ context('Oppgave mapping', () => {
         cy.get('#utdypende661').should('not.exist');
         cy.get('#utdypende662').should('not.exist');
         cy.get('#utdypende663').should('not.exist');
-
-        cy.get('#tiltakArbeidsplassen').should('not.have.value');
-        cy.get('#tiltakNav').should('not.have.value');
-        cy.get('#andreTiltak').should('not.have.value');
 
         cy.get('#meldingTilNavBistand').should('not.be.checked');
         cy.get('#meldingTilNavBegrunn').should('not.exist');

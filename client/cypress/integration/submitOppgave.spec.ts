@@ -190,11 +190,6 @@ context('Submit oppgave', () => {
         cy.getAndScrollIntoView('#utdypende662').type('utdypende662', { force: true });
         cy.getAndScrollIntoView('#utdypende663').type('utdypende663', { force: true });
 
-        // 7 Hva skal til for å bedre arbeidsevnen
-        cy.getAndScrollIntoView('#tiltakArbeidsplassen').type('Tiltak på arbeidsplassen', { force: true });
-        cy.getAndScrollIntoView('#tiltakNav').type('Tiltak NAV', { force: true });
-        cy.getAndScrollIntoView('#andreTiltak').type('Andre tiltak', { force: true });
-
         // 8 Melding til NAV
         cy.getAndScrollIntoView('#meldingTilNavBistand').click({ force: true }).should('be.checked');
         cy.getAndScrollIntoView('#meldingTilNavBegrunn').type('Meldin til NAV', { force: true });
@@ -295,9 +290,6 @@ context('Submit oppgave', () => {
                 },
                 meldingTilArbeidsgiver: 'Melding til arbeidsgiver',
                 meldingTilNAV: { bistandUmiddelbart: true, beskrivBistand: 'Meldin til NAV' },
-                tiltakNAV: 'Tiltak NAV',
-                tiltakArbeidsplassen: 'Tiltak på arbeidsplassen',
-                andreTiltak: 'Andre tiltak',
                 prognose: {
                     arbeidsforEtterPeriode: true,
                     hensynArbeidsplassen: 'Hensyn arbeidsplassen',
