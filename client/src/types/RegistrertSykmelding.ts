@@ -27,12 +27,6 @@ export enum AnnenFraverGrunn {
     BEHANDLING_STERILISERING = 'Når vedkommende er arbeidsufør som følge av behandling i forbindelse med sterilisering',
 }
 
-export enum HarArbeidsgiver {
-    EN_ARBEIDSGIVER = 'Én arbeidsgiver',
-    FLERE_ARBEIDSGIVERE = 'Flere arbeidsgivere',
-    INGEN_ARBEIDSGIVER = 'Ingen arbeidsgiver',
-}
-
 const MedisinskArsak = iots.intersection([
     iots.type({
         arsak: iots.array(iots.keyof(MedisinskArsakType)),
@@ -114,18 +108,6 @@ export const MedisinskVurdering = iots.intersection([
     }),
 ]);
 export type MedisinskVurdering = iots.TypeOf<typeof MedisinskVurdering>;
-
-export const Arbeidsgiver = iots.intersection([
-    iots.type({
-        harArbeidsgiver: iots.keyof(HarArbeidsgiver),
-    }),
-    iots.partial({
-        navn: iots.union([iots.string, iots.null]),
-        yrkesbetegnelse: iots.union([iots.string, iots.null]),
-        stillingsprosent: iots.union([iots.number, iots.null]),
-    }),
-]);
-export type Arbeidsgiver = iots.TypeOf<typeof Arbeidsgiver>;
 
 const ErIArbeid = iots.intersection([
     iots.type({
@@ -288,7 +270,6 @@ export const RegistrertSykmelding = iots.intersection([
         sykmelderFnr: iots.string,
         perioder: iots.array(Periode),
         medisinskVurdering: MedisinskVurdering,
-        arbeidsgiver: Arbeidsgiver,
         behandletDato: DateFromString,
         skjermesForPasient: iots.boolean,
         behandler: Behandler,

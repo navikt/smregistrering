@@ -36,9 +36,6 @@ describe('RegistrertSykmelding', () => {
                 ],
             },
             syketilfelleStartDato: new Date('2020-04-22T14:12:25.731Z'),
-            arbeidsgiver: {
-                harArbeidsgiver: 'EN_ARBEIDSGIVER',
-            },
             behandletDato: new Date('2020-04-22T14:12:25.731Z'),
             skjermesForPasient: false,
             kontaktMedPasient: {},

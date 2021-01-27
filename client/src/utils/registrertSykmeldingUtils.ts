@@ -316,7 +316,6 @@ export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmeldin
     if (
         !schema.pasientFnr ||
         !schema.hpr ||
-        !schema.harArbeidsgiver ||
         !schema.behandletDato ||
         schema.skjermesForPasient === undefined ||
         schema.skjermesForPasient === null
@@ -341,12 +340,6 @@ export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmeldin
             ),
         },
         syketilfelleStartDato: schema.syketilfelleStartDato,
-        arbeidsgiver: {
-            harArbeidsgiver: schema.harArbeidsgiver,
-            navn: schema.arbeidsgiverNavn,
-            yrkesbetegnelse: schema.yrkesbetegnelse,
-            stillingsprosent: schema.stillingsprosent,
-        },
         behandletDato: schema.behandletDato,
         skjermesForPasient: schema.skjermesForPasient,
         behandler: {

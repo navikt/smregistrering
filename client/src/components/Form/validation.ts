@@ -24,26 +24,6 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         return undefined;
     },
 
-    // Arbeidsgiver
-    harArbeidsgiver: (schema) => {
-        if (!schema.harArbeidsgiver) {
-            return 'Arbeidssituasjon må være definert';
-        }
-        return undefined;
-    },
-    arbeidsgiverNavn: (schema) => {
-        return undefined;
-    },
-    yrkesbetegnelse: (schema) => {
-        return undefined;
-    },
-    stillingsprosent: (schema) => {
-        if (schema.stillingsprosent && (schema.stillingsprosent > 100 || schema.stillingsprosent < 0)) {
-            return 'Stillingsprosenten må være mellom 0 og 100';
-        }
-        return undefined;
-    },
-
     // Diagnose
     hovedDiagnose: (schema) => {
         if (schema.hovedDiagnose && schema.hovedDiagnose.system) {

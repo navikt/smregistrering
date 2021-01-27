@@ -11,12 +11,6 @@
         "datoOpprettet": "2020-02-19T08:14:24",
         "sykmeldingId": "a62a4ab1-aaf2-4394-9b16-0507583bcab3",
         "syketilfelleStartDato": "2020-08-06",
-        "arbeidsgiver": {
-            "harArbeidsgiver": "EN_ARBEIDSGIVER",
-            "navn": "Langtvekkistan politidistrikt",
-            "yrkesbetegnelse": "Politi",
-            "stillingsprosent": 100
-        },
         "medisinskVurdering": {
             "hovedDiagnose": { "system": "2.16.578.1.12.4.1.1.7110", "kode": "A009", "tekst": "Uspesifisert kolera" },
             "biDiagnoser": [

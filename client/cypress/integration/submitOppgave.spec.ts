@@ -57,12 +57,6 @@ context('Submit oppgave', () => {
         // 1 Pasientopplysninger
         cy.getAndScrollIntoView('#pasientFnr').type('12345678910');
 
-        // 2 Arbeidsgiver
-        cy.getAndScrollIntoView('#harArbeidsgiver').select('EN_ARBEIDSGIVER');
-        cy.getAndScrollIntoView('#arbeidsgiverNavn').type('Politiet');
-        cy.getAndScrollIntoView('#yrkesbetegnelse').type('Politibetjent');
-        cy.getAndScrollIntoView('#stillingsprosent').type('25');
-
         // 3 Diagnose
         cy.getAndScrollIntoView('#hovedDiagnose').within(() => {
             cy.getAndScrollIntoView('#hovedDiagnose-system')
@@ -275,12 +269,6 @@ context('Submit oppgave', () => {
                         grunn: ['GODKJENT_HELSEINSTITUSJON'],
                         beskrivelse: 'Dette er en beskrivelse av fraværet',
                     },
-                },
-                arbeidsgiver: {
-                    harArbeidsgiver: 'EN_ARBEIDSGIVER',
-                    navn: 'Politiet',
-                    yrkesbetegnelse: 'Politibetjent',
-                    stillingsprosent: 25,
                 },
                 behandletDato: '2020-02-01',
                 skjermesForPasient: true,

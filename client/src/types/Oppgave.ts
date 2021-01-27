@@ -1,7 +1,7 @@
 import * as iots from 'io-ts';
 
+import { Base64Pdf, DateFromString, DateTimeFromString } from './CustomTypes';
 import {
-    Arbeidsgiver,
     Behandler,
     KontaktMedPasient,
     MedisinskVurdering,
@@ -10,13 +10,11 @@ import {
     Prognose,
     UtdypendeOpplysninger,
 } from './RegistrertSykmelding';
-import { Base64Pdf, DateFromString, DateTimeFromString } from './CustomTypes';
 
 const PapirSmRegistering = iots.partial({
     fnr: iots.union([iots.string, iots.null]),
     datoOpprettet: iots.union([DateTimeFromString, iots.null]),
     syketilfelleStartDato: iots.union([DateFromString, iots.null]),
-    arbeidsgiver: iots.union([Arbeidsgiver, iots.null]),
     medisinskVurdering: iots.union([MedisinskVurdering, iots.null]),
     skjermesForPasient: iots.union([iots.boolean, iots.null]),
     perioder: iots.union([iots.array(Periode), iots.null]),

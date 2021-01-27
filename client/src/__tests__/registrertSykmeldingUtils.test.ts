@@ -752,10 +752,6 @@ describe('registrertSykmeldingUtils', () => {
                 meldingTilNavBistand: true,
                 meldingTilNavBegrunn: 'Melding til NAV',
                 meldingTilArbeidsgiverBeskriv: 'Melding til arbeidsgiver',
-                harArbeidsgiver: 'EN_ARBEIDSGIVER',
-                arbeidsgiverNavn: 'Olav Normann',
-                yrkesbetegnelse: 'Brannmann',
-                stillingsprosent: 100,
                 sykmelderFnr: '12345678910',
                 aktoerId: '1245',
                 sykmeldersEtternavn: 'Legesen',
@@ -797,12 +793,6 @@ describe('registrertSykmeldingUtils', () => {
             const expected: RegistrertSykmelding = {
                 syketilfelleStartDato: schema.syketilfelleStartDato!,
                 pasientFnr: schema.pasientFnr!,
-                arbeidsgiver: {
-                    harArbeidsgiver: schema.harArbeidsgiver!,
-                    navn: schema.arbeidsgiverNavn,
-                    yrkesbetegnelse: schema.yrkesbetegnelse,
-                    stillingsprosent: schema.stillingsprosent,
-                },
                 medisinskVurdering: {
                     svangerskap: schema.svangerskap,
                     yrkesskade: schema.yrkesskade,

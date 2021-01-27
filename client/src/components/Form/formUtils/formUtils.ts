@@ -96,12 +96,6 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
         // Pasientopplysninger
         pasientFnr: oppgave.papirSmRegistering?.fnr,
 
-        // Arbeidsgiver
-        harArbeidsgiver: oppgave.papirSmRegistering?.arbeidsgiver?.harArbeidsgiver,
-        arbeidsgiverNavn: oppgave.papirSmRegistering?.arbeidsgiver?.navn,
-        yrkesbetegnelse: oppgave.papirSmRegistering?.arbeidsgiver?.yrkesbetegnelse,
-        stillingsprosent: oppgave.papirSmRegistering?.arbeidsgiver?.stillingsprosent,
-
         // Diagnose
         yrkesskade: !!oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskade,
         yrkesskadeDato: oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskadeDato,

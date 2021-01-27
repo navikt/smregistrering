@@ -25,12 +25,6 @@ context('Oppgave mapping', () => {
 
         cy.fixture('fullOppgave').then((oppgave: Oppgave) => {
             cy.get('#pasientFnr').should('have.value', oppgave.fnr);
-            cy.get('#harArbeidsgiver')
-                .should('have.value', oppgave.papirSmRegistering.arbeidsgiver.harArbeidsgiver)
-                .and('be.visible');
-            cy.get('#arbeidsgiverNavn').should('have.value', oppgave.papirSmRegistering.arbeidsgiver.navn);
-            cy.get('#yrkesbetegnelse').should('have.value', oppgave.papirSmRegistering.arbeidsgiver.yrkesbetegnelse);
-            cy.get('#stillingsprosent').should('have.value', oppgave.papirSmRegistering.arbeidsgiver.stillingsprosent);
 
             cy.get('#hovedDiagnose').within(() => {
                 cy.get('#hovedDiagnose-system').should(
@@ -312,10 +306,6 @@ context('Oppgave mapping', () => {
         cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
 
         cy.get('#pasientFnr').should('not.have.value');
-        cy.get('#harArbeidsgiver').should('not.have.value');
-        cy.get('#arbeidsgiverNavn').should('not.have.value');
-        cy.get('#yrkesbetegnelse').should('not.have.value');
-        cy.get('#stillingsprosent').should('not.have.value');
 
         cy.get('#hovedDiagnose').within(() => {
             cy.get('#hovedDiagnose-system').should('not.have.value');
