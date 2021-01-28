@@ -7,6 +7,7 @@ import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { EtikettAdvarsel, EtikettSuksess } from 'nav-frontend-etiketter';
 
 import FormLabel from './FormLabel';
+import Row from './Row';
 import { Helsepersonellkategori, Sykmelder, autorisasjon } from '../../../../types/Sykmelder';
 
 interface SykmelderInformationProps {
@@ -20,11 +21,11 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
 
     return (
         <article className="sykmelder-information">
-            <header>
+            <header className="sykmelder-information__header">
                 <Undertittel tag="h3">Informasjon om behandleren</Undertittel>
             </header>
             <div className="sykmelder-information__content">
-                <div className="sykmelder-information__col">
+                <Row>
                     {sykmelder.fornavn ? (
                         <section>
                             <Element tag="h4">Navn</Element>
@@ -37,8 +38,8 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
                         <Element tag="h4">Fødselsnummer</Element>
                         <Normaltekst>{sykmelder.fnr}</Normaltekst>
                     </section>
-                </div>
-                <section className="sykmelder-information__col">
+                </Row>
+                <section>
                     <FormLabel
                         label="Autorisasjoner"
                         helpText="Viser behandlers lisenser og autorisasjoner fra Helsedirektoratet."
@@ -58,11 +59,7 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
                                         return (
                                             <tr key={index}>
                                                 <td>
-                                                    {
-                                                        Helsepersonellkategori[
-                                                            godkjenning.helsepersonellkategori.verdi
-                                                        ]
-                                                    }
+                                                    {Helsepersonellkategori[godkjenning.helsepersonellkategori.verdi]}
                                                 </td>
                                                 <td>
                                                     {`${godkjenning.autorisasjon.verdi} ${
