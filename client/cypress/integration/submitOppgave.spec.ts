@@ -142,58 +142,8 @@ context('Submit oppgave', () => {
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-4').select('reisetilskudd', { force: true });
         cy.getAndScrollIntoView('#reisetilskuddPeriode-4').focus().should('be.focused').type('01.05.2020 - 03.05.2020');
 
-        // 5 Prognose
-        cy.getAndScrollIntoView('#arbeidsfoerEtterPeriode').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#hensynArbeidsplassen').type('Hensyn arbeidsplassen', { force: true });
-        cy.getAndScrollIntoView('#erIArbeid').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#egetArbeidPaSikt').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#arbeidFOM').focus().should('be.focused').type('21.10.2020');
-        cy.getAndScrollIntoView('#annetArbeidPaSikt').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#vurderingsDatoIArbeid').focus().should('be.focused').type('24.10.2020');
-
-        cy.getAndScrollIntoView('#erIkkeIArbeid').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#arbeidsforPaSikt').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#arbeidsforFOM').focus().should('be.focused').type('10.10.2020');
-        cy.getAndScrollIntoView('#vurderingsDatoUtenArbeid').focus().should('be.focused').type('25.10.2020');
-
         // 6 Utdypende opplysninger
-        cy.getAndScrollIntoView('#utdypende61').click();
-        cy.getAndScrollIntoView('#utdypende611').type('utdypende611', { force: true });
-        cy.getAndScrollIntoView('#utdypende612').type('utdypende612', { force: true });
-        cy.getAndScrollIntoView('#utdypende613').type('utdypende613', { force: true });
-        cy.getAndScrollIntoView('#utdypende614').type('utdypende614', { force: true });
-        cy.getAndScrollIntoView('#utdypende615').type('utdypende615', { force: true });
-
-        cy.getAndScrollIntoView('#utdypende62').click();
-        cy.getAndScrollIntoView('#utdypende621').type('utdypende621', { force: true });
-        cy.getAndScrollIntoView('#utdypende622').type('utdypende622', { force: true });
-        cy.getAndScrollIntoView('#utdypende623').type('utdypende623', { force: true });
-        cy.getAndScrollIntoView('#utdypende624').type('utdypende624', { force: true });
-
-        cy.getAndScrollIntoView('#utdypende63').click();
-        cy.getAndScrollIntoView('#utdypende631').type('utdypende631', { force: true });
-        cy.getAndScrollIntoView('#utdypende632').type('utdypende632', { force: true });
-
-        cy.getAndScrollIntoView('#utdypende64').click();
-        cy.getAndScrollIntoView('#utdypende641').type('utdypende641', { force: true });
-        cy.getAndScrollIntoView('#utdypende642').type('utdypende642', { force: true });
-        cy.getAndScrollIntoView('#utdypende643').type('utdypende643', { force: true });
-
-        cy.getAndScrollIntoView('#utdypende65').click();
-        cy.getAndScrollIntoView('#utdypende651').type('utdypende651', { force: true });
-        cy.getAndScrollIntoView('#utdypende652').type('utdypende652', { force: true });
-        cy.getAndScrollIntoView('#utdypende653').type('utdypende653', { force: true });
-        cy.getAndScrollIntoView('#utdypende654').type('utdypende654', { force: true });
-
-        cy.getAndScrollIntoView('#utdypende66').click();
-        cy.getAndScrollIntoView('#utdypende661').type('utdypende661', { force: true });
-        cy.getAndScrollIntoView('#utdypende662').type('utdypende662', { force: true });
-        cy.getAndScrollIntoView('#utdypende663').type('utdypende663', { force: true });
-
-        // 7 Hva skal til for å bedre arbeidsevnen
-        cy.getAndScrollIntoView('#tiltakArbeidsplassen').type('Tiltak på arbeidsplassen', { force: true });
-        cy.getAndScrollIntoView('#tiltakNav').type('Tiltak NAV', { force: true });
-        cy.getAndScrollIntoView('#andreTiltak').type('Andre tiltak', { force: true });
+        cy.getAndScrollIntoView('#harUtdypendeOpplysninger').click({ force: true }).should('be.checked');
 
         // 8 Melding til NAV
         cy.getAndScrollIntoView('#meldingTilNavBistand').click({ force: true }).should('be.checked');
@@ -293,50 +243,9 @@ context('Submit oppgave', () => {
                     adresse: {},
                     tlf: '12345678',
                 },
+                harUtdypendeOpplysninger: true,
                 meldingTilArbeidsgiver: 'Melding til arbeidsgiver',
                 meldingTilNAV: { bistandUmiddelbart: true, beskrivBistand: 'Meldin til NAV' },
-                tiltakNAV: 'Tiltak NAV',
-                tiltakArbeidsplassen: 'Tiltak på arbeidsplassen',
-                andreTiltak: 'Andre tiltak',
-                prognose: {
-                    arbeidsforEtterPeriode: true,
-                    hensynArbeidsplassen: 'Hensyn arbeidsplassen',
-                    erIArbeid: {
-                        egetArbeidPaSikt: true,
-                        annetArbeidPaSikt: true,
-                        arbeidFOM: '2020-10-21',
-                        vurderingsdato: '2020-10-24',
-                    },
-                    erIkkeIArbeid: {
-                        arbeidsforPaSikt: true,
-                        arbeidsforFOM: '2020-10-10',
-                        vurderingsdato: '2020-10-25',
-                    },
-                },
-                utdypendeOpplysninger: {
-                    '6.1': {
-                        '6.1.1': 'utdypende611',
-                        '6.1.2': 'utdypende612',
-                        '6.1.3': 'utdypende613',
-                        '6.1.4': 'utdypende614',
-                        '6.1.5': 'utdypende615',
-                    },
-                    '6.2': {
-                        '6.2.1': 'utdypende621',
-                        '6.2.2': 'utdypende622',
-                        '6.2.3': 'utdypende623',
-                        '6.2.4': 'utdypende624',
-                    },
-                    '6.3': { '6.3.1': 'utdypende631', '6.3.2': 'utdypende632' },
-                    '6.4': { '6.4.1': 'utdypende641', '6.4.2': 'utdypende642', '6.4.3': 'utdypende643' },
-                    '6.5': {
-                        '6.5.1': 'utdypende651',
-                        '6.5.2': 'utdypende652',
-                        '6.5.3': 'utdypende653',
-                        '6.5.4': 'utdypende654',
-                    },
-                    '6.6': { '6.6.1': 'utdypende661', '6.6.2': 'utdypende662', '6.6.3': 'utdypende663' },
-                },
                 kontaktMedPasient: {
                     kontaktDato: '2020-10-15',
                     begrunnelseIkkeKontakt: 'Hadde omgangssyke',

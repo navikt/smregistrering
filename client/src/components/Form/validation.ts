@@ -216,52 +216,8 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         return undefined;
     },
 
-    // Friskmelding
-    arbeidsfoerEtterPeriode: () => undefined,
-    hensynArbeidsplassen: () => undefined,
-    erIArbeid: () => undefined,
-    erIkkeIArbeid: () => undefined,
-    egetArbeidPaSikt: () => undefined,
-    annetArbeidPaSikt: () => undefined,
-    arbeidFOM: (schema) => {
-        if (schema.erIArbeid && schema.egetArbeidPaSikt) {
-            if (schema.arbeidFOM === undefined) {
-                return 'Du må svare på når pasienten på sikt kan komme tilbake til samme arbeidsgiver';
-            }
-        }
-    },
-    vurderingsDatoIArbeid: () => undefined,
-    arbeidsforPaSikt: () => undefined,
-    arbeidsforFOM: () => undefined,
-    vurderingsDatoUtenArbeid: () => undefined,
-
-    // Utdypende opplysninger
-    utdypende611: () => undefined,
-    utdypende612: () => undefined,
-    utdypende613: () => undefined,
-    utdypende614: () => undefined,
-    utdypende615: () => undefined,
-    utdypende621: () => undefined,
-    utdypende622: () => undefined,
-    utdypende623: () => undefined,
-    utdypende624: () => undefined,
-    utdypende631: () => undefined,
-    utdypende632: () => undefined,
-    utdypende641: () => undefined,
-    utdypende642: () => undefined,
-    utdypende643: () => undefined,
-    utdypende651: () => undefined,
-    utdypende652: () => undefined,
-    utdypende653: () => undefined,
-    utdypende654: () => undefined,
-    utdypende661: () => undefined,
-    utdypende662: () => undefined,
-    utdypende663: () => undefined,
-
-    // Arbeidsevne
-    tiltakArbeidsplassen: () => undefined,
-    tiltakNav: () => undefined,
-    andreTiltak: () => undefined,
+    // UtdypendeOpplysninger
+    harUtdypendeOpplysninger: () => undefined,
 
     // MeldingTilNav
     meldingTilNavBistand: () => undefined,

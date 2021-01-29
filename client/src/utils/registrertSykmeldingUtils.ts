@@ -8,9 +8,7 @@ import {
     MedisinskArsak,
     MedisinskArsakType,
     Periode,
-    Prognose,
     RegistrertSykmelding,
-    UtdypendeOpplysningerReturn,
 } from '../types/RegistrertSykmelding';
 import { AktivitetIkkeMuligPeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
 import { AvventendePeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/AvventendePeriode';
@@ -215,102 +213,6 @@ export const buildAnnenFraversArsak = (
     }
 };
 
-export const buildPrognose = (
-    arbeidsfoerEtterPeriode: boolean,
-    egetArbeidPaSikt: boolean,
-    annetArbeidPaSikt: boolean,
-    arbeidsforPaSikt: boolean,
-    hensynArbeidsplassen?: string | null,
-    erIArbeid?: boolean,
-    erIkkeIArbeid?: boolean,
-    arbeidFOM?: Date | null,
-    vurderingsDatoIArbeid?: Date | null,
-    arbeidsforFOM?: Date | null,
-    vurderingsDatoUtenArbeid?: Date | null,
-): Prognose | undefined => {
-    if (erIArbeid && erIkkeIArbeid) {
-        return {
-            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen: hensynArbeidsplassen,
-            erIArbeid: {
-                egetArbeidPaSikt: egetArbeidPaSikt,
-                annetArbeidPaSikt: annetArbeidPaSikt,
-                arbeidFOM: arbeidFOM,
-                vurderingsdato: vurderingsDatoIArbeid,
-            },
-            erIkkeIArbeid: {
-                arbeidsforPaSikt: arbeidsforPaSikt,
-                arbeidsforFOM: arbeidsforFOM,
-                vurderingsdato: vurderingsDatoUtenArbeid,
-            },
-        };
-    } else if (erIArbeid) {
-        return {
-            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen: hensynArbeidsplassen,
-            erIArbeid: {
-                egetArbeidPaSikt: egetArbeidPaSikt,
-                annetArbeidPaSikt: annetArbeidPaSikt,
-                arbeidFOM: arbeidFOM,
-                vurderingsdato: vurderingsDatoIArbeid,
-            },
-        };
-    } else if (erIkkeIArbeid) {
-        return {
-            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen: hensynArbeidsplassen,
-            erIkkeIArbeid: {
-                arbeidsforPaSikt: arbeidsforPaSikt,
-                arbeidsforFOM: arbeidsforFOM,
-                vurderingsdato: vurderingsDatoUtenArbeid,
-            },
-        };
-    } else if (arbeidsfoerEtterPeriode) {
-        return {
-            arbeidsforEtterPeriode: arbeidsfoerEtterPeriode,
-            hensynArbeidsplassen,
-        };
-    }
-};
-
-export const buildUtdypendeOpplysninger = (schema: FormType): UtdypendeOpplysningerReturn => {
-    return {
-        6.1: {
-            '6.1.1': schema.utdypende611,
-            '6.1.2': schema.utdypende612,
-            '6.1.3': schema.utdypende613,
-            '6.1.4': schema.utdypende614,
-            '6.1.5': schema.utdypende615,
-        },
-        6.2: {
-            '6.2.1': schema.utdypende621,
-            '6.2.2': schema.utdypende622,
-            '6.2.3': schema.utdypende623,
-            '6.2.4': schema.utdypende624,
-        },
-        6.3: {
-            '6.3.1': schema.utdypende631,
-            '6.3.2': schema.utdypende632,
-        },
-        6.4: {
-            '6.4.1': schema.utdypende641,
-            '6.4.2': schema.utdypende642,
-            '6.4.3': schema.utdypende643,
-        },
-        6.5: {
-            '6.5.1': schema.utdypende651,
-            '6.5.2': schema.utdypende652,
-            '6.5.3': schema.utdypende653,
-            '6.5.4': schema.utdypende654,
-        },
-        6.6: {
-            '6.6.1': schema.utdypende661,
-            '6.6.2': schema.utdypende662,
-            '6.6.3': schema.utdypende663,
-        },
-    };
-};
-
 export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmelding | undefined => {
     // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
     if (
@@ -369,23 +271,7 @@ export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmeldin
             bistandUmiddelbart: schema.meldingTilNavBistand,
             beskrivBistand: schema.meldingTilNavBegrunn,
         },
-        tiltakNAV: schema.tiltakNav,
-        tiltakArbeidsplassen: schema.tiltakArbeidsplassen,
-        andreTiltak: schema.andreTiltak,
-        prognose: buildPrognose(
-            schema.arbeidsfoerEtterPeriode,
-            schema.egetArbeidPaSikt,
-            schema.annetArbeidPaSikt,
-            schema.arbeidsforPaSikt,
-            schema.hensynArbeidsplassen,
-            schema.erIArbeid,
-            schema.erIkkeIArbeid,
-            schema.arbeidFOM,
-            schema.vurderingsDatoIArbeid,
-            schema.arbeidsforFOM,
-            schema.vurderingsDatoUtenArbeid,
-        ),
-        utdypendeOpplysninger: buildUtdypendeOpplysninger(schema),
+        harUtdypendeOpplysninger: !!schema.harUtdypendeOpplysninger,
         kontaktMedPasient: {
             kontaktDato: schema.kontaktDato,
             begrunnelseIkkeKontakt: schema.begrunnelseIkkeKontakt,
