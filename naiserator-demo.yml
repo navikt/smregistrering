@@ -36,4 +36,4 @@ spec:
     - name: PORT
       value: '3000'
     - name: IS_NAIS_LABS_DEMO
-      value: true
+      value: 'true'
