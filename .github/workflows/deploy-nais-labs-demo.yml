@@ -2,8 +2,7 @@ name: Deploy demo app to nais labs
 on:
   push:
     branches:
-      - "*"
-      # - "!master"
+      - "master"
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering:${{ github.sha }}
 jobs:
