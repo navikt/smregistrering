@@ -1,0 +1,67 @@
+name: Deploy demo app to nais labs
+on:
+  push:
+    branches:
+      - "master"
+env:
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering:${{ github.sha }}
+jobs:
+  build-push-deploy:
+    name: Checkout code and create docker tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Use Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install dependencies for server
+        run: |
+          npm install
+        working-directory: ./server
+      - name: Run tests for server
+        run: |
+          npm run test
+        working-directory: ./server
+      - name: Install dependencies for client
+        run: |
+          npm install
+        working-directory: ./client
+      - name: Run unit tests for client
+        env:
+          CI: true
+        run: |
+          npm run test-unit
+        working-directory: ./client
+      - name: Run integration tests for client
+        env:
+          CI: true
+        run: |
+          npm start & npm run cypress-start # Can not use "npm run test-integration", because process does not terminate.
+        working-directory: ./client
+      - name: Build server
+        run: |
+          npm run compile
+        working-directory: ./server
+      - name: Build client
+        env:
+          REACT_APP_START_WITH_MOCK: true
+          REACT_APP_HEAD_URL: https://navikt.github.io
+          # REACT_APP_FRONTEND_LOGGER_URL: https://app-q1.dev.adeo.no/frontendlogger
+        run: |
+          npm run build
+        working-directory: ./client
+      - name: Build and publish Docker image
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker build --tag ${IMAGE} .
+          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+          docker push ${IMAGE}
+      - name: Deploy app to labs-gcp
+        uses: nais/deploy/actions/deploy@master
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: labs-gcp
+          RESOURCE: naiserator-demo.yml
