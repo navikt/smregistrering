@@ -3,13 +3,14 @@ import './ClearButton.less';
 import React from 'react';
 
 type ClearButtonProps = {
+    id?: string;
     onChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     buttonText: string;
     iconType: 'Can' | 'CircledCross';
     leftSpacing?: boolean;
 };
 
-const ClearButton = ({ onChange, buttonText, iconType, leftSpacing }: ClearButtonProps) => {
+const ClearButton = ({ id, onChange, buttonText, iconType, leftSpacing }: ClearButtonProps) => {
     const Can = () => (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -33,7 +34,12 @@ const ClearButton = ({ onChange, buttonText, iconType, leftSpacing }: ClearButto
     );
 
     return (
-        <button type="button" className={leftSpacing ? 'clearbutton__withmargin' : 'clearbutton'} onClick={onChange}>
+        <button
+            id={id}
+            type="button"
+            className={leftSpacing ? 'clearbutton__withmargin' : 'clearbutton'}
+            onClick={onChange}
+        >
             {iconType === 'Can' && <Can />}
             {iconType === 'CircledCross' && <CircledCross />}
             <span className="clearbutton__text">{buttonText}</span>
