@@ -13,6 +13,11 @@ import path from 'path';
 // for demo app running on nais labs
 function startDemoApp() {
   const server = express();
+
+  // Nais routes
+  server.get('/is_alive', (_req, res) => res.send('Alive'));
+  server.get('/is_ready', (_req, res) => res.send('Ready'));
+
   // Static content
   server.use('/', express.static(path.join(__dirname, '../../../client/build')));
   server.use('*', (_req, res) => {
