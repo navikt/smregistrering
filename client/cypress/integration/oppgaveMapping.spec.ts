@@ -66,7 +66,7 @@ context('Oppgave mapping', () => {
             cy.get('#yrkesskade').should('be.checked');
             cy.get('#yrkesskadeDato').should(
                 'have.value',
-                dayjs(oppgave.papirSmRegistering.medisinskVurdering.yrkesskadeDato).format('DD.MM.YYYY'),
+                dayjs(oppgave.papirSmRegistering.medisinskVurdering.yrkesskadeDato).format('DDMMYY'),
             );
             cy.get('#skjermesForPasient').should('be.checked');
 
@@ -80,9 +80,9 @@ context('Oppgave mapping', () => {
                 cy.get(`#mulighetForArbeid-selector-0`).should('have.value', 'avventende');
                 cy.get('#avventendePeriode-0').should(
                     'have.value',
-                    dayjs(oppgave.papirSmRegistering.perioder[0].fom).format('DD.MM.YYYY') +
-                        ' - ' +
-                        dayjs(oppgave.papirSmRegistering.perioder[0].tom).format('DD.MM.YYYY'),
+                    dayjs(oppgave.papirSmRegistering.perioder[0].fom).format('DDMMYY') +
+                        '-' +
+                        dayjs(oppgave.papirSmRegistering.perioder[0].tom).format('DDMMYY'),
                 );
                 cy.get('#avventendeInnspillTilArbeidsgiver-0').should('have.value', 'Må avvente');
 
@@ -91,9 +91,9 @@ context('Oppgave mapping', () => {
                 cy.get('#gradertGrad-1').should('have.value', '80');
                 cy.get('#gradertPeriode-1').should(
                     'have.value',
-                    dayjs(oppgave.papirSmRegistering.perioder[1].fom).format('DD.MM.YYYY') +
-                        ' - ' +
-                        dayjs(oppgave.papirSmRegistering.perioder[1].tom).format('DD.MM.YYYY'),
+                    dayjs(oppgave.papirSmRegistering.perioder[1].fom).format('DDMMYY') +
+                        '-' +
+                        dayjs(oppgave.papirSmRegistering.perioder[1].tom).format('DDMMYY'),
                 );
                 cy.get('#gradertReisetilskudd-1').should('not.be.checked');
 
@@ -101,9 +101,9 @@ context('Oppgave mapping', () => {
                 cy.get(`#mulighetForArbeid-selector-2`).should('have.value', 'fullsykmelding');
                 cy.get('#aktivitetIkkeMuligPeriode-2').should(
                     'have.value',
-                    dayjs(oppgave.papirSmRegistering.perioder[2].fom).format('DD.MM.YYYY') +
-                        ' - ' +
-                        dayjs(oppgave.papirSmRegistering.perioder[2].tom).format('DD.MM.YYYY'),
+                    dayjs(oppgave.papirSmRegistering.perioder[2].fom).format('DDMMYY') +
+                        '-' +
+                        dayjs(oppgave.papirSmRegistering.perioder[2].tom).format('DDMMYY'),
                 );
                 cy.get('#aktivitetIkkeMuligMedisinskArsak-2').should('be.checked');
                 cy.get('#aktivitetIkkeMuligMedisinskArsakType-2').within(() => {
@@ -132,9 +132,9 @@ context('Oppgave mapping', () => {
                 cy.get(`#mulighetForArbeid-selector-3`).should('have.value', 'behandlingsdager');
                 cy.get('#behandlingsdagerPeriode-3').should(
                     'have.value',
-                    dayjs(oppgave.papirSmRegistering.perioder[3].fom).format('DD.MM.YYYY') +
-                        ' - ' +
-                        dayjs(oppgave.papirSmRegistering.perioder[3].tom).format('DD.MM.YYYY'),
+                    dayjs(oppgave.papirSmRegistering.perioder[3].fom).format('DDMMYY') +
+                        '-' +
+                        dayjs(oppgave.papirSmRegistering.perioder[3].tom).format('DDMMYY'),
                 );
                 cy.get('#behandlingsdagerAntall-3').should(
                     'have.value',
@@ -145,9 +145,9 @@ context('Oppgave mapping', () => {
                 cy.get(`#mulighetForArbeid-selector-4`).should('have.value', 'reisetilskudd');
                 cy.get('#reisetilskuddPeriode-4').should(
                     'have.value',
-                    dayjs(oppgave.papirSmRegistering.perioder[4].fom).format('DD.MM.YYYY') +
-                        ' - ' +
-                        dayjs(oppgave.papirSmRegistering.perioder[4].tom).format('DD.MM.YYYY'),
+                    dayjs(oppgave.papirSmRegistering.perioder[4].fom).format('DDMMYY') +
+                        '-' +
+                        dayjs(oppgave.papirSmRegistering.perioder[4].tom).format('DDMMYY'),
                 );
             });
 
@@ -171,7 +171,7 @@ context('Oppgave mapping', () => {
             cy.get('#erTilbakedatert').should('be.checked');
             cy.get('#kontaktDato').should(
                 'have.value',
-                dayjs(oppgave.papirSmRegistering.kontaktMedPasient.kontaktDato).format('DD.MM.YYYY'),
+                dayjs(oppgave.papirSmRegistering.kontaktMedPasient.kontaktDato).format('DDMMYY'),
             );
             cy.get('#kunneIkkeIvaretaEgneInteresser').should('be.checked');
             cy.get('#begrunnelseIkkeKontakt').should(
@@ -181,7 +181,7 @@ context('Oppgave mapping', () => {
 
             cy.get('#behandletDato').should(
                 'have.value',
-                dayjs(oppgave.papirSmRegistering.behandletTidspunkt).format('DD.MM.YYYY'),
+                dayjs(oppgave.papirSmRegistering.behandletTidspunkt).format('DDMMYY'),
             );
             cy.get('#hpr').should('have.value', oppgave.papirSmRegistering.behandler.hpr);
             cy.get('#sykmelderTelefon').should('have.value', oppgave.papirSmRegistering.behandler.tlf);

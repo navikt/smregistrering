@@ -84,7 +84,7 @@ context('Submit oppgave', () => {
         });
         cy.getAndScrollIntoView('#svangerskap').click({ force: true }).should('be.checked');
         cy.getAndScrollIntoView('#yrkesskade').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#yrkesskadeDato').type('01.01.2020{enter}', { force: true });
+        cy.getAndScrollIntoView('#yrkesskadeDato').type('010120{enter}', { force: true });
         cy.getAndScrollIntoView('#skjermesForPasient').click({ force: true }).should('be.checked');
 
         // 4 Mulighet for arbeid
@@ -93,7 +93,7 @@ context('Submit oppgave', () => {
 
         // Avventende
         cy.getAndScrollIntoView('#mulighetForArbeid-selector').select('avventende', { force: true });
-        cy.getAndScrollIntoView('#avventendePeriode-0').focus().should('be.focused').type('01.01.2020 - 03.01.2020');
+        cy.getAndScrollIntoView('#avventendePeriode-0').focus().should('be.focused').type('010120-030120');
         cy.getAndScrollIntoView('#avventendeInnspillTilArbeidsgiver-0').type('Innspill til arbeidsgiver', {
             force: true,
         });
@@ -101,17 +101,14 @@ context('Submit oppgave', () => {
 
         // Gradert
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-1').select('gradert', { force: true });
-        cy.getAndScrollIntoView('#gradertPeriode-1').focus().should('be.focused').type('01.02.2020 - 03.02.2020');
+        cy.getAndScrollIntoView('#gradertPeriode-1').focus().should('be.focused').type('010220-030220');
         cy.getAndScrollIntoView('#gradertGrad-1').type('80', { force: true });
         cy.getAndScrollIntoView('#gradertReisetilskudd-1').click({ force: true }).should('be.checked');
         cy.getAndScrollIntoView('#mulighetForArbeid-leggTilPeriode').click();
 
         // Aktivitet ikke mulig
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-2').select('fullsykmelding', { force: true });
-        cy.getAndScrollIntoView('#aktivitetIkkeMuligPeriode-2')
-            .focus()
-            .should('be.focused')
-            .type('01.03.2020 - 03.03.2020');
+        cy.getAndScrollIntoView('#aktivitetIkkeMuligPeriode-2').focus().should('be.focused').type('010320-030320');
         cy.getAndScrollIntoView('#aktivitetIkkeMuligMedisinskArsak-2').click({ force: true }).should('be.checked');
         cy.get('#TILSTAND_HINDRER_AKTIVITET-medisinsk-2').click({ force: true }).should('be.checked');
         cy.getAndScrollIntoView('#aktivitetIkkeMuligMedisinskArsakBeskrivelse-2').type('Medisinsk beskrivelse', {
@@ -131,16 +128,13 @@ context('Submit oppgave', () => {
 
         // Behandlingsdager
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-3').select('behandlingsdager', { force: true });
-        cy.getAndScrollIntoView('#behandlingsdagerPeriode-3')
-            .focus()
-            .should('be.focused')
-            .type('01.04.2020 - 03.04.2020');
+        cy.getAndScrollIntoView('#behandlingsdagerPeriode-3').focus().should('be.focused').type('010420-030420');
         cy.getAndScrollIntoView('#behandlingsdagerAntall-3').type('1', { force: true });
         cy.getAndScrollIntoView('#mulighetForArbeid-leggTilPeriode').click();
 
         // Reisetilskudd
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-4').select('reisetilskudd', { force: true });
-        cy.getAndScrollIntoView('#reisetilskuddPeriode-4').focus().should('be.focused').type('01.05.2020 - 03.05.2020');
+        cy.getAndScrollIntoView('#reisetilskuddPeriode-4').focus().should('be.focused').type('010520-030520');
 
         // 6 Utdypende opplysninger
         cy.getAndScrollIntoView('#harUtdypendeOpplysninger').click({ force: true }).should('be.checked');
@@ -154,12 +148,12 @@ context('Submit oppgave', () => {
 
         // 10 Tilbakedatering
         cy.getAndScrollIntoView('#erTilbakedatert').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#kontaktDato').focus().should('be.focused').type('15.10.2020');
+        cy.getAndScrollIntoView('#kontaktDato').focus().should('be.focused').type('151020');
         cy.getAndScrollIntoView('#kunneIkkeIvaretaEgneInteresser').click({ force: true }).should('be.checked');
         cy.getAndScrollIntoView('#begrunnelseIkkeKontakt').type('Hadde omgangssyke', { force: true });
 
         // 12 Behandler
-        cy.getAndScrollIntoView('#behandletDato').type('01.02.2020{enter}', { force: true });
+        cy.getAndScrollIntoView('#behandletDato').type('010220{enter}', { force: true });
         cy.getAndScrollIntoView('#hpr').type('1234567', { force: true });
         cy.getAndScrollIntoView('#sykmelderTelefon').type('12345678', { force: true });
 

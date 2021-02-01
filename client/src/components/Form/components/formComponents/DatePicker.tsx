@@ -27,14 +27,14 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
                     id={id}
                     value={value}
                     className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
-                    placeholder="DD.MM.ÅÅÅÅ"
+                    placeholder="DDMMÅÅ"
                     onChange={(newDate) => onChange(newDate[0])}
                     options={{
                         position: 'below',
                         static: true,
                         mode: 'single',
                         enableTime: false,
-                        dateFormat: 'd.m.Y',
+                        dateFormat: 'dmy',
                         allowInput: true,
                         locale: flatpickrLocale,
                     }}

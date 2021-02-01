@@ -1,7 +1,7 @@
 import { CustomLocale } from 'flatpickr/dist/types/locale';
 
 export const flatpickrLocale: CustomLocale = {
-    rangeSeparator: ' - ',
+    rangeSeparator: '-',
     firstDayOfWeek: 1,
     weekdays: {
         shorthand: ['søn', 'man', 'tirs', 'ons', 'tors', 'fre', 'lør'],
