@@ -23,6 +23,10 @@ function startDemoApp() {
   server.use('*', (_req, res) => {
     res.sendFile('index.html', { root: path.join(__dirname, '../../../client/build') });
   });
+
+  // start server
+  const PORT = process.env.PORT || 3000;
+  server.listen(PORT, () => logger.info(`Server listening on port ${PORT}`));
 }
 
 async function startApp() {
