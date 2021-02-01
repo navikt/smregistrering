@@ -8,6 +8,17 @@ import loadConfig from './config';
 import setupCors from './cors';
 import * as iotsPromise from 'io-ts-promise';
 import logger from './logging';
+import path from 'path';
+
+// for demo app running on nais labs
+function startDemoApp() {
+  const server = express();
+  // Static content
+  server.use('/', express.static(path.join(__dirname, '../../../client/build')));
+  server.use('*', (_req, res) => {
+    res.sendFile('index.html', { root: path.join(__dirname, '../../../client/build') });
+  });
+}
 
 async function startApp() {
   try {
@@ -60,4 +71,8 @@ async function startApp() {
   }
 }
 
-startApp();
+if (process.env.IS_NAIS_LABS_DEMO === 'true') {
+  startDemoApp();
+} else {
+  startApp();
+}
