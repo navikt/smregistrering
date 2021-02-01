@@ -92,7 +92,7 @@ context('Submit oppgave', () => {
         // TODO: Make generic so that it doesn't rely on a specific count/order of periods
 
         // Avventende
-        cy.getAndScrollIntoView('#mulighetForArbeid-selector').select('avventende', { force: true });
+        cy.getAndScrollIntoView('#mulighetForArbeid-selector-0').select('avventende', { force: true });
         cy.getAndScrollIntoView('#avventendePeriode-0').focus().should('be.focused').type('010120-030120');
         cy.getAndScrollIntoView('#avventendeInnspillTilArbeidsgiver-0').type('Innspill til arbeidsgiver', {
             force: true,

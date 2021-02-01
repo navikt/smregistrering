@@ -222,34 +222,14 @@ context('Oppgave mapping', () => {
         cy.get('#yrkesskadeDato').should('not.exist');
         cy.get('#skjermesForPasient').should('not.be.checked');
 
-        cy.get('#avventendeSykmelding').should('not.be.checked');
-        cy.get('#avventendePeriode').should('not.exist');
-        cy.get('#avventendeInnspillTilArbeidsgiver').should('not.exist');
-
-        cy.get('#gradertSykmelding').should('not.be.checked');
-        cy.get('#gradertPeriode').should('not.exist');
-        cy.get('#gradertGrad').should('not.exist');
-        cy.get('#gradertReisetilskudd').should('not.be.checked');
-
-        cy.get('#aktivitetIkkeMuligSykmelding').should('not.be.checked');
-        cy.get('#aktivitetIkkeMuligPeriode').should('not.exist');
-        cy.get('#aktivitetIkkeMuligMedisinskArsak').should('not.exist');
-        cy.get('#aktivitetIkkeMuligMedisinskArsakType').should('not.exist');
-        cy.get('#aktivitetIkkeMuligMedisinskArsakBeskrivelse').should('not.exist');
-        cy.get('#aktivitetIkkeMuligArbeidsrelatertArsak').should('not.exist');
-        cy.get('#aktivitetIkkeMuligArbeidsrelatertArsakType').should('not.exist');
-        cy.get('#aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse').should('not.exist');
-
-        cy.get('#behandlingsdagerSykmelding').should('not.be.checked');
-        cy.get('#behandlingsdagerPeriode').should('not.exist');
-        cy.get('#behandlingsdagerAntall').should('not.exist');
-
-        cy.get('#reisetilskuddSykmelding').should('not.be.checked');
-        cy.get('#reisetilskuddPeriode').should('not.exist');
-
-        cy.get('#arbeidsfoerEtterPeriode').should('not.be.checked');
-        cy.get('#hensynArbeidsplassen').should('not.exist');
-
+        cy.get('#mulighetForArbeid-selector-0').should('have.value', 'fullsykmelding');
+        cy.get('#aktivitetIkkeMuligPeriode-0').should('not.have.value');
+        cy.get('#aktivitetIkkeMuligMedisinskArsak-0').should('not.be.checked');
+        cy.get('#TILSTAND_HINDRER_AKTIVITET-medisinsk-0').should('not.exist');
+        cy.get('#aktivitetIkkeMuligMedisinskArsakBeskrivelse-0').should('not.exist');
+        cy.get('#aktivitetIkkeMuligArbeidsrelatertArsak-0').should('not.be.checked');
+        cy.get('#MANGLENDE_TILRETTELEGGING-arbeidsrelatert-0').should('not.exist');
+        cy.get('#aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse-0').should('not.exist');
         cy.get('#harUtdypendeOpplysninger').should('not.be.checked');
 
         cy.get('#meldingTilNavBistand').should('not.be.checked');
