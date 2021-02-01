@@ -19,9 +19,9 @@ function startDemoApp() {
   server.get('/is_ready', (_req, res) => res.send('Ready'));
 
   // Static content
-  server.use('/', express.static(path.join(__dirname, '../../../client/build')));
+  server.use('/', express.static(path.join(__dirname, '../../client/build')));
   server.use('*', (_req, res) => {
-    res.sendFile('index.html', { root: path.join(__dirname, '../../../client/build') });
+    res.sendFile('index.html', { root: path.join(__dirname, '../../client/build') });
   });
 
   // start server
