@@ -17,6 +17,32 @@
             "yrkesbetegnelse": "Politi",
             "stillingsprosent": 100
         },
+        "medisinskVurdering": {
+            "hovedDiagnose": {
+                "system": "2.16.578.1.12.4.1.1.7110",
+                "kode": "A009",
+                "tekst": "Uspesifisert kolera"
+            },
+            "biDiagnoser": [
+                {
+                    "kode": "H02",
+                    "system": "2.16.578.1.12.4.1.1.7170",
+                    "tekst": "Hørsel symptomer/plager"
+                },
+                {
+                    "kode": "I714",
+                    "system": "2.16.578.1.12.4.1.1.7110",
+                    "tekst": "Abdominalt aorta-aneurisme uten opplysning om ruptur"
+                }
+            ],
+            "svangerskap": true,
+            "yrkesskade": true,
+            "yrkesskadeDato": "2020-03-05",
+            "annenFraversArsak": {
+                "grunn": ["BEHANDLING_FORHINDRER_ARBEID", "NODVENDIG_KONTROLLUNDENRSOKELSE"],
+                "beskrivelse": "Dette er årsaken"
+            }
+        },
         "skjermesForPasient": true,
         "perioder": [
             {
