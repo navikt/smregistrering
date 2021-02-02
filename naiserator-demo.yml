@@ -32,6 +32,7 @@ spec:
       memory: 128Mi
   ingresses:
     - "https://smregistrering.labs.nais.io/"
+    - "http://smregistrering.labs.nais.io/"
   env:
     - name: PORT
       value: '3000'
