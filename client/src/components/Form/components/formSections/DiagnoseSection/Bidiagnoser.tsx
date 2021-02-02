@@ -4,7 +4,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import BidiagnoseRow from './BidiagnoseRow';
 import FormLabel from '../../formComponents/FormLabel';
 import Plus from '../../../../../svg/Plus';
-import { Diagnosekoder } from '../../../../../types/Diagnosekode';
+import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/Diagnosekode';
 import { FormType } from '../../../Form';
 
 type BidiagnoserProps = {
@@ -16,7 +16,7 @@ type BidiagnoserProps = {
 };
 
 const emptyBidiagnose = {
-    system: '',
+    system: DiagnosekodeSystem.ICD10,
     kode: '',
     tekst: '',
 };

@@ -42,12 +42,10 @@ const BidiagnoseRow = ({
                         id={'bidiagnose-' + index + '-system'}
                         value={biDiagnose.system}
                         onChange={({ target: { value } }) => {
-                            const system = value === 'undefined' ? '' : value;
-                            updateDiagnosesystem(index, system);
+                            updateDiagnosesystem(index, value);
                         }}
                         label={<Element>3.2.1 Kodesystem</Element>}
                     >
-                        <option value="undefined">Velg kodesystem</option>
                         <option value={DiagnosekodeSystem.ICD10}>ICD-10</option>
                         <option value={DiagnosekodeSystem.ICPC2}>ICPC-2</option>
                     </Select>

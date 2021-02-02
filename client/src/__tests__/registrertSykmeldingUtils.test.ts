@@ -332,25 +332,17 @@ describe('registrertSykmeldingUtils', () => {
                     kode: 'A001',
                     tekst: 'diagnosetekst',
                 };
-                let builtDiagnose;
-                try {
-                    builtDiagnose = buildDiagnose(diagnose);
-                } catch (error) {
-                } finally {
-                    expect(builtDiagnose).toEqual(diagnose);
-                    expect(buildDiagnose(diagnose)).not.toThrowError;
-                }
+                expect(buildDiagnose(diagnose)).toEqual({
+                    system: '2.16.578.1.12.4.1.1.7110',
+                    kode: 'A001',
+                    tekst: 'diagnosetekst',
+                });
             });
-            it('Should throw error if diagnose is incomplete', () => {
+            it('Should return undefined if diagnose is incomplete', () => {
                 const incompleteDiagnose: Partial<Diagnose> = {
                     system: DiagnosekodeSystem.ICD10,
                 };
-                let builtDiagnose;
-                try {
-                    builtDiagnose = buildDiagnose(incompleteDiagnose);
-                } catch (error) {
-                    expect(builtDiagnose).toThrowError;
-                }
+                expect(buildDiagnose(incompleteDiagnose)).toBeUndefined();
             });
         });
 
@@ -368,16 +360,20 @@ describe('registrertSykmeldingUtils', () => {
                         tekst: 'diagnosetekst',
                     },
                 ];
-                let builtDiagnoser;
-                try {
-                    builtDiagnoser = buildDiagnoser(diagnoser);
-                } catch (error) {
-                } finally {
-                    expect(builtDiagnoser).toEqual(diagnoser);
-                    expect(builtDiagnoser).not.toThrowError;
-                }
+                expect(buildDiagnoser(diagnoser)).toEqual([
+                    {
+                        system: '2.16.578.1.12.4.1.1.7110',
+                        kode: 'A001',
+                        tekst: 'diagnosetekst',
+                    },
+                    {
+                        system: '2.16.578.1.12.4.1.1.7170',
+                        kode: 'F001',
+                        tekst: 'diagnosetekst',
+                    },
+                ]);
             });
-            it('Should throw error if either diagnose is incomplete', () => {
+            it('Should only return complete diagnoser', () => {
                 const diagnoser: Partial<Diagnose>[] = [
                     {
                         system: DiagnosekodeSystem.ICD10,
@@ -389,22 +385,17 @@ describe('registrertSykmeldingUtils', () => {
                         tekst: 'diagnosetekst',
                     },
                 ];
-                let builtDiagnoser;
-                try {
-                    builtDiagnoser = buildDiagnoser(diagnoser);
-                } catch (error) {
-                    expect(builtDiagnoser).toThrowError;
-                }
+                const expected = [
+                    {
+                        system: '2.16.578.1.12.4.1.1.7170',
+                        kode: 'F001',
+                        tekst: 'diagnosetekst',
+                    },
+                ];
+                expect(buildDiagnoser(diagnoser)).toEqual(expected);
             });
             it('Should return empty array if diagnoser undefined', () => {
-                const diagnoser = undefined;
-                let builtDiagnoser;
-                try {
-                    builtDiagnoser = buildDiagnoser(diagnoser);
-                } catch (error) {
-                } finally {
-                    expect(builtDiagnoser).toBeEmpty;
-                }
+                expect(buildDiagnoser(undefined)).toEqual([]);
             });
         });
 

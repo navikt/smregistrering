@@ -43,28 +43,14 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         }
         return undefined;
     },
-
     // Diagnose
-    hovedDiagnose: (schema) => {
-        if (schema.hovedDiagnose && schema.hovedDiagnose.system) {
-            if (!schema.hovedDiagnose.kode) return 'Kode tilhørende hoveddiagnose må være definert når system er valgt';
-        }
-        return undefined;
-    },
+    hovedDiagnose: () => undefined,
     biDiagnoser: (schema) => {
-        if (schema.biDiagnoser?.length) {
-            let feilmelding: string | undefined = undefined;
-            schema.biDiagnoser.forEach((biDiagnose) => {
-                if (biDiagnose.system && biDiagnose.system !== '') {
-                    if (!biDiagnose.kode || biDiagnose.kode === '') {
-                        feilmelding = 'Kode tilhørende én eller flere bidiagnoser må være definert når system er valg';
-                    }
-                }
-            });
-            return feilmelding;
+        if (schema.biDiagnoser?.some((bidiagnose) => !bidiagnose.system || !bidiagnose.kode || !bidiagnose.tekst)) {
+            return 'En eller flere bidiagnoserader mangler utfylling';
         }
-        return undefined;
     },
+
     yrkesskade: () => undefined,
     yrkesskadeDato: (schema) => {
         if (schema.yrkesskade && !schema.yrkesskadeDato) {
