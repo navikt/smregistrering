@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Select } from 'nav-frontend-skjema';
 
@@ -17,9 +17,11 @@ type HoveddiagnoseProps = {
 };
 
 const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: HoveddiagnoseProps) => {
-    const hoveddiagnose = formState.hovedDiagnose;
-    const hoveddiagnoseSystem: keyof Diagnosekoder | undefined =
-        hoveddiagnose && (hoveddiagnose.system as keyof Diagnosekoder);
+    useEffect(() => {
+        if (!formState.hovedDiagnose) {
+            setFormState((formState) => ({ ...formState, hovedDiagnose: { system: DiagnosekodeSystem.ICD10 } }));
+        }
+    }, [formState, setFormState]);
 
     return (
         <div id={id}>
@@ -28,28 +30,25 @@ const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: Hov
                 <Select
                     id={id + '-system'}
                     className="form-margin-bottom"
-                    value={hoveddiagnoseSystem}
+                    defaultValue={DiagnosekodeSystem.ICD10}
+                    value={formState.hovedDiagnose?.system}
                     onChange={({ target: { value } }) => {
-                        const system = value === 'undefined' ? undefined : (value as keyof Diagnosekoder);
-                        const updatedDiagnose = {
-                            system,
-                            kode: '',
-                            tekst: '',
-                        };
                         setFormState((formState) => ({
                             ...formState,
-                            hovedDiagnose: system ? updatedDiagnose : undefined,
+                            hovedDiagnose: {
+                                ...formState.hovedDiagnose,
+                                system: value,
+                            },
                         }));
                     }}
                     label={<Element>3.1.1 Kodesystem</Element>}
                 >
-                    <option value="undefined">Velg kodesystem</option>
                     <option value={DiagnosekodeSystem.ICD10}>ICD-10</option>
                     <option value={DiagnosekodeSystem.ICPC2}>ICPC-2</option>
                 </Select>
                 <SearchableInput
                     id={id + '-kode'}
-                    system={hoveddiagnoseSystem}
+                    system={formState.hovedDiagnose?.system}
                     diagnosekoder={diagnosekoder}
                     label={<Element>3.1.2 Kode</Element>}
                     onChange={(kode?: string, tekst?: string) => {
@@ -58,12 +57,12 @@ const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: Hov
                             hovedDiagnose: { ...formState.hovedDiagnose, kode, tekst },
                         }));
                     }}
-                    value={hoveddiagnose}
+                    value={formState.hovedDiagnose}
                 />
                 <div>
                     <label htmlFor={id + '-tekst'}>3.1.3 Tekst</label>
                     <Normaltekst id={id + '-tekst'} style={{ marginTop: '8px' }}>
-                        {hoveddiagnose && hoveddiagnose.tekst ? hoveddiagnose.tekst : '-'}
+                        {formState.hovedDiagnose?.tekst ? formState.hovedDiagnose.tekst : '-'}
                     </Normaltekst>
                 </div>
             </Row>
