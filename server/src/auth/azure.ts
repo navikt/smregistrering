@@ -16,9 +16,7 @@ const client = async (config: Config) => {
   const httpAgent = httpProxyAgent(config);
   if (httpAgent) {
     custom.setHttpOptionsDefaults({
-      agent: {
-        http: httpAgent,
-      },
+      agent: httpAgent,
     });
   }
   const issuer = await Issuer.discover(config.azureAd.discoveryUrl);
