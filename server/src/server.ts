@@ -40,7 +40,11 @@ async function startApp() {
     server.use(express.urlencoded({ extended: true }));
 
     // deafults for headers
-    server.use(helmet());
+    server.use(
+      helmet({
+        contentSecurityPolicy: false,
+      }),
+    );
 
     // cors policy
     setupCors(server, config);
