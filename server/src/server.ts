@@ -79,7 +79,7 @@ async function startApp() {
     } else if (error.code === 'ETIMEDOUT') {
       logger.error('ETIMEDOUT: Request timed out');
     } else {
-      logger.error('Error during startup', error.message);
+      logger.error('Error during startup', error);
     }
   }
 }
