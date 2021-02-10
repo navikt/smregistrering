@@ -13,10 +13,12 @@ const client = async (config: Config) => {
     redirect_uris: [config.azureAd.redirectUri],
     token_endpoint_auth_method: 'client_secret_post',
   };
-  const agent = httpProxyAgent(config);
-  if (agent) {
+  const httpAgent = httpProxyAgent(config);
+  if (httpAgent) {
     custom.setHttpOptionsDefaults({
-      agent: agent,
+      agent: {
+        http: httpAgent,
+      },
     });
   }
   const issuer = await Issuer.discover(config.azureAd.discoveryUrl);

@@ -13,6 +13,7 @@ declare global {
     interface User {
       tokenSets: TokenSets;
       claims: IdTokenClaims;
+      redirectTo?: string;
     }
   }
 }

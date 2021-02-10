@@ -14,8 +14,8 @@ const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) =>
   if (req.isAuthenticated() && hasValidAccessToken(req, 'self')) {
     next();
   } else {
-    if (req.session && req.query.oppgaveid) {
-      req.session.redirectTo = req.url;
+    if (req.user && req.query.oppgaveid) {
+      req.user.redirectTo = req.url;
     }
 
     logger.info('not logged in. redirecting to /login');
@@ -35,9 +35,9 @@ const setup = (authClient: Client, config: Config) => {
   // Login routes
   router.get('/login', passport.authenticate('azureOidc', { failureRedirect: '/login' }));
   router.use('/callback', passport.authenticate('azureOidc', { failureRedirect: '/login' }), (req, res) => {
-    if (req.session?.redirectTo) {
-      logger.info(`succsessfully logged in. redirecting to ${req.session.redirectTo}`);
-      res.redirect(req.session.redirectTo);
+    if (req.user?.redirectTo) {
+      logger.info(`succsessfully logged in. redirecting to ${req.user.redirectTo}`);
+      res.redirect(req.user.redirectTo);
     } else {
       logger.info('succsessfully logged in. redirecting to "/"');
       res.redirect('/');

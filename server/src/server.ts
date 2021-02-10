@@ -65,7 +65,7 @@ async function startApp() {
     passport.serializeUser((user, done) => done(null, user));
     // type check the user object returned from session storage
     // attach user object from session to req.user object
-    passport.deserializeUser((user, done) => done(null, user));
+    passport.deserializeUser((user, done) => done(null, user as Express.User));
 
     // setup routes
     server.use('/', routes.setup(azureAuthClient, config));
