@@ -16,6 +16,7 @@ const client = async (config: Config) => {
   const httpAgent = httpProxyAgent(config);
   if (httpAgent) {
     custom.setHttpOptionsDefaults({
+      // @ts-ignore
       agent: httpAgent,
     });
   }
