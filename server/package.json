@@ -1,7 +1,8 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "repository": "github.com/navikt/smregistrering",
+  "description": "Static file and proxy server for registration of papirsykmelding",
   "main": "server.js",
   "scripts": {
     "test": "jest",
@@ -27,20 +28,20 @@
     "typescript": "^3.8.2"
   },
   "dependencies": {
-    "connect-redis": "^4.0.4",
+    "redis": "^3.0.2",
+    "connect-redis": "^5.1.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-http-proxy": "^1.6.0",
-    "express-session": "^1.17.0",
-    "fp-ts": "^2.5.3",
+    "express-http-proxy": "^1.6.2",
+    "express-session": "^1.17.1",
     "fs": "0.0.1-security",
-    "helmet": "^3.21.2",
-    "io-ts": "^2.2.0",
+    "helmet": "^4.4.1",
+    "fp-ts": "^2.9.5",
+    "io-ts": "^2.2.14",
     "io-ts-promise": "^2.0.2",
-    "openid-client": "^3.13.0",
+    "openid-client": "^4.4.0",
     "passport": "^0.4.1",
     "path": "^0.12.7",
-    "redis": "^3.0.2",
     "tunnel": "0.0.6",
     "winston": "^3.3.3"
   }
