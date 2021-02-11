@@ -37,7 +37,7 @@
     "helmet": "^4.4.1",
     "io-ts": "^2.2.14",
     "io-ts-promise": "^2.0.2",
-    "openid-client": "^4.4.0",
+    "openid-client": "^3.15.10",
     "passport": "^0.4.1",
     "path": "^0.12.7",
     "redis": "^3.0.2",
