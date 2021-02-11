@@ -14,8 +14,9 @@ const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) =>
   if (req.isAuthenticated() && hasValidAccessToken(req, 'self')) {
     next();
   } else {
-    if (req.user && req.query.oppgaveid) {
-      req.user.redirectTo = req.url;
+    if (req.session && req.query.oppgaveid) {
+      // @ts-ignore . express-session spec allows setting session variables
+      req.session.redirectTo = req.url;
     }
 
     logger.info('not logged in. redirecting to /login');
@@ -35,11 +36,13 @@ const setup = (authClient: Client, config: Config) => {
   // Login routes
   router.get('/login', passport.authenticate('azureOidc', { failureRedirect: '/login' }));
   router.use('/callback', passport.authenticate('azureOidc', { failureRedirect: '/login' }), (req, res) => {
-    if (req.user?.redirectTo) {
-      logger.info(`succsessfully logged in. redirecting to ${req.user.redirectTo}`);
-      res.redirect(req.user.redirectTo);
+    // @ts-ignore
+    const redirectUrl = req.session?.redirectTo;
+    if (redirectUrl) {
+      logger.info(`succsessfully logged in. redirecting to ${redirectUrl}`);
+      res.redirect(redirectUrl);
     } else {
-      logger.info('succsessfully logged in. redirecting to "/"');
+      logger.info('succsessfully logged in, but no redirect url was present for the session. redirecting to "/"');
       res.redirect('/');
     }
   });
