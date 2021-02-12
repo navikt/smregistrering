@@ -10,45 +10,26 @@ context('Submit oppgave', () => {
             win.fetch = null;
         });
 
-        cy.server(); // enable response stubbing
-
-        cy.route({
-            method: 'GET',
-            url: '/modiacontextholder/api/context/aktivenhet',
-            response: { aktivBruker: null, aktivEnhet: '0314' },
+        cy.intercept('GET', '/modiacontextholder/api/context/aktivenhet', { aktivBruker: null, aktivEnhet: '0314' });
+        cy.intercept('GET', '/modiacontextholder/api/decorator', {
+            ident: 'Z123456',
+            navn: 'F_Z123456 E_Z123456',
+            fornavn: 'F_Z123456',
+            etternavn: 'E_Z123456',
+            enheter: [
+                { enhetId: '0314', navn: 'NAV Sagene' },
+                { enhetId: '0393', navn: 'NAV Oppfølging utland' },
+            ],
         });
-        cy.route({
-            method: 'GET',
-            url: '/modiacontextholder/api/decorator',
-            response: {
-                ident: 'Z123456',
-                navn: 'F_Z123456 E_Z123456',
-                fornavn: 'F_Z123456',
-                etternavn: 'E_Z123456',
-                enheter: [
-                    { enhetId: '0314', navn: 'NAV Sagene' },
-                    { enhetId: '0393', navn: 'NAV Oppfølging utland' },
-                ],
-            },
-        });
-        cy.route({
-            method: 'GET',
-            url: '/backend/api/v1/sykmelder/1234567',
-            response: 'fixture:sykmelder.json',
-        });
+        cy.intercept('GET', '/backend/api/v1/sykmelder/1234567', { fixture: 'sykmelder.json' });
     });
 
     it('Should be able to fill out form and submit', () => {
-        cy.route({
-            method: 'GET',
-            url: '/backend/api/v1/oppgave/123',
-            response: 'fixture:emptyOppgave.json', // Gets the response from ../fixtures/emptyOppgave.json
+        cy.intercept('GET', '/backend/api/v1/oppgave/123', {
+            fixture: 'emptyOppgave.json', // Gets the response from ../fixtures/emptyOppgave.json
         }).as('getOppgave');
-        cy.route({
-            method: 'POST',
-            url: '/backend/api/v1/oppgave/123/send',
-            status: 204,
-            response: {},
+        cy.intercept('POST', '/backend/api/v1/oppgave/123/send', {
+            statusCode: 204,
         }).as('postOppgave');
 
         cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
@@ -93,7 +74,7 @@ context('Submit oppgave', () => {
 
         // Avventende
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-0').select('avventende', { force: true });
-        cy.getAndScrollIntoView('#avventendePeriode-0').focus().should('be.focused').type('010120-030120');
+        cy.getAndScrollIntoView('#avventendePeriode-0').focus().should('be.focused').type('010120-030120{enter}');
         cy.getAndScrollIntoView('#avventendeInnspillTilArbeidsgiver-0').type('Innspill til arbeidsgiver', {
             force: true,
         });
@@ -101,14 +82,17 @@ context('Submit oppgave', () => {
 
         // Gradert
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-1').select('gradert', { force: true });
-        cy.getAndScrollIntoView('#gradertPeriode-1').focus().should('be.focused').type('010220-030220');
+        cy.getAndScrollIntoView('#gradertPeriode-1').focus().should('be.focused').type('010220-030220{enter}');
         cy.getAndScrollIntoView('#gradertGrad-1').type('80', { force: true });
         cy.getAndScrollIntoView('#gradertReisetilskudd-1').click({ force: true }).should('be.checked');
         cy.getAndScrollIntoView('#mulighetForArbeid-leggTilPeriode').click();
 
         // Aktivitet ikke mulig
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-2').select('fullsykmelding', { force: true });
-        cy.getAndScrollIntoView('#aktivitetIkkeMuligPeriode-2').focus().should('be.focused').type('010320-030320');
+        cy.getAndScrollIntoView('#aktivitetIkkeMuligPeriode-2')
+            .focus()
+            .should('be.focused')
+            .type('010320-030320{enter}');
         cy.getAndScrollIntoView('#aktivitetIkkeMuligMedisinskArsak-2').click({ force: true }).should('be.checked');
         cy.get('#TILSTAND_HINDRER_AKTIVITET-medisinsk-2').click({ force: true }).should('be.checked');
         cy.getAndScrollIntoView('#aktivitetIkkeMuligMedisinskArsakBeskrivelse-2').type('Medisinsk beskrivelse', {
@@ -128,13 +112,13 @@ context('Submit oppgave', () => {
 
         // Behandlingsdager
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-3').select('behandlingsdager', { force: true });
-        cy.getAndScrollIntoView('#behandlingsdagerPeriode-3').focus().should('be.focused').type('010420-030420');
+        cy.getAndScrollIntoView('#behandlingsdagerPeriode-3').focus().should('be.focused').type('010420-030420{enter}');
         cy.getAndScrollIntoView('#behandlingsdagerAntall-3').type('1', { force: true });
         cy.getAndScrollIntoView('#mulighetForArbeid-leggTilPeriode').click();
 
         // Reisetilskudd
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-4').select('reisetilskudd', { force: true });
-        cy.getAndScrollIntoView('#reisetilskuddPeriode-4').focus().should('be.focused').type('010520-030520');
+        cy.getAndScrollIntoView('#reisetilskuddPeriode-4').focus().should('be.focused').type('010520-030520{enter}');
 
         // 6 Utdypende opplysninger
         cy.getAndScrollIntoView('#harUtdypendeOpplysninger').click({ force: true }).should('be.checked');
@@ -148,7 +132,7 @@ context('Submit oppgave', () => {
 
         // 10 Tilbakedatering
         cy.getAndScrollIntoView('#erTilbakedatert').click({ force: true }).should('be.checked');
-        cy.getAndScrollIntoView('#kontaktDato').focus().should('be.focused').type('151020');
+        cy.getAndScrollIntoView('#kontaktDato').focus().should('be.focused').type('151020{enter}');
         cy.getAndScrollIntoView('#kunneIkkeIvaretaEgneInteresser').click({ force: true }).should('be.checked');
         cy.getAndScrollIntoView('#begrunnelseIkkeKontakt').type('Hadde omgangssyke', { force: true });
 
