@@ -20,20 +20,27 @@ $ npm install
 
 ### Start local development-server
 
+Running the following command will load the file `.env.development` as environment variables
+
 ```bash
-$ npm run start-with-mock # Starts development server at http://localhost:4000
+$ npm start # Starts development server
 ```
 
 ### Ende-til-ende-tester med [Cypress](https://www.cypress.io)
 
+Running all integration test from the command line:
+
 ```bash
-$ npm run start & npx wait-on http://localhost:4000 && npx cypress open
-# Starts a local development server at http://localhost:4000 as a background task,
-# waits for response at the endpoint
-# and then starts the test runner in interactive mode
+$ npm run test-integration
 ```
 
-Eventuelt kan man kjøre `$ npm start` og `$ npx cypress open` i to separate terminalvinduer.
+Starting the cypress desktop application, where you can choose which tests to run:
+
+```bash
+$ NODE_ENV=test npm start & npx wait-on http://localhost:4321 && npx cypress open
+```
+
+Eventuelt kan man kjøre `$ NODE_ENV=test npm start` og `$ npx cypress open` i to separate terminalvinduer.
 
 ### Testing in the development environment
 
