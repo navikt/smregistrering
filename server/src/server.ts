@@ -40,7 +40,11 @@ async function startApp() {
     server.use(express.urlencoded({ extended: true }));
 
     // deafults for headers
-    server.use(helmet());
+    server.use(
+      helmet({
+        contentSecurityPolicy: false,
+      }),
+    );
 
     // cors policy
     setupCors(server, config);
@@ -61,7 +65,7 @@ async function startApp() {
     passport.serializeUser((user, done) => done(null, user));
     // type check the user object returned from session storage
     // attach user object from session to req.user object
-    passport.deserializeUser((user, done) => done(null, user));
+    passport.deserializeUser((user, done) => done(null, user as Express.User));
 
     // setup routes
     server.use('/', routes.setup(azureAuthClient, config));
@@ -72,10 +76,8 @@ async function startApp() {
   } catch (error) {
     if (iotsPromise.isDecodeError(error)) {
       logger.error('io-ts decode error. Are all required environment variables present?');
-    } else if (error.code === 'ETIMEDOUT') {
-      logger.error('ETIMEDOUT: Request timed out');
     } else {
-      logger.error('Error during startup', error.message);
+      logger.error(`Error during startup. name=${error.type}. code=${error.code}`);
     }
   }
 }
