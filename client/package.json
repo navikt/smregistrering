@@ -83,7 +83,7 @@
         "build": "craco build",
         "start": "craco start",
         "test": "npm-run-all test-unit test-integration",
-        "test-unit": "NODE_ENV=test craco test --env jest-environment-jsdom-fourteen",
+        "test-unit": "NODE_ENV=test craco test",
         "test-integration": "NODE_ENV=test npm-run-all --parallel start cypress-start",
         "cypress-start": "wait-on http://localhost:4321 && cypress run",
         "lint": "eslint 'src/**/**.{ts,tsx,js,jsx}'",
