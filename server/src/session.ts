@@ -24,7 +24,7 @@ const setup = (server: Application, config: Config): Promise<null> => {
           saveUninitialized: true,
         }),
       );
-      return resolve();
+      return resolve(null);
     } else {
       logger.info('Using Redis for session storage');
       const RedisStore = require('connect-redis')(session);
@@ -37,7 +37,7 @@ const setup = (server: Application, config: Config): Promise<null> => {
       });
       client.on('connect', () => {
         logger.info('Connected to Redis');
-        return resolve();
+        return resolve(null);
       });
 
       const store = new RedisStore({
