@@ -54,7 +54,7 @@
         "react-scripts": "4.0.2",
         "react-select": "^3.1.0",
         "react-window": "^1.8.6",
-        "typescript": "^3.9.7",
+        "typescript": "^4.1.5",
         "whatwg-fetch": "^3.4.0"
     },
     "devDependencies": {
