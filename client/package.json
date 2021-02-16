@@ -5,7 +5,7 @@
     "dependencies": {
         "@navikt/navspa": "^3.0.1",
         "classnames": "^2.2.6",
-        "craco-less": "^1.17.0",
+        "craco-less": "^1.17.1",
         "dayjs": "^1.10.4",
         "flatpickr": "^4.6.9",
         "fp-ts": "^2.9.5",
