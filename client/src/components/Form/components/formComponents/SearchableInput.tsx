@@ -8,11 +8,11 @@ import { Diagnose } from '../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
 
 type OptionObject = { value: string; label: string; text: string };
-type OptionValueType = ValueType<OptionObject>;
+type OptionValueType = ValueType<OptionObject, false>;
 
 const HEIGHT = 35;
 
-const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentProps<OptionObject>) => {
+const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentProps<OptionObject, false>) => {
     // TODO: Re-write this so it doesn't require ts-ignore
     // @ts-ignore Works, but TypeScript doesn't like it
     const [value] = getValue();
