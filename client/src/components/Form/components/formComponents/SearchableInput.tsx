@@ -1,18 +1,18 @@
 import './SearchableInput.less';
 
-import React, { CSSProperties } from 'react';
-import Select, { MenuListComponentProps, ValueType, createFilter } from 'react-select';
+import React from 'react';
+import Select, { MenuListComponentProps, StylesConfig, ValueType, createFilter } from 'react-select';
 import { FixedSizeList } from 'react-window';
 
 import { Diagnose } from '../../../../types/RegistrertSykmelding';
 import { Diagnosekoder } from '../../../../types/Diagnosekode';
 
 type OptionObject = { value: string; label: string; text: string };
-type OptionValueType = ValueType<OptionObject>;
+type OptionValueType = ValueType<OptionObject, false>;
 
 const HEIGHT = 35;
 
-const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentProps<OptionObject>) => {
+const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentProps<OptionObject, false>) => {
     // TODO: Re-write this so it doesn't require ts-ignore
     // @ts-ignore Works, but TypeScript doesn't like it
     const [value] = getValue();
@@ -39,16 +39,16 @@ const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentP
 };
 
 // Custom styles to mimic the NAV Input style
-const customStyles = {
-    control: (provided: CSSProperties) => ({
-        ...provided,
+const customStyles: StylesConfig<OptionObject, false> = {
+    control: (base) => ({
+        ...base,
         border: '1px solid #78706a',
         minHeight: '39px',
     }),
-    indicatorSeparator: (provided: CSSProperties) => ({ ...provided, display: 'none' }),
-    dropdownIndicator: (provided: CSSProperties) => ({ ...provided, color: '#3E3832' }),
-    placeholder: (provided: CSSProperties) => ({
-        ...provided,
+    indicatorSeparator: (base) => ({ ...base, display: 'none' }),
+    dropdownIndicator: (base) => ({ ...base, color: '#3E3832' }),
+    placeholder: (base) => ({
+        ...base,
         color: 'black',
         fontSize: '1rem',
         lineHeight: '1.375rem',

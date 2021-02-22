@@ -1,16 +1,17 @@
+import Lenke from 'nav-frontend-lenker';
 import React from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+
 import { OppgaveGoneError } from '../utils/dataUtils';
-import Lenke from 'nav-frontend-lenker';
 
 const ErrorView = ({ error }: { error: Error }) => {
     if (error instanceof OppgaveGoneError) {
         return (
             <div role="region" aria-label="feilmelding">
                 <Systemtittel>En feil oppsto</Systemtittel>
-                <br/>
+                <br />
                 <Normaltekst>{error.message}</Normaltekst>
-                <br/>
+                <br />
                 <Lenke href={process.env.REACT_APP_GOSYS_URL!}>Tilbake til GOSYS</Lenke>
             </div>
         );
@@ -19,7 +20,7 @@ const ErrorView = ({ error }: { error: Error }) => {
     return (
         <div role="region" aria-label="feilmelding">
             <Systemtittel>En feil oppsto</Systemtittel>
-            <br/>
+            <br />
             <Normaltekst>{error.message}</Normaltekst>
         </div>
     );

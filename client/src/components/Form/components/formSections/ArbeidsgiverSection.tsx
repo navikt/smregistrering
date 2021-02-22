@@ -4,8 +4,8 @@ import { FeiloppsummeringFeil, Input, Select } from 'nav-frontend-skjema';
 
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
-import { HarArbeidsgiver } from '../../../../types/RegistrertSykmelding';
 import { FormType } from '../../Form';
+import { HarArbeidsgiver } from '../../../../types/RegistrertSykmelding';
 import { Section } from '../../../../types/Section';
 
 export type Arbeidsgiver = {
