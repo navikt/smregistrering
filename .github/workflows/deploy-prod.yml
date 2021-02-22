@@ -2,7 +2,7 @@ name: Deploy to prod
 on:
   push:
     branches:
-      - "master"
+      - 'master'
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering:${{ github.sha }}
 jobs:
@@ -15,7 +15,7 @@ jobs:
       - name: Use Node
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: '14.x'
       - name: Install dependencies for server
         run: |
           npm install

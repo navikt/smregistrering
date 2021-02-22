@@ -36,7 +36,7 @@ context('Mulighet for arbeid section', () => {
 
         // Avventende
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-0').select('avventende', { force: true });
-        cy.getAndScrollIntoView('#avventendePeriode-0').focus().should('be.focused').type('010120-030120');
+        cy.getAndScrollIntoView('#avventendePeriode-0').focus().should('be.focused').type('010120-030120{enter}');
         cy.getAndScrollIntoView('#avventendeInnspillTilArbeidsgiver-0').type('Innspill til arbeidsgiver', {
             force: true,
         });
@@ -44,14 +44,17 @@ context('Mulighet for arbeid section', () => {
 
         // Gradert
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-1').select('gradert', { force: true });
-        cy.getAndScrollIntoView('#gradertPeriode-1').focus().should('be.focused').type('010220-030220');
+        cy.getAndScrollIntoView('#gradertPeriode-1').focus().should('be.focused').type('010220-030220{enter}');
         cy.getAndScrollIntoView('#gradertGrad-1').type('80', { force: true });
         cy.getAndScrollIntoView('#gradertReisetilskudd-1').click({ force: true }).should('be.checked');
         cy.getAndScrollIntoView('#mulighetForArbeid-leggTilPeriode').click();
 
         // Aktivitet ikke mulig
         cy.getAndScrollIntoView('#mulighetForArbeid-selector-2').select('fullsykmelding', { force: true });
-        cy.getAndScrollIntoView('#aktivitetIkkeMuligPeriode-2').focus().should('be.focused').type('010320-030320');
+        cy.getAndScrollIntoView('#aktivitetIkkeMuligPeriode-2')
+            .focus()
+            .should('be.focused')
+            .type('010320-030320{enter}');
         cy.getAndScrollIntoView('#aktivitetIkkeMuligMedisinskArsak-2').click({ force: true }).should('be.checked');
         cy.get('#TILSTAND_HINDRER_AKTIVITET-medisinsk-2').click({ force: true }).should('be.checked');
         cy.getAndScrollIntoView('#aktivitetIkkeMuligMedisinskArsakBeskrivelse-2').type('Medisinsk beskrivelse', {
