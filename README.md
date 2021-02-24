@@ -3,6 +3,10 @@
 Frontend-applikasjon for manuell registrering av sykmeldinger som ankommer på papir og blir tolket via skanning.
 ![software architecture](smregistrering-chart.png)
 
+## NAIS-labs demo lenke:
+
+https://smregistrering.labs.nais.io/
+
 ## Utvikling
 
 Klon repo
@@ -17,10 +21,6 @@ Installer avhengigheter
 $ cd client
 $ npm install
 ```
-
-## NAIS-labs demo lenke:
-
-https://smregistrering.labs.nais.io/
 
 ### Start local development-server
 
