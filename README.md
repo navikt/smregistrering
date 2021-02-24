@@ -18,6 +18,10 @@ $ cd client
 $ npm install
 ```
 
+## NAIS-labs demo lenke:
+
+https://smregistrering.labs.nais.io/
+
 ### Start local development-server
 
 Running the following command will load the file `.env.development` as environment variables
