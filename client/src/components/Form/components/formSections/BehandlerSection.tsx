@@ -12,6 +12,7 @@ import SykmelderInformation from '../formComponents/SykmelderInformation';
 import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Sykmelder } from '../../../../types/Sykmelder';
+import moment from "moment";
 
 export type Behandler = {
     behandletDato?: Date | null;
@@ -95,6 +96,11 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                 }}
                 feil={errors.get('behandletDato')?.feilmelding}
             />
+            {formState.behandletDato != undefined &&
+            <div style={{ marginTop: '-0.5rem', marginBottom: '2rem' }}>
+                Dato valgt: {moment(formState.behandletDato).format("Do MMMM YYYY")}
+            </div>
+            }
 
             <Row>
                 <Input

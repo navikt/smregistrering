@@ -7,6 +7,7 @@ import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
+import moment from "moment";
 
 export type Tilbakedatering = {
     erTilbakedatert: boolean;
@@ -52,6 +53,11 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
                     />
                 </ExpandableField>
             </Subsection>
+            {formState.kontaktDato != undefined &&
+                <div style={{ marginTop: '-0.5rem', marginBottom: '2rem' }}>
+                    Dato valgt: {moment(formState.kontaktDato).format("Do MMMM YYYY")}
+                </div>
+            }
 
             <Subsection sectionIdentifier="11.2" underline={false}>
                 <Checkbox
