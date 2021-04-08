@@ -7,7 +7,7 @@ import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
-import moment from "moment";
+import dayjs from "dayjs";
 
 export type Tilbakedatering = {
     erTilbakedatert: boolean;
@@ -55,7 +55,7 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
             </Subsection>
             {formState.kontaktDato != undefined &&
                 <div style={{ marginTop: '-0.5rem', marginBottom: '2rem' }}>
-                    Dato valgt: {moment(formState.kontaktDato).format("Do MMMM YYYY")}
+                    Dato valgt: {dayjs(formState.kontaktDato).format("Do MMMM YYYY")}
                 </div>
             }
 

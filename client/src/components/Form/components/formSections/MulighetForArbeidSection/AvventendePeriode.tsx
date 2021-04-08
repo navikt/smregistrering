@@ -7,7 +7,7 @@ import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 import RangePicker from '../../formComponents/RangePicker';
 import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import moment from "moment";
+import dayjs from "dayjs";
 
 export type AvventendePeriodeMFA = {
     type: MFAOptions;
@@ -42,7 +42,7 @@ const AvventendePeriode = ({ updateMfa, mfaPeriode, errors, index }: AvventendeP
             />
             {mfaPeriode.avventendePeriode != undefined &&
                 <div style={{ marginTop: '-0.5rem', marginBottom: '2rem' }}>
-                    Periode valgt: {moment(mfaPeriode.avventendePeriode[0]).format("Do MMMM YYYY")} - {moment(mfaPeriode.avventendePeriode[1]).format("Do MMMM YYYY")}
+                    Periode valgt: {dayjs(mfaPeriode.avventendePeriode[0]).format("Do MMMM YYYY")} - {dayjs(mfaPeriode.avventendePeriode[1]).format("Do MMMM YYYY")}
                 </div>
             }
             <Textarea

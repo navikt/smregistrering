@@ -13,8 +13,8 @@ import { AnnenFraverGrunn, Diagnose } from '../../../../../types/RegistrertSykme
 import { Diagnosekoder } from '../../../../../types/Diagnosekode';
 import { FormType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
-import moment from 'moment';
-import 'moment/locale/nb';
+import dayjs from 'dayjs';
+import 'dayjs/locale/nb';
 
 export type MedisinskVurdering = {
     hovedDiagnose?: Partial<Diagnose>;
@@ -134,7 +134,7 @@ const DiagnoseSection = ({ section, setFormState, formState, errors, diagnosekod
                 </ExpandableField>
                 {formState.yrkesskadeDato != undefined &&
                     <div style={{ marginTop: '-0.5rem', marginBottom: '1rem' }}>
-                        Dato valgt: {moment(formState.yrkesskadeDato).format("Do MMMM YYYY")}
+                        Dato valgt: {dayjs(formState.yrkesskadeDato).format("Do MMMM YYYY")}
                     </div>
                 }
             </Subsection>

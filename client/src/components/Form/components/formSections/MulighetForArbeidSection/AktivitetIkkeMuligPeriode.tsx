@@ -11,7 +11,7 @@ import RangePicker from '../../formComponents/RangePicker';
 import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
 import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import moment from "moment";
+import dayjs from "dayjs";
 
 export type AktivitetIkkeMuligPeriodeMFA = {
     type: MFAOptions;
@@ -51,7 +51,7 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
             />
             {mfaPeriode.aktivitetIkkeMuligPeriode != undefined &&
             <div style={{marginTop: '-0.5rem', marginBottom: '2rem'}}>
-                Periode valgt: {moment(mfaPeriode.aktivitetIkkeMuligPeriode[0]).format("Do MMMM YYYY")} - {moment(mfaPeriode.aktivitetIkkeMuligPeriode[1]).format("Do MMMM YYYY")}
+                Periode valgt: {dayjs(mfaPeriode.aktivitetIkkeMuligPeriode[0]).format("Do MMMM YYYY")} - {dayjs(mfaPeriode.aktivitetIkkeMuligPeriode[1]).format("Do MMMM YYYY")}
             </div>
             }
             <Checkbox
