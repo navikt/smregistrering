@@ -1,6 +1,7 @@
 import './MulighetForArbeidSection.less';
 
 import React from 'react';
+import dayjs from 'dayjs';
 import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
@@ -11,7 +12,6 @@ import RangePicker from '../../formComponents/RangePicker';
 import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
 import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import dayjs from "dayjs";
 
 export type AktivitetIkkeMuligPeriodeMFA = {
     type: MFAOptions;
@@ -49,11 +49,6 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                     updateMfa(updatedSchema);
                 }}
             />
-            {mfaPeriode.aktivitetIkkeMuligPeriode != undefined &&
-            <div style={{marginTop: '-0.5rem', marginBottom: '2rem'}}>
-                Periode valgt: {dayjs(mfaPeriode.aktivitetIkkeMuligPeriode[0]).format("Do MMMM YYYY")} - {dayjs(mfaPeriode.aktivitetIkkeMuligPeriode[1]).format("Do MMMM YYYY")}
-            </div>
-            }
             <Checkbox
                 id={`aktivitetIkkeMuligMedisinskArsak-${index}`}
                 className="form-margin-bottom"

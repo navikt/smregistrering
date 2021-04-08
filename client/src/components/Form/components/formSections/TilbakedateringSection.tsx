@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import { Checkbox, FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import DatePicker from '../formComponents/DatePicker';
@@ -7,7 +8,6 @@ import SectionContainer from '../SectionContainer';
 import Subsection from '../formComponents/Subsection';
 import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
-import dayjs from "dayjs";
 
 export type Tilbakedatering = {
     erTilbakedatert: boolean;
@@ -53,11 +53,6 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
                     />
                 </ExpandableField>
             </Subsection>
-            {formState.kontaktDato != undefined &&
-                <div style={{ marginTop: '-0.5rem', marginBottom: '2rem' }}>
-                    Dato valgt: {dayjs(formState.kontaktDato).format("Do MMMM YYYY")}
-                </div>
-            }
 
             <Subsection sectionIdentifier="11.2" underline={false}>
                 <Checkbox

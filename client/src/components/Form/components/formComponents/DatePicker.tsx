@@ -3,6 +3,8 @@ import './datepicker-extended.less';
 
 import Flatpickr from 'react-flatpickr';
 import React from 'react';
+import dayjs from 'dayjs';
+import { Normaltekst } from 'nav-frontend-typografi';
 
 import ClearButton from './ClearButton';
 import calendar from '../../../../svg/calendar.svg';
@@ -51,6 +53,11 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
                     buttonText="Fjern dato"
                 />
             </div>
+            {!!value && (
+                <Normaltekst style={{ marginTop: '-0.5rem', marginBottom: '1rem' }}>
+                    Dato valgt: {dayjs(value).format('D. MMMM YYYY')}
+                </Normaltekst>
+            )}
             {feil && (
                 <div className="skjemaelement__feilmelding">
                     <p className="typo-feilmelding">{feil}</p>

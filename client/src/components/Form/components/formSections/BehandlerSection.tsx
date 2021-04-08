@@ -1,5 +1,6 @@
 import * as iotsPromise from 'io-ts-promise';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -12,7 +13,6 @@ import SykmelderInformation from '../formComponents/SykmelderInformation';
 import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Sykmelder } from '../../../../types/Sykmelder';
-import dayjs from "dayjs";
 
 export type Behandler = {
     behandletDato?: Date | null;
@@ -96,11 +96,6 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                 }}
                 feil={errors.get('behandletDato')?.feilmelding}
             />
-            {formState.behandletDato != undefined &&
-            <div style={{ marginTop: '-0.5rem', marginBottom: '2rem' }}>
-                Dato valgt: {dayjs(formState.behandletDato).format("Do MMMM YYYY")}
-            </div>
-            }
 
             <Row>
                 <Input

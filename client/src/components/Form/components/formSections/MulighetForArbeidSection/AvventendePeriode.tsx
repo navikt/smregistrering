@@ -1,13 +1,13 @@
 import './MulighetForArbeidSection.less';
 
 import React from 'react';
+import dayjs from 'dayjs';
 import { Element } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';
 import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import dayjs from "dayjs";
 
 export type AvventendePeriodeMFA = {
     type: MFAOptions;
@@ -40,11 +40,6 @@ const AvventendePeriode = ({ updateMfa, mfaPeriode, errors, index }: AvventendeP
                     updateMfa(updatedSchema);
                 }}
             />
-            {mfaPeriode.avventendePeriode != undefined &&
-                <div style={{ marginTop: '-0.5rem', marginBottom: '2rem' }}>
-                    Periode valgt: {dayjs(mfaPeriode.avventendePeriode[0]).format("Do MMMM YYYY")} - {dayjs(mfaPeriode.avventendePeriode[1]).format("Do MMMM YYYY")}
-                </div>
-            }
             <Textarea
                 id={`avventendeInnspillTilArbeidsgiver-${index}`}
                 maxLength={0}

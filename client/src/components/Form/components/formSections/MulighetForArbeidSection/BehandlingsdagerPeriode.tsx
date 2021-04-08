@@ -1,13 +1,13 @@
 import './MulighetForArbeidSection.less';
 
 import React from 'react';
+import dayjs from 'dayjs';
 import { Element } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';
 import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
-import dayjs from "dayjs";
 
 export type BehandlingsdagerPeriodeMFA = {
     type: MFAOptions;
@@ -40,11 +40,6 @@ const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, errors, index }: Behan
                     updateMfa(updatedSchema);
                 }}
             />
-            {mfaPeriode.behandlingsdagerPeriode != undefined &&
-                <div style={{ marginTop: '-0.5rem', marginBottom: '2rem' }}>
-                    Periode valgt: {dayjs(mfaPeriode.behandlingsdagerPeriode[0]).format("Do MMMM YYYY")} - {dayjs(mfaPeriode.behandlingsdagerPeriode[1]).format("Do MMMM YYYY")}
-                </div>
-            }
 
             <Input
                 id={`behandlingsdagerAntall-${index}`}
