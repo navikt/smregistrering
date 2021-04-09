@@ -1,5 +1,4 @@
 import React from 'react';
-import dayjs from 'dayjs';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';

@@ -1,7 +1,6 @@
 import './MulighetForArbeidSection.less';
 
 import React from 'react';
-import dayjs from 'dayjs';
 import { Element } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 

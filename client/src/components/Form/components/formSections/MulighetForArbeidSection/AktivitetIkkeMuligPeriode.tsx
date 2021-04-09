@@ -1,7 +1,6 @@
 import './MulighetForArbeidSection.less';
 
 import React from 'react';
-import dayjs from 'dayjs';
 import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 

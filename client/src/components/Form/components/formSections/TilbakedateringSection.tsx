@@ -1,5 +1,4 @@
 import React from 'react';
-import dayjs from 'dayjs';
 import { Checkbox, FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import DatePicker from '../formComponents/DatePicker';

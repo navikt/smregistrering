@@ -1,6 +1,5 @@
 import * as iotsPromise from 'io-ts-promise';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 import { Normaltekst } from 'nav-frontend-typografi';
