@@ -20,20 +20,22 @@ type ReisetilskuddPeriodeProps = {
 
 const ReisetilskuddPeriode = ({ updateMfa, mfaPeriode, errors, index }: ReisetilskuddPeriodeProps) => {
     return (
-        <RangePicker
-            id={`reisetilskuddPeriode-${index}`}
-            labelFrom="F.o.m"
-            labelTo="t.o.m"
-            value={mfaPeriode.reisetilskuddPeriode || []}
-            onChange={(newDates) => {
-                const updatedSchema = {
-                    ...mfaPeriode,
-                    reisetilskuddPeriode: newDates,
-                };
+        <div className="mulighetForArbeid__subsection-container">
+            <RangePicker
+                id={`reisetilskuddPeriode-${index}`}
+                labelFrom="F.o.m"
+                labelTo="t.o.m"
+                value={mfaPeriode.reisetilskuddPeriode || []}
+                onChange={(newDates) => {
+                    const updatedSchema = {
+                        ...mfaPeriode,
+                        reisetilskuddPeriode: newDates,
+                    };
 
-                updateMfa(updatedSchema);
-            }}
-        />
+                    updateMfa(updatedSchema);
+                }}
+            />
+        </div>
     );
 };
 

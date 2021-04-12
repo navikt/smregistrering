@@ -1,9 +1,11 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
+import 'dayjs/locale/nb';
 
 import './index.less';
 
 import NAVSPA from '@navikt/navspa';
+import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 
 import App from './App';
@@ -21,6 +23,8 @@ declare global {
         };
     }
 }
+
+dayjs.locale('nb');
 
 if (process.env.REACT_APP_START_WITH_MOCK === 'true') {
     require('./mock/setup');
