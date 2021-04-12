@@ -55,7 +55,7 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
             </div>
             {!!value && (
                 <Normaltekst style={{ marginTop: '-0.5rem', marginBottom: '1rem' }}>
-                    Dato valgt: {dayjs(value).format('D. MMMM YYYY')}
+                    {dayjs(value).format('D. MMMM YYYY')}
                 </Normaltekst>
             )}
             {feil && (
