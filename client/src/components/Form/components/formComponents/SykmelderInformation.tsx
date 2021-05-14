@@ -56,7 +56,7 @@ const SykmelderInformation = ({ sykmelder, sykmeldersFornavn, sykmeldersEtternav
                         <Hjelpetekst>
                             <div style={{maxWidth: '20rem'}}>
                                 Dette er informasjon lest ut fra den skannede papirsykmeldingen. Hvis navnet ikke
-                                samsvarer med navnet over kan det tyde p√• at HPR-nummer har blitt tolket feil.
+                                samsvarer med navnet over kan det tyde på at HPR-nummer har blitt tolket feil.
                             </div>
                         </Hjelpetekst>
                     </div>
