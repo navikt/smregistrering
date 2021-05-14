@@ -151,5 +151,6 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
         sykmelderLand: oppgave.papirSmRegistering?.behandler?.adresse?.land,
         sykmelderTelefon: oppgave.papirSmRegistering?.behandler?.tlf,
         hpr: oppgave.papirSmRegistering?.behandler?.hpr,
+        behandlerNavnFraOcr: oppgave.papirSmRegistering?.behandler?.fornavn + " " + oppgave.papirSmRegistering?.behandler?.etternavn
     };
 };

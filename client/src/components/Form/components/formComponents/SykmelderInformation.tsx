@@ -9,12 +9,14 @@ import { EtikettAdvarsel, EtikettSuksess } from 'nav-frontend-etiketter';
 import FormLabel from './FormLabel';
 import Row from './Row';
 import { Helsepersonellkategori, Sykmelder, autorisasjon } from '../../../../types/Sykmelder';
+import Hjelpetekst from "nav-frontend-hjelpetekst";
 
 interface SykmelderInformationProps {
     sykmelder: Sykmelder | null | undefined;
+    behandlerNavnFraOcr: String | null | undefined;
 }
 
-const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
+const SykmelderInformation = ({ sykmelder, behandlerNavnFraOcr }: SykmelderInformationProps) => {
     if (!sykmelder) {
         return null;
     }
@@ -22,7 +24,12 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
     return (
         <article className="sykmelder-information">
             <header className="sykmelder-information__header">
+                <div className="form-label">
                 <Undertittel tag="h3">Informasjon om behandleren</Undertittel>
+                    <Hjelpetekst className="form-label__help-text">
+                        <div style={{ maxWidth: '20rem' }}>Informasjon om behandler er hentet fra HPR, basert på HPR-nummeret som ble lest ut fra papirsykmeldingen. Her kan det skje tolkningsfeil, pass på at informasjonen stemmer med informasjonen i papirsykmeldingen.</div>
+                    </Hjelpetekst>
+                </div>
             </header>
             <div className="sykmelder-information__content">
                 <Row>
@@ -32,6 +39,16 @@ const SykmelderInformation = ({ sykmelder }: SykmelderInformationProps) => {
                             <Normaltekst>
                                 {sykmelder.fornavn} {sykmelder.mellomnavn} {sykmelder.etternavn}
                             </Normaltekst>
+                            <div className="form-label" style={{flexWrap: 'wrap'}}>
+                                <Element tag="h5">Navn fra papirsykmelding</Element>
+                                <Hjelpetekst className="form-label__help-text">
+                                    <div style={{ maxWidth: '20rem' }}>Dette er informasjon lest ut fra den skannede papirsykmeldingen. Hvis navnet ikke samsvarer med navnet over kan det tyde på at HPR-nummer har blitt tolket feil.</div>
+                                </Hjelpetekst>
+                                <Normaltekst style={{flex: '1 1 100%'}}>
+                                    {behandlerNavnFraOcr ? behandlerNavnFraOcr : "Klarte ikke hente ut navn fra papirsykmelding"}
+                                </Normaltekst>
+                            </div>
+
                         </section>
                     ) : null}
                     <section>
