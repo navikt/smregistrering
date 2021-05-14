@@ -26,7 +26,6 @@ export type Behandler = {
     sykmelderKommune?: string | null;
     sykmelderPostboks?: string | null;
     sykmelderLand?: string | null;
-    behandlerNavnFraOcr?: String | null;
 };
 
 type BehandlerSectionProps = {
@@ -59,7 +58,6 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                     }
                 })
                 .then((jsonResponse) => {
-                    console.log(formState);
                     return iotsPromise.decode(Sykmelder, jsonResponse);
                 })
                 .then((sykmelder) => {
@@ -128,7 +126,7 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                 />
             </Row>
 
-            {sykmelder ? <SykmelderInformation sykmelder={sykmelder} behandlerNavnFraOcr={formState.behandlerNavnFraOcr} /> : null}
+            {sykmelder ? <SykmelderInformation sykmelder={sykmelder} sykmeldersFornavn={formState.sykmeldersFornavn} sykmeldersEtternavn={formState.sykmeldersEtternavn}  /> : null}
             {isLoading ? (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Normaltekst style={{ marginRight: '1rem' }}>Henter informasjon om behandleren</Normaltekst>

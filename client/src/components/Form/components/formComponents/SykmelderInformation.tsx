@@ -13,10 +13,11 @@ import Hjelpetekst from "nav-frontend-hjelpetekst";
 
 interface SykmelderInformationProps {
     sykmelder: Sykmelder | null | undefined;
-    behandlerNavnFraOcr: String | null | undefined;
+    sykmeldersFornavn: String | null | undefined;
+    sykmeldersEtternavn: String | null | undefined;
 }
 
-const SykmelderInformation = ({ sykmelder, behandlerNavnFraOcr }: SykmelderInformationProps) => {
+const SykmelderInformation = ({ sykmelder, sykmeldersFornavn, sykmeldersEtternavn}: SykmelderInformationProps) => {
     if (!sykmelder) {
         return null;
     }
@@ -39,15 +40,6 @@ const SykmelderInformation = ({ sykmelder, behandlerNavnFraOcr }: SykmelderInfor
                             <Normaltekst>
                                 {sykmelder.fornavn} {sykmelder.mellomnavn} {sykmelder.etternavn}
                             </Normaltekst>
-                            <div className="form-label" style={{flexWrap: 'wrap'}}>
-                                <Element tag="h5">Navn fra papirsykmelding</Element>
-                                <Hjelpetekst className="form-label__help-text">
-                                    <div style={{ maxWidth: '20rem' }}>Dette er informasjon lest ut fra den skannede papirsykmeldingen. Hvis navnet ikke samsvarer med navnet over kan det tyde på at HPR-nummer har blitt tolket feil.</div>
-                                </Hjelpetekst>
-                                <Normaltekst style={{flex: '1 1 100%'}}>
-                                    {behandlerNavnFraOcr ? behandlerNavnFraOcr : "Klarte ikke hente ut navn fra papirsykmelding"}
-                                </Normaltekst>
-                            </div>
 
                         </section>
                     ) : null}
@@ -56,6 +48,24 @@ const SykmelderInformation = ({ sykmelder, behandlerNavnFraOcr }: SykmelderInfor
                         <Normaltekst>{sykmelder.fnr}</Normaltekst>
                     </section>
                 </Row>
+                <section style={{marginBottom: '1.5rem'}}>
+                    <div style={{display: 'flex'}}>
+                        <Element tag='h4' style={{marginRight: '0.5rem'}}>
+                            Navn fra papirsykmeldingen
+                        </Element>
+                        <Hjelpetekst>
+                            <div style={{maxWidth: '20rem'}}>
+                                Dette er informasjon lest ut fra den skannede papirsykmeldingen. Hvis navnet ikke
+                                samsvarer med navnet over kan det tyde p√• at HPR-nummer har blitt tolket feil.
+                            </div>
+                        </Hjelpetekst>
+                    </div>
+                    <Normaltekst>
+                        {sykmeldersFornavn ? sykmeldersFornavn + " " + sykmeldersEtternavn : 'Klarte ikke hente ut navn fra papirsykmelding'}
+                    </Normaltekst>
+                </section>
+
+
                 <section>
                     <FormLabel
                         label="Autorisasjoner"
