@@ -126,7 +126,7 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                 />
             </Row>
 
-            {sykmelder ? <SykmelderInformation sykmelder={sykmelder} /> : null}
+            {sykmelder ? <SykmelderInformation sykmelder={sykmelder} sykmeldersFornavn={formState.sykmeldersFornavn} sykmeldersEtternavn={formState.sykmeldersEtternavn}  /> : null}
             {isLoading ? (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Normaltekst style={{ marginRight: '1rem' }}>Henter informasjon om behandleren</Normaltekst>

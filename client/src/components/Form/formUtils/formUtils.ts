@@ -150,6 +150,6 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
         sykmelderPostnummer: oppgave.papirSmRegistering?.behandler?.adresse?.postnummer,
         sykmelderLand: oppgave.papirSmRegistering?.behandler?.adresse?.land,
         sykmelderTelefon: oppgave.papirSmRegistering?.behandler?.tlf,
-        hpr: oppgave.papirSmRegistering?.behandler?.hpr,
+        hpr: oppgave.papirSmRegistering?.behandler?.hpr
     };
 };
