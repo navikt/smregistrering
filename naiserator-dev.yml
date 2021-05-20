@@ -54,7 +54,7 @@ spec:
     - name: DOWNSTREAM_API_PATH
       value: backend
     - name: DOWNSTREAM_API_URL
-      value: http://smregistrering-backend/
+      value: http://smregistrering-backend.teamsykmelding/
     - name: GRAPH_API_CLIENT_ID
       value: https://graph.microsoft.com
     - name: GRAPH_API_SCOPES
