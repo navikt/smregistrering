@@ -75,7 +75,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
             window.frontendlogger.info(`Avviser oppgave. oppgaveid: ${oppgaveid}`);
             setIsLoadingReject(true);
             setRejectError(null);
-            const reason = ((e.target as any)[0]?.value as string | undefined) ?? undefined;
+            const reason = (e.target as any)[0]?.value as string;
             fetch(`backend/api/v1/oppgave/${oppgaveid}/avvis`, {
                 method: 'POST',
                 credentials: 'same-origin',
@@ -83,7 +83,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                     'Content-Type': 'application/json',
                     'X-Nav-Enhet': enhet,
                 },
-                body: reason ? JSON.stringify({ reason }) : undefined,
+                body: JSON.stringify({ reason: !!reason ? reason : null }),
             })
                 .then((response) => {
                     if (response.ok) {
