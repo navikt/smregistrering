@@ -148,7 +148,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                         name="avvisningsgrunn"
                         label="Hvorfor avvises sykmeldingen?"
                     >
-                        <option value="">Velg avvisningsgrunn (valfritt)</option>
+                        <option value="">Velg avvisningsgrunn (valgfritt)</option>
                         <option value="Feil avventende periode">Feil avventende periode</option>
                         <option value="Manglende utfylling av periode">Manglende utfylling av periode</option>
                         <option value="Manglende utfylling av grad">Manglende utfylling av grad</option>
