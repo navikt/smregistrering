@@ -124,8 +124,8 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
                     enhet={enhet}
                     handleSubmit={handleSubmit}
                 />
-                <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} />
             </form>
+            <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} />
         </section>
     );
 };

@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Fareknapp, Knapp } from 'nav-frontend-knapper';
+import { Select } from 'nav-frontend-skjema';
 
 import BackArrow from '../../../svg/BackArrow';
 import WarningCircle from '../../../svg/WarningCircle';
@@ -29,42 +30,6 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
     const [successModalContent, setSuccessModalContent] = useState<string | undefined>(undefined);
 
     Modal.setAppElement('#root');
-
-    const rejectSykmelding = () => {
-        if (!enhet) {
-            setRejectError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'));
-        } else {
-            window.frontendlogger.info(`Avviser oppgave. oppgaveid: ${oppgaveid}`);
-            setIsLoadingReject(true);
-            setRejectError(null);
-            fetch(`backend/api/v1/oppgave/${oppgaveid}/avvis`, {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Nav-Enhet': enhet,
-                },
-            })
-                .then((response) => {
-                    if (response.ok) {
-                        window.frontendlogger.info(`Oppgaven ble avvist. oppgaveid: ${oppgaveid}`);
-                        setRejectModalOpen(false);
-                        setSuccessModalContent('Oppgaven ble ferdigstilt.');
-                    } else {
-                        throw new Error(
-                            `En feil oppsto ved avvisning av oppgave: ${oppgaveid}. Feilkode: ${response.status}`,
-                        );
-                    }
-                })
-                .catch((error) => {
-                    window.frontendlogger.error(error);
-                    setRejectError(error);
-                })
-                .finally(() => {
-                    setIsLoadingReject(false);
-                });
-        }
-    };
 
     const revertSykmelding = () => {
         if (!enhet) {
@@ -102,6 +67,45 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
         }
     };
 
+    function handleReject(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (!enhet) {
+            setRejectError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'));
+        } else {
+            window.frontendlogger.info(`Avviser oppgave. oppgaveid: ${oppgaveid}`);
+            setIsLoadingReject(true);
+            setRejectError(null);
+            const reason = ((e.target as any)[0]?.value as string | undefined) ?? undefined;
+            fetch(`backend/api/v1/oppgave/${oppgaveid}/avvis`, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Nav-Enhet': enhet,
+                },
+                body: reason ? JSON.stringify({ reason }) : undefined,
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        window.frontendlogger.info(`Oppgaven ble avvist. oppgaveid: ${oppgaveid}`);
+                        setRejectModalOpen(false);
+                        setSuccessModalContent('Oppgaven ble ferdigstilt.');
+                    } else {
+                        throw new Error(
+                            `En feil oppsto ved avvisning av oppgave: ${oppgaveid}. Feilkode: ${response.status}`,
+                        );
+                    }
+                })
+                .catch((error) => {
+                    window.frontendlogger.error(error);
+                    setRejectError(error);
+                })
+                .finally(() => {
+                    setIsLoadingReject(false);
+                });
+        }
+    }
+
     return (
         <>
             <div className="form-reject-container">
@@ -129,25 +133,38 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                 closeButton
                 contentLabel="Bekreft avvisning av sykmelding"
             >
-                <div className="cancelmodal">
-                    <Undertittel tag="h1" className="cancelmodal--title">
-                        Er du sikker på at du vil avvise sykmeldingen?
-                    </Undertittel>
-                    <Normaltekst tag="p" className="cancelmodal--content">
-                        Dette vil ferdigstille oppgaven. Sykmeldingen blir ikke registrert i infotrygd. Behandler og
-                        pasient blir ikke varslet.
-                    </Normaltekst>
+                <form className="cancelmodal" onSubmit={handleReject}>
+                    <div>
+                        <Undertittel tag="h1" className="cancelmodal__title">
+                            Er du sikker på at du vil avvise sykmeldingen?
+                        </Undertittel>
+                        <Normaltekst tag="p" className="cancelmodal__content">
+                            Dette vil ferdigstille oppgaven. Sykmeldingen blir ikke registrert i infotrygd. Behandler og
+                            pasient blir ikke varslet.
+                        </Normaltekst>
+                    </div>
+                    <Select
+                        className="cancelmodal__avvisningsgrunn"
+                        name="avvisningsgrunn"
+                        label="Hvorfor avvises sykmeldingen?"
+                    >
+                        <option value="">Velg avvisningsgrunn (valfritt)</option>
+                        <option value="Feil avventende periode">Feil avventende periode</option>
+                        <option value="Manglende utfylling av periode">Manglende utfylling av periode</option>
+                        <option value="Manglende utfylling av grad">Manglende utfylling av grad</option>
+                        <option value="Manglende utfylling av diagnosekode">Manglende utfylling av diagnosekode</option>
+                        <option value="Skjema er ikke mulig å tolke/lese">Skjema er ikke mulig å tolke/lese</option>
+                    </Select>
                     <Fareknapp
-                        htmlType="button"
+                        htmlType="submit"
                         id="avvis-modal-button"
-                        className="cancelmodal--button"
+                        className="cancelmodal__button"
                         spinner={isLoadingReject}
-                        onClick={() => rejectSykmelding()}
                     >
                         AVVIS SYKMELDING
                     </Fareknapp>
                     {rejectError && <AlertStripeFeil>{rejectError.message}</AlertStripeFeil>}
-                </div>
+                </form>
             </Modal>
             <Modal
                 isOpen={revertModalOpen}
@@ -156,16 +173,16 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                 contentLabel="Send sykmelding tilbake til GOSYS"
             >
                 <div className="cancelmodal">
-                    <Undertittel tag="h1" className="cancelmodal--title">
+                    <Undertittel tag="h1" className="cancelmodal__title">
                         Er du sikker på at du vil sende oppgaven tilbake til GOSYS?
                     </Undertittel>
-                    <Normaltekst tag="p" className="cancelmodal--content">
+                    <Normaltekst tag="p" className="cancelmodal__content">
                         Dette vil ikke ferdigstille oppgaven, men gjør det mulig å behandle den i GOSYS.
                     </Normaltekst>
                     <Fareknapp
                         htmlType="button"
                         id="to-gosys-modal-button"
-                        className="cancelmodal--button"
+                        className="cancelmodal__button"
                         spinner={isLoadingRevert}
                         onClick={() => revertSykmelding()}
                     >
@@ -186,7 +203,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                         id="tilbake-til-gosys-lenke"
                         href={process.env.REACT_APP_GOSYS_URL}
                         tabIndex={0}
-                        className="knapp knapp--hoved"
+                        className="knapp knapp__hoved"
                     >
                         Tilbake til GOSYS
                     </a>
