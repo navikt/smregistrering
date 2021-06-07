@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-redeclare */
 import * as iots from 'io-ts';
 
 export const RuleHit = iots.type({
