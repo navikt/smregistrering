@@ -153,10 +153,10 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                         <option value="Manglende utfylling av periode">Manglende utfylling av periode</option>
                         <option value="Manglende utfylling av grad">Manglende utfylling av grad</option>
                         <option value="Manglende utfylling av diagnosekode">Manglende utfylling av diagnosekode</option>
-                        <option value="Skjema er ikke mulig å tolke/lese">Skjema er ikke mulig å tolke/lese</option>
                         <option value="Behandler mangler autorisasjon til å sykmelde">
                             Behandler mangler autorisasjon til å sykmelde
                         </option>
+                        <option value="Skjema er ikke mulig å tolke/lese">Skjema er ikke mulig å tolke/lese</option>
                     </Select>
                     <Fareknapp
                         htmlType="submit"
