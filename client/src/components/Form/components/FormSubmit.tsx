@@ -20,83 +20,84 @@ interface FormSubmitProps {
     handleSubmit: (onSubmit: (state: FormType) => void) => void;
 }
 
-const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSubmitProps) => {
-    // Registrer sykmelding
+const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
+    // Chexbox for confirming rightful answers
     const [checked, setChecked] = useState<boolean>(false);
-    const [ruleHitErrors, setRuleHitErrors] = useState<RuleHitErrors | undefined>(undefined);
-    const [isLoadingSuccess, setIsLoadingSuccess] = useState<boolean>(false);
-    const [successModalContent, setSuccessModalContent] = useState<string | undefined>(undefined);
-    const [successError, setSuccessError] = useState<Error | null>(null);
 
+    // API state
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<Error | null>(null);
+    const [ruleHitError, setRuleHitError] = useState<RuleHitErrors | null>(null);
+
+    const [successModalContent, setSuccessModalContent] = useState<string | undefined>(undefined);
     Modal.setAppElement('#root');
 
     const registrerSykmelding = () => {
-        handleSubmit((formState) => {
-            if (!!enhet) {
-                const sykmelding = buildRegistrertSykmelding(formState);
-                if (sykmelding) {
-                    setIsLoadingSuccess(true);
-                    setSuccessError(null);
-                    fetch(`backend/api/v1/oppgave/${oppgaveid}/send`, {
-                        method: 'POST',
-                        credentials: 'same-origin',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Nav-Enhet': enhet,
-                        },
-                        body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
-                    })
-                        .then((res) => {
-                            if (res.status === 204) {
-                                window.frontendlogger.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
-                                setSuccessModalContent('Oppgaven ble ferdigstilt.');
-                            } else if (res.status === 400) {
-                                // Try to parse body as json. if it fails, catch the error and parse the body as text instead.
-                                // Clone because the res.body stream cannot be read more than one time.
-                                return res
-                                    .clone()
-                                    .json()
-                                    .then((json) => {
-                                        return iotsPromise.decode(RuleHitErrors, json);
-                                    })
-                                    .then((ruleHitErrors) => {
-                                        setRuleHitErrors(ruleHitErrors);
-                                    })
-                                    .catch((error) => {
-                                        // If the json received is not of the expected shape
-                                        if (iotsPromise.isDecodeError(error)) {
-                                            throw new Error('Det oppsto en valideringsfeil. Feilkode: ' + res.status);
-                                        } else {
-                                            return res.text();
-                                        }
-                                    });
-                            } else if ([401, 404, 500].includes(res.status)) {
-                                return res.text();
-                            } else {
-                                throw new Error('Det oppsto en feil i baksystemet med feilkode: ' + res.status);
-                            }
-                        })
-                        .then((errorText) => {
-                            if (errorText) {
-                                throw new Error(errorText);
-                            }
-                        })
-                        .catch((error) => {
-                            setSuccessError(error);
-                            window.frontendlogger.error(error);
-                        })
-                        .finally(() => setIsLoadingSuccess(false));
-                } else {
-                    window.frontendlogger.error('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
-                }
-            } else {
-                setTimeout(() => {
-                    if (errorSummaryRef.current) {
-                        errorSummaryRef.current.focus();
-                        errorSummaryRef.current.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }, 300);
+        setError(null);
+        setRuleHitError(null);
+
+        if (!enhet) {
+            setError(new Error('Enhet mangler. Vennligst velg enhet fra nedtrekksmenyen øverst på siden'));
+            return;
+        }
+
+        handleSubmit(async (formState) => {
+            const sykmelding = buildRegistrertSykmelding(formState);
+
+            if (!sykmelding) {
+                window.frontendlogger.error('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
+                return;
             }
+
+            setIsLoading(true);
+
+            try {
+                const res = await fetch(`backend/api/v1/oppgave/${oppgaveid}/send`, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Nav-Enhet': enhet,
+                    },
+                    body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
+                });
+
+                if (res.ok) {
+                    window.frontendlogger.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
+                    setSuccessModalContent('Oppgaven ble ferdigstilt.');
+                } else if (res.status === 400) {
+                    window.frontendlogger.error(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
+                    const ruleHits = await iotsPromise.decode(RuleHitErrors, await res.json());
+                    setRuleHitError(ruleHits);
+                } else if (res.status > 400 && res.status < 500) {
+                    const text = await res.text();
+                    window.frontendlogger.error(
+                        `An error occurred while trying to register sykmelding. StatusCode: ${res.status}. Message: ${text}`,
+                    );
+                    setError(new Error(text));
+                } else {
+                    const text = await res.text();
+                    window.frontendlogger.error(
+                        `An error occurred while trying to register sykmelding. StatusCode: ${res.status}. Message: ${text}`,
+                    );
+                    setError(new Error('Det oppsto dessverre en feil i baksystemet. Vennligst prøv igjen senere'));
+                }
+            } catch (e) {
+                if (iotsPromise.isDecodeError(e)) {
+                    window.frontendlogger.error(
+                        `Det oppsto en valideringsfeil ved mottak av ruleHits for oppgaveid: ${oppgaveid}`,
+                    );
+                } else {
+                    window.frontendlogger.error(e);
+                }
+                setError(
+                    new Error(
+                        'Det oppsto dessverre en ukjent feil i basystemet. Vennligst prøv igjen om en liten stund, og ta kontakt dersom problemet vedvarer.',
+                    ),
+                );
+            }
+
+            setIsLoading(false);
         });
     };
 
@@ -109,7 +110,7 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                 label="Feltene stemmer overens med opplysningene i papirsykmeldingen"
                 onChange={() => setChecked((state) => !state)}
             />
-            {ruleHitErrors && (
+            {ruleHitError && (
                 <div id="api-validation-rulehits">
                     <AlertStripeFeil>
                         <Element>
@@ -117,7 +118,7 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                             registrere sykmeldingen på nytt.
                         </Element>
                         <ul>
-                            {ruleHitErrors.ruleHits.map((ruleHit) => (
+                            {ruleHitError.ruleHits.map((ruleHit) => (
                                 <li>{ruleHit.messageForSender}</li>
                             ))}
                         </ul>
@@ -125,25 +126,16 @@ const FormSubmit = ({ oppgaveid, errorSummaryRef, enhet, handleSubmit }: FormSub
                     <br />
                 </div>
             )}
-            {successError && (
+            {error && (
                 <div id="api-error">
-                    <AlertStripeFeil>{successError.message}</AlertStripeFeil>
+                    <AlertStripeFeil>{error.message}</AlertStripeFeil>
                     <br />
                 </div>
             )}
-            {!enhet && (
-                <>
-                    <AlertStripeFeil>
-                        <Element>Enhet mangler.</Element>
-                        <Normaltekst>Velg enhet i nedtrekksmenyen øverst på siden.</Normaltekst>
-                    </AlertStripeFeil>
-                    <br />
-                </>
-            )}
             <Hovedknapp
                 id="submit-form"
-                disabled={!checked || !enhet || isLoadingSuccess}
-                spinner={isLoadingSuccess}
+                disabled={!checked || isLoading}
+                spinner={isLoading}
                 onClick={(e) => {
                     e.preventDefault();
                     registrerSykmelding();
