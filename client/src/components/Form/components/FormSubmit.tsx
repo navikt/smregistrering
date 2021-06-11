@@ -42,10 +42,14 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
         }
 
         handleSubmit(async (formState) => {
+            setError(null);
+
             const sykmelding = buildRegistrertSykmelding(formState);
 
             if (!sykmelding) {
-                window.frontendlogger.error('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
+                const error = new Error('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
+                window.frontendlogger.error(error);
+                setError(error);
                 return;
             }
 
