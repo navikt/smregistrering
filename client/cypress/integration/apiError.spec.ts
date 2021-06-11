@@ -2,13 +2,13 @@
 
 context('Api errors', () => {
     beforeEach(() => {
-        cy.route2('GET', '/backend/api/v1/oppgave/123', {
+        cy.intercept('GET', '/backend/api/v1/oppgave/123', {
             fixture: 'fullOppgave.json',
         }).as('getOppgave');
-        cy.route2('GET', '/modiacontextholder/api/context/aktivenhet', {
+        cy.intercept('GET', '/modiacontextholder/api/context/aktivenhet', {
             body: { aktivBruker: null, aktivEnhet: '0314' },
         });
-        cy.route2('GET', '/modiacontextholder/api/decorator', {
+        cy.intercept('GET', '/modiacontextholder/api/decorator', {
             body: {
                 ident: 'Z123456',
                 navn: 'F_Z123456 E_Z123456',
@@ -23,7 +23,7 @@ context('Api errors', () => {
     });
 
     it('Should show received body error message when status code is 400', () => {
-        cy.route2('POST', '/backend/api/v1/oppgave/123/send', {
+        cy.intercept('POST', '/backend/api/v1/oppgave/123/send', {
             body: 'This is a text body',
             statusCode: 400,
         }).as('postOppgave');
@@ -37,38 +37,8 @@ context('Api errors', () => {
         cy.getAndScrollIntoView('#api-error').contains('This is a text body');
     });
 
-    it('Should show received body error message when status code is 401', () => {
-        cy.route2('POST', '/backend/api/v1/oppgave/123/send', {
-            body: 'This is a text body',
-            statusCode: 401,
-        }).as('postOppgave');
-
-        cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
-
-        cy.wait('@getOppgave');
-
-        cy.getAndScrollIntoView('#form-submit-checkbox').click({ force: true });
-        cy.getAndScrollIntoView('#submit-form').click({ force: true });
-        cy.getAndScrollIntoView('#api-error').contains('This is a text body');
-    });
-
-    it('Should show received body error message when status code is 404', () => {
-        cy.route2('POST', '/backend/api/v1/oppgave/123/send', {
-            body: 'This is a text body',
-            statusCode: 404,
-        }).as('postOppgave');
-
-        cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
-
-        cy.wait('@getOppgave');
-
-        cy.getAndScrollIntoView('#form-submit-checkbox').click({ force: true });
-        cy.getAndScrollIntoView('#submit-form').click({ force: true });
-        cy.getAndScrollIntoView('#api-error').contains('This is a text body');
-    });
-
-    it('Should show received body error message when status code is 500', () => {
-        cy.route2('POST', '/backend/api/v1/oppgave/123/send', {
+    it('Should show generic error message when status code is 500', () => {
+        cy.intercept('POST', '/backend/api/v1/oppgave/123/send', {
             body: 'This is a text body',
             statusCode: 500,
         }).as('postOppgave');
@@ -79,11 +49,13 @@ context('Api errors', () => {
 
         cy.getAndScrollIntoView('#form-submit-checkbox').click({ force: true });
         cy.getAndScrollIntoView('#submit-form').click({ force: true });
-        cy.getAndScrollIntoView('#api-error').contains('This is a text body');
+        cy.getAndScrollIntoView('#api-error').contains(
+            'Det oppsto dessverre en feil i baksystemet. Vennligst prøv igjen senere',
+        );
     });
 
-    it('Should show list of validation rulehits when body is json and status code is 400', () => {
-        cy.route2('POST', '/backend/api/v1/oppgave/123/send', {
+    it('Should show list of validation rulehits when content-type is application/json and status code is 400', () => {
+        cy.intercept('POST', '/backend/api/v1/oppgave/123/send', {
             fixture: 'rulehits.json',
             statusCode: 400,
         }).as('postOppgave');
@@ -100,7 +72,7 @@ context('Api errors', () => {
     });
 
     it('Should show validation error when receiving wrongly structured json and status code is 400', () => {
-        cy.route2('POST', '/backend/api/v1/oppgave/123/send', {
+        cy.intercept('POST', '/backend/api/v1/oppgave/123/send', {
             body: { wrong: 'prop' },
             statusCode: 400,
         }).as('postOppgave');
@@ -110,20 +82,8 @@ context('Api errors', () => {
         cy.wait('@getOppgave');
         cy.getAndScrollIntoView('#form-submit-checkbox').click({ force: true });
         cy.getAndScrollIntoView('#submit-form').click({ force: true });
-        cy.get('#api-error').contains('Det oppsto en valideringsfeil. Feilkode: 400');
-    });
-
-    it('Should show status code is anything other than 400, 401, 403 and 500', () => {
-        cy.route2('POST', '/backend/api/v1/oppgave/123/send', {
-            body: { wrong: 'prop' },
-            statusCode: 501,
-        }).as('postOppgave');
-
-        cy.visit('/?oppgaveid=123'); // Baseurl comes from cypress.json
-
-        cy.wait('@getOppgave');
-        cy.getAndScrollIntoView('#form-submit-checkbox').click({ force: true });
-        cy.getAndScrollIntoView('#submit-form').click({ force: true });
-        cy.get('#api-error').contains('Det oppsto en feil i baksystemet med feilkode: 501');
+        cy.get('#api-error').contains(
+            'Det oppsto dessverre en ukjent feil i baksystemet. Vennligst prøv igjen om en liten stund, og ta kontakt dersom problemet vedvarer.',
+        );
     });
 });

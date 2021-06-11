@@ -65,11 +65,11 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
                 if (res.ok) {
                     window.frontendlogger.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
                     setSuccessModalContent('Oppgaven ble ferdigstilt.');
-                } else if (res.status === 400) {
+                } else if (res.status === 400 && res.headers.get('Content-Type')?.includes('application/json')) {
                     window.frontendlogger.error(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
                     const ruleHits = await iotsPromise.decode(RuleHitErrors, await res.json());
                     setRuleHitError(ruleHits);
-                } else if (res.status > 400 && res.status < 500) {
+                } else if (res.status >= 400 && res.status < 500) {
                     const text = await res.text();
                     window.frontendlogger.error(
                         `An error occurred while trying to register sykmelding. StatusCode: ${res.status}. Message: ${text}`,
@@ -92,7 +92,7 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
                 }
                 setError(
                     new Error(
-                        'Det oppsto dessverre en ukjent feil i basystemet. Vennligst prøv igjen om en liten stund, og ta kontakt dersom problemet vedvarer.',
+                        'Det oppsto dessverre en ukjent feil i baksystemet. Vennligst prøv igjen om en liten stund, og ta kontakt dersom problemet vedvarer.',
                     ),
                 );
             }
