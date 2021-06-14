@@ -62,7 +62,7 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                     buttonText="Fjern dato"
                 />
             </div>
-            {!!value && value.length == 2 && (
+            {!!value && value.length === 2 && (
                 <Normaltekst style={{ marginTop: '-0.5rem', marginBottom: '1rem' }}>
                     {dayjs(value[0]).format('D. MMMM YYYY')} - {dayjs(value[1]).format('D. MMMM YYYY')}
                 </Normaltekst>
