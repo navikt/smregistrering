@@ -1,7 +1,7 @@
 import './FormErrorSummary.less';
 
-import React, { RefObject, useEffect } from 'react';
 import { Feiloppsummering, FeiloppsummeringFeil } from 'nav-frontend-skjema';
+import { RefObject } from 'react';
 
 import { FormType } from '../Form';
 
@@ -11,10 +11,6 @@ type FormErrorSummaryProps = {
 };
 
 const FormErrorSummary = ({ formErrors, errorSummaryRef }: FormErrorSummaryProps) => {
-    useEffect(() => {
-        errorSummaryRef.current?.focus();
-    }, [formErrors]);
-
     if (formErrors.size > 0) {
         return (
             <div role="region" aria-label="skjemafeilbeholder" className="form-error-summary" tabIndex={0}>

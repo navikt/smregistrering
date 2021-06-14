@@ -82,8 +82,6 @@ context('Api errors', () => {
         cy.wait('@getOppgave');
         cy.getAndScrollIntoView('#form-submit-checkbox').click({ force: true });
         cy.getAndScrollIntoView('#submit-form').click({ force: true });
-        cy.get('#api-error').contains(
-            'Det oppsto dessverre en ukjent feil i baksystemet. Vennligst prøv igjen om en liten stund, og ta kontakt dersom problemet vedvarer.',
-        );
+        cy.get('#api-error').contains('Det oppsto en valideringsfeil ved registrering av oppgave med id: 123');
     });
 });

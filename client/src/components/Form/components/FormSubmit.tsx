@@ -1,109 +1,36 @@
 import './FormSubmit.less';
 
-import * as iotsPromise from 'io-ts-promise';
 import Modal from 'nav-frontend-modal';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { Checkbox } from 'nav-frontend-skjema';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { Hovedknapp } from 'nav-frontend-knapper';
 
+import useSubmitSykmelding from '../../../hooks/useSubmitSykmelding';
 import { FormType } from '../Form';
-import { RegistrertSykmelding } from '../../../types/RegistrertSykmelding';
-import { RuleHitErrors } from '../../../types/RuleHitErrors';
-import { buildRegistrertSykmelding } from '../../../utils/registrertSykmeldingUtils';
 
 interface FormSubmitProps {
     oppgaveid: number;
-    errorSummaryRef: React.RefObject<HTMLDivElement>;
     enhet: string | null | undefined;
     handleSubmit: (onSubmit: (state: FormType) => void) => void;
 }
 
 const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
-    // Chexbox for confirming rightful answers
-    const [checked, setChecked] = useState<boolean>(false);
-
-    // API state
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<Error | null>(null);
-    const [ruleHitError, setRuleHitError] = useState<RuleHitErrors | null>(null);
-
-    const [successModalContent, setSuccessModalContent] = useState<string | undefined>(undefined);
+    const [successModalOpen, setSuccessModalOpen] = useState<boolean>(false);
     Modal.setAppElement('#root');
 
-    const registrerSykmelding = () => {
-        setError(null);
-        setRuleHitError(null);
+    const { checked, setChecked, isLoading, error, ruleHitError, submit, submitSuccess } = useSubmitSykmelding(
+        oppgaveid,
+        enhet,
+        handleSubmit,
+    );
 
-        if (!enhet) {
-            setError(new Error('Enhet mangler. Vennligst velg enhet fra nedtrekksmenyen øverst på siden'));
-            return;
+    useEffect(() => {
+        if (submitSuccess) {
+            setSuccessModalOpen(true);
         }
-
-        handleSubmit(async (formState) => {
-            setError(null);
-
-            const sykmelding = buildRegistrertSykmelding(formState);
-
-            if (!sykmelding) {
-                const error = new Error('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
-                window.frontendlogger.error(error);
-                setError(error);
-                return;
-            }
-
-            setIsLoading(true);
-
-            try {
-                const res = await fetch(`backend/api/v1/oppgave/${oppgaveid}/send`, {
-                    method: 'POST',
-                    credentials: 'same-origin',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Nav-Enhet': enhet,
-                    },
-                    body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
-                });
-
-                if (res.ok) {
-                    window.frontendlogger.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
-                    setSuccessModalContent('Oppgaven ble ferdigstilt.');
-                } else if (res.status === 400 && res.headers.get('Content-Type')?.includes('application/json')) {
-                    window.frontendlogger.error(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
-                    const ruleHits = await iotsPromise.decode(RuleHitErrors, await res.json());
-                    setRuleHitError(ruleHits);
-                } else if (res.status >= 400 && res.status < 500) {
-                    const text = await res.text();
-                    window.frontendlogger.error(
-                        `An error occurred while trying to register sykmelding. StatusCode: ${res.status}. Message: ${text}`,
-                    );
-                    setError(new Error(text));
-                } else {
-                    const text = await res.text();
-                    window.frontendlogger.error(
-                        `An error occurred while trying to register sykmelding. StatusCode: ${res.status}. Message: ${text}`,
-                    );
-                    setError(new Error('Det oppsto dessverre en feil i baksystemet. Vennligst prøv igjen senere'));
-                }
-            } catch (e) {
-                if (iotsPromise.isDecodeError(e)) {
-                    window.frontendlogger.error(
-                        `Det oppsto en valideringsfeil ved mottak av ruleHits for oppgaveid: ${oppgaveid}`,
-                    );
-                } else {
-                    window.frontendlogger.error(e);
-                }
-                setError(
-                    new Error(
-                        'Det oppsto dessverre en ukjent feil i baksystemet. Vennligst prøv igjen om en liten stund, og ta kontakt dersom problemet vedvarer.',
-                    ),
-                );
-            }
-
-            setIsLoading(false);
-        });
-    };
+    }, [submitSuccess]);
 
     return (
         <div role="region" aria-label="skjemainnsendingbeholder" className="form-submit-container">
@@ -132,7 +59,7 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
             )}
             {error && (
                 <div id="api-error">
-                    <AlertStripeFeil>{error.message}</AlertStripeFeil>
+                    <AlertStripeFeil>{error}</AlertStripeFeil>
                     <br />
                 </div>
             )}
@@ -142,20 +69,20 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
                 spinner={isLoading}
                 onClick={(e) => {
                     e.preventDefault();
-                    registrerSykmelding();
+                    submit();
                 }}
             >
                 Registrer sykmelding
             </Hovedknapp>
             <Modal
-                isOpen={!!successModalContent}
-                onRequestClose={() => setSuccessModalContent(undefined)}
+                isOpen={successModalOpen}
+                onRequestClose={() => setSuccessModalOpen(false)}
                 closeButton
-                contentLabel={successModalContent || ''}
+                contentLabel="Oppgaven ble ferdigstilt."
             >
                 <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
                     <Normaltekst id="success-modal-text" style={{ marginBottom: '2rem' }}>
-                        {successModalContent}
+                        Oppgaven ble ferdigstilt.
                     </Normaltekst>
                     <a href={process.env.REACT_APP_GOSYS_URL} tabIndex={0} className="knapp knapp--hoved">
                         Tilbake til GOSYS
