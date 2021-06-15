@@ -121,7 +121,6 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
                 </Panel>
                 <FormErrorSummary formErrors={errors} errorSummaryRef={errorSummaryRef} />
                 <FormSubmit oppgaveid={oppgave.oppgaveid} enhet={enhet} handleSubmit={handleSubmit} />
-                <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} />
             </form>
             <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} />
         </section>
