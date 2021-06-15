@@ -10,6 +10,7 @@ export type ValidationFunctions<T> = { [key in Required<keyof T>]: (value: Parti
 interface FormConfig<T> {
     validationFunctions: ValidationFunctions<T>;
     defaultValues: T;
+    errorSummaryRef: React.RefObject<HTMLDivElement>;
 }
 
 interface Form<T> {
@@ -19,7 +20,7 @@ interface Form<T> {
     handleSubmit: (onSubmit: (state: T) => void) => void;
 }
 
-const useForm = <T>({ validationFunctions, defaultValues }: FormConfig<T>): Form<T> => {
+const useForm = <T>({ validationFunctions, defaultValues, errorSummaryRef }: FormConfig<T>): Form<T> => {
     const [state, setState] = useState<T>(defaultValues);
     const [errors, setErrors] = useState<Map<keyof T, FeiloppsummeringFeil>>(new Map<keyof T, FeiloppsummeringFeil>());
     const [isFirstSubmit, setIsFirstSubmit] = useState<boolean>(true);
@@ -57,6 +58,10 @@ const useForm = <T>({ validationFunctions, defaultValues }: FormConfig<T>): Form
         }
         if (isValidForm<T>(state)) {
             onSubmit(state);
+        } else {
+            setTimeout(() => {
+                errorSummaryRef.current?.focus();
+            }, 100);
         }
     };
 

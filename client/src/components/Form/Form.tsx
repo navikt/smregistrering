@@ -50,11 +50,13 @@ type FormProps = {
 };
 
 const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
+    const errorSummaryRef = useRef<HTMLDivElement>(null);
+
     const { formState, setFormState, errors, handleSubmit } = useForm<FormType>({
         defaultValues: getInitialFormState(oppgave, diagnosekoder),
-        validationFunctions: validationFunctions,
+        validationFunctions,
+        errorSummaryRef,
     });
-    const errorSummaryRef = useRef<HTMLDivElement>(null);
 
     return (
         <section className="form">
@@ -118,12 +120,8 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
                     />
                 </Panel>
                 <FormErrorSummary formErrors={errors} errorSummaryRef={errorSummaryRef} />
-                <FormSubmit
-                    oppgaveid={oppgave.oppgaveid}
-                    errorSummaryRef={errorSummaryRef}
-                    enhet={enhet}
-                    handleSubmit={handleSubmit}
-                />
+                <FormSubmit oppgaveid={oppgave.oppgaveid} enhet={enhet} handleSubmit={handleSubmit} />
+                <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} />
             </form>
             <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} />
         </section>
