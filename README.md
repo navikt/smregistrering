@@ -1,6 +1,6 @@
 # Manuell registrering av papirsykmelding 🧾
 
-Frontend-applikasjon for manuell registrering av sykmeldinger som ankommer på papir og blir tolket via skanning.
+Create React App - saksbehandlerfrontend for manuell registrering av papirsykmeldinger fra skanning. Serveren fungerer som static-file-server, brukerautentisering via Azure-OIDC og som proxy mot bakomliggende tjenester.
 ![software architecture](smregistrering-chart.png)
 
 ## Demo-side er tilgjengelig på:
