@@ -6,8 +6,94 @@ on:
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering:${{ github.sha }}
 jobs:
+jobs:
+  # JOB to run change detection
+  changes:
+    name: Change detection
+    runs-on: ubuntu-latest
+    # Set job outputs to values from filter step
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Detect changed paths
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'server/**'
+              - 'redis-config.yml'
+              - 'naiserator-prod.yaml'
+
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Use Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Install deps for client
+        run: npm ci
+        working-directory: ./client
+      - name: Run unit tests for client
+        env:
+          CI: true
+        run: npm test
+        working-directory: ./client
+
+  integration-test:
+    name: Run integration tests with Cypress
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Cache Cypress binary
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            cypress-${{ runner.os }}-cypress-
+      - name: Install npm dependencies
+        working-directory: ./client
+        run: npm ci
+      - name: Run cypress
+        uses: cypress-io/github-action@v2
+        with:
+          working-directory: ./client
+          install: false
+          record: false
+          browser: chrome # fails with default (electron)
+          start: npm run start:integration
+          wait-on: http://localhost:4321
+      - uses: actions/upload-artifact@v1
+        if: ${{ failure() }}
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+  deploy-redis:
+    name: Deploy redis to prod-fss
+    needs: [changes, test, integration-test]
+    if: ${{ needs.changes.outputs.backend == 'true' }} # Only run on changes related to backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Deploy Redis to prod-fss
+        uses: nais/deploy/actions/deploy@master
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-fss
+          RESOURCE: redis-config.yml
+
   build-push-deploy:
-    name: Checkout code and create docker tag
+    name: Build, push & deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -17,40 +103,20 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install dependencies for server
-        run: |
-          npm install
-        working-directory: ./server
-      - name: Run tests for server
-        run: |
-          npm run test
+        run: npm ci
         working-directory: ./server
       - name: Install dependencies for client
-        run: |
-          npm install
-        working-directory: ./client
-      - name: Run unit tests for client
-        env:
-          CI: true
-        run: |
-          npm run test-unit
-        working-directory: ./client
-      - name: Run integration tests for client
-        env:
-          NODE_ENV: 'test'
-        run: |
-          npm start & npm run cypress-start # Can not use "npm run test-integration", because process does not terminate.
+        run: npm ci
         working-directory: ./client
       - name: Build server
-        run: |
-          npm run compile
+        run: npm run compile
         working-directory: ./server
       - name: Build client
         env:
           REACT_APP_HEAD_URL: https://app.adeo.no
           REACT_APP_FRONTEND_LOGGER_URL: https://app.adeo.no/frontendlogger
           REACT_APP_GOSYS_URL: https://gosys-nais.nais.adeo.no/gosys/bruker/brukeroversikt.jsf
-        run: |
-          npm run build
+        run: npm run build
         working-directory: ./client
       - name: Build and publish Docker image
         env:
@@ -59,7 +125,7 @@ jobs:
           docker build --tag ${IMAGE} .
           docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
           docker push ${IMAGE}
-      - name: Deploy app to prod
+      - name: Deploy app to prod-fss
         uses: nais/deploy/actions/deploy@master
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
