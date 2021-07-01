@@ -81,9 +81,8 @@
     "scripts": {
         "build": "craco build",
         "start": "craco start",
-        "test": "npm-run-all test-unit test-integration",
-        "test-unit": "NODE_ENV=test craco test",
-        "test-integration": "NODE_ENV=test npm-run-all --parallel start cypress-start",
+        "test": "craco test",
+        "start:integration": "NODE_ENV=test craco start",
         "cypress-start": "wait-on http://localhost:4321 && cypress run",
         "lint": "eslint 'src/**/**.{ts,tsx,js,jsx}'",
         "format": "prettier --write 'src/**/**.{ts,tsx,js,jsx,less}'"
