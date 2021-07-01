@@ -6,7 +6,6 @@ on:
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering:${{ github.sha }}
 jobs:
-jobs:
   # JOB to run change detection
   changes:
     name: Change detection
