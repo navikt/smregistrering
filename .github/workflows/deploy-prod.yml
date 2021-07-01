@@ -94,6 +94,7 @@ jobs:
   build-push-deploy:
     name: Build, push & deploy
     runs-on: ubuntu-latest
+    needs: [changes, test, integration-test]
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
