@@ -1,53 +1,107 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import * as iots from 'io-ts';
+import { z } from 'zod';
 
-export enum Helsepersonellkategori {
-    'AA' = 'Ambulansearbeider',
-    'AT' = 'ApotekteknikerA',
-    'AU' = 'udiograf',
-    'BI' = 'Bioingeniør',
-    'ET' = 'Ergoterapeut',
-    'FA1' = 'Provisorfarmasøyt',
-    'FA2' = 'Reseptarfarmasøyt',
-    'FB' = 'Fiskehelsebiolog',
-    'FO' = 'Fotterapeut',
-    'FT' = 'Fysioterapeut',
-    'HE' = 'Helsesekretær',
-    'HF' = 'Helsefagarbeider',
-    'HP' = 'Hjelpepleier',
-    'JO' = 'Jordmor',
-    'KE' = 'Klinisk ernæringsfysiolog',
-    'KI' = 'Kiropraktor',
-    'LE' = 'Lege',
-    'OA' = 'Omsorgsarbeider',
-    'OI' = 'Ortopediingeniør',
-    'OP' = 'Optiker',
-    'OR' = 'Ortoptist',
-    'PE' = 'Perfusjonist',
-    'PS' = 'Psykolog',
-    'RA' = 'Radiograf',
-    'SP' = 'Sykepleier',
-    'TH' = 'Tannhelsesekretær',
-    'TL' = 'Tannlege',
-    'TP' = 'Tannpleier',
-    'TT' = 'Tanntekniker',
-    'VE' = 'Veterinær',
-    'VP' = 'Vernepleier',
-    'XX' = 'Ukjent/uspesifisert',
-    'MT' = 'Manuellterapeut',
-}
-
-const HelsepersonellkategoriKode = iots.intersection([
-    iots.type({
-        aktiv: iots.boolean,
-        oid: iots.number,
-    }),
-    iots.partial({
-        verdi: iots.union([iots.keyof(Helsepersonellkategori), iots.null]),
-    }),
+export const Helsepersonellkategori = z.enum([
+    'AA',
+    'AT',
+    'AU',
+    'BI',
+    'ET',
+    'FA1',
+    'FA2',
+    'FB',
+    'FO',
+    'FT',
+    'HE',
+    'HF',
+    'HP',
+    'JO',
+    'KE',
+    'KI',
+    'LE',
+    'OA',
+    'OI',
+    'OP',
+    'OR',
+    'PE',
+    'PS',
+    'RA',
+    'SP',
+    'TH',
+    'TL',
+    'TP',
+    'TT',
+    'VE',
+    'VP',
+    'XX',
+    'MT',
 ]);
+type Helsepersonellkategori = z.infer<typeof Helsepersonellkategori>;
 
-export const autorisasjon = {
+export const HelsepersonellkategoriValues: Record<Helsepersonellkategori, string> = {
+    AA: 'Ambulansearbeider',
+    AT: 'ApotekteknikerA',
+    AU: 'udiograf',
+    BI: 'Bioingeniør',
+    ET: 'Ergoterapeut',
+    FA1: 'Provisorfarmasøyt',
+    FA2: 'Reseptarfarmasøyt',
+    FB: 'Fiskehelsebiolog',
+    FO: 'Fotterapeut',
+    FT: 'Fysioterapeut',
+    HE: 'Helsesekretær',
+    HF: 'Helsefagarbeider',
+    HP: 'Hjelpepleier',
+    JO: 'Jordmor',
+    KE: 'Klinisk ernæringsfysiolog',
+    KI: 'Kiropraktor',
+    LE: 'Lege',
+    OA: 'Omsorgsarbeider',
+    OI: 'Ortopediingeniør',
+    OP: 'Optiker',
+    OR: 'Ortoptist',
+    PE: 'Perfusjonist',
+    PS: 'Psykolog',
+    RA: 'Radiograf',
+    SP: 'Sykepleier',
+    TH: 'Tannhelsesekretær',
+    TL: 'Tannlege',
+    TP: 'Tannpleier',
+    TT: 'Tanntekniker',
+    VE: 'Veterinær',
+    VP: 'Vernepleier',
+    XX: 'Ukjent/uspesifisert',
+    MT: 'Manuellterapeut',
+};
+
+const HelsepersonellkategoriKode = z.object({
+    aktiv: z.boolean(),
+    oid: z.number(),
+    verdi: Helsepersonellkategori.nullable(),
+});
+
+export const Autorisasjon = z.enum([
+    '1',
+    '17',
+    '4',
+    '3',
+    '2',
+    '14',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '16',
+    '99',
+    '18',
+]);
+type Autorisasjon = z.infer<typeof Autorisasjon>;
+
+export const AutorisasjonValues: Record<Autorisasjon, string> = {
     '1': 'Autorisasjon',
     '17': 'Autorisasjon med vilkår',
     '4': 'Lisens',
@@ -67,32 +121,24 @@ export const autorisasjon = {
     '18': 'LIS1-Lisens',
 };
 
-const AutorisasjonKode = iots.intersection([
-    iots.type({
-        aktiv: iots.boolean,
-        oid: iots.number,
-    }),
-    iots.partial({
-        verdi: iots.union([iots.keyof(autorisasjon), iots.null]),
-    }),
-]);
-
-const Godkjenning = iots.partial({
-    helsepersonellkategori: iots.union([HelsepersonellkategoriKode, iots.null]),
-    autorisasjon: iots.union([AutorisasjonKode, iots.null]),
+const AutorisasjonKode = z.object({
+    aktiv: z.boolean(),
+    oid: z.number(),
+    verdi: Autorisasjon.nullable(),
 });
 
-export const Sykmelder = iots.intersection([
-    iots.type({
-        hprNummer: iots.string,
-        fnr: iots.string,
-        aktorId: iots.string,
-        godkjenninger: iots.array(Godkjenning),
-    }),
-    iots.partial({
-        fornavn: iots.union([iots.string, iots.null]),
-        mellomnavn: iots.union([iots.string, iots.null]),
-        etternavn: iots.union([iots.string, iots.null]),
-    }),
-]);
-export type Sykmelder = iots.TypeOf<typeof Sykmelder>;
+const Godkjenning = z.object({
+    helsepersonellkategori: HelsepersonellkategoriKode.nullable(),
+    autorisasjon: AutorisasjonKode.nullable(),
+});
+
+export const Sykmelder = z.object({
+    hprNummer: z.string(),
+    fnr: z.string(),
+    aktorId: z.string(),
+    godkjenninger: z.array(Godkjenning),
+    fornavn: z.string().nullable(),
+    mellomnavn: z.string().nullable(),
+    etternavn: z.string().nullable(),
+});
+export type Sykmelder = z.infer<typeof Sykmelder>;

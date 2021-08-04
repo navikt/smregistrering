@@ -2,14 +2,14 @@ import 'nav-frontend-tabell-style';
 
 import './SykmelderInformation.less';
 
+import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import React from 'react';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { EtikettAdvarsel, EtikettSuksess } from 'nav-frontend-etiketter';
 
 import FormLabel from './FormLabel';
 import Row from './Row';
-import { Helsepersonellkategori, Sykmelder, autorisasjon } from '../../../../types/Sykmelder';
-import Hjelpetekst from "nav-frontend-hjelpetekst";
+import { AutorisasjonValues, HelsepersonellkategoriValues, Sykmelder } from '../../../../types/Sykmelder';
 
 interface SykmelderInformationProps {
     sykmelder: Sykmelder | null | undefined;
@@ -17,7 +17,7 @@ interface SykmelderInformationProps {
     sykmeldersEtternavn: String | null | undefined;
 }
 
-const SykmelderInformation = ({ sykmelder, sykmeldersFornavn, sykmeldersEtternavn}: SykmelderInformationProps) => {
+const SykmelderInformation = ({ sykmelder, sykmeldersFornavn, sykmeldersEtternavn }: SykmelderInformationProps) => {
     if (!sykmelder) {
         return null;
     }
@@ -26,9 +26,13 @@ const SykmelderInformation = ({ sykmelder, sykmeldersFornavn, sykmeldersEtternav
         <article className="sykmelder-information">
             <header className="sykmelder-information__header">
                 <div className="form-label">
-                <Undertittel tag="h3">Informasjon om behandleren</Undertittel>
+                    <Undertittel tag="h3">Informasjon om behandleren</Undertittel>
                     <Hjelpetekst className="form-label__help-text">
-                        <div style={{ maxWidth: '20rem' }}>Informasjon om behandler er hentet fra HPR, basert på HPR-nummeret som ble lest ut fra papirsykmeldingen. Her kan det skje tolkningsfeil, pass på at informasjonen stemmer med informasjonen i papirsykmeldingen.</div>
+                        <div style={{ maxWidth: '20rem' }}>
+                            Informasjon om behandler er hentet fra HPR, basert på HPR-nummeret som ble lest ut fra
+                            papirsykmeldingen. Her kan det skje tolkningsfeil, pass på at informasjonen stemmer med
+                            informasjonen i papirsykmeldingen.
+                        </div>
                     </Hjelpetekst>
                 </div>
             </header>
@@ -40,7 +44,6 @@ const SykmelderInformation = ({ sykmelder, sykmeldersFornavn, sykmeldersEtternav
                             <Normaltekst>
                                 {sykmelder.fornavn} {sykmelder.mellomnavn} {sykmelder.etternavn}
                             </Normaltekst>
-
                         </section>
                     ) : null}
                     <section>
@@ -48,23 +51,24 @@ const SykmelderInformation = ({ sykmelder, sykmeldersFornavn, sykmeldersEtternav
                         <Normaltekst>{sykmelder.fnr}</Normaltekst>
                     </section>
                 </Row>
-                <section style={{marginBottom: '1.5rem'}}>
-                    <div style={{display: 'flex'}}>
-                        <Element tag='h4' style={{marginRight: '0.5rem'}}>
+                <section style={{ marginBottom: '1.5rem' }}>
+                    <div style={{ display: 'flex' }}>
+                        <Element tag="h4" style={{ marginRight: '0.5rem' }}>
                             Navn fra papirsykmeldingen
                         </Element>
                         <Hjelpetekst>
-                            <div style={{maxWidth: '20rem'}}>
+                            <div style={{ maxWidth: '20rem' }}>
                                 Dette er informasjon lest ut fra den skannede papirsykmeldingen. Hvis navnet ikke
                                 samsvarer med navnet over kan det tyde på at HPR-nummer har blitt tolket feil.
                             </div>
                         </Hjelpetekst>
                     </div>
                     <Normaltekst>
-                        {sykmeldersFornavn ? sykmeldersFornavn + " " + sykmeldersEtternavn : 'Klarte ikke hente ut navn fra papirsykmelding'}
+                        {sykmeldersFornavn
+                            ? sykmeldersFornavn + ' ' + sykmeldersEtternavn
+                            : 'Klarte ikke hente ut navn fra papirsykmelding'}
                     </Normaltekst>
                 </section>
-
 
                 <section>
                     <FormLabel
@@ -86,11 +90,15 @@ const SykmelderInformation = ({ sykmelder, sykmeldersFornavn, sykmeldersEtternav
                                         return (
                                             <tr key={index}>
                                                 <td>
-                                                    {Helsepersonellkategori[godkjenning.helsepersonellkategori.verdi]}
+                                                    {
+                                                        HelsepersonellkategoriValues[
+                                                            godkjenning.helsepersonellkategori.verdi
+                                                        ]
+                                                    }
                                                 </td>
                                                 <td>
                                                     {`${godkjenning.autorisasjon.verdi} ${
-                                                        autorisasjon[godkjenning.autorisasjon.verdi]
+                                                        AutorisasjonValues[godkjenning.autorisasjon.verdi]
                                                     }`}
                                                 </td>
                                                 <td>
