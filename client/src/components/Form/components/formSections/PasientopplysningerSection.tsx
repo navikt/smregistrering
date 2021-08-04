@@ -1,15 +1,13 @@
-import * as iotsPromise from 'io-ts-promise';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
+import usePasientOpplysninger from '../../formUtils/usePasientopplysninger';
 import { FormType } from '../../Form';
-import { PasientNavn } from '../../../../types/Pasient';
 import { Section } from '../../../../types/Section';
-import logger from "../../../../utils/logger";
 
 export type Pasientopplysninger = {
     pasientFnr?: string | null;
@@ -23,62 +21,13 @@ type PasientopplysningerProps = {
 };
 
 const PasientopplysningerSection = ({ section, setFormState, errors, formState }: PasientopplysningerProps) => {
-    const [pasientNavn, setPasientNavn] = useState<PasientNavn | undefined | null>(undefined);
-    const [isLoading, setIsloading] = useState<boolean>(false);
-    const [error, setError] = useState<Error | null>(null);
-
-    const [fnrTouched, setFnrTouched] = useState<boolean>(false);
-
-    // GET information about sykmelder on every formState.pasientFnr change
-    useEffect(() => {
-        // Number must be in synch with validationFuncitons.pasientFnr in validation.ts
-        if (formState.pasientFnr?.length && formState.pasientFnr.length === 11) {
-            setIsloading(true);
-            setPasientNavn(null);
-            setError(null);
-            fetch(`/backend/api/v1/pasient`, {
-                credentials: 'include',
-                headers: { 'X-Pasient-Fnr': formState.pasientFnr },
-            })
-                .then((res) => {
-                    if (res.ok) {
-                        return res.json();
-                    } else {
-                        throw new Error('Fant ikke pasient knyttet til det aktuelle fødselsnummeret');
-                    }
-                })
-                .then((jsonResponse) => {
-                    return iotsPromise.decode(PasientNavn, jsonResponse);
-                })
-                .then((pasient) => {
-                    setPasientNavn(pasient);
-                })
-                .catch((error) => {
-                    // Sanitizing the error
-                    if (iotsPromise.isDecodeError(error)) {
-                        logger.error('Data mottatt for /pasient/{fnr} er er feil format');
-                    } else {
-                        logger.info(error);
-                    }
-                    setPasientNavn(null);
-                    setError(error);
-                })
-                .finally(() => {
-                    setIsloading(false);
-                    if (fnrTouched) {
-                        document.getElementById('pasientFnr')?.focus();
-                    }
-                });
-        } else {
-            setPasientNavn(null);
-        }
-    }, [formState.pasientFnr, fnrTouched]);
+    const { pasientNavn, isLoading, error, fnrRef, fnrTouched, setFnrTouched } = usePasientOpplysninger(formState);
 
     return (
         <SectionContainer section={section}>
             <Row>
                 <Input
-                    id="pasientFnr"
+                    inputRef={fnrRef as any}
                     disabled={isLoading}
                     value={formState.pasientFnr ? formState.pasientFnr : undefined}
                     onChange={({ target: { value } }) => {
