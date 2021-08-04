@@ -5,7 +5,7 @@ import { Select } from 'nav-frontend-skjema';
 import FormLabel from '../../formComponents/FormLabel';
 import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
-import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/Diagnosekode';
+import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
 import { FormType } from '../../../Form';
 
 type HoveddiagnoseProps = {

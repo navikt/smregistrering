@@ -10,7 +10,7 @@ import Hoveddiagnose from './Hoveddiagnose';
 import SectionContainer from '../../SectionContainer';
 import Subsection from '../../formComponents/Subsection';
 import { AnnenFraverGrunn, Diagnose } from '../../../../../types/RegistrertSykmelding';
-import { Diagnosekoder } from '../../../../../types/Diagnosekode';
+import { Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
 import { FormType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
 

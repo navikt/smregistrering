@@ -1,6 +1,4 @@
-import * as iotsPromise from 'io-ts-promise';
-
-import { DiagnosekodeSystem, Diagnosekoder } from '../types/Diagnosekode';
+import { DiagnosekodeSystem, Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 import { Oppgave } from '../types/oppgave/Oppgave';
 import { getOppgaveidFromSearchParams } from './urlUtils';
 import logger from "./logger";
@@ -10,16 +8,16 @@ export class BadRequestError extends Error {}
 export class OppgaveGoneError extends Error {}
 export class UnauthorizedError extends Error {}
 
-export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
+export const getDiagnosekoder = (): Diagnosekoder => {
     try {
         const diagnosekoderRaw = {
             [DiagnosekodeSystem.ICD10]: require('../data/icd10.json'),
             [DiagnosekodeSystem.ICPC2]: require('../data/icpc2.json'),
         };
-        return iotsPromise.decode(Diagnosekoder, diagnosekoderRaw);
+        return Diagnosekoder.parse(diagnosekoderRaw);
     } catch (error) {
         logger.error(error);
-        return Promise.reject(new Error('Feil med dianosekoder. Sjekke logger for utdypende feilbeskrivelse'));
+        throw new Error('Feil med dianosekoder. Sjekke logger for utdypende feilbeskrivelse');
     }
 };
 

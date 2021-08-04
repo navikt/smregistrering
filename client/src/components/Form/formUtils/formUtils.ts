@@ -1,7 +1,7 @@
 import { AktivitetIkkeMuligPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
 import { AvventendePeriodeMFA } from '../components/formSections/MulighetForArbeidSection/AvventendePeriode';
 import { BehandlingsdagerPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode';
-import { Diagnosekoder } from '../../../types/Diagnosekode';
+import { Diagnosekoder } from '../../../types/diagnosekoder/Diagnosekoder';
 import { FormType } from '../Form';
 import { GradertPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/GradertPeriode';
 import { MulighetForArbeidTypes } from '../components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';

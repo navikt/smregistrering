@@ -5,7 +5,7 @@ import Select, { MenuListComponentProps, StylesConfig, ValueType, createFilter }
 import { FixedSizeList } from 'react-window';
 
 import { Diagnose } from '../../../../types/RegistrertSykmelding';
-import { Diagnosekoder } from '../../../../types/Diagnosekode';
+import { Diagnosekoder } from '../../../../types/diagnosekoder/Diagnosekoder';
 
 type OptionObject = { value: string; label: string; text: string };
 type OptionValueType = ValueType<OptionObject, false>;

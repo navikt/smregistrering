@@ -24,7 +24,7 @@ import TilbakedateringSection, { Tilbakedatering } from './components/formSectio
 import UtdypendeOpplysningerSection, {
     UtdypendeOpplysninger,
 } from './components/formSections/UtdypendeOpplysningerSection';
-import { Diagnosekoder } from '../../types/Diagnosekode';
+import { Diagnosekoder } from '../../types/diagnosekoder/Diagnosekoder';
 import { Oppgave } from '../../types/oppgave/Oppgave';
 import { getInitialFormState } from './formUtils/formUtils';
 import { sections } from '../../types/Section';

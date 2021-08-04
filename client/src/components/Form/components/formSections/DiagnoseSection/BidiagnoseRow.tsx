@@ -9,7 +9,7 @@ import Garbage from '../../../../../svg/Garbage';
 import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
 import { Diagnose } from '../../../../../types/RegistrertSykmelding';
-import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/Diagnosekode';
+import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
 
 type BidiagnoseRowProps = {
     index: number;

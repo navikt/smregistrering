@@ -1,5 +1,5 @@
 import { Diagnose } from '../types/RegistrertSykmelding';
-import { DiagnosekodeSystem, Diagnosekoder } from '../types/Diagnosekode';
+import { DiagnosekodeSystem, Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 
 export const getPrefilledDiagnose = (
     diagnosekoder: Diagnosekoder,
