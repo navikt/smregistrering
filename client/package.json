@@ -57,7 +57,8 @@
         "react-select": "^4.3.1",
         "react-window": "^1.8.6",
         "typescript": "^4.1.5",
-        "whatwg-fetch": "^3.4.0"
+        "whatwg-fetch": "^3.4.0",
+        "zod": "^3.7.1"
     },
     "devDependencies": {
         "@craco/craco": "^6.1.2",

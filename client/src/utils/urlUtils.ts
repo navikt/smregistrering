@@ -1,5 +1,9 @@
-export const getOppgaveidFromSearchParams = (windowLocationSearch: string): string => {
-    const urlParams = new URLSearchParams(windowLocationSearch);
+export const getOppgaveidFromSearchParams = (): string => {
+    if (process.env.REACT_APP_START_WITH_MOCK === 'true') {
+        return 'test';
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
     const oppgaveid = urlParams.get('oppgaveid');
 
     if (!oppgaveid) {

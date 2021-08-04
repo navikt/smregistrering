@@ -8,7 +8,7 @@ import LoadingView from './components/LoadingView';
 import Pdf from './components/Pdf/Pdf';
 import logger from './utils/logger';
 import { Diagnosekoder } from './types/Diagnosekode';
-import { Oppgave } from './types/Oppgave';
+import { Oppgave } from './types/oppgave/Oppgave';
 import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
 
 export interface AppProps {

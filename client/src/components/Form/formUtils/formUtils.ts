@@ -5,7 +5,7 @@ import { Diagnosekoder } from '../../../types/Diagnosekode';
 import { FormType } from '../Form';
 import { GradertPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/GradertPeriode';
 import { MulighetForArbeidTypes } from '../components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
-import { Oppgave } from '../../../types/Oppgave';
+import { Oppgave } from '../../../types/oppgave/Oppgave';
 import { ReisetilskuddPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode';
 import {
     getAktivitetIkkeMuligSykmelding,
@@ -150,6 +150,6 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
         sykmelderPostnummer: oppgave.papirSmRegistering?.behandler?.adresse?.postnummer,
         sykmelderLand: oppgave.papirSmRegistering?.behandler?.adresse?.land,
         sykmelderTelefon: oppgave.papirSmRegistering?.behandler?.tlf,
-        hpr: oppgave.papirSmRegistering?.behandler?.hpr
+        hpr: oppgave.papirSmRegistering?.behandler?.hpr,
     };
 };

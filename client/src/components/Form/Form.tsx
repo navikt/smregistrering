@@ -25,7 +25,7 @@ import UtdypendeOpplysningerSection, {
     UtdypendeOpplysninger,
 } from './components/formSections/UtdypendeOpplysningerSection';
 import { Diagnosekoder } from '../../types/Diagnosekode';
-import { Oppgave } from '../../types/Oppgave';
+import { Oppgave } from '../../types/oppgave/Oppgave';
 import { getInitialFormState } from './formUtils/formUtils';
 import { sections } from '../../types/Section';
 import { validationFunctions } from './validation';
