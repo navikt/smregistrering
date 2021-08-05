@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
 import { z } from 'zod';
 
-const HarArbeidsgiver = z.enum(['EN_ARBEIDSGIVER', 'FLERE_ARBEIDSGIVERE', 'INGEN_ARBEIDSGIVER']);
-type HarArbeidsgiver = z.infer<typeof HarArbeidsgiver>;
+export const HarArbeidsgiver = z.enum(['EN_ARBEIDSGIVER', 'FLERE_ARBEIDSGIVERE', 'INGEN_ARBEIDSGIVER']);
+export type HarArbeidsgiver = z.infer<typeof HarArbeidsgiver>;
 
 export const HarArbeidsgiverValues: Record<HarArbeidsgiver, string> = {
     EN_ARBEIDSGIVER: 'Én arbeidsgiver',

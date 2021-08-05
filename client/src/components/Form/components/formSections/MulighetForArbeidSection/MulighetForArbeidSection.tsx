@@ -61,32 +61,32 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
         if (type === 'avventende') {
             return {
                 type,
-                avventendePeriode: undefined,
-                avventendeInnspillTilArbeidsgiver: undefined,
+                avventendePeriode: null,
+                avventendeInnspillTilArbeidsgiver: null,
             };
         }
 
         if (type === 'gradert') {
-            return { type, gradertPeriode: undefined, gradertGrad: undefined, gradertReisetilskudd: false };
+            return { type, gradertPeriode: null, gradertGrad: null, gradertReisetilskudd: false };
         }
 
         if (type === 'behandlingsdager') {
-            return { type, behandlingsdagerPeriode: undefined, behandlingsdagerAntall: undefined };
+            return { type, behandlingsdagerPeriode: null, behandlingsdagerAntall: null };
         }
 
         if (type === 'reisetilskudd') {
-            return { type, reisetilskuddPeriode: undefined };
+            return { type, reisetilskuddPeriode: null };
         }
 
         return {
             type: 'fullsykmelding',
-            aktivitetIkkeMuligPeriode: undefined,
-            aktivitetIkkeMuligMedisinskArsak: undefined,
-            aktivitetIkkeMuligMedisinskArsakType: undefined,
-            aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
-            aktivitetIkkeMuligArbeidsrelatertArsak: undefined,
-            aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
-            aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
+            aktivitetIkkeMuligPeriode: null,
+            aktivitetIkkeMuligMedisinskArsak: false,
+            aktivitetIkkeMuligMedisinskArsakType: [],
+            aktivitetIkkeMuligMedisinskArsakBeskrivelse: null,
+            aktivitetIkkeMuligArbeidsrelatertArsak: false,
+            aktivitetIkkeMuligArbeidsrelatertArsakType: [],
+            aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: null,
         };
     };
 

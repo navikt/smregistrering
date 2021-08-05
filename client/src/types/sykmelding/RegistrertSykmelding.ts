@@ -8,18 +8,20 @@ import { MedisinskVurdering } from './MedisinskVurdering';
 import { MeldingTilNAV } from './MeldingTilNav';
 import { Periode } from './Periode';
 
-export const Papirsykmelding = z.object({
-    fnr: z.string().nullable(),
-    datoOpprettet: z.string().nullable(),
+export const RegistrertSykmelding = z.object({
+    pasientFnr: z.string(),
+    sykmelderFnr: z.string(),
+    perioder: z.array(Periode),
+    medisinskVurdering: MedisinskVurdering,
+    arbeidsgiver: Arbeidsgiver,
+    behandletDato: z.string(),
+    skjermesForPasient: z.boolean(),
+    behandler: Behandler,
+    kontaktMedPasient: KontaktMedPasient,
     syketilfelleStartDato: z.string().nullable(),
-    arbeidsgiver: Arbeidsgiver.nullable(),
-    medisinskVurdering: MedisinskVurdering.nullable(),
-    skjermesForPasient: z.boolean().nullable(),
-    perioder: z.array(Periode).nullable(),
     meldingTilNAV: MeldingTilNAV.nullable(),
     meldingTilArbeidsgiver: z.string().nullable(),
-    kontaktMedPasient: KontaktMedPasient.nullable(),
-    behandletTidspunkt: z.string().nullable(),
-    behandler: Behandler.nullable(),
+    harUtdypendeOpplysninger: z.boolean().nullable(),
+    navnFastlege: z.string().nullable(),
 });
-export type Papirsykmelding = z.infer<typeof Papirsykmelding>;
+export type RegistrertSykmelding = z.infer<typeof RegistrertSykmelding>;

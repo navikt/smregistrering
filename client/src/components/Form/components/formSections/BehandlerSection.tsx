@@ -13,18 +13,18 @@ import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export type Behandler = {
-    behandletDato?: Date | null;
-    sykmeldersFornavn?: string | null;
-    sykmeldersEtternavn?: string | null;
-    sykmelderFnr?: string | null;
-    aktoerId?: string | null;
-    hpr?: string | null;
-    sykmelderTelefon?: string | null;
-    sykmelderGate?: string | null;
-    sykmelderPostnummer?: number | null;
-    sykmelderKommune?: string | null;
-    sykmelderPostboks?: string | null;
-    sykmelderLand?: string | null;
+    behandletDato: string | null;
+    sykmeldersFornavn: string | null;
+    sykmeldersEtternavn: string | null;
+    sykmelderFnr: string | null;
+    aktoerId: string | null;
+    hpr: string | null;
+    sykmelderTelefon: string | null;
+    sykmelderGate: string | null;
+    sykmelderPostnummer: number | null;
+    sykmelderKommune: string | null;
+    sykmelderPostboks: string | null;
+    sykmelderLand: string | null;
 };
 
 type BehandlerSectionProps = {
@@ -44,7 +44,7 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                 label="12.1 Behandletdato"
                 value={formState.behandletDato ? formState.behandletDato : undefined}
                 onChange={(newDates) => {
-                    setFormState((formState) => ({ ...formState, behandletDato: newDates }));
+                    setFormState((formState) => ({ ...formState, behandletDato: newDates ?? null }));
                 }}
                 feil={errors.get('behandletDato')?.feilmelding}
             />

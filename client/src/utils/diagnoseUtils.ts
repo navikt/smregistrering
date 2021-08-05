@@ -3,10 +3,10 @@ import { DiagnosekodeSystem, Diagnosekoder } from '../types/diagnosekoder/Diagno
 
 export const getPrefilledDiagnose = (
     diagnosekoder: Diagnosekoder,
-    diagnose?: Partial<Diagnose> | null,
-): Partial<Diagnose> | undefined => {
+    diagnose: Partial<Diagnose> | null,
+): Partial<Diagnose> | null => {
     if (!diagnose) {
-        return undefined;
+        return null;
     }
 
     const hasCorrectSystem =
@@ -31,12 +31,12 @@ export const getPrefilledDiagnose = (
         };
     }
     // Do not set kode and tekst without setting system.
-    return undefined;
+    return null;
 };
 
 export const getPrefilledBidiagnoser = (
     diagnoserkoder: Diagnosekoder,
-    bidiagnoser: Partial<Diagnose>[] | undefined,
+    bidiagnoser: Partial<Diagnose>[] | null,
 ): Partial<Diagnose>[] => {
     if (!bidiagnoser) {
         return [];

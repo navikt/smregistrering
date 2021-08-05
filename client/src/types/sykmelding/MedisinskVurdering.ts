@@ -8,7 +8,7 @@ export const Diagnose = z.object({
 });
 export type Diagnose = z.infer<typeof Diagnose>;
 
-const AnnenFraverGrunn = z.enum([
+export const AnnenFraverGrunn = z.enum([
     'GODKJENT_HELSEINSTITUSJON',
     'BEHANDLING_FORHINDRER_ARBEID',
     'ARBEIDSRETTET_TILTAK',
@@ -20,7 +20,7 @@ const AnnenFraverGrunn = z.enum([
     'DONOR',
     'BEHANDLING_STERILISERING',
 ]);
-type AnnenFraverGrunn = z.infer<typeof AnnenFraverGrunn>;
+export type AnnenFraverGrunn = z.infer<typeof AnnenFraverGrunn>;
 
 export const AnnenFraverGrunnValues: Record<AnnenFraverGrunn, string> = {
     GODKJENT_HELSEINSTITUSJON: 'Når vedkommende er innlagt i en godkjent helseinstitusjon',
@@ -38,20 +38,18 @@ export const AnnenFraverGrunnValues: Record<AnnenFraverGrunn, string> = {
     BEHANDLING_STERILISERING: 'Når vedkommende er arbeidsufør som følge av behandling i forbindelse med sterilisering',
 };
 
-const AnnenFraversArsak = z.object({
+export const AnnenFraversArsak = z.object({
     beskrivelse: z.string().nullable(),
     grunn: z.array(AnnenFraverGrunn),
 });
+export type AnnenFraversArsak = z.infer<typeof AnnenFraversArsak>;
 
 export const MedisinskVurdering = z.object({
     hovedDiagnose: Diagnose.nullable(),
     biDiagnoser: z.array(Diagnose),
     svangerskap: z.boolean(),
     yrkesskade: z.boolean(),
-    yrkesskadeDato: z
-        .string()
-        .transform((arg) => new Date(arg))
-        .nullable(),
+    yrkesskadeDato: z.string().nullable(),
     annenFraversArsak: AnnenFraversArsak.nullable(),
 });
 export type MedisinskVurdering = z.infer<typeof MedisinskVurdering>;

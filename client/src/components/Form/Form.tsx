@@ -40,7 +40,7 @@ export interface FormType
         MeldingTilArbeidsgiver,
         Tilbakedatering,
         Behandler {
-    syketilfelleStartDato?: Date | null;
+    syketilfelleStartDato: string | null;
 }
 
 type FormProps = {

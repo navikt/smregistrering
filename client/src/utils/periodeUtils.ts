@@ -1,4 +1,4 @@
-import { Periode } from '../types/RegistrertSykmelding';
+import { Periode } from '../types/sykmelding/Periode';
 
 export const getAvventendePeriode = (perioder?: Periode[] | null): Periode[] | undefined =>
     perioder?.filter((periode) => !!periode.avventendeInnspillTilArbeidsgiver);

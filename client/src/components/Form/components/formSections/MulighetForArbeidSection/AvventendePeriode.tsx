@@ -11,8 +11,8 @@ import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 export type AvventendePeriodeMFA = {
     type: MFAOptions;
     // Perioder for avventende sykmelding
-    avventendePeriode?: Date[];
-    avventendeInnspillTilArbeidsgiver?: string;
+    avventendePeriode: string[] | null;
+    avventendeInnspillTilArbeidsgiver: string | null;
 };
 
 type AvventendePeriodeProps = {
@@ -33,7 +33,7 @@ const AvventendePeriode = ({ updateMfa, mfaPeriode, errors, index }: AvventendeP
                 onChange={(newDates) => {
                     const updatedSchema = {
                         ...mfaPeriode,
-                        avventendePeriode: newDates,
+                        avventendePeriode: newDates ?? null,
                     };
 
                     updateMfa(updatedSchema);

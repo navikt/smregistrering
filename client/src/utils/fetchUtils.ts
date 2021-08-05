@@ -1,5 +1,5 @@
 import logger from './logger';
-import { RegistrertSykmelding } from '../types/RegistrertSykmelding';
+import { RegistrertSykmelding } from '../types/sykmelding/RegistrertSykmelding';
 import { RuleHitErrors } from '../types/RuleHitErrors';
 
 export class RuleHitError extends Error {
@@ -22,7 +22,7 @@ export async function postRegistrertSykmelding(
             'Content-Type': 'application/json',
             'X-Nav-Enhet': enhet,
         },
-        body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
+        body: JSON.stringify(sykmelding),
     });
 
     if (res.ok) {

@@ -10,8 +10,8 @@ import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 export type GradertPeriodeMFA = {
     type: MFAOptions;
     // Perioder for gradert sykmelding
-    gradertPeriode?: Date[];
-    gradertGrad?: number;
+    gradertPeriode: string[] | null;
+    gradertGrad: number | null;
     gradertReisetilskudd: boolean;
 };
 
@@ -30,7 +30,7 @@ const GradertPeriode = ({ updateMfa, mfaPeriode, errors, index }: GradertPeriode
                     id={`gradertGrad-${index}`}
                     className="mulighetForArbeid__gradert-row__grad"
                     type="number"
-                    value={mfaPeriode.gradertGrad}
+                    value={mfaPeriode.gradertGrad ?? undefined}
                     onChange={({ target: { value } }) => {
                         const updatedSchema = {
                             ...mfaPeriode,
@@ -49,7 +49,7 @@ const GradertPeriode = ({ updateMfa, mfaPeriode, errors, index }: GradertPeriode
                     onChange={(newDates) => {
                         const updatedSchema = {
                             ...mfaPeriode,
-                            gradertPeriode: newDates,
+                            gradertPeriode: newDates ?? null,
                         };
 
                         updateMfa(updatedSchema);

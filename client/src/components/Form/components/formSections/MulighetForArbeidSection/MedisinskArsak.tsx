@@ -3,7 +3,7 @@ import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 
 
 import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import { FormType } from '../../../Form';
-import { MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
+import { MedisinskArsakType, MedisinskArsakTypeValues } from '../../../../../types/sykmelding/Periode';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
 import { getEntries } from '../../../formUtils/useForm';
 
@@ -17,27 +17,27 @@ interface MedisinskArsakProps {
 const MedisinskArsak = ({ mfaPeriode, updateMfa, errors, index }: MedisinskArsakProps) => {
     const { aktivitetIkkeMuligMedisinskArsakType } = mfaPeriode;
 
-    const checkboxes: CheckboksPanelProps[] = getEntries(MedisinskArsakType).map(([key, value]) => {
+    const checkboxes: CheckboksPanelProps[] = getEntries(MedisinskArsakTypeValues).map(([key, value]) => {
         return {
             label: value,
             id: `${key}-medisinsk-${index}`,
             value: key,
-            checked: aktivitetIkkeMuligMedisinskArsakType?.includes(key),
+            checked: aktivitetIkkeMuligMedisinskArsakType.includes(key),
         };
     });
 
-    const updateCheckboxes = (value: keyof typeof MedisinskArsakType): void => {
-        if (aktivitetIkkeMuligMedisinskArsakType === undefined) {
+    const updateCheckboxes = (value: MedisinskArsakType): void => {
+        if (aktivitetIkkeMuligMedisinskArsakType.length === 0) {
             const updatedSchema = {
                 ...mfaPeriode,
-                aktivitetIkkeMuligMedisinskArsakType: [value],
+                aktivitetIkkeMuligMedisinskArsakType: new Array<MedisinskArsakType>(value),
             };
             updateMfa(updatedSchema);
             return;
         }
 
-        const shouldAddArsak: boolean = !aktivitetIkkeMuligMedisinskArsakType.includes(value);
-        const newMedisinskArsakType: (keyof typeof MedisinskArsakType)[] = shouldAddArsak
+        const shouldAddArsak: boolean = !aktivitetIkkeMuligMedisinskArsakType?.includes(value);
+        const newMedisinskArsakType: MedisinskArsakType[] = shouldAddArsak
             ? [...aktivitetIkkeMuligMedisinskArsakType, value]
             : aktivitetIkkeMuligMedisinskArsakType.filter((arsak) => arsak !== value);
 

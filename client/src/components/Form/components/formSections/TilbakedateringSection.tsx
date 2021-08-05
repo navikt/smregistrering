@@ -10,9 +10,9 @@ import { Section } from '../../../../types/Section';
 
 export type Tilbakedatering = {
     erTilbakedatert: boolean;
-    kontaktDato?: Date | null;
+    kontaktDato: string | null;
     kunneIkkeIvaretaEgneInteresser: boolean;
-    begrunnelseIkkeKontakt?: string | null;
+    begrunnelseIkkeKontakt: string | null;
 };
 
 type TilbakedateringSectionProps = {
@@ -34,7 +34,7 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
                         setFormState((formState) => ({
                             ...formState,
                             erTilbakedatert: !formState.erTilbakedatert,
-                            kontaktDato: undefined,
+                            kontaktDato: null,
                         }))
                     }
                     feil={errors.get('erTilbakedatert')?.feilmelding}
@@ -46,7 +46,7 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
                         value={formState.kontaktDato ? formState.kontaktDato : undefined}
                         onChange={(newDate) => {
-                            setFormState((formState) => ({ ...formState, kontaktDato: newDate }));
+                            setFormState((formState) => ({ ...formState, kontaktDato: newDate ?? null }));
                         }}
                         feil={errors.get('kontaktDato')?.feilmelding}
                     />
@@ -62,7 +62,7 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
                         setFormState((formState) => ({
                             ...formState,
                             kunneIkkeIvaretaEgneInteresser: !formState.kunneIkkeIvaretaEgneInteresser,
-                            begrunnelseIkkeKontakt: undefined,
+                            begrunnelseIkkeKontakt: null,
                         }));
                     }}
                     feil={errors.get('kunneIkkeIvaretaEgneInteresser')?.feilmelding}

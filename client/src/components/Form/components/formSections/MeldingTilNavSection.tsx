@@ -9,7 +9,7 @@ import { Section } from '../../../../types/Section';
 
 export type MeldingTilNav = {
     meldingTilNavBistand: boolean;
-    meldingTilNavBegrunn?: string | null;
+    meldingTilNavBegrunn: string | null;
 };
 
 type MeldingTilNavSectionProps = {
@@ -31,7 +31,7 @@ const MeldingTilNavSection = ({ section, setFormState, formState, errors }: Meld
                         setFormState((formState) => ({
                             ...formState,
                             meldingTilNavBistand: !formState.meldingTilNavBistand,
-                            meldingTilNavBegrunn: undefined,
+                            meldingTilNavBegrunn: null,
                         }))
                     }
                     feil={errors.get('meldingTilNavBistand')?.feilmelding}

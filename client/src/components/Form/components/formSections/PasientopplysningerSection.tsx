@@ -10,7 +10,7 @@ import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export type Pasientopplysninger = {
-    pasientFnr?: string | null;
+    pasientFnr: string | null;
 };
 
 type PasientopplysningerProps = {
@@ -27,6 +27,7 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
         <SectionContainer section={section}>
             <Row>
                 <Input
+                    id="pasientFnr"
                     inputRef={fnrRef as any}
                     disabled={isLoading}
                     value={formState.pasientFnr ? formState.pasientFnr : undefined}

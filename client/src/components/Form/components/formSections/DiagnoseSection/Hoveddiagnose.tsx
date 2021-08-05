@@ -57,7 +57,7 @@ const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: Hov
                             hovedDiagnose: { ...formState.hovedDiagnose, kode, tekst },
                         }));
                     }}
-                    value={formState.hovedDiagnose}
+                    value={formState.hovedDiagnose ?? undefined}
                 />
                 <div>
                     <label htmlFor={id + '-tekst'}>3.1.3 Tekst</label>
