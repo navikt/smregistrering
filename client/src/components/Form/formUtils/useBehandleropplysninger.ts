@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
+import logger from '../../../utils/logger';
 import { FormType } from '../Form';
 import { Sykmelder } from '../../../types/Sykmelder';
 
@@ -30,7 +31,7 @@ function useBehandleropplysninger(formState: FormType) {
                     const err = new Error(
                         `En nettverksfeil med feilkode: ${res.status} oppsto ved hending av informasjon om behandleren`,
                     );
-                    window.frontendlogger.error(err);
+                    logger.error(err);
                     setError(err);
                 }
                 setIsloading(false);

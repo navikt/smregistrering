@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
+import logger from '../../../utils/logger';
 import { FormType } from '../Form';
 import { PasientNavn } from '../../../types/Pasient';
-import logger from '../../../utils/logger';
 
 function usePasientOpplysninger(formState: FormType) {
     const [pasientNavn, setPasientNavn] = useState<PasientNavn | undefined | null>(undefined);
@@ -31,11 +31,10 @@ function usePasientOpplysninger(formState: FormType) {
                         setError(new Error('Det oppsto en valideringsfeil ved henting av pasientnavn'));
                     }
                 } else {
-                    const err = new Error(
-                        `En nettverksfeil med feilkode: ${res.status} oppsto ved henting av pasientnavn`,
+                    logger.error(`En nettverksfeil med feilkode: ${res.status} oppsto ved henting av pasientnavn`);
+                    setError(
+                        new Error('En feil oppsto ved henting av pasientinfo. Ta kontakt dersom feilen vedvarer.'),
                     );
-                    logger.error(err)
-                    setError(err);
                 }
                 setIsloading(false);
                 if (fnrTouched) {

@@ -4,21 +4,17 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 
 import App from '../App';
 import fullOppgave from './testData/fullOppgave.json';
+import { mockBehandlerinfo, mockLocation, mockPasientinfo } from '../utils/testUtils';
 
 describe('Avvis oppgave', () => {
     const oppgaveid = 123;
     const apiNock = nock('http://localhost');
 
     beforeEach(() => {
+        mockLocation(oppgaveid);
         apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgave);
-
-        global.window = Object.create(window);
-        Object.defineProperty(window, 'location', {
-            value: {
-                href: `http://localhost/?oppgaveid=${oppgaveid}`,
-                search: '?oppgaveid=123',
-            },
-        });
+        mockPasientinfo(apiNock);
+        mockBehandlerinfo(apiNock);
     });
 
     it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {

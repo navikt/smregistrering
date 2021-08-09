@@ -4,21 +4,16 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 
 import App from '../App';
 import nullFnrOppgave from './testData/nullFnrOppgave.json';
+import { mockBehandlerinfo, mockLocation } from '../utils/testUtils';
 
 describe('Load pasientinfo', () => {
     const oppgaveid = 123;
     const apiNock = nock('http://localhost');
 
     beforeEach(() => {
+        mockLocation(oppgaveid);
         apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, nullFnrOppgave);
-
-        global.window = Object.create(window);
-        Object.defineProperty(window, 'location', {
-            value: {
-                href: `http://localhost/?oppgaveid=${oppgaveid}`,
-                search: '?oppgaveid=123',
-            },
-        });
+        mockBehandlerinfo(apiNock);
     });
 
     it('Should search for name of pasient when typing 11 digits in pasientFnr input field', async () => {
@@ -53,7 +48,7 @@ describe('Load pasientinfo', () => {
         expect(await screen.findByText(/Henter informasjon/)).toBeInTheDocument();
         await waitForElementToBeRemoved(() => screen.queryByText(/Henter informasjon/));
         expect(
-            await screen.findByText('Fant ikke pasient knyttet til det aktuelle fødselsnummeret'),
+            await screen.findByText('En feil oppsto ved henting av pasientinfo. Ta kontakt dersom feilen vedvarer.'),
         ).toBeInTheDocument();
     });
 });

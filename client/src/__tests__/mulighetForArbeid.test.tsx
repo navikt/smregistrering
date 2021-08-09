@@ -4,34 +4,17 @@ import { render, screen, waitForElementToBeRemoved } from '@testing-library/reac
 
 import App from '../App';
 import fullOppgaveWithoutPeriods from './testData/fullOppgaveWithoutPeriods.json';
+import { mockBehandlerinfo, mockLocation, mockPasientinfo } from '../utils/testUtils';
 
 describe('Mulighet for arbeid section', () => {
     const oppgaveid = 123;
     const apiNock = nock('http://localhost');
 
     beforeEach(() => {
-        global.window = Object.create(window);
-        Object.defineProperty(window, 'location', {
-            value: {
-                href: `http://localhost/?oppgaveid=${oppgaveid}`,
-                search: '?oppgaveid=123',
-            },
-        });
-
+        mockLocation(oppgaveid);
         apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgaveWithoutPeriods);
-        apiNock.get('/backend/api/v1/pasient').reply(200, {
-            fornavn: 'Per',
-            mellomnavn: 'Anders',
-            etternavn: 'Persson',
-        });
-        apiNock.get('/backend/api/v1/sykmelder/1234567').reply(200, {
-            hprNummer: '12345',
-            fnr: '12345678910',
-            aktorId: 'Dette er en aktørid',
-            fornavn: 'Nobel',
-            mellomnavn: null,
-            etternavn: 'Busk',
-        });
+        mockBehandlerinfo(apiNock);
+        mockPasientinfo(apiNock);
     });
 
     it('Should be able to delete periode without messing up other periods', async () => {
@@ -43,11 +26,17 @@ describe('Mulighet for arbeid section', () => {
                         tom: '2020-01-03',
                         reisetilskudd: false,
                         avventendeInnspillTilArbeidsgiver: 'Innspill til arbeidsgiver',
+                        aktivitetIkkeMulig: null,
+                        gradert: null,
+                        behandlingsdager: null,
                     },
                     {
                         fom: '2020-03-01',
                         tom: '2020-03-03',
                         reisetilskudd: false,
+                        behandlingsdager: null,
+                        gradert: null,
+                        avventendeInnspillTilArbeidsgiver: null,
                         aktivitetIkkeMulig: {
                             medisinskArsak: {
                                 arsak: ['TILSTAND_HINDRER_AKTIVITET'],
