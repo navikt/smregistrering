@@ -1,4 +1,4 @@
-import { Diagnose } from '../types/RegistrertSykmelding';
+import { Diagnose } from '../types/sykmelding/MedisinskVurdering';
 import { DiagnosekodeSystem, Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 
 export const getPrefilledDiagnose = (

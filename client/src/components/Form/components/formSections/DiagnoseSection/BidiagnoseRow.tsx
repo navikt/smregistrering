@@ -8,7 +8,7 @@ import { Select } from 'nav-frontend-skjema';
 import Garbage from '../../../../../svg/Garbage';
 import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
-import { Diagnose } from '../../../../../types/RegistrertSykmelding';
+import { Diagnose } from '../../../../../types/sykmelding/MedisinskVurdering';
 import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
 
 type BidiagnoseRowProps = {

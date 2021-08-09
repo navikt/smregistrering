@@ -1,8 +1,7 @@
-import React from 'react';
 import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
-import { ArbeidsrelatertArsakType } from '../../../../../types/RegistrertSykmelding';
+import { ArbeidsrelatertArsakType, ArbeidsrelatertArsakTypeValues } from '../../../../../types/sykmelding/Periode';
 import { FormType } from '../../../Form';
 import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
 import { getEntries } from '../../../formUtils/useForm';
@@ -17,7 +16,7 @@ interface ArbeidsrelatertArsakProps {
 const ArbeidsrelatertArsak = ({ mfaPeriode, updateMfa, errors, index }: ArbeidsrelatertArsakProps) => {
     const { aktivitetIkkeMuligArbeidsrelatertArsakType } = mfaPeriode;
 
-    const checkboxes: CheckboksPanelProps[] = getEntries(ArbeidsrelatertArsakType).map(([key, value]) => {
+    const checkboxes: CheckboksPanelProps[] = getEntries(ArbeidsrelatertArsakTypeValues).map(([key, value]) => {
         return {
             label: value,
             id: `${key}-arbeidsrelatert-${index}`,
@@ -26,17 +25,17 @@ const ArbeidsrelatertArsak = ({ mfaPeriode, updateMfa, errors, index }: Arbeidsr
         };
     });
 
-    const updateCheckboxes = (value: keyof typeof ArbeidsrelatertArsakType): void => {
+    const updateCheckboxes = (value: ArbeidsrelatertArsakType): void => {
         if (!aktivitetIkkeMuligArbeidsrelatertArsakType) {
             const updatedSchema = {
                 ...mfaPeriode,
-                aktivitetIkkeMuligArbeidsrelatertArsakType: [value],
+                aktivitetIkkeMuligArbeidsrelatertArsakType: new Array<ArbeidsrelatertArsakType>(value),
             };
             updateMfa(updatedSchema);
             return;
         }
         const shouldAddArsak: boolean = !aktivitetIkkeMuligArbeidsrelatertArsakType.includes(value);
-        const newArbeidsrelatertArsakType: (keyof typeof ArbeidsrelatertArsakType)[] = shouldAddArsak
+        const newArbeidsrelatertArsakType: ArbeidsrelatertArsakType[] = shouldAddArsak
             ? [...aktivitetIkkeMuligArbeidsrelatertArsakType, value]
             : aktivitetIkkeMuligArbeidsrelatertArsakType.filter((arsak) => arsak !== value);
 

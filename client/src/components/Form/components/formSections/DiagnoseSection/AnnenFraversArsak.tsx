@@ -1,7 +1,7 @@
 import React from 'react';
 import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
-import { AnnenFraverGrunn } from '../../../../../types/RegistrertSykmelding';
+import { AnnenFraverGrunn, AnnenFraverGrunnValues } from '../../../../../types/sykmelding/MedisinskVurdering';
 import { FormType } from '../../../Form';
 
 interface AnnenFraversArsakProps {
@@ -13,25 +13,25 @@ interface AnnenFraversArsakProps {
 const AnnenFraversArsak = ({ formState, setFormState, errors }: AnnenFraversArsakProps) => {
     const { annenFraversArsakGrunn } = formState;
 
-    const checkboxes: CheckboksPanelProps[] = Object.entries(AnnenFraverGrunn).map(([key, value]) => {
+    const checkboxes: CheckboksPanelProps[] = Object.entries(AnnenFraverGrunnValues).map(([key, value]) => {
         return {
             label: value,
             value: key,
             id: key,
-            checked: annenFraversArsakGrunn?.includes(key as keyof typeof AnnenFraverGrunn),
+            checked: annenFraversArsakGrunn?.includes(key as AnnenFraverGrunn),
         };
     });
 
-    const updateCheckboxes = (value: keyof typeof AnnenFraverGrunn): void => {
+    const updateCheckboxes = (value: AnnenFraverGrunn): void => {
         setFormState((formState) => {
             if (!formState.annenFraversArsakGrunn) {
                 return {
                     ...formState,
-                    annenFraversArsakGrunn: [value as keyof typeof AnnenFraverGrunn],
+                    annenFraversArsakGrunn: [value as AnnenFraverGrunn],
                 };
             }
             const shouldAddArsak: boolean = !formState.annenFraversArsakGrunn.includes(value);
-            const newAnnenFraversArsakGrunn: (keyof typeof AnnenFraverGrunn)[] = shouldAddArsak
+            const newAnnenFraversArsakGrunn: AnnenFraverGrunn[] = shouldAddArsak
                 ? [...formState.annenFraversArsakGrunn, value]
                 : formState.annenFraversArsakGrunn.filter((arsak) => arsak !== value);
             return {
