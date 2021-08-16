@@ -5,6 +5,7 @@ import 'dayjs/locale/nb';
 import './index.less';
 
 import NAVSPA from '@navikt/navspa';
+import ReactDOM from 'react-dom';
 import dayjs from 'dayjs';
 import React, { useRef, useState } from 'react';
 
@@ -76,4 +77,4 @@ function Wrapper() {
     );
 }
 
-NAVSPA.eksporter('wrapper', Wrapper);
+ReactDOM.render(<Wrapper />, document.getElementById('root'));
