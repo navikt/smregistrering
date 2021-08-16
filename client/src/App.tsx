@@ -6,15 +6,17 @@ import ErrorView from './components/ErrorView';
 import Form from './components/Form/Form';
 import LoadingView from './components/LoadingView';
 import Pdf from './components/Pdf/Pdf';
+import logger from './utils/logger';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
-import { logger } from './utils/logger';
 
 export interface AppProps {
     height: number;
     enhet: string | null | undefined;
 }
+
+// dette er en tulleendring
 
 const App = ({ enhet, height }: AppProps) => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
@@ -24,6 +26,7 @@ const App = ({ enhet, height }: AppProps) => {
 
     useEffect(() => {
         setIsLoading(true);
+
         Promise.all([getDiagnosekoder(), getOppgave()])
             .then(([_diagnosekoder, _oppgave]) => {
                 logger.info(`Oppgave hentet ut. oppgaveid: ${_oppgave.oppgaveid}`);

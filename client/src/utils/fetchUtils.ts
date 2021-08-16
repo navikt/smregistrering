@@ -2,7 +2,7 @@ import * as iotsPromise from 'io-ts-promise';
 
 import { RegistrertSykmelding } from '../types/RegistrertSykmelding';
 import { RuleHitErrors } from '../types/RuleHitErrors';
-import { logger } from './logger';
+import logger from "./logger";
 
 export class RuleHitError extends Error {
     ruleHits: RuleHitErrors;
