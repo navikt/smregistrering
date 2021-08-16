@@ -3,6 +3,7 @@ import * as iotsPromise from 'io-ts-promise';
 import { DiagnosekodeSystem, Diagnosekoder } from '../types/Diagnosekode';
 import { Oppgave } from '../types/Oppgave';
 import { getOppgaveidFromSearchParams } from './urlUtils';
+import { logger } from './logger';
 
 export class OppgaveAlreadySolvedError extends Error {}
 export class BadRequestError extends Error {}
@@ -17,7 +18,7 @@ export const getDiagnosekoder = (): Promise<Diagnosekoder> => {
         };
         return iotsPromise.decode(Diagnosekoder, diagnosekoderRaw);
     } catch (error) {
-        window.frontendlogger.error(error);
+        logger.error(error);
         return Promise.reject(new Error('Feil med dianosekoder. Sjekke logger for utdypende feilbeskrivelse'));
     }
 };

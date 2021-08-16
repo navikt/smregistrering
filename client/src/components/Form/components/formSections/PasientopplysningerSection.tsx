@@ -9,6 +9,7 @@ import SectionContainer from '../SectionContainer';
 import { FormType } from '../../Form';
 import { PasientNavn } from '../../../../types/Pasient';
 import { Section } from '../../../../types/Section';
+import { logger } from '../../../../utils/logger';
 
 export type Pasientopplysninger = {
     pasientFnr?: string | null;
@@ -55,9 +56,9 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                 .catch((error) => {
                     // Sanitizing the error
                     if (iotsPromise.isDecodeError(error)) {
-                        window.frontendlogger.error('Data mottatt for /pasient/{fnr} er er feil format');
+                        logger.error('Data mottatt for /pasient/{fnr} er er feil format');
                     } else {
-                        window.frontendlogger.info(error);
+                        logger.info(error);
                     }
                     setPasientNavn(null);
                     setError(error);
