@@ -4,6 +4,7 @@ import { FormType } from '../components/Form/Form';
 import { RuleHitError, postRegistrertSykmelding } from '../utils/fetchUtils';
 import { RuleHitErrors } from '../types/RuleHitErrors';
 import { buildRegistrertSykmelding } from '../utils/registrertSykmeldingUtils';
+import { logger } from '../utils/logger';
 
 function useSubmitSykmelding(
     oppgaveid: number,
@@ -35,7 +36,7 @@ function useSubmitSykmelding(
 
             if (!sykmelding) {
                 const error = 'Noe gikk galt med konstruksjon av sykmeldingsobjekt';
-                window.frontendlogger.error(error);
+                logger.error(error);
                 setError(error);
                 return;
             }
@@ -51,7 +52,7 @@ function useSubmitSykmelding(
                 } else if (e instanceof Error) {
                     setError(e.message);
                 } else {
-                    window.frontendlogger.error({ message: `Unknown error for oppgaveid: ${oppgaveid}`, e });
+                    logger.error({ message: `Unknown error for oppgaveid: ${oppgaveid}`, e });
                     setError(
                         'Det oppsto dessverre en ukjent feil i baksystemet. Vennligst prøv igjen om en liten stund, og ta kontakt dersom problemet vedvarer.',
                     );

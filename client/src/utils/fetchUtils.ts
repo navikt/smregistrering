@@ -2,6 +2,7 @@ import * as iotsPromise from 'io-ts-promise';
 
 import { RegistrertSykmelding } from '../types/RegistrertSykmelding';
 import { RuleHitErrors } from '../types/RuleHitErrors';
+import { logger } from './logger';
 
 export class RuleHitError extends Error {
     ruleHits: RuleHitErrors;
@@ -27,10 +28,10 @@ export async function postRegistrertSykmelding(
     });
 
     if (res.ok) {
-        window.frontendlogger.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
+        logger.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
         return;
     } else if (res.status === 400 && res.headers.get('Content-Type')?.includes('application/json')) {
-        window.frontendlogger.error(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
+        logger.error(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
         try {
             const ruleHits = await iotsPromise.decode(RuleHitErrors, await res.json());
             throw new RuleHitError(ruleHits);
@@ -43,13 +44,13 @@ export async function postRegistrertSykmelding(
         }
     } else if (res.status >= 400 && res.status < 500) {
         const text = await res.text();
-        window.frontendlogger.error(
+        logger.error(
             `An error occurred while trying to register sykmelding. StatusCode: ${res.status}. Message: ${text}`,
         );
         throw new Error(text);
     } else {
         const text = await res.text();
-        window.frontendlogger.error(
+        logger.error(
             `An error occurred while trying to register sykmelding. StatusCode: ${res.status}. Message: ${text}`,
         );
         throw new Error('Det oppsto dessverre en feil i baksystemet. Vennligst prøv igjen senere');

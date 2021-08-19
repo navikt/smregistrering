@@ -12,6 +12,7 @@ import SykmelderInformation from '../formComponents/SykmelderInformation';
 import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Sykmelder } from '../../../../types/Sykmelder';
+import { logger } from '../../../../utils/logger';
 
 export type Behandler = {
     behandletDato?: Date | null;
@@ -66,9 +67,9 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                 .catch((error) => {
                     // Sanitizing the error
                     if (iotsPromise.isDecodeError(error)) {
-                        window.frontendlogger.error(`Data mottatt for /sykmelder/${formState.hpr} er er feil format`);
+                        logger.error(`Data mottatt for /sykmelder/${formState.hpr} er er feil format`);
                     } else {
-                        window.frontendlogger.info(error);
+                        logger.info(error);
                     }
                     setSykmelder(null);
                     setError(error);
@@ -126,7 +127,13 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                 />
             </Row>
 
-            {sykmelder ? <SykmelderInformation sykmelder={sykmelder} sykmeldersFornavn={formState.sykmeldersFornavn} sykmeldersEtternavn={formState.sykmeldersEtternavn}  /> : null}
+            {sykmelder ? (
+                <SykmelderInformation
+                    sykmelder={sykmelder}
+                    sykmeldersFornavn={formState.sykmeldersFornavn}
+                    sykmeldersEtternavn={formState.sykmeldersEtternavn}
+                />
+            ) : null}
             {isLoading ? (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Normaltekst style={{ marginRight: '1rem' }}>Henter informasjon om behandleren</Normaltekst>

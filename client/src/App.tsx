@@ -9,6 +9,7 @@ import Pdf from './components/Pdf/Pdf';
 import { Diagnosekoder } from './types/Diagnosekode';
 import { Oppgave } from './types/Oppgave';
 import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
+import { logger } from './utils/logger';
 
 export interface AppProps {
     height: number;
@@ -25,12 +26,12 @@ const App = ({ enhet, height }: AppProps) => {
         setIsLoading(true);
         Promise.all([getDiagnosekoder(), getOppgave()])
             .then(([_diagnosekoder, _oppgave]) => {
-                window.frontendlogger.info(`Oppgave hentet ut. oppgaveid: ${_oppgave.oppgaveid}`);
+                logger.info(`Oppgave hentet ut. oppgaveid: ${_oppgave.oppgaveid}`);
                 setDiagnosekoder(_diagnosekoder);
                 setOppgave(_oppgave);
             })
             .catch((error) => {
-                window.frontendlogger.error(error);
+                logger.error(error);
                 setError(error);
             })
             .finally(() => {
@@ -55,12 +56,12 @@ const App = ({ enhet, height }: AppProps) => {
     }
 
     if (!oppgave) {
-        window.frontendlogger.error('Oppgave is undefined');
+        logger.error('Oppgave is undefined');
         return null;
     }
 
     if (!diagnosekoder) {
-        window.frontendlogger.error('Diagnosekoder is undefined');
+        logger.error('Diagnosekoder is undefined');
         return null;
     }
 
