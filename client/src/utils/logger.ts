@@ -1,8 +1,9 @@
+import * as Sentry from '@sentry/browser';
 import { createFrontendLogger, createMockFrontendLogger, setUpErrorReporting } from '@navikt/frontendlogger/lib';
 
 const frontendloggerApiUrl = `${process.env.REACT_APP_FRONTEND_LOGGER_URL}/api`;
 
-export const logger =
+const frontendLogger =
     process.env.NODE_ENV === 'production'
         ? createFrontendLogger('smregistrering', frontendloggerApiUrl)
         : createMockFrontendLogger('smregistrering');
@@ -12,3 +13,21 @@ export function setupLogger() {
         setUpErrorReporting(logger);
     }
 }
+
+const logger: ReturnType<typeof createFrontendLogger> = {
+    info: (data) => {
+        frontendLogger.info(data);
+    },
+    warn: (data) => {
+        frontendLogger.warn(data);
+    },
+    error: (data) => {
+        frontendLogger.error(data);
+        Sentry.captureException(data);
+    },
+    event: (name, fields, tags) => {
+        frontendLogger.event(name, fields, tags);
+    },
+};
+
+export default logger;

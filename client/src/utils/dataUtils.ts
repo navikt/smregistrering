@@ -3,7 +3,7 @@ import * as iotsPromise from 'io-ts-promise';
 import { DiagnosekodeSystem, Diagnosekoder } from '../types/Diagnosekode';
 import { Oppgave } from '../types/Oppgave';
 import { getOppgaveidFromSearchParams } from './urlUtils';
-import { logger } from './logger';
+import logger from "./logger";
 
 export class OppgaveAlreadySolvedError extends Error {}
 export class BadRequestError extends Error {}
