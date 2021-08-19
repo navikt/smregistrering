@@ -117,7 +117,7 @@ jobs:
           REACT_APP_HEAD_URL: https://app-q1.dev.adeo.no
           REACT_APP_FRONTEND_LOGGER_URL: https://app-q1.dev.adeo.no/frontendlogger
           REACT_APP_GOSYS_URL: https://gosys.nais.preprod.local/gosys/bruker/brukeroversikt.jsf
-          REACT_APP_ENVIRONMENT=q1
+          REACT_APP_ENVIRONMENT: q1
         run: npm run build
         working-directory: ./client
       - name: Build and publish Docker image
