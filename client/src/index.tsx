@@ -4,6 +4,7 @@ import 'dayjs/locale/nb';
 
 import './index.less';
 
+import * as Sentry from '@sentry/react';
 import NAVSPA from '@navikt/navspa';
 import ReactDOM from 'react-dom';
 import dayjs from 'dayjs';
@@ -13,8 +14,13 @@ import App from './App';
 import { DecoratorProps, EnhetDisplay } from './types/DecoratorProps';
 import { setupLogger } from './utils/logger';
 
-setupLogger();
 dayjs.locale('nb');
+setupLogger();
+Sentry.init({
+    dsn: 'https://e3ea5210572241a5a06675d86a49fa9d@sentry.gc.nav.no/89',
+    environment: process.env.REACT_APP_ENVIRONMENT,
+    enabled: process.env.NODE_ENV === 'production',
+});
 
 if (process.env.REACT_APP_START_WITH_MOCK === 'true') {
     require('./mock/setup');
@@ -57,12 +63,12 @@ function Wrapper() {
     }, 1000);
 
     return (
-        <>
+        <Sentry.ErrorBoundary fallback={<div>En uventet feil har skjedd</div>}>
             <div id="decorator" ref={decoratorRef}>
                 <InternflateDecorator {...decoratorConfig} />
             </div>
             <App enhet={enhet} height={decoratorHeight} />
-        </>
+        </Sentry.ErrorBoundary>
     );
 }
 

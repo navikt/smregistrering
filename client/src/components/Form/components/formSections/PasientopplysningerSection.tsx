@@ -9,7 +9,7 @@ import SectionContainer from '../SectionContainer';
 import { FormType } from '../../Form';
 import { PasientNavn } from '../../../../types/Pasient';
 import { Section } from '../../../../types/Section';
-import { logger } from '../../../../utils/logger';
+import logger from "../../../../utils/logger";
 
 export type Pasientopplysninger = {
     pasientFnr?: string | null;

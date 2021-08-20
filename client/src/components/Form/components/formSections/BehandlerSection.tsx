@@ -12,7 +12,7 @@ import SykmelderInformation from '../formComponents/SykmelderInformation';
 import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 import { Sykmelder } from '../../../../types/Sykmelder';
-import { logger } from '../../../../utils/logger';
+import logger from '../../../../utils/logger';
 
 export type Behandler = {
     behandletDato?: Date | null;
