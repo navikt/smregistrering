@@ -4,7 +4,7 @@ on:
     branches:
       - 'master'
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering:${{ github.sha }}
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering-prod:${{ github.sha }}
 jobs:
   # JOB to run change detection
   changes:
