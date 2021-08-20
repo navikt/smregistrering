@@ -5,7 +5,7 @@ on:
       - '*'
       - '!master'
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering:${{ github.sha }}
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering-dev:${{ github.sha }}
 jobs:
   # JOB to run change detection
   changes:
