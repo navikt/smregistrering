@@ -17,9 +17,11 @@ export function setupLogger() {
 const logger: ReturnType<typeof createFrontendLogger> = {
     info: (data) => {
         frontendLogger.info(data);
+        Sentry.captureMessage(`${JSON.stringify(data)}`, Sentry.Severity.Info);
     },
     warn: (data) => {
         frontendLogger.warn(data);
+        Sentry.captureMessage(`${JSON.stringify(data)}`, Sentry.Severity.Warning);
     },
     error: (data) => {
         frontendLogger.error(data);

@@ -1,8 +1,8 @@
 import * as iotsPromise from 'io-ts-promise';
 
+import logger from './logger';
 import { RegistrertSykmelding } from '../types/RegistrertSykmelding';
 import { RuleHitErrors } from '../types/RuleHitErrors';
-import logger from "./logger";
 
 export class RuleHitError extends Error {
     ruleHits: RuleHitErrors;
@@ -31,7 +31,7 @@ export async function postRegistrertSykmelding(
         logger.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
         return;
     } else if (res.status === 400 && res.headers.get('Content-Type')?.includes('application/json')) {
-        logger.error(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
+        logger.warn(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
         try {
             const ruleHits = await iotsPromise.decode(RuleHitErrors, await res.json());
             throw new RuleHitError(ruleHits);
