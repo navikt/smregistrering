@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
+import logger from '../utils/logger';
 import { FormType } from '../components/Form/Form';
 import { RuleHitError, postRegistrertSykmelding } from '../utils/fetchUtils';
 import { RuleHitErrors } from '../types/RuleHitErrors';
 import { buildRegistrertSykmelding } from '../utils/registrertSykmeldingUtils';
-import logger from "../utils/logger";
 
 function useSubmitSykmelding(
     oppgaveid: number,
