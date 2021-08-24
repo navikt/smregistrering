@@ -2,7 +2,7 @@ name: Deploy Redis to dev
 on:
   push:
     branches:
-      - "*"
+      - "**"
       - "!master"
     paths:
       - server/**
