@@ -9,7 +9,7 @@ import { Select } from 'nav-frontend-skjema';
 
 import BackArrow from '../../../svg/BackArrow';
 import WarningCircle from '../../../svg/WarningCircle';
-import logger from "../../../utils/logger";
+import logger from '../../../utils/logger';
 
 interface FormRejectProps {
     enhet: string | undefined | null;
@@ -188,6 +188,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                         id="to-gosys-modal-button"
                         className="cancelmodal__button"
                         spinner={isLoadingRevert}
+                        disabled={isLoadingRevert}
                         onClick={() => revertSykmelding()}
                     >
                         Send til GOSYS
