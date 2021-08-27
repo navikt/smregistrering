@@ -32,34 +32,31 @@ function useSubmitSykmelding(
         }
 
         handleSubmit(async (formState) => {
-            const sykmelding = buildRegistrertSykmelding(formState);
+            const maybeSykmelding = buildRegistrertSykmelding(formState);
 
-            if (!sykmelding) {
-                const error = 'Noe gikk galt med konstruksjon av sykmeldingsobjekt';
-                logger.error(error);
-                setError(error);
+            if (!maybeSykmelding.success) {
+                logger.error(maybeSykmelding.error);
+                setError('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
                 return;
-            }
-
-            setIsLoading(true);
-
-            try {
-                await postRegistrertSykmelding(oppgaveid, enhet, sykmelding);
-                setSubmitSuccess(true);
-            } catch (e) {
-                if (e instanceof RuleHitError) {
-                    setRuleHitError(e.ruleHits);
-                } else if (e instanceof Error) {
-                    setError(e.message);
-                } else {
-                    logger.error({ message: `Unknown error for oppgaveid: ${oppgaveid}`, e });
-                    setError(
-                        'Det oppsto dessverre en ukjent feil i baksystemet. Vennligst prøv igjen om en liten stund, og ta kontakt dersom problemet vedvarer.',
-                    );
+            } else {
+                setIsLoading(true);
+                try {
+                    await postRegistrertSykmelding(oppgaveid, enhet, maybeSykmelding.data);
+                    setSubmitSuccess(true);
+                } catch (e) {
+                    if (e instanceof RuleHitError) {
+                        setRuleHitError(e.ruleHits);
+                    } else if (e instanceof Error) {
+                        setError(e.message);
+                    } else {
+                        logger.error({ message: `Unknown error for oppgaveid: ${oppgaveid}`, e });
+                        setError(
+                            'Det oppsto dessverre en ukjent feil i baksystemet. Vennligst prøv igjen om en liten stund, og ta kontakt dersom problemet vedvarer.',
+                        );
+                    }
                 }
+                setIsLoading(false);
             }
-
-            setIsLoading(false);
         });
     }
 

@@ -1,7 +1,5 @@
-import * as iotsPromise from 'io-ts-promise';
-
 import logger from './logger';
-import { RegistrertSykmelding } from '../types/RegistrertSykmelding';
+import { RegistrertSykmelding } from '../types/sykmelding/RegistrertSykmelding';
 import { RuleHitErrors } from '../types/RuleHitErrors';
 
 export class RuleHitError extends Error {
@@ -24,23 +22,19 @@ export async function postRegistrertSykmelding(
             'Content-Type': 'application/json',
             'X-Nav-Enhet': enhet,
         },
-        body: JSON.stringify(RegistrertSykmelding.encode(sykmelding)),
+        body: JSON.stringify(sykmelding),
     });
 
     if (res.ok) {
         logger.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
         return;
     } else if (res.status === 400 && res.headers.get('Content-Type')?.includes('application/json')) {
-        logger.warn(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
-        try {
-            const ruleHits = await iotsPromise.decode(RuleHitErrors, await res.json());
-            throw new RuleHitError(ruleHits);
-        } catch (e) {
-            if (iotsPromise.isDecodeError(e)) {
-                throw new Error(`Det oppsto en valideringsfeil ved registrering av oppgave med id: ${oppgaveid}`);
-            } else {
-                throw e;
-            }
+        logger.error(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
+        const ruleHits = RuleHitErrors.safeParse(await res.json());
+        if (ruleHits.success) {
+            throw new RuleHitError(ruleHits.data);
+        } else {
+            throw new Error(`Det oppsto en valideringsfeil ved registrering av oppgave med id: ${oppgaveid}`);
         }
     } else if (res.status >= 400 && res.status < 500) {
         const text = await res.text();

@@ -1,12 +1,12 @@
-import { Diagnose } from '../types/RegistrertSykmelding';
-import { DiagnosekodeSystem, Diagnosekoder } from '../types/Diagnosekode';
+import { Diagnose } from '../types/sykmelding/MedisinskVurdering';
+import { DiagnosekodeSystem, Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 
 export const getPrefilledDiagnose = (
     diagnosekoder: Diagnosekoder,
-    diagnose?: Partial<Diagnose> | null,
-): Partial<Diagnose> | undefined => {
+    diagnose: Partial<Diagnose> | null,
+): Partial<Diagnose> | null => {
     if (!diagnose) {
-        return undefined;
+        return null;
     }
 
     const hasCorrectSystem =
@@ -31,12 +31,12 @@ export const getPrefilledDiagnose = (
         };
     }
     // Do not set kode and tekst without setting system.
-    return undefined;
+    return null;
 };
 
 export const getPrefilledBidiagnoser = (
     diagnoserkoder: Diagnosekoder,
-    bidiagnoser: Partial<Diagnose>[] | undefined,
+    bidiagnoser: Partial<Diagnose>[] | null,
 ): Partial<Diagnose>[] => {
     if (!bidiagnoser) {
         return [];

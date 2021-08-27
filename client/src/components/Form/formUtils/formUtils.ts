@@ -1,11 +1,11 @@
 import { AktivitetIkkeMuligPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
 import { AvventendePeriodeMFA } from '../components/formSections/MulighetForArbeidSection/AvventendePeriode';
 import { BehandlingsdagerPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode';
-import { Diagnosekoder } from '../../../types/Diagnosekode';
+import { Diagnosekoder } from '../../../types/diagnosekoder/Diagnosekoder';
 import { FormType } from '../Form';
 import { GradertPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/GradertPeriode';
 import { MulighetForArbeidTypes } from '../components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
-import { Oppgave } from '../../../types/Oppgave';
+import { Oppgave } from '../../../types/oppgave/Oppgave';
 import { ReisetilskuddPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode';
 import {
     getAktivitetIkkeMuligSykmelding,
@@ -30,7 +30,7 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
             const avventendePeriodeMFA: AvventendePeriodeMFA[] = avventendePeriode.map((periode) => ({
                 type: 'avventende',
                 avventendePeriode: [periode.fom, periode.tom],
-                avventendeInnspillTilArbeidsgiver: periode.avventendeInnspillTilArbeidsgiver || undefined,
+                avventendeInnspillTilArbeidsgiver: periode.avventendeInnspillTilArbeidsgiver || null,
             }));
 
             mulighetForArbeid.push(...avventendePeriodeMFA);
@@ -40,7 +40,7 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
             const gradertPeriodeMFA: GradertPeriodeMFA[] = gradertPeriode.map((periode) => ({
                 type: 'gradert',
                 gradertPeriode: [periode.fom, periode.tom],
-                gradertGrad: periode.gradert?.grad || undefined,
+                gradertGrad: periode.gradert?.grad || null,
                 gradertReisetilskudd: periode.reisetilskudd,
             }));
 
@@ -51,16 +51,16 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
             const aktivitetIkkeMuligPeriodeMFA: AktivitetIkkeMuligPeriodeMFA[] = aktivitetIkkeMuligPeriode.map(
                 (periode) => ({
                     type: 'fullsykmelding',
-                    aktivitetIkkeMuligPeriode: !!periode ? [periode.fom, periode.tom] : undefined,
+                    aktivitetIkkeMuligPeriode: !!periode ? [periode.fom, periode.tom] : null,
                     aktivitetIkkeMuligMedisinskArsak: !!periode?.aktivitetIkkeMulig?.medisinskArsak,
-                    aktivitetIkkeMuligMedisinskArsakType: periode?.aktivitetIkkeMulig?.medisinskArsak?.arsak,
+                    aktivitetIkkeMuligMedisinskArsakType: periode?.aktivitetIkkeMulig?.medisinskArsak?.arsak ?? [],
                     aktivitetIkkeMuligMedisinskArsakBeskrivelse:
-                        periode?.aktivitetIkkeMulig?.medisinskArsak?.beskrivelse,
+                        periode?.aktivitetIkkeMulig?.medisinskArsak?.beskrivelse ?? null,
                     aktivitetIkkeMuligArbeidsrelatertArsak: !!periode?.aktivitetIkkeMulig?.arbeidsrelatertArsak,
                     aktivitetIkkeMuligArbeidsrelatertArsakType:
-                        periode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.arsak,
+                        periode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.arsak ?? [],
                     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse:
-                        periode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.beskrivelse,
+                        periode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.beskrivelse ?? null,
                 }),
             );
 
@@ -71,7 +71,7 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
             const behandlingsdagerPeriodeMFA: BehandlingsdagerPeriodeMFA[] = behandlingsdagerPeriode.map((periode) => ({
                 type: 'behandlingsdager',
                 behandlingsdagerPeriode: [periode.fom, periode.tom],
-                behandlingsdagerAntall: periode.behandlingsdager || undefined,
+                behandlingsdagerAntall: periode.behandlingsdager || null,
             }));
 
             mulighetForArbeid.push(...behandlingsdagerPeriodeMFA);
@@ -91,32 +91,33 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
 
     return {
         // Other
-        syketilfelleStartDato: oppgave.papirSmRegistering?.syketilfelleStartDato,
+        syketilfelleStartDato: oppgave.papirSmRegistering?.syketilfelleStartDato ?? null,
 
         // Pasientopplysninger
-        pasientFnr: oppgave.papirSmRegistering?.fnr,
+        pasientFnr: oppgave.papirSmRegistering?.fnr ?? null,
 
         // Arbeidsgiver
-        harArbeidsgiver: oppgave.papirSmRegistering?.arbeidsgiver?.harArbeidsgiver,
-        arbeidsgiverNavn: oppgave.papirSmRegistering?.arbeidsgiver?.navn,
-        yrkesbetegnelse: oppgave.papirSmRegistering?.arbeidsgiver?.yrkesbetegnelse,
-        stillingsprosent: oppgave.papirSmRegistering?.arbeidsgiver?.stillingsprosent,
+        harArbeidsgiver: oppgave.papirSmRegistering?.arbeidsgiver?.harArbeidsgiver ?? null,
+        arbeidsgiverNavn: oppgave.papirSmRegistering?.arbeidsgiver?.navn ?? null,
+        yrkesbetegnelse: oppgave.papirSmRegistering?.arbeidsgiver?.yrkesbetegnelse ?? null,
+        stillingsprosent: oppgave.papirSmRegistering?.arbeidsgiver?.stillingsprosent ?? null,
 
         // Diagnose
         yrkesskade: !!oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskade,
-        yrkesskadeDato: oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskadeDato,
+        yrkesskadeDato: oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskadeDato ?? null,
         skjermesForPasient: !!oppgave.papirSmRegistering?.skjermesForPasient,
         svangerskap: !!oppgave.papirSmRegistering?.medisinskVurdering?.svangerskap,
         annenFraversArsak: !!oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak,
-        annenFraversArsakGrunn: oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak?.grunn,
-        annenFraversArsakBeskrivelse: oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak?.beskrivelse,
+        annenFraversArsakGrunn: oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak?.grunn ?? null,
+        annenFraversArsakBeskrivelse:
+            oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak?.beskrivelse ?? null,
         hovedDiagnose: getPrefilledDiagnose(
             diagnosekoder,
-            oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose,
+            oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose ?? null,
         ),
         biDiagnoser: getPrefilledBidiagnoser(
             diagnosekoder,
-            oppgave.papirSmRegistering?.medisinskVurdering?.biDiagnoser,
+            oppgave.papirSmRegistering?.medisinskVurdering?.biDiagnoser ?? null,
         ),
 
         // MulighetForArbeid
@@ -127,29 +128,29 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
 
         // MeldingTilNav
         meldingTilNavBistand: !!oppgave.papirSmRegistering?.meldingTilNAV?.bistandUmiddelbart,
-        meldingTilNavBegrunn: oppgave.papirSmRegistering?.meldingTilNAV?.beskrivBistand,
+        meldingTilNavBegrunn: oppgave.papirSmRegistering?.meldingTilNAV?.beskrivBistand ?? null,
 
         // MeldingTilArbeidsgiver
-        meldingTilArbeidsgiverBeskriv: oppgave.papirSmRegistering?.meldingTilArbeidsgiver,
+        meldingTilArbeidsgiverBeskriv: oppgave.papirSmRegistering?.meldingTilArbeidsgiver ?? null,
 
         // Tilbakedatering
         erTilbakedatert: !!oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato,
-        kontaktDato: oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato,
+        kontaktDato: oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato ?? null,
         kunneIkkeIvaretaEgneInteresser: !!oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
-        begrunnelseIkkeKontakt: oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
+        begrunnelseIkkeKontakt: oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt ?? null,
 
         // Bekreftelse
-        behandletDato: oppgave.papirSmRegistering?.behandletTidspunkt,
-        sykmelderFnr: oppgave.papirSmRegistering?.behandler?.fnr,
-        sykmeldersFornavn: oppgave.papirSmRegistering?.behandler?.fornavn,
-        sykmeldersEtternavn: oppgave.papirSmRegistering?.behandler?.etternavn,
-        aktoerId: oppgave.papirSmRegistering?.behandler?.aktoerId,
-        sykmelderGate: oppgave.papirSmRegistering?.behandler?.adresse?.gate,
-        sykmelderKommune: oppgave.papirSmRegistering?.behandler?.adresse?.kommune,
-        sykmelderPostboks: oppgave.papirSmRegistering?.behandler?.adresse?.postboks,
-        sykmelderPostnummer: oppgave.papirSmRegistering?.behandler?.adresse?.postnummer,
-        sykmelderLand: oppgave.papirSmRegistering?.behandler?.adresse?.land,
-        sykmelderTelefon: oppgave.papirSmRegistering?.behandler?.tlf,
-        hpr: oppgave.papirSmRegistering?.behandler?.hpr
+        behandletDato: oppgave.papirSmRegistering?.behandletTidspunkt ?? null,
+        sykmelderFnr: oppgave.papirSmRegistering?.behandler?.fnr ?? null,
+        sykmeldersFornavn: oppgave.papirSmRegistering?.behandler?.fornavn ?? null,
+        sykmeldersEtternavn: oppgave.papirSmRegistering?.behandler?.etternavn ?? null,
+        aktoerId: oppgave.papirSmRegistering?.behandler?.aktoerId ?? null,
+        sykmelderGate: oppgave.papirSmRegistering?.behandler?.adresse?.gate ?? null,
+        sykmelderKommune: oppgave.papirSmRegistering?.behandler?.adresse?.kommune ?? null,
+        sykmelderPostboks: oppgave.papirSmRegistering?.behandler?.adresse?.postboks ?? null,
+        sykmelderPostnummer: oppgave.papirSmRegistering?.behandler?.adresse?.postnummer ?? null,
+        sykmelderLand: oppgave.papirSmRegistering?.behandler?.adresse?.land ?? null,
+        sykmelderTelefon: oppgave.papirSmRegistering?.behandler?.tlf ?? null,
+        hpr: oppgave.papirSmRegistering?.behandler?.hpr ?? null,
     };
 };

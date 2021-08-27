@@ -1,21 +1,19 @@
 import {
     AktivitetIkkeMulig,
-    AnnenFraverGrunn,
-    AnnenFraversArsak,
     ArbeidsrelatertArsak,
     ArbeidsrelatertArsakType,
-    Diagnose,
     MedisinskArsak,
     MedisinskArsakType,
     Periode,
-    RegistrertSykmelding,
-} from '../types/RegistrertSykmelding';
+} from '../types/sykmelding/Periode';
 import { AktivitetIkkeMuligPeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
+import { AnnenFraverGrunn, AnnenFraversArsak, Diagnose } from '../types/sykmelding/MedisinskVurdering';
 import { AvventendePeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/AvventendePeriode';
 import { BehandlingsdagerPeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode';
 import { FormType } from '../components/Form/Form';
 import { GradertPeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/GradertPeriode';
 import { MulighetForArbeidTypes } from '../components/Form/components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
+import { RegistrertSykmelding } from '../types/sykmelding/RegistrertSykmelding';
 import { ReisetilskuddPeriodeMFA } from '../components/Form/components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode';
 
 export const buildAvventendeSykmelding = (mulighetForArbeid: MulighetForArbeidTypes[]): Periode[] | undefined => {
@@ -27,7 +25,10 @@ export const buildAvventendeSykmelding = (mulighetForArbeid: MulighetForArbeidTy
                 fom: mfa.avventendePeriode[0],
                 tom: mfa.avventendePeriode[1],
                 reisetilskudd: false,
+                aktivitetIkkeMulig: null,
+                behandlingsdager: null,
                 avventendeInnspillTilArbeidsgiver: mfa.avventendeInnspillTilArbeidsgiver,
+                gradert: null,
             };
             acc.push(periode);
         }
@@ -44,6 +45,9 @@ export const buildGradertSykmelding = (mulighetForArbeid: MulighetForArbeidTypes
                 fom: mfa.gradertPeriode[0],
                 tom: mfa.gradertPeriode[1],
                 reisetilskudd: false,
+                aktivitetIkkeMulig: null,
+                behandlingsdager: null,
+                avventendeInnspillTilArbeidsgiver: null,
                 gradert: {
                     reisetilskudd: mfa.gradertReisetilskudd,
                     grad: mfa.gradertGrad,
@@ -56,29 +60,31 @@ export const buildGradertSykmelding = (mulighetForArbeid: MulighetForArbeidTypes
 };
 
 export const buildMedisinskArsak = (
-    aktivitetIkkeMuligMedisinskArsak?: boolean,
-    aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[],
-    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string | null,
-): MedisinskArsak | undefined => {
+    aktivitetIkkeMuligMedisinskArsak: boolean,
+    aktivitetIkkeMuligMedisinskArsakType: MedisinskArsakType[],
+    aktivitetIkkeMuligMedisinskArsakBeskrivelse: string | null,
+): MedisinskArsak | null => {
     if (aktivitetIkkeMuligMedisinskArsak) {
         return {
             arsak: aktivitetIkkeMuligMedisinskArsakType || [],
             beskrivelse: aktivitetIkkeMuligMedisinskArsakBeskrivelse,
         };
     }
+    return null;
 };
 
 export const buildArbeidsrelatertArsak = (
-    aktivitetIkkeMuligArbeidsrelatertArsak?: boolean,
-    aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[],
-    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string | null,
-): ArbeidsrelatertArsak | undefined => {
+    aktivitetIkkeMuligArbeidsrelatertArsak: boolean,
+    aktivitetIkkeMuligArbeidsrelatertArsakType: ArbeidsrelatertArsakType[],
+    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: string | null,
+): ArbeidsrelatertArsak | null => {
     if (aktivitetIkkeMuligArbeidsrelatertArsak) {
         return {
             arsak: aktivitetIkkeMuligArbeidsrelatertArsakType || [],
             beskrivelse: aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
         };
     }
+    return null;
 };
 
 export const buildAktivitetIkkeMuligSykmelding = (
@@ -110,6 +116,9 @@ export const buildAktivitetIkkeMuligSykmelding = (
                 tom: mfa.aktivitetIkkeMuligPeriode[1],
                 reisetilskudd: false,
                 aktivitetIkkeMulig,
+                behandlingsdager: null,
+                avventendeInnspillTilArbeidsgiver: null,
+                gradert: null,
             };
             acc.push(periode);
         }
@@ -128,7 +137,10 @@ export const buildBehandlingsdagerSykmelding = (mulighetForArbeid: MulighetForAr
                 fom: mfa.behandlingsdagerPeriode[0],
                 tom: mfa.behandlingsdagerPeriode[1],
                 reisetilskudd: false,
+                aktivitetIkkeMulig: null,
                 behandlingsdager: mfa.behandlingsdagerAntall,
+                avventendeInnspillTilArbeidsgiver: null,
+                gradert: null,
             };
             acc.push(periode);
         }
@@ -147,6 +159,10 @@ export const buildReisetilskuddSykmelding = (mulighetForArbeid: MulighetForArbei
                 fom: mfa.reisetilskuddPeriode[0],
                 tom: mfa.reisetilskuddPeriode[1],
                 reisetilskudd: true,
+                aktivitetIkkeMulig: null,
+                behandlingsdager: null,
+                avventendeInnspillTilArbeidsgiver: null,
+                gradert: null,
             };
             acc.push(periode);
         }
@@ -175,10 +191,10 @@ export const buildPerioder = (schema: FormType): Periode[] => {
     return perioder;
 };
 
-export const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefined => {
+export const buildDiagnose = (diagnose: Partial<Diagnose> | null): Diagnose | null => {
     // Catches the cases where a bidiagnoseRow exists but is not filled
     if (diagnose && diagnose.system !== undefined && diagnose.system.length === 0) {
-        return undefined;
+        return null;
     }
 
     if (diagnose && diagnose.kode && diagnose.system && diagnose.tekst) {
@@ -189,44 +205,34 @@ export const buildDiagnose = (diagnose?: Partial<Diagnose>): Diagnose | undefine
             tekst: diagnose.tekst,
         };
     }
+    return null;
 };
 
 export const buildDiagnoser = (diagnoser?: Partial<Diagnose>[]): Diagnose[] => {
     if (diagnoser) {
         return diagnoser
             .map((partialDiagnose) => buildDiagnose(partialDiagnose))
-            .filter((diagnoseOrUndefined): diagnoseOrUndefined is Diagnose => diagnoseOrUndefined !== undefined);
+            .filter((diagnoseOrUndefined): diagnoseOrUndefined is Diagnose => diagnoseOrUndefined !== null);
     }
     return [];
 };
 
 export const buildAnnenFraversArsak = (
     annenFraversArsak: boolean,
-    annenFraversArsakGrunn?: (keyof typeof AnnenFraverGrunn)[],
-    annenFraversArsakBeskrivelse?: string | null,
-): AnnenFraversArsak | undefined => {
-    if (annenFraversArsak && annenFraversArsakGrunn?.length) {
+    annenFraversArsakGrunn: AnnenFraverGrunn[] | null,
+    annenFraversArsakBeskrivelse: string | null,
+): AnnenFraversArsak | null => {
+    if (annenFraversArsak) {
         return {
-            grunn: annenFraversArsakGrunn,
+            grunn: annenFraversArsakGrunn ?? [],
             beskrivelse: annenFraversArsakBeskrivelse,
         };
     }
+    return null;
 };
 
-export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmelding | undefined => {
-    // ensure that all mandatory RegistrertSykmeling properties exist on schema and oppgave
-    if (
-        !schema.pasientFnr ||
-        !schema.hpr ||
-        !schema.harArbeidsgiver ||
-        !schema.behandletDato ||
-        schema.skjermesForPasient === undefined ||
-        schema.skjermesForPasient === null
-    ) {
-        return undefined;
-    }
-
-    const registrertSykmelding: RegistrertSykmelding = {
+export const buildRegistrertSykmelding = (schema: FormType) => {
+    return RegistrertSykmelding.safeParse({
         pasientFnr: schema.pasientFnr,
         sykmelderFnr: '',
         perioder: buildPerioder(schema),
@@ -254,8 +260,10 @@ export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmeldin
         behandler: {
             fnr: '',
             fornavn: '',
+            mellomnavn: null,
             etternavn: '',
             hpr: schema.hpr,
+            her: null,
             aktoerId: '',
             adresse: {
                 gate: schema.sykmelderGate,
@@ -276,6 +284,6 @@ export const buildRegistrertSykmelding = (schema: FormType): RegistrertSykmeldin
             kontaktDato: schema.kontaktDato,
             begrunnelseIkkeKontakt: schema.begrunnelseIkkeKontakt,
         },
-    };
-    return registrertSykmelding;
+        navnFastlege: null,
+    });
 };

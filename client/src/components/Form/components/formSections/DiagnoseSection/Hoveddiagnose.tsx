@@ -5,7 +5,7 @@ import { Select } from 'nav-frontend-skjema';
 import FormLabel from '../../formComponents/FormLabel';
 import Row from '../../formComponents/Row';
 import SearchableInput from '../../formComponents/SearchableInput';
-import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/Diagnosekode';
+import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
 import { FormType } from '../../../Form';
 
 type HoveddiagnoseProps = {
@@ -57,7 +57,7 @@ const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: Hov
                             hovedDiagnose: { ...formState.hovedDiagnose, kode, tekst },
                         }));
                     }}
-                    value={formState.hovedDiagnose}
+                    value={formState.hovedDiagnose ?? undefined}
                 />
                 <div>
                     <label htmlFor={id + '-tekst'}>3.1.3 Tekst</label>

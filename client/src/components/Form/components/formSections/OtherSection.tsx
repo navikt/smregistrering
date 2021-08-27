@@ -5,7 +5,7 @@ import DatePicker from '../formComponents/DatePicker';
 import { FormType } from '../../Form';
 
 export type Other = {
-    syketilfelleStartDato?: Date | null;
+    syketilfelleStartDato?: string | null;
 };
 
 type OtherSectionProps = {
@@ -23,7 +23,7 @@ const OtherSection = ({ setFormState, formState, errors }: OtherSectionProps) =>
                     label="Startdato for legemeldt fravær"
                     value={formState.syketilfelleStartDato ? formState.syketilfelleStartDato : undefined}
                     onChange={(newDates) => {
-                        setFormState((formState) => ({ ...formState, syketilfelleStartDato: newDates }));
+                        setFormState((formState) => ({ ...formState, syketilfelleStartDato: newDates ?? null }));
                     }}
                     feil={errors.get('syketilfelleStartDato')?.feilmelding}
                 />

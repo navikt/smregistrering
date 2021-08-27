@@ -5,14 +5,14 @@ import { FeiloppsummeringFeil, Input, Select } from 'nav-frontend-skjema';
 import Row from '../formComponents/Row';
 import SectionContainer from '../SectionContainer';
 import { FormType } from '../../Form';
-import { HarArbeidsgiver } from '../../../../types/RegistrertSykmelding';
+import { HarArbeidsgiver, HarArbeidsgiverValues } from '../../../../types/sykmelding/Arbeidsgiver';
 import { Section } from '../../../../types/Section';
 
 export type Arbeidsgiver = {
-    harArbeidsgiver?: keyof typeof HarArbeidsgiver | null;
-    arbeidsgiverNavn?: string | null;
-    yrkesbetegnelse?: string | null;
-    stillingsprosent?: number | null;
+    harArbeidsgiver: HarArbeidsgiver | null;
+    arbeidsgiverNavn: string | null;
+    yrkesbetegnelse: string | null;
+    stillingsprosent: number | null;
 };
 
 type ArbeidsgiverSectionProps = {
@@ -31,11 +31,11 @@ const ArbeidsgiverSection = ({ section, setFormState, errors, formState }: Arbei
                     value={formState.harArbeidsgiver ? formState.harArbeidsgiver : undefined}
                     onChange={({ target: { value } }) => {
                         if (value === '0') {
-                            setFormState((formState) => ({ ...formState, harArbeidsgiver: undefined }));
+                            setFormState((formState) => ({ ...formState, harArbeidsgiver: null }));
                         } else {
                             setFormState((formState) => ({
                                 ...formState,
-                                harArbeidsgiver: value as keyof typeof HarArbeidsgiver,
+                                harArbeidsgiver: value as HarArbeidsgiver,
                             }));
                         }
                     }}
@@ -44,7 +44,7 @@ const ArbeidsgiverSection = ({ section, setFormState, errors, formState }: Arbei
                     feil={errors.get('harArbeidsgiver')?.feilmelding}
                 >
                     <option value="0">Velg</option>
-                    {Object.entries(HarArbeidsgiver).map(([key, value]) => {
+                    {Object.entries(HarArbeidsgiverValues).map(([key, value]) => {
                         return (
                             <option key={key} value={key}>
                                 {value}

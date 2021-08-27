@@ -24,8 +24,8 @@ import TilbakedateringSection, { Tilbakedatering } from './components/formSectio
 import UtdypendeOpplysningerSection, {
     UtdypendeOpplysninger,
 } from './components/formSections/UtdypendeOpplysningerSection';
-import { Diagnosekoder } from '../../types/Diagnosekode';
-import { Oppgave } from '../../types/Oppgave';
+import { Diagnosekoder } from '../../types/diagnosekoder/Diagnosekoder';
+import { Oppgave } from '../../types/oppgave/Oppgave';
 import { getInitialFormState } from './formUtils/formUtils';
 import { sections } from '../../types/Section';
 import { validationFunctions } from './validation';
@@ -40,7 +40,7 @@ export interface FormType
         MeldingTilArbeidsgiver,
         Tilbakedatering,
         Behandler {
-    syketilfelleStartDato?: Date | null;
+    syketilfelleStartDato: string | null;
 }
 
 type FormProps = {

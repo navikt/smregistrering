@@ -8,7 +8,7 @@ import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 export type ReisetilskuddPeriodeMFA = {
     type: MFAOptions;
     // Perioder for sykmelding med reisetilskudd
-    reisetilskuddPeriode?: Date[];
+    reisetilskuddPeriode: string[] | null;
 };
 
 type ReisetilskuddPeriodeProps = {
@@ -29,7 +29,7 @@ const ReisetilskuddPeriode = ({ updateMfa, mfaPeriode, errors, index }: Reisetil
                 onChange={(newDates) => {
                     const updatedSchema = {
                         ...mfaPeriode,
-                        reisetilskuddPeriode: newDates,
+                        reisetilskuddPeriode: newDates ?? null,
                     };
 
                     updateMfa(updatedSchema);

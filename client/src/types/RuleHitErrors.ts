@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import * as iots from 'io-ts';
+import { z } from 'zod';
 
-export const RuleHit = iots.type({
-    messageForSender: iots.string,
-    messageForUser: iots.string,
-    ruleName: iots.string,
-    ruleStatus: iots.string,
+export const RuleHit = z.object({
+    messageForSender: z.string(),
+    messageForUser: z.string(),
+    ruleName: z.string(),
+    ruleStatus: z.string(),
 });
-export type RuleHit = iots.TypeOf<typeof RuleHit>;
+export type RuleHit = z.infer<typeof RuleHit>;
 
-export const RuleHitErrors = iots.type({
-    status: iots.string,
-    ruleHits: iots.array(RuleHit),
+export const RuleHitErrors = z.object({
+    status: z.string(),
+    ruleHits: z.array(RuleHit),
 });
-export type RuleHitErrors = iots.TypeOf<typeof RuleHitErrors>;
+export type RuleHitErrors = z.infer<typeof RuleHitErrors>;

@@ -10,12 +10,16 @@ import ClearButton from './ClearButton';
 import calendar from '../../../../svg/calendar.svg';
 import { flatpickrLocale } from './flatpickrUtils';
 
+function toIsoDate(date: Date): string {
+    return dayjs(date).format('YYYY-MM-DD');
+}
+
 type RangePickerProps = {
     id?: string;
     labelFrom: string;
     labelTo: string;
-    value: Date[];
-    onChange: (newDates: Date[] | undefined) => void;
+    value: string[];
+    onChange: (newDates: string[] | undefined) => void;
     feil?: string;
 };
 
@@ -28,16 +32,16 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
             <div role="region" aria-label="periodevelger" className="flatpickr-container">
                 <Flatpickr
                     id={id}
-                    value={value}
+                    value={value.length === 2 ? [new Date(value[0]), new Date(value[1])] : value} // Does not like to receive dates as string[]
                     className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
                     placeholder="DDMMÅÅ-DDMMÅÅ"
                     onClose={(selectedDates) => {
                         if (selectedDates.length === 0) {
                             onChange(undefined);
                         } else if (selectedDates.length === 1) {
-                            onChange([selectedDates[0], selectedDates[0]]);
+                            onChange([toIsoDate(selectedDates[0]), toIsoDate(selectedDates[0])]);
                         } else {
-                            onChange(selectedDates);
+                            onChange([toIsoDate(selectedDates[0]), toIsoDate(selectedDates[1])]);
                         }
                     }}
                     options={{

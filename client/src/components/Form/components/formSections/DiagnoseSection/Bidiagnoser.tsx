@@ -4,7 +4,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import BidiagnoseRow from './BidiagnoseRow';
 import FormLabel from '../../formComponents/FormLabel';
 import Plus from '../../../../../svg/Plus';
-import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/Diagnosekode';
+import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
 import { FormType } from '../../../Form';
 
 type BidiagnoserProps = {

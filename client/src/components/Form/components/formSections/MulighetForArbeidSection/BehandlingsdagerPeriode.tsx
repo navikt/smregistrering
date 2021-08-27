@@ -11,8 +11,8 @@ import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 export type BehandlingsdagerPeriodeMFA = {
     type: MFAOptions;
     // Perioder for sykmelding for behandlignsdager
-    behandlingsdagerPeriode?: Date[];
-    behandlingsdagerAntall?: number;
+    behandlingsdagerPeriode: string[] | null;
+    behandlingsdagerAntall: number | null;
 };
 
 type BehandlingsdagerPeriodeProps = {
@@ -33,7 +33,7 @@ const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, errors, index }: Behan
                 onChange={(newDates) => {
                     const updatedSchema = {
                         ...mfaPeriode,
-                        behandlingsdagerPeriode: newDates,
+                        behandlingsdagerPeriode: newDates ?? null,
                     };
 
                     updateMfa(updatedSchema);
@@ -44,7 +44,7 @@ const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, errors, index }: Behan
                 id={`behandlingsdagerAntall-${index}`}
                 className="form-margin-bottom half"
                 type="number"
-                value={mfaPeriode.behandlingsdagerAntall}
+                value={mfaPeriode.behandlingsdagerAntall ?? undefined}
                 onChange={({ target: { value } }) => {
                     const updatedSchema = {
                         ...mfaPeriode,

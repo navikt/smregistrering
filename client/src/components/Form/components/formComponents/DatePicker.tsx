@@ -13,8 +13,8 @@ import { flatpickrLocale } from './flatpickrUtils';
 type DatePickerProps = {
     id: string;
     label: string;
-    value: Date | undefined;
-    onChange: (newDate: Date | undefined) => void;
+    value: string | undefined;
+    onChange: (newDate: string | undefined) => void;
     feil?: string;
 };
 
@@ -27,10 +27,10 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
             <div role="region" aria-label="datovelger" className={`flatpickr-container`}>
                 <Flatpickr
                     id={id}
-                    value={value}
+                    value={value ? new Date(value) : undefined} // Does not like to receive date as string
                     className={`typo-normal flatpickr flatpickr-input ${feil ? 'flatpickr-input--feil' : ''}`}
                     placeholder="DDMMÅÅ"
-                    onChange={(newDate) => onChange(newDate[0])}
+                    onChange={(newDate) => onChange(dayjs(newDate[0]).format('YYYY-MM-DD'))}
                     options={{
                         position: 'below',
                         static: true,

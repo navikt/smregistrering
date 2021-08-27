@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import * as iots from 'io-ts';
+import { z } from 'zod';
 
-export const PasientNavn = iots.intersection([
-    iots.type({ fornavn: iots.string, etternavn: iots.string }),
-    iots.partial({ mellomnavn: iots.union([iots.string, iots.null]) }),
-]);
-export type PasientNavn = iots.TypeOf<typeof PasientNavn>;
+export const PasientNavn = z.object({
+    fornavn: z.string(),
+    etternavn: z.string(),
+    mellomnavn: z.string().nullable(),
+});
+export type PasientNavn = z.infer<typeof PasientNavn>;

@@ -8,20 +8,20 @@ import ArbeidsrelatertArsak from './ArbeidsrelatertArsak';
 import ExpandableField from '../../formComponents/ExpandableField';
 import MedisinskArsak from './MedisinskArsak';
 import RangePicker from '../../formComponents/RangePicker';
-import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/RegistrertSykmelding';
+import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/sykmelding/Periode';
 import { FormType } from '../../../Form';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 export type AktivitetIkkeMuligPeriodeMFA = {
     type: MFAOptions;
     // Perioder for full sykmelding
-    aktivitetIkkeMuligPeriode?: Date[];
-    aktivitetIkkeMuligMedisinskArsak?: boolean;
-    aktivitetIkkeMuligMedisinskArsakType?: (keyof typeof MedisinskArsakType)[];
-    aktivitetIkkeMuligMedisinskArsakBeskrivelse?: string | null;
-    aktivitetIkkeMuligArbeidsrelatertArsak?: boolean;
-    aktivitetIkkeMuligArbeidsrelatertArsakType?: (keyof typeof ArbeidsrelatertArsakType)[];
-    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse?: string | null;
+    aktivitetIkkeMuligPeriode: string[] | null;
+    aktivitetIkkeMuligMedisinskArsak: boolean;
+    aktivitetIkkeMuligMedisinskArsakType: MedisinskArsakType[];
+    aktivitetIkkeMuligMedisinskArsakBeskrivelse: string | null;
+    aktivitetIkkeMuligArbeidsrelatertArsak: boolean;
+    aktivitetIkkeMuligArbeidsrelatertArsakType: ArbeidsrelatertArsakType[];
+    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: string | null;
 };
 
 type AktivitetIkkeMuligPeriodeProps = {
@@ -42,7 +42,7 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                 onChange={(newDates) => {
                     const updatedSchema = {
                         ...mfaPeriode,
-                        aktivitetIkkeMuligPeriode: newDates,
+                        aktivitetIkkeMuligPeriode: newDates ?? null,
                     };
 
                     updateMfa(updatedSchema);
@@ -51,20 +51,20 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
             <Checkbox
                 id={`aktivitetIkkeMuligMedisinskArsak-${index}`}
                 className="form-margin-bottom"
-                checked={mfaPeriode.aktivitetIkkeMuligMedisinskArsak}
+                checked={!!mfaPeriode.aktivitetIkkeMuligMedisinskArsak}
                 label="Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet"
                 onChange={() => {
                     const updatedSchema = {
                         ...mfaPeriode,
                         aktivitetIkkeMuligMedisinskArsak: !mfaPeriode.aktivitetIkkeMuligMedisinskArsak,
-                        aktivitetIkkeMuligMedisinskArsakType: undefined,
-                        aktivitetIkkeMuligMedisinskArsakBeskrivelse: undefined,
+                        aktivitetIkkeMuligMedisinskArsakType: [],
+                        aktivitetIkkeMuligMedisinskArsakBeskrivelse: null,
                     };
 
                     updateMfa(updatedSchema);
                 }}
             />
-            <ExpandableField show={mfaPeriode.aktivitetIkkeMuligMedisinskArsak}>
+            <ExpandableField show={!!mfaPeriode.aktivitetIkkeMuligMedisinskArsak}>
                 <>
                     <MedisinskArsak mfaPeriode={mfaPeriode} updateMfa={updateMfa} errors={errors} index={index} />
                     <Input
@@ -91,20 +91,20 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
             <Checkbox
                 id={`aktivitetIkkeMuligArbeidsrelatertArsak-${index}`}
                 className="form-margin-bottom"
-                checked={mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsak}
+                checked={!!mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsak}
                 label="Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet"
                 onChange={() => {
                     const updatedSchema = {
                         ...mfaPeriode,
                         aktivitetIkkeMuligArbeidsrelatertArsak: !mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsak,
-                        aktivitetIkkeMuligArbeidsrelatertArsakType: undefined,
-                        aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: undefined,
+                        aktivitetIkkeMuligArbeidsrelatertArsakType: [],
+                        aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: null,
                     };
 
                     updateMfa(updatedSchema);
                 }}
             />
-            <ExpandableField show={mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsak}>
+            <ExpandableField show={!!mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsak}>
                 <>
                     <ArbeidsrelatertArsak mfaPeriode={mfaPeriode} updateMfa={updateMfa} errors={errors} index={index} />
                     <Input

@@ -6,7 +6,7 @@ import { FormType } from '../../Form';
 import { Section } from '../../../../types/Section';
 
 export type MeldingTilArbeidsgiver = {
-    meldingTilArbeidsgiverBeskriv?: string | null;
+    meldingTilArbeidsgiverBeskriv: string | null;
 };
 
 type MeldingTilArbeidsgiverSectionProps = {
