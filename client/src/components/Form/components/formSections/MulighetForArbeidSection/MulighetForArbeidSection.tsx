@@ -132,11 +132,11 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                             className="form-margin-bottom half"
                             label={<Element>Periodetype</Element>}
                         >
-                            <option value="avventende">4.1 Avventende sykmelding</option>,
-                            <option value="gradert">4.2 Gradert sykmelding</option>,
-                            <option value="fullsykmelding">4.3 100% sykmelding</option>,
-                            <option value="behandlingsdager">4.4 Behandlingsdager</option>,
-                            <option value="reisetilskudd">4.5 Reisetilskudd</option>,
+                            <option value="avventende">4.1 Avventende sykmelding</option>
+                            <option value="gradert">4.2 Gradert sykmelding</option>
+                            <option value="fullsykmelding">4.3 100% sykmelding</option>
+                            <option value="behandlingsdager">4.4 Behandlingsdager</option>
+                            <option value="reisetilskudd">4.5 Reisetilskudd</option>
                         </Select>
 
                         {isAvventendePeriode(mfaPeriode) && (
