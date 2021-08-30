@@ -29,7 +29,7 @@ export async function postRegistrertSykmelding(
         logger.info(`Oppgave med oppgaveid: ${oppgaveid} ble registrert`);
         return;
     } else if (res.status === 400 && res.headers.get('Content-Type')?.includes('application/json')) {
-        logger.error(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
+        logger.warn(`User encountered a ruleHit error. Oppgaveid: ${oppgaveid}`);
         const ruleHits = RuleHitErrors.safeParse(await res.json());
         if (ruleHits.success) {
             throw new RuleHitError(ruleHits.data);
