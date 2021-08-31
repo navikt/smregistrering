@@ -2,6 +2,10 @@
     "name": "smregistrering",
     "version": "0.1.0",
     "private": true,
+    "engines": {
+        "node": "16",
+        "npm": "7"
+    },
     "dependencies": {
         "@navikt/frontendlogger": "^2.0.0",
         "@navikt/navspa": "^3.0.1",
