@@ -64,7 +64,7 @@
                         "beskrivelse": "Dette er beskrivelsen på den medisinske årsaken"
                     },
                     "arbeidsrelatertArsak": {
-                        "arsak": ["MANGLENDE_TILRETTELEGGING", "ANNET"],
+                        "arsak": ["MANGLENDE_TILRETTELEGGING"],
                         "beskrivelse": "Dette er beskrivelsen på den arbeidsrelaterte årsaken"
                     }
                 },

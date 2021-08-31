@@ -45,40 +45,9 @@ jobs:
         run: npm test
         working-directory: ./client
 
-  integration-test:
-    name: Run integration tests with Cypress
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-      - name: Cache Cypress binary
-        uses: actions/cache@v1
-        with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ runner.os }}-cypress-${{ hashFiles('**/package.json') }}
-          restore-keys: |
-            cypress-${{ runner.os }}-cypress-
-      - name: Install npm dependencies
-        working-directory: ./client
-        run: npm ci
-      - name: Run cypress
-        uses: cypress-io/github-action@v2
-        with:
-          working-directory: ./client
-          install: false
-          record: false
-          browser: chrome # fails with default (electron)
-          start: npm run start:integration
-          wait-on: http://localhost:4321
-      - uses: actions/upload-artifact@v1
-        if: ${{ failure() }}
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-
   deploy-redis:
     name: Deploy redis to prod-fss
-    needs: [changes, test, integration-test]
+    needs: [changes, test]
     if: ${{ needs.changes.outputs.backend == 'true' }} # Only run on changes related to backend
     runs-on: ubuntu-latest
     steps:
@@ -94,7 +63,7 @@ jobs:
   build-push-deploy:
     name: Build, push & deploy
     runs-on: ubuntu-latest
-    needs: [changes, test, integration-test]
+    needs: [changes, test]
     steps:
       - name: Checkout code
         uses: actions/checkout@v1

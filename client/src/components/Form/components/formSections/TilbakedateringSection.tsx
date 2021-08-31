@@ -29,7 +29,7 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
                 <Checkbox
                     id="erTilbakedatert"
                     checked={formState.erTilbakedatert}
-                    label="Er sykmelding tilbakedatert?"
+                    label="Er sykmeldingen tilbakedatert?"
                     onChange={() =>
                         setFormState((formState) => ({
                             ...formState,
