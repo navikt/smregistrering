@@ -235,7 +235,6 @@ describe('Submit oppgave', () => {
         // 12 Behandler
         userEvent.type(screen.getByLabelText('12.1 Behandletdato'), '010220{enter}');
         userEvent.type(screen.getByRole('textbox', { name: /12.4 HPR-nummer/ }), '1234567');
-        // expect(await screen.findByText(/Informasjon om behandleren/)).toBeInTheDocument();
         userEvent.type(screen.getByRole('textbox', { name: '12.5 Telefon' }), '12345678');
 
         // ----- REGISTRATION -----
