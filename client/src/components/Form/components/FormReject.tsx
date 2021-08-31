@@ -51,6 +51,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                     if (response.ok) {
                         logger.info(`Oppgaven ble sendt til gosys. oppgaveid: ${oppgaveid}`);
                         setRevertModalOpen(false);
+                        setIsLoadingRevert(false);
                         setSuccessModalContent('Oppgaven ble sendt tilbake til GOSYS.');
                     } else {
                         throw new Error(
@@ -61,8 +62,6 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                 .catch((error) => {
                     logger.error(error);
                     setRevertError(error);
-                })
-                .finally(() => {
                     setIsLoadingRevert(false);
                 });
         }
@@ -90,6 +89,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                     if (response.ok) {
                         logger.info(`Oppgaven ble avvist. oppgaveid: ${oppgaveid}`);
                         setRejectModalOpen(false);
+                        setIsLoadingReject(false);
                         setSuccessModalContent('Oppgaven ble ferdigstilt.');
                     } else {
                         throw new Error(
@@ -100,8 +100,6 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                 .catch((error) => {
                     logger.error(error);
                     setRejectError(error);
-                })
-                .finally(() => {
                     setIsLoadingReject(false);
                 });
         }
@@ -163,6 +161,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                         htmlType="submit"
                         id="avvis-modal-button"
                         className="cancelmodal__button"
+                        disabled={isLoadingReject}
                         spinner={isLoadingReject}
                     >
                         AVVIS SYKMELDING
@@ -207,7 +206,6 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                     <a
                         id="tilbake-til-gosys-lenke"
                         href={process.env.REACT_APP_GOSYS_URL}
-                        tabIndex={0}
                         className="knapp knapp__hoved"
                     >
                         Tilbake til GOSYS

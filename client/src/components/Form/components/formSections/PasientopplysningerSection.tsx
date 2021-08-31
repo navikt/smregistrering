@@ -28,9 +28,9 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
             <Row>
                 <Input
                     id="pasientFnr"
-                    inputRef={fnrRef as any}
+                    inputRef={fnrRef}
                     disabled={isLoading}
-                    value={formState.pasientFnr ? formState.pasientFnr : undefined}
+                    value={formState.pasientFnr ?? ''}
                     onChange={({ target: { value } }) => {
                         if (!fnrTouched) {
                             setFnrTouched(true);

@@ -73,7 +73,7 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                         value={
                             mfaPeriode.aktivitetIkkeMuligMedisinskArsakBeskrivelse
                                 ? mfaPeriode.aktivitetIkkeMuligMedisinskArsakBeskrivelse
-                                : undefined
+                                : ''
                         }
                         type="text"
                         onChange={({ target: { value } }) => {
@@ -113,7 +113,7 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                         value={
                             mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
                                 ? mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse
-                                : undefined
+                                : ''
                         }
                         type="text"
                         onChange={({ target: { value } }) => {

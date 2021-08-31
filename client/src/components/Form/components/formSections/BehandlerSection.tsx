@@ -52,7 +52,7 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
             <Row>
                 <Input
                     id="hpr"
-                    inputRef={hprRef as any}
+                    inputRef={hprRef}
                     value={formState.hpr ? formState.hpr : undefined}
                     disabled={isLoading}
                     onChange={({ target: { value } }) => {
