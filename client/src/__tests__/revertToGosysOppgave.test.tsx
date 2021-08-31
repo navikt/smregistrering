@@ -1,6 +1,6 @@
 import nock from 'nock';
 import userEvent from '@testing-library/user-event';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, screen, waitForElementToBeRemoved, within } from '@testing-library/react';
 
 import App from '../App';
 import emptyOppgave from './testData/emptyOppgave.json';
@@ -29,6 +29,8 @@ describe('Load pasientinfo', () => {
             await screen.findByText('Er du sikker på at du vil sende oppgaven tilbake til GOSYS?'),
         ).toBeInTheDocument();
         userEvent.click(await screen.findByRole('button', { name: 'Send til GOSYS' }));
-        expect(await screen.findByText('Tilbake til GOSYS')).toBeInTheDocument();
+
+        const dialog = within(await screen.findByRole('dialog', { name: 'Oppgaven ble sendt tilbake til GOSYS.' }));
+        expect(dialog.getByRole('link', { name: 'Tilbake til GOSYS' })).toBeInTheDocument();
     });
 });

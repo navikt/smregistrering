@@ -30,7 +30,7 @@ const GradertPeriode = ({ updateMfa, mfaPeriode, errors, index }: GradertPeriode
                     id={`gradertGrad-${index}`}
                     className="mulighetForArbeid__gradert-row__grad"
                     type="number"
-                    value={mfaPeriode.gradertGrad ?? undefined}
+                    value={mfaPeriode.gradertGrad ?? ''}
                     onChange={({ target: { value } }) => {
                         const updatedSchema = {
                             ...mfaPeriode,

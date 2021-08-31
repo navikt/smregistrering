@@ -28,7 +28,7 @@ const UtdypendeOpplysningerSection = ({
                 id="harUtdypendeOpplysninger"
                 label="Sykmeldingen har utdypende opplysninger"
                 checked={formState.harUtdypendeOpplysninger}
-                onClick={() =>
+                onChange={() =>
                     setFormState((formState) => ({
                         ...formState,
                         harUtdypendeOpplysninger: !formState.harUtdypendeOpplysninger,

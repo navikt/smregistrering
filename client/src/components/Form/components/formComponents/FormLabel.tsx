@@ -8,6 +8,7 @@ interface FormLabelProps {
     label: string;
     helpText?: string;
 }
+
 const FormLabel = ({ label, helpText }: FormLabelProps) => {
     return (
         <div className="form-label">

@@ -38,4 +38,17 @@ const logger: ReturnType<typeof createFrontendLogger> = {
     },
 };
 
-export default logger;
+const testLogger: ReturnType<typeof createFrontendLogger> = {
+    info: (data) => void 0,
+    warn: (data) => {
+        frontendLogger.warn(data);
+    },
+    error: (data) => {
+        frontendLogger.error(data);
+    },
+    event: (name, fields, tags) => {
+        frontendLogger.event(name, fields, tags);
+    },
+};
+
+export default process.env.NODE_ENV !== 'test' ? logger : testLogger;

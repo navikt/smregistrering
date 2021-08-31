@@ -30,8 +30,7 @@ const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: Hov
                 <Select
                     id={id + '-system'}
                     className="form-margin-bottom"
-                    defaultValue={DiagnosekodeSystem.ICD10}
-                    value={formState.hovedDiagnose?.system}
+                    value={formState.hovedDiagnose?.system ?? DiagnosekodeSystem.ICD10}
                     onChange={({ target: { value } }) => {
                         setFormState((formState) => ({
                             ...formState,

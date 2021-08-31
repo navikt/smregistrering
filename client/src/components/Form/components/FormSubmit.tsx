@@ -50,7 +50,7 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
                         </Element>
                         <ul>
                             {ruleHitError.ruleHits.map((ruleHit) => (
-                                <li>{ruleHit.messageForSender}</li>
+                                <li key={ruleHit.ruleName}>{ruleHit.messageForSender}</li>
                             ))}
                         </ul>
                     </AlertStripeFeil>
@@ -84,7 +84,7 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
                     <Normaltekst id="success-modal-text" style={{ marginBottom: '2rem' }}>
                         Oppgaven ble ferdigstilt.
                     </Normaltekst>
-                    <a href={process.env.REACT_APP_GOSYS_URL} tabIndex={0} className="knapp knapp--hoved">
+                    <a href={process.env.REACT_APP_GOSYS_URL} className="knapp knapp--hoved">
                         Tilbake til GOSYS
                     </a>
                 </div>
