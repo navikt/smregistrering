@@ -85,7 +85,7 @@ jobs:
         env:
           REACT_APP_HEAD_URL: https://app-q1.dev.adeo.no
           REACT_APP_FRONTEND_LOGGER_URL: https://app-q1.dev.adeo.no/frontendlogger
-          REACT_APP_GOSYS_URL: https://gosys.nais.preprod.local/gosys/bruker/brukeroversikt.jsf
+          REACT_APP_GOSYS_URL: https://gosys-q1.dev.intern.nav.no/gosys/bruker/brukeroversikt.jsf
           REACT_APP_ENVIRONMENT: q1
         run: npm run build
         working-directory: ./client
