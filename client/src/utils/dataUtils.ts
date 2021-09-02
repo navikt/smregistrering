@@ -1,18 +1,18 @@
+import logger from './logger';
 import { DiagnosekodeSystem, Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 import { Oppgave } from '../types/oppgave/Oppgave';
 import { getOppgaveidFromSearchParams } from './urlUtils';
-import logger from "./logger";
 
 export class OppgaveAlreadySolvedError extends Error {}
 export class BadRequestError extends Error {}
 export class OppgaveGoneError extends Error {}
 export class UnauthorizedError extends Error {}
 
-export const getDiagnosekoder = (): Diagnosekoder => {
+export const getDiagnosekoder = async (): Promise<Diagnosekoder> => {
     try {
         const diagnosekoderRaw = {
-            [DiagnosekodeSystem.ICD10]: require('../data/icd10.json'),
-            [DiagnosekodeSystem.ICPC2]: require('../data/icpc2.json'),
+            [DiagnosekodeSystem.ICD10]: (await import('../data/icd10.json')).default,
+            [DiagnosekodeSystem.ICPC2]: (await import('../data/icpc2.json')).default,
         };
         return Diagnosekoder.parse(diagnosekoderRaw);
     } catch (error) {
