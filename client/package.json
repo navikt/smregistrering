@@ -86,6 +86,7 @@
         "build": "craco build",
         "start": "craco start",
         "test": "craco test",
+        "tsc": "tsc",
         "lint": "eslint 'src/**/**.{ts,tsx,js,jsx}'",
         "format": "prettier --write 'src/**/**.{ts,tsx,js,jsx,less}'"
     },

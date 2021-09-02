@@ -7,7 +7,7 @@ import { Sykmelder } from '../../../types/Sykmelder';
 function useBehandleropplysninger(formState: FormType) {
     const [sykmelder, setSykmelder] = useState<Sykmelder | undefined | null>(undefined);
     const [isLoading, setIsloading] = useState<boolean>(false);
-    const [error, setError] = useState<Error | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [hprTouched, setHprTouched] = useState<boolean>(false);
     const hprRef = useRef<HTMLInputElement>(null);
 
@@ -17,7 +17,7 @@ function useBehandleropplysninger(formState: FormType) {
             if (formState.hpr?.length && formState.hpr.length >= 7 && formState.hpr.length <= 9) {
                 setIsloading(true);
                 setSykmelder(null);
-                setError(null);
+                setErrorMessage(null);
                 const res = await fetch(`/backend/api/v1/sykmelder/${formState.hpr}`, { credentials: 'include' });
                 if (res.ok) {
                     const json = await res.json();
@@ -25,14 +25,12 @@ function useBehandleropplysninger(formState: FormType) {
                     if (sykmelder.success) {
                         setSykmelder(sykmelder.data);
                     } else {
-                        setError(new Error(`Fant ikke behandler med hpr-nummer: ${formState.hpr}`));
+                        setErrorMessage(`Fant ikke behandler med hpr-nummer: ${formState.hpr}`);
                     }
                 } else {
-                    const err = new Error(
-                        `En nettverksfeil med feilkode: ${res.status} oppsto ved hending av informasjon om behandleren`,
-                    );
-                    logger.error(err);
-                    setError(err);
+                    const message = `En nettverksfeil med feilkode: ${res.status} oppsto ved henting av informasjon om behandleren`;
+                    logger.info(message);
+                    setErrorMessage(message);
                 }
                 setIsloading(false);
                 if (hprTouched) {
@@ -44,7 +42,7 @@ function useBehandleropplysninger(formState: FormType) {
         })();
     }, [formState.hpr, hprTouched]);
 
-    return { sykmelder, isLoading, error, hprTouched, setHprTouched, hprRef };
+    return { sykmelder, isLoading, errorMessage, hprTouched, setHprTouched, hprRef };
 }
 
 export default useBehandleropplysninger;

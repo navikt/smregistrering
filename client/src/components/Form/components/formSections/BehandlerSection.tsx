@@ -35,7 +35,9 @@ type BehandlerSectionProps = {
 };
 
 const BehandlerSection = ({ section, setFormState, formState, errors }: BehandlerSectionProps) => {
-    const { sykmelder, isLoading, error, hprTouched, setHprTouched, hprRef } = useBehandleropplysninger(formState);
+    const { sykmelder, isLoading, errorMessage, hprTouched, setHprTouched, hprRef } = useBehandleropplysninger(
+        formState,
+    );
 
     return (
         <SectionContainer section={section}>
@@ -61,7 +63,7 @@ const BehandlerSection = ({ section, setFormState, formState, errors }: Behandle
                         }
                         setFormState((formState) => ({ ...formState, hpr: value }));
                     }}
-                    feil={errors.get('hpr')?.feilmelding || error?.message}
+                    feil={errors.get('hpr')?.feilmelding || errorMessage}
                     label={
                         <FormLabel
                             label="12.4 HPR-nummer"

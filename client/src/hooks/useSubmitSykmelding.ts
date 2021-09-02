@@ -16,18 +16,18 @@ function useSubmitSykmelding(
 
     // API state
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [ruleHitError, setRuleHitError] = useState<RuleHitErrors | null>(null);
 
     const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
 
     async function submit() {
-        setError(null);
+        setErrorMessage(null);
         setRuleHitError(null);
         setSubmitSuccess(false);
 
         if (!enhet) {
-            setError('Enhet mangler. Vennligst velg enhet fra nedtrekksmenyen øverst på siden');
+            setErrorMessage('Enhet mangler. Vennligst velg enhet fra nedtrekksmenyen øverst på siden');
             return;
         }
 
@@ -36,7 +36,7 @@ function useSubmitSykmelding(
 
             if (!maybeSykmelding.success) {
                 logger.error(maybeSykmelding.error);
-                setError('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
+                setErrorMessage('Noe gikk galt med konstruksjon av sykmeldingsobjekt');
                 return;
             } else {
                 setIsLoading(true);
@@ -47,10 +47,10 @@ function useSubmitSykmelding(
                     if (e instanceof RuleHitError) {
                         setRuleHitError(e.ruleHits);
                     } else if (e instanceof Error) {
-                        setError(e.message);
+                        setErrorMessage(e.message);
                     } else {
                         logger.error({ message: `Unknown error for oppgaveid: ${oppgaveid}`, e });
-                        setError(
+                        setErrorMessage(
                             'Det oppsto dessverre en ukjent feil i baksystemet. Vennligst prøv igjen om en liten stund, og ta kontakt dersom problemet vedvarer.',
                         );
                     }
@@ -60,7 +60,7 @@ function useSubmitSykmelding(
         });
     }
 
-    return { checked, setChecked, isLoading, error, ruleHitError, submit, submitSuccess };
+    return { checked, setChecked, isLoading, errorMessage, ruleHitError, submit, submitSuccess };
 }
 
 export default useSubmitSykmelding;
