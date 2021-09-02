@@ -1,51 +1,37 @@
 # Manuell registrering av papirsykmelding 🧾
 
-Create React App - saksbehandlerfrontend for manuell registrering av papirsykmeldinger fra skanning. Serveren fungerer som static-file-server, brukerautentisering via Azure-OIDC og som proxy mot bakomliggende tjenester.
-![software architecture](smregistrering-chart.png)
+Saksbehandlerfrontend for manuell kontroll og utfylling av papirsykmeldinger som ikke lar seg tolke automatisk via OCR-skanning.
 
-## Demo-side er tilgjengelig på:
+Applikasjonen har to hovedoppgaver:
+- React (CRA) frontend for UI. Lever under `/client`
+- Express-server som server statisk frontendbygg, brukerautentisering mot Azure AD og reverse proxy for bakomliggende tjenester. Lever under `/server`
 
-https://smregistrering.labs.nais.io/
+`client browser --> smregistrering (auth/reverse-proxy) --> downstream API's`
+
+En demoside er offentlig tilgjengelig på: https://smregistrering.labs.nais.io/
 
 ## Utvikling
-
-Klon repo
-
+### Client:
 ```bash
-$ git clone https://github.com/navikt/smregistrering.git
+$ cd /client
+$ npm i
+$ npm start
+```
+Vil laste miljøvariabler fra `/client/.env.development`
+
+### Server:
+```bash
+$ cd /server
+$ npm i
+$ npm run dev
+```
+Vil laste miljøvariabler fra `/server/.env.development`
+
+## Test
+Bruker React Testing Library for 
+```bash
+$ npm test
 ```
 
-Installer avhengigheter
-
-```bash
-$ cd client
-$ npm install
-```
-
-### Start local development-server
-
-Running the following command will load the file `.env.development` as environment variables
-
-```bash
-$ npm start # Starts development server
-```
-
-### Ende-til-ende-tester med [Cypress](https://www.cypress.io)
-
-Running all integration test from the command line:
-
-```bash
-$ npm run test-integration
-```
-
-Starting the cypress desktop application, where you can choose which tests to run:
-
-```bash
-$ NODE_ENV=test npm start & npx wait-on http://localhost:4321 && npx cypress open
-```
-
-Eventuelt kan man kjøre `$ NODE_ENV=test npm start` og `$ npx cypress open` i to separate terminalvinduer.
-
-### Testing in the development environment
-
-The application can be accessed at https://smregistrering.dev.adeo.no/?oppgaveid={oppgaveid} locally through `naisdevice`, or by logging in to utviklerimage.
+## Testing av tjenesteflyt i testmiljø
+Applikasjonen er tilgjengelig i testmiljø på https://smregistrering.dev.adeo.no/?oppgaveid={oppgaveid} lokalt via `naisdevice` eller via utviklerimage. `oppgaveid` referer til oppgaven som opprettes i `syfosmmanuell-backend` og lagres i tilhørende database.
