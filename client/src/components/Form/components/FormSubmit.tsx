@@ -20,7 +20,7 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
     const [successModalOpen, setSuccessModalOpen] = useState<boolean>(false);
     Modal.setAppElement('#root');
 
-    const { checked, setChecked, isLoading, error, ruleHitError, submit, submitSuccess } = useSubmitSykmelding(
+    const { checked, setChecked, isLoading, errorMessage, ruleHitError, submit, submitSuccess } = useSubmitSykmelding(
         oppgaveid,
         enhet,
         handleSubmit,
@@ -57,9 +57,9 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
                     <br />
                 </div>
             )}
-            {error && (
+            {errorMessage && (
                 <div id="api-error">
-                    <AlertStripeFeil>{error}</AlertStripeFeil>
+                    <AlertStripeFeil>{errorMessage}</AlertStripeFeil>
                     <br />
                 </div>
             )}

@@ -7,7 +7,7 @@ import { PasientNavn } from '../../../types/Pasient';
 function usePasientOpplysninger(formState: FormType) {
     const [pasientNavn, setPasientNavn] = useState<PasientNavn | undefined | null>(undefined);
     const [isLoading, setIsloading] = useState<boolean>(false);
-    const [error, setError] = useState<Error | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [fnrTouched, setFnrTouched] = useState<boolean>(false);
     const fnrRef = useRef<HTMLInputElement>(null);
 
@@ -17,7 +17,7 @@ function usePasientOpplysninger(formState: FormType) {
             if (formState.pasientFnr?.length && formState.pasientFnr.length === 11) {
                 setIsloading(true);
                 setPasientNavn(null);
-                setError(null);
+                setErrorMessage(null);
                 const res = await fetch(`/backend/api/v1/pasient`, {
                     credentials: 'include',
                     headers: { 'X-Pasient-Fnr': formState.pasientFnr },
@@ -28,13 +28,11 @@ function usePasientOpplysninger(formState: FormType) {
                     if (pasientNavn.success) {
                         setPasientNavn(pasientNavn.data);
                     } else {
-                        setError(new Error('Det oppsto en valideringsfeil ved henting av pasientnavn'));
+                        setErrorMessage('Det oppsto en valideringsfeil ved henting av pasientnavn');
                     }
                 } else {
                     logger.error(`En nettverksfeil med feilkode: ${res.status} oppsto ved henting av pasientnavn`);
-                    setError(
-                        new Error('En feil oppsto ved henting av pasientinfo. Ta kontakt dersom feilen vedvarer.'),
-                    );
+                    setErrorMessage('En feil oppsto ved henting av pasientinfo. Ta kontakt dersom feilen vedvarer.');
                 }
                 setIsloading(false);
                 if (fnrTouched) {
@@ -46,7 +44,7 @@ function usePasientOpplysninger(formState: FormType) {
         })();
     }, [formState.pasientFnr, fnrTouched]);
 
-    return { pasientNavn, isLoading, error, fnrRef, fnrTouched, setFnrTouched };
+    return { pasientNavn, isLoading, errorMessage, fnrRef, fnrTouched, setFnrTouched };
 }
 
 export default usePasientOpplysninger;
