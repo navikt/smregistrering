@@ -2,7 +2,7 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: smregistrering
-  namespace: default
+  namespace: teamsykmelding
   labels:
     team: teamsykmelding
 spec:
@@ -37,7 +37,7 @@ spec:
         mountPath: /secrets/azuread/smregistrering
       - kvPath: /azuread/data/prod/creds/smregistrering-backend
         mountPath: /secrets/azuread/smregistrering-backend
-      - kvPath: /kv/prod/fss/smregistrering/default
+      - kvPath: /kv/prod/fss/smregistrering/teamsykmelding
         mountPath: /var/run/secrets/nais.io/vault
   webproxy: true
   ingresses:
@@ -64,7 +64,7 @@ spec:
     - name: MODIACONTEXTHOLDER_URL
       value: https://modiacontextholder.nais.adeo.no
     - name: REDIS_HOST
-      value: smregistrering-redis.default.svc.nais.local
+      value: smregistrering-redis.teamsykmelding.svc.nais.local
     - name: REDIS_PORT
       value: '6379'
     - name: NODE_EXTRA_CA_CERTS

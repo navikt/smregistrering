@@ -4,7 +4,7 @@ metadata:
   labels:
     team: teamsykmelding
   name: smregistrering-redis
-  namespace: default
+  namespace: teamsykmelding
 spec:
   image: redis:5-alpine
   port: 6379

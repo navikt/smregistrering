@@ -19,6 +19,6 @@ jobs:
       - name: Deploy Redis to prod
         uses: nais/deploy/actions/deploy@master
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_TEAMSYKMELDING }}
           CLUSTER: prod-fss
           RESOURCE: redis-config.yml

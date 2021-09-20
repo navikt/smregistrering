@@ -56,7 +56,7 @@ jobs:
       - name: Deploy Redis to prod-fss
         uses: nais/deploy/actions/deploy@master
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_TEAMSYKMELDING }}
           CLUSTER: prod-fss
           RESOURCE: redis-config.yml
 
@@ -98,6 +98,6 @@ jobs:
       - name: Deploy app to prod-fss
         uses: nais/deploy/actions/deploy@master
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_TEAMSYKMELDING }}
           CLUSTER: prod-fss
           RESOURCE: naiserator-prod.yml
