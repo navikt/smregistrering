@@ -40,6 +40,8 @@ spec:
       - kvPath: /kv/prod/fss/smregistrering/teamsykmelding
         mountPath: /var/run/secrets/nais.io/vault
   webproxy: true
+  envFrom:
+    - secret: smregistrering-redis-password
   ingresses:
     - "https://smregistrering.nais.adeo.no"
   env:
