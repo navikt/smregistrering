@@ -28,7 +28,11 @@ const setup = (server: Application, config: Config): Promise<null> => {
     } else {
       logger.info('Using Redis for session storage');
       const RedisStore = require('connect-redis')(session);
-      const client = redis.createClient(config.redis.port, config.redis.host, config.redis.password);
+      const client = redis.createClient({
+          host: config.redis.host,
+          password: config.redis.password,
+          port: config.redis.port,
+      });
 
       client.unref();
       client.on('error', (error) => {
