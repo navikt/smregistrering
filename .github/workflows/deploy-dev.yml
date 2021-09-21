@@ -57,7 +57,7 @@ jobs:
       - name: Deploy Redis to dev-fss
         uses: nais/deploy/actions/deploy@master
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_TEAMSYKMELDING }}
           CLUSTER: dev-fss
           RESOURCE: redis-config.yml
 
@@ -99,6 +99,6 @@ jobs:
       - name: Deploy app to dev-fss
         uses: nais/deploy/actions/deploy@master
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_TEAMSYKMELDING }}
           CLUSTER: dev-fss
           RESOURCE: naiserator-dev.yml
