@@ -25,8 +25,10 @@ function useBehandleropplysninger(formState: FormType) {
                     if (sykmelder.success) {
                         setSykmelder(sykmelder.data);
                     } else {
-                        setErrorMessage(`Fant ikke behandler med hpr-nummer: ${formState.hpr}`);
+                        setErrorMessage(`Vi mangler informasjon om behandler med hpr-nummer: ${formState.hpr}`);
                     }
+                } else if (res.status === 404) {
+                    setErrorMessage(`Fant ikke behandler med hpr-nummer: ${formState.hpr}`);
                 } else {
                     const message = `En nettverksfeil med feilkode: ${res.status} oppsto ved henting av informasjon om behandleren`;
                     logger.info(message);
