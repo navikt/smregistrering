@@ -9,7 +9,7 @@ function useBehandleropplysninger(formState: FormType) {
     const [isLoading, setIsloading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [hprTouched, setHprTouched] = useState<boolean>(false);
-    const hprRef = useRef<HTMLInputElement>(null);
+    const hprRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         // Number must be in synch with validationFuncitons.hpr in validation.ts
@@ -25,6 +25,7 @@ function useBehandleropplysninger(formState: FormType) {
                     if (sykmelder.success) {
                         setSykmelder(sykmelder.data);
                     } else {
+                        logger.error(`Unable to parse sykmelder, parsing error: ${sykmelder.error.message}`)
                         setErrorMessage(`Vi mangler informasjon om behandler med hpr-nummer: ${formState.hpr}`);
                     }
                 } else if (res.status === 404) {
