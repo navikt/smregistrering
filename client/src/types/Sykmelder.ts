@@ -135,7 +135,6 @@ const Godkjenning = z.object({
 export const Sykmelder = z.object({
     hprNummer: z.string(),
     fnr: z.string(),
-    aktorId: z.string(),
     godkjenninger: z.array(Godkjenning),
     fornavn: z.string().nullable(),
     mellomnavn: z.string().nullable(),
