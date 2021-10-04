@@ -155,6 +155,9 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                         <option value="Behandler mangler autorisasjon til å sykmelde">
                             Behandler mangler autorisasjon til å sykmelde
                         </option>
+                        <option value="Sykefraværet overstiger 12 uker og sykmelder er kiropraktor/fysioterapeut">
+                            Sykefraværet overstiger 12 uker og sykmelder er kiropraktor/fysioterapeut
+                        </option>
                         <option value="Skjema er ikke mulig å tolke/lese">Skjema er ikke mulig å tolke/lese</option>
                     </Select>
                     <Fareknapp
