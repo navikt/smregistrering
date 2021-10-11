@@ -1,5 +1,4 @@
 import { custom, Issuer, Strategy, TokenSet, ClientMetadata, Client } from 'openid-client';
-import { appendDefaultScope } from './azureUtils';
 import { Config } from '../config';
 import httpProxyAgent from '../proxy/http-proxy';
 import { User } from '../types/User';
@@ -42,7 +41,7 @@ const strategy = (client: Client, config: Config) => {
     params: {
       response_types: config.azureAd.responseTypes,
       response_mode: config.azureAd.responseMode,
-      scope: `openid ${appendDefaultScope(config.azureAd.clientId)}`,
+      scope: `openid ${config.azureAd.clientId}/.default`,
     },
     passReqToCallback: false,
     usePKCE: 'S256',

@@ -1,14 +1,15 @@
+import * as iotsPromise from 'io-ts-promise';
 import express from 'express';
 import helmet from 'helmet';
 import passport from 'passport';
+import path from 'path';
+
 import azure from './auth/azure';
+import loadConfig from './config';
+import logger from './logging';
 import routes from './routes/routes';
 import session from './session';
-import loadConfig from './config';
 import setupCors from './cors';
-import * as iotsPromise from 'io-ts-promise';
-import logger from './logging';
-import path from 'path';
 
 // for demo app running on nais labs
 function startDemoApp() {
