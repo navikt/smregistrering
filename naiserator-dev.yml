@@ -30,6 +30,12 @@ spec:
     requests:
       cpu: 100m
       memory: 128Mi
+  azure:
+    application:
+      enabled: true
+      tenant: trygdeetaten.no
+      replyURLs:
+        - 'https://smregistrering.dev.adeo.no/callback'
   vault:
     enabled: true
     paths:
