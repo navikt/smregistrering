@@ -24,9 +24,9 @@ const loadConfig = async (): Promise<Config> => {
     cookieName: 'smregistrering',
   });
   const azureAd = await iotsPromise.decode(AzureAd, {
-    discoveryUrl: process.env['AAD_DISCOVERY_URL'],
-    clientId: process.env['CLIENT_ID'],
-    clientSecret: process.env['CLIENT_SECRET'],
+    discoveryUrl: process.env['AZURE_APP_WELL_KNOWN_URL'],
+    clientId: process.env['AZURE_APP_CLIENT_ID'],
+    clientSecret: process.env['AZURE_APP_CLIENT_SECRET'],
     redirectUri: process.env['AAD_REDIRECT_URL'],
     logoutRedirectUri: process.env['AAD_LOGOUT_REDIRECT_URL'],
     tokenEndpointAuthMethod: 'client_secret_post',
@@ -39,13 +39,11 @@ const loadConfig = async (): Promise<Config> => {
     password: process.env['REDIS_PASSWORD'],
   });
   const downstreamApiReverseProxy = await iotsPromise.decode(ApiReverseProxy, {
-    clientId: process.env['DOWNSTREAM_API_CLIENT_ID'],
     path: process.env['DOWNSTREAM_API_PATH'],
     url: process.env['DOWNSTREAM_API_URL'],
     scopes: process.env['DOWNSTREAM_API_SCOPES'],
   });
   const modiacontextReverseProxy = await iotsPromise.decode(ApiReverseProxy, {
-    clientId: process.env['GRAPH_API_CLIENT_ID'],
     scopes: process.env['GRAPH_API_SCOPES'],
     path: process.env['MODIACONTEXTHOLDER_PATH'],
     url: process.env['MODIACONTEXTHOLDER_URL'],

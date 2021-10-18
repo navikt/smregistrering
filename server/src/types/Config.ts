@@ -70,16 +70,10 @@ export const Redis = iots.intersection([
 ]);
 export type Redis = iots.TypeOf<typeof Redis>;
 
-export const ApiReverseProxy = iots.intersection([
-  iots.type({
-    clientId: iots.string,
-    path: iots.string,
-    url: iots.string,
-  }),
-  iots.partial({
-    configPath: iots.string,
-    jsonConfig: iots.string,
-    scopes: ScopesFromString,
-  }),
-]);
+export const ApiReverseProxy = iots.type({
+  path: iots.string,
+  url: iots.string,
+  scopes: ScopesFromString,
+});
+
 export type ApiReverseProxy = iots.TypeOf<typeof ApiReverseProxy>;

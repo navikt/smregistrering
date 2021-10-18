@@ -1,7 +1,8 @@
-import { TokenSet, Client, GrantBody } from 'openid-client';
+import { Client, GrantBody, TokenSet } from 'openid-client';
 import { Request } from 'express';
-import { ApiReverseProxy } from '../types/Config';
+
 import logger from '../logging';
+import { ApiReverseProxy } from '../types/Config';
 import { TokenSets } from '../../@types/express';
 
 export const hasValidAccessToken = (req: Request, key: keyof TokenSets) => {
@@ -59,13 +60,4 @@ export const getOnBehalfOfAccessToken = async (
   }
 };
 
-export const appendDefaultScope = (scope: string): string => `${scope}/.default`;
-
-const formatClientIdScopeForV2Clients = (clientId: string): string => appendDefaultScope(`api://${clientId}`);
-
-const createOnBehalfOfScope = (api: ApiReverseProxy): string => {
-  if (api.scopes) {
-    return `${api.scopes.join(' ')}`;
-  }
-  return `${formatClientIdScopeForV2Clients(api.clientId)}`;
-};
+const createOnBehalfOfScope = (api: ApiReverseProxy): string => `${api.scopes.join(' ')}`;
