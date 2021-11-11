@@ -31,7 +31,11 @@ export const getOppgave = async (): Promise<Oppgave> => {
         throw new BadRequestError(`Klarte ikke å hente en gyldig oppgave-id fra lenken: ${window.location.href}`);
     } else if (res.status === 401) {
         throw new UnauthorizedError(
-            `Ugyldig sesjon for opppgave med oppgave-id: ${oppgaveid}. Sjekk om du har riktige tilganger for å behandle slike oppgaver`,
+            `Du har blitt logget ut, eller har ugyldig tilgang. Vennligst last siden på nytt.`,
+        );
+    } else if (res.status === 403) {
+        throw new UnauthorizedError(
+            `Du har ikke tilgang til oppgave ${oppgaveid}. Sjekk om du har riktige tilganger for å behandle slike oppgaver`,
         );
     } else if (res.status === 404) {
         throw new OppgaveAlreadySolvedError(
