@@ -2,7 +2,7 @@ import './FormReject.less';
 
 import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
+import {AlertStripeAdvarsel, AlertStripeFeil} from 'nav-frontend-alertstriper';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Fareknapp, Knapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
@@ -185,6 +185,15 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                     <Normaltekst tag="p" className="cancelmodal__content">
                         Dette vil ikke ferdigstille oppgaven, men gjør det mulig å behandle den i GOSYS.
                     </Normaltekst>
+
+                    <Normaltekst tag="p" className="cancelmodal__content_addition">
+                        <strong>Merk: </strong> Bare oppgaver som ikke lar seg behandle i applikasjonen skal sendes til Gosys, for eksempel dokumenter som ikke inneholder en sykmelding.
+                    </Normaltekst>
+
+                    <AlertStripeAdvarsel className="cancelmodal__content">
+                        <strong>Obs!</strong> Hvis oppgaven sendes til GOSYS vil den <strong>aldri</strong> bli tilgjengelig for bruker digitalt.
+                    </AlertStripeAdvarsel>
+
                     <Fareknapp
                         htmlType="button"
                         id="to-gosys-modal-button"
