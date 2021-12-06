@@ -191,7 +191,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                     </Normaltekst>
 
                     <AlertStripeAdvarsel className="cancelmodal__content">
-                        <strong>Obs!</strong> Hvis oppgaven sendes til GOSYS vil den <strong>aldri</strong> bli tilgjengelig for bruker digitalt.
+                        <strong>Obs!</strong> Hvis oppgaven sendes til GOSYS vil sykmeldingen ikke bli tilgjengelig for brukeren digitalt.
                     </AlertStripeAdvarsel>
 
                     <Fareknapp
