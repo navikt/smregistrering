@@ -2,7 +2,7 @@ import './FormReject.less';
 
 import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
-import {AlertStripeAdvarsel, AlertStripeFeil} from 'nav-frontend-alertstriper';
+import {AlertStripeInfo, AlertStripeFeil, AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Fareknapp, Knapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
@@ -10,6 +10,7 @@ import { Select } from 'nav-frontend-skjema';
 import BackArrow from '../../../svg/BackArrow';
 import WarningCircle from '../../../svg/WarningCircle';
 import logger from '../../../utils/logger';
+import Lenke from "nav-frontend-lenker";
 
 interface FormRejectProps {
     enhet: string | undefined | null;
@@ -117,12 +118,18 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                         onClick={() => setRevertModalOpen((prev) => !prev)}
                     >
                         <BackArrow />
-                        <span>Send til GOSYS</span>
+                        <span>Dette er ikke en sykmelding</span>
                     </Knapp>
                     <Knapp htmlType="button" id="avvis-button" onClick={() => setRejectModalOpen((prev) => !prev)}>
                         <WarningCircle />
                         <span>Avvis sykmeldingen</span>
                     </Knapp>
+                </div>
+                <div style={{marginTop: '2rem'}}>
+                    <Lenke href={process.env.REACT_APP_GOSYS_URL!!}>
+                        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" role="img"><path fill-rule="evenodd" clip-rule="evenodd" d="M24 13H3.705L11 20.546 9.625 22 0 12 9.625 2 11 3.455 3.705 11H24v2z" fill="currentColor"></path></svg>
+                        <span>Tilbake til GOSYS</span>
+                    </Lenke>
                 </div>
             </div>
 
@@ -180,18 +187,18 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
             >
                 <div className="cancelmodal">
                     <Undertittel tag="h1" className="cancelmodal__title">
-                        Er du sikker på at du vil sende oppgaven tilbake til GOSYS?
+                        Send til GOSYS?
                     </Undertittel>
                     <Normaltekst tag="p" className="cancelmodal__content">
-                        Dette vil ikke ferdigstille oppgaven, men gjør det mulig å behandle den i GOSYS.
+                        Dette vil ikke ferdigstille oppgaven, men gjør det mulig å journalføre dokumentet i GOSYS.
                     </Normaltekst>
 
-                    <Normaltekst tag="p" className="cancelmodal__content_addition">
-                        <strong>Merk: </strong> Bare oppgaver som ikke lar seg behandle i applikasjonen skal sendes til Gosys, for eksempel dokumenter som ikke inneholder en sykmelding.
-                    </Normaltekst>
+                    <AlertStripeInfo className="cancelmodal__content_addition">
+                        Send til GOSYS bruker du hvis pdf-en er noe annet enn en norsk sykmelding. Av og til sniker det seg inn et annet dokument i bunken av sykmeldinger hos skannerleverandøren. Det kan være en utenlandsk sykmelding, en søknad om yrkesskadeerstatning eller noen annet.
+                    </AlertStripeInfo>
 
                     <AlertStripeAdvarsel className="cancelmodal__content">
-                        <strong>Obs!</strong> Hvis oppgaven sendes til GOSYS vil sykmeldingen ikke bli tilgjengelig for brukeren digitalt.
+                        <strong>Obs!</strong> Hvis en sykmelding feilaktig sendes til GOSYS kan den aldri bli tilgjengelig for brukeren digitalt.
                     </AlertStripeAdvarsel>
 
                     <Fareknapp
