@@ -24,9 +24,9 @@ describe('Load pasientinfo', () => {
         );
 
         await waitForElementToBeRemoved(() => screen.queryByText('Vennligst vent mens oppgaven laster'));
-        userEvent.click(await screen.findByRole('button', { name: 'Send til GOSYS' }));
+        userEvent.click(await screen.findByRole('button', { name: 'Dette er ikke en sykmelding' }));
         expect(
-            await screen.findByText('Er du sikker på at du vil sende oppgaven tilbake til GOSYS?'),
+            await screen.findByText('Send til GOSYS?'),
         ).toBeInTheDocument();
         userEvent.click(await screen.findByRole('button', { name: 'Send til GOSYS' }));
 
