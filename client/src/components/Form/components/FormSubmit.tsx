@@ -9,15 +9,15 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 
 import useSubmitSykmelding from '../../../hooks/useSubmitSykmelding';
 import { FormType } from '../Form';
-import useWarnUnsavedPopup from "../../../hooks/useWarnUnsavedPopup";
 
 interface FormSubmitProps {
     oppgaveid: number;
     enhet: string | null | undefined;
     handleSubmit: (onSubmit: (state: FormType) => void) => void;
+    setIsComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
+const FormSubmit = ({ oppgaveid, enhet, handleSubmit, setIsComplete }: FormSubmitProps) => {
     const [successModalOpen, setSuccessModalOpen] = useState<boolean>(false);
     Modal.setAppElement('#root');
 
@@ -30,10 +30,9 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
     useEffect(() => {
         if (submitSuccess) {
             setSuccessModalOpen(true);
+            setIsComplete(true);
         }
-    }, [submitSuccess]);
-
-    useWarnUnsavedPopup(submitSuccess)
+    }, [submitSuccess, setIsComplete]);
 
     return (
         <div role="region" aria-label="skjemainnsendingbeholder" className="form-submit-container">

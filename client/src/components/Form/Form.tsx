@@ -1,7 +1,7 @@
 import './Form.less';
 import './components/formComponents/Flatpickr.less';
 
-import React, { useRef } from 'react';
+import React, {useRef, useState} from 'react';
 
 import FormErrorSummary from './components/FormErrorSummary';
 import FormHeader from './components/FormHeader';
@@ -29,6 +29,7 @@ import { Oppgave } from '../../types/oppgave/Oppgave';
 import { getInitialFormState } from './formUtils/formUtils';
 import { sections } from '../../types/Section';
 import { validationFunctions } from './validation';
+import useWarnUnsavedPopup from "../../hooks/useWarnUnsavedPopup";
 
 export interface FormType
     extends Pasientopplysninger,
@@ -51,12 +52,15 @@ type FormProps = {
 
 const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
     const errorSummaryRef = useRef<HTMLDivElement>(null);
+    const [isComplete, setIsComplete] = useState<boolean>(false);
 
     const { formState, setFormState, errors, handleSubmit } = useForm<FormType>({
         defaultValues: getInitialFormState(oppgave, diagnosekoder),
         validationFunctions,
         errorSummaryRef,
     });
+
+    useWarnUnsavedPopup(isComplete)
 
     return (
         <section className="form">
@@ -120,9 +124,9 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
                     />
                 </Panel>
                 <FormErrorSummary formErrors={errors} errorSummaryRef={errorSummaryRef} />
-                <FormSubmit oppgaveid={oppgave.oppgaveid} enhet={enhet} handleSubmit={handleSubmit} />
+                <FormSubmit oppgaveid={oppgave.oppgaveid} enhet={enhet} handleSubmit={handleSubmit} setIsComplete={setIsComplete} />
             </form>
-            <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} />
+            <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} setIsComplete={setIsComplete} />
         </section>
     );
 };
