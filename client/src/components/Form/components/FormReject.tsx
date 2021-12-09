@@ -15,9 +15,10 @@ import Lenke from "nav-frontend-lenker";
 interface FormRejectProps {
     enhet: string | undefined | null;
     oppgaveid: number;
+    setIsComplete: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
+const FormReject = ({ enhet, oppgaveid, setIsComplete }: FormRejectProps) => {
     // Avvis sykmelding
     const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
     const [isLoadingReject, setIsLoadingReject] = useState<boolean>(false);
@@ -54,6 +55,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                         setRevertModalOpen(false);
                         setIsLoadingRevert(false);
                         setSuccessModalContent('Oppgaven ble sendt tilbake til GOSYS.');
+                        setIsComplete(true);
                     } else {
                         throw new Error(
                             `En feil oppsto ved sending av oppgave til GOSYS: ${oppgaveid}. Feilkode: ${response.status}`,
@@ -92,6 +94,7 @@ const FormReject = ({ enhet, oppgaveid }: FormRejectProps) => {
                         setRejectModalOpen(false);
                         setIsLoadingReject(false);
                         setSuccessModalContent('Oppgaven ble ferdigstilt.');
+                        setIsComplete(true);
                     } else {
                         throw new Error(
                             `En feil oppsto ved avvisning av oppgave: ${oppgaveid}. Feilkode: ${response.status}`,
