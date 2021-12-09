@@ -9,6 +9,7 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 
 import useSubmitSykmelding from '../../../hooks/useSubmitSykmelding';
 import { FormType } from '../Form';
+import useWarnUnsavedPopup from "../../../hooks/useWarnUnsavedPopup";
 
 interface FormSubmitProps {
     oppgaveid: number;
@@ -31,6 +32,8 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit }: FormSubmitProps) => {
             setSuccessModalOpen(true);
         }
     }, [submitSuccess]);
+
+    useWarnUnsavedPopup(submitSuccess)
 
     return (
         <div role="region" aria-label="skjemainnsendingbeholder" className="form-submit-container">
