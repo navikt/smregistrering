@@ -70,6 +70,45 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete }: FormRejectProps) => {
         }
     };
 
+    function hanndleReopen(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (!enhet) {
+            setRejectError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'));
+        } else {
+            logger.info(`Gjenåpner oppgave. oppgaveid: ${oppgaveid}`);
+            setIsLoadingReject(true);
+            setRejectError(null);
+            const reason = (e.target as any)[0]?.value as string;
+            fetch(`backend/api/v1/oppgave/${oppgaveid}/reopen`, {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Nav-Enhet': enhet,
+                },
+                body: JSON.stringify({ reason: !!reason ? reason : null }),
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        logger.info(`Oppgaven ble gjenåpnet. oppgaveid: ${oppgaveid}`);
+                        setRejectModalOpen(false);
+                        setIsLoadingReject(false);
+                        setSuccessModalContent('Oppgaven ble gjenåpnet.');
+                        setIsComplete(true);
+                    } else {
+                        throw new Error(
+                            `En feil oppsto ved gjenåpning av oppgave: ${oppgaveid}. Feilkode: ${response.status}`,
+                        );
+                    }
+                })
+                .catch((error) => {
+                    logger.error(error);
+                    setRejectError(error);
+                    setIsLoadingReject(false);
+                });
+        }
+    }
+
     function handleReject(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!enhet) {
@@ -178,6 +217,28 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete }: FormRejectProps) => {
                         spinner={isLoadingReject}
                     >
                         AVVIS SYKMELDING
+                    </Fareknapp>
+                    {rejectError && <AlertStripeFeil>{rejectError.message}</AlertStripeFeil>}
+                </form>
+
+                {/*test av reopen*/}
+                <form className="cancelmodal" onSubmit={hanndleReopen}>
+                    <div>
+                        <Undertittel tag="h1" className="cancelmodal__title">
+                            Reopen
+                        </Undertittel>
+                        <Normaltekst tag="p" className="cancelmodal__content">
+                            Test av reopen
+                        </Normaltekst>
+                    </div>
+                    <Fareknapp
+                        htmlType="submit"
+                        id="reopen-modal-button"
+                        className="cancelmodal__button"
+                        disabled={isLoadingReject}
+                        spinner={isLoadingReject}
+                    >
+                        Gjenåpne sykmelding
                     </Fareknapp>
                     {rejectError && <AlertStripeFeil>{rejectError.message}</AlertStripeFeil>}
                 </form>
