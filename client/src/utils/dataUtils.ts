@@ -15,7 +15,7 @@ export const getDiagnosekoder = async (): Promise<Diagnosekoder> => {
             [DiagnosekodeSystem.ICPC2]: (await import('../data/icpc2.json')).default,
         };
         return Diagnosekoder.parse(diagnosekoderRaw);
-    } catch (error) {
+    } catch (error: any) {
         logger.error(error);
         throw new Error('Feil med dianosekoder. Sjekke logger for utdypende feilbeskrivelse');
     }
