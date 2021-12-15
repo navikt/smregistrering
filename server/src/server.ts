@@ -74,7 +74,7 @@ async function startApp() {
     // start server
     const PORT = config.server.port;
     server.listen(PORT, () => logger.info(`Server listening on port ${PORT}`));
-  } catch (error) {
+  } catch (error: any) {
     if (iotsPromise.isDecodeError(error)) {
       logger.error('io-ts decode error. Are all required environment variables present?');
     } else {
