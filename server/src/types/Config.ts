@@ -1,79 +1,61 @@
-import * as iots from 'io-ts';
+import { z } from 'zod';
 
-// converts string ot number
-const NumberFromString = new iots.Type<number, string, unknown>(
-  'StringFronProcessEnv',
-  (input): input is number => typeof input === 'string' && parseInt(input) !== NaN,
-  (input, context) =>
-    typeof input === 'string' && parseInt(input) !== NaN ? iots.success(parseInt(input)) : iots.failure(input, context),
-  (output) => output.toString(),
+const NumberString = z
+    .string()
+    .refine((arg) => typeof arg === 'string' && !isNaN(parseInt(arg)), 'Property needs to be a valid number')
+    .transform((arg) => parseInt(arg));
+
+const ScopeString = z
+    .string()
+    .refine((arg) => typeof arg === 'string' && arg.split(',').length > 0, 'String needs to be a valid list')
+    .transform((arg) => arg.split(','));
+
+export const ServerSchema = z.intersection(
+    z.object({
+        host: z.string(),
+        port: NumberString,
+        sessionKey: z.string(),
+        cookieName: z.string(),
+    }),
+    z.object({
+        proxy: z.string().optional(),
+    }),
 );
 
-// converts string to boolean
-const BooleanFromString = new iots.Type<boolean, string, unknown>(
-  'BooleanFronProcessEnv',
-  (input): input is boolean => typeof input === 'string' && ['true', 'false'].includes(input),
-  (input, context) =>
-    typeof input === 'string' && ['true', 'false'].includes(input)
-      ? iots.success(input === 'true' ? true : false)
-      : iots.failure(input, context),
-  (output) => output.toString(),
+export type Server = z.infer<typeof ServerSchema>;
+
+export const AzureAdSchema = z.intersection(
+    z.object({
+        discoveryUrl: z.string(),
+        clientId: z.string(),
+        clientSecret: z.string(),
+        redirectUri: z.string(),
+        tokenEndpointAuthMethod: z.string(),
+        responseTypes: z.array(z.string()),
+        responseMode: z.string(),
+    }),
+    z.object({
+        logoutRedirectUri: z.string().optional(),
+    }),
 );
 
-const ScopesFromString = new iots.Type<string[], string, unknown>(
-  'ScopesFromString',
-  (input): input is string[] => typeof input === 'string' && input.split(',').length > 0,
-  (input, context) =>
-    typeof input === 'string' && input.split(',').length > 0
-      ? iots.success(input.split(','))
-      : iots.failure(input, context),
-  (output) => output.toString(),
+export type AzureAd = z.infer<typeof AzureAdSchema>;
+
+export const RedisSchema = z.intersection(
+    z.object({
+        host: z.string(),
+        port: NumberString,
+    }),
+    z.object({
+        password: z.string().optional(),
+    }),
 );
+export type Redis = z.infer<typeof RedisSchema>;
 
-export const Server = iots.intersection([
-  iots.type({
-    host: iots.string,
-    port: NumberFromString,
-    sessionKey: iots.string,
-    cookieName: iots.string,
-  }),
-  iots.partial({
-    proxy: iots.string,
-  }),
-]);
-export type Server = iots.TypeOf<typeof Server>;
-
-export const AzureAd = iots.intersection([
-  iots.type({
-    discoveryUrl: iots.string,
-    clientId: iots.string,
-    clientSecret: iots.string,
-    redirectUri: iots.string,
-    tokenEndpointAuthMethod: iots.string,
-    responseTypes: iots.array(iots.string),
-    responseMode: iots.string,
-  }),
-  iots.partial({
-    logoutRedirectUri: iots.string,
-  }),
-]);
-export type AzureAd = iots.TypeOf<typeof AzureAd>;
-
-export const Redis = iots.intersection([
-  iots.type({
-    host: iots.string,
-    port: NumberFromString,
-  }),
-  iots.partial({
-    password: iots.string,
-  }),
-]);
-export type Redis = iots.TypeOf<typeof Redis>;
-
-export const ApiReverseProxy = iots.type({
-  path: iots.string,
-  url: iots.string,
-  scopes: ScopesFromString,
+export const ApiReverseProxySchema = z.object({
+    path: z.string(),
+    url: z.string(),
+    scopes: ScopeString,
 });
 
-export type ApiReverseProxy = iots.TypeOf<typeof ApiReverseProxy>;
+export type ApiReverseProxy = z.infer<typeof ApiReverseProxySchema>;

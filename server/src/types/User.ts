@@ -1,13 +1,14 @@
-import * as iots from 'io-ts';
+import { z } from 'zod';
 
-const TokenSets = iots.partial({
-  self: iots.any,
-  proxy: iots.any,
-  graph: iots.any,
+const TokenSets = z.object({
+    self: z.any().optional(),
+    proxy: z.any().optional(),
+    graph: z.any().optional(),
 });
 
-export const User = iots.type({
-  claims: iots.any,
-  tokenSets: TokenSets,
+export const User = z.object({
+    claims: z.any(),
+    tokenSets: TokenSets,
 });
-export type User = iots.TypeOf<typeof User>;
+
+export type User = z.infer<typeof User>;

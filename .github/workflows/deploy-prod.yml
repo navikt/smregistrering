@@ -62,14 +62,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.x'
-      - name: Install deps for client
-        run: npm ci
-        working-directory: ./client
+      - name: Install deps
+        run: yarn
       - name: Run unit tests for client
-        env:
-          CI: true
-        run: npm test
+        run: yarn test
         working-directory: ./client
+      - name: Run unit tests for server
+        run: yarn test
+        working-directory: ./server
 
   deploy-redis:
     name: Deploy redis to prod-fss
@@ -97,14 +97,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.x'
-      - name: Install dependencies for server
-        run: npm ci
-        working-directory: ./server
-      - name: Install dependencies for client
-        run: npm ci
-        working-directory: ./client
+      - name: Install dependencies
+        run: yarn
       - name: Build server
-        run: npm run compile
+        run: yarn build
         working-directory: ./server
       - name: Build client
         env:
@@ -112,7 +108,7 @@ jobs:
           REACT_APP_FRONTEND_LOGGER_URL: https://app.adeo.no/frontendlogger
           REACT_APP_GOSYS_URL: https://gosys.intern.nav.no/gosys/bruker/brukeroversikt.jsf
           REACT_APP_ENVIRONMENT: production
-        run: npm run build
+        run: yarn build
         working-directory: ./client
       - name: Build and publish Docker image
         env:

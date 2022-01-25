@@ -1,11 +1,12 @@
 import React from 'react';
 import { Knapp } from 'nav-frontend-knapper';
 
-import BidiagnoseRow from './BidiagnoseRow';
 import FormLabel from '../../formComponents/FormLabel';
 import Plus from '../../../../../svg/Plus';
 import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
 import { FormType } from '../../../Form';
+
+import BidiagnoseRow from './BidiagnoseRow';
 
 type BidiagnoserProps = {
     id?: string;

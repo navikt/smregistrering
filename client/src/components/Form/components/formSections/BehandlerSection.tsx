@@ -35,9 +35,8 @@ type BehandlerSectionProps = {
 };
 
 const BehandlerSection = ({ section, setFormState, formState, errors }: BehandlerSectionProps) => {
-    const { sykmelder, isLoading, errorMessage, hprTouched, setHprTouched, hprRef } = useBehandleropplysninger(
-        formState,
-    );
+    const { sykmelder, isLoading, errorMessage, hprTouched, setHprTouched, hprRef } =
+        useBehandleropplysninger(formState);
 
     return (
         <SectionContainer section={section}>

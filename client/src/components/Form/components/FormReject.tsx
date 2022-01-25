@@ -2,15 +2,15 @@ import './FormReject.less';
 
 import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
-import {AlertStripeInfo, AlertStripeFeil, AlertStripeAdvarsel} from 'nav-frontend-alertstriper';
+import { AlertStripeInfo, AlertStripeFeil, AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Fareknapp, Knapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
+import Lenke from 'nav-frontend-lenker';
 
 import BackArrow from '../../../svg/BackArrow';
 import WarningCircle from '../../../svg/WarningCircle';
 import logger from '../../../utils/logger';
-import Lenke from "nav-frontend-lenker";
 
 interface FormRejectProps {
     enhet: string | undefined | null;
@@ -128,9 +128,24 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete }: FormRejectProps) => {
                         <span>Avvis sykmeldingen</span>
                     </Knapp>
                 </div>
-                <div style={{marginTop: '2rem'}}>
+                <div style={{ marginTop: '2rem' }}>
                     <Lenke href={process.env.REACT_APP_GOSYS_URL!!}>
-                        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" role="img"><path fillRule="evenodd" clipRule="evenodd" d="M24 13H3.705L11 20.546 9.625 22 0 12 9.625 2 11 3.455 3.705 11H24v2z" fill="currentColor"></path></svg>
+                        <svg
+                            width="1em"
+                            height="1em"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            focusable="false"
+                            role="img"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M24 13H3.705L11 20.546 9.625 22 0 12 9.625 2 11 3.455 3.705 11H24v2z"
+                                fill="currentColor"
+                            ></path>
+                        </svg>
                         <span>Tilbake til GOSYS</span>
                     </Lenke>
                 </div>
@@ -168,8 +183,8 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete }: FormRejectProps) => {
                             Behandler mangler autorisasjon til å sykmelde
                         </option>
                         <option value="HPR-nummer er ikke angitt">HPR-nummer er ikke angitt</option>
-                        <option value="Behandler mangler fødselsnummer i HPR-registeret">Behandler mangler fødselsnummer
-                            i HPR-registeret
+                        <option value="Behandler mangler fødselsnummer i HPR-registeret">
+                            Behandler mangler fødselsnummer i HPR-registeret
                         </option>
                         <option value="Sykefraværet overstiger 12 uker og sykmelder er kiropraktor/fysioterapeut">
                             Sykefraværet overstiger 12 uker og sykmelder er kiropraktor/fysioterapeut
@@ -205,11 +220,14 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete }: FormRejectProps) => {
                     </Normaltekst>
 
                     <AlertStripeInfo className="cancelmodal__content_addition">
-                        Send til GOSYS bruker du hvis pdf-en er noe annet enn en norsk sykmelding. Av og til sniker det seg inn et annet dokument i bunken av sykmeldinger hos skannerleverandøren. Det kan være en utenlandsk sykmelding, en søknad om yrkesskadeerstatning eller noen annet.
+                        Send til GOSYS bruker du hvis pdf-en er noe annet enn en norsk sykmelding. Av og til sniker det
+                        seg inn et annet dokument i bunken av sykmeldinger hos skannerleverandøren. Det kan være en
+                        utenlandsk sykmelding, en søknad om yrkesskadeerstatning eller noen annet.
                     </AlertStripeInfo>
 
                     <AlertStripeAdvarsel className="cancelmodal__content">
-                        <strong>Obs!</strong> Hvis en sykmelding feilaktig sendes til GOSYS kan den aldri bli tilgjengelig for brukeren digitalt.
+                        <strong>Obs!</strong> Hvis en sykmelding feilaktig sendes til GOSYS kan den aldri bli
+                        tilgjengelig for brukeren digitalt.
                     </AlertStripeAdvarsel>
 
                     <Fareknapp

@@ -1,0 +1,9 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "extends": ["prettier", "eslint:recommended", "plugin:@typescript-eslint/recommended"],
+    "plugins": ["prettier", "@typescript-eslint", "import"],
+    "rules": {
+        "prettier/prettier": "warn",
+        "import/order": ["warn", { "newlines-between": "always" }]
+    }
+}

@@ -3,8 +3,9 @@ import userEvent from '@testing-library/user-event';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
 import App from '../App';
-import fullOppgaveWithoutPeriods from './testData/fullOppgaveWithoutPeriods.json';
 import { mockBehandlerinfo, mockLocation, mockPasientinfo } from '../utils/testUtils';
+
+import fullOppgaveWithoutPeriods from './testData/fullOppgaveWithoutPeriods.json';
 
 describe('Mulighet for arbeid section', () => {
     const oppgaveid = 123;

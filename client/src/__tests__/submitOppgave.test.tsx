@@ -3,8 +3,9 @@ import userEvent from '@testing-library/user-event';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
 import App from '../App';
-import emptyOppgave from './testData/emptyOppgave.json';
 import { mockBehandlerinfo, mockLocation, mockPasientinfo } from '../utils/testUtils';
+
+import emptyOppgave from './testData/emptyOppgave.json';
 
 describe('Submit oppgave', () => {
     const oppgaveid = 123;

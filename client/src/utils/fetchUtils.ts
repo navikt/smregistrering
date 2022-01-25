@@ -1,6 +1,7 @@
-import logger from './logger';
 import { RegistrertSykmelding } from '../types/sykmelding/RegistrertSykmelding';
 import { RuleHitErrors } from '../types/RuleHitErrors';
+
+import logger from './logger';
 
 export class RuleHitError extends Error {
     ruleHits: RuleHitErrors;

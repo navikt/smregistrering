@@ -1,6 +1,7 @@
-import logger from './logger';
 import { DiagnosekodeSystem, Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 import { Oppgave } from '../types/oppgave/Oppgave';
+
+import logger from './logger';
 import { getOppgaveidFromSearchParams } from './urlUtils';
 
 export class OppgaveAlreadySolvedError extends Error {}
@@ -30,9 +31,7 @@ export const getOppgave = async (): Promise<Oppgave> => {
     } else if (res.status === 400) {
         throw new BadRequestError(`Klarte ikke å hente en gyldig oppgave-id fra lenken: ${window.location.href}`);
     } else if (res.status === 401) {
-        throw new UnauthorizedError(
-            `Du har blitt logget ut, eller har ugyldig tilgang. Vennligst last siden på nytt.`,
-        );
+        throw new UnauthorizedError(`Du har blitt logget ut, eller har ugyldig tilgang. Vennligst last siden på nytt.`);
     } else if (res.status === 403) {
         throw new UnauthorizedError(
             `Du har ikke tilgang til oppgave ${oppgaveid}. Sjekk om du har riktige tilganger for å behandle slike oppgaver`,

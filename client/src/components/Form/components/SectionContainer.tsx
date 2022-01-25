@@ -2,8 +2,9 @@ import './SectionContainer.less';
 
 import React from 'react';
 
-import SectionHeader from './SectionHeader';
 import { Section } from '../../../types/Section';
+
+import SectionHeader from './SectionHeader';
 
 type SectionProps = {
     children: React.ReactNode | React.ReactChild | React.ReactChildren;

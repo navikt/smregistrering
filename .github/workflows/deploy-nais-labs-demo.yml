@@ -29,27 +29,20 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.x'
-      - name: Install dependencies for server
+      - name: Install dependencies
         run: |
-          npm install
-        working-directory: ./server
+          yarn
       - name: Run tests for server
         run: |
-          npm run test
+          yarn test
         working-directory: ./server
-      - name: Install dependencies for client
-        run: |
-          npm install
-        working-directory: ./client
       - name: Run unit tests for client
-        env:
-          CI: true
         run: |
-          npm test
+          yarn test
         working-directory: ./client
       - name: Build server
         run: |
-          npm run compile
+          yarn build
         working-directory: ./server
       - name: Build client
         env:
@@ -58,7 +51,7 @@ jobs:
           REACT_APP_ENVIRONMENT: demo
           # REACT_APP_FRONTEND_LOGGER_URL: https://app-q1.dev.adeo.no/frontendlogger
         run: |
-          npm run build
+          yarn build
         working-directory: ./client
       - name: Build and publish Docker image
         env:
