@@ -158,16 +158,21 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete }: FormRejectProps) => {
                         label="Hvorfor avvises sykmeldingen?"
                     >
                         <option value="">Velg avvisningsgrunn (valgfritt)</option>
-                        <option value="Feil avventende periode">Feil avventende periode</option>
+                        <option value="Avventende periode mangler tekst">Avventende periode mangler tekst</option>
+                        <option value="Avventende periode over 16 dager">Avventende periode over 16 dager</option>
                         <option value="Manglende utfylling av periode">Manglende utfylling av periode</option>
                         <option value="Manglende utfylling av grad">Manglende utfylling av grad</option>
                         <option value="Manglende utfylling av diagnosekode">Manglende utfylling av diagnosekode</option>
+                        <option value="Antall behandlingsdager mangler">Antall behandlingsdager mangler</option>
                         <option value="Behandler mangler autorisasjon til å sykmelde">
                             Behandler mangler autorisasjon til å sykmelde
                         </option>
+                        <option value="Mangler informasjon om behandler">Mangler informasjon om behandler</option>
                         <option value="Sykefraværet overstiger 12 uker og sykmelder er kiropraktor/fysioterapeut">
                             Sykefraværet overstiger 12 uker og sykmelder er kiropraktor/fysioterapeut
                         </option>
+                        <option value="Pasienten er over 70 år">Pasienten er over 70 år</option>
+                        <option value="Sykmeldingen mangler sider">Sykmeldingen mangler sider</option>
                         <option value="Skjema er ikke mulig å tolke/lese">Skjema er ikke mulig å tolke/lese</option>
                     </Select>
                     <Fareknapp
