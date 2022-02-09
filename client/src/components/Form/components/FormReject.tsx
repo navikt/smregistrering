@@ -167,7 +167,10 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete }: FormRejectProps) => {
                         <option value="Behandler mangler autorisasjon til å sykmelde">
                             Behandler mangler autorisasjon til å sykmelde
                         </option>
-                        <option value="Mangler informasjon om behandler">Mangler informasjon om behandler</option>
+                        <option value="HPR-nummer er ikke angitt">HPR-nummer er ikke angitt</option>
+                        <option value="Behandler mangler fødselsnummer i HPR-registeret">Behandler mangler fødselsnummer
+                            i HPR-registeret
+                        </option>
                         <option value="Sykefraværet overstiger 12 uker og sykmelder er kiropraktor/fysioterapeut">
                             Sykefraværet overstiger 12 uker og sykmelder er kiropraktor/fysioterapeut
                         </option>
