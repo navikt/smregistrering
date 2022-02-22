@@ -21,9 +21,8 @@ type PasientopplysningerProps = {
 };
 
 const PasientopplysningerSection = ({ section, setFormState, errors, formState }: PasientopplysningerProps) => {
-    const { pasientNavn, isLoading, errorMessage, fnrRef, fnrTouched, setFnrTouched } = usePasientOpplysninger(
-        formState,
-    );
+    const { pasientNavn, isLoading, errorMessage, fnrRef, fnrTouched, setFnrTouched } =
+        usePasientOpplysninger(formState);
 
     return (
         <SectionContainer section={section}>

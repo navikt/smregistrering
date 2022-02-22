@@ -6,6 +6,7 @@ import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
 
 import RangePicker from '../../formComponents/RangePicker';
 import { FormType } from '../../../Form';
+
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 export type AvventendePeriodeMFA = {

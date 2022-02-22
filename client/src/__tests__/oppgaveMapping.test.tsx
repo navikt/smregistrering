@@ -3,8 +3,6 @@ import nock from 'nock';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
 import App from '../App';
-import emptyOppgave from './testData/emptyOppgave.json';
-import fullOppgave from './testData/fullOppgave.json';
 import {
     ArbeidsrelatertArsakType,
     ArbeidsrelatertArsakTypeValues,
@@ -12,6 +10,9 @@ import {
     MedisinskArsakTypeValues,
 } from '../types/sykmelding/Periode';
 import { mockBehandlerinfo, mockLocation, mockPasientinfo } from '../utils/testUtils';
+
+import emptyOppgave from './testData/emptyOppgave.json';
+import fullOppgave from './testData/fullOppgave.json';
 
 describe('Mapping opppgave fetched from API', () => {
     const oppgaveid = 123;
@@ -228,8 +229,7 @@ describe('Mapping opppgave fetched from API', () => {
         ).not.toBeChecked();
         expect(
             screen.getByRole('checkbox', {
-                name:
-                    'Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1',
+                name: 'Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1',
             }),
         ).not.toBeChecked();
 

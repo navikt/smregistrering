@@ -8,13 +8,14 @@ import { Knapp } from 'nav-frontend-knapper';
 import ClearButton from '../../formComponents/ClearButton';
 import Divider from '../../formComponents/Divider';
 import SectionContainer from '../../SectionContainer';
+import { FormType } from '../../../Form';
+import { Section } from '../../../../../types/Section';
+
 import AktivitetIkkeMuligPeriode, { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import AvventendePeriode, { AvventendePeriodeMFA } from './AvventendePeriode';
 import BehandlingsdagerPeriode, { BehandlingsdagerPeriodeMFA } from './BehandlingsdagerPeriode';
 import GradertPeriode, { GradertPeriodeMFA } from './GradertPeriode';
 import ReisetilskuddPeriode, { ReisetilskuddPeriodeMFA } from './ReisetilskuddPeriode';
-import { FormType } from '../../../Form';
-import { Section } from '../../../../../types/Section';
 
 export type MulighetForArbeidTypes =
     | AvventendePeriodeMFA
@@ -95,16 +96,14 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
     };
 
     const updateSubsectionMFA = (updatedMfa: MulighetForArbeidTypes, index: number) =>
-        setFormState(
-            (state): FormType => {
-                const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
+        setFormState((state): FormType => {
+            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
 
-                return {
-                    ...state,
-                    mulighetForArbeid: updatedMulighetForArbeid,
-                };
-            },
-        );
+            return {
+                ...state,
+                mulighetForArbeid: updatedMulighetForArbeid,
+            };
+        });
 
     return (
         <SectionContainer section={section} sectionError={errors.get('mulighetForArbeid')?.feilmelding}>
@@ -116,18 +115,16 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                             id={`mulighetForArbeid-selector-${index}`}
                             value={mfaPeriode && mfaPeriode.type}
                             onChange={({ target: { value } }) => {
-                                setFormState(
-                                    (state): FormType => {
-                                        const mfa = createEmptyMFA(value as MFAOptions);
+                                setFormState((state): FormType => {
+                                    const mfa = createEmptyMFA(value as MFAOptions);
 
-                                        const updatedMulighetForArbeid = mergeMFAAtIndex(mfa, state, index);
+                                    const updatedMulighetForArbeid = mergeMFAAtIndex(mfa, state, index);
 
-                                        return {
-                                            ...state,
-                                            mulighetForArbeid: updatedMulighetForArbeid,
-                                        };
-                                    },
-                                );
+                                    return {
+                                        ...state,
+                                        mulighetForArbeid: updatedMulighetForArbeid,
+                                    };
+                                });
                             }}
                             className="form-margin-bottom half"
                             label={<Element>Periodetype</Element>}

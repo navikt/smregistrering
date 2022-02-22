@@ -7,9 +7,10 @@ import React from 'react';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { EtikettAdvarsel, EtikettSuksess } from 'nav-frontend-etiketter';
 
+import { AutorisasjonValues, HelsepersonellkategoriValues, Sykmelder } from '../../../../types/Sykmelder';
+
 import FormLabel from './FormLabel';
 import Row from './Row';
-import { AutorisasjonValues, HelsepersonellkategoriValues, Sykmelder } from '../../../../types/Sykmelder';
 
 interface SykmelderInformationProps {
     sykmelder: Sykmelder | null | undefined;

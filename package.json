@@ -1,0 +1,21 @@
+{
+    "name": "smregistrering",
+    "private": true,
+    "packageManager": "yarn@3.1.1",
+    "workspaces": [
+        "client",
+        "server"
+    ],
+    "devDependencies": {
+        "eslint": "^7.32.0",
+        "husky": "^7.0.4",
+        "lint-staged": "^12.3.4",
+        "prettier": "^2.5.1"
+    },
+    "scripts": {
+        "lint": "yarn workspaces foreach run lint",
+        "build": "yarn workspaces foreach run build",
+        "format": "prettier --write '{client,server}/**/**.{ts,tsx,js,jsx}'",
+        "postinstall": "husky install"
+    }
+}

@@ -3,8 +3,9 @@ import userEvent from '@testing-library/user-event';
 import { render, screen, waitForElementToBeRemoved, within } from '@testing-library/react';
 
 import App from '../App';
-import emptyOppgave from './testData/emptyOppgave.json';
 import { mockLocation } from '../utils/testUtils';
+
+import emptyOppgave from './testData/emptyOppgave.json';
 
 describe('Load pasientinfo', () => {
     const oppgaveid = 123;
@@ -25,9 +26,7 @@ describe('Load pasientinfo', () => {
 
         await waitForElementToBeRemoved(() => screen.queryByText('Vennligst vent mens oppgaven laster'));
         userEvent.click(await screen.findByRole('button', { name: 'Dette er ikke en sykmelding' }));
-        expect(
-            await screen.findByText('Send til GOSYS?'),
-        ).toBeInTheDocument();
+        expect(await screen.findByText('Send til GOSYS?')).toBeInTheDocument();
         userEvent.click(await screen.findByRole('button', { name: 'Send til GOSYS' }));
 
         const dialog = within(await screen.findByRole('dialog', { name: 'Oppgaven ble sendt tilbake til GOSYS.' }));

@@ -6,8 +6,9 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { Normaltekst } from 'nav-frontend-typografi';
 
-import ClearButton from './ClearButton';
 import calendar from '../../../../svg/calendar.svg';
+
+import ClearButton from './ClearButton';
 import { flatpickrLocale } from './flatpickrUtils';
 
 type DatePickerProps = {

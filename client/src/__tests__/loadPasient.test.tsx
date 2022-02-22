@@ -3,8 +3,9 @@ import userEvent from '@testing-library/user-event';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
 import App from '../App';
-import nullFnrOppgave from './testData/nullFnrOppgave.json';
 import { mockBehandlerinfo, mockLocation } from '../utils/testUtils';
+
+import nullFnrOppgave from './testData/nullFnrOppgave.json';
 
 describe('Load pasientinfo', () => {
     const oppgaveid = 123;

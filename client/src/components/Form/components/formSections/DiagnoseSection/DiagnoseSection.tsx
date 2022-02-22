@@ -1,18 +1,19 @@
 import React from 'react';
 import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 
-import AnnenFraversArsak from './AnnenFraversArsak';
-import Bidiagnoser from './Bidiagnoser';
 import DatePicker from '../../formComponents/DatePicker';
 import Divider from '../../formComponents/Divider';
 import ExpandableField from '../../formComponents/ExpandableField';
-import Hoveddiagnose from './Hoveddiagnose';
 import SectionContainer from '../../SectionContainer';
 import Subsection from '../../formComponents/Subsection';
 import { AnnenFraverGrunn, Diagnose } from '../../../../../types/sykmelding/MedisinskVurdering';
 import { Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
 import { FormType } from '../../../Form';
 import { Section } from '../../../../../types/Section';
+
+import Hoveddiagnose from './Hoveddiagnose';
+import Bidiagnoser from './Bidiagnoser';
+import AnnenFraversArsak from './AnnenFraversArsak';
 
 export type MedisinskVurdering = {
     hovedDiagnose: Partial<Diagnose> | null;

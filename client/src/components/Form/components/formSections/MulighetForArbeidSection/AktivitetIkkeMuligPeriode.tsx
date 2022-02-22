@@ -4,12 +4,13 @@ import React from 'react';
 import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
 import { Element } from 'nav-frontend-typografi';
 
-import ArbeidsrelatertArsak from './ArbeidsrelatertArsak';
 import ExpandableField from '../../formComponents/ExpandableField';
-import MedisinskArsak from './MedisinskArsak';
 import RangePicker from '../../formComponents/RangePicker';
 import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/sykmelding/Periode';
 import { FormType } from '../../../Form';
+
+import MedisinskArsak from './MedisinskArsak';
+import ArbeidsrelatertArsak from './ArbeidsrelatertArsak';
 import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
 
 export type AktivitetIkkeMuligPeriodeMFA = {

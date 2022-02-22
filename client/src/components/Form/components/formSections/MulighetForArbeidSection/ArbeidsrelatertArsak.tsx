@@ -1,10 +1,11 @@
 import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
-import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 import { ArbeidsrelatertArsakType, ArbeidsrelatertArsakTypeValues } from '../../../../../types/sykmelding/Periode';
 import { FormType } from '../../../Form';
-import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
 import { getEntries } from '../../../formUtils/useForm';
+
+import { MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
 
 interface ArbeidsrelatertArsakProps {
     mfaPeriode: AktivitetIkkeMuligPeriodeMFA;

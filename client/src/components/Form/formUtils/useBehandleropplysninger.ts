@@ -25,7 +25,7 @@ function useBehandleropplysninger(formState: FormType) {
                     if (sykmelder.success) {
                         setSykmelder(sykmelder.data);
                     } else {
-                        logger.error(`Unable to parse sykmelder, parsing error: ${sykmelder.error.message}`)
+                        logger.error(`Unable to parse sykmelder, parsing error: ${sykmelder.error.message}`);
                         setErrorMessage(`Vi mangler informasjon om behandler med hpr-nummer: ${formState.hpr}`);
                     }
                 } else if (res.status === 404) {

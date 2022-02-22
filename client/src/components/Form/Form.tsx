@@ -1,13 +1,18 @@
 import './Form.less';
 import './components/formComponents/Flatpickr.less';
 
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
+
+import Panel from '../Panel/Panel';
+import { Diagnosekoder } from '../../types/diagnosekoder/Diagnosekoder';
+import { Oppgave } from '../../types/oppgave/Oppgave';
+import { sections } from '../../types/Section';
+import useWarnUnsavedPopup from '../../hooks/useWarnUnsavedPopup';
 
 import FormErrorSummary from './components/FormErrorSummary';
 import FormHeader from './components/FormHeader';
 import FormReject from './components/FormReject';
 import FormSubmit from './components/FormSubmit';
-import Panel from '../Panel/Panel';
 import useForm from './formUtils/useForm';
 import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
 import BehandlerSection, { Behandler } from './components/formSections/BehandlerSection';
@@ -24,12 +29,8 @@ import TilbakedateringSection, { Tilbakedatering } from './components/formSectio
 import UtdypendeOpplysningerSection, {
     UtdypendeOpplysninger,
 } from './components/formSections/UtdypendeOpplysningerSection';
-import { Diagnosekoder } from '../../types/diagnosekoder/Diagnosekoder';
-import { Oppgave } from '../../types/oppgave/Oppgave';
 import { getInitialFormState } from './formUtils/formUtils';
-import { sections } from '../../types/Section';
 import { validationFunctions } from './validation';
-import useWarnUnsavedPopup from "../../hooks/useWarnUnsavedPopup";
 
 export interface FormType
     extends Pasientopplysninger,
@@ -60,7 +61,7 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
         errorSummaryRef,
     });
 
-    useWarnUnsavedPopup(isComplete)
+    useWarnUnsavedPopup(isComplete);
 
     return (
         <section className="form">
@@ -124,7 +125,12 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
                     />
                 </Panel>
                 <FormErrorSummary formErrors={errors} errorSummaryRef={errorSummaryRef} />
-                <FormSubmit oppgaveid={oppgave.oppgaveid} enhet={enhet} handleSubmit={handleSubmit} setIsComplete={setIsComplete} />
+                <FormSubmit
+                    oppgaveid={oppgave.oppgaveid}
+                    enhet={enhet}
+                    handleSubmit={handleSubmit}
+                    setIsComplete={setIsComplete}
+                />
             </form>
             <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} setIsComplete={setIsComplete} />
         </section>
