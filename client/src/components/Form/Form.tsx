@@ -133,6 +133,7 @@ const Form = ({ oppgave, diagnosekoder, enhet, isFerdigstilt }: FormProps) => {
                     enhet={enhet}
                     handleSubmit={handleSubmit}
                     setIsComplete={setIsComplete}
+                    isFerdigstilt={isFerdigstilt}
                 />
             </form>
             <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} setIsComplete={setIsComplete} />

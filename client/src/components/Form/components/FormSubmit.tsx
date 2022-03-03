@@ -15,9 +15,10 @@ interface FormSubmitProps {
     enhet: string | null | undefined;
     handleSubmit: (onSubmit: (state: FormType) => void) => void;
     setIsComplete: React.Dispatch<React.SetStateAction<boolean>>;
+    isFerdigstilt: boolean;
 }
 
-const FormSubmit = ({ oppgaveid, enhet, handleSubmit, setIsComplete }: FormSubmitProps) => {
+const FormSubmit = ({ oppgaveid, enhet, handleSubmit, setIsComplete, isFerdigstilt }: FormSubmitProps) => {
     const [successModalOpen, setSuccessModalOpen] = useState<boolean>(false);
     Modal.setAppElement('#root');
 
@@ -25,6 +26,7 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit, setIsComplete }: FormSubmi
         oppgaveid,
         enhet,
         handleSubmit,
+        isFerdigstilt,
     );
 
     useEffect(() => {
