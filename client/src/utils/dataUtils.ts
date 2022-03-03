@@ -54,16 +54,12 @@ async function fetchOppgave(url: string): Promise<Oppgave> {
         throw new UnauthorizedError(`Du har blitt logget ut, eller har ugyldig tilgang. Vennligst last siden på nytt.`);
     } else if (res.status === 403) {
         throw new UnauthorizedError(
-            `Du har ikke tilgang til ${url}. Sjekk om du har riktige tilganger for å behandle slike oppgaver`,
+            `Du har ikke tilgang til oppgaven. Sjekk om du har riktige tilganger for å behandle slike oppgaver`,
         );
     } else if (res.status === 404) {
-        throw new OppgaveAlreadySolvedError(
-            `Fant ingen uløste oppgaver på ${url}. Oppgaven finnes ikke eller er allerede løst.`,
-        );
+        throw new OppgaveAlreadySolvedError(`Fant ingen uløste oppgaver. Oppgaven finnes ikke eller er allerede løst.`);
     } else if (res.status === 410) {
-        throw new OppgaveGoneError(
-            `Fant ingen skannede dokumenter for oppgave på ${url}. Oppgaven er sendt tilbake til GOSYS.`,
-        );
+        throw new OppgaveGoneError(`Fant ingen skannede dokumenter. Oppgaven er sendt tilbake til GOSYS.`);
     } else {
         throw new Error('Ukjent feil med statuskode: ' + res.status);
     }
