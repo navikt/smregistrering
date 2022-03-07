@@ -16,9 +16,10 @@ interface FormRejectProps {
     enhet: string | undefined | null;
     oppgaveid: number;
     setIsComplete: React.Dispatch<React.SetStateAction<boolean>>;
+    isFerdigstilt: boolean;
 }
 
-const FormReject = ({ enhet, oppgaveid, setIsComplete }: FormRejectProps) => {
+const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormRejectProps) => {
     // Avvis sykmelding
     const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
     const [isLoadingReject, setIsLoadingReject] = useState<boolean>(false);
@@ -113,21 +114,23 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete }: FormRejectProps) => {
         <>
             <div className="form-reject-container">
                 <Element>Er det noe galt med sykmeldingen?</Element>
-                <div className="form-reject-container__action-buttons">
-                    <Knapp
-                        htmlType="button"
-                        id="to-gosys-button"
-                        className="menu-button"
-                        onClick={() => setRevertModalOpen((prev) => !prev)}
-                    >
-                        <BackArrow />
-                        <span>Dette er ikke en sykmelding</span>
-                    </Knapp>
-                    <Knapp htmlType="button" id="avvis-button" onClick={() => setRejectModalOpen((prev) => !prev)}>
-                        <WarningCircle />
-                        <span>Avvis sykmeldingen</span>
-                    </Knapp>
-                </div>
+                {!isFerdigstilt && (
+                    <div className="form-reject-container__action-buttons">
+                        <Knapp
+                            htmlType="button"
+                            id="to-gosys-button"
+                            className="menu-button"
+                            onClick={() => setRevertModalOpen((prev) => !prev)}
+                        >
+                            <BackArrow />
+                            <span>Dette er ikke en sykmelding</span>
+                        </Knapp>
+                        <Knapp htmlType="button" id="avvis-button" onClick={() => setRejectModalOpen((prev) => !prev)}>
+                            <WarningCircle />
+                            <span>Avvis sykmeldingen</span>
+                        </Knapp>
+                    </div>
+                )}
                 <div style={{ marginTop: '2rem' }}>
                     <Lenke href={process.env.REACT_APP_GOSYS_URL!!}>
                         <svg
