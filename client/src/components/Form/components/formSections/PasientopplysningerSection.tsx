@@ -37,7 +37,7 @@ const PasientopplysningerSection = ({
                 <Input
                     id="pasientFnr"
                     inputRef={fnrRef}
-                    disabled={isLoading || isFerdigstilt}
+                    disabled={isLoading === true || isFerdigstilt === true}
                     value={formState.pasientFnr ?? ''}
                     onChange={({ target: { value } }) => {
                         if (!fnrTouched) {
