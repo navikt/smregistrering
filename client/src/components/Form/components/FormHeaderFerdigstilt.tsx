@@ -6,8 +6,8 @@ import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 const FormHeaderFerdigstilt = () => {
     return (
         <legend className="form-header">
-            <Innholdstittel>Retting av allerede registrert papirsykmelding</Innholdstittel>
-            <Undertittel>Du er nå i ferd med å endre en allerede registrert papirsykmelding.</Undertittel>
+            <Innholdstittel>Korrigering av registrert papirsykmelding</Innholdstittel>
+            <Undertittel>Under kan du korrigere opplysningene i en allerede registrert papirsykmelding.</Undertittel>
         </legend>
     );
 };
