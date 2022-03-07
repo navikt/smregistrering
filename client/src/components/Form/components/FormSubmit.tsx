@@ -76,7 +76,7 @@ const FormSubmit = ({ oppgaveid, enhet, handleSubmit, setIsComplete, isFerdigsti
                     submit();
                 }}
             >
-                Registrer sykmelding
+                Registrer sykmeldingen
             </Hovedknapp>
             <Modal
                 isOpen={successModalOpen}
