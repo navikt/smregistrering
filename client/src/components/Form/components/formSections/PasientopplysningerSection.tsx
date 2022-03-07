@@ -18,9 +18,16 @@ type PasientopplysningerProps = {
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<FormType>>;
     formState: FormType;
+    isFerdigstilt: Boolean;
 };
 
-const PasientopplysningerSection = ({ section, setFormState, errors, formState }: PasientopplysningerProps) => {
+const PasientopplysningerSection = ({
+    section,
+    setFormState,
+    errors,
+    formState,
+    isFerdigstilt,
+}: PasientopplysningerProps) => {
     const { pasientNavn, isLoading, errorMessage, fnrRef, fnrTouched, setFnrTouched } =
         usePasientOpplysninger(formState);
 
@@ -30,7 +37,7 @@ const PasientopplysningerSection = ({ section, setFormState, errors, formState }
                 <Input
                     id="pasientFnr"
                     inputRef={fnrRef}
-                    disabled={isLoading}
+                    disabled={isLoading || isFerdigstilt}
                     value={formState.pasientFnr ?? ''}
                     onChange={({ target: { value } }) => {
                         if (!fnrTouched) {

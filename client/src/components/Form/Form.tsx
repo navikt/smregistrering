@@ -76,6 +76,7 @@ const Form = ({ oppgave, diagnosekoder, enhet, isFerdigstilt }: FormProps) => {
                         setFormState={setFormState}
                         errors={errors}
                         formState={formState}
+                        isFerdigstilt={isFerdigstilt}
                     />
                     <ArbeidsgiverSection
                         section={sections.ARBEIDSGIVER}

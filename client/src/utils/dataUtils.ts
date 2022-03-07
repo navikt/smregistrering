@@ -29,7 +29,6 @@ export type OppgaveResult = { type: 'Oppgave' | 'FerdigstiltOppgave'; oppgave: O
 
 export const getOppgave = async (): Promise<OppgaveResult> => {
     const id = getIdFromSearchParams();
-    console.log(id);
     if ('oppgaveId' in id) {
         const oppgaveId = id.oppgaveId;
         let url = `backend/api/v1/oppgave/${oppgaveId}`;
