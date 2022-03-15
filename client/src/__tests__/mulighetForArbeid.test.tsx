@@ -88,6 +88,6 @@ describe('Mulighet for arbeid section', () => {
         expect(screen.getAllByText('Periodetype')).toHaveLength(2);
 
         userEvent.click(screen.getByText(/Feltene stemmer overens/));
-        userEvent.click(screen.getByRole('button', { name: 'Registrer sykmelding' }));
+        userEvent.click(screen.getByRole('button', { name: 'Registrer sykmeldingen' }));
     });
 });
