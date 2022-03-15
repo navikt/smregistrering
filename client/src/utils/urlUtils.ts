@@ -1,14 +1,17 @@
-export const getOppgaveidFromSearchParams = (): string => {
+export const getIdFromSearchParams = (): { oppgaveId: string } | { sykmeldingId: string } => {
     if (process.env.REACT_APP_START_WITH_MOCK === 'true') {
-        return 'test';
+        return { oppgaveId: 'test' };
     }
 
     const urlParams = new URLSearchParams(window.location.search);
-    const oppgaveid = urlParams.get('oppgaveid');
+    const oppgaveId = urlParams.get('oppgaveid');
+    const sykmeldingId = urlParams.get('sykmeldingid');
 
-    if (!oppgaveid) {
-        throw new URIError('Kunne ikke hente oppgave siden lenken mangler oppgaveid');
+    if (oppgaveId) {
+        return { oppgaveId };
+    } else if (sykmeldingId) {
+        return { sykmeldingId };
+    } else {
+        throw new URIError('Kunne ikke hente oppgave siden lenken mangler oppgaveId og sykmeldingId');
     }
-
-    return oppgaveid;
 };

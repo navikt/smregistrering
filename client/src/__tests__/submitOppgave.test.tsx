@@ -240,6 +240,6 @@ describe('Submit oppgave', () => {
 
         // ----- REGISTRATION -----
         userEvent.click(screen.getByRole('checkbox', { name: /Feltene stemmer overens/ }));
-        userEvent.click(screen.getByRole('button', { name: 'Registrer sykmelding' }));
+        userEvent.click(screen.getByRole('button', { name: 'Registrer sykmeldingen' }));
     });
 });

@@ -10,6 +10,7 @@ function useSubmitSykmelding(
     oppgaveid: number,
     enhet: string | null | undefined,
     handleSubmit: (onSubmit: (state: FormType) => void) => void,
+    isFerdigstilt: boolean,
 ) {
     // Chexbox for confirming rightful answers
     const [checked, setChecked] = useState<boolean>(false);
@@ -41,7 +42,7 @@ function useSubmitSykmelding(
             } else {
                 setIsLoading(true);
                 try {
-                    await postRegistrertSykmelding(oppgaveid, enhet, maybeSykmelding.data);
+                    await postRegistrertSykmelding(oppgaveid, enhet, maybeSykmelding.data, isFerdigstilt);
                     setSubmitSuccess(true);
                 } catch (e) {
                     if (e instanceof RuleHitError) {

@@ -21,23 +21,27 @@ const App = ({ enhet, height }: AppProps) => {
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isFerdigstilt, setIsFerdigstilt] = useState<boolean>(false);
 
     useEffect(() => {
         setIsLoading(true);
-
-        Promise.all([getDiagnosekoder(), getOppgave()])
-            .then(([_diagnosekoder, _oppgave]) => {
-                logger.info(`Oppgave hentet ut. oppgaveid: ${_oppgave.oppgaveid}`);
+        (async () => {
+            try {
+                const _diagnosekoder = await getDiagnosekoder();
+                const oppgaveResult = await getOppgave();
+                logger.info(
+                    `Oppgave av type ${oppgaveResult.type} hentet ut. oppgaveId: ${oppgaveResult.oppgave.oppgaveid}`,
+                );
                 setDiagnosekoder(_diagnosekoder);
-                setOppgave(_oppgave);
-            })
-            .catch((error) => {
+                setOppgave(oppgaveResult.oppgave);
+                setIsFerdigstilt(oppgaveResult.type === 'FerdigstiltOppgave');
+            } catch (error: any) {
                 logger.error(error);
                 setError(error);
-            })
-            .finally(() => {
+            } finally {
                 setIsLoading(false);
-            });
+            }
+        })();
     }, []);
 
     if (error) {
@@ -68,7 +72,7 @@ const App = ({ enhet, height }: AppProps) => {
 
     return (
         <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height}px)` }}>
-            <Form oppgave={oppgave} diagnosekoder={diagnosekoder} enhet={enhet} />
+            <Form oppgave={oppgave} diagnosekoder={diagnosekoder} enhet={enhet} isFerdigstilt={isFerdigstilt} />
             <Pdf pdf={oppgave.pdfPapirSykmelding} />
         </main>
     );

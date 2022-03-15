@@ -30,7 +30,7 @@ describe('Registration api errors', () => {
 
         userEvent.click(await screen.findByText(/Feltene stemmer overens/));
 
-        const registerButton = await screen.findByRole('button', { name: 'Registrer sykmelding' });
+        const registerButton = await screen.findByRole('button', { name: 'Registrer sykmeldingen' });
         expect(registerButton).not.toBeDisabled();
         userEvent.click(registerButton);
 
@@ -49,7 +49,7 @@ describe('Registration api errors', () => {
 
         userEvent.click(await screen.findByText(/Feltene stemmer overens/));
 
-        const registerButton = await screen.findByRole('button', { name: 'Registrer sykmelding' });
+        const registerButton = await screen.findByRole('button', { name: 'Registrer sykmeldingen' });
         expect(registerButton).not.toBeDisabled();
         userEvent.click(registerButton);
 
@@ -84,7 +84,7 @@ describe('Registration api errors', () => {
 
         userEvent.click(await screen.findByText(/Feltene stemmer overens/));
 
-        const registerButton = await screen.findByRole('button', { name: 'Registrer sykmelding' });
+        const registerButton = await screen.findByRole('button', { name: 'Registrer sykmeldingen' });
         expect(registerButton).not.toBeDisabled();
         userEvent.click(registerButton);
 
@@ -104,7 +104,7 @@ describe('Registration api errors', () => {
 
         userEvent.click(await screen.findByText(/Feltene stemmer overens/));
 
-        const registerButton = await screen.findByRole('button', { name: 'Registrer sykmelding' });
+        const registerButton = await screen.findByRole('button', { name: 'Registrer sykmeldingen' });
         expect(registerButton).not.toBeDisabled();
         userEvent.click(registerButton);
 

@@ -15,8 +15,12 @@ export async function postRegistrertSykmelding(
     oppgaveid: number,
     enhet: string,
     sykmelding: RegistrertSykmelding,
+    isFerdigstilt: boolean,
 ): Promise<void> {
-    const res = await fetch(`backend/api/v1/oppgave/${oppgaveid}/send`, {
+    const url = isFerdigstilt
+        ? `backend/api/v1/oppgave/${oppgaveid}/endre`
+        : `backend/api/v1/oppgave/${oppgaveid}/send`;
+    const res = await fetch(url, {
         method: 'POST',
         credentials: 'same-origin',
         headers: {

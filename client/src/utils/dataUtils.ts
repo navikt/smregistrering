@@ -2,11 +2,14 @@ import { DiagnosekodeSystem, Diagnosekoder } from '../types/diagnosekoder/Diagno
 import { Oppgave } from '../types/oppgave/Oppgave';
 
 import logger from './logger';
-import { getOppgaveidFromSearchParams } from './urlUtils';
+import { getIdFromSearchParams } from './urlUtils';
 
 export class OppgaveAlreadySolvedError extends Error {}
+
 export class BadRequestError extends Error {}
+
 export class OppgaveGoneError extends Error {}
+
 export class UnauthorizedError extends Error {}
 
 export const getDiagnosekoder = async (): Promise<Diagnosekoder> => {
@@ -22,9 +25,25 @@ export const getDiagnosekoder = async (): Promise<Diagnosekoder> => {
     }
 };
 
-export const getOppgave = async (): Promise<Oppgave> => {
-    const oppgaveid = getOppgaveidFromSearchParams();
-    const res = await fetch(`backend/api/v1/oppgave/${oppgaveid}`);
+export type OppgaveResult = { type: 'Oppgave' | 'FerdigstiltOppgave'; oppgave: Oppgave };
+
+export const getOppgave = async (): Promise<OppgaveResult> => {
+    const id = getIdFromSearchParams();
+    if ('oppgaveId' in id) {
+        const oppgaveId = id.oppgaveId;
+        let url = `backend/api/v1/oppgave/${oppgaveId}`;
+        const oppgave = await fetchOppgave(url);
+        return { type: 'Oppgave', oppgave };
+    } else {
+        const sykmeldingId = id.sykmeldingId;
+        let url = `backend/api/v1/sykmelding/${sykmeldingId}/ferdigstilt`;
+        const oppgave = await fetchOppgave(url);
+        return { type: 'FerdigstiltOppgave', oppgave };
+    }
+};
+
+async function fetchOppgave(url: string): Promise<Oppgave> {
+    const res = await fetch(url);
     if (res.ok) {
         const json = await res.json();
         return Oppgave.parse(json);
@@ -34,17 +53,13 @@ export const getOppgave = async (): Promise<Oppgave> => {
         throw new UnauthorizedError(`Du har blitt logget ut, eller har ugyldig tilgang. Vennligst last siden på nytt.`);
     } else if (res.status === 403) {
         throw new UnauthorizedError(
-            `Du har ikke tilgang til oppgave ${oppgaveid}. Sjekk om du har riktige tilganger for å behandle slike oppgaver`,
+            `Du har ikke tilgang til oppgaven. Sjekk om du har riktige tilganger for å behandle slike oppgaver`,
         );
     } else if (res.status === 404) {
-        throw new OppgaveAlreadySolvedError(
-            `Fant ingen uløste oppgaver med oppgave-id: ${oppgaveid}. Oppgaven finnes ikke eller er allerede løst.`,
-        );
+        throw new OppgaveAlreadySolvedError(`Fant ingen uløste oppgaver. Oppgaven finnes ikke eller er allerede løst.`);
     } else if (res.status === 410) {
-        throw new OppgaveGoneError(
-            `Fant ingen skannede dokumenter for oppgave-id: ${oppgaveid}. Oppgaven er sendt tilbake til GOSYS.`,
-        );
+        throw new OppgaveGoneError(`Fant ingen skannede dokumenter. Oppgaven er sendt tilbake til GOSYS.`);
     } else {
         throw new Error('Ukjent feil med statuskode: ' + res.status);
     }
-};
+}

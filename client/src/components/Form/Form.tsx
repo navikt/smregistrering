@@ -31,6 +31,7 @@ import UtdypendeOpplysningerSection, {
 } from './components/formSections/UtdypendeOpplysningerSection';
 import { getInitialFormState } from './formUtils/formUtils';
 import { validationFunctions } from './validation';
+import FormHeaderFerdigstilt from './components/FormHeaderFerdigstilt';
 
 export interface FormType
     extends Pasientopplysninger,
@@ -49,9 +50,10 @@ type FormProps = {
     oppgave: Oppgave;
     diagnosekoder: Diagnosekoder;
     enhet: string | null | undefined;
+    isFerdigstilt: boolean;
 };
 
-const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
+const Form = ({ oppgave, diagnosekoder, enhet, isFerdigstilt }: FormProps) => {
     const errorSummaryRef = useRef<HTMLDivElement>(null);
     const [isComplete, setIsComplete] = useState<boolean>(false);
 
@@ -67,12 +69,14 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
         <section className="form">
             <form autoComplete="off">
                 <Panel ariaLabel="skjemapanel">
-                    <FormHeader />
+                    {isFerdigstilt ? <FormHeaderFerdigstilt /> : <FormHeader />}
+
                     <PasientopplysningerSection
                         section={sections.PASIENTOPPLYSNINGER}
                         setFormState={setFormState}
                         errors={errors}
                         formState={formState}
+                        isFerdigstilt={isFerdigstilt}
                     />
                     <ArbeidsgiverSection
                         section={sections.ARBEIDSGIVER}
@@ -130,9 +134,15 @@ const Form = ({ oppgave, diagnosekoder, enhet }: FormProps) => {
                     enhet={enhet}
                     handleSubmit={handleSubmit}
                     setIsComplete={setIsComplete}
+                    isFerdigstilt={isFerdigstilt}
                 />
             </form>
-            <FormReject enhet={enhet} oppgaveid={oppgave.oppgaveid} setIsComplete={setIsComplete} />
+            <FormReject
+                enhet={enhet}
+                oppgaveid={oppgave.oppgaveid}
+                setIsComplete={setIsComplete}
+                isFerdigstilt={isFerdigstilt}
+            />
         </section>
     );
 };
