@@ -195,6 +195,7 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormReje
                         <option value="Pasienten er over 70 år">Pasienten er over 70 år</option>
                         <option value="Sykmeldingen mangler sider">Sykmeldingen mangler sider</option>
                         <option value="Skjema er ikke mulig å tolke/lese">Skjema er ikke mulig å tolke/lese</option>
+                        <option value="Dato for behandling mangler">Dato for behandling mangler</option>
                     </Select>
                     <Fareknapp
                         htmlType="submit"
