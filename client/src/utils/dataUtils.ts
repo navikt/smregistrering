@@ -25,7 +25,7 @@ export const getDiagnosekoder = async (): Promise<Diagnosekoder> => {
     }
 };
 
-export type OppgaveResult = { type: 'Oppgave' | 'FerdigstiltOppgave'; oppgave: Oppgave };
+export type OppgaveResult = { type: 'Oppgave' | 'FerdigstiltOppgave'; oppgave: Oppgave; sykmeldingId: string | null };
 
 export const getOppgave = async (): Promise<OppgaveResult> => {
     const id = getIdFromSearchParams();
@@ -33,12 +33,12 @@ export const getOppgave = async (): Promise<OppgaveResult> => {
         const oppgaveId = id.oppgaveId;
         let url = `backend/api/v1/oppgave/${oppgaveId}`;
         const oppgave = await fetchOppgave(url);
-        return { type: 'Oppgave', oppgave };
+        return { type: 'Oppgave', oppgave, sykmeldingId: null };
     } else {
         const sykmeldingId = id.sykmeldingId;
         let url = `backend/api/v1/sykmelding/${sykmeldingId}/ferdigstilt`;
         const oppgave = await fetchOppgave(url);
-        return { type: 'FerdigstiltOppgave', oppgave };
+        return { type: 'FerdigstiltOppgave', oppgave, sykmeldingId };
     }
 };
 

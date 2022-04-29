@@ -16,11 +16,9 @@ export async function postRegistrertSykmelding(
     enhet: string,
     sykmelding: RegistrertSykmelding,
     isFerdigstilt: boolean,
+    sykmeldingId: string | null,
 ): Promise<void> {
-    const url = isFerdigstilt
-        ? `backend/api/v1/oppgave/${oppgaveid}/endre`
-        : `backend/api/v1/oppgave/${oppgaveid}/send`;
-    const res = await fetch(url, {
+    const res = await fetch(getUrl(isFerdigstilt, oppgaveid, sykmeldingId), {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
@@ -54,4 +52,14 @@ export async function postRegistrertSykmelding(
         );
         throw new Error('Det oppsto dessverre en feil i baksystemet. Vennligst prøv igjen senere');
     }
+}
+
+function getUrl(isFerdigstilt: boolean, oppgaveId: number, sykmeldingId: string | null) {
+    if (isFerdigstilt) {
+        return sykmeldingId != null
+            ? `backend/api/v1/sykmelding/${sykmeldingId}`
+            : `backend/api/v1/oppgave/${oppgaveId}/endre`;
+    }
+
+    return `backend/api/v1/oppgave/${oppgaveId}/send`;
 }

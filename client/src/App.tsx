@@ -22,6 +22,7 @@ const App = ({ enhet, height }: AppProps) => {
     const [error, setError] = useState<Error | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isFerdigstilt, setIsFerdigstilt] = useState<boolean>(false);
+    const [sykmeldingId, setSykmeldingId] = useState<string | null>(null);
 
     useEffect(() => {
         setIsLoading(true);
@@ -35,6 +36,7 @@ const App = ({ enhet, height }: AppProps) => {
                 setDiagnosekoder(_diagnosekoder);
                 setOppgave(oppgaveResult.oppgave);
                 setIsFerdigstilt(oppgaveResult.type === 'FerdigstiltOppgave');
+                setSykmeldingId(oppgaveResult.sykmeldingId);
             } catch (error: any) {
                 logger.error(error);
                 setError(error);
@@ -72,7 +74,13 @@ const App = ({ enhet, height }: AppProps) => {
 
     return (
         <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height}px)` }}>
-            <Form oppgave={oppgave} diagnosekoder={diagnosekoder} enhet={enhet} isFerdigstilt={isFerdigstilt} />
+            <Form
+                oppgave={oppgave}
+                diagnosekoder={diagnosekoder}
+                enhet={enhet}
+                isFerdigstilt={isFerdigstilt}
+                sykmeldingId={sykmeldingId}
+            />
             <Pdf pdf={oppgave.pdfPapirSykmelding} />
         </main>
     );

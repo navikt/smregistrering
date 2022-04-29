@@ -51,9 +51,10 @@ type FormProps = {
     diagnosekoder: Diagnosekoder;
     enhet: string | null | undefined;
     isFerdigstilt: boolean;
+    sykmeldingId: string | null;
 };
 
-const Form = ({ oppgave, diagnosekoder, enhet, isFerdigstilt }: FormProps) => {
+const Form = ({ oppgave, diagnosekoder, enhet, isFerdigstilt, sykmeldingId }: FormProps) => {
     const errorSummaryRef = useRef<HTMLDivElement>(null);
     const [isComplete, setIsComplete] = useState<boolean>(false);
 
@@ -135,6 +136,7 @@ const Form = ({ oppgave, diagnosekoder, enhet, isFerdigstilt }: FormProps) => {
                     handleSubmit={handleSubmit}
                     setIsComplete={setIsComplete}
                     isFerdigstilt={isFerdigstilt}
+                    sykmeldingId={sykmeldingId}
                 />
             </form>
             <FormReject
