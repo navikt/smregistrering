@@ -38,7 +38,7 @@ Vil laste miljøvariabler fra `/server/.env.development`
 Bruker React Testing Library for
 
 ```bash
-$ npm test
+$ yarn test
 ```
 
 ## Testing av tjenesteflyt i testmiljø
