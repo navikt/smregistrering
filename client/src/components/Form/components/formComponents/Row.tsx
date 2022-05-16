@@ -1,5 +1,3 @@
-import './Rows.css';
-
 import React from 'react';
 
 type RowElementProps = {

@@ -1,5 +1,3 @@
-import './MulighetForArbeidSection.css';
-
 import React from 'react';
 import { Element } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';

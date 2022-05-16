@@ -1,5 +1,3 @@
-import './Pdf.css';
-
 import React from 'react';
 
 interface PdfProps {

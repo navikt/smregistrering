@@ -1,7 +1,5 @@
 import 'nav-frontend-tabell-style';
 
-import './SykmelderInformation.css';
-
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import React from 'react';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';

@@ -1,6 +1,3 @@
-import './Flatpickr.css';
-import './datepicker-extended.css';
-
 import Flatpickr from 'react-flatpickr';
 import React from 'react';
 import dayjs from 'dayjs';

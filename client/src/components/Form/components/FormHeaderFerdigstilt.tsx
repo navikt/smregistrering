@@ -1,5 +1,3 @@
-import './FormHeader.css';
-
 import React from 'react';
 import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 

@@ -1,5 +1,3 @@
-import './Panel.css';
-
 import React from 'react';
 
 type PanelProps = {

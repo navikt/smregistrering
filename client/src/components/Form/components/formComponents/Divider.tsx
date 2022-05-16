@@ -1,5 +1,3 @@
-import './Divider.css';
-
 import React from 'react';
 
 const Divider = () => {

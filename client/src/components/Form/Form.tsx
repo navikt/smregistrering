@@ -1,6 +1,3 @@
-import './Form.css';
-import './components/formComponents/Flatpickr.css';
-
 import React, { useRef, useState } from 'react';
 
 import Panel from '../Panel/Panel';

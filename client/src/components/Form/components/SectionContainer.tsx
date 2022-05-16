@@ -1,5 +1,3 @@
-import './SectionContainer.css';
-
 import React from 'react';
 
 import { Section } from '../../../types/Section';

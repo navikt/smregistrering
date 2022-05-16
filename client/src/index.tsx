@@ -3,6 +3,27 @@ import 'react-app-polyfill/stable';
 import 'dayjs/locale/nb';
 
 import './index.css';
+import './App.css';
+import './components/Panel/Panel.css';
+import './components/Form/Form.css';
+import './components/Form/components/FormHeader.css';
+import './components/Form/components/FormErrorSummary.css';
+import './components/Form/components/SectionContainer.css';
+import './components/Form/components/FormSubmit.css';
+import './components/Form/components/FormReject.css';
+import './components/Form/components/formComponents/Subsection.css';
+import './components/Form/components/formComponents/datepicker-extended.css';
+import './components/Form/components/formComponents/SearchableInput.css';
+import './components/Form/components/formComponents/Divider.css';
+import './components/Form/components/formComponents/SykmelderInformation.css';
+import './components/Form/components/formComponents/Flatpickr.css';
+import './components/Form/components/formComponents/ClearButton.css';
+import './components/Form/components/formComponents/Rows.css';
+import './components/Form/components/formComponents/FormLabel.css';
+import './components/Form/components/SectionHeader.css';
+import './components/Form/components/formSections/DiagnoseSection/BidiagnoseRow.css';
+import './components/Form/components/formSections/MulighetForArbeidSection/MulighetForArbeidSection.css';
+import './components/Pdf/Pdf.css';
 
 import * as Sentry from '@sentry/react';
 import NAVSPA from '@navikt/navspa';

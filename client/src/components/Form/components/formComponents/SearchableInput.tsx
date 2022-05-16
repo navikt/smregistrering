@@ -1,5 +1,3 @@
-import './SearchableInput.css';
-
 import React from 'react';
 import Select, { MenuListComponentProps, StylesConfig, ValueType, createFilter } from 'react-select';
 import { FixedSizeList } from 'react-window';

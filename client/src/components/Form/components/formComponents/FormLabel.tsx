@@ -1,5 +1,3 @@
-import './FormLabel.css';
-
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 
 interface FormLabelProps {

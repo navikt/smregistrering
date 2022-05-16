@@ -1,5 +1,3 @@
-import './SectionHeader.css';
-
 import React from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 

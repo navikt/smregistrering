@@ -1,5 +1,3 @@
-import './Subsection.css';
-
 import React from 'react';
 
 import Divider from './Divider';

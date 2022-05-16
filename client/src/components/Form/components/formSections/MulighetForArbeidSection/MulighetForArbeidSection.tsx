@@ -1,5 +1,3 @@
-import './MulighetForArbeidSection.css';
-
 import React, { useEffect } from 'react';
 import { Element } from 'nav-frontend-typografi';
 import { FeiloppsummeringFeil, Select } from 'nav-frontend-skjema';

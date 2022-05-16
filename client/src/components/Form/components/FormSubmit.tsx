@@ -1,5 +1,3 @@
-import './FormSubmit.css';
-
 import Modal from 'nav-frontend-modal';
 import React, { useEffect, useState } from 'react';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';

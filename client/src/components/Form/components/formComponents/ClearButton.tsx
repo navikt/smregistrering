@@ -1,5 +1,3 @@
-import './ClearButton.css';
-
 import React from 'react';
 
 type ClearButtonProps = {

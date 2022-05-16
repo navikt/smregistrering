@@ -1,5 +1,3 @@
-import './FormReject.css';
-
 import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
 import { AlertStripeInfo, AlertStripeFeil, AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
