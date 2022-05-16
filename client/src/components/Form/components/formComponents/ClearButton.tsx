@@ -1,4 +1,4 @@
-import './ClearButton.less';
+import './ClearButton.css';
 
 import React from 'react';
 

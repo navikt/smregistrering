@@ -1,4 +1,4 @@
-import './FormLabel.less';
+import './FormLabel.css';
 
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 

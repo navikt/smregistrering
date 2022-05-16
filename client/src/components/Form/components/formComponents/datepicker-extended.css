@@ -1,9 +1,6 @@
-@import '~nav-frontend-core/less/_variabler.less';
-
 .flatpickr-input--feil {
-    border: 2px solid @redError !important;
+    border: 2px solid #ba3a26 !important;
 }
-
 .flatpickr-input {
     padding: 0.5rem;
     background-color: #fff;
@@ -13,7 +10,6 @@
     line-height: 1.375rem;
     width: 15rem;
 }
-
 .flatpickr-icon {
     border-left: 1px solid black;
     width: 30px;
@@ -23,12 +19,10 @@
     z-index: 2;
     pointer-events: none;
 }
-
 .flatpickr-container {
     display: flex;
     margin-bottom: 1.5rem;
 }
-
 .rangepicker-label,
 .datepicker-label {
     display: flex;
@@ -39,7 +33,6 @@
     line-height: 1.4;
     margin-bottom: 0.5rem;
 }
-
 .rangepicker-to {
     margin-left: 18px;
 }

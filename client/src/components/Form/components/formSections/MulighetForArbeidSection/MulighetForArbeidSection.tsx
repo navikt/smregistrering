@@ -1,4 +1,4 @@
-import './MulighetForArbeidSection.less';
+import './MulighetForArbeidSection.css';
 
 import React, { useEffect } from 'react';
 import { Element } from 'nav-frontend-typografi';

@@ -1,9 +1,6 @@
-@import '../../App.less';
-
 .pdf-container {
-    width: @pdf-width;
+    width: 60%;
 }
-
 .pdf {
     width: 100%;
     height: 100%;

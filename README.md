@@ -44,3 +44,8 @@ $ yarn test
 ## Testing av tjenesteflyt i testmiljø
 
 Applikasjonen er tilgjengelig i testmiljø på https://smregistrering.dev.adeo.no/?oppgaveid={oppgaveid} lokalt via `naisdevice` eller via utviklerimage. `oppgaveid` referer til oppgaven som opprettes i `smregistrering-backend` og lagres i tilhørende database.
+
+## Slagplan
+
+-   less ut
+-

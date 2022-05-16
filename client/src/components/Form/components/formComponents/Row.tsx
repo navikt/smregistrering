@@ -1,4 +1,4 @@
-import './Rows.less';
+import './Rows.css';
 
 import React from 'react';
 

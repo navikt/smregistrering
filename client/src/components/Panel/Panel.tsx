@@ -1,4 +1,4 @@
-import './Panel.less';
+import './Panel.css';
 
 import React from 'react';
 

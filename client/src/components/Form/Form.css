@@ -1,16 +1,10 @@
-@import '../../App.less';
-
-@formMarginBottom: 2rem;
-
 .form {
     flex-grow: 1;
     overflow: auto;
 }
-
 .form-margin-bottom {
-    margin-bottom: @formMarginBottom;
+    margin-bottom: 2rem;
 }
-
 .half {
     width: 50%;
     padding-right: 0.5rem;

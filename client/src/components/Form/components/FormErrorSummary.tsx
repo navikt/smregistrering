@@ -1,4 +1,4 @@
-import './FormErrorSummary.less';
+import './FormErrorSummary.css';
 
 import { Feiloppsummering, FeiloppsummeringFeil } from 'nav-frontend-skjema';
 import { RefObject } from 'react';

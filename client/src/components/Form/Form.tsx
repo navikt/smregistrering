@@ -1,5 +1,5 @@
-import './Form.less';
-import './components/formComponents/Flatpickr.less';
+import './Form.css';
+import './components/formComponents/Flatpickr.css';
 
 import React, { useRef, useState } from 'react';
 

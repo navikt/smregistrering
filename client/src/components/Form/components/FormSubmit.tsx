@@ -1,4 +1,4 @@
-import './FormSubmit.less';
+import './FormSubmit.css';
 
 import Modal from 'nav-frontend-modal';
 import React, { useEffect, useState } from 'react';

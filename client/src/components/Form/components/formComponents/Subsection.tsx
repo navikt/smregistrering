@@ -1,4 +1,4 @@
-import './Subsection.less';
+import './Subsection.css';
 
 import React from 'react';
 

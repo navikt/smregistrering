@@ -1,4 +1,4 @@
-import './SectionContainer.less';
+import './SectionContainer.css';
 
 import React from 'react';
 

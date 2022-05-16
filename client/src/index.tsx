@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import 'dayjs/locale/nb';
 
-import './index.less';
+import './index.css';
 
 import * as Sentry from '@sentry/react';
 import NAVSPA from '@navikt/navspa';

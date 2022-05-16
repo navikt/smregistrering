@@ -1,6 +1,6 @@
 import 'nav-frontend-tabell-style';
 
-import './SykmelderInformation.less';
+import './SykmelderInformation.css';
 
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import React from 'react';

@@ -1,4 +1,4 @@
-import './SearchableInput.less';
+import './SearchableInput.css';
 
 import React from 'react';
 import Select, { MenuListComponentProps, StylesConfig, ValueType, createFilter } from 'react-select';

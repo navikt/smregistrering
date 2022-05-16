@@ -1,4 +1,4 @@
-import './MulighetForArbeidSection.less';
+import './MulighetForArbeidSection.css';
 
 import React from 'react';
 import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';

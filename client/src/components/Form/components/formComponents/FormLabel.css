@@ -2,8 +2,7 @@
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
-
-    .form-label__help-text {
-        margin-left: 0.5rem;
-    }
+}
+.form-label .form-label__help-text {
+    margin-left: 0.5rem;
 }

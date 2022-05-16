@@ -1,0 +1,9 @@
+@import '~nav-frontend-core/dist/main.css';
+
+section {
+    scroll-behavior: smooth !important;
+}
+body {
+    padding: 0;
+    margin: 0;
+}

@@ -1,4 +1,4 @@
-import './BidiagnoseRow.less';
+import './BidiagnoseRow.css';
 
 import React from 'react';
 import { Element, Normaltekst } from 'nav-frontend-typografi';

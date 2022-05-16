@@ -1,4 +1,4 @@
-import './Pdf.less';
+import './Pdf.css';
 
 import React from 'react';
 

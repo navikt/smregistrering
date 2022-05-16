@@ -1,4 +1,4 @@
-import './Divider.less';
+import './Divider.css';
 
 import React from 'react';
 

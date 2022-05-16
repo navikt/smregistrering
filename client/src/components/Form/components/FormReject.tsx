@@ -1,4 +1,4 @@
-import './FormReject.less';
+import './FormReject.css';
 
 import Modal from 'nav-frontend-modal';
 import React, { useState } from 'react';
