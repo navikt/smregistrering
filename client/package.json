@@ -12,7 +12,6 @@
         "@sentry/react": "^6.17.9",
         "@types/react-modal": "^3.13.1",
         "classnames": "^2.3.1",
-        "craco-less": "^1.20.0",
         "dayjs": "^1.10.7",
         "flatpickr": "^4.6.9",
         "lodash.throttle": "^4.1.1",
@@ -23,8 +22,8 @@
         "nav-frontend-core": "^6.0.1",
         "nav-frontend-ekspanderbartpanel": "^4.0.3",
         "nav-frontend-ekspanderbartpanel-style": "^2.0.1",
-        "nav-frontend-etiketter": "^3.0.1",
-        "nav-frontend-etiketter-style": "^2.0.1",
+        "nav-frontend-etiketter": "^3.0.2",
+        "nav-frontend-etiketter-style": "2.0.2",
         "nav-frontend-hjelpetekst": "^3.1.2",
         "nav-frontend-hjelpetekst-style": "^3.0.1",
         "nav-frontend-ikoner-assets": "^3.0.1",
@@ -61,7 +60,6 @@
         "zod": "^3.11.6"
     },
     "devDependencies": {
-        "@craco/craco": "^6.4.3",
         "@navikt/fnrvalidator": "^1.2.0",
         "@testing-library/jest-dom": "^5.16.2",
         "@testing-library/react": "^10.4.9",
@@ -85,9 +83,9 @@
         "yet-another-fetch-mock": "^3.4.0"
     },
     "scripts": {
-        "build": "craco build",
-        "start": "craco start",
-        "test": "craco test",
+        "build": "react-scripts build",
+        "start": "react-scripts start",
+        "test": "react-scripts test",
         "tsc": "tsc",
         "lint": "eslint 'src/**/**.{ts,tsx,js,jsx}'",
         "format": "prettier --write 'src/**/**.{ts,tsx,js,jsx,less}'"

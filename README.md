@@ -47,5 +47,10 @@ Applikasjonen er tilgjengelig i testmiljø på https://smregistrering.dev.adeo.n
 
 ## Slagplan
 
--   less ut
--
+-   less
+    -   (reference)
+    -   lessc
+    -   rename imports
+    -   ikke glem å importe nav-frontend-core/dist/main.css!
+-   hoist css imports
+-   remove craco
