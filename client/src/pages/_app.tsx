@@ -1,8 +1,12 @@
 /* eslint-disable postcss-modules/no-unused-class */
 
-import { AppProps } from 'next/app';
+import { PropsWithChildren, useEffect } from 'react';
+import { AppProps as NextAppProps } from 'next/app';
 import Modal from 'nav-frontend-modal';
-import { useEffect, useState } from 'react';
+
+import ModiaHeader from '../components/ModiaHeader/ModiaHeader';
+import { ModiaContext } from '../services/modiaService';
+import StoreProvider from '../store';
 
 import '../style/index.css';
 import '../style/App.css';
@@ -26,10 +30,12 @@ import '../components/Form/components/SectionHeader.css';
 import '../components/Form/components/formSections/DiagnoseSection/BidiagnoseRow.css';
 import '../components/Form/components/formSections/MulighetForArbeidSection/MulighetForArbeidSection.css';
 import '../components/Pdf/Pdf.css';
-import ModiaHeader from '../components/ModiaHeader/ModiaHeader';
-import { ModiaContext } from '../services/modiaService';
 
-if (process.env.NEXT_PUBLIC_START_WITH_MOCK === 'true' && typeof window !== 'undefined') {
+if (
+    process.env.NODE_ENV !== 'production' &&
+    process.env.NEXT_PUBLIC_START_WITH_MOCK === 'true' &&
+    typeof window !== 'undefined'
+) {
     require('../mock/setup');
 }
 
@@ -38,25 +44,23 @@ export interface AppPageProps {
 }
 
 export interface PageSsrResult {
-    modiaContext: ModiaContext;
+    modiaContext?: ModiaContext;
+}
+
+export interface AppProps<T> extends Omit<NextAppProps<T>, 'pageProps'> {
+    pageProps: PropsWithChildren<unknown> & Partial<PageSsrResult>;
 }
 
 function MyApp({ Component, pageProps }: AppProps<PageSsrResult>): JSX.Element {
-    const [aktivEnhet, setAktivEnhet] = useState(pageProps.modiaContext.aktivEnhet);
-
     useEffect(() => {
         Modal.setAppElement('#__next');
     }, []);
 
     return (
-        <div>
-            <ModiaHeader
-                modiaContext={pageProps.modiaContext}
-                aktivEnhet={aktivEnhet}
-                onAktivEnhetChange={(enhet) => setAktivEnhet(enhet)}
-            />
-            <Component {...pageProps} aktivEnhet={aktivEnhet} />
-        </div>
+        <StoreProvider modiaContext={pageProps.modiaContext}>
+            <ModiaHeader modiaContext={pageProps.modiaContext} />
+            <Component {...pageProps} />
+        </StoreProvider>
     );
 }
 

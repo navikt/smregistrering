@@ -1,3 +1,5 @@
+import { IncomingMessage } from 'http';
+
 import { z } from 'zod';
 
 import logger from '../utils/logger';
@@ -9,7 +11,7 @@ export interface ModiaContext {
     enheter: { enhetId: string; navn: string }[];
 }
 
-export async function getModiaContext(userAccessToken: string): Promise<ModiaContext> {
+export async function getModiaContext(req: IncomingMessage): Promise<ModiaContext> {
     if (isLocalOrDemo) {
         logger.warn('Using mocked modia context for local development (or demo)');
         return {
@@ -23,28 +25,29 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
         };
     }
 
-    // TODO get da modia
-    return {} as any;
+    const veileder = await getVeileder(req);
+    const aktivEnhet = await getAktivEnhet(req);
 
-    /*
     return {
         aktivEnhet: aktivEnhet.aktivEnhet,
         navn: veileder.navn,
         ident: veileder.ident,
         enheter: veileder.enheter,
     };
-*/
 }
 
-async function getVeileder(accessToken: string, modiaContextAccessToken: string): Promise<Veileder> {
-    const url = `${process.env['MODIA_CONTEXT_URL']}/modiacontextholder/api/decorator/v2`;
-
-    const response = await fetch(url, {
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Cookie: `isso-accesstoken=${modiaContextAccessToken}`,
-        },
+function reqToFetchHeaders(req: IncomingMessage) {
+    const headers = new Headers();
+    Object.entries(req.headers).forEach(([name, value]) => {
+        if (value) headers.append(name, Array.isArray(value) ? value.join(', ') : value);
     });
+    return headers;
+}
+
+async function getVeileder(req: IncomingMessage): Promise<Veileder> {
+    const url = `${process.env['MODIACONTEXTHOLDER_PATH']}/decorator/v2`;
+
+    const response = await fetch(url, { headers: reqToFetchHeaders(req) });
 
     if (!response.ok) {
         const errorMessage = `Modia context responded with ${response.status} ${
@@ -65,15 +68,10 @@ async function getVeileder(accessToken: string, modiaContextAccessToken: string)
     }
 }
 
-async function getAktivEnhet(userAccessToken: string, modiaContextAccessToken: string): Promise<AktivEnhet> {
-    const url = `${process.env['MODIA_CONTEXT_URL']}/modiacontextholder/api/context/aktivenhet`;
+async function getAktivEnhet(req: IncomingMessage): Promise<AktivEnhet> {
+    const url = `${process.env['MODIACONTEXTHOLDER_PATH']}/context/aktivenhet`;
 
-    const response = await fetch(url, {
-        headers: {
-            Authorization: `Bearer ${userAccessToken}`,
-            Cookie: `isso-accesstoken=${modiaContextAccessToken}`,
-        },
-    });
+    const response = await fetch(url, { headers: reqToFetchHeaders(req) });
 
     if (!response.ok) {
         throw new Error(`Modia aktiv enhet responded with ${response.status} ${response.statusText}`);

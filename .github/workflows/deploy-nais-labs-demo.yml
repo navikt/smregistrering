@@ -30,8 +30,9 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install dependencies
-        run: |
-          yarn
+        run: yarn --imutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run tests for server
         run: |
           yarn test

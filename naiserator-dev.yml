@@ -1,25 +1,25 @@
-apiVersion: "nais.io/v1alpha1"
-kind: "Application"
+apiVersion: 'nais.io/v1alpha1'
+kind: 'Application'
 metadata:
   name: smregistrering
   namespace: teamsykmelding
   labels:
     team: teamsykmelding
 spec:
-  image: {{ image }}
+  image: {{image}}
   replicas:
     min: 1
     max: 2
     cpuThresholdPercentage: 90
   port: 3000
   liveness:
-    path: /is_alive
+    path: /internal/is_alive
     initialDelay: 10
     timeout: 5
     periodSeconds: 5
     failureThreshold: 30
   readiness:
-    path: /is_ready
+    path: /internal/is_ready
     initialDelay: 30
     periodSeconds: 5
     timeout: 5
@@ -45,7 +45,7 @@ spec:
   envFrom:
     - secret: smregistrering-redis-password
   ingresses:
-    - "https://smregistrering.dev.adeo.no"
+    - 'https://smregistrering.dev.adeo.no'
   env:
     - name: HOST
       value: https://smregistrering.dev.adeo.no

@@ -30,8 +30,6 @@ const mock = FetchMock.configure({
 // dekki
 mock.get('/modiacontextholder/api/decorator', decorator);
 mock.get('/modiacontextholder/api/context/aktivenhet', aktivenhet);
-
-// todo yeet??
 mock.delete('/modiacontextholder/api/context/aktivbruker', () => Promise.resolve({ status: 200 }));
 
 mock.get('backend/api/v1/oppgave/:oppgaveid', oppgave);

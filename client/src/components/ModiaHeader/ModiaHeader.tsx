@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Select } from 'nav-frontend-skjema';
 import Image from 'next/image';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 
+// import { ModiaContext, ModiaContextError } from '../../services/modiaService';
+// import { StoreContext } from '../../data/store';
+
 import { ModiaContext } from '../../services/modiaService';
+import { StoreContext } from '../../store';
 
 import styles from './ModiaHeader.module.css';
 import navLogo from './nav-logo.svg';
 
 interface Props {
-    modiaContext: ModiaContext;
-    aktivEnhet: string;
-    onAktivEnhetChange: (enhet: string) => void;
+    modiaContext: ModiaContext | undefined;
 }
 
-function ModiaHeader({ modiaContext, aktivEnhet, onAktivEnhetChange }: Props): JSX.Element {
+function ModiaHeader({ modiaContext }: Props): JSX.Element {
+    const { aktivEnhet, setAktivEnhet } = useContext(StoreContext);
+
     return (
         <header className={styles.root}>
             <div className={styles.titleWrapper}>
@@ -27,7 +31,7 @@ function ModiaHeader({ modiaContext, aktivEnhet, onAktivEnhetChange }: Props): J
                         <Select
                             value={aktivEnhet}
                             onChange={(event) => {
-                                onAktivEnhetChange(event.target.value);
+                                setAktivEnhet(event.target.value);
                             }}
                         >
                             {modiaContext.enheter.map((it) => (
@@ -43,7 +47,7 @@ function ModiaHeader({ modiaContext, aktivEnhet, onAktivEnhetChange }: Props): J
                     <div>{modiaContext.navn}</div>
                 </div>
             )}
-            {modiaContext && 'errorType' in modiaContext && <Undertittel>⚠ Feil ved lasting av enheter</Undertittel>}
+            {!modiaContext && <Undertittel>⚠ Feil ved lasting av enheter</Undertittel>}
         </header>
     );
 }

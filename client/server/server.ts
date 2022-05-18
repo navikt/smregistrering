@@ -1,40 +1,40 @@
-import path from 'path';
-
 import express from 'express';
-import helmet from 'helmet';
+import next from 'next';
 import passport from 'passport';
+import helmet from 'helmet';
 import { z } from 'zod';
+import { loadConfig, setupCors, session, azure, routes } from 'smregistrering-server';
 
-import azure from './auth/azure';
-import loadConfig from './config';
-import logger from './logging';
-import * as routes from './routes/routes';
-import session from './session';
-import setupCors from './cors';
+import logger from '../src/utils/logger';
 
-// for demo app running on nais labs
-function startDemoApp() {
+const port = parseInt(process.env.PORT ?? '3000', 10) || 3000;
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
+
+app.prepare().then(async () => {
     const server = express();
 
     // Nais routes
-    server.get('/is_alive', (_req, res) => res.send('Alive'));
-    server.get('/is_ready', (_req, res) => res.send('Ready'));
+    server.get('/internal/is_alive', (_req, res) => res.send('Alive'));
+    server.get('/internal/is_ready', (_req, res) => res.send('Ready'));
 
-    // Static content
-    // server.use('/', express.static(path.join(__dirname, './build')));
-    // server.use('*', (_req, res) => {
-    //     res.sendFile('index.html', { root: path.join(__dirname, './build') });
-    // });
+    if (process.env.NODE_ENV === 'production' && process.env.IS_NAIS_LABS_DEMO !== 'true') {
+        await setupApp(server);
+    }
 
-    // start server
-    const PORT = process.env.PORT || 3000;
-    server.listen(PORT, () => logger.info(`Server listening on port ${PORT}`));
-}
+    server.all('*', (req, res) => {
+        return handle(req, res);
+    });
 
-async function startApp() {
+    server.listen(port, () => {
+        console.log(`> Ready on http://localhost:${port}`);
+    });
+});
+
+async function setupApp(server: express.Express) {
     try {
         const config = loadConfig();
-        const server = express();
 
         // parse http body as json an attach to req object
         server.use(express.json());
@@ -83,10 +83,4 @@ async function startApp() {
             logger.error(error);
         }
     }
-}
-
-if (process.env.IS_NAIS_LABS_DEMO === 'true') {
-    startDemoApp();
-} else {
-    startApp();
 }

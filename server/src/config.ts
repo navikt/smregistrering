@@ -8,12 +8,6 @@ import {
     RedisSchema,
     ApiReverseProxySchema,
 } from './types/Config';
-import logger from './logging';
-
-if (process.env.NODE_ENV === 'development') {
-    logger.info('Loading environmentvariables from .env file');
-    require('dotenv/config');
-}
 
 export interface Config {
     server: Server;

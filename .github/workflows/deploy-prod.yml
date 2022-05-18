@@ -63,7 +63,9 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install deps
-        run: yarn
+        run: yarn --immutable
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run unit tests for client
         run: yarn test
         working-directory: ./client

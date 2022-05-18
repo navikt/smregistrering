@@ -13,7 +13,7 @@ export const StoreContext = createContext<Store>({
 });
 
 type StoreProviderProps = {
-    modiaContext: ModiaContext;
+    modiaContext?: ModiaContext;
 };
 
 const StoreProvider = ({ children, modiaContext }: PropsWithChildren<StoreProviderProps>): JSX.Element => {
@@ -30,8 +30,8 @@ const StoreProvider = ({ children, modiaContext }: PropsWithChildren<StoreProvid
     );
 };
 
-function getDefaultSelectValue(modiaContext: ModiaContext): string | null {
-    if (!modiaContext || 'errorType' in modiaContext) {
+function getDefaultSelectValue(modiaContext: ModiaContext | undefined): string | null {
+    if (!modiaContext) {
         return null;
     }
 

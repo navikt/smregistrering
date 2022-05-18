@@ -7,6 +7,7 @@
         "server"
     ],
     "devDependencies": {
+        "eslint": "^8.15.0",
         "husky": "^7.0.4",
         "lint-staged": "^12.3.4",
         "prettier": "^2.5.1"
@@ -16,5 +17,8 @@
         "build": "yarn workspaces foreach run build",
         "format": "prettier --write '{client,server}/**/**.{ts,tsx,js,jsx}'",
         "postinstall": "husky install && ./scripts/strip-less"
+    },
+    "resolutions": {
+        "nav-frontend-alertstriper@4.0.1": "patch:nav-frontend-alertstriper@npm:4.0.1#.yarn/patches/nav-frontend-alertstriper-npm-4.0.1-70cf0a894e.patch"
     }
 }

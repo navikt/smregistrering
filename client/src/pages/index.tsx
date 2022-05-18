@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
 
 import ErrorView from '../components/ErrorView';
@@ -10,10 +10,13 @@ import { Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 import { Oppgave } from '../types/oppgave/Oppgave';
 import { getDiagnosekoder, getOppgave } from '../utils/dataUtils';
 import { getModiaContext } from '../services/modiaService';
+import { StoreContext } from '../store';
 
-import { AppPageProps, PageSsrResult } from './_app';
+import { PageSsrResult } from './_app';
 
-const Index = ({ aktivEnhet }: AppPageProps) => {
+const Index = () => {
+    const { aktivEnhet } = useContext(StoreContext);
+
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
@@ -83,8 +86,8 @@ const Index = ({ aktivEnhet }: AppPageProps) => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps<PageSsrResult> = async () => {
-    const modiaContext = await getModiaContext('TODO');
+export const getServerSideProps: GetServerSideProps<PageSsrResult> = async ({ req }) => {
+    const modiaContext = await getModiaContext(req);
 
     return {
         props: {

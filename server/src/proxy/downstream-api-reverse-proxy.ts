@@ -61,7 +61,7 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
         return proxyResData;
     },
     userResHeaderDecorator: (headers, _userReq, _userRes, proxyReq) => {
-        const authHeader: number | string | string[] = proxyReq.getHeader('Authorization');
+        const authHeader: number | string | string[] | undefined = proxyReq.getHeader('Authorization');
         if (authHeader === undefined) {
             logger.error(`Authorization header is undefined for request to ${proxyReq.path}`);
         } else if ((typeof authHeader === 'string' || typeof authHeader === 'object') && authHeader.length > 0) {

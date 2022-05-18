@@ -1,5 +1,3 @@
-import path from 'path';
-
 import express, { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import { Client } from 'openid-client';
@@ -31,11 +29,6 @@ const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) =>
 };
 
 export function setup(authClient: Client, config: Config): express.Router {
-    // Unprotected routes
-    // Nais routes
-    router.get('/is_alive', (_req, res) => res.send('Alive'));
-    router.get('/is_ready', (_req, res) => res.send('Ready'));
-
     // Login routes
     router.get('/login', passport.authenticate('azureOidc', { failureRedirect: '/login' }));
     router.use('/callback', passport.authenticate('azureOidc', { failureRedirect: '/login' }), (req, res) => {
@@ -51,20 +44,12 @@ export function setup(authClient: Client, config: Config): express.Router {
         }
     });
 
-    // Protected routes from this point
-    // det her må skje i next
     router.use(ensureAuthenticated);
 
     // Proxy for /backend/*
     upstreamApiReverseProxy.setup(router, authClient, config);
     // Proxy for /modiacontextholder/*
     modiacontextholderReverseProxy.setup(router, authClient, config);
-
-    // Static content
-    /*    router.use('/', express.static(path.join(__dirname, './build')));
-    router.use('*', (_req, res) => {
-        res.sendFile('index.html', { root: path.join(__dirname, './build') });
-    });*/
 
     return router;
 }

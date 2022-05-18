@@ -66,8 +66,12 @@ Applikasjonen er tilgjengelig i testmiljø på https://smregistrering.dev.adeo.n
     }, []);
     ```
     -   fiks alle andre feil som måtte dukke opp.
-        -   vi måtte sette opp noe mock-greier i `_app.tsx`
     -   nav.no: SSR the decorator in \_document.tsx
+
+smreg:
+
+-   vi måtte sette opp noe mock-greier i `_app.tsx`
+-   erstatte modia-datahenting i custom header
 
 Til onsdag:
 
