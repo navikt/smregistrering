@@ -52,7 +52,7 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                         locale: flatpickrLocale,
                     }}
                 />
-                <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar} />
+                <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar.src} />
 
                 <ClearButton
                     leftSpacing

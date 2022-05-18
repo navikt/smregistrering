@@ -39,7 +39,7 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
                         locale: flatpickrLocale,
                     }}
                 />
-                <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar} />
+                <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar.src} />
 
                 <ClearButton
                     leftSpacing

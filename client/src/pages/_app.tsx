@@ -2,7 +2,7 @@
 
 import { AppProps } from 'next/app';
 import Modal from 'nav-frontend-modal';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import '../style/index.css';
 import '../style/App.css';
@@ -27,32 +27,37 @@ import '../components/Form/components/formSections/DiagnoseSection/BidiagnoseRow
 import '../components/Form/components/formSections/MulighetForArbeidSection/MulighetForArbeidSection.css';
 import '../components/Pdf/Pdf.css';
 import ModiaHeader from '../components/ModiaHeader/ModiaHeader';
+import { ModiaContext } from '../services/modiaService';
 
 if (process.env.NEXT_PUBLIC_START_WITH_MOCK === 'true' && typeof window !== 'undefined') {
     require('../mock/setup');
 }
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-    // TODO fetch
+export interface AppPageProps {
+    aktivEnhet: string;
+}
+
+export interface PageSsrResult {
+    modiaContext: ModiaContext;
+}
+
+function MyApp({ Component, pageProps }: AppProps<PageSsrResult>): JSX.Element {
+    const [aktivEnhet, setAktivEnhet] = useState(pageProps.modiaContext.aktivEnhet);
 
     useEffect(() => {
         Modal.setAppElement('#__next');
     }, []);
 
     return (
-        <>
-            <ModiaHeader />
-            <Component {...pageProps} />
-        </>
+        <div>
+            <ModiaHeader
+                modiaContext={pageProps.modiaContext}
+                aktivEnhet={aktivEnhet}
+                onAktivEnhetChange={(enhet) => setAktivEnhet(enhet)}
+            />
+            <Component {...pageProps} aktivEnhet={aktivEnhet} />
+        </div>
     );
 }
-
-export const getServerSideProps = () => {
-    // fetch fra nabo
-
-    return {
-        props: {},
-    };
-};
 
 export default MyApp;

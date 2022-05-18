@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { GetServerSideProps } from 'next';
 
 import ErrorView from '../components/ErrorView';
 import Form from '../components/Form/Form';
@@ -8,13 +9,11 @@ import logger from '../utils/logger';
 import { Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 import { Oppgave } from '../types/oppgave/Oppgave';
 import { getDiagnosekoder, getOppgave } from '../utils/dataUtils';
+import { getModiaContext } from '../services/modiaService';
 
-export interface AppProps {
-    height: number;
-    enhet: string | null | undefined;
-}
+import { AppPageProps, PageSsrResult } from './_app';
 
-const Index = ({ enhet, height }: AppProps) => {
+const Index = ({ aktivEnhet }: AppPageProps) => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
@@ -71,17 +70,27 @@ const Index = ({ enhet, height }: AppProps) => {
     }
 
     return (
-        <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height ?? 0}px)` }}>
+        <main className="main-content-container">
             <Form
                 oppgave={oppgave}
                 diagnosekoder={diagnosekoder}
-                enhet={enhet}
+                enhet={aktivEnhet}
                 isFerdigstilt={isFerdigstilt}
                 sykmeldingId={sykmeldingId}
             />
             <Pdf pdf={oppgave.pdfPapirSykmelding} />
         </main>
     );
+};
+
+export const getServerSideProps: GetServerSideProps<PageSsrResult> = async () => {
+    const modiaContext = await getModiaContext('TODO');
+
+    return {
+        props: {
+            modiaContext,
+        },
+    };
 };
 
 export default Index;
