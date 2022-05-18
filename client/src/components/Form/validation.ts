@@ -31,10 +31,10 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         }
         return undefined;
     },
-    arbeidsgiverNavn: (schema) => {
+    arbeidsgiverNavn: () => {
         return undefined;
     },
-    yrkesbetegnelse: (schema) => {
+    yrkesbetegnelse: () => {
         return undefined;
     },
     stillingsprosent: (schema) => {
@@ -161,7 +161,7 @@ export const validationFunctions: ValidationFunctions<FormType> = {
         ) {
             return 'Minst én medisinsk årsak må være valgt når det er medisinske årsaker som hindrer aktivitet';
         }
-        
+
 
         if (
             aktivitetIkkeMuligMFA.some(

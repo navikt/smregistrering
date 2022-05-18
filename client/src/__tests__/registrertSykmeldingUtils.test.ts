@@ -689,7 +689,7 @@ describe('registrertSykmeldingUtils', () => {
                 },
             };
 
-            // @ts-ignore
+            // @ts-expect-error Test data doesn't match
             expect(buildRegistrertSykmelding(schema).data).toEqual(expected);
         });
     });

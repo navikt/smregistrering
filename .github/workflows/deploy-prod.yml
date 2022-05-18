@@ -104,10 +104,10 @@ jobs:
         working-directory: ./server
       - name: Build client
         env:
-          REACT_APP_HEAD_URL: https://app.adeo.no
-          REACT_APP_FRONTEND_LOGGER_URL: https://app.adeo.no/frontendlogger
-          REACT_APP_GOSYS_URL: https://gosys.intern.nav.no/gosys/bruker/brukeroversikt.jsf
-          REACT_APP_ENVIRONMENT: production
+          NEXT_PUBLIC_HEAD_URL: https://app.adeo.no
+          NEXT_PUBLIC_FRONTEND_LOGGER_URL: https://app.adeo.no/frontendlogger
+          NEXT_PUBLIC_GOSYS_URL: https://gosys.intern.nav.no/gosys/bruker/brukeroversikt.jsf
+          NEXT_PUBLIC_ENVIRONMENT: production
         run: yarn build
         working-directory: ./client
       - name: Build and publish Docker image

@@ -62,3 +62,7 @@ typings/
 
 # misc
 dist
+
+# next
+.next
+

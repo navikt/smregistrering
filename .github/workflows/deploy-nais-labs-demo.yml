@@ -46,10 +46,10 @@ jobs:
         working-directory: ./server
       - name: Build client
         env:
-          REACT_APP_START_WITH_MOCK: true
-          REACT_APP_HEAD_URL: https://navikt.github.io
-          REACT_APP_ENVIRONMENT: demo
-          # REACT_APP_FRONTEND_LOGGER_URL: https://app-q1.dev.adeo.no/frontendlogger
+          NEXT_PUBLIC_START_WITH_MOCK: true
+          NEXT_PUBLIC_HEAD_URL: https://navikt.github.io
+          NEXT_PUBLIC_ENVIRONMENT: demo
+          # NEXT_PUBLIC_FRONTEND_LOGGER_URL: https://app-q1.dev.adeo.no/frontendlogger
         run: |
           yarn build
         working-directory: ./client

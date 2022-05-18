@@ -15,7 +15,7 @@ interface MedisinskArsakProps {
     index: number;
 }
 
-const MedisinskArsak = ({ mfaPeriode, updateMfa, errors, index }: MedisinskArsakProps) => {
+const MedisinskArsak = ({ mfaPeriode, updateMfa, index }: MedisinskArsakProps) => {
     const { aktivitetIkkeMuligMedisinskArsakType } = mfaPeriode;
 
     const checkboxes: CheckboksPanelProps[] = getEntries(MedisinskArsakTypeValues).map(([key, value]) => {
@@ -37,7 +37,7 @@ const MedisinskArsak = ({ mfaPeriode, updateMfa, errors, index }: MedisinskArsak
             return;
         }
 
-        const shouldAddArsak: boolean = !aktivitetIkkeMuligMedisinskArsakType?.includes(value);
+        const shouldAddArsak = !aktivitetIkkeMuligMedisinskArsakType?.includes(value);
         const newMedisinskArsakType: MedisinskArsakType[] = shouldAddArsak
             ? [...aktivitetIkkeMuligMedisinskArsakType, value]
             : aktivitetIkkeMuligMedisinskArsakType.filter((arsak) => arsak !== value);

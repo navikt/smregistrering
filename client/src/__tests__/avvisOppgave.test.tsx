@@ -2,7 +2,7 @@ import nock from 'nock';
 import userEvent from '@testing-library/user-event';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
-import App from '../App';
+import Index from '../pages/App';
 import { mockBehandlerinfo, mockLocation, mockPasientinfo } from '../utils/testUtils';
 
 import fullOppgave from './testData/fullOppgave.json';
@@ -22,7 +22,7 @@ describe('Avvis oppgave', () => {
         apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/avvis`).reply(200, 'OK');
         render(
             <div id="root">
-                <App height={700} enhet={'0314'} />
+                <Index height={700} enhet={'0314'} />
             </div>,
         );
 

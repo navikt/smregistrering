@@ -21,10 +21,10 @@ function startDemoApp() {
     server.get('/is_ready', (_req, res) => res.send('Ready'));
 
     // Static content
-    server.use('/', express.static(path.join(__dirname, './build')));
-    server.use('*', (_req, res) => {
-        res.sendFile('index.html', { root: path.join(__dirname, './build') });
-    });
+    // server.use('/', express.static(path.join(__dirname, './build')));
+    // server.use('*', (_req, res) => {
+    //     res.sendFile('index.html', { root: path.join(__dirname, './build') });
+    // });
 
     // start server
     const PORT = process.env.PORT || 3000;

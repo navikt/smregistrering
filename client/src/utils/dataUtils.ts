@@ -31,12 +31,12 @@ export const getOppgave = async (): Promise<OppgaveResult> => {
     const id = getIdFromSearchParams();
     if ('oppgaveId' in id) {
         const oppgaveId = id.oppgaveId;
-        let url = `backend/api/v1/oppgave/${oppgaveId}`;
+        const url = `backend/api/v1/oppgave/${oppgaveId}`;
         const oppgave = await fetchOppgave(url);
         return { type: 'Oppgave', oppgave, sykmeldingId: null };
     } else {
         const sykmeldingId = id.sykmeldingId;
-        let url = `backend/api/v1/sykmelding/${sykmeldingId}/ferdigstilt`;
+        const url = `backend/api/v1/sykmelding/${sykmeldingId}/ferdigstilt`;
         const oppgave = await fetchOppgave(url);
         return { type: 'FerdigstiltOppgave', oppgave, sykmeldingId };
     }

@@ -31,8 +31,6 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormReje
     // Successmodal
     const [successModalContent, setSuccessModalContent] = useState<string | undefined>(undefined);
 
-    Modal.setAppElement('#root');
-
     const revertSykmelding = () => {
         if (!enhet) {
             setRevertError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'));
@@ -130,7 +128,7 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormReje
                     </div>
                 )}
                 <div style={{ marginTop: '2rem' }}>
-                    <Lenke href={process.env.REACT_APP_GOSYS_URL!!}>
+                    <Lenke href={process.env.NEXT_PUBLIC_GOSYS_URL!}>
                         <svg
                             width="1em"
                             height="1em"
@@ -255,7 +253,7 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormReje
                     <Normaltekst style={{ marginBottom: '2rem' }}>{successModalContent}</Normaltekst>
                     <a
                         id="tilbake-til-gosys-lenke"
-                        href={process.env.REACT_APP_GOSYS_URL}
+                        href={process.env.NEXT_PUBLIC_GOSYS_URL}
                         className="knapp knapp__hoved"
                     >
                         Tilbake til GOSYS

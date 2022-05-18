@@ -12,7 +12,7 @@ const ErrorView = ({ error }: { error: Error }) => {
                 <br />
                 <Normaltekst>{error.message}</Normaltekst>
                 <br />
-                <Lenke href={process.env.REACT_APP_GOSYS_URL!}>Tilbake til GOSYS</Lenke>
+                <Lenke href={process.env.NEXT_PUBLIC_GOSYS_URL!}>Tilbake til GOSYS</Lenke>
             </div>
         );
     }

@@ -2,7 +2,7 @@ import nock from 'nock';
 import userEvent from '@testing-library/user-event';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
-import App from '../App';
+import Index from '../pages/App';
 import { mockBehandlerinfo, mockLocation } from '../utils/testUtils';
 
 import nullFnrOppgave from './testData/nullFnrOppgave.json';
@@ -25,7 +25,7 @@ describe('Load pasientinfo', () => {
         });
         render(
             <div id="root">
-                <App height={700} enhet={'0314'} />
+                <Index height={700} enhet={'0314'} />
             </div>,
         );
 
@@ -40,7 +40,7 @@ describe('Load pasientinfo', () => {
         apiNock.get('/backend/api/v1/pasient').reply(500);
         render(
             <div id="root">
-                <App height={700} enhet={'0314'} />
+                <Index height={700} enhet={'0314'} />
             </div>,
         );
 

@@ -12,6 +12,7 @@ const HEIGHT = 35;
 
 const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentProps<OptionObject, false>) => {
     // TODO: Re-write this so it doesn't require ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore Works, but TypeScript doesn't like it
     const [value] = getValue();
     const initialOffset = options.indexOf(value) * HEIGHT;

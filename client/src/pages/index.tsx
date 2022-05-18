@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-import ErrorView from './components/ErrorView';
-import Form from './components/Form/Form';
-import LoadingView from './components/LoadingView';
-import Pdf from './components/Pdf/Pdf';
-import logger from './utils/logger';
-import { Diagnosekoder } from './types/diagnosekoder/Diagnosekoder';
-import { Oppgave } from './types/oppgave/Oppgave';
-import { getDiagnosekoder, getOppgave } from './utils/dataUtils';
+import ErrorView from '../components/ErrorView';
+import Form from '../components/Form/Form';
+import LoadingView from '../components/LoadingView';
+import Pdf from '../components/Pdf/Pdf';
+import logger from '../utils/logger';
+import { Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
+import { Oppgave } from '../types/oppgave/Oppgave';
+import { getDiagnosekoder, getOppgave } from '../utils/dataUtils';
 
 export interface AppProps {
     height: number;
     enhet: string | null | undefined;
 }
 
-const App = ({ enhet, height }: AppProps) => {
+const Index = ({ enhet, height }: AppProps) => {
     const [diagnosekoder, setDiagnosekoder] = useState<Diagnosekoder | undefined>(undefined);
     const [oppgave, setOppgave] = useState<Oppgave | undefined>(undefined);
     const [error, setError] = useState<Error | undefined>(undefined);
@@ -71,7 +71,7 @@ const App = ({ enhet, height }: AppProps) => {
     }
 
     return (
-        <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height}px)` }}>
+        <main className="main-content-container" style={{ maxHeight: `calc(100vh - ${height ?? 0}px)` }}>
             <Form
                 oppgave={oppgave}
                 diagnosekoder={diagnosekoder}
@@ -84,4 +84,4 @@ const App = ({ enhet, height }: AppProps) => {
     );
 };
 
-export default App;
+export default Index;

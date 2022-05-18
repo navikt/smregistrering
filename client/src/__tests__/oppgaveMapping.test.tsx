@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import nock from 'nock';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
-import App from '../App';
+import Index from '../pages/App';
 import {
     ArbeidsrelatertArsakType,
     ArbeidsrelatertArsakTypeValues,
@@ -28,7 +28,7 @@ describe('Mapping opppgave fetched from API', () => {
         apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgave);
         render(
             <div id="root">
-                <App height={700} enhet={'0314'} />
+                <Index height={700} enhet={'0314'} />
             </div>,
         );
 
@@ -202,7 +202,7 @@ describe('Mapping opppgave fetched from API', () => {
         apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, emptyOppgave);
         render(
             <div id="root">
-                <App height={700} enhet={'0314'} />
+                <Index height={700} enhet={'0314'} />
             </div>,
         );
 

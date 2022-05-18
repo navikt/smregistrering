@@ -52,6 +52,7 @@ export function setup(authClient: Client, config: Config): express.Router {
     });
 
     // Protected routes from this point
+    // det her må skje i next
     router.use(ensureAuthenticated);
 
     // Proxy for /backend/*
@@ -60,10 +61,10 @@ export function setup(authClient: Client, config: Config): express.Router {
     modiacontextholderReverseProxy.setup(router, authClient, config);
 
     // Static content
-    router.use('/', express.static(path.join(__dirname, './build')));
+    /*    router.use('/', express.static(path.join(__dirname, './build')));
     router.use('*', (_req, res) => {
         res.sendFile('index.html', { root: path.join(__dirname, './build') });
-    });
+    });*/
 
     return router;
 }

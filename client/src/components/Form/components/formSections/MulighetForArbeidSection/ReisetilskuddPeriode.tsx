@@ -19,7 +19,7 @@ type ReisetilskuddPeriodeProps = {
     index: number;
 };
 
-const ReisetilskuddPeriode = ({ updateMfa, mfaPeriode, errors, index }: ReisetilskuddPeriodeProps) => {
+const ReisetilskuddPeriode = ({ updateMfa, mfaPeriode, index }: ReisetilskuddPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker

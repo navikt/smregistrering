@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 // helper function for infering types with Object.entries
-export const getEntries = <T extends {}>(object: T): Array<[keyof T, T[keyof T]]> =>
+export const getEntries = <T extends Record<string, string>>(object: T): Array<[keyof T, T[keyof T]]> =>
     Object.entries(object) as Array<[keyof T, T[keyof T]]>;
 
 export type ValidationFunctions<T> = { [key in Required<keyof T>]: (value: Partial<T>) => string | undefined };

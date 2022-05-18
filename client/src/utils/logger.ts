@@ -1,54 +1,28 @@
-import * as Sentry from '@sentry/browser';
-import { createFrontendLogger, createMockFrontendLogger, setUpErrorReporting } from '@navikt/frontendlogger/lib';
+/* eslint-disable @typescript-eslint/no-var-requires */
+import pino from 'pino';
 
-const frontendloggerApiUrl = `${process.env.REACT_APP_FRONTEND_LOGGER_URL}/api`;
+const getFrontendLogger = (): pino.Logger =>
+    pino({
+        browser: {
+            transmit: {
+                send: async (level, logEvent) => {
+                    try {
+                        await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/api/logger`, {
+                            method: 'POST',
+                            headers: { 'content-type': 'application/json' },
+                            body: JSON.stringify(logEvent),
+                        });
+                    } catch (e) {
+                        console.warn(e);
+                        console.warn('Unable to log to backend', logEvent);
+                    }
+                },
+            },
+        },
+    });
 
-const frontendLogger =
-    process.env.NODE_ENV === 'production'
-        ? createFrontendLogger('smregistrering', frontendloggerApiUrl)
-        : createMockFrontendLogger('smregistrering');
+const createBackendLogger = require('../../next-logger.config').logger;
 
-export function setupLogger() {
-    if (process.env.NODE_ENV === 'production') {
-        setUpErrorReporting(logger);
-    }
-}
+const logger = typeof window !== 'undefined' ? getFrontendLogger() : createBackendLogger();
 
-const logger: ReturnType<typeof createFrontendLogger> = {
-    info: (data) => {
-        frontendLogger.info(data);
-        Sentry.addBreadcrumb({
-            message: `${JSON.stringify(data)}`,
-            level: Sentry.Severity.Info,
-        });
-    },
-    warn: (data) => {
-        frontendLogger.warn(data);
-        Sentry.addBreadcrumb({
-            message: `${JSON.stringify(data)}`,
-            level: Sentry.Severity.Warning,
-        });
-    },
-    error: (data) => {
-        frontendLogger.error(data);
-        Sentry.captureException(data);
-    },
-    event: (name, fields, tags) => {
-        frontendLogger.event(name, fields, tags);
-    },
-};
-
-const testLogger: ReturnType<typeof createFrontendLogger> = {
-    info: (data) => void 0,
-    warn: (data) => {
-        frontendLogger.warn(data);
-    },
-    error: (data) => {
-        frontendLogger.error(data);
-    },
-    event: (name, fields, tags) => {
-        frontendLogger.event(name, fields, tags);
-    },
-};
-
-export default process.env.NODE_ENV !== 'test' ? logger : testLogger;
+export default logger;

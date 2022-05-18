@@ -26,7 +26,6 @@ const FormSubmit = ({
     sykmeldingId,
 }: FormSubmitProps) => {
     const [successModalOpen, setSuccessModalOpen] = useState<boolean>(false);
-    Modal.setAppElement('#root');
 
     const { checked, setChecked, isLoading, errorMessage, ruleHitError, submit, submitSuccess } = useSubmitSykmelding(
         oppgaveid,
@@ -95,7 +94,7 @@ const FormSubmit = ({
                     <Normaltekst id="success-modal-text" style={{ marginBottom: '2rem' }}>
                         Oppgaven ble ferdigstilt.
                     </Normaltekst>
-                    <a href={process.env.REACT_APP_GOSYS_URL} className="knapp knapp--hoved">
+                    <a href={process.env.NEXT_PUBLIC_GOSYS_URL} className="knapp knapp--hoved">
                         Tilbake til GOSYS
                     </a>
                 </div>

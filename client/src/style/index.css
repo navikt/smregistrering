@@ -1,0 +1,24 @@
+@import '../../../node_modules/nav-frontend-core/dist/main.css';
+@import '../../../node_modules/nav-frontend-alertstriper-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-chevron-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-ekspanderbartpanel-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-etiketter-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-hjelpetekst-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-knapper-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-lenker-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-lukknapp-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-modal-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-paneler-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-popover-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-skjema-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-spinner-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-tabell-style/dist/main.css';
+@import '../../../node_modules/nav-frontend-typografi-style/dist/main.css';
+
+section {
+    scroll-behavior: smooth !important;
+}
+body {
+    padding: 0;
+    margin: 0;
+}

@@ -14,7 +14,7 @@ interface ArbeidsrelatertArsakProps {
     index: number;
 }
 
-const ArbeidsrelatertArsak = ({ mfaPeriode, updateMfa, errors, index }: ArbeidsrelatertArsakProps) => {
+const ArbeidsrelatertArsak = ({ mfaPeriode, updateMfa, index }: ArbeidsrelatertArsakProps) => {
     const { aktivitetIkkeMuligArbeidsrelatertArsakType } = mfaPeriode;
 
     const checkboxes: CheckboksPanelProps[] = getEntries(ArbeidsrelatertArsakTypeValues).map(([key, value]) => {
@@ -35,7 +35,7 @@ const ArbeidsrelatertArsak = ({ mfaPeriode, updateMfa, errors, index }: Arbeidsr
             updateMfa(updatedSchema);
             return;
         }
-        const shouldAddArsak: boolean = !aktivitetIkkeMuligArbeidsrelatertArsakType.includes(value);
+        const shouldAddArsak = !aktivitetIkkeMuligArbeidsrelatertArsakType.includes(value);
         const newArbeidsrelatertArsakType: ArbeidsrelatertArsakType[] = shouldAddArsak
             ? [...aktivitetIkkeMuligArbeidsrelatertArsakType, value]
             : aktivitetIkkeMuligArbeidsrelatertArsakType.filter((arsak) => arsak !== value);

@@ -1,5 +1,3 @@
-import 'nav-frontend-tabell-style';
-
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import React from 'react';
 import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
@@ -12,8 +10,8 @@ import Row from './Row';
 
 interface SykmelderInformationProps {
     sykmelder: Sykmelder | null | undefined;
-    sykmeldersFornavn: String | null | undefined;
-    sykmeldersEtternavn: String | null | undefined;
+    sykmeldersFornavn: string | null | undefined;
+    sykmeldersEtternavn: string | null | undefined;
 }
 
 const SykmelderInformation = ({ sykmelder, sykmeldersFornavn, sykmeldersEtternavn }: SykmelderInformationProps) => {

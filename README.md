@@ -54,3 +54,27 @@ Applikasjonen er tilgjengelig i testmiljø på https://smregistrering.dev.adeo.n
     -   ikke glem å importe nav-frontend-core/dist/main.css!
 -   hoist css imports
 -   remove craco
+    -   add nav-frontend-\*-style/dist/main.css imports
+    -   remove all direct nav-frontend-\*-style imports
+-   add next
+    -   strip less
+    -   move App.tsx to pages/index.tsx
+    -   if you use Modal, replace all `Modal.setAppElement("#root")` with this in `_app.tsx`:
+    ```tsx
+    useEffect(() => {
+        Modal.setAppElement('#__next');
+    }, []);
+    ```
+    -   fiks alle andre feil som måtte dukke opp.
+        -   vi måtte sette opp noe mock-greier i `_app.tsx`
+    -   nav.no: SSR the decorator in \_document.tsx
+
+Til onsdag:
+
+-   Gjort request til express fra next
+    -   Få next til å hente nødvendig modia og oppgave-data
+        -   Respondere med mock data så sent som mulig
+    -   Få express til å respondere 403 ved manglende token på proxy
+    -   Håndtere 403, og redirecte til (express)/login
+    -   Er custom express next server bedre?!?!?!?
+        -   ts-node??????

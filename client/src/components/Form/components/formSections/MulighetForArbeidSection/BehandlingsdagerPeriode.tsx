@@ -21,7 +21,7 @@ type BehandlingsdagerPeriodeProps = {
     index: number;
 };
 
-const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, errors, index }: BehandlingsdagerPeriodeProps) => {
+const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, index }: BehandlingsdagerPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker

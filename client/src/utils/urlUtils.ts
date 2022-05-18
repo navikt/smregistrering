@@ -1,5 +1,5 @@
 export const getIdFromSearchParams = (): { oppgaveId: string } | { sykmeldingId: string } => {
-    if (process.env.REACT_APP_START_WITH_MOCK === 'true') {
+    if (process.env.NEXT_PUBLIC_START_WITH_MOCK === 'true') {
         return { oppgaveId: 'test' };
     }
 

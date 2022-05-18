@@ -30,7 +30,7 @@ const AnnenFraversArsak = ({ formState, setFormState, errors }: AnnenFraversArsa
                     annenFraversArsakGrunn: [value as AnnenFraverGrunn],
                 };
             }
-            const shouldAddArsak: boolean = !formState.annenFraversArsakGrunn.includes(value);
+            const shouldAddArsak = !formState.annenFraversArsakGrunn.includes(value);
             const newAnnenFraversArsakGrunn: AnnenFraverGrunn[] = shouldAddArsak
                 ? [...formState.annenFraversArsakGrunn, value]
                 : formState.annenFraversArsakGrunn.filter((arsak) => arsak !== value);

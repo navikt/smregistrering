@@ -21,7 +21,7 @@ type AvventendePeriodeProps = {
     index: number;
 };
 
-const AvventendePeriode = ({ updateMfa, mfaPeriode, errors, index }: AvventendePeriodeProps) => {
+const AvventendePeriode = ({ updateMfa, mfaPeriode, index }: AvventendePeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <RangePicker

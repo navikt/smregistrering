@@ -18,7 +18,7 @@ type PasientopplysningerProps = {
     errors: Map<keyof FormType, FeiloppsummeringFeil>;
     setFormState: React.Dispatch<React.SetStateAction<FormType>>;
     formState: FormType;
-    isFerdigstilt: Boolean;
+    isFerdigstilt: boolean;
 };
 
 const PasientopplysningerSection = ({

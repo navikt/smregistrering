@@ -21,7 +21,7 @@ type GradertPeriodeProps = {
     index: number;
 };
 
-const GradertPeriode = ({ updateMfa, mfaPeriode, errors, index }: GradertPeriodeProps) => {
+const GradertPeriode = ({ updateMfa, mfaPeriode, index }: GradertPeriodeProps) => {
     return (
         <div className="mulighetForArbeid__subsection-container">
             <div className="mulighetForArbeid__gradert-row">
