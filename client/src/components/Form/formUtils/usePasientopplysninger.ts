@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import logger from '../../../utils/logger';
 import { FormType } from '../Form';
 import { PasientNavn } from '../../../types/Pasient';
+import { apiFetch } from '../../../utils/fetchUtils';
 
 function usePasientOpplysninger(formState: FormType) {
     const [pasientNavn, setPasientNavn] = useState<PasientNavn | undefined | null>(undefined);
@@ -18,7 +19,7 @@ function usePasientOpplysninger(formState: FormType) {
                 setIsloading(true);
                 setPasientNavn(null);
                 setErrorMessage(null);
-                const res = await fetch(`/backend/api/v1/pasient`, {
+                const res = await apiFetch(`/backend/api/v1/pasient`, {
                     credentials: 'include',
                     headers: { 'X-Pasient-Fnr': formState.pasientFnr },
                 });

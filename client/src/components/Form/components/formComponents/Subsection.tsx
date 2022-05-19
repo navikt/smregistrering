@@ -12,9 +12,11 @@ interface SubsectionProps {
 const Subsection = ({ sectionIdentifier, children, underline = true }: SubsectionProps) => {
     return (
         <section className="subsection">
-            <FormLabel label={sectionIdentifier} />
-            {children}
-            {underline && <Divider />}
+            <>
+                <FormLabel label={sectionIdentifier} />
+                {children}
+                {underline && <Divider />}
+            </>
         </section>
     );
 };

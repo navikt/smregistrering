@@ -1,3 +1,7 @@
-# For exporting injected vault secrets as environment variables
+#!/bin/sh
 
-export SESSION_KEY=$(cat /var/run/secrets/nais.io/vault/session_key)
+if [[ -z "${SESSION_KEY}" ]]; then
+  export SESSION_KEY=$(cat /var/run/secrets/nais.io/vault/session_key)
+fi
+
+exec "$@"

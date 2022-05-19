@@ -34,7 +34,7 @@ const UtdypendeOpplysningerSection = ({
                         harUtdypendeOpplysninger: !formState.harUtdypendeOpplysninger,
                     }))
                 }
-                feil={errors.get('harUtdypendeOpplysninger')}
+                feil={errors.get('harUtdypendeOpplysninger')?.feilmelding}
             />
         </SectionContainer>
     );

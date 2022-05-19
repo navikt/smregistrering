@@ -56,9 +56,11 @@ Applikasjonen er tilgjengelig i testmiljø på https://smregistrering.dev.adeo.n
 -   remove craco
     -   add nav-frontend-\*-style/dist/main.css imports
     -   remove all direct nav-frontend-\*-style imports
+-   bump stuffs
 -   add next
     -   strip less
     -   move App.tsx to pages/index.tsx
+    -   ikke tenk på ruter enda. Bare kjør en next spa med react-router
     -   if you use Modal, replace all `Modal.setAppElement("#root")` with this in `_app.tsx`:
     ```tsx
     useEffect(() => {
@@ -72,6 +74,7 @@ smreg:
 
 -   vi måtte sette opp noe mock-greier i `_app.tsx`
 -   erstatte modia-datahenting i custom header
+    -   custom next server som tar inn express-ruter
 
 Til onsdag:
 

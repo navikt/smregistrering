@@ -1,9 +1,8 @@
 import nock from 'nock';
 import userEvent from '@testing-library/user-event';
-import { render, screen, waitForElementToBeRemoved, within } from '@testing-library/react';
 
-import Index from '../pages/App';
-import { mockLocation } from '../utils/testUtils';
+import Index from '../pages/index';
+import { mockLocation, render, screen, waitForElementToBeRemoved, within } from '../utils/testUtils';
 
 import emptyOppgave from './testData/emptyOppgave.json';
 
@@ -20,7 +19,7 @@ describe('Load pasientinfo', () => {
         apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/tilgosys`).reply(200, 'OK');
         render(
             <div id="root">
-                <Index height={700} enhet={'0314'} />
+                <Index />
             </div>,
         );
 

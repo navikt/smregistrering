@@ -1,15 +1,21 @@
 import dayjs from 'dayjs';
 import nock from 'nock';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
-import Index from '../pages/App';
+import Index from '../pages/index';
 import {
     ArbeidsrelatertArsakType,
     ArbeidsrelatertArsakTypeValues,
     MedisinskArsakType,
     MedisinskArsakTypeValues,
 } from '../types/sykmelding/Periode';
-import { mockBehandlerinfo, mockLocation, mockPasientinfo } from '../utils/testUtils';
+import {
+    mockBehandlerinfo,
+    mockLocation,
+    mockPasientinfo,
+    render,
+    screen,
+    waitForElementToBeRemoved,
+} from '../utils/testUtils';
 
 import emptyOppgave from './testData/emptyOppgave.json';
 import fullOppgave from './testData/fullOppgave.json';
@@ -28,13 +34,11 @@ describe('Mapping opppgave fetched from API', () => {
         apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgave);
         render(
             <div id="root">
-                <Index height={700} enhet={'0314'} />
+                <Index />
             </div>,
         );
 
         await waitForElementToBeRemoved(() => screen.queryByText('Vennligst vent mens oppgaven laster'));
-
-        await waitForElementToBeRemoved(() => screen.queryByText('Henter informasjon om pasient'));
 
         // 1 Pasientopplysninger
         expect(screen.getByLabelText('1.2 Fødselsnummer (11 siffer)')).toHaveDisplayValue(fullOppgave.fnr);
@@ -202,7 +206,7 @@ describe('Mapping opppgave fetched from API', () => {
         apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, emptyOppgave);
         render(
             <div id="root">
-                <Index height={700} enhet={'0314'} />
+                <Index />
             </div>,
         );
 
@@ -234,7 +238,7 @@ describe('Mapping opppgave fetched from API', () => {
         ).not.toBeChecked();
 
         // 4 Mulighet for arbeid
-        expect(screen.getAllByLabelText('Periodetype')).toHaveLength(1);
+        expect(await screen.findAllByLabelText('Periodetype')).toHaveLength(1);
         expect(screen.getByLabelText('Periodetype')).toHaveDisplayValue('4.3 100% sykmelding');
         expect(
             screen.getByRole('checkbox', { name: 'Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet' }),

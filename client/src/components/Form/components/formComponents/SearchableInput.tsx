@@ -16,6 +16,7 @@ const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentP
     // @ts-ignore Works, but TypeScript doesn't like it
     const [value] = getValue();
     const initialOffset = options.indexOf(value) * HEIGHT;
+    // @ts-expect-error Weird React 18 JSX error
     const childrenOptions = React.Children.toArray(children);
 
     if (!children) {
@@ -25,6 +26,7 @@ const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentP
     const listHeight = childrenOptions.length * HEIGHT;
 
     return (
+        // @ts-expect-error Weird React 18 JSX error
         <FixedSizeList
             width={'100%'}
             height={listHeight < maxHeight ? listHeight : maxHeight}
@@ -94,6 +96,7 @@ const SearchableInput = ({ id, system, diagnosekoder, label, onChange, value }: 
             <label className="skjemaelement__label" htmlFor={id}>
                 {label}
             </label>
+            {/* @ts-expect-error Weird React 18 JSX error */}
             <Select
                 inputId={id}
                 value={selectValue}

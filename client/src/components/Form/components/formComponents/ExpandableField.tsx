@@ -1,11 +1,10 @@
-import React, { ReactChild, ReactChildren, ReactNode, useEffect, useRef } from 'react';
+import React, { PropsWithChildren, useEffect, useRef } from 'react';
 
 interface ExpandableFieldProps {
     show?: boolean;
-    children: ReactNode | ReactChild | ReactChildren;
 }
 
-const ExpandableField = ({ show = false, children }: ExpandableFieldProps) => {
+const ExpandableField = ({ show = false, children }: PropsWithChildren<ExpandableFieldProps>) => {
     const contentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

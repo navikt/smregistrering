@@ -19,7 +19,7 @@ type StoreProviderProps = {
 const StoreProvider = ({ children, modiaContext }: PropsWithChildren<StoreProviderProps>): JSX.Element => {
     const defaultAktivSelectValue = getDefaultSelectValue(modiaContext);
     const [aktivEnhet, setAktivEnhet] = useState<string | null>(defaultAktivSelectValue);
-    const handleAktivEnhetChange = useCallback((aktivEnhet) => {
+    const handleAktivEnhetChange = useCallback((aktivEnhet: string) => {
         setAktivEnhet(aktivEnhet);
     }, []);
 

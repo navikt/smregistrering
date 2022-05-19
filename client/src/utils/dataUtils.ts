@@ -3,6 +3,7 @@ import { Oppgave } from '../types/oppgave/Oppgave';
 
 import logger from './logger';
 import { getIdFromSearchParams } from './urlUtils';
+import { apiFetch } from './fetchUtils';
 
 export class OppgaveAlreadySolvedError extends Error {}
 
@@ -31,19 +32,19 @@ export const getOppgave = async (): Promise<OppgaveResult> => {
     const id = getIdFromSearchParams();
     if ('oppgaveId' in id) {
         const oppgaveId = id.oppgaveId;
-        const url = `backend/api/v1/oppgave/${oppgaveId}`;
+        const url = `/backend/api/v1/oppgave/${oppgaveId}`;
         const oppgave = await fetchOppgave(url);
         return { type: 'Oppgave', oppgave, sykmeldingId: null };
     } else {
         const sykmeldingId = id.sykmeldingId;
-        const url = `backend/api/v1/sykmelding/${sykmeldingId}/ferdigstilt`;
+        const url = `/backend/api/v1/sykmelding/${sykmeldingId}/ferdigstilt`;
         const oppgave = await fetchOppgave(url);
         return { type: 'FerdigstiltOppgave', oppgave, sykmeldingId };
     }
 };
 
 async function fetchOppgave(url: string): Promise<Oppgave> {
-    const res = await fetch(url);
+    const res = await apiFetch(url);
     if (res.ok) {
         const json = await res.json();
         return Oppgave.parse(json);

@@ -1,11 +1,8 @@
 FROM node:16-alpine
 
-RUN apk add --no-cache
+RUN apk add --no-cache bash
 
 ARG NPM_AUTH_TOKEN
-
-# Copy init script for loading vault credentials into environment variables
-COPY init.sh /init-scripts/init.sh
 
 WORKDIR /app
 
@@ -21,4 +18,8 @@ COPY server /app/server
 
 RUN yarn --immutable
 
+# Copy init script for loading vault credentials into environment variables
+COPY init.sh /app/
+
+ENTRYPOINT ["./init.sh"]
 CMD ["yarn", "start:prod"]

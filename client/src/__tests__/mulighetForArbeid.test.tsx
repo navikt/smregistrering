@@ -1,9 +1,15 @@
 import nock from 'nock';
 import userEvent from '@testing-library/user-event';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
-import Index from '../pages/App';
-import { mockBehandlerinfo, mockLocation, mockPasientinfo } from '../utils/testUtils';
+import Index from '../pages/index';
+import {
+    mockBehandlerinfo,
+    mockLocation,
+    mockPasientinfo,
+    render,
+    screen,
+    waitForElementToBeRemoved,
+} from '../utils/testUtils';
 
 import fullOppgaveWithoutPeriods from './testData/fullOppgaveWithoutPeriods.json';
 
@@ -56,14 +62,14 @@ describe('Mulighet for arbeid section', () => {
 
         render(
             <div id="root">
-                <Index height={700} enhet={'0314'} />
+                <Index />
             </div>,
         );
 
         await waitForElementToBeRemoved(() => screen.queryByText('Vennligst vent mens oppgaven laster'));
 
         // Add avventende periode
-        userEvent.selectOptions(screen.getByRole('combobox', { name: 'Periodetype' }), 'avventende');
+        userEvent.selectOptions(await screen.findByRole('combobox', { name: 'Periodetype' }), 'avventende');
         userEvent.type(screen.getByPlaceholderText('DDMMÅÅ-DDMMÅÅ'), '010120-030120{enter}');
         userEvent.type(screen.getByText('Andre innspill til arbeidsgiver'), 'Innspill til arbeidsgiver');
 

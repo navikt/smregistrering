@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import logger from '../../../utils/logger';
 import { FormType } from '../Form';
 import { Sykmelder } from '../../../types/Sykmelder';
+import { apiFetch } from '../../../utils/fetchUtils';
 
 function useBehandleropplysninger(formState: FormType) {
     const [sykmelder, setSykmelder] = useState<Sykmelder | undefined | null>(undefined);
@@ -18,7 +19,7 @@ function useBehandleropplysninger(formState: FormType) {
                 setIsloading(true);
                 setSykmelder(null);
                 setErrorMessage(null);
-                const res = await fetch(`/backend/api/v1/sykmelder/${formState.hpr}`, { credentials: 'include' });
+                const res = await apiFetch(`/backend/api/v1/sykmelder/${formState.hpr}`, { credentials: 'include' });
                 if (res.ok) {
                     const json = await res.json();
                     const sykmelder = Sykmelder.safeParse(json);

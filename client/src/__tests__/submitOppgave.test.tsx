@@ -1,9 +1,15 @@
 import nock from 'nock';
 import userEvent from '@testing-library/user-event';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
-import Index from '../pages/App';
-import { mockBehandlerinfo, mockLocation, mockPasientinfo } from '../utils/testUtils';
+import Index from '../pages/index';
+import {
+    mockBehandlerinfo,
+    mockLocation,
+    mockPasientinfo,
+    render,
+    screen,
+    waitForElementToBeRemoved,
+} from '../utils/testUtils';
 
 import emptyOppgave from './testData/emptyOppgave.json';
 
@@ -142,7 +148,7 @@ describe('Submit oppgave', () => {
 
         render(
             <div id="root">
-                <Index height={700} enhet={'0314'} />
+                <Index />
             </div>,
         );
 

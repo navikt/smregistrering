@@ -1,9 +1,15 @@
 import nock from 'nock';
 import userEvent from '@testing-library/user-event';
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 
-import Index from '../pages/App';
-import { mockBehandlerinfo, mockLocation, mockPasientinfo } from '../utils/testUtils';
+import Index from '../pages/index';
+import {
+    mockBehandlerinfo,
+    mockLocation,
+    mockPasientinfo,
+    render,
+    screen,
+    waitForElementToBeRemoved,
+} from '../utils/testUtils';
 
 import fullOppgave from './testData/fullOppgave.json';
 
@@ -22,7 +28,7 @@ describe('Registration api errors', () => {
         apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/send`).reply(400, 'This is an error');
         render(
             <div id="root">
-                <Index height={700} enhet={'0314'} />
+                <Index />
             </div>,
         );
 
@@ -41,7 +47,7 @@ describe('Registration api errors', () => {
         apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/send`).reply(500, 'This is an error');
         render(
             <div id="root">
-                <Index height={700} enhet={'0314'} />
+                <Index />
             </div>,
         );
 
@@ -76,7 +82,7 @@ describe('Registration api errors', () => {
         );
         render(
             <div id="root">
-                <Index height={700} enhet={'0314'} />
+                <Index />
             </div>,
         );
 
@@ -96,7 +102,7 @@ describe('Registration api errors', () => {
         apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/send`).reply(400, { wrong: 'prop' });
         render(
             <div id="root">
-                <Index height={700} enhet={'0314'} />
+                <Index />
             </div>,
         );
 

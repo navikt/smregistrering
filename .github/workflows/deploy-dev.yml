@@ -6,6 +6,7 @@ on:
       - '!master'
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering-dev:${{ github.sha }}
+  NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 jobs:
   snyk-test:
     name: analyze dependencies
@@ -52,8 +53,6 @@ jobs:
           node-version: '14.x'
       - name: Install deps for client
         run: yarn --immutable
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run unit tests for client
         run: yarn test
         working-directory: ./client
@@ -89,15 +88,9 @@ jobs:
           node-version: '14.x'
       - name: Install dependencies
         run: yarn --immutable
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build server
-        run: yarn build
-        working-directory: ./server
       - name: Build client
         env:
           NEXT_PUBLIC_HEAD_URL: https://app-q1.dev.adeo.no
-          NEXT_PUBLIC_FRONTEND_LOGGER_URL: https://app-q1.dev.adeo.no/frontendlogger
           NEXT_PUBLIC_GOSYS_URL: https://gosys-q1.dev.intern.nav.no/gosys/bruker/brukeroversikt.jsf
           NEXT_PUBLIC_ENVIRONMENT: q1
         run: yarn build
@@ -106,7 +99,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          docker build --tag ${IMAGE} .
+          docker build --build-arg NPM_AUTH_TOKEN=${NPM_AUTH_TOKEN} --tag ${IMAGE} .
           docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
           docker push ${IMAGE}
   deploy:

@@ -3,6 +3,8 @@ import { TokenSet } from 'openid-client';
 
 import { hasValidAccessToken } from '../auth/azureUtils';
 
+jest.mock('../logging');
+
 describe('azureUtils', () => {
     describe('hasValidAccessToken', () => {
         it('Returns false for missing tokenSets', () => {

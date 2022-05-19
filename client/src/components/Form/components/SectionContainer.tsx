@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { Section } from '../../../types/Section';
 
 import SectionHeader from './SectionHeader';
 
 type SectionProps = {
-    children: React.ReactNode | React.ReactChild | React.ReactChildren;
     section: Section;
     sectionError?: string;
 };
 
-const SectionContainer = ({ children, section, sectionError }: SectionProps) => {
+const SectionContainer = ({ children, section, sectionError }: PropsWithChildren<SectionProps>) => {
     return (
         <section id={section.title}>
             <SectionHeader section={section} />

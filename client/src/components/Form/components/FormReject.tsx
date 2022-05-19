@@ -9,6 +9,7 @@ import Lenke from 'nav-frontend-lenker';
 import BackArrow from '../../../svg/BackArrow';
 import WarningCircle from '../../../svg/WarningCircle';
 import logger from '../../../utils/logger';
+import { apiFetch } from '../../../utils/fetchUtils';
 
 interface FormRejectProps {
     enhet: string | undefined | null;
@@ -38,7 +39,7 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormReje
             logger.info(`Sender oppgave til gosys. oppgaveid: ${oppgaveid}`);
             setIsLoadingRevert(true);
             setRevertError(null);
-            fetch(`backend/api/v1/oppgave/${oppgaveid}/tilgosys`, {
+            apiFetch(`/backend/api/v1/oppgave/${oppgaveid}/tilgosys`, {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {
@@ -76,7 +77,7 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormReje
             setIsLoadingReject(true);
             setRejectError(null);
             const reason = (e.target as any)[0]?.value as string;
-            fetch(`backend/api/v1/oppgave/${oppgaveid}/avvis`, {
+            apiFetch(`/backend/api/v1/oppgave/${oppgaveid}/avvis`, {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {

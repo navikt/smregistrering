@@ -1,4 +1,5 @@
 import { IncomingMessage } from 'http';
+import * as os from 'os';
 
 import { z } from 'zod';
 
@@ -45,7 +46,9 @@ function reqToFetchHeaders(req: IncomingMessage) {
 }
 
 async function getVeileder(req: IncomingMessage): Promise<Veileder> {
-    const url = `${process.env['MODIACONTEXTHOLDER_PATH']}/decorator/v2`;
+    const url = `http://${os.hostname()}:${process.env.PORT ?? 3000}/${
+        process.env['MODIACONTEXTHOLDER_PATH']
+    }/decorator/v2`;
 
     const response = await fetch(url, { headers: reqToFetchHeaders(req) });
 
@@ -69,7 +72,9 @@ async function getVeileder(req: IncomingMessage): Promise<Veileder> {
 }
 
 async function getAktivEnhet(req: IncomingMessage): Promise<AktivEnhet> {
-    const url = `${process.env['MODIACONTEXTHOLDER_PATH']}/context/aktivenhet`;
+    const url = `http://${os.hostname()}:${process.env.PORT ?? 3000}/${
+        process.env['MODIACONTEXTHOLDER_PATH']
+    }/context/aktivenhet`;
 
     const response = await fetch(url, { headers: reqToFetchHeaders(req) });
 

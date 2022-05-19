@@ -4,8 +4,11 @@ import passport from 'passport';
 import helmet from 'helmet';
 import { z } from 'zod';
 import { loadConfig, setupCors, session, azure, routes } from 'smregistrering-server';
+import { setLogger } from 'smregistrering-server/src/logging';
 
 import logger from '../src/utils/logger';
+
+setLogger(logger);
 
 const port = parseInt(process.env.PORT ?? '3000', 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -70,10 +73,6 @@ async function setupApp(server: express.Express) {
 
         // setup routes
         server.use('/', routes.setup(azureAuthClient, config));
-
-        // start server
-        const PORT = config.server.port;
-        server.listen(PORT, () => logger.info(`Server listening on port ${PORT}`));
     } catch (error: unknown) {
         if (error instanceof z.ZodError) {
             logger.error('zod parse error. Are all required environment variables present?');

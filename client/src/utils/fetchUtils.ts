@@ -18,7 +18,7 @@ export async function postRegistrertSykmelding(
     isFerdigstilt: boolean,
     sykmeldingId: string | null,
 ): Promise<void> {
-    const res = await fetch(getUrl(isFerdigstilt, oppgaveid, sykmeldingId), {
+    const res = await apiFetch(getUrl(isFerdigstilt, oppgaveid, sykmeldingId), {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
@@ -57,9 +57,14 @@ export async function postRegistrertSykmelding(
 function getUrl(isFerdigstilt: boolean, oppgaveId: number, sykmeldingId: string | null) {
     if (isFerdigstilt) {
         return sykmeldingId != null
-            ? `backend/api/v1/sykmelding/${sykmeldingId}`
-            : `backend/api/v1/oppgave/${oppgaveId}/endre`;
+            ? `/backend/api/v1/sykmelding/${sykmeldingId}`
+            : `/backend/api/v1/oppgave/${oppgaveId}/endre`;
     }
 
-    return `backend/api/v1/oppgave/${oppgaveId}/send`;
+    return `/backend/api/v1/oppgave/${oppgaveId}/send`;
+}
+
+export function apiFetch(...args: Parameters<typeof fetch>) {
+    const [url, ...rest] = args;
+    return fetch(`${process.env.NEXT_PUBBLIC_API_URL ?? ''}${url}`, ...rest);
 }

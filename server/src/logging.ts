@@ -1,12 +1,8 @@
-import { createLogger, transports, format } from 'winston';
+import pino from 'pino';
 
-const logger = createLogger({
-    transports: [
-        new transports.Console({
-            level: 'info',
-            format: format.simple(),
-        }),
-    ],
-});
+//TODO kill me!
+let logger: pino.Logger = pino();
+
+export const setLogger = (l: pino.Logger) => (logger = l);
 
 export default logger;

@@ -23,6 +23,7 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
                 {label}
             </label>
             <div role="region" aria-label="datovelger" className={`flatpickr-container`}>
+                {/* @ts-expect-error Weird React 18 JSX error */}
                 <Flatpickr
                     id={id}
                     value={value ? new Date(value) : undefined} // Does not like to receive date as string

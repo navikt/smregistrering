@@ -28,6 +28,7 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                 {labelFrom} - {labelTo}
             </label>
             <div role="region" aria-label="periodevelger" className="flatpickr-container">
+                {/* @ts-expect-error Weird React 18 JSX error */}
                 <Flatpickr
                     id={id}
                     value={value.length === 2 ? [new Date(value[0]), new Date(value[1])] : value} // Does not like to receive dates as string[]
