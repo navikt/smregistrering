@@ -9062,9 +9062,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"smregistrering-client@workspace:.":
+"smregistrering@workspace:.":
   version: 0.0.0-use.local
-  resolution: "smregistrering-client@workspace:."
+  resolution: "smregistrering@workspace:."
   dependencies:
     "@navikt/eslint-config-teamsykmelding": ^0.16.0
     "@navikt/fnrvalidator": ^1.3.0
