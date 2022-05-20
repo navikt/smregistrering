@@ -13,8 +13,9 @@ COPY .yarn /app/.yarn
 COPY .yarnrc.yml /app/
 COPY yarn.lock /app/
 COPY scripts /app/scripts
-COPY client /app/client
-COPY server /app/server
+COPY src /app/src
+COPY .next /app/.next
+COPY *config* /app/
 
 RUN yarn --immutable
 
