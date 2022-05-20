@@ -33,21 +33,18 @@ jobs:
       - name: Install dependencies
         run: yarn --imutable
       - name: Run tests for server
-        run: |
-          yarn test
+        run: yarn test
         working-directory: ./server
       - name: Run unit tests for client
-        run: |
-          yarn test
+        run: yarn test
         working-directory: ./client
       - name: Build client
+        run: yarn build
+        working-directory: ./client
         env:
           NEXT_PUBLIC_START_WITH_MOCK: true
           NEXT_PUBLIC_HEAD_URL: https://navikt.github.io
-          NEXT_PUBLIC_ENVIRONMENT: demo
-        run: |
-          yarn build
-        working-directory: ./client
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Build and publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

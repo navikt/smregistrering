@@ -1,3 +1,4 @@
+import { withSentry } from '@sentry/nextjs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import pino from 'pino';
 
@@ -14,4 +15,10 @@ const handler = (req: NextApiRequest, res: NextApiResponse): void => {
     res.status(200).json({ ok: `ok` });
 };
 
-export default handler;
+export const config = {
+    api: {
+        externalResolver: true,
+    },
+};
+
+export default withSentry(handler);

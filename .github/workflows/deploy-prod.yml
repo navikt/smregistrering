@@ -101,12 +101,12 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Build client
+        run: yarn build
+        working-directory: ./client
         env:
           NEXT_PUBLIC_HEAD_URL: https://app.adeo.no
           NEXT_PUBLIC_GOSYS_URL: https://gosys.intern.nav.no/gosys/bruker/brukeroversikt.jsf
-          NEXT_PUBLIC_ENVIRONMENT: production
-        run: yarn build
-        working-directory: ./client
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Build and publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

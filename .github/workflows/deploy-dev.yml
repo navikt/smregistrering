@@ -89,12 +89,12 @@ jobs:
       - name: Install dependencies
         run: yarn --immutable
       - name: Build client
+        run: yarn build
+        working-directory: ./client
         env:
           NEXT_PUBLIC_HEAD_URL: https://app-q1.dev.adeo.no
           NEXT_PUBLIC_GOSYS_URL: https://gosys-q1.dev.intern.nav.no/gosys/bruker/brukeroversikt.jsf
-          NEXT_PUBLIC_ENVIRONMENT: q1
-        run: yarn build
-        working-directory: ./client
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Build and publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

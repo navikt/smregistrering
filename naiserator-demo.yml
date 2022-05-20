@@ -37,3 +37,5 @@ spec:
       value: '3000'
     - name: IS_NAIS_LABS_DEMO
       value: 'true'
+    - name: RUNTIME_ENVIRONMENT
+      value: demo

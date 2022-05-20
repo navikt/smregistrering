@@ -77,3 +77,5 @@ spec:
       value: '6379'
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
+    - name: RUNTIME_ENVIRONMENT
+      value: production
