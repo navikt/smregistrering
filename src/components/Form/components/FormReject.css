@@ -1,0 +1,38 @@
+.form-reject-container {
+    background-color: #e4edf2;
+    padding: 3rem;
+    padding-bottom: 10rem;
+}
+.form-reject-container__action-buttons {
+    margin-top: 1.5rem;
+}
+.form-reject-container__action-buttons #to-gosys-button {
+    margin-right: 2rem;
+}
+.form-submit-checkbox {
+    margin-bottom: 3rem;
+}
+.cancelmodal {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2.5rem;
+}
+.cancelmodal__title {
+    margin-bottom: 2rem;
+}
+.cancelmodal__content {
+    margin-bottom: 2rem;
+    max-width: 30rem;
+}
+.cancelmodal__content_addition {
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+    max-width: 30rem;
+}
+.cancelmodal__button {
+    margin-bottom: 1rem;
+    margin: auto;
+}
+.cancelmodal__avvisningsgrunn {
+    margin-bottom: 3rem;
+}

@@ -1,0 +1,14 @@
+.error-container {
+    text-align: center;
+    padding-top: 10rem;
+}
+.spinner-container {
+    text-align: center;
+    padding-top: 10rem;
+}
+.main-content-container {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    max-height: calc(100vh - 70px);
+}

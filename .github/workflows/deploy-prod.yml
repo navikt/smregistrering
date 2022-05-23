@@ -5,6 +5,7 @@ on:
       - 'master'
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering-prod:${{ github.sha }}
+  NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 jobs:
   snyk-monitor:
     name: monitor dependencies
@@ -63,13 +64,9 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install deps
-        run: yarn
-      - name: Run unit tests for client
+        run: yarn --immutable
+      - name: Run unit tests
         run: yarn test
-        working-directory: ./client
-      - name: Run unit tests for server
-        run: yarn test
-        working-directory: ./server
 
   deploy-redis:
     name: Deploy redis to prod-fss
@@ -98,23 +95,18 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install dependencies
-        run: yarn
-      - name: Build server
+        run: yarn --immutable
+      - name: Build
         run: yarn build
-        working-directory: ./server
-      - name: Build client
         env:
-          REACT_APP_HEAD_URL: https://app.adeo.no
-          REACT_APP_FRONTEND_LOGGER_URL: https://app.adeo.no/frontendlogger
-          REACT_APP_GOSYS_URL: https://gosys.intern.nav.no/gosys/bruker/brukeroversikt.jsf
-          REACT_APP_ENVIRONMENT: production
-        run: yarn build
-        working-directory: ./client
+          NEXT_PUBLIC_GOSYS_URL: https://gosys.intern.nav.no/gosys/bruker/brukeroversikt.jsf
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ENABLED: 'true'
       - name: Build and publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          docker build --tag ${IMAGE} .
+          docker build --build-arg NPM_AUTH_TOKEN=${NPM_AUTH_TOKEN} --tag ${IMAGE} .
           docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
           docker push ${IMAGE}
   deploy:

@@ -1,4 +1,12 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.22.1
-ignore: {}
+version: v1.24.0
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-JS-ANSIREGEX-1583908:
+    - '@sentry/nextjs > @sentry/webpack-plugin > @sentry/cli > npmlog > gauge > strip-ansi > ansi-regex':
+        reason: None given
+        expires: '2022-06-19T13:21:09.340Z'
+    - '@sentry/nextjs > @sentry/webpack-plugin > @sentry/cli > npmlog > gauge > string-width > strip-ansi > ansi-regex':
+        reason: None given
+        expires: '2022-06-19T13:21:09.340Z'
 patch: {}

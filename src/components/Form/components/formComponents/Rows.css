@@ -1,0 +1,15 @@
+.row-element {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+    flex: 1;
+}
+.row {
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+.row-element:last-child {
+    margin-right: 0rem;
+}
+.row-element:first-child {
+    margin-left: 0rem;
+}

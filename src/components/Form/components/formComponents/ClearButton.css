@@ -1,0 +1,20 @@
+.clearbutton__text {
+    margin-left: 8px;
+    color: #0067c5;
+}
+.clearbutton,
+.clearbutton__withmargin {
+    border: none;
+    background: none;
+    align-self: center;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    padding: 0;
+}
+.clearbutton__withmargin {
+    margin-left: 18px;
+}
+.clearbutton:hover {
+    text-decoration: underline;
+}

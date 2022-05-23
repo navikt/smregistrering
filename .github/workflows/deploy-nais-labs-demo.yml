@@ -5,6 +5,7 @@ on:
       - 'master'
 env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering-demo:${{ github.sha }}
+  NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 jobs:
   snyk-test:
     name: analyze dependencies
@@ -30,34 +31,19 @@ jobs:
         with:
           node-version: '14.x'
       - name: Install dependencies
-        run: |
-          yarn
-      - name: Run tests for server
-        run: |
-          yarn test
-        working-directory: ./server
-      - name: Run unit tests for client
-        run: |
-          yarn test
-        working-directory: ./client
-      - name: Build server
-        run: |
-          yarn build
-        working-directory: ./server
-      - name: Build client
+        run: yarn --imutable
+      - name: Run unit tests
+        run: yarn test
+      - name: Build
+        run: yarn build
         env:
-          REACT_APP_START_WITH_MOCK: true
-          REACT_APP_HEAD_URL: https://navikt.github.io
-          REACT_APP_ENVIRONMENT: demo
-          # REACT_APP_FRONTEND_LOGGER_URL: https://app-q1.dev.adeo.no/frontendlogger
-        run: |
-          yarn build
-        working-directory: ./client
+          NEXT_PUBLIC_START_WITH_MOCK: true
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Build and publish Docker image
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          docker build --tag ${IMAGE} .
+          docker build --build-arg NPM_AUTH_TOKEN=${NPM_AUTH_TOKEN} --tag ${IMAGE} .
           docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
           docker push ${IMAGE}
   deploy:

@@ -1,0 +1,13 @@
+.section-header {
+    padding: 0.75rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    background-color: #f1f6f8;
+    display: flex;
+}
+.expandable {
+    cursor: pointer;
+}
+.section-header-title {
+    flex: 1;
+}

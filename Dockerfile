@@ -1,15 +1,26 @@
-# Base image
-FROM navikt/node-express:12.2.0-alpine
+FROM node:16-alpine
+
+RUN apk add --no-cache bash
+
+ARG NPM_AUTH_TOKEN
+
+WORKDIR /app
+
+ENV NODE_ENV production
+
+COPY package*.json /app/
+COPY .yarn /app/.yarn
+COPY .yarnrc.yml /app/
+COPY yarn.lock /app/
+COPY scripts /app/scripts
+COPY src /app/src
+COPY .next /app/.next
+COPY *config* /app/
+
+RUN yarn --immutable
 
 # Copy init script for loading vault credentials into environment variables
-COPY init.sh /init-scripts/init.sh
+COPY init.sh /app/
 
-COPY ./server/dist/index.js ./server/
-COPY ./client/build ./server/build
-
-# Change working directory to the server
-WORKDIR /var/server/server
-
-ENV NODE_ENV=production
-
-CMD ["node", "index.js"]
+ENTRYPOINT ["./init.sh"]
+CMD ["yarn", "start:prod"]
