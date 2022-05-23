@@ -3,6 +3,7 @@
 import { PropsWithChildren, useEffect } from 'react';
 import { AppProps as NextAppProps } from 'next/app';
 import Modal from 'nav-frontend-modal';
+import dynamic from 'next/dynamic';
 
 import ModiaHeader from '../components/ModiaHeader/ModiaHeader';
 import { ModiaContext } from '../services/modiaService';
@@ -31,17 +32,10 @@ import '../components/Form/components/formSections/DiagnoseSection/BidiagnoseRow
 import '../components/Form/components/formSections/MulighetForArbeidSection/MulighetForArbeidSection.css';
 import '../components/Pdf/Pdf.css';
 
-if (
-    process.env.NODE_ENV !== 'production' &&
-    process.env.NEXT_PUBLIC_START_WITH_MOCK === 'true' &&
-    typeof window !== 'undefined'
-) {
-    require('../mock/setup');
-}
-
-export interface AppPageProps {
-    aktivEnhet: string;
-}
+const SetupMock = dynamic(
+    () => (process.env.NEXT_PUBLIC_START_WITH_MOCK === 'true' ? import('../mock/setup') : Promise.resolve(() => null)),
+    { ssr: false },
+);
 
 export interface PageSsrResult {
     modiaContext?: ModiaContext;
@@ -58,6 +52,7 @@ function MyApp({ Component, pageProps }: AppProps<PageSsrResult>): JSX.Element {
 
     return (
         <StoreProvider modiaContext={pageProps.modiaContext}>
+            <SetupMock />
             <ModiaHeader modiaContext={pageProps.modiaContext} />
             <Component {...pageProps} />
         </StoreProvider>
