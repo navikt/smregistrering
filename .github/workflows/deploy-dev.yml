@@ -37,7 +37,7 @@ jobs:
         with:
           filters: |
             backend:
-              - 'server/**'
+              - 'src/server/**'
               - 'redis-config.yml'
               - 'naiserator-dev.yaml'
 
