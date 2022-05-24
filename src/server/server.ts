@@ -8,9 +8,9 @@ import logger from '../utils/logger';
 
 import loadConfig from './config';
 import setupCors from './cors';
-import session from './session';
+import * as session from './session';
 import * as routes from './routes';
-import azure from './auth/azure';
+import * as azure from './auth/azure';
 
 const port = parseInt(process.env.PORT ?? '3000', 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';

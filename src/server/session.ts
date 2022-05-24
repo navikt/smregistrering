@@ -71,4 +71,4 @@ const setup = (server: Application, config: Config): Promise<null> => {
     });
 };
 
-export default { setup };
+export { setup };

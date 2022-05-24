@@ -50,4 +50,4 @@ const strategy = (client: Client, config: Config) => {
     return new Strategy(options, verify);
 };
 
-export default { client, strategy };
+export { client, strategy };

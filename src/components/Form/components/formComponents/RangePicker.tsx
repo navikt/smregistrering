@@ -53,6 +53,7 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                         locale: flatpickrLocale,
                     }}
                 />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img className="flatpickr-icon" aria-hidden="true" alt="Kalender" src={calendar.src} />
 
                 <ClearButton
