@@ -23,7 +23,7 @@ function ModiaHeader({ modiaContext }: Props): JSX.Element {
         <header className={styles.root}>
             <div className={styles.titleWrapper}>
                 <Image src={navLogo} alt="NAV logo" />
-                <Undertittel>syfosmmanuell</Undertittel>
+                <Undertittel>Digitalisering av papirsykmeldinger</Undertittel>
             </div>
             {modiaContext && (
                 <div className={styles.enhetPicker}>

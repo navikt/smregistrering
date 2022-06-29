@@ -19,11 +19,14 @@ export const Helsepersonellkategori = z.enum([
     'KE',
     'KI',
     'LE',
+    'NP',
     'OA',
     'OI',
     'OP',
     'OR',
+    'OS',
     'PE',
+    'PM',
     'PS',
     'RA',
     'SP',
@@ -36,6 +39,7 @@ export const Helsepersonellkategori = z.enum([
     'XX',
     'MT',
 ]);
+
 type Helsepersonellkategori = z.infer<typeof Helsepersonellkategori>;
 
 export const HelsepersonellkategoriValues: Record<Helsepersonellkategori, string> = {
@@ -56,11 +60,14 @@ export const HelsepersonellkategoriValues: Record<Helsepersonellkategori, string
     KE: 'Klinisk ernæringsfysiolog',
     KI: 'Kiropraktor',
     LE: 'Lege',
+    NP: 'Naprapat',
     OA: 'Omsorgsarbeider',
     OI: 'Ortopediingeniør',
     OP: 'Optiker',
     OR: 'Ortoptist',
+    OS: 'Osteopat',
     PE: 'Perfusjonist',
+    PM: 'Paramedisiner',
     PS: 'Psykolog',
     RA: 'Radiograf',
     SP: 'Sykepleier',

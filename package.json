@@ -105,6 +105,9 @@
         "wait-on": "^5.3.0",
         "yet-another-fetch-mock": "^3.4.0"
     },
+    "resolutions": {
+        "ansi-regex": "5.0.1"
+    },
     "scripts": {
         "build": "next build",
         "start": "NODE_ENV=development nodemon --watch server --exec \"ts-node --project=src/server/tsconfig.json\" src/server/server.ts",
