@@ -15,7 +15,7 @@ const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) =>
     if (req.isAuthenticated() && hasValidAccessToken(req, 'self')) {
         next();
     } else {
-        if (req.session && req.query.oppgaveid) {
+        if (req.session && (req.query.oppgaveid || req.query.sykmeldingid)) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore . express-session spec allows setting session variables
             req.session.redirectTo = req.url;
