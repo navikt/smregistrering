@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import nock from 'nock';
 
 import Index from '../pages/index';
@@ -16,6 +15,7 @@ import {
     screen,
     waitForElementToBeRemoved,
 } from '../utils/testUtils';
+import { formatDate, formatDateShorthand } from '../utils/dateUtils';
 
 import emptyOppgave from './testData/emptyOppgave.json';
 import fullOppgave from './testData/fullOppgave.json';
@@ -88,9 +88,7 @@ describe('Mapping opppgave fetched from API', () => {
         expect(screen.getByRole('checkbox', { name: /Sykdommen er svangerskapsrelatert/ })).toBeChecked();
         expect(screen.getByRole('checkbox', { name: /Sykmeldingen kan skyldes en yrkesskade/ })).toBeChecked();
         expect(
-            screen.getByText(
-                dayjs(fullOppgave.papirSmRegistering.medisinskVurdering.yrkesskadeDato).format('D. MMMM YYYY'),
-            ),
+            screen.getByText(formatDate(fullOppgave.papirSmRegistering.medisinskVurdering.yrkesskadeDato)),
         ).toBeInTheDocument();
         expect(screen.getByRole('checkbox', { name: /nødvendig å skjerme pasienten/ })).toBeChecked();
 
@@ -98,9 +96,9 @@ describe('Mapping opppgave fetched from API', () => {
         expect(screen.getByDisplayValue('4.1 Avventende sykmelding')).toBeInTheDocument();
         expect(
             screen.getByDisplayValue(
-                dayjs(fullOppgave.papirSmRegistering.perioder[0].fom).format('DDMMYY') +
+                formatDateShorthand(fullOppgave.papirSmRegistering.perioder[0].fom) +
                     '-' +
-                    dayjs(fullOppgave.papirSmRegistering.perioder[0].tom).format('DDMMYY'),
+                    formatDateShorthand(fullOppgave.papirSmRegistering.perioder[0].tom),
             ),
         ).toBeInTheDocument();
         expect(screen.getByLabelText('Andre innspill til arbeidsgiver')).toHaveDisplayValue(
@@ -110,9 +108,9 @@ describe('Mapping opppgave fetched from API', () => {
         expect(screen.getByDisplayValue('4.2 Gradert sykmelding')).toBeInTheDocument();
         expect(
             screen.getByDisplayValue(
-                dayjs(fullOppgave.papirSmRegistering.perioder[1].fom).format('DDMMYY') +
+                formatDateShorthand(fullOppgave.papirSmRegistering.perioder[1].fom) +
                     '-' +
-                    dayjs(fullOppgave.papirSmRegistering.perioder[1].tom).format('DDMMYY'),
+                    formatDateShorthand(fullOppgave.papirSmRegistering.perioder[1].tom),
             ),
         ).toBeInTheDocument();
         expect(screen.getByLabelText('Oppgi grad')).toHaveDisplayValue('80');
@@ -121,9 +119,9 @@ describe('Mapping opppgave fetched from API', () => {
         expect(screen.getByDisplayValue('4.3 100% sykmelding')).toBeInTheDocument();
         expect(
             screen.getByDisplayValue(
-                dayjs(fullOppgave.papirSmRegistering.perioder[2].fom).format('DDMMYY') +
+                formatDateShorthand(fullOppgave.papirSmRegistering.perioder[2].fom) +
                     '-' +
-                    dayjs(fullOppgave.papirSmRegistering.perioder[2].tom).format('DDMMYY'),
+                    formatDateShorthand(fullOppgave.papirSmRegistering.perioder[2].tom),
             ),
         ).toBeInTheDocument();
         expect(screen.getByRole('checkbox', { name: /Det er medisinske årsaker/ })).toBeChecked();
@@ -149,9 +147,9 @@ describe('Mapping opppgave fetched from API', () => {
         expect(screen.getByDisplayValue('4.4 Behandlingsdager')).toBeInTheDocument();
         expect(
             screen.getByDisplayValue(
-                dayjs(fullOppgave.papirSmRegistering.perioder[3].fom).format('DDMMYY') +
+                formatDateShorthand(fullOppgave.papirSmRegistering.perioder[3].fom) +
                     '-' +
-                    dayjs(fullOppgave.papirSmRegistering.perioder[3].tom).format('DDMMYY'),
+                    formatDateShorthand(fullOppgave.papirSmRegistering.perioder[3].tom),
             ),
         ).toBeInTheDocument();
         expect(screen.getByLabelText('Oppgi antall dager i perioden')).toHaveDisplayValue(
@@ -161,9 +159,9 @@ describe('Mapping opppgave fetched from API', () => {
         expect(screen.getByDisplayValue('4.5 Reisetilskudd')).toBeInTheDocument();
         expect(
             screen.getByDisplayValue(
-                dayjs(fullOppgave.papirSmRegistering.perioder[4].fom).format('DDMMYY') +
+                formatDateShorthand(fullOppgave.papirSmRegistering.perioder[4].fom) +
                     '-' +
-                    dayjs(fullOppgave.papirSmRegistering.perioder[4].tom).format('DDMMYY'),
+                    formatDateShorthand(fullOppgave.papirSmRegistering.perioder[4].tom),
             ),
         ).toBeInTheDocument();
 
@@ -184,7 +182,7 @@ describe('Mapping opppgave fetched from API', () => {
         // 10 Tilbakedatering
         expect(screen.getByRole('checkbox', { name: /Er sykmeldingen tilbakedatert?/ })).toBeChecked();
         expect(screen.getByLabelText('Oppgi dato for dokumenterbar kontakt med pasienten')).toHaveDisplayValue(
-            dayjs(fullOppgave.papirSmRegistering.kontaktMedPasient.kontaktDato).format('DDMMYY'),
+            formatDateShorthand(fullOppgave.papirSmRegistering.kontaktMedPasient.kontaktDato),
         );
         expect(
             screen.getByRole('checkbox', { name: /Pasienten har ikke kunnet ivareta egne interesser/ }),
@@ -195,7 +193,7 @@ describe('Mapping opppgave fetched from API', () => {
 
         // 12 Behandler
         expect(screen.getByLabelText('12.1 Behandletdato')).toHaveDisplayValue(
-            dayjs(fullOppgave.papirSmRegistering.behandletTidspunkt).format('DDMMYY'),
+            formatDateShorthand(fullOppgave.papirSmRegistering.behandletTidspunkt),
         );
 
         expect(screen.getByDisplayValue(fullOppgave.papirSmRegistering.behandler.hpr)).toBeInTheDocument(); // Can not getByLabelText before fixing label

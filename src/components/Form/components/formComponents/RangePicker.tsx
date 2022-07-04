@@ -1,16 +1,12 @@
 import Flatpickr from 'react-flatpickr';
 import React from 'react';
-import dayjs from 'dayjs';
 import { Normaltekst } from 'nav-frontend-typografi';
 
 import calendar from '../../../../svg/calendar.svg';
+import { formatDate, toDateString } from '../../../../utils/dateUtils';
 
 import ClearButton from './ClearButton';
 import { flatpickrLocale } from './flatpickrUtils';
-
-function toIsoDate(date: Date): string {
-    return dayjs(date).format('YYYY-MM-DD');
-}
 
 type RangePickerProps = {
     id?: string;
@@ -38,9 +34,9 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                         if (selectedDates.length === 0) {
                             onChange(undefined);
                         } else if (selectedDates.length === 1) {
-                            onChange([toIsoDate(selectedDates[0]), toIsoDate(selectedDates[0])]);
+                            onChange([toDateString(selectedDates[0]), toDateString(selectedDates[0])]);
                         } else {
-                            onChange([toIsoDate(selectedDates[0]), toIsoDate(selectedDates[1])]);
+                            onChange([toDateString(selectedDates[0]), toDateString(selectedDates[1])]);
                         }
                     }}
                     options={{
@@ -68,7 +64,7 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
             </div>
             {!!value && value.length === 2 && (
                 <Normaltekst style={{ marginTop: '-0.5rem', marginBottom: '1rem' }}>
-                    {dayjs(value[0]).format('D. MMMM YYYY')} - {dayjs(value[1]).format('D. MMMM YYYY')}
+                    {formatDate(value[0])} - {formatDate(value[1])}
                 </Normaltekst>
             )}
             {feil && (
