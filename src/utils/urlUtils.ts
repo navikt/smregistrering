@@ -15,3 +15,11 @@ export const getIdFromSearchParams = (): { oppgaveId: string } | { sykmeldingId:
         throw new URIError('Kunne ikke hente oppgave siden lenken mangler oppgaveId og sykmeldingId');
     }
 };
+
+export function getReturnToURL(sykmeldingId: string | null): { text: string; url: string } {
+    if (sykmeldingId != null) {
+        return { text: 'Tilbake til Modia', url: process.env.NEXT_PUBLIC_MODIA_URL! };
+    } else {
+        return { text: 'Tilbake til GOSYS', url: process.env.NEXT_PUBLIC_GOSYS_URL! };
+    }
+}

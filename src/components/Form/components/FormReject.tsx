@@ -10,15 +10,17 @@ import BackArrow from '../../../svg/BackArrow';
 import WarningCircle from '../../../svg/WarningCircle';
 import logger from '../../../utils/logger';
 import { apiFetch } from '../../../utils/fetchUtils';
+import { getReturnToURL } from '../../../utils/urlUtils';
 
 interface FormRejectProps {
     enhet: string | undefined | null;
     oppgaveid: number;
+    sykmeldingId: string | null;
     setIsComplete: React.Dispatch<React.SetStateAction<boolean>>;
     isFerdigstilt: boolean;
 }
 
-const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormRejectProps) => {
+const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigstilt }: FormRejectProps) => {
     // Avvis sykmelding
     const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
     const [isLoadingReject, setIsLoadingReject] = useState<boolean>(false);
@@ -107,6 +109,8 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormReje
         }
     }
 
+    const returnLink = getReturnToURL(sykmeldingId);
+
     return (
         <>
             <div className="form-reject-container">
@@ -129,7 +133,7 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormReje
                     </div>
                 )}
                 <div style={{ marginTop: '2rem' }}>
-                    <Lenke href={process.env.NEXT_PUBLIC_GOSYS_URL!}>
+                    <Lenke href={returnLink.url}>
                         <svg
                             width="1em"
                             height="1em"
@@ -146,7 +150,7 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormReje
                                 fill="currentColor"
                             ></path>
                         </svg>
-                        <span>Tilbake til GOSYS</span>
+                        <span>{returnLink.text}</span>
                     </Lenke>
                 </div>
             </div>
@@ -252,12 +256,8 @@ const FormReject = ({ enhet, oppgaveid, setIsComplete, isFerdigstilt }: FormReje
             >
                 <div style={{ display: 'flex', flexDirection: 'column', padding: '2rem 2.5rem' }}>
                     <Normaltekst style={{ marginBottom: '2rem' }}>{successModalContent}</Normaltekst>
-                    <a
-                        id="tilbake-til-gosys-lenke"
-                        href={process.env.NEXT_PUBLIC_GOSYS_URL}
-                        className="knapp knapp__hoved"
-                    >
-                        Tilbake til GOSYS
+                    <a id="tilbake-til-gosys-lenke" href={returnLink.url} className="knapp knapp__hoved">
+                        {returnLink.text}
                     </a>
                 </div>
             </Modal>

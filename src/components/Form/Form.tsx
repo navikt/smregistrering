@@ -139,6 +139,7 @@ const Form = ({ oppgave, diagnosekoder, enhet, isFerdigstilt, sykmeldingId }: Fo
             <FormReject
                 enhet={enhet}
                 oppgaveid={oppgave.oppgaveid}
+                sykmeldingId={sykmeldingId}
                 setIsComplete={setIsComplete}
                 isFerdigstilt={isFerdigstilt}
             />
