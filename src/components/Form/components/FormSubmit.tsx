@@ -7,6 +7,7 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 
 import useSubmitSykmelding from '../../../hooks/useSubmitSykmelding';
 import { FormType } from '../Form';
+import { getReturnToURL } from '../../../utils/urlUtils';
 
 interface FormSubmitProps {
     oppgaveid: number;
@@ -41,6 +42,8 @@ const FormSubmit = ({
             setIsComplete(true);
         }
     }, [submitSuccess, setIsComplete]);
+
+    const returnLink = getReturnToURL(sykmeldingId);
 
     return (
         <div role="region" aria-label="skjemainnsendingbeholder" className="form-submit-container">
@@ -94,8 +97,8 @@ const FormSubmit = ({
                     <Normaltekst id="success-modal-text" style={{ marginBottom: '2rem' }}>
                         Oppgaven ble ferdigstilt.
                     </Normaltekst>
-                    <a href={process.env.NEXT_PUBLIC_GOSYS_URL} className="knapp knapp--hoved">
-                        Tilbake til GOSYS
+                    <a href={returnLink.url} className="knapp knapp--hoved">
+                        {returnLink.text}
                     </a>
                 </div>
             </Modal>

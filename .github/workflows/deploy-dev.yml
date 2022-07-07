@@ -87,6 +87,7 @@ jobs:
         run: yarn build
         env:
           NEXT_PUBLIC_GOSYS_URL: https://gosys-q1.dev.intern.nav.no/gosys/bruker/brukeroversikt.jsf
+          NEXT_PUBLIC_MODIA_URL: https://syfomodiaperson.dev.intern.nav.no/sykefravaer
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ENABLED: 'true'
       - name: Build and publish Docker image

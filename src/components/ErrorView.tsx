@@ -3,8 +3,16 @@ import React from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 
 import { OppgaveGoneError } from '../utils/dataUtils';
+import { getReturnToURL } from '../utils/urlUtils';
 
-const ErrorView = ({ error }: { error: Error }) => {
+interface Props {
+    error: Error;
+    sykmeldingId: string | null;
+}
+
+const ErrorView = ({ error, sykmeldingId }: Props): JSX.Element => {
+    const { url, text } = getReturnToURL(sykmeldingId);
+
     if (error instanceof OppgaveGoneError) {
         return (
             <div role="region" aria-label="feilmelding">
@@ -12,7 +20,7 @@ const ErrorView = ({ error }: { error: Error }) => {
                 <br />
                 <Normaltekst>{error.message}</Normaltekst>
                 <br />
-                <Lenke href={process.env.NEXT_PUBLIC_GOSYS_URL!}>Tilbake til GOSYS</Lenke>
+                <Lenke href={url}>{text}</Lenke>
             </div>
         );
     }

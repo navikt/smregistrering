@@ -1,4 +1,4 @@
-import { getIdFromSearchParams } from '../utils/urlUtils';
+import { getIdFromSearchParams, getReturnToURL } from '../utils/urlUtils';
 
 describe('urlUtils', () => {
     beforeEach(() => {
@@ -27,5 +27,21 @@ describe('urlUtils', () => {
         expect(() => {
             getIdFromSearchParams();
         }).toThrow(URIError);
+    });
+
+    describe('getReturnToURL', () => {
+        it('should return to modia when sykmeldingId is provided', () => {
+            const returnToURL = getReturnToURL('123456789');
+
+            expect(returnToURL.url).toEqual('http://localhost/modia');
+            expect(returnToURL.text).toEqual('Tilbake til Modia');
+        });
+
+        it('should return to GOSYS when no sykmeldingId', () => {
+            const returnToURL = getReturnToURL(null);
+
+            expect(returnToURL.url).toEqual('http://localhost/dummy');
+            expect(returnToURL.text).toEqual('Tilbake til GOSYS');
+        });
     });
 });

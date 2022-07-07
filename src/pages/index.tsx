@@ -49,7 +49,7 @@ const Index = () => {
     if (error) {
         return (
             <main className="error-container">
-                <ErrorView error={error} />
+                <ErrorView error={error} sykmeldingId={sykmeldingId} />
             </main>
         );
     }
