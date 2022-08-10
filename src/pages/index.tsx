@@ -8,7 +8,7 @@ import Pdf from '../components/Pdf/Pdf';
 import logger from '../utils/logger';
 import { Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 import { Oppgave } from '../types/oppgave/Oppgave';
-import { getDiagnosekoder, getOppgave } from '../utils/dataUtils';
+import { getDiagnosekoder, getOppgave, OppgaveAlreadySolvedError, UnauthorizedError } from '../utils/dataUtils';
 import { getModiaContext } from '../services/modiaService';
 import { StoreContext } from '../store';
 
@@ -38,7 +38,11 @@ const Index = () => {
                 setIsFerdigstilt(oppgaveResult.type === 'FerdigstiltOppgave');
                 setSykmeldingId(oppgaveResult.sykmeldingId);
             } catch (error: any) {
-                logger.error(error);
+                if (error instanceof UnauthorizedError || OppgaveAlreadySolvedError) {
+                    logger.warn(error);
+                } else {
+                    logger.error(error);
+                }
                 setError(error);
             } finally {
                 setIsLoading(false);
