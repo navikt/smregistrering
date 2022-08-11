@@ -41,9 +41,15 @@ export async function postRegistrertSykmelding(
         }
     } else if (res.status >= 400 && res.status < 500) {
         const text = await res.text();
-        logger.error(
-            `An error occurred while trying to register sykmelding. StatusCode: ${res.status}. Message: ${text}`,
-        );
+        if (res.status === 404 || res.status === 401) {
+            logger.warn(
+                `An error occurred while trying to register sykmelding. StatusCode: ${res.status}. Message: ${text}`,
+            );
+        } else {
+            logger.error(
+                `An error occurred while trying to register sykmelding. StatusCode: ${res.status}. Message: ${text}`,
+            );
+        }
         throw new Error(text);
     } else {
         const text = await res.text();
