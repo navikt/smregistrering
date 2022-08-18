@@ -31,13 +31,13 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
 
         logger.warn(`Outgoing request headers: ${JSON.stringify(proxyReqOpts.headers)}`);
         logger.warn(
-            `Does it have agent? ${!!proxyReqOpts.agent} Some other snacks: path: ${proxyReqOpts.path}, host: ${
-                proxyReqOpts.host
-            }`,
+            `Does it have agent? ${!!proxyReqOpts.agent}, defaultAgent: ${!!proxyReqOpts._defaultAgent} Some other snacks: path: ${
+                proxyReqOpts.path
+            }, host: ${proxyReqOpts.host}`,
         );
 
-        proxyReqOpts.agent = undefined;
-
+        proxyReqOpts._defaultAgent = undefined;
+        proxyReqOpts.agent = false;
         return proxyReqOpts;
     },
     proxyReqPathResolver: (req: Request) => {
