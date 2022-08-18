@@ -19,7 +19,7 @@ function usePasientOpplysninger(formState: FormType) {
                 setIsloading(true);
                 setPasientNavn(null);
                 setErrorMessage(null);
-                const res = await apiFetch(`/backend/api/v1/pasient`, {
+                const res = await apiFetch(`/api/backend/api/v1/pasient`, {
                     credentials: 'include',
                     headers: { 'X-Pasient-Fnr': formState.pasientFnr },
                 });

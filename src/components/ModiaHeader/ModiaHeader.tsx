@@ -3,17 +3,14 @@ import { Select } from 'nav-frontend-skjema';
 import Image from 'next/image';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 
-// import { ModiaContext, ModiaContextError } from '../../services/modiaService';
-// import { StoreContext } from '../../data/store';
-
-import { ModiaContext } from '../../services/modiaService';
+import { ModiaContext, ModiaContextError } from '../../services/modiaService';
 import { StoreContext } from '../../store';
 
 import styles from './ModiaHeader.module.css';
 import navLogo from './nav-logo.svg';
 
 interface Props {
-    modiaContext: ModiaContext | undefined;
+    modiaContext: ModiaContext | ModiaContextError | undefined;
 }
 
 function ModiaHeader({ modiaContext }: Props): JSX.Element {
@@ -25,7 +22,7 @@ function ModiaHeader({ modiaContext }: Props): JSX.Element {
                 <Image src={navLogo} alt="NAV logo" />
                 <Undertittel>Digitalisering av papirsykmeldinger</Undertittel>
             </div>
-            {modiaContext && (
+            {modiaContext && !('errorType' in modiaContext) && (
                 <div className={styles.enhetPicker}>
                     {aktivEnhet && modiaContext.enheter.length ? (
                         <Select
@@ -47,7 +44,12 @@ function ModiaHeader({ modiaContext }: Props): JSX.Element {
                     <div>{modiaContext.navn}</div>
                 </div>
             )}
-            {!modiaContext && <Undertittel>⚠ Feil ved lasting av enheter</Undertittel>}
+            {(!modiaContext || 'errorType' in modiaContext) && (
+                <>
+                    <Undertittel>⚠ Feil ved lasting av enheter</Undertittel>
+                    {modiaContext && 'errorType' in modiaContext && <Element>{modiaContext.message}</Element>}
+                </>
+            )}
         </header>
     );
 }

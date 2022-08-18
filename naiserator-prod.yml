@@ -13,16 +13,9 @@ spec:
     cpuThresholdPercentage: 90
   port: 3000
   liveness:
-    path: /internal/is_alive
-    initialDelay: 10
-    timeout: 5
-    periodSeconds: 5
-    failureThreshold: 30
+    path: /api/internal/is_alive
   readiness:
-    path: /internal/is_ready
-    initialDelay: 30
-    periodSeconds: 5
-    timeout: 5
+    path: /api/internal/is_ready
   resources:
     limits:
       cpu: 500m
@@ -34,48 +27,20 @@ spec:
     application:
       enabled: true
       tenant: nav.no
-      replyURLs:
-        - 'https://smregistrering.nais.adeo.no/callback'
-  vault:
-    enabled: true
-    paths:
-      - kvPath: /azuread/data/prod/creds/smregistrering
-        mountPath: /secrets/azuread/smregistrering
-      - kvPath: /azuread/data/prod/creds/smregistrering-backend
-        mountPath: /secrets/azuread/smregistrering-backend
-      - kvPath: /kv/prod/fss/smregistrering/teamsykmelding
-        mountPath: /var/run/secrets/nais.io/vault
-  webproxy: true
-  envFrom:
-    - secret: smregistrering-redis-password
+    sidecar:
+      enabled: true
   ingresses:
-    - 'https://smregistrering.nais.adeo.no'
+    - 'https://smregistrering.intern.nav.no'
   env:
-    - name: HOST
-      value: https://smregistrering.nais.adeo.no
-    - name: PORT
-      value: '3000'
-    - name: AAD_REDIRECT_URL
-      value: https://smregistrering.nais.adeo.no/callback
-    - name: DOWNSTREAM_API_PATH
-      value: backend
-    - name: DOWNSTREAM_API_SCOPES
+    - name: SMREGISTRERING_BACKEND_SCOPE
       value: api://prod-gcp.teamsykmelding.smregistrering-backend/.default
-    - name: DOWNSTREAM_API_URL
-      value: https://smregistrering-backend.intern.nav.no/
-    - name: GRAPH_API_CLIENT_ID
-      value: https://graph.microsoft.com
-    - name: GRAPH_API_SCOPES
-      value: https://graph.microsoft.com/.default
+    - name: SMREGISTRERING_BACKEND_HOST
+      value: smregistrering-backend.intern.nav.no
+    - name: MODIACONTEXTHOLDER_SCOPE
+      value: api://prod-fss.personoversikt.modiacontextholder/.default
     - name: MODIACONTEXTHOLDER_PATH
       value: modiacontextholder/api
-    - name: MODIACONTEXTHOLDER_URL
-      value: https://modiacontextholder.nais.adeo.no
-    - name: REDIS_HOST
-      value: smregistrering-redis.teamsykmelding.svc.nais.local
-    - name: REDIS_PORT
-      value: '6379'
-    - name: NODE_EXTRA_CA_CERTS
-      value: /etc/ssl/ca-bundle.pem
+    - name: MODIACONTEXTHOLDER_HOST
+      value: modiacontextholder.prod-fss-pub.nais.io
     - name: RUNTIME_ENVIRONMENT
       value: production

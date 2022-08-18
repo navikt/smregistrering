@@ -12,12 +12,12 @@ describe('Load pasientinfo', () => {
 
     beforeEach(() => {
         mockLocation(oppgaveid);
-        apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, nullFnrOppgave);
+        apiNock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`).reply(200, nullFnrOppgave);
         mockBehandlerinfo(apiNock);
     });
 
     it('Should search for name of pasient when typing 11 digits in pasientFnr input field', async () => {
-        apiNock.get('/backend/api/v1/pasient').reply(200, {
+        apiNock.get('/api/backend/api/v1/pasient').reply(200, {
             fornavn: 'Per',
             mellomnavn: 'Anders',
             etternavn: 'Persson',
@@ -36,7 +36,7 @@ describe('Load pasientinfo', () => {
     });
 
     it('Should display error when request fails', async () => {
-        apiNock.get('/backend/api/v1/pasient').reply(500);
+        apiNock.get('/api/backend/api/v1/pasient').reply(500);
         render(
             <div id="root">
                 <Index />

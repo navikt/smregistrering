@@ -19,13 +19,13 @@ describe('Avvis oppgave', () => {
 
     beforeEach(() => {
         mockLocation(oppgaveid);
-        apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgave);
+        apiNock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgave);
         mockPasientinfo(apiNock);
         mockBehandlerinfo(apiNock);
     });
 
     it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
-        apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/avvis`).reply(200, 'OK');
+        apiNock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/avvis`).reply(200, 'OK');
         render(
             <div id="root">
                 <Index />

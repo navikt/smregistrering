@@ -6,7 +6,7 @@ import Modal from 'nav-frontend-modal';
 import dynamic from 'next/dynamic';
 
 import ModiaHeader from '../components/ModiaHeader/ModiaHeader';
-import { ModiaContext } from '../services/modiaService';
+import { ModiaContext, ModiaContextError } from '../services/modiaService';
 import StoreProvider from '../store';
 
 import '../style/index.css';
@@ -38,7 +38,7 @@ const SetupMock = dynamic(
 );
 
 export interface PageSsrResult {
-    modiaContext?: ModiaContext;
+    modiaContext?: ModiaContext | ModiaContextError;
 }
 
 export interface AppProps<T> extends Omit<NextAppProps<T>, 'pageProps'> {

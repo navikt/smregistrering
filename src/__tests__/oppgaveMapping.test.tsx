@@ -31,7 +31,7 @@ describe('Mapping opppgave fetched from API', () => {
     });
 
     it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', async () => {
-        apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgave);
+        apiNock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgave);
         render(
             <div id="root">
                 <Index />
@@ -201,7 +201,7 @@ describe('Mapping opppgave fetched from API', () => {
     });
 
     it('Should not map any field when "oppgave.papirSmRegistrering" is null', async () => {
-        apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, emptyOppgave);
+        apiNock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`).reply(200, emptyOppgave);
         render(
             <div id="root">
                 <Index />

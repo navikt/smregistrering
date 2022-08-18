@@ -12,11 +12,11 @@ describe('Load pasientinfo', () => {
 
     beforeEach(() => {
         mockLocation(oppgaveid);
-        apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, emptyOppgave);
+        apiNock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`).reply(200, emptyOppgave);
     });
 
     it('Should display modal when clicking "Send til GOSYS"', async () => {
-        apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/tilgosys`).reply(200, 'OK');
+        apiNock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/tilgosys`).reply(200, 'OK');
         render(
             <div id="root">
                 <Index />

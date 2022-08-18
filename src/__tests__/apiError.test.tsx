@@ -21,11 +21,11 @@ describe('Registration api errors', () => {
         mockLocation(oppgaveid);
         mockPasientinfo(apiNock);
         mockBehandlerinfo(apiNock);
-        apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgave);
+        apiNock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgave);
     });
 
     it('Should show received body error message when status code is 400', async () => {
-        apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/send`).reply(400, 'This is an error');
+        apiNock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`).reply(400, 'This is an error');
         render(
             <div id="root">
                 <Index />
@@ -44,7 +44,7 @@ describe('Registration api errors', () => {
     });
 
     it('Should show generic error message when status code is 500', async () => {
-        apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/send`).reply(500, 'This is an error');
+        apiNock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`).reply(500, 'This is an error');
         render(
             <div id="root">
                 <Index />
@@ -65,7 +65,7 @@ describe('Registration api errors', () => {
     });
 
     it('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
-        apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/send`).reply(
+        apiNock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`).reply(
             400,
             {
                 status: 'INVALID',
@@ -99,7 +99,7 @@ describe('Registration api errors', () => {
     });
 
     it('Should show validation error when receiving wrongly structured json and status code is 400', async () => {
-        apiNock.post(`/backend/api/v1/oppgave/${oppgaveid}/send`).reply(400, { wrong: 'prop' });
+        apiNock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`).reply(400, { wrong: 'prop' });
         render(
             <div id="root">
                 <Index />

@@ -1,6 +1,6 @@
 import React, { createContext, PropsWithChildren, useCallback, useState } from 'react';
 
-import { ModiaContext } from './services/modiaService';
+import { ModiaContext, ModiaContextError } from './services/modiaService';
 
 interface Store {
     aktivEnhet: string | null;
@@ -13,7 +13,7 @@ export const StoreContext = createContext<Store>({
 });
 
 type StoreProviderProps = {
-    modiaContext?: ModiaContext;
+    modiaContext?: ModiaContext | ModiaContextError;
 };
 
 const StoreProvider = ({ children, modiaContext }: PropsWithChildren<StoreProviderProps>): JSX.Element => {
@@ -30,8 +30,8 @@ const StoreProvider = ({ children, modiaContext }: PropsWithChildren<StoreProvid
     );
 };
 
-function getDefaultSelectValue(modiaContext: ModiaContext | undefined): string | null {
-    if (!modiaContext) {
+function getDefaultSelectValue(modiaContext: ModiaContext | ModiaContextError | undefined): string | null {
+    if (!modiaContext || 'errorType' in modiaContext) {
         return null;
     }
 

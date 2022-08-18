@@ -41,7 +41,7 @@ const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigsti
             logger.info(`Sender oppgave til gosys. oppgaveid: ${oppgaveid}`);
             setIsLoadingRevert(true);
             setRevertError(null);
-            apiFetch(`/backend/api/v1/oppgave/${oppgaveid}/tilgosys`, {
+            apiFetch(`/api/backend/api/v1/oppgave/${oppgaveid}/tilgosys`, {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {
@@ -79,7 +79,7 @@ const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigsti
             setIsLoadingReject(true);
             setRejectError(null);
             const reason = (e.target as any)[0]?.value as string;
-            apiFetch(`/backend/api/v1/oppgave/${oppgaveid}/avvis`, {
+            apiFetch(`/api/backend/api/v1/oppgave/${oppgaveid}/avvis`, {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {
@@ -227,7 +227,7 @@ const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigsti
                     <AlertStripeInfo className="cancelmodal__content_addition">
                         Send til GOSYS bruker du hvis pdf-en er noe annet enn en norsk sykmelding. Av og til sniker det
                         seg inn et annet dokument i bunken av sykmeldinger hos skannerleverandøren. Det kan være en
-                        utenlandsk sykmelding, en søknad om yrkesskadeerstatning eller noen annet.
+                        utenlandsk sykmelding, en søknad om yrkesskadeerstatning eller noe annet.
                     </AlertStripeInfo>
 
                     <AlertStripeAdvarsel className="cancelmodal__content">

@@ -37,15 +37,15 @@ const SetupMock = () => {
         mock.get('/modiacontextholder/api/context/aktivenhet', aktivenhet);
         mock.delete('/modiacontextholder/api/context/aktivbruker', () => Promise.resolve({ status: 200 }));
 
-        mock.get('/backend/api/v1/oppgave/:oppgaveid', oppgave);
-        mock.get('/backend/api/v1/sykmelding/:sykmeldingid/ferdigstilt', oppgave);
-        mock.post('/backend/api/v1/oppgave/:oppgaveid/send', () => Promise.resolve({ status: 204 })); // For status ok
-        // mock.put('/backend/api/v1/sendPapirSykmeldingManuellOppgave/', () => Promise.resolve({ body: resBody, status: 400 })); // For invalid form response. Errors returned in body. TODO: Something wrong with the mock, works in dev.
-        mock.post('/backend/api/v1/oppgave/:oppgaveid/avvis', () => Promise.resolve({ status: 204 })); // For status ok
-        mock.post('/backend/api/v1/oppgave/:oppgaveid/tilgosys', () => Promise.resolve({ status: 204 })); // For status ok
+        mock.get('/api/backend/api/v1/oppgave/:oppgaveid', oppgave);
+        mock.get('/api/backend/api/v1/sykmelding/:sykmeldingid/ferdigstilt', oppgave);
+        mock.post('/api/backend/api/v1/oppgave/:oppgaveid/send', () => Promise.resolve({ status: 204 })); // For status ok
+        // mock.put('/api/backend/api/v1/sendPapirSykmeldingManuellOppgave/', () => Promise.resolve({ body: resBody, status: 400 })); // For invalid form response. Errors returned in body. TODO: Something wrong with the mock, works in dev.
+        mock.post('/api/backend/api/v1/oppgave/:oppgaveid/avvis', () => Promise.resolve({ status: 204 })); // For status ok
+        mock.post('/api/backend/api/v1/oppgave/:oppgaveid/tilgosys', () => Promise.resolve({ status: 204 })); // For status ok
 
-        mock.get('/backend/api/v1/sykmelder/:hpr', sykmelder);
-        mock.get('/backend/api/v1/pasient', pasientNavn);
+        mock.get('/api/backend/api/v1/sykmelder/:hpr', sykmelder);
+        mock.get('/api/backend/api/v1/pasient', pasientNavn);
     }, []);
 
     return null;
