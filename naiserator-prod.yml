@@ -60,9 +60,9 @@ spec:
     - name: DOWNSTREAM_API_PATH
       value: backend
     - name: DOWNSTREAM_API_SCOPES
-      value: api://prod-fss.teamsykmelding.smregistrering-backend/.default
+      value: api://prod-gcp.teamsykmelding.smregistrering-backend/.default
     - name: DOWNSTREAM_API_URL
-      value: http://smregistrering-backend.teamsykmelding/
+      value: https://smregistrering-backend.intern.nav.no
     - name: GRAPH_API_CLIENT_ID
       value: https://graph.microsoft.com
     - name: GRAPH_API_SCOPES
