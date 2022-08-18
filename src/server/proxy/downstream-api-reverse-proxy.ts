@@ -29,6 +29,15 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
             logger.error(`Could not get access token for request to ${req.originalUrl}.`);
         }
 
+        logger.warn(`Outgoing request headers: ${JSON.stringify(proxyReqOpts.headers)}`);
+        logger.warn(
+            `Does it have agent? ${!!proxyReqOpts.agent} Some other snacks: path: ${proxyReqOpts.path}, host: ${
+                proxyReqOpts.host
+            }`,
+        );
+
+        proxyReqOpts.agent = undefined;
+
         return proxyReqOpts;
     },
     proxyReqPathResolver: (req: Request) => {
@@ -56,8 +65,10 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     userResDecorator: (proxyRes: IncomingMessage, proxyResData: any, userReq: Request) => {
         logger.info(
-            `Received response with statuscode: ${proxyRes.statusCode} from proxied request to ${userReq.method} ${userReq.originalUrl}`,
+            `Received response with statuscode: ${proxyRes.statusCode} ${proxyRes.statusMessage} from proxied request to ${userReq.method} ${userReq.originalUrl} ${userReq.url}`,
         );
+        logger.warn(`Headers on proxy request ${JSON.stringify(proxyRes.headers)}, data: ${proxyResData}`);
+
         return proxyResData;
     },
     userResHeaderDecorator: (headers, _userReq, _userRes, proxyReq) => {
@@ -69,6 +80,16 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
         } else {
             logger.error(`Request does not have Authorization header for request to ${proxyReq.path}`);
         }
+
+        logger.warn(`Hokey so here's the request: 
+                host: ${proxyReq.host},
+                protocol: ${proxyReq.protocol}, 
+                path: ${proxyReq.path}, 
+                method: ${proxyReq.method},
+                headers: ${JSON.stringify(proxyReq.getHeaders())},
+        `);
+        logger.warn(`Incoming request headers: ${JSON.stringify(headers)}`);
+
         return headers;
     },
 });

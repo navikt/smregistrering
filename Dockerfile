@@ -22,5 +22,6 @@ RUN yarn --immutable
 # Copy init script for loading vault credentials into environment variables
 COPY init.sh /app/
 
+ENV DEBUG=express-http-proxy
 ENTRYPOINT ["./init.sh"]
 CMD ["yarn", "start:prod"]

@@ -49,6 +49,7 @@ async function fetchOppgave(url: string): Promise<Oppgave> {
         const json = await res.json();
         return Oppgave.parse(json);
     } else if (res.status === 400) {
+        logger.warn(`Oppgave ${url} (400) er ikke tilgjengelig, body: ${await res.text()}`);
         throw new BadRequestError(`Klarte ikke å hente en gyldig oppgave-id fra lenken: ${window.location.href}`);
     } else if (res.status === 401) {
         throw new UnauthorizedError(`Du har blitt logget ut, eller har ugyldig tilgang. Vennligst last siden på nytt.`);
