@@ -87,7 +87,6 @@ const options = (api: ApiReverseProxy, authClient: Client): ProxyOptions => ({
                 path: ${proxyReq.path}, 
                 method: ${proxyReq.method},
                 headers: ${JSON.stringify(proxyReq.getHeaders())},
-                body: ${JSON.stringify(proxyReq.body)}
         `);
         logger.warn(`Incoming request headers: ${JSON.stringify(headers)}`);
 
