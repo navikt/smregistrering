@@ -2,7 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { withAuthenticatedApi } from '../../../auth/withAuth';
 import { proxyRequest } from '../../../proxy/proxy-backend';
-import { getServerEnv } from '../../../utils/env';
+import { getServerEnv, isLocalOrDemo } from '../../../utils/env';
+import logger from '../../../utils/logger';
 
 const allowedAPIs = [
     'GET /api/v1/pasient',
@@ -16,6 +17,11 @@ const allowedAPIs = [
 ];
 
 const handler = withAuthenticatedApi(async (req: NextApiRequest, res: NextApiResponse) => {
+    if (isLocalOrDemo) {
+        logger.info('Skipping setting up proxy for local or demo');
+        return;
+    }
+
     await proxyRequest({
         req: req,
         res: res,
