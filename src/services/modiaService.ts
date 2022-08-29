@@ -1,10 +1,14 @@
-import { IncomingMessage } from 'http';
-import * as os from 'os';
-
 import { z } from 'zod';
 
 import logger from '../utils/logger';
-import { isLocalOrDemo } from '../utils/env';
+import { getServerEnv, isLocalOrDemo } from '../utils/env';
+import { getAzureAdAccessToken } from '../auth/azureTokens';
+
+export interface ClientError<T> {
+    errorType: T;
+    message: string;
+}
+
 export interface ModiaContext {
     navn: string;
     ident: string;
@@ -12,7 +16,9 @@ export interface ModiaContext {
     enheter: { enhetId: string; navn: string }[];
 }
 
-export async function getModiaContext(req: IncomingMessage): Promise<ModiaContext> {
+export type ModiaContextError = ClientError<'MODIA_ERROR' | 'PARSE_ERROR' | 'FETCH_ERROR'>;
+
+export async function getModiaContext(userAccessToken: string): Promise<ModiaContext | ModiaContextError> {
     if (isLocalOrDemo) {
         logger.warn('Using mocked modia context for local development (or demo)');
         return {
@@ -26,72 +32,113 @@ export async function getModiaContext(req: IncomingMessage): Promise<ModiaContex
         };
     }
 
-    const veileder = await getVeileder(req);
-    const aktivEnhet = await getAktivEnhet(req);
+    const modiaOboToken = await getAzureAdAccessToken(userAccessToken, getServerEnv('MODIACONTEXTHOLDER_SCOPE'));
+    const [veileder, aktivEnhet] = await Promise.allSettled([getVeileder(modiaOboToken), getAktivEnhet(modiaOboToken)]);
+
+    if (veileder.status === 'rejected' || aktivEnhet.status === 'rejected') {
+        if (veileder.status === 'rejected') {
+            logger.error(veileder.reason);
+        }
+        if (aktivEnhet.status === 'rejected') {
+            logger.error(aktivEnhet.reason);
+        }
+
+        return {
+            errorType: 'FETCH_ERROR',
+            message: 'Henting av veileder eller aktiv enhet feilet',
+        };
+    }
+
+    if ('errorType' in aktivEnhet.value) {
+        return aktivEnhet.value;
+    } else if ('errorType' in veileder.value) {
+        return veileder.value;
+    }
 
     return {
-        aktivEnhet: aktivEnhet.aktivEnhet,
-        navn: veileder.navn,
-        ident: veileder.ident,
-        enheter: veileder.enheter,
+        aktivEnhet: aktivEnhet.value.aktivEnhet,
+        navn: veileder.value.navn,
+        ident: veileder.value.ident,
+        enheter: veileder.value.enheter,
     };
 }
 
-function reqToFetchHeaders(req: IncomingMessage) {
-    const headers = new Headers();
-    Object.entries(req.headers).forEach(([name, value]) => {
-        if (value) headers.append(name, Array.isArray(value) ? value.join(', ') : value);
-    });
-    return headers;
+async function getVeileder(accessToken: string): Promise<Veileder | ModiaContextError> {
+    const url = `https://${getServerEnv('MODIACONTEXTHOLDER_HOST')}/modiacontextholder/api/decorator/v2`;
+
+    try {
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        if (!response.ok) {
+            logger.error(
+                `Modia context responded with ${response.status} ${
+                    response.statusText
+                }, body: ${await response.text()}`,
+            );
+            return {
+                errorType: 'MODIA_ERROR',
+                message: `Klarte ikke å hente veileder`,
+            };
+        }
+
+        const maybeVeileder = Veileder.safeParse(await response.json());
+
+        if (maybeVeileder.success) {
+            return maybeVeileder.data;
+        } else {
+            const errorMessage = `Unable to parse modia context response: ${maybeVeileder.error.message}`;
+            logger.error(errorMessage);
+            return {
+                errorType: 'PARSE_ERROR',
+                message: `Klarte ikke å hente veileder`,
+            };
+        }
+    } catch (e) {
+        logger.error('Unknown modia error: Unable to get veileder from modia context');
+        throw e;
+    }
 }
 
-async function getVeileder(req: IncomingMessage): Promise<Veileder> {
-    const url = `http://${os.hostname()}:${process.env.PORT ?? 3000}/${
-        process.env['MODIACONTEXTHOLDER_PATH']
-    }/decorator/v2`;
+async function getAktivEnhet(oboToken: string): Promise<AktivEnhet | ModiaContextError> {
+    const url = `https://${getServerEnv('MODIACONTEXTHOLDER_HOST')}/modiacontextholder/api/context/aktivenhet`;
 
-    logger.info(`Fetching veileder from Modia, url: ${url}`);
+    try {
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${oboToken}`,
+            },
+        });
 
-    const response = await fetch(url, { headers: reqToFetchHeaders(req) });
+        if (!response.ok) {
+            logger.error(
+                `Modia aktiv enhet responded with ${response.status} ${
+                    response.statusText
+                }, body: ${await response.text()}`,
+            );
+            return {
+                errorType: 'MODIA_ERROR',
+                message: `Klarte ikke å hente aktiv enhet`,
+            };
+        }
 
-    if (!response.ok) {
-        const errorMessage = `Modia context responded with ${response.status} ${
-            response.statusText
-        }, body: ${await response.text()}`;
-        logger.error(errorMessage);
-        throw new Error(errorMessage);
-    }
+        const maybeAktivEnhet = AktivEnhet.safeParse(await response.json());
 
-    const maybeVeileder = Veileder.safeParse(await response.json());
-
-    if (maybeVeileder.success) {
-        return maybeVeileder.data;
-    } else {
-        const errorMessage = `Unable to parse modia context response: ${maybeVeileder.error.message}`;
-        logger.error(errorMessage);
-        throw new Error(errorMessage);
-    }
-}
-
-async function getAktivEnhet(req: IncomingMessage): Promise<AktivEnhet> {
-    const url = `http://${os.hostname()}:${process.env.PORT ?? 3000}/${
-        process.env['MODIACONTEXTHOLDER_PATH']
-    }/context/aktivenhet`;
-
-    logger.info(`Fetching aktiv enhet from Modia, url: ${url}`);
-
-    const response = await fetch(url, { headers: reqToFetchHeaders(req) });
-
-    if (!response.ok) {
-        throw new Error(`Modia aktiv enhet responded with ${response.status} ${response.statusText}`);
-    }
-
-    const maybeAktivEnhet = AktivEnhet.safeParse(await response.json());
-
-    if (maybeAktivEnhet.success) {
-        return maybeAktivEnhet.data;
-    } else {
-        throw new Error(`Unable to parse modia aktiv enhet response: ${maybeAktivEnhet.error.message}`);
+        if (maybeAktivEnhet.success) {
+            return maybeAktivEnhet.data;
+        } else {
+            logger.error(`Unable to parse modia aktiv enhet response: ${maybeAktivEnhet.error.message}`);
+            return {
+                errorType: 'PARSE_ERROR',
+                message: `Klarte ikke å hente aktiv enhet`,
+            };
+        }
+    } catch (e) {
+        logger.error('Unable to get aktiv enhet from modia context');
+        throw e;
     }
 }
 

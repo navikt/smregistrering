@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { GetServerSideProps } from 'next';
 
 import ErrorView from '../components/ErrorView';
 import Form from '../components/Form/Form';
@@ -11,8 +10,7 @@ import { Oppgave } from '../types/oppgave/Oppgave';
 import { getDiagnosekoder, getOppgave, OppgaveAlreadySolvedError, UnauthorizedError } from '../utils/dataUtils';
 import { getModiaContext } from '../services/modiaService';
 import { StoreContext } from '../store';
-
-import { PageSsrResult } from './_app';
+import { withAuthenticatedPage } from '../auth/withAuth';
 
 const Index = () => {
     const { aktivEnhet } = useContext(StoreContext);
@@ -90,14 +88,14 @@ const Index = () => {
     );
 };
 
-export const getServerSideProps: GetServerSideProps<PageSsrResult> = async ({ req }) => {
-    const modiaContext = await getModiaContext(req);
+export const getServerSideProps = withAuthenticatedPage(async (_, accessToken) => {
+    const modiaContext = await getModiaContext(accessToken);
 
     return {
         props: {
             modiaContext,
         },
     };
-};
+});
 
 export default Index;

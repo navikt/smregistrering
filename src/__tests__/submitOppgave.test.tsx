@@ -24,9 +24,9 @@ describe('Submit oppgave', () => {
     });
 
     it('Should be able to fill out and submit form', async () => {
-        apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, emptyOppgave);
+        apiNock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`).reply(200, emptyOppgave);
         apiNock
-            .post(`/backend/api/v1/oppgave/${oppgaveid}/send`, (body) => {
+            .post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`, (body) => {
                 expect(body).toEqual({
                     pasientFnr: '12345678910',
                     sykmelderFnr: '',

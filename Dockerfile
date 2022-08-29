@@ -19,8 +19,4 @@ COPY *config* /app/
 
 RUN yarn --immutable
 
-# Copy init script for loading vault credentials into environment variables
-COPY init.sh /app/
-
-ENTRYPOINT ["./init.sh"]
 CMD ["yarn", "start:prod"]

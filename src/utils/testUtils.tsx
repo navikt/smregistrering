@@ -21,7 +21,7 @@ export function mockBehandlerinfo(nock: Scope): void {
 }
 
 export function mockPasientinfo(nock: Scope): void {
-    nock.get('/backend/api/v1/pasient').reply(200, pasientNavn);
+    nock.get('/api/backend/api/v1/pasient').reply(200, pasientNavn);
 }
 
 const AllTheProviders = ({ children }: PropsWithChildren<unknown>) => (

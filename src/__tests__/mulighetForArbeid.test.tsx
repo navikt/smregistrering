@@ -19,14 +19,14 @@ describe('Mulighet for arbeid section', () => {
 
     beforeEach(() => {
         mockLocation(oppgaveid);
-        apiNock.get(`/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgaveWithoutPeriods);
+        apiNock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgaveWithoutPeriods);
         mockBehandlerinfo(apiNock);
         mockPasientinfo(apiNock);
     });
 
     it('Should be able to delete periode without messing up other periods', async () => {
         apiNock
-            .post(`/backend/api/v1/oppgave/${oppgaveid}/send`, (body) => {
+            .post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`, (body) => {
                 expect(body.perioder).toEqual([
                     {
                         fom: '2020-01-01',

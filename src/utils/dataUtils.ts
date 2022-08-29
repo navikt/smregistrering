@@ -32,12 +32,12 @@ export const getOppgave = async (): Promise<OppgaveResult> => {
     const id = getIdFromSearchParams();
     if ('oppgaveId' in id) {
         const oppgaveId = id.oppgaveId;
-        const url = `/backend/api/v1/oppgave/${oppgaveId}`;
+        const url = `/api/backend/api/v1/oppgave/${oppgaveId}`;
         const oppgave = await fetchOppgave(url);
         return { type: 'Oppgave', oppgave, sykmeldingId: null };
     } else {
         const sykmeldingId = id.sykmeldingId;
-        const url = `/backend/api/v1/sykmelding/${sykmeldingId}/ferdigstilt`;
+        const url = `/api/backend/api/v1/sykmelding/${sykmeldingId}/ferdigstilt`;
         const oppgave = await fetchOppgave(url);
         return { type: 'FerdigstiltOppgave', oppgave, sykmeldingId };
     }
@@ -49,6 +49,7 @@ async function fetchOppgave(url: string): Promise<Oppgave> {
         const json = await res.json();
         return Oppgave.parse(json);
     } else if (res.status === 400) {
+        logger.warn(`Oppgave ${url} (400) er ikke tilgjengelig, body: ${await res.text()}`);
         throw new BadRequestError(`Klarte ikke å hente en gyldig oppgave-id fra lenken: ${window.location.href}`);
     } else if (res.status === 401) {
         throw new UnauthorizedError(`Du har blitt logget ut, eller har ugyldig tilgang. Vennligst last siden på nytt.`);
@@ -61,6 +62,6 @@ async function fetchOppgave(url: string): Promise<Oppgave> {
     } else if (res.status === 410) {
         throw new OppgaveGoneError(`Fant ingen skannede dokumenter. Oppgaven er sendt tilbake til GOSYS.`);
     } else {
-        throw new Error('Ukjent feil med statuskode: ' + res.status);
+        throw new Error(`Ukjent feil med statuskode: ${res.status} ${res.statusText}, body: ${await res.text()}`);
     }
 }

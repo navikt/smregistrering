@@ -63,11 +63,11 @@ export async function postRegistrertSykmelding(
 function getUrl(isFerdigstilt: boolean, oppgaveId: number, sykmeldingId: string | null) {
     if (isFerdigstilt) {
         return sykmeldingId != null
-            ? `/backend/api/v1/sykmelding/${sykmeldingId}`
-            : `/backend/api/v1/oppgave/${oppgaveId}/endre`;
+            ? `/api/backend/api/v1/sykmelding/${sykmeldingId}`
+            : `/api/backend/api/v1/oppgave/${oppgaveId}/endre`;
     }
 
-    return `/backend/api/v1/oppgave/${oppgaveId}/send`;
+    return `/api/backend/api/v1/oppgave/${oppgaveId}/send`;
 }
 
 export function apiFetch(...args: Parameters<typeof fetch>) {
