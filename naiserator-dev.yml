@@ -29,13 +29,17 @@ spec:
       tenant: trygdeetaten.no
     sidecar:
       enabled: true
+  accessPolicy:
+    outbound:
+      rules:
+        - application: smregistrering-backend
   ingresses:
     - 'https://smregistrering.dev.intern.nav.no'
   env:
     - name: SMREGISTRERING_BACKEND_SCOPE
       value: api://dev-gcp.teamsykmelding.smregistrering-backend/.default
     - name: SMREGISTRERING_BACKEND_HOST
-      value: smregistrering-backend.dev.intern.nav.no
+      value: smregistrering-backend
     - name: MODIACONTEXTHOLDER_SCOPE
       value: api://dev-fss.personoversikt.modiacontextholder-q1/.default
     - name: MODIACONTEXTHOLDER_HOST

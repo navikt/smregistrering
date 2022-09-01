@@ -31,6 +31,10 @@ spec:
       enabled: true
   ingresses:
     - 'https://smregistrering.intern.nav.no'
+  accessPolicy:
+    outbound:
+      rules:
+        - application: smregistrering-backend
   env:
     - name: SMREGISTRERING_BACKEND_SCOPE
       value: api://prod-gcp.teamsykmelding.smregistrering-backend/.default
