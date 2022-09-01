@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@master
+        uses: actions/checkout@3
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         env:
@@ -26,9 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Use Node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16.x'
       - uses: actions/cache@v3
@@ -61,7 +61,7 @@ jobs:
     needs: [snyk-test, build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - name: Deploy app to dev-fss
         uses: nais/deploy/actions/deploy@master
         env:
