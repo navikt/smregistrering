@@ -39,7 +39,7 @@ spec:
     - name: SMREGISTRERING_BACKEND_SCOPE
       value: api://prod-gcp.teamsykmelding.smregistrering-backend/.default
     - name: SMREGISTRERING_BACKEND_HOST
-      value: smregistrering-backend.intern.nav.no
+      value: smregistrering-backend
     - name: MODIACONTEXTHOLDER_SCOPE
       value: api://prod-fss.personoversikt.modiacontextholder/.default
     - name: MODIACONTEXTHOLDER_PATH
