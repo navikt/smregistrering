@@ -1,5 +1,5 @@
-import * as https from 'https';
-import { RequestOptions } from 'https';
+import * as https from 'http';
+import { RequestOptions } from 'http';
 import { Readable } from 'stream';
 
 import { NextApiRequest, NextApiResponse } from 'next';
@@ -33,7 +33,7 @@ export async function proxyRequest(options: Options): Promise<void> {
 
     const requestOptions: RequestOptions = {
         hostname: options.backendHostname,
-        port: 443,
+        port: 80,
         path: rewrittenPath,
         method: options.req.method,
         headers: {},
