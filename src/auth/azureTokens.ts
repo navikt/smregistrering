@@ -11,12 +11,14 @@ export const getAzureAdAccessToken = async (subjectToken: string, scope: string)
     const cacheKey = `${subjectToken}-${scope}`;
     const tokenInCache: string | undefined = tokenCache.get(cacheKey);
     if (tokenInCache) {
+        logger.info('Found user token in cache');
         return tokenInCache;
     }
 
     try {
         const [tokenSet, accessToken] = await getTokenSet(subjectToken, scope);
         tokenCache.set(cacheKey, tokenSet.access_token, (tokenSet.expires_in ?? 65) - 5);
+        logger.info('Token fetched from Azure AD');
         return accessToken;
     } catch (err: unknown) {
         if (err instanceof OPError || err instanceof RPError) {

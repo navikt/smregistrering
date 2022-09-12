@@ -6,7 +6,7 @@ import { PageSsrResult } from '../pages/_app';
 
 import { validateAzureToken } from './azureValidateToken';
 
-type ApiHandler = (req: NextApiRequest, res: NextApiResponse) => void | Promise<unknown>;
+type ApiHandler = (req: NextApiRequest, res: NextApiResponse, accessToken: string) => void | Promise<unknown>;
 type PageHandler = (
     context: GetServerSidePropsContext,
     accessToken: string,
@@ -50,10 +50,10 @@ export function withAuthenticatedPage(handler: PageHandler) {
  * Wonderwall (https://doc.nais.io/security/auth/idporten/sidecar/). Will deny requests if Wonderwall cookie is missing.
  */
 export function withAuthenticatedApi(handler: ApiHandler): ApiHandler {
-    return async function withBearerTokenHandler(req, res, ...rest) {
+    return async function withBearerTokenHandler(req, res) {
         if (isLocalOrDemo) {
             logger.info('Is running locally or in demo, skipping authentication for API');
-            return handler(req, res, ...rest);
+            return handler(req, res, 'fake-local-token');
         }
 
         const bearerToken: string | null | undefined = req.headers['authorization'];
@@ -62,6 +62,6 @@ export function withAuthenticatedApi(handler: ApiHandler): ApiHandler {
             return;
         }
 
-        return handler(req, res, ...rest);
+        return handler(req, res, bearerToken.replace('Bearer ', ''));
     };
 }
