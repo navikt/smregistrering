@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { logger } from '@navikt/next-logger';
 
-import logger from '../../../utils/logger';
 import { FormType } from '../Form';
 import { Sykmelder } from '../../../types/Sykmelder';
 import { apiFetch } from '../../../utils/fetchUtils';

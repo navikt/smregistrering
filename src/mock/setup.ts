@@ -1,7 +1,6 @@
 import { useLayoutEffect } from 'react';
 import FetchMock, { MiddlewareUtils } from 'yet-another-fetch-mock';
-
-import logger from '../utils/logger';
+import { logger } from '@navikt/next-logger';
 
 import oppgave from './oppgave.json';
 import pasientNavn from './pasientNavn.json';

@@ -1,7 +1,8 @@
+import { logger } from '@navikt/next-logger';
+
 import { DiagnosekodeSystem, Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 import { Oppgave } from '../types/oppgave/Oppgave';
 
-import logger from './logger';
 import { getIdFromSearchParams } from './urlUtils';
 import { apiFetch } from './fetchUtils';
 

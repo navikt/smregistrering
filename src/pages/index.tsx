@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { logger } from '@navikt/next-logger';
 
 import ErrorView from '../components/ErrorView';
 import Form from '../components/Form/Form';
 import LoadingView from '../components/LoadingView';
 import Pdf from '../components/Pdf/Pdf';
-import logger from '../utils/logger';
 import { Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder';
 import { Oppgave } from '../types/oppgave/Oppgave';
 import { getDiagnosekoder, getOppgave, OppgaveAlreadySolvedError, UnauthorizedError } from '../utils/dataUtils';

@@ -5,10 +5,10 @@ import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { Fareknapp, Knapp } from 'nav-frontend-knapper';
 import { Select } from 'nav-frontend-skjema';
 import Lenke from 'nav-frontend-lenker';
+import { logger } from '@navikt/next-logger';
 
 import BackArrow from '../../../svg/BackArrow';
 import WarningCircle from '../../../svg/WarningCircle';
-import logger from '../../../utils/logger';
 import { apiFetch } from '../../../utils/fetchUtils';
 import { getReturnToURL } from '../../../utils/urlUtils';
 
