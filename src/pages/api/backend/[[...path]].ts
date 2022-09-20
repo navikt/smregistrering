@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { logger } from '@navikt/next-logger';
 
 import { withAuthenticatedApi } from '../../../auth/withAuth';
 import { proxyRequest } from '../../../proxy/proxy-backend';
 import { getServerEnv, isLocalOrDemo } from '../../../utils/env';
-import logger from '../../../utils/logger';
 
 const allowedAPIs = [
     'GET /api/v1/pasient',

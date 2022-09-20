@@ -1,6 +1,5 @@
 import { errors, TokenSet } from 'openid-client';
-
-import logger from '../utils/logger';
+import { logger } from '@navikt/next-logger';
 
 import { getAzureAuthClient } from './azureClient';
 import tokenCache from './tokenCache';

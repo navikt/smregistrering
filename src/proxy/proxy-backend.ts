@@ -3,8 +3,8 @@ import { RequestOptions } from 'http';
 import { Readable } from 'stream';
 
 import { NextApiRequest, NextApiResponse } from 'next';
+import { logger } from '@navikt/next-logger';
 
-import logger from '../utils/logger';
 import { getAzureAdAccessToken } from '../auth/azureTokens';
 
 import { stream2buffer } from './stream2buffer';

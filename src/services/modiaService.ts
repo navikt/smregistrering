@@ -1,6 +1,6 @@
 import { z } from 'zod';
+import { logger } from '@navikt/next-logger';
 
-import logger from '../utils/logger';
 import { getServerEnv, isLocalOrDemo } from '../utils/env';
 import { getAzureAdAccessToken } from '../auth/azureTokens';
 
