@@ -1,9 +1,9 @@
 import { proxiedApiRouteConfig, proxyApiRouteRequest } from '@navikt/next-api-proxy';
 import { logger } from '@navikt/next-logger';
+import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall';
 
 import { withAuthenticatedApi } from '../../../auth/withAuth';
 import { getServerEnv, isLocalOrDemo } from '../../../utils/env';
-import { getAzureAdAccessToken } from '../../../auth/azureTokens';
 
 const allowedAPIs = [
     'GET /api/v1/pasient',
@@ -31,7 +31,16 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
         return;
     }
 
-    const bearerToken = await getAzureAdAccessToken(accessToken, getServerEnv('SMREGISTRERING_BACKEND_SCOPE'));
+    const bearerToken = await grantAzureOboToken(accessToken, getServerEnv('SMREGISTRERING_BACKEND_SCOPE'));
+
+    if (isInvalidTokenSet(bearerToken)) {
+        if (bearerToken.error instanceof Error) {
+            logger.error(new Error(bearerToken.message, { cause: bearerToken.error }));
+        } else {
+            logger.error(`${bearerToken.errorType}: ${bearerToken.message}`);
+        }
+        return;
+    }
 
     logger.info(`Proxying request for path ${getServerEnv('SMREGISTRERING_BACKEND_HOST')}${rewrittenPath}`);
     await proxyApiRouteRequest({

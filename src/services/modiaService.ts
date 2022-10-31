@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { logger } from '@navikt/next-logger';
+import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall';
 
 import { getServerEnv, isLocalOrDemo } from '../utils/env';
-import { getAzureAdAccessToken } from '../auth/azureTokens';
 
 export interface ClientError<T> {
     errorType: T;
@@ -32,7 +32,13 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
         };
     }
 
-    const modiaOboToken = await getAzureAdAccessToken(userAccessToken, getServerEnv('MODIACONTEXTHOLDER_SCOPE'));
+    const modiaOboToken = await grantAzureOboToken(userAccessToken, getServerEnv('MODIACONTEXTHOLDER_SCOPE'));
+    if (isInvalidTokenSet(modiaOboToken)) {
+        throw new Error(`Unable to get modia obo token: ${modiaOboToken.errorType} ${modiaOboToken.message}`, {
+            cause: modiaOboToken.error instanceof Error ? modiaOboToken.error : undefined,
+        });
+    }
+
     const [veileder, aktivEnhet] = await Promise.allSettled([getVeileder(modiaOboToken), getAktivEnhet(modiaOboToken)]);
 
     if (veileder.status === 'rejected' || aktivEnhet.status === 'rejected') {

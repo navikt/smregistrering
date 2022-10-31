@@ -1,10 +1,9 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next';
 import { logger } from '@navikt/next-logger';
+import { validateAzureToken } from '@navikt/next-auth-wonderwall';
 
 import { isLocalOrDemo } from '../utils/env';
 import { PageSsrResult } from '../pages/_app';
-
-import { validateAzureToken } from './azureValidateToken';
 
 type ApiHandler = (req: NextApiRequest, res: NextApiResponse, accessToken: string) => void | Promise<unknown>;
 type PageHandler = (
@@ -29,12 +28,16 @@ export function withAuthenticatedPage(handler: PageHandler) {
 
         const request = context.req;
         const bearerToken: string | null | undefined = request.headers['authorization'];
-        if (!bearerToken || !(await validateAzureToken(bearerToken))) {
-            if (!bearerToken) {
-                logger.info('Could not find any bearer token on the request. Redirecting to login.');
-            } else {
-                logger.error('Invalid JWT token found, redirecting to login.');
-            }
+        if (!bearerToken) {
+            logger.info('Could not find any bearer token on the request. Redirecting to login.');
+            return {
+                redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
+            };
+        }
+
+        const validationResult = await validateAzureToken(bearerToken);
+        if (validationResult !== 'valid') {
+            logger.error(`Invalid JWT token found (${validationResult.message}), redirecting to login.`);
 
             return {
                 redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
