@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - 'redirect-dev.yaml'
-      - '.github/workflows/deploy-redirect**'
+      - '.github/workflows/deploy-redirect-dev**'
     branches:
       - '**'
       - '!master'
