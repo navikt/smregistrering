@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: 'Ingress'
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: https://smregistrering.dev.intern.nav.no$1$2
+  labels:
+    app: smregistrering
+    team: teamsykmelding
+  name: smregistrering-gosys-redirect
+  namespace: teamsykmelding
+spec:
+  ingressClassName: gw-dev-intern-nav-no
+  rules:
+    - host: sykmelding-redirect.dev.intern.nav.no
+      http:
+        paths:
+          - backend:
+              service:
+                name: smregistrering
+                port:
+                  number: 80
+            path: /smr(/|$)(.*)
+            pathType: ImplementationSpecific
