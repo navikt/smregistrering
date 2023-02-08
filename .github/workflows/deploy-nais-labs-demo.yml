@@ -55,6 +55,7 @@ jobs:
       - name: Deploy app to labs-gcp
         uses: nais/deploy/actions/deploy@master
         env:
+          DEPLOY_SERVER: deploy.nais.io:443
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_TEAMSYKMELDING }}
           CLUSTER: labs-gcp
           RESOURCE: naiserator-demo.yml
