@@ -38,4 +38,4 @@ yarn test
 
 ## Testing av tjenesteflyt i testmiljø
 
-Applikasjonen er tilgjengelig i testmiljø på https://smregistrering.dev.intern.nav.no/?oppgaveid={oppgaveid} lokalt via `naisdevice` eller via utviklerimage. `oppgaveid` referer til oppgaven som opprettes i `smregistrering-backend` og lagres i tilhørende database.
+Applikasjonen er tilgjengelig i testmiljø på https://smregistrering.dev.intern.nav.no/?oppgaveid={oppgaveid} lokalt via `naisdevice`. `oppgaveid` referer til oppgaven som opprettes i `smregistrering-backend` og lagres i tilhørende database.
