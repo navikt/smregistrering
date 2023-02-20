@@ -25,6 +25,7 @@ spec:
       memory: 256Mi
   azure:
     application:
+      allowAllUsers: true
       enabled: true
       tenant: nav.no
     sidecar:
