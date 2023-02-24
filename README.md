@@ -12,7 +12,7 @@ En demoside er offentlig tilgjengelig på: https://smregistrering.labs.nais.io/
 
 ## Utvikling
 
-Får å få tilgang til npm pakker som ligger på github, må man autentisere seg
+Får å få tilgang til npm pakker som ligger på GitHub, må man autentisere seg
 
 Legge til følgende miljø variabel, med eit personlig GitHub token
 Slik:
