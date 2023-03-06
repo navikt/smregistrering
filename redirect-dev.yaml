@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: 'Ingress'
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: https://smregistrering.dev.intern.nav.no$1$2
+    nginx.ingress.kubernetes.io/rewrite-target: https://smregistrering.intern.dev.nav.no$1$2
   labels:
     app: smregistrering
     team: teamsykmelding
