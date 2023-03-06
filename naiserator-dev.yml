@@ -35,7 +35,7 @@ spec:
       rules:
         - application: smregistrering-backend
   ingresses:
-    - 'https://smregistrering.dev.intern.nav.no'
+    - 'https://smregistrering.intern.dev.nav.no'
   env:
     - name: SMREGISTRERING_BACKEND_SCOPE
       value: api://dev-gcp.teamsykmelding.smregistrering-backend/.default
