@@ -11,7 +11,7 @@ metadata:
 spec:
   ingressClassName: gw-dev-intern-nav-no
   rules:
-    - host: sykmelding-redirect.dev.intern.nav.no
+    - host: sykmelding-redirect.intern.dev.nav.no
       http:
         paths:
           - backend:
