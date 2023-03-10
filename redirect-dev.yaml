@@ -9,7 +9,7 @@ metadata:
   name: smregistrering-gosys-redirect
   namespace: teamsykmelding
 spec:
-  ingressClassName: gw-dev-intern-nav-no
+  ingressClassName: nais-ingress
   rules:
     - host: sykmelding-redirect.intern.dev.nav.no
       http:
