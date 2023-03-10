@@ -6,7 +6,6 @@ on:
       - '.github/workflows/deploy-redirect-dev**'
     branches:
       - '**'
-      - '!master'
 jobs:
   deploy:
     name: deploy redirect ingress to dev
