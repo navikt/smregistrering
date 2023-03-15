@@ -56,11 +56,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Deploy app to labs-gcp
+      - name: Deploy app to dev-gcp
         uses: nais/deploy/actions/deploy@master
         env:
-          DEPLOY_SERVER: deploy.nais.io:443
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_TEAMSYKMELDING }}
-          CLUSTER: labs-gcp
+          CLUSTER: dev-gcp
           RESOURCE: naiserator-demo.yml
           VAR: image=${{ needs.build.outputs.image }}
