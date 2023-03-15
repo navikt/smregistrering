@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - 'master'
-env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering-prod:${{ github.sha }}
-  NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 jobs:
   snyk-monitor:
     name: monitor dependencies
@@ -35,6 +32,9 @@ jobs:
           args: --org=teamsykmelding --severity-threshold=high --all-projects
 
   build:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     name: Build, test, push & deploy
     runs-on: ubuntu-latest
     steps:
@@ -62,13 +62,15 @@ jobs:
           NEXT_PUBLIC_MODIA_URL: https://syfomodiaperson.intern.nav.no/sykefravaer
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ENABLED: 'true'
-      - name: Build and publish Docker image
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          docker build --build-arg NPM_AUTH_TOKEN=${NPM_AUTH_TOKEN} --tag ${IMAGE} .
-          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
-          docker push ${IMAGE}
+      - name: docker-build-push
+        uses: nais/docker-build-push@v0
+        id: docker-build-push
+        with:
+          team: teamsykmelding
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+    outputs:
+      image: ${{ steps.docker-build-push.outputs.image }}
   deploy:
     name: deploy to prod
     needs: [snyk-test, build]
@@ -81,3 +83,4 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_TEAMSYKMELDING }}
           CLUSTER: prod-gcp
           RESOURCE: naiserator-prod.yml
+          VAR: image=${{ needs.build.outputs.image }}
