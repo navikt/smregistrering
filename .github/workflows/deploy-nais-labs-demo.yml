@@ -4,6 +4,7 @@ on:
     branches:
       - 'master'
 env:
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/smregistrering-demo:${{ github.sha }}
   NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 jobs:
   snyk-test:
@@ -20,9 +21,6 @@ jobs:
           command: test
           args: --org=teamsykmelding --severity-threshold=high --all-projects
   build:
-    permissions:
-      contents: 'read'
-      id-token: 'write'
     name: Checkout code and create docker tag
     runs-on: ubuntu-latest
     steps:
@@ -41,15 +39,13 @@ jobs:
         env:
           NEXT_PUBLIC_START_WITH_MOCK: true
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      - name: docker-build-push
-        uses: nais/docker-build-push@v0
-        id: docker-build-push
-        with:
-          team: teamsykmelding
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-    outputs:
-      image: ${{ steps.docker-build-push.outputs.image }}
+      - name: Build and publish Docker image
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker build --build-arg NPM_AUTH_TOKEN=${NPM_AUTH_TOKEN} --tag ${IMAGE} .
+          docker login docker.pkg.github.com -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+          docker push ${IMAGE}
   deploy:
     name: deploy to demo
     needs: [snyk-test, build]
@@ -63,4 +59,3 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY_TEAMSYKMELDING }}
           CLUSTER: labs-gcp
           RESOURCE: naiserator-demo.yml
-          VAR: image=${{ needs.build.outputs.image }}
