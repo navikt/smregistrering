@@ -9,7 +9,7 @@ spec:
   image: {{image}}
   replicas:
     min: 1
-    max: 1
+    max: 2
     cpuThresholdPercentage: 90
   port: 3000
   liveness:
@@ -26,10 +26,10 @@ spec:
   resources:
     limits:
       cpu: 500m
-      memory: 1Gi
+      memory: 2Gi
     requests:
       cpu: 100m
-      memory: 128Mi
+      memory: 256Mi
   ingresses:
     - 'https://smregistrering.ekstern.dev.nav.no/'
   env:
