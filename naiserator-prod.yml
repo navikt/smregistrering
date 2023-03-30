@@ -36,6 +36,8 @@ spec:
     outbound:
       rules:
         - application: smregistrering-backend
+      external:
+        - host: modiacontextholder.prod-fss-pub.nais.io
   env:
     - name: SMREGISTRERING_BACKEND_SCOPE
       value: api://prod-gcp.teamsykmelding.smregistrering-backend/.default
