@@ -34,6 +34,8 @@ spec:
     outbound:
       rules:
         - application: smregistrering-backend
+      external:
+        - host: modiacontextholder-q1.dev-fss-pub.nais.io
   ingresses:
     - 'https://smregistrering.intern.dev.nav.no'
   env:
