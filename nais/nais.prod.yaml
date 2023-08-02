@@ -45,9 +45,5 @@ spec:
       value: smregistrering-backend
     - name: MODIACONTEXTHOLDER_SCOPE
       value: api://prod-fss.personoversikt.modiacontextholder/.default
-    - name: MODIACONTEXTHOLDER_PATH
-      value: modiacontextholder/api
     - name: MODIACONTEXTHOLDER_HOST
       value: modiacontextholder.prod-fss-pub.nais.io
-    - name: RUNTIME_ENVIRONMENT
-      value: production
