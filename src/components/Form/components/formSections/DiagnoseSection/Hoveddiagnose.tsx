@@ -1,27 +1,27 @@
-import React, { useEffect } from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Select } from 'nav-frontend-skjema';
+import React, { useEffect } from 'react'
+import { Element, Normaltekst } from 'nav-frontend-typografi'
+import { Select } from 'nav-frontend-skjema'
 
-import FormLabel from '../../formComponents/FormLabel';
-import Row from '../../formComponents/Row';
-import SearchableInput from '../../formComponents/SearchableInput';
-import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
-import { FormType } from '../../../Form';
+import FormLabel from '../../formComponents/FormLabel'
+import Row from '../../formComponents/Row'
+import SearchableInput from '../../formComponents/SearchableInput'
+import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder'
+import { FormType } from '../../../Form'
 
 type HoveddiagnoseProps = {
-    id: string;
-    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
-    formState: FormType;
-    diagnosekoder: Diagnosekoder;
-    feil?: string;
-};
+    id: string
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>
+    formState: FormType
+    diagnosekoder: Diagnosekoder
+    feil?: string
+}
 
 const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: HoveddiagnoseProps) => {
     useEffect(() => {
         if (!formState.hovedDiagnose) {
-            setFormState((formState) => ({ ...formState, hovedDiagnose: { system: DiagnosekodeSystem.ICD10 } }));
+            setFormState((formState) => ({ ...formState, hovedDiagnose: { system: DiagnosekodeSystem.ICD10 } }))
         }
-    }, [formState, setFormState]);
+    }, [formState, setFormState])
 
     return (
         <div id={id}>
@@ -38,7 +38,7 @@ const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: Hov
                                 ...formState.hovedDiagnose,
                                 system: value,
                             },
-                        }));
+                        }))
                     }}
                     label={<Element>3.1.1 Kodesystem</Element>}
                 >
@@ -54,7 +54,7 @@ const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: Hov
                         setFormState((formState) => ({
                             ...formState,
                             hovedDiagnose: { ...formState.hovedDiagnose, kode, tekst },
-                        }));
+                        }))
                     }}
                     value={formState.hovedDiagnose ?? undefined}
                 />
@@ -71,7 +71,7 @@ const Hoveddiagnose = ({ id, setFormState, formState, diagnosekoder, feil }: Hov
                 </p>
             ) : null}
         </div>
-    );
-};
+    )
+}
 
-export default Hoveddiagnose;
+export default Hoveddiagnose

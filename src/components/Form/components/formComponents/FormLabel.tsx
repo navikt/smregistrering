@@ -1,8 +1,8 @@
-import Hjelpetekst from 'nav-frontend-hjelpetekst';
+import Hjelpetekst from 'nav-frontend-hjelpetekst'
 
 interface FormLabelProps {
-    label: string;
-    helpText?: string;
+    label: string
+    helpText?: string
 }
 
 const FormLabel = ({ label, helpText }: FormLabelProps) => {
@@ -15,7 +15,7 @@ const FormLabel = ({ label, helpText }: FormLabelProps) => {
                 </Hjelpetekst>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default FormLabel;
+export default FormLabel

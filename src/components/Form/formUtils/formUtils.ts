@@ -1,39 +1,39 @@
-import { AktivitetIkkeMuligPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
-import { AvventendePeriodeMFA } from '../components/formSections/MulighetForArbeidSection/AvventendePeriode';
-import { BehandlingsdagerPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode';
-import { Diagnosekoder } from '../../../types/diagnosekoder/Diagnosekoder';
-import { FormType } from '../Form';
-import { GradertPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/GradertPeriode';
-import { MulighetForArbeidTypes } from '../components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
-import { Oppgave } from '../../../types/oppgave/Oppgave';
-import { ReisetilskuddPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode';
+import { AktivitetIkkeMuligPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode'
+import { AvventendePeriodeMFA } from '../components/formSections/MulighetForArbeidSection/AvventendePeriode'
+import { BehandlingsdagerPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode'
+import { Diagnosekoder } from '../../../types/diagnosekoder/Diagnosekoder'
+import { FormType } from '../Form'
+import { GradertPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/GradertPeriode'
+import { MulighetForArbeidTypes } from '../components/formSections/MulighetForArbeidSection/MulighetForArbeidSection'
+import { Oppgave } from '../../../types/oppgave/Oppgave'
+import { ReisetilskuddPeriodeMFA } from '../components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode'
 import {
     getAktivitetIkkeMuligSykmelding,
     getAvventendePeriode,
     getBehandlingsdagerSykmelding,
     getGradertSykmelding,
     getReisetilskuddSykmelding,
-} from '../../../utils/periodeUtils';
-import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../../utils/diagnoseUtils';
+} from '../../../utils/periodeUtils'
+import { getPrefilledBidiagnoser, getPrefilledDiagnose } from '../../../utils/diagnoseUtils'
 
 export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekoder): FormType => {
-    const avventendePeriode = getAvventendePeriode(oppgave.papirSmRegistering?.perioder);
-    const gradertPeriode = getGradertSykmelding(oppgave.papirSmRegistering?.perioder);
-    const aktivitetIkkeMuligPeriode = getAktivitetIkkeMuligSykmelding(oppgave.papirSmRegistering?.perioder);
-    const behandlingsdagerPeriode = getBehandlingsdagerSykmelding(oppgave.papirSmRegistering?.perioder);
-    const reisetilskuddPeriode = getReisetilskuddSykmelding(oppgave.papirSmRegistering?.perioder);
+    const avventendePeriode = getAvventendePeriode(oppgave.papirSmRegistering?.perioder)
+    const gradertPeriode = getGradertSykmelding(oppgave.papirSmRegistering?.perioder)
+    const aktivitetIkkeMuligPeriode = getAktivitetIkkeMuligSykmelding(oppgave.papirSmRegistering?.perioder)
+    const behandlingsdagerPeriode = getBehandlingsdagerSykmelding(oppgave.papirSmRegistering?.perioder)
+    const reisetilskuddPeriode = getReisetilskuddSykmelding(oppgave.papirSmRegistering?.perioder)
 
     const createMulighetForArbeid = () => {
-        const mulighetForArbeid: MulighetForArbeidTypes[] = [];
+        const mulighetForArbeid: MulighetForArbeidTypes[] = []
 
         if (avventendePeriode) {
             const avventendePeriodeMFA: AvventendePeriodeMFA[] = avventendePeriode.map((periode) => ({
                 type: 'avventende',
                 avventendePeriode: [periode.fom, periode.tom],
                 avventendeInnspillTilArbeidsgiver: periode.avventendeInnspillTilArbeidsgiver || null,
-            }));
+            }))
 
-            mulighetForArbeid.push(...avventendePeriodeMFA);
+            mulighetForArbeid.push(...avventendePeriodeMFA)
         }
 
         if (gradertPeriode) {
@@ -42,9 +42,9 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
                 gradertPeriode: [periode.fom, periode.tom],
                 gradertGrad: periode.gradert?.grad || null,
                 gradertReisetilskudd: periode.reisetilskudd,
-            }));
+            }))
 
-            mulighetForArbeid.push(...gradertPeriodeMFA);
+            mulighetForArbeid.push(...gradertPeriodeMFA)
         }
 
         if (aktivitetIkkeMuligPeriode) {
@@ -62,9 +62,9 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
                     aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse:
                         periode?.aktivitetIkkeMulig?.arbeidsrelatertArsak?.beskrivelse ?? null,
                 }),
-            );
+            )
 
-            mulighetForArbeid.push(...aktivitetIkkeMuligPeriodeMFA);
+            mulighetForArbeid.push(...aktivitetIkkeMuligPeriodeMFA)
         }
 
         if (behandlingsdagerPeriode) {
@@ -72,22 +72,22 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
                 type: 'behandlingsdager',
                 behandlingsdagerPeriode: [periode.fom, periode.tom],
                 behandlingsdagerAntall: periode.behandlingsdager || null,
-            }));
+            }))
 
-            mulighetForArbeid.push(...behandlingsdagerPeriodeMFA);
+            mulighetForArbeid.push(...behandlingsdagerPeriodeMFA)
         }
 
         if (reisetilskuddPeriode) {
             const reisetilskuddPeriodeMFA: ReisetilskuddPeriodeMFA[] = reisetilskuddPeriode.map((periode) => ({
                 type: 'reisetilskudd',
                 reisetilskuddPeriode: [periode.fom, periode.tom],
-            }));
+            }))
 
-            mulighetForArbeid.push(...reisetilskuddPeriodeMFA);
+            mulighetForArbeid.push(...reisetilskuddPeriodeMFA)
         }
 
-        return mulighetForArbeid;
-    };
+        return mulighetForArbeid
+    }
 
     return {
         // Other
@@ -152,5 +152,5 @@ export const getInitialFormState = (oppgave: Oppgave, diagnosekoder: Diagnosekod
         sykmelderLand: oppgave.papirSmRegistering?.behandler?.adresse?.land ?? null,
         sykmelderTelefon: oppgave.papirSmRegistering?.behandler?.tlf ?? null,
         hpr: oppgave.papirSmRegistering?.behandler?.hpr ?? null,
-    };
-};
+    }
+}

@@ -1,23 +1,23 @@
-import React from 'react';
-import { Checkbox, FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
+import React from 'react'
+import { Checkbox, FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema'
 
-import ExpandableField from '../formComponents/ExpandableField';
-import SectionContainer from '../SectionContainer';
-import Subsection from '../formComponents/Subsection';
-import { FormType } from '../../Form';
-import { Section } from '../../../../types/Section';
+import ExpandableField from '../formComponents/ExpandableField'
+import SectionContainer from '../SectionContainer'
+import Subsection from '../formComponents/Subsection'
+import { FormType } from '../../Form'
+import { Section } from '../../../../types/Section'
 
 export type MeldingTilNav = {
-    meldingTilNavBistand: boolean;
-    meldingTilNavBegrunn: string | null;
-};
+    meldingTilNavBistand: boolean
+    meldingTilNavBegrunn: string | null
+}
 
 type MeldingTilNavSectionProps = {
-    section: Section;
-    formState: FormType;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
-};
+    section: Section
+    formState: FormType
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>
+}
 
 const MeldingTilNavSection = ({ section, setFormState, formState, errors }: MeldingTilNavSectionProps) => {
     return (
@@ -43,7 +43,7 @@ const MeldingTilNavSection = ({ section, setFormState, formState, errors }: Meld
                         maxLength={0}
                         value={formState.meldingTilNavBegrunn || ''}
                         onChange={({ target: { value } }) => {
-                            setFormState((formState) => ({ ...formState, meldingTilNavBegrunn: value }));
+                            setFormState((formState) => ({ ...formState, meldingTilNavBegrunn: value }))
                         }}
                         feil={errors.get('meldingTilNavBegrunn')?.feilmelding}
                         label="Begrunn nærmere"
@@ -51,7 +51,7 @@ const MeldingTilNavSection = ({ section, setFormState, formState, errors }: Meld
                 </ExpandableField>
             </Subsection>
         </SectionContainer>
-    );
-};
+    )
+}
 
-export default MeldingTilNavSection;
+export default MeldingTilNavSection

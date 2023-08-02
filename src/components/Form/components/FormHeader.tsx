@@ -1,5 +1,5 @@
-import React from 'react';
-import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
+import React from 'react'
+import { Innholdstittel, Undertittel } from 'nav-frontend-typografi'
 
 const FormHeader = () => {
     return (
@@ -7,7 +7,7 @@ const FormHeader = () => {
             <Innholdstittel>Digitalisering av papirsykmeldingen</Innholdstittel>
             <Undertittel>Vennligst legg inn opplysningene fra papirsykmeldingen</Undertittel>
         </legend>
-    );
-};
+    )
+}
 
-export default FormHeader;
+export default FormHeader

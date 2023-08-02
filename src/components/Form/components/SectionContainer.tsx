@@ -1,13 +1,13 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren } from 'react'
 
-import { Section } from '../../../types/Section';
+import { Section } from '../../../types/Section'
 
-import SectionHeader from './SectionHeader';
+import SectionHeader from './SectionHeader'
 
 type SectionProps = {
-    section: Section;
-    sectionError?: string;
-};
+    section: Section
+    sectionError?: string
+}
 
 const SectionContainer = ({ children, section, sectionError }: PropsWithChildren<SectionProps>) => {
     return (
@@ -16,7 +16,7 @@ const SectionContainer = ({ children, section, sectionError }: PropsWithChildren
             <fieldset className={`section-content ${sectionError ? 'section-content--feil' : ''}`}>{children}</fieldset>
             {sectionError && <p className="section-error typo-feilmelding">{sectionError}</p>}
         </section>
-    );
-};
+    )
+}
 
-export default SectionContainer;
+export default SectionContainer

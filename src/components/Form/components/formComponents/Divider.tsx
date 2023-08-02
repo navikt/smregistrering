@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 const Divider = () => {
-    return <hr className="divider" />;
-};
+    return <hr className="divider" />
+}
 
-export default Divider;
+export default Divider

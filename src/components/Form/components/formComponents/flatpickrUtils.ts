@@ -1,4 +1,4 @@
-import { CustomLocale } from 'flatpickr/dist/types/locale';
+import { CustomLocale } from 'flatpickr/dist/types/locale'
 
 export const flatpickrLocale: CustomLocale = {
     rangeSeparator: '-',
@@ -24,4 +24,4 @@ export const flatpickrLocale: CustomLocale = {
             'desember',
         ],
     },
-};
+}

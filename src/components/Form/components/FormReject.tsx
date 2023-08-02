@@ -1,46 +1,46 @@
-import Modal from 'nav-frontend-modal';
-import React, { useState } from 'react';
-import { AlertStripeInfo, AlertStripeFeil, AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Fareknapp, Knapp } from 'nav-frontend-knapper';
-import { Select } from 'nav-frontend-skjema';
-import Lenke from 'nav-frontend-lenker';
-import { logger } from '@navikt/next-logger';
+import Modal from 'nav-frontend-modal'
+import React, { useState } from 'react'
+import { AlertStripeInfo, AlertStripeFeil, AlertStripeAdvarsel } from 'nav-frontend-alertstriper'
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi'
+import { Fareknapp, Knapp } from 'nav-frontend-knapper'
+import { Select } from 'nav-frontend-skjema'
+import Lenke from 'nav-frontend-lenker'
+import { logger } from '@navikt/next-logger'
 
-import BackArrow from '../../../svg/BackArrow';
-import WarningCircle from '../../../svg/WarningCircle';
-import { apiFetch } from '../../../utils/fetchUtils';
-import { getReturnToURL } from '../../../utils/urlUtils';
+import BackArrow from '../../../svg/BackArrow'
+import WarningCircle from '../../../svg/WarningCircle'
+import { apiFetch } from '../../../utils/fetchUtils'
+import { getReturnToURL } from '../../../utils/urlUtils'
 
 interface FormRejectProps {
-    enhet: string | undefined | null;
-    oppgaveid: number;
-    sykmeldingId: string | null;
-    setIsComplete: React.Dispatch<React.SetStateAction<boolean>>;
-    isFerdigstilt: boolean;
+    enhet: string | undefined | null
+    oppgaveid: number
+    sykmeldingId: string | null
+    setIsComplete: React.Dispatch<React.SetStateAction<boolean>>
+    isFerdigstilt: boolean
 }
 
 const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigstilt }: FormRejectProps) => {
     // Avvis sykmelding
-    const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false);
-    const [isLoadingReject, setIsLoadingReject] = useState<boolean>(false);
-    const [rejectError, setRejectError] = useState<Error | null>(null);
+    const [rejectModalOpen, setRejectModalOpen] = useState<boolean>(false)
+    const [isLoadingReject, setIsLoadingReject] = useState<boolean>(false)
+    const [rejectError, setRejectError] = useState<Error | null>(null)
 
     // Reverter til GOSYS
-    const [revertModalOpen, setRevertModalOpen] = useState<boolean>(false);
-    const [isLoadingRevert, setIsLoadingRevert] = useState<boolean>(false);
-    const [revertError, setRevertError] = useState<Error | null>(null);
+    const [revertModalOpen, setRevertModalOpen] = useState<boolean>(false)
+    const [isLoadingRevert, setIsLoadingRevert] = useState<boolean>(false)
+    const [revertError, setRevertError] = useState<Error | null>(null)
 
     // Successmodal
-    const [successModalContent, setSuccessModalContent] = useState<string | undefined>(undefined);
+    const [successModalContent, setSuccessModalContent] = useState<string | undefined>(undefined)
 
     const revertSykmelding = () => {
         if (!enhet) {
-            setRevertError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'));
+            setRevertError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'))
         } else {
-            logger.info(`Sender oppgave til gosys. oppgaveid: ${oppgaveid}`);
-            setIsLoadingRevert(true);
-            setRevertError(null);
+            logger.info(`Sender oppgave til gosys. oppgaveid: ${oppgaveid}`)
+            setIsLoadingRevert(true)
+            setRevertError(null)
             apiFetch(`/api/backend/api/v1/oppgave/${oppgaveid}/tilgosys`, {
                 method: 'POST',
                 credentials: 'same-origin',
@@ -51,34 +51,34 @@ const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigsti
             })
                 .then((response) => {
                     if (response.ok) {
-                        logger.info(`Oppgaven ble sendt til gosys. oppgaveid: ${oppgaveid}`);
-                        setRevertModalOpen(false);
-                        setIsLoadingRevert(false);
-                        setSuccessModalContent('Oppgaven ble sendt tilbake til GOSYS.');
-                        setIsComplete(true);
+                        logger.info(`Oppgaven ble sendt til gosys. oppgaveid: ${oppgaveid}`)
+                        setRevertModalOpen(false)
+                        setIsLoadingRevert(false)
+                        setSuccessModalContent('Oppgaven ble sendt tilbake til GOSYS.')
+                        setIsComplete(true)
                     } else {
                         throw new Error(
                             `En feil oppsto ved sending av oppgave til GOSYS: ${oppgaveid}. Feilkode: ${response.status}`,
-                        );
+                        )
                     }
                 })
                 .catch((error) => {
-                    logger.error(error);
-                    setRevertError(error);
-                    setIsLoadingRevert(false);
-                });
+                    logger.error(error)
+                    setRevertError(error)
+                    setIsLoadingRevert(false)
+                })
         }
-    };
+    }
 
     function handleReject(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
+        e.preventDefault()
         if (!enhet) {
-            setRejectError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'));
+            setRejectError(new Error('Enhet mangler. Vennligst velg enhet øverst på siden'))
         } else {
-            logger.info(`Avviser oppgave. oppgaveid: ${oppgaveid}`);
-            setIsLoadingReject(true);
-            setRejectError(null);
-            const reason = (e.target as any)[0]?.value as string;
+            logger.info(`Avviser oppgave. oppgaveid: ${oppgaveid}`)
+            setIsLoadingReject(true)
+            setRejectError(null)
+            const reason = (e.target as any)[0]?.value as string
             apiFetch(`/api/backend/api/v1/oppgave/${oppgaveid}/avvis`, {
                 method: 'POST',
                 credentials: 'same-origin',
@@ -90,26 +90,26 @@ const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigsti
             })
                 .then((response) => {
                     if (response.ok) {
-                        logger.info(`Oppgaven ble avvist. oppgaveid: ${oppgaveid}`);
-                        setRejectModalOpen(false);
-                        setIsLoadingReject(false);
-                        setSuccessModalContent('Oppgaven ble ferdigstilt.');
-                        setIsComplete(true);
+                        logger.info(`Oppgaven ble avvist. oppgaveid: ${oppgaveid}`)
+                        setRejectModalOpen(false)
+                        setIsLoadingReject(false)
+                        setSuccessModalContent('Oppgaven ble ferdigstilt.')
+                        setIsComplete(true)
                     } else {
                         throw new Error(
                             `En feil oppsto ved avvisning av oppgave: ${oppgaveid}. Feilkode: ${response.status}`,
-                        );
+                        )
                     }
                 })
                 .catch((error) => {
-                    logger.error(error);
-                    setRejectError(error);
-                    setIsLoadingReject(false);
-                });
+                    logger.error(error)
+                    setRejectError(error)
+                    setIsLoadingReject(false)
+                })
         }
     }
 
-    const returnLink = getReturnToURL(sykmeldingId);
+    const returnLink = getReturnToURL(sykmeldingId)
 
     return (
         <>
@@ -262,7 +262,7 @@ const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigsti
                 </div>
             </Modal>
         </>
-    );
-};
+    )
+}
 
-export default FormReject;
+export default FormReject

@@ -1,34 +1,32 @@
-import React from 'react';
-import Select, { MenuListComponentProps, StylesConfig, ValueType, createFilter } from 'react-select';
-import { FixedSizeList } from 'react-window';
+import React from 'react'
+import Select, { MenuListComponentProps, StylesConfig, ValueType, createFilter } from 'react-select'
+import { FixedSizeList } from 'react-window'
 
-import { Diagnose } from '../../../../types/sykmelding/MedisinskVurdering';
-import { Diagnosekoder } from '../../../../types/diagnosekoder/Diagnosekoder';
+import { Diagnose } from '../../../../types/sykmelding/MedisinskVurdering'
+import { Diagnosekoder } from '../../../../types/diagnosekoder/Diagnosekoder'
 
-type OptionObject = { value: string; label: string; text: string };
-type OptionValueType = ValueType<OptionObject, false>;
+type OptionObject = { value: string; label: string; text: string }
+type OptionValueType = ValueType<OptionObject, false>
 
-const HEIGHT = 35;
+const HEIGHT = 35
 
 const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentProps<OptionObject, false>) => {
     // TODO: Re-write this so it doesn't require ts-ignore
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore Works, but TypeScript doesn't like it
-    const [value] = getValue();
-    const initialOffset = options.indexOf(value) * HEIGHT;
-    // @ts-expect-error Weird React 18 JSX error
-    const childrenOptions = React.Children.toArray(children);
+    const [value] = getValue()
+    const initialOffset = options.indexOf(value) * HEIGHT
+    const childrenOptions = React.Children.toArray(children)
 
     if (!children) {
-        return null;
+        return null
     }
 
-    const listHeight = childrenOptions.length * HEIGHT;
+    const listHeight = childrenOptions.length * HEIGHT
 
     return (
-        // @ts-expect-error Weird React 18 JSX error
         <FixedSizeList
-            width={'100%'}
+            width="100%"
             height={listHeight < maxHeight ? listHeight : maxHeight}
             itemCount={childrenOptions.length}
             itemSize={HEIGHT}
@@ -36,8 +34,8 @@ const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentP
         >
             {({ index, style }) => <div style={style}>{childrenOptions[index]}</div>}
         </FixedSizeList>
-    );
-};
+    )
+}
 
 // Custom styles to mimic the NAV Input style
 const customStyles: StylesConfig<OptionObject, false> = {
@@ -55,48 +53,47 @@ const customStyles: StylesConfig<OptionObject, false> = {
         lineHeight: '1.375rem',
         fontFamily: `'Source Sans Pro', Arial, sans-serif`,
     }),
-};
+}
 
 type SearchableInputProps = {
-    id: string;
-    system?: string;
-    diagnosekoder: Diagnosekoder;
-    label: JSX.Element;
-    onChange: (code: string, text: string) => void;
-    value?: Partial<Diagnose>;
-};
+    id: string
+    system?: string
+    diagnosekoder: Diagnosekoder
+    label: JSX.Element
+    onChange: (code: string, text: string) => void
+    value?: Partial<Diagnose>
+}
 
 const SearchableInput = ({ id, system, diagnosekoder, label, onChange, value }: SearchableInputProps) => {
     const handleChange = (selectedOption: OptionValueType | OptionValueType[] | null | void) => {
         if (!selectedOption) {
-            onChange('', '');
-            return;
+            onChange('', '')
+            return
         }
 
         if (selectedOption as OptionValueType) {
-            const singleValue = selectedOption as OptionValueType;
+            const singleValue = selectedOption as OptionValueType
             if ((singleValue as OptionObject).value) {
-                const { value, text } = singleValue as OptionObject;
-                onChange(value, text); // Update form
+                const { value, text } = singleValue as OptionObject
+                onChange(value, text) // Update form
             }
         }
-    };
+    }
 
-    const diagnoses = system ? diagnosekoder[system as keyof Diagnosekoder] : [];
+    const diagnoses = system ? diagnosekoder[system as keyof Diagnosekoder] : []
     const diagnoseOptions = diagnoses.map((diagnose) => ({
         value: diagnose.code,
         label: diagnose.code,
         text: diagnose.text,
-    }));
+    }))
 
-    const selectValue = value?.kode && value.tekst ? { value: value.kode, label: value.kode, text: value.tekst } : null;
+    const selectValue = value?.kode && value.tekst ? { value: value.kode, label: value.kode, text: value.tekst } : null
 
     return (
         <>
             <label className="skjemaelement__label" htmlFor={id}>
                 {label}
             </label>
-            {/* @ts-expect-error Weird React 18 JSX error */}
             <Select
                 inputId={id}
                 value={selectValue}
@@ -110,7 +107,7 @@ const SearchableInput = ({ id, system, diagnosekoder, label, onChange, value }: 
                 options={diagnoseOptions}
             />
         </>
-    );
-};
+    )
+}
 
-export default SearchableInput;
+export default SearchableInput

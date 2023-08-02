@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const Helsepersonellkategori = z.enum([
     'AA',
@@ -38,9 +38,9 @@ export const Helsepersonellkategori = z.enum([
     'VP',
     'XX',
     'MT',
-]);
+])
 
-type Helsepersonellkategori = z.infer<typeof Helsepersonellkategori>;
+type Helsepersonellkategori = z.infer<typeof Helsepersonellkategori>
 
 export const HelsepersonellkategoriValues: Record<Helsepersonellkategori, string> = {
     AA: 'Ambulansearbeider',
@@ -79,13 +79,13 @@ export const HelsepersonellkategoriValues: Record<Helsepersonellkategori, string
     VP: 'Vernepleier',
     XX: 'Ukjent/uspesifisert',
     MT: 'Manuellterapeut',
-};
+}
 
 const HelsepersonellkategoriKode = z.object({
     aktiv: z.boolean(),
     oid: z.number(),
     verdi: Helsepersonellkategori.nullable(),
-});
+})
 
 export const Autorisasjon = z.enum([
     '1',
@@ -105,8 +105,8 @@ export const Autorisasjon = z.enum([
     '16',
     '99',
     '18',
-]);
-type Autorisasjon = z.infer<typeof Autorisasjon>;
+])
+type Autorisasjon = z.infer<typeof Autorisasjon>
 
 export const AutorisasjonValues: Record<Autorisasjon, string> = {
     '1': 'Autorisasjon',
@@ -126,18 +126,18 @@ export const AutorisasjonValues: Record<Autorisasjon, string> = {
     '16': 'Godkjenning for privat praksis (inaktivt, utgått)',
     '99': 'Ingen autorisasjon (inaktivt, utgått)',
     '18': 'LIS1-Lisens',
-};
+}
 
 const AutorisasjonKode = z.object({
     aktiv: z.boolean(),
     oid: z.number(),
     verdi: Autorisasjon.nullable(),
-});
+})
 
 const Godkjenning = z.object({
     helsepersonellkategori: HelsepersonellkategoriKode.nullable(),
     autorisasjon: AutorisasjonKode.nullable(),
-});
+})
 
 export const Sykmelder = z.object({
     hprNummer: z.string(),
@@ -146,5 +146,5 @@ export const Sykmelder = z.object({
     fornavn: z.string().nullable(),
     mellomnavn: z.string().nullable(),
     etternavn: z.string().nullable(),
-});
-export type Sykmelder = z.infer<typeof Sykmelder>;
+})
+export type Sykmelder = z.infer<typeof Sykmelder>

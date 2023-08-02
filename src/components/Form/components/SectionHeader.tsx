@@ -1,11 +1,11 @@
-import React from 'react';
-import { Undertittel } from 'nav-frontend-typografi';
+import React from 'react'
+import { Undertittel } from 'nav-frontend-typografi'
 
-import { Section } from '../../../types/Section';
+import { Section } from '../../../types/Section'
 
 type SectionHeaderProps = {
-    section: Section;
-};
+    section: Section
+}
 
 const SectionHeader = ({ section }: SectionHeaderProps) => {
     return (
@@ -14,7 +14,7 @@ const SectionHeader = ({ section }: SectionHeaderProps) => {
                 {section.index} {section.title}
             </Undertittel>
         </header>
-    );
-};
+    )
+}
 
-export default SectionHeader;
+export default SectionHeader

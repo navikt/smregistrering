@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const Diagnose = z.object({
     system: z.string(),
     kode: z.string(),
     tekst: z.string(),
-});
-export type Diagnose = z.infer<typeof Diagnose>;
+})
+export type Diagnose = z.infer<typeof Diagnose>
 
 export const AnnenFraverGrunn = z.enum([
     'GODKJENT_HELSEINSTITUSJON',
@@ -19,8 +19,8 @@ export const AnnenFraverGrunn = z.enum([
     'UFOR_GRUNNET_BARNLOSHET',
     'DONOR',
     'BEHANDLING_STERILISERING',
-]);
-export type AnnenFraverGrunn = z.infer<typeof AnnenFraverGrunn>;
+])
+export type AnnenFraverGrunn = z.infer<typeof AnnenFraverGrunn>
 
 export const AnnenFraverGrunnValues: Record<AnnenFraverGrunn, string> = {
     GODKJENT_HELSEINSTITUSJON: 'Når vedkommende er innlagt i en godkjent helseinstitusjon',
@@ -36,13 +36,13 @@ export const AnnenFraverGrunnValues: Record<AnnenFraverGrunn, string> = {
     UFOR_GRUNNET_BARNLOSHET: 'Når vedkommende er arbeidsufør som følge av behandling for barnløshet',
     DONOR: 'Når vedkommende er donor eller er under vurdering som donor',
     BEHANDLING_STERILISERING: 'Når vedkommende er arbeidsufør som følge av behandling i forbindelse med sterilisering',
-};
+}
 
 export const AnnenFraversArsak = z.object({
     beskrivelse: z.string().nullable(),
     grunn: z.array(AnnenFraverGrunn),
-});
-export type AnnenFraversArsak = z.infer<typeof AnnenFraversArsak>;
+})
+export type AnnenFraversArsak = z.infer<typeof AnnenFraversArsak>
 
 export const MedisinskVurdering = z.object({
     hovedDiagnose: Diagnose.nullable(),
@@ -51,5 +51,5 @@ export const MedisinskVurdering = z.object({
     yrkesskade: z.boolean(),
     yrkesskadeDato: z.string().nullable(),
     annenFraversArsak: AnnenFraversArsak.nullable(),
-});
-export type MedisinskVurdering = z.infer<typeof MedisinskVurdering>;
+})
+export type MedisinskVurdering = z.infer<typeof MedisinskVurdering>

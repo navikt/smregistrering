@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const BackArrow = () => (
     <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -9,6 +9,6 @@ const BackArrow = () => (
             fill="#0067C5"
         />
     </svg>
-);
+)
 
-export default BackArrow;
+export default BackArrow

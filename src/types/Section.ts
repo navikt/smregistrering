@@ -9,12 +9,12 @@ type SectionName =
     | 'MELDING_TIL_NAV'
     | 'MELDING_TIL_ARBEIDSGIVER'
     | 'TILBAKEDATERING'
-    | 'BEHANDLER';
+    | 'BEHANDLER'
 
 export type Section = {
-    index: number;
-    title: string;
-};
+    index: number
+    title: string
+}
 
 export const sections: Record<SectionName, Section> = {
     PASIENTOPPLYSNINGER: {
@@ -61,4 +61,4 @@ export const sections: Record<SectionName, Section> = {
         index: 12,
         title: 'Behandler',
     },
-};
+}

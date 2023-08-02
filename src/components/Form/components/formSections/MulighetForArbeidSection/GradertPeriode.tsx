@@ -1,25 +1,25 @@
-import React from 'react';
-import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
+import React from 'react'
+import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema'
 
-import RangePicker from '../../formComponents/RangePicker';
-import { FormType } from '../../../Form';
+import RangePicker from '../../formComponents/RangePicker'
+import { FormType } from '../../../Form'
 
-import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection'
 
 export type GradertPeriodeMFA = {
-    type: MFAOptions;
+    type: MFAOptions
     // Perioder for gradert sykmelding
-    gradertPeriode: string[] | null;
-    gradertGrad: number | null;
-    gradertReisetilskudd: boolean;
-};
+    gradertPeriode: string[] | null
+    gradertGrad: number | null
+    gradertReisetilskudd: boolean
+}
 
 type GradertPeriodeProps = {
-    mfaPeriode: GradertPeriodeMFA;
-    updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    index: number;
-};
+    mfaPeriode: GradertPeriodeMFA
+    updateMfa: (mfa: MulighetForArbeidTypes) => void
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    index: number
+}
 
 const GradertPeriode = ({ updateMfa, mfaPeriode, index }: GradertPeriodeProps) => {
     return (
@@ -34,9 +34,9 @@ const GradertPeriode = ({ updateMfa, mfaPeriode, index }: GradertPeriodeProps) =
                         const updatedSchema = {
                             ...mfaPeriode,
                             gradertGrad: parseInt(value),
-                        };
+                        }
 
-                        updateMfa(updatedSchema);
+                        updateMfa(updatedSchema)
                     }}
                     label="Oppgi grad"
                 />
@@ -49,9 +49,9 @@ const GradertPeriode = ({ updateMfa, mfaPeriode, index }: GradertPeriodeProps) =
                         const updatedSchema = {
                             ...mfaPeriode,
                             gradertPeriode: newDates ?? null,
-                        };
+                        }
 
-                        updateMfa(updatedSchema);
+                        updateMfa(updatedSchema)
                     }}
                 />
             </div>
@@ -64,13 +64,13 @@ const GradertPeriode = ({ updateMfa, mfaPeriode, index }: GradertPeriodeProps) =
                     const updatedSchema = {
                         ...mfaPeriode,
                         gradertReisetilskudd: !mfaPeriode.gradertReisetilskudd,
-                    };
+                    }
 
-                    updateMfa(updatedSchema);
+                    updateMfa(updatedSchema)
                 }}
             />
         </div>
-    );
-};
+    )
+}
 
-export default GradertPeriode;
+export default GradertPeriode

@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 
 type ClearButtonProps = {
-    id?: string;
-    onChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    buttonText: string;
-    iconType: 'Can' | 'CircledCross';
-    leftSpacing?: boolean;
-};
+    id?: string
+    onChange: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+    buttonText: string
+    iconType: 'Can' | 'CircledCross'
+    leftSpacing?: boolean
+}
 
 const ClearButton = ({ id, onChange, buttonText, iconType, leftSpacing }: ClearButtonProps) => {
     const Can = () => (
@@ -18,7 +18,7 @@ const ClearButton = ({ id, onChange, buttonText, iconType, leftSpacing }: ClearB
                 fill="#0067C5"
             />
         </svg>
-    );
+    )
 
     const CircledCross = () => (
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +29,7 @@ const ClearButton = ({ id, onChange, buttonText, iconType, leftSpacing }: ClearB
                 fill="#0067C5"
             />
         </svg>
-    );
+    )
 
     return (
         <button
@@ -42,7 +42,7 @@ const ClearButton = ({ id, onChange, buttonText, iconType, leftSpacing }: ClearB
             {iconType === 'CircledCross' && <CircledCross />}
             <span className="clearbutton__text">{buttonText}</span>
         </button>
-    );
-};
+    )
+}
 
-export default ClearButton;
+export default ClearButton

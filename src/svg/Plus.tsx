@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Plus = () => (
     <svg
@@ -20,6 +20,6 @@ const Plus = () => (
 	c0.552,0,1-0.448,1-1C24,11.447,23.552,11,23,11z"
         />
     </svg>
-);
+)
 
-export default Plus;
+export default Plus

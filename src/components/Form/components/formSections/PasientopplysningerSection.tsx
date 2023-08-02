@@ -1,25 +1,25 @@
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import React from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
+import NavFrontendSpinner from 'nav-frontend-spinner'
+import React from 'react'
+import { Element, Normaltekst } from 'nav-frontend-typografi'
+import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema'
 
-import Row from '../formComponents/Row';
-import SectionContainer from '../SectionContainer';
-import usePasientOpplysninger from '../../formUtils/usePasientopplysninger';
-import { FormType } from '../../Form';
-import { Section } from '../../../../types/Section';
+import Row from '../formComponents/Row'
+import SectionContainer from '../SectionContainer'
+import usePasientOpplysninger from '../../formUtils/usePasientopplysninger'
+import { FormType } from '../../Form'
+import { Section } from '../../../../types/Section'
 
 export type Pasientopplysninger = {
-    pasientFnr: string | null;
-};
+    pasientFnr: string | null
+}
 
 type PasientopplysningerProps = {
-    section: Section;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
-    formState: FormType;
-    isFerdigstilt: boolean;
-};
+    section: Section
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>
+    formState: FormType
+    isFerdigstilt: boolean
+}
 
 const PasientopplysningerSection = ({
     section,
@@ -29,7 +29,7 @@ const PasientopplysningerSection = ({
     isFerdigstilt,
 }: PasientopplysningerProps) => {
     const { pasientNavn, isLoading, errorMessage, fnrRef, fnrTouched, setFnrTouched } =
-        usePasientOpplysninger(formState);
+        usePasientOpplysninger(formState)
 
     return (
         <SectionContainer section={section}>
@@ -41,11 +41,11 @@ const PasientopplysningerSection = ({
                     value={formState.pasientFnr ?? ''}
                     onChange={({ target: { value } }) => {
                         if (!fnrTouched) {
-                            setFnrTouched(true);
+                            setFnrTouched(true)
                         }
                         setFormState((formState) => {
-                            return { ...formState, pasientFnr: value };
-                        });
+                            return { ...formState, pasientFnr: value }
+                        })
                     }}
                     label="1.2 Fødselsnummer (11 siffer)"
                     feil={errors.get('pasientFnr')?.feilmelding || errorMessage}
@@ -71,7 +71,7 @@ const PasientopplysningerSection = ({
                 </div>
             </Row>
         </SectionContainer>
-    );
-};
+    )
+}
 
-export default PasientopplysningerSection;
+export default PasientopplysningerSection

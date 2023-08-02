@@ -1,19 +1,19 @@
-import React from 'react';
-import { Checkbox, FeiloppsummeringFeil } from 'nav-frontend-skjema';
+import React from 'react'
+import { Checkbox, FeiloppsummeringFeil } from 'nav-frontend-skjema'
 
-import SectionContainer from '../SectionContainer';
-import { FormType } from '../../Form';
-import { Section } from '../../../../types/Section';
+import SectionContainer from '../SectionContainer'
+import { FormType } from '../../Form'
+import { Section } from '../../../../types/Section'
 
 export interface UtdypendeOpplysninger {
-    harUtdypendeOpplysninger: boolean;
+    harUtdypendeOpplysninger: boolean
 }
 
 interface UtdypendeOpplysningerSectionProps {
-    section: Section;
-    formState: FormType;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    section: Section
+    formState: FormType
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>
 }
 
 const UtdypendeOpplysningerSection = ({
@@ -37,7 +37,7 @@ const UtdypendeOpplysningerSection = ({
                 feil={errors.get('harUtdypendeOpplysninger')?.feilmelding}
             />
         </SectionContainer>
-    );
-};
+    )
+}
 
-export default UtdypendeOpplysningerSection;
+export default UtdypendeOpplysningerSection

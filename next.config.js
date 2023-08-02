@@ -11,6 +11,8 @@ const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+    output: 'standalone',
+    assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,
 }
 
 module.exports = withBundleAnalyzer(nextConfig)

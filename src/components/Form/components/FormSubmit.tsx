@@ -1,21 +1,21 @@
-import Modal from 'nav-frontend-modal';
-import React, { useEffect, useState } from 'react';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
-import { Checkbox } from 'nav-frontend-skjema';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Hovedknapp } from 'nav-frontend-knapper';
+import Modal from 'nav-frontend-modal'
+import React, { useEffect, useState } from 'react'
+import { AlertStripeFeil } from 'nav-frontend-alertstriper'
+import { Checkbox } from 'nav-frontend-skjema'
+import { Element, Normaltekst } from 'nav-frontend-typografi'
+import { Hovedknapp } from 'nav-frontend-knapper'
 
-import useSubmitSykmelding from '../../../hooks/useSubmitSykmelding';
-import { FormType } from '../Form';
-import { getReturnToURL } from '../../../utils/urlUtils';
+import useSubmitSykmelding from '../../../hooks/useSubmitSykmelding'
+import { FormType } from '../Form'
+import { getReturnToURL } from '../../../utils/urlUtils'
 
 interface FormSubmitProps {
-    oppgaveid: number;
-    enhet: string | null | undefined;
-    handleSubmit: (onSubmit: (state: FormType) => void) => void;
-    setIsComplete: React.Dispatch<React.SetStateAction<boolean>>;
-    isFerdigstilt: boolean;
-    sykmeldingId: string | null;
+    oppgaveid: number
+    enhet: string | null | undefined
+    handleSubmit: (onSubmit: (state: FormType) => void) => void
+    setIsComplete: React.Dispatch<React.SetStateAction<boolean>>
+    isFerdigstilt: boolean
+    sykmeldingId: string | null
 }
 
 const FormSubmit = ({
@@ -26,7 +26,7 @@ const FormSubmit = ({
     isFerdigstilt,
     sykmeldingId,
 }: FormSubmitProps) => {
-    const [successModalOpen, setSuccessModalOpen] = useState<boolean>(false);
+    const [successModalOpen, setSuccessModalOpen] = useState<boolean>(false)
 
     const { checked, setChecked, isLoading, errorMessage, ruleHitError, submit, submitSuccess } = useSubmitSykmelding(
         oppgaveid,
@@ -34,16 +34,16 @@ const FormSubmit = ({
         handleSubmit,
         isFerdigstilt,
         sykmeldingId,
-    );
+    )
 
     useEffect(() => {
         if (submitSuccess) {
-            setSuccessModalOpen(true);
-            setIsComplete(true);
+            setSuccessModalOpen(true)
+            setIsComplete(true)
         }
-    }, [submitSuccess, setIsComplete]);
+    }, [submitSuccess, setIsComplete])
 
-    const returnLink = getReturnToURL(sykmeldingId);
+    const returnLink = getReturnToURL(sykmeldingId)
 
     return (
         <div role="region" aria-label="skjemainnsendingbeholder" className="form-submit-container">
@@ -81,8 +81,8 @@ const FormSubmit = ({
                 disabled={!checked || isLoading}
                 spinner={isLoading}
                 onClick={(e) => {
-                    e.preventDefault();
-                    submit();
+                    e.preventDefault()
+                    submit()
                 }}
             >
                 {isFerdigstilt ? 'Korriger sykmeldingen' : 'Registrer sykmeldingen'}
@@ -103,7 +103,7 @@ const FormSubmit = ({
                 </div>
             </Modal>
         </div>
-    );
-};
+    )
+}
 
-export default FormSubmit;
+export default FormSubmit

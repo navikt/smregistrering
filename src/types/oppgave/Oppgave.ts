@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import { z } from 'zod';
+import { z } from 'zod'
 
-import { Papirsykmelding } from '../sykmelding/Papirsykmelding';
+import { Papirsykmelding } from '../sykmelding/Papirsykmelding'
 
 export const Oppgave = z.object({
     oppgaveid: z.number(),
@@ -9,5 +9,5 @@ export const Oppgave = z.object({
     fnr: z.string().nullable(), // TODO: remove
     sykmeldingId: z.string().nullable(), // TODO: remove
     papirSmRegistering: Papirsykmelding.nullable(),
-});
-export type Oppgave = z.infer<typeof Oppgave>;
+})
+export type Oppgave = z.infer<typeof Oppgave>

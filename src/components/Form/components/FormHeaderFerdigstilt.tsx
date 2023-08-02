@@ -1,5 +1,5 @@
-import React from 'react';
-import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
+import React from 'react'
+import { Innholdstittel, Undertittel } from 'nav-frontend-typografi'
 
 const FormHeaderFerdigstilt = () => {
     return (
@@ -7,7 +7,7 @@ const FormHeaderFerdigstilt = () => {
             <Innholdstittel>Korrigering av registrert papirsykmelding</Innholdstittel>
             <Undertittel>Under kan du korrigere opplysningene i en allerede registrert papirsykmelding.</Undertittel>
         </legend>
-    );
-};
+    )
+}
 
-export default FormHeaderFerdigstilt;
+export default FormHeaderFerdigstilt

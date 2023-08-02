@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import { z } from 'zod';
+import { z } from 'zod'
 
-import { Arbeidsgiver } from './Arbeidsgiver';
-import { Behandler } from './Behandler';
-import { KontaktMedPasient } from './KontaktMedPasient';
-import { MedisinskVurdering } from './MedisinskVurdering';
-import { MeldingTilNAV } from './MeldingTilNav';
-import { Periode } from './Periode';
+import { Arbeidsgiver } from './Arbeidsgiver'
+import { Behandler } from './Behandler'
+import { KontaktMedPasient } from './KontaktMedPasient'
+import { MedisinskVurdering } from './MedisinskVurdering'
+import { MeldingTilNAV } from './MeldingTilNav'
+import { Periode } from './Periode'
 
 export const RegistrertSykmelding = z.object({
     pasientFnr: z.string(),
@@ -23,5 +23,5 @@ export const RegistrertSykmelding = z.object({
     meldingTilArbeidsgiver: z.string().nullable(),
     harUtdypendeOpplysninger: z.boolean().nullable(),
     navnFastlege: z.string().nullable(),
-});
-export type RegistrertSykmelding = z.infer<typeof RegistrertSykmelding>;
+})
+export type RegistrertSykmelding = z.infer<typeof RegistrertSykmelding>

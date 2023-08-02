@@ -1,17 +1,17 @@
-import React from 'react';
-import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema';
+import React from 'react'
+import { CheckboksPanelGruppe, CheckboksPanelProps, FeiloppsummeringFeil } from 'nav-frontend-skjema'
 
-import { AnnenFraverGrunn, AnnenFraverGrunnValues } from '../../../../../types/sykmelding/MedisinskVurdering';
-import { FormType } from '../../../Form';
+import { AnnenFraverGrunn, AnnenFraverGrunnValues } from '../../../../../types/sykmelding/MedisinskVurdering'
+import { FormType } from '../../../Form'
 
 interface AnnenFraversArsakProps {
-    formState: FormType;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
+    formState: FormType
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>
 }
 
 const AnnenFraversArsak = ({ formState, setFormState, errors }: AnnenFraversArsakProps) => {
-    const { annenFraversArsakGrunn } = formState;
+    const { annenFraversArsakGrunn } = formState
 
     const checkboxes: CheckboksPanelProps[] = Object.entries(AnnenFraverGrunnValues).map(([key, value]) => {
         return {
@@ -19,8 +19,8 @@ const AnnenFraversArsak = ({ formState, setFormState, errors }: AnnenFraversArsa
             value: key,
             id: key,
             checked: annenFraversArsakGrunn?.includes(key as AnnenFraverGrunn),
-        };
-    });
+        }
+    })
 
     const updateCheckboxes = (value: AnnenFraverGrunn): void => {
         setFormState((formState) => {
@@ -28,18 +28,18 @@ const AnnenFraversArsak = ({ formState, setFormState, errors }: AnnenFraversArsa
                 return {
                     ...formState,
                     annenFraversArsakGrunn: [value as AnnenFraverGrunn],
-                };
+                }
             }
-            const shouldAddArsak = !formState.annenFraversArsakGrunn.includes(value);
+            const shouldAddArsak = !formState.annenFraversArsakGrunn.includes(value)
             const newAnnenFraversArsakGrunn: AnnenFraverGrunn[] = shouldAddArsak
                 ? [...formState.annenFraversArsakGrunn, value]
-                : formState.annenFraversArsakGrunn.filter((arsak) => arsak !== value);
+                : formState.annenFraversArsakGrunn.filter((arsak) => arsak !== value)
             return {
                 ...formState,
                 annenFraversArsakGrunn: newAnnenFraversArsakGrunn,
-            };
-        });
-    };
+            }
+        })
+    }
 
     return (
         <div id="annenFraversArsakGrunn" className="form-margin-bottom">
@@ -50,7 +50,7 @@ const AnnenFraversArsak = ({ formState, setFormState, errors }: AnnenFraversArsa
                 feil={errors.get('annenFraversArsakGrunn')?.feilmelding}
             />
         </div>
-    );
-};
+    )
+}
 
-export default AnnenFraversArsak;
+export default AnnenFraversArsak

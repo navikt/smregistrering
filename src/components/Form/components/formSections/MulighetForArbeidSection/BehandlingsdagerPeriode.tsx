@@ -1,25 +1,25 @@
-import React from 'react';
-import { Element } from 'nav-frontend-typografi';
-import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
+import React from 'react'
+import { Element } from 'nav-frontend-typografi'
+import { FeiloppsummeringFeil, Input } from 'nav-frontend-skjema'
 
-import RangePicker from '../../formComponents/RangePicker';
-import { FormType } from '../../../Form';
+import RangePicker from '../../formComponents/RangePicker'
+import { FormType } from '../../../Form'
 
-import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection'
 
 export type BehandlingsdagerPeriodeMFA = {
-    type: MFAOptions;
+    type: MFAOptions
     // Perioder for sykmelding for behandlignsdager
-    behandlingsdagerPeriode: string[] | null;
-    behandlingsdagerAntall: number | null;
-};
+    behandlingsdagerPeriode: string[] | null
+    behandlingsdagerAntall: number | null
+}
 
 type BehandlingsdagerPeriodeProps = {
-    mfaPeriode: BehandlingsdagerPeriodeMFA;
-    updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    index: number;
-};
+    mfaPeriode: BehandlingsdagerPeriodeMFA
+    updateMfa: (mfa: MulighetForArbeidTypes) => void
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    index: number
+}
 
 const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, index }: BehandlingsdagerPeriodeProps) => {
     return (
@@ -33,9 +33,9 @@ const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, index }: Behandlingsda
                     const updatedSchema = {
                         ...mfaPeriode,
                         behandlingsdagerPeriode: newDates ?? null,
-                    };
+                    }
 
-                    updateMfa(updatedSchema);
+                    updateMfa(updatedSchema)
                 }}
             />
 
@@ -48,14 +48,14 @@ const BehandlingsdagerPeriode = ({ updateMfa, mfaPeriode, index }: Behandlingsda
                     const updatedSchema = {
                         ...mfaPeriode,
                         behandlingsdagerAntall: Number(value),
-                    };
+                    }
 
-                    updateMfa(updatedSchema);
+                    updateMfa(updatedSchema)
                 }}
                 label={<Element>Oppgi antall dager i perioden</Element>}
             />
         </div>
-    );
-};
+    )
+}
 
-export default BehandlingsdagerPeriode;
+export default BehandlingsdagerPeriode
