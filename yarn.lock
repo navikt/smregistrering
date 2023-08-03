@@ -722,26 +722,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/next-api-proxy@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "@navikt/next-api-proxy@npm:1.3.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-api-proxy%2F1.3.0%2F6f9a462e2955705fc31d28d0267fda986ed9af58"
+"@navikt/next-api-proxy@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "@navikt/next-api-proxy@npm:3.2.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-api-proxy%2F3.2.0%2Faf63cc82c9f4f50f0ab4fd7b4628fe73ae4bfbbf"
   peerDependencies:
-    next: 12
-  checksum: c4825ed950cc8177cdefc9b80d93c5149021eeab18acee7b7b65b0fe8a6a5acc6bb0c91dc6085478b9289d215f149d1e696cce79f1f7c3360a5312263fc08b34
+    next: 13
+  checksum: e6e52cc6ebf96e869d0fc677286b22c9f54f36a0fc394bbd157fa4ae8dd354df08d634abd870957609b3a8e5b2d323b69761ecdc895d4ace9d9a4e7970bb404e
   languageName: node
   linkType: hard
 
-"@navikt/next-auth-wonderwall@npm:^0.6.0":
-  version: 0.6.0
-  resolution: "@navikt/next-auth-wonderwall@npm:0.6.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-auth-wonderwall%2F0.6.0%2Fca5c0346243148ce775d973ebc97457a4eeb6c3a"
+"@navikt/next-auth-wonderwall@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@navikt/next-auth-wonderwall@npm:1.4.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-auth-wonderwall%2F1.4.0%2Fec8c6949bab113f7eb7d9e4467fcb71a9b7e300b"
   dependencies:
-    jose: ^4.9.3
+    jose: ^4.11.2
     node-cache: ^5.1.2
-    openid-client: ^5.1.9
-    zod: ^3.19.1
+    openid-client: ^5.3.1
+    zod: ^3.20.2
   peerDependencies:
-    next: 12
-  checksum: f229915f2dcbd1cd283c0fde33613e31d02c41db0ecee17348228dabb24ffaba0eb99376b302dc888d0bd5661e95c63bcaf1ca1d6ecff77697a9591b3e323d1e
+    next: 12 || 13
+  checksum: b81a7c78325305132e5165118b1b74a7a9cab2990141a59325fb2994f2cef73b87434207ac02806bb5ac140dcb1246c06a9855c6d2ed96282a66d25db120bd5c
   languageName: node
   linkType: hard
 
@@ -1050,14 +1050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 17.0.12
-  resolution: "@types/node@npm:17.0.12"
-  checksum: f7e4c384b72648550391c2c8bd42560dfccf5b7a0506fb5842f326f8b176286be279dd63f62af621fe6d409d474ea5d312855061f512132e999f4e902a22e4db
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:18.17.1":
+"@types/node@npm:*, @types/node@npm:18.17.1":
   version: 18.17.1
   resolution: "@types/node@npm:18.17.1"
   checksum: 56201bda9a2d05d68602df63b4e67b0545ac8c6d0280bd5fb31701350a978a577a027501fbf49db99bf177f2242ebd1244896bfd35e89042d5bd7dfebff28d4e
@@ -1071,16 +1064,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0":
-  version: 18.0.4
-  resolution: "@types/react-dom@npm:18.0.4"
-  dependencies:
-    "@types/react": "*"
-  checksum: decde42d02a90ac2fe94fd6bfd9c78d002c03762a2d940df9422bf61af89c03d05e2113fd55fe45521fe27fa872a79dfd654b7d6b89652b455425efdcb763c58
-  languageName: node
-  linkType: hard
-
-"@types/react-dom@npm:^18.2.7":
+"@types/react-dom@npm:*, @types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.7":
   version: 18.2.7
   resolution: "@types/react-dom@npm:18.2.7"
   dependencies:
@@ -4383,7 +4367,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^4.14.4, jose@npm:^4.9.3":
+"jose@npm:^4.11.2, jose@npm:^4.14.4":
   version: 4.14.4
   resolution: "jose@npm:4.14.4"
   checksum: 2d820a91a8fd97c05d8bc8eedc373b944a0cd7f5fe41063086da233d0473c73fb523912a9f026ea870782bd221f4a515f441a2d3af4de48c6f2c76dac5082377
@@ -5842,7 +5826,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openid-client@npm:^5.1.9":
+"openid-client@npm:^5.3.1":
   version: 5.4.3
   resolution: "openid-client@npm:5.4.3"
   dependencies:
@@ -6676,8 +6660,8 @@ __metadata:
   linkType: hard
 
 "rollup@npm:^3.25.2":
-  version: 3.27.0
-  resolution: "rollup@npm:3.27.0"
+  version: 3.27.1
+  resolution: "rollup@npm:3.27.1"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -6685,7 +6669,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: f60c2c288d039dc14e1f6e7fd673b7fcb11928b5a781675791b37a741f63b7af110fc5d040d60d603175b6e03ff978bed83db018dd2ac542ef809fe1a5b32dae
+  checksum: 1f82ef0fd15317ef35f7dea9712c50e83357ae21e3d7688ad22218968e0b2aaeebae4130afed2c3566e5abab8cbebf60b0b40f9544fedced4f1f7dd39b4f25b8
   languageName: node
   linkType: hard
 
@@ -6983,8 +6967,8 @@ __metadata:
   dependencies:
     "@navikt/eslint-config-teamsykmelding": ^3.0.0
     "@navikt/fnrvalidator": ^1.3.3
-    "@navikt/next-api-proxy": ^1.3.0
-    "@navikt/next-auth-wonderwall": ^0.6.0
+    "@navikt/next-api-proxy": ^3.2.0
+    "@navikt/next-auth-wonderwall": ^1.4.0
     "@navikt/next-logger": ^1.19.0
     "@next/bundle-analyzer": ^13.4.12
     "@testing-library/react": ^14.0.0
@@ -7348,11 +7332,11 @@ __metadata:
   linkType: hard
 
 "strip-literal@npm:^1.0.1":
-  version: 1.2.0
-  resolution: "strip-literal@npm:1.2.0"
+  version: 1.3.0
+  resolution: "strip-literal@npm:1.3.0"
   dependencies:
     acorn: ^8.10.0
-  checksum: 41b73be9a529e9141c8f7235c153615c7612bce52f19131c2e58a550e0526a0513fee1654cc3ee1216f7b3f44587cea7738a5cdf5364ad46d708a27a962fea0b
+  checksum: f5fa7e289df8ebe82e90091fd393974faf8871be087ca50114327506519323cf15f2f8fee6ebe68b5e58bfc795269cae8bdc7cb5a83e27b02b3fe953f37b0a89
   languageName: node
   linkType: hard
 
@@ -8297,7 +8281,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:3.21.4, zod@npm:^3.19.1, zod@npm:^3.21.4":
+"zod@npm:3.21.4, zod@npm:^3.20.2, zod@npm:^3.21.4":
   version: 3.21.4
   resolution: "zod@npm:3.21.4"
   checksum: f185ba87342ff16f7a06686767c2b2a7af41110c7edf7c1974095d8db7a73792696bcb4a00853de0d2edeb34a5b2ea6a55871bc864227dace682a0a28de33e1f

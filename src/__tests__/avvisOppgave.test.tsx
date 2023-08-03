@@ -3,33 +3,37 @@ import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 import { within } from '@testing-library/react'
 
-import Index from '../pages/index'
-import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen } from '../utils/testUtils'
+import { mockBehandlerinfo, mockPasientinfo, render, screen } from '../utils/testUtils'
 import { server } from '../mocks/server'
 import { apiUrl } from '../utils/fetchUtils'
+import FormView from '../components/FormView'
+import { Oppgave } from '../types/oppgave/Oppgave'
+import { getDiagnosekoder } from '../utils/dataUtils'
 
 import fullOppgave from './testData/fullOppgave.json'
 
-describe('Avvis oppgave', () => {
-    const oppgaveid = 123
+describe('Avvis oppgave', async () => {
+    const diagnosekoder = await getDiagnosekoder()
 
     beforeEach(() => {
-        mockLocation(oppgaveid)
-        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (req, res, ctx) => res(ctx.json(fullOppgave))))
         mockPasientinfo()
         mockBehandlerinfo()
     })
 
     it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/avvis`), (req, res, ctx) =>
+            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/avvis`), (req, res, ctx) =>
                 res(ctx.status(200), ctx.text('OK')),
             ),
         )
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId={null}
+                aktivEnhet="test-enhet"
+                oppgave={fullOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(

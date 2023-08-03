@@ -9,8 +9,6 @@ import { server } from './src/mocks/server'
 
 expect.extend(matchers)
 
-process.env.DEBUG_PRINT_LIMIT = '1000000'
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const dirtyGlobal = global as any
 
@@ -29,11 +27,11 @@ vi.mock('@navikt/next-auth-wonderwall', () => ({
     validateAzureToken: () => Promise.resolve(true),
 }))
 
-// msw configuration
 beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
-
 afterEach(() => {
+    server.resetHandlers()
     cleanup()
 })
+afterAll(() => server.close())
+
+process.env.DEBUG_PRINT_LIMIT = '1000000'

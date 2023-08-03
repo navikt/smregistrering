@@ -2,34 +2,38 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 
-import Index from '../pages/index'
-import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen } from '../utils/testUtils'
+import { mockBehandlerinfo, mockPasientinfo, render, screen } from '../utils/testUtils'
 import { server } from '../mocks/server'
 import { apiUrl } from '../utils/fetchUtils'
+import FormView from '../components/FormView'
+import { Oppgave } from '../types/oppgave/Oppgave'
+import { getDiagnosekoder } from '../utils/dataUtils'
 
 import fullOppgave from './testData/fullOppgave.json'
 
-describe('Registration api errors', () => {
-    const oppgaveid = 123
+describe('Registration api errors', async () => {
+    const diagnosekoder = await getDiagnosekoder()
 
     beforeEach(() => {
-        mockLocation(oppgaveid)
         mockPasientinfo()
         mockBehandlerinfo()
-        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (req, res, ctx) => res(ctx.json(fullOppgave))))
     })
 
     it('Should show received body error message when status code is 400', async () => {
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) =>
+            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`), (req, res, ctx) =>
                 res(ctx.status(400), ctx.text('This is an error')),
             ),
         )
 
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId="test-id"
+                aktivEnhet="test-enhet"
+                oppgave={fullOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(
@@ -47,14 +51,18 @@ describe('Registration api errors', () => {
 
     it('Should show generic error message when status code is 500', async () => {
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) =>
+            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`), (req, res, ctx) =>
                 res(ctx.status(500), ctx.text('This is an error')),
             ),
         )
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId="test-id"
+                aktivEnhet="test-enhet"
+                oppgave={fullOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(
@@ -74,7 +82,7 @@ describe('Registration api errors', () => {
 
     it('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) =>
+            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`), (req, res, ctx) =>
                 res(
                     ctx.status(400),
                     ctx.set('Content-Type', 'application/json'),
@@ -93,9 +101,13 @@ describe('Registration api errors', () => {
             ),
         )
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId="test-id"
+                aktivEnhet="test-enhet"
+                oppgave={fullOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(
@@ -114,15 +126,19 @@ describe('Registration api errors', () => {
 
     it('Should show validation error when receiving wrongly structured json and status code is 400', async () => {
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) =>
+            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`), (req, res, ctx) =>
                 res(ctx.status(400), ctx.json({ wrong: 'prop' })),
             ),
         )
 
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId="test-id"
+                aktivEnhet="test-enhet"
+                oppgave={fullOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(

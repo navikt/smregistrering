@@ -2,21 +2,19 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 
-import Index from '../pages/index'
-import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen } from '../utils/testUtils'
+import { mockBehandlerinfo, mockPasientinfo, render, screen } from '../utils/testUtils'
 import { server } from '../mocks/server'
 import { apiUrl } from '../utils/fetchUtils'
+import FormView from '../components/FormView'
+import { Oppgave } from '../types/oppgave/Oppgave'
+import { getDiagnosekoder } from '../utils/dataUtils'
 
 import fullOppgaveWithoutPeriods from './testData/fullOppgaveWithoutPeriods.json'
 
-describe('Mulighet for arbeid section', () => {
-    const oppgaveid = 123
+describe('Mulighet for arbeid section', async () => {
+    const diagnosekoder = await getDiagnosekoder()
 
     beforeEach(() => {
-        mockLocation(oppgaveid)
-        server.use(
-            rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (req, res, ctx) => res(ctx.json(fullOppgaveWithoutPeriods))),
-        )
         mockBehandlerinfo()
         mockPasientinfo()
     })
@@ -24,16 +22,20 @@ describe('Mulighet for arbeid section', () => {
     it('Should be able to delete periode without messing up other periods', async () => {
         let invokedBody: unknown | null = null
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) => {
+            rest.post(apiUrl(`/v1/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), (req, res, ctx) => {
                 invokedBody = req.body
                 return res(ctx.status(204))
             }),
         )
 
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId="test-id"
+                aktivEnhet="test-enhet"
+                oppgave={fullOppgaveWithoutPeriods as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(

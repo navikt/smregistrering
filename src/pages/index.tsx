@@ -2,15 +2,14 @@ import React, { useContext, useEffect, useState } from 'react'
 import { logger } from '@navikt/next-logger'
 
 import ErrorView from '../components/ErrorView'
-import Form from '../components/Form/Form'
 import LoadingView from '../components/LoadingView'
-import Pdf from '../components/Pdf/Pdf'
 import { Diagnosekoder } from '../types/diagnosekoder/Diagnosekoder'
 import { Oppgave } from '../types/oppgave/Oppgave'
 import { getDiagnosekoder, getOppgave, OppgaveAlreadySolvedError, UnauthorizedError } from '../utils/dataUtils'
 import { getModiaContext } from '../services/modiaService'
 import { StoreContext } from '../store'
 import { withAuthenticatedPage } from '../auth/withAuth'
+import FormView from '../components/FormView'
 
 const Index = () => {
     const { aktivEnhet } = useContext(StoreContext)
@@ -75,16 +74,13 @@ const Index = () => {
     }
 
     return (
-        <main className="main-content-container">
-            <Form
-                oppgave={oppgave}
-                diagnosekoder={diagnosekoder}
-                enhet={aktivEnhet}
-                isFerdigstilt={isFerdigstilt}
-                sykmeldingId={sykmeldingId}
-            />
-            <Pdf pdf={oppgave.pdfPapirSykmelding} />
-        </main>
+        <FormView
+            sykmeldingId={sykmeldingId}
+            oppgave={oppgave}
+            diagnosekoder={diagnosekoder}
+            aktivEnhet={aktivEnhet}
+            isFerdigstilt={isFerdigstilt}
+        />
     )
 }
 

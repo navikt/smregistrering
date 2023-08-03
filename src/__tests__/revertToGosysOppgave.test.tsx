@@ -2,31 +2,34 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 
-import Index from '../pages/index'
-import { mockLocation, render, screen, within } from '../utils/testUtils'
+import { render, screen, within } from '../utils/testUtils'
 import { server } from '../mocks/server'
 import { apiUrl } from '../utils/fetchUtils'
+import FormView from '../components/FormView'
+import { Oppgave } from '../types/oppgave/Oppgave'
+import { getDiagnosekoder } from '../utils/dataUtils'
 
 import emptyOppgave from './testData/emptyOppgave.json'
 
-describe('Load pasientinfo', () => {
-    const oppgaveid = 123
+describe('Load pasientinfo', async () => {
+    const diagnosekoder = await getDiagnosekoder()
 
-    beforeEach(() => {
-        mockLocation(oppgaveid)
-        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (req, res, ctx) => res(ctx.json(emptyOppgave))))
-    })
+    beforeEach(() => {})
 
     it('Should display modal when clicking "Send til GOSYS"', async () => {
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/tilgosys`), (req, res, ctx) =>
+            rest.post(apiUrl(`/v1/oppgave/${emptyOppgave.oppgaveid}/tilgosys`), (req, res, ctx) =>
                 res(ctx.status(200), ctx.text('OK')),
             ),
         )
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId={null}
+                aktivEnhet="test-enhet"
+                oppgave={emptyOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(

@@ -2,36 +2,40 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 
-import Index from '../pages/index'
-import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen, within } from '../utils/testUtils'
+import { mockBehandlerinfo, mockPasientinfo, render, screen, within } from '../utils/testUtils'
 import { server } from '../mocks/server'
 import { apiUrl } from '../utils/fetchUtils'
+import FormView from '../components/FormView'
+import { Oppgave } from '../types/oppgave/Oppgave'
+import { getDiagnosekoder } from '../utils/dataUtils'
 
 import emptyOppgave from './testData/emptyOppgave.json'
 
-describe('Submit oppgave', () => {
-    const oppgaveid = 123
+describe('Submit oppgave', async () => {
+    const diagnosekoder = await getDiagnosekoder()
 
     beforeEach(() => {
-        mockLocation(oppgaveid)
         mockPasientinfo()
         mockBehandlerinfo()
     })
 
     it('Should be able to fill out and submit form', async () => {
         let invokedBody: unknown | null = null
-        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (req, res, ctx) => res(ctx.json(emptyOppgave))))
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) => {
+            rest.post(apiUrl(`/v1/oppgave/${emptyOppgave.oppgaveid}/send`), (req, res, ctx) => {
                 invokedBody = req.body
                 return res(ctx.status(204))
             }),
         )
 
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId="test-id"
+                aktivEnhet="test-enhet"
+                oppgave={emptyOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(

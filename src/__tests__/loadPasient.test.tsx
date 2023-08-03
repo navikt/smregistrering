@@ -2,19 +2,19 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { rest } from 'msw'
 
-import Index from '../pages/index'
-import { mockBehandlerinfo, mockLocation, render, screen } from '../utils/testUtils'
+import { mockBehandlerinfo, render, screen } from '../utils/testUtils'
 import { server } from '../mocks/server'
 import { apiUrl } from '../utils/fetchUtils'
+import FormView from '../components/FormView'
+import { Oppgave } from '../types/oppgave/Oppgave'
+import { getDiagnosekoder } from '../utils/dataUtils'
 
 import nullFnrOppgave from './testData/nullFnrOppgave.json'
 
-describe('Load pasientinfo', () => {
-    const oppgaveid = 123
+describe('Load pasientinfo', async () => {
+    const diagnosekoder = await getDiagnosekoder()
 
     beforeEach(() => {
-        mockLocation(oppgaveid)
-        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (req, res, ctx) => res(ctx.json(nullFnrOppgave))))
         mockBehandlerinfo()
     })
 
@@ -32,9 +32,13 @@ describe('Load pasientinfo', () => {
         )
 
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId="test-id"
+                aktivEnhet="test-enhet"
+                oppgave={nullFnrOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(
@@ -47,9 +51,13 @@ describe('Load pasientinfo', () => {
     it('Should display error when request fails', async () => {
         server.use(rest.get(apiUrl('/v1/pasient'), (req, res, ctx) => res(ctx.status(500))))
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId="test-id"
+                aktivEnhet="test-enhet"
+                oppgave={nullFnrOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(

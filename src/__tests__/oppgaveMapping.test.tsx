@@ -1,36 +1,37 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { rest } from 'msw'
 
-import Index from '../pages/index'
 import {
     ArbeidsrelatertArsakType,
     ArbeidsrelatertArsakTypeValues,
     MedisinskArsakType,
     MedisinskArsakTypeValues,
 } from '../types/sykmelding/Periode'
-import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen } from '../utils/testUtils'
+import { mockBehandlerinfo, mockPasientinfo, render, screen } from '../utils/testUtils'
 import { formatDate, formatDateShorthand } from '../utils/dateUtils'
-import { server } from '../mocks/server'
-import { apiUrl } from '../utils/fetchUtils'
+import FormView from '../components/FormView'
+import { getDiagnosekoder } from '../utils/dataUtils'
+import { Oppgave } from '../types/oppgave/Oppgave'
 
-import emptyOppgave from './testData/emptyOppgave.json'
 import fullOppgave from './testData/fullOppgave.json'
+import emptyOppgave from './testData/emptyOppgave.json'
 
-describe('Mapping opppgave fetched from API', () => {
-    const oppgaveid = 123
+describe('Mapping opppgave fetched from API', async () => {
+    const diagnosekoder = await getDiagnosekoder()
 
     beforeEach(() => {
-        mockLocation(oppgaveid)
         mockPasientinfo()
         mockBehandlerinfo()
     })
 
     it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', async () => {
-        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (_, res, ctx) => res(ctx.json(fullOppgave))))
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId="test-id"
+                aktivEnhet="test-enhet"
+                oppgave={fullOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(
@@ -198,12 +199,14 @@ describe('Mapping opppgave fetched from API', () => {
     })
 
     it('Should not map any field when "oppgave.papirSmRegistrering" is null', async () => {
-        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (_, res, ctx) => res(ctx.json(emptyOppgave))))
-
         render(
-            <div id="root">
-                <Index />
-            </div>,
+            <FormView
+                sykmeldingId="test-id"
+                aktivEnhet="test-enhet"
+                oppgave={emptyOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
         )
 
         expect(
