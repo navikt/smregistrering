@@ -33,12 +33,12 @@ export const getOppgave = async (): Promise<OppgaveResult> => {
     const id = getIdFromSearchParams()
     if ('oppgaveId' in id) {
         const oppgaveId = id.oppgaveId
-        const url = `/api/backend/api/v1/oppgave/${oppgaveId}`
+        const url = `/v1/oppgave/${oppgaveId}`
         const oppgave = await fetchOppgave(url)
         return { type: 'Oppgave', oppgave, sykmeldingId: null }
     } else {
         const sykmeldingId = id.sykmeldingId
-        const url = `/api/backend/api/v1/sykmelding/${sykmeldingId}/ferdigstilt`
+        const url = `/v1/sykmelding/${sykmeldingId}/ferdigstilt`
         const oppgave = await fetchOppgave(url)
         return { type: 'FerdigstiltOppgave', oppgave, sykmeldingId }
     }

@@ -3,6 +3,8 @@ import { logger } from '@navikt/next-logger'
 import { RegistrertSykmelding } from '../types/sykmelding/RegistrertSykmelding'
 import { RuleHitErrors } from '../types/RuleHitErrors'
 
+import { browserEnv } from './env'
+
 export class RuleHitError extends Error {
     ruleHits: RuleHitErrors
     constructor(ruleHits: RuleHitErrors, message?: string) {
@@ -62,15 +64,17 @@ export async function postRegistrertSykmelding(
 
 function getUrl(isFerdigstilt: boolean, oppgaveId: number, sykmeldingId: string | null) {
     if (isFerdigstilt) {
-        return sykmeldingId != null
-            ? `/api/backend/api/v1/sykmelding/${sykmeldingId}`
-            : `/api/backend/api/v1/oppgave/${oppgaveId}/endre`
+        return sykmeldingId != null ? `/v1/sykmelding/${sykmeldingId}` : `/v1/oppgave/${oppgaveId}/endre`
     }
 
-    return `/api/backend/api/v1/oppgave/${oppgaveId}/send`
+    return `/v1/oppgave/${oppgaveId}/send`
 }
 
 export function apiFetch(...args: Parameters<typeof fetch>) {
     const [url, ...rest] = args
-    return fetch(`${process.env.NEXT_PUBLIC_API_URL ?? ''}${url}`, ...rest)
+    return fetch(apiUrl(url), ...rest)
+}
+
+export function apiUrl(path: RequestInfo | URL): string {
+    return `${browserEnv.NEXT_PUBLIC_ENVIRONMENT === 'test' ? 'http://localhost' : ''}/api/backend/api${path}`
 }

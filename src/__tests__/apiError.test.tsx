@@ -1,35 +1,29 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import FetchMock from 'yet-another-fetch-mock'
+import { rest } from 'msw'
 
 import Index from '../pages/index'
 import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen } from '../utils/testUtils'
+import { server } from '../mocks/server'
+import { apiUrl } from '../utils/fetchUtils'
 
 import fullOppgave from './testData/fullOppgave.json'
 
 describe('Registration api errors', () => {
-    let mock: FetchMock
-
     const oppgaveid = 123
 
     beforeEach(() => {
-        mock = FetchMock.configure({
-            enableFallback: false,
-        })
-
         mockLocation(oppgaveid)
-        mockPasientinfo(mock)
-        mockBehandlerinfo(mock)
-        mock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`, (req, res, ctx) => res(ctx.json(fullOppgave)))
-    })
-
-    afterEach(() => {
-        mock.restore()
+        mockPasientinfo()
+        mockBehandlerinfo()
+        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (req, res, ctx) => res(ctx.json(fullOppgave))))
     })
 
     it('Should show received body error message when status code is 400', async () => {
-        mock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`, (req, res, ctx) =>
-            res(ctx.status(400), ctx.text('This is an error')),
+        server.use(
+            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) =>
+                res(ctx.status(400), ctx.text('This is an error')),
+            ),
         )
 
         render(
@@ -38,7 +32,9 @@ describe('Registration api errors', () => {
             </div>,
         )
 
-        expect(await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }))
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 
@@ -50,8 +46,10 @@ describe('Registration api errors', () => {
     })
 
     it('Should show generic error message when status code is 500', async () => {
-        mock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`, (req, res, ctx) =>
-            res(ctx.status(500), ctx.text('This is an error')),
+        server.use(
+            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) =>
+                res(ctx.status(500), ctx.text('This is an error')),
+            ),
         )
         render(
             <div id="root">
@@ -59,7 +57,9 @@ describe('Registration api errors', () => {
             </div>,
         )
 
-        expect(await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }))
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 
@@ -73,21 +73,23 @@ describe('Registration api errors', () => {
     })
 
     it('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
-        mock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`, (req, res, ctx) =>
-            res(
-                ctx.status(400),
-                ctx.header('Content-Type', 'application/json'),
-                ctx.json({
-                    status: 'INVALID',
-                    ruleHits: [
-                        {
-                            ruleName: 'RULE_NUMBER_ONE',
-                            ruleStatus: 'INVALID',
-                            messageForSender: 'Dont break the rules, please',
-                            messageForUser: 'message for user',
-                        },
-                    ],
-                }),
+        server.use(
+            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) =>
+                res(
+                    ctx.status(400),
+                    ctx.set('Content-Type', 'application/json'),
+                    ctx.json({
+                        status: 'INVALID',
+                        ruleHits: [
+                            {
+                                ruleName: 'RULE_NUMBER_ONE',
+                                ruleStatus: 'INVALID',
+                                messageForSender: 'Dont break the rules, please',
+                                messageForUser: 'message for user',
+                            },
+                        ],
+                    }),
+                ),
             ),
         )
         render(
@@ -96,7 +98,9 @@ describe('Registration api errors', () => {
             </div>,
         )
 
-        expect(await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }))
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 
@@ -109,8 +113,10 @@ describe('Registration api errors', () => {
     })
 
     it('Should show validation error when receiving wrongly structured json and status code is 400', async () => {
-        mock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`, (req, res, ctx) =>
-            res(ctx.status(400), ctx.json({ wrong: 'prop' })),
+        server.use(
+            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) =>
+                res(ctx.status(400), ctx.json({ wrong: 'prop' })),
+            ),
         )
 
         render(
@@ -119,7 +125,9 @@ describe('Registration api errors', () => {
             </div>,
         )
 
-        expect(await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }))
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 

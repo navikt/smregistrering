@@ -1,7 +1,6 @@
 import { PropsWithChildren, useEffect } from 'react'
 import { AppProps as NextAppProps } from 'next/app'
 import Modal from 'nav-frontend-modal'
-import dynamic from 'next/dynamic'
 
 import ModiaHeader from '../components/ModiaHeader/ModiaHeader'
 import { ModiaContext, ModiaContextError } from '../services/modiaService'
@@ -31,7 +30,10 @@ import '../components/Form/components/formSections/DiagnoseSection/BidiagnoseRow
 import '../components/Form/components/formSections/MulighetForArbeidSection/MulighetForArbeidSection.css'
 import '../components/Pdf/Pdf.css'
 
-const SetupMock = dynamic(() => (isLocalOrDemo ? import('../mock/setup') : Promise.resolve(() => null)), { ssr: false })
+if (isLocalOrDemo) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    require('../mocks')
+}
 
 export interface PageSsrResult {
     modiaContext?: ModiaContext | ModiaContextError
@@ -48,7 +50,6 @@ function MyApp({ Component, pageProps }: AppProps<PageSsrResult>): JSX.Element {
 
     return (
         <StoreProvider modiaContext={pageProps.modiaContext}>
-            <SetupMock />
             <ModiaHeader modiaContext={pageProps.modiaContext} />
             <Component {...pageProps} />
         </StoreProvider>

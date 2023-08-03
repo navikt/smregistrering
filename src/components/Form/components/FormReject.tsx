@@ -41,7 +41,7 @@ const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigsti
             logger.info(`Sender oppgave til gosys. oppgaveid: ${oppgaveid}`)
             setIsLoadingRevert(true)
             setRevertError(null)
-            apiFetch(`/api/backend/api/v1/oppgave/${oppgaveid}/tilgosys`, {
+            apiFetch(`/v1/oppgave/${oppgaveid}/tilgosys`, {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {
@@ -79,7 +79,7 @@ const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigsti
             setIsLoadingReject(true)
             setRejectError(null)
             const reason = (e.target as any)[0]?.value as string
-            apiFetch(`/api/backend/api/v1/oppgave/${oppgaveid}/avvis`, {
+            apiFetch(`/v1/oppgave/${oppgaveid}/avvis`, {
                 method: 'POST',
                 credentials: 'same-origin',
                 headers: {

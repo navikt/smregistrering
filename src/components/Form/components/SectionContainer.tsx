@@ -10,9 +10,11 @@ type SectionProps = {
 }
 
 const SectionContainer = ({ children, section, sectionError }: PropsWithChildren<SectionProps>) => {
+    const sectionId = section.title.replace(/\s/g, '-').toLowerCase()
+
     return (
-        <section id={section.title}>
-            <SectionHeader section={section} />
+        <section id={section.title} aria-labelledby={`${sectionId}-heading`}>
+            <SectionHeader section={section} headingId={`${sectionId}-heading`} />
             <fieldset className={`section-content ${sectionError ? 'section-content--feil' : ''}`}>{children}</fieldset>
             {sectionError && <p className="section-error typo-feilmelding">{sectionError}</p>}
         </section>

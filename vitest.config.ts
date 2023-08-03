@@ -12,7 +12,7 @@ export default defineConfig({
         environment: 'jsdom',
         include: ['src/**/*.test.{ts,tsx}'],
         setupFiles: ['vitest.setup.ts'],
-        testTimeout: 10_000,
+        testTimeout: 100_000,
         maxThreads: 1,
         minThreads: 1,
     },

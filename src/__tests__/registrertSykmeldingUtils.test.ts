@@ -600,21 +600,21 @@ describe('registrertSykmeldingUtils', () => {
                 skjermesForPasient: schema.skjermesForPasient!,
                 perioder: [
                     {
-                        fom: schema.mulighetForArbeid[0].avventendePeriode[0],
-                        tom: schema.mulighetForArbeid[0].avventendePeriode[1],
-                        avventendeInnspillTilArbeidsgiver:
-                            schema.mulighetForArbeid[0].avventendeInnspillTilArbeidsgiver,
+                        fom: (schema.mulighetForArbeid[0] as any).avventendePeriode[0],
+                        tom: (schema.mulighetForArbeid[0] as any).avventendePeriode[1],
+                        avventendeInnspillTilArbeidsgiver: (schema.mulighetForArbeid[0] as any)
+                            .avventendeInnspillTilArbeidsgiver,
                         reisetilskudd: false,
                         aktivitetIkkeMulig: null,
                         behandlingsdager: null,
                         gradert: null,
                     },
                     {
-                        fom: schema.mulighetForArbeid[1].gradertPeriode[0],
-                        tom: schema.mulighetForArbeid[1].gradertPeriode[1],
+                        fom: (schema.mulighetForArbeid[1] as any).gradertPeriode[0],
+                        tom: (schema.mulighetForArbeid[1] as any).gradertPeriode[1],
                         gradert: {
-                            grad: schema.mulighetForArbeid[1].gradertGrad,
-                            reisetilskudd: schema.mulighetForArbeid[1].gradertReisetilskudd!,
+                            grad: (schema.mulighetForArbeid[1] as any).gradertGrad,
+                            reisetilskudd: (schema.mulighetForArbeid[1] as any).gradertReisetilskudd!,
                         },
                         reisetilskudd: false,
                         aktivitetIkkeMulig: null,
@@ -622,17 +622,18 @@ describe('registrertSykmeldingUtils', () => {
                         behandlingsdager: null,
                     },
                     {
-                        fom: schema.mulighetForArbeid[2].aktivitetIkkeMuligPeriode[0],
-                        tom: schema.mulighetForArbeid[2].aktivitetIkkeMuligPeriode[1],
+                        fom: (schema.mulighetForArbeid[2] as any).aktivitetIkkeMuligPeriode[0],
+                        tom: (schema.mulighetForArbeid[2] as any).aktivitetIkkeMuligPeriode[1],
                         aktivitetIkkeMulig: {
                             medisinskArsak: {
-                                arsak: schema.mulighetForArbeid[2].aktivitetIkkeMuligMedisinskArsakType!,
-                                beskrivelse: schema.mulighetForArbeid[2].aktivitetIkkeMuligMedisinskArsakBeskrivelse,
+                                arsak: (schema.mulighetForArbeid[2] as any).aktivitetIkkeMuligMedisinskArsakType!,
+                                beskrivelse: (schema.mulighetForArbeid[2] as any)
+                                    .aktivitetIkkeMuligMedisinskArsakBeskrivelse,
                             },
                             arbeidsrelatertArsak: {
-                                arsak: schema.mulighetForArbeid[2].aktivitetIkkeMuligArbeidsrelatertArsakType!,
-                                beskrivelse:
-                                    schema.mulighetForArbeid[2].aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
+                                arsak: (schema.mulighetForArbeid[2] as any).aktivitetIkkeMuligArbeidsrelatertArsakType!,
+                                beskrivelse: (schema.mulighetForArbeid[2] as any)
+                                    .aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
                             },
                         },
                         reisetilskudd: false,
@@ -641,17 +642,17 @@ describe('registrertSykmeldingUtils', () => {
                         avventendeInnspillTilArbeidsgiver: null,
                     },
                     {
-                        fom: schema.mulighetForArbeid[3].behandlingsdagerPeriode![0],
-                        tom: schema.mulighetForArbeid[3].behandlingsdagerPeriode![1],
-                        behandlingsdager: schema.mulighetForArbeid[3].behandlingsdagerAntall,
+                        fom: (schema.mulighetForArbeid[3] as any).behandlingsdagerPeriode![0],
+                        tom: (schema.mulighetForArbeid[3] as any).behandlingsdagerPeriode![1],
+                        behandlingsdager: (schema.mulighetForArbeid[3] as any).behandlingsdagerAntall,
                         reisetilskudd: false,
                         aktivitetIkkeMulig: null,
                         gradert: null,
                         avventendeInnspillTilArbeidsgiver: null,
                     },
                     {
-                        fom: schema.mulighetForArbeid[4].reisetilskuddPeriode![0],
-                        tom: schema.mulighetForArbeid[4].reisetilskuddPeriode![1],
+                        fom: (schema.mulighetForArbeid[4] as any).reisetilskuddPeriode![0],
+                        tom: (schema.mulighetForArbeid[4] as any).reisetilskuddPeriode![1],
                         reisetilskudd: true,
                         aktivitetIkkeMulig: null,
                         gradert: null,

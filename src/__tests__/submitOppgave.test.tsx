@@ -1,36 +1,32 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import FetchMock from 'yet-another-fetch-mock'
+import { rest } from 'msw'
 
 import Index from '../pages/index'
-import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen } from '../utils/testUtils'
+import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen, within } from '../utils/testUtils'
+import { server } from '../mocks/server'
+import { apiUrl } from '../utils/fetchUtils'
 
 import emptyOppgave from './testData/emptyOppgave.json'
 
 describe('Submit oppgave', () => {
-    let mock: FetchMock
     const oppgaveid = 123
 
     beforeEach(() => {
-        mock = FetchMock.configure({
-            enableFallback: false,
-        })
         mockLocation(oppgaveid)
-        mockPasientinfo(mock)
-        mockBehandlerinfo(mock)
-    })
-
-    afterEach(() => {
-        mock.restore()
+        mockPasientinfo()
+        mockBehandlerinfo()
     })
 
     it('Should be able to fill out and submit form', async () => {
         let invokedBody: unknown | null = null
-        mock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`, (req, res, ctx) => res(ctx.json(emptyOppgave)))
-        mock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`, (req, res, ctx) => {
-            invokedBody = req.body
-            return res(ctx.status(204))
-        })
+        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (req, res, ctx) => res(ctx.json(emptyOppgave))))
+        server.use(
+            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) => {
+                invokedBody = req.body
+                return res(ctx.status(204))
+            }),
+        )
 
         render(
             <div id="root">
@@ -38,73 +34,85 @@ describe('Submit oppgave', () => {
             </div>,
         )
 
-        expect(await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }))
-
-        // await waitForElementToBeRemoved(() => screen.queryByText('Henter informasjon om pasient'));
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
 
         // 1 Pasientopplysninger
         await userEvent.type(screen.getByLabelText('1.2 Fødselsnummer (11 siffer)'), '12345678910')
 
-        // 2 Arbeidsgiver
-        await userEvent.selectOptions(screen.getByLabelText('2.1 Pasienten har'), 'Én arbeidsgiver')
-        await userEvent.type(screen.getByLabelText('2.2 Arbeidsgiver for denne sykmeldingen'), 'Politiet')
-        await userEvent.type(screen.getByLabelText('2.3 Yrke/stilling for dette arbeidsforholdet'), 'Politibetjent')
-        await userEvent.type(screen.getByLabelText('2.4 Stillingsprosent'), '25')
+        const arbeidsgiverSection = within(screen.getByRole('region', { name: '2 Arbeidsgiver' }))
+        await userEvent.selectOptions(arbeidsgiverSection.getByLabelText('2.1 Pasienten har'), 'Én arbeidsgiver')
+        await userEvent.type(arbeidsgiverSection.getByLabelText('2.2 Arbeidsgiver for denne sykmeldingen'), 'Politiet')
+        await userEvent.type(
+            arbeidsgiverSection.getByLabelText('2.3 Yrke/stilling for dette arbeidsforholdet'),
+            'Politibetjent',
+        )
+        await userEvent.type(arbeidsgiverSection.getByLabelText('2.4 Stillingsprosent'), '25')
 
-        // 3 Diagnose
-        await userEvent.type(screen.getByLabelText('3.1.2 Kode'), 'A000{enter}')
-        await userEvent.click(screen.getByRole('button', { name: 'Legg til bidiagnose' }))
-        await userEvent.type(screen.getByLabelText('3.2.2 Kode'), 'A000{enter}')
-        await userEvent.click(screen.getByRole('checkbox', { name: /Annen lovfestet fraværsgrunn/ }))
+        const diagnoseSection = within(screen.getByRole('region', { name: '3 Diagnose' }))
+        await userEvent.type(diagnoseSection.getByLabelText('3.1.2 Kode'), 'A000{enter}')
+        await userEvent.click(diagnoseSection.getByRole('button', { name: 'Legg til bidiagnose' }))
+        await userEvent.type(diagnoseSection.getByLabelText('3.2.2 Kode'), 'A000{enter}')
+        await userEvent.click(diagnoseSection.getByRole('checkbox', { name: /Annen lovfestet fraværsgrunn/ }))
         await userEvent.click(
-            screen.getByRole('checkbox', { name: /Når vedkommende er innlagt i en godkjent helseinstitusjon/ }),
+            diagnoseSection.getByRole('checkbox', {
+                name: /Når vedkommende er innlagt i en godkjent helseinstitusjon/,
+            }),
         )
         await userEvent.type(
-            screen.getByLabelText('3.3.2 Beskriv fravær (valgfritt)'),
+            diagnoseSection.getByLabelText('3.3.2 Beskriv fravær (valgfritt)'),
             'Dette er en beskrivelse av fraværet',
         )
-        await userEvent.click(screen.getByRole('checkbox', { name: /Sykdommen er svangerskapsrelatert/ }))
-        await userEvent.click(screen.getByRole('checkbox', { name: /Sykmeldingen kan skyldes en yrkesskade/ }))
-        await userEvent.type(screen.getByLabelText('3.6 Eventuell skadedato'), '010120{enter}')
-        await userEvent.click(screen.getByRole('checkbox', { name: /nødvendig å skjerme pasienten/ }))
+        await userEvent.click(diagnoseSection.getByRole('checkbox', { name: /Sykdommen er svangerskapsrelatert/ }))
+        await userEvent.click(diagnoseSection.getByRole('checkbox', { name: /Sykmeldingen kan skyldes en yrkesskade/ }))
+        await userEvent.type(diagnoseSection.getByLabelText('3.6 Eventuell skadedato'), '010120{enter}')
+        await userEvent.click(diagnoseSection.getByRole('checkbox', { name: /nødvendig å skjerme pasienten/ }))
 
-        // 4 Mulighet for arbeid
-        await userEvent.selectOptions(screen.getByLabelText('Periodetype'), '4.1 Avventende sykmelding')
-        await userEvent.type(screen.getByLabelText('F.o.m - t.o.m'), '010120-030120{enter}')
-        await userEvent.type(screen.getByLabelText('Andre innspill til arbeidsgiver'), 'Innspill til arbeidsgiver')
-
-        await userEvent.click(screen.getByRole('button', { name: 'Legg til periode' }))
-
-        await userEvent.selectOptions(screen.getAllByLabelText('Periodetype')[1], '4.2 Gradert sykmelding')
-        await userEvent.type(screen.getByLabelText('Oppgi grad'), '80{enter}')
-        await userEvent.type(screen.getAllByLabelText('F.o.m - t.o.m')[1], '010220-030220{enter}')
-        await userEvent.click(screen.getByRole('checkbox', { name: /Pasienten kan være delvis i arbeid/ }))
-
-        await userEvent.click(screen.getByRole('button', { name: 'Legg til periode' }))
-
-        await userEvent.selectOptions(screen.getAllByLabelText('Periodetype')[2], '4.3 100% sykmelding')
-        await userEvent.type(screen.getAllByLabelText('F.o.m - t.o.m')[2], '010320-030320{enter}')
-        await userEvent.click(screen.getByRole('checkbox', { name: /Det er medisinske årsaker/ }))
-        await userEvent.click(
-            screen.getByRole('checkbox', { name: /Helsetilstanden hindrer pasienten i å være i aktivitet/ }),
+        const arbeidsSection = within(screen.getByRole('region', { name: '4 Mulighet for arbeid' }))
+        await userEvent.selectOptions(arbeidsSection.getByLabelText('Periodetype'), '4.1 Avventende sykmelding')
+        await userEvent.type(arbeidsSection.getByLabelText('F.o.m - t.o.m'), '010120-030120{enter}')
+        await userEvent.type(
+            arbeidsSection.getByLabelText('Andre innspill til arbeidsgiver'),
+            'Innspill til arbeidsgiver',
         )
-        await userEvent.type(screen.getByLabelText('Beskrivelse'), 'Medisinsk beskrivelse')
+
+        await userEvent.click(arbeidsSection.getByRole('button', { name: 'Legg til periode' }))
+
+        await userEvent.selectOptions(arbeidsSection.getAllByLabelText('Periodetype')[1], '4.2 Gradert sykmelding')
+        await userEvent.type(arbeidsSection.getByLabelText('Oppgi grad'), '80{enter}')
+        await userEvent.type(arbeidsSection.getAllByLabelText('F.o.m - t.o.m')[1], '010220-030220{enter}')
+        await userEvent.click(arbeidsSection.getByRole('checkbox', { name: /Pasienten kan være delvis i arbeid/ }))
+
+        await userEvent.click(arbeidsSection.getByRole('button', { name: 'Legg til periode' }))
+
+        await userEvent.selectOptions(arbeidsSection.getAllByLabelText('Periodetype')[2], '4.3 100% sykmelding')
+        await userEvent.type(arbeidsSection.getAllByLabelText('F.o.m - t.o.m')[2], '010320-030320{enter}')
+        await userEvent.click(arbeidsSection.getByRole('checkbox', { name: /Det er medisinske årsaker/ }))
         await userEvent.click(
-            screen.getByRole('checkbox', { name: /Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet/ }),
+            arbeidsSection.getByRole('checkbox', { name: /Helsetilstanden hindrer pasienten i å være i aktivitet/ }),
         )
-        await userEvent.click(screen.getByRole('checkbox', { name: /Manglende tilrettelegging på arbeidsplassen/ }))
-        await userEvent.type(screen.getAllByLabelText('Beskrivelse')[1], 'Arbeidsrelatert beskrivelse')
+        await userEvent.type(arbeidsSection.getByLabelText('Beskrivelse'), 'Medisinsk beskrivelse')
+        await userEvent.click(
+            arbeidsSection.getByRole('checkbox', {
+                name: /Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet/,
+            }),
+        )
+        await userEvent.click(
+            arbeidsSection.getByRole('checkbox', { name: /Manglende tilrettelegging på arbeidsplassen/ }),
+        )
+        await userEvent.type(arbeidsSection.getAllByLabelText('Beskrivelse')[1], 'Arbeidsrelatert beskrivelse')
 
-        await userEvent.click(screen.getByRole('button', { name: 'Legg til periode' }))
+        await userEvent.click(arbeidsSection.getByRole('button', { name: 'Legg til periode' }))
 
-        await userEvent.selectOptions(screen.getAllByLabelText('Periodetype')[3], '4.4 Behandlingsdager')
-        await userEvent.type(screen.getAllByLabelText('F.o.m - t.o.m')[3], '010420-030420{enter}')
-        await userEvent.type(screen.getByLabelText('Oppgi antall dager i perioden'), '1{enter}')
+        await userEvent.selectOptions(arbeidsSection.getAllByLabelText('Periodetype')[3], '4.4 Behandlingsdager')
+        await userEvent.type(arbeidsSection.getAllByLabelText('F.o.m - t.o.m')[3], '010420-030420{enter}')
+        await userEvent.type(arbeidsSection.getByLabelText('Oppgi antall dager i perioden'), '1{enter}')
 
-        await userEvent.click(screen.getByRole('button', { name: 'Legg til periode' }))
+        await userEvent.click(arbeidsSection.getByRole('button', { name: 'Legg til periode' }))
 
-        await userEvent.selectOptions(screen.getAllByLabelText('Periodetype')[4], '4.5 Reisetilskudd')
-        await userEvent.type(screen.getAllByLabelText('F.o.m - t.o.m')[4], '010520-030520{enter}')
+        await userEvent.selectOptions(arbeidsSection.getAllByLabelText('Periodetype')[4], '4.5 Reisetilskudd')
+        await userEvent.type(arbeidsSection.getAllByLabelText('F.o.m - t.o.m')[4], '010520-030520{enter}')
 
         // 6 Utdypende opplysninger
         await userEvent.click(screen.getByRole('checkbox', { name: /Sykmeldingen har utdypende opplysninger/ }))

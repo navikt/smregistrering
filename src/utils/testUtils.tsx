@@ -1,10 +1,13 @@
-import FetchMock from 'yet-another-fetch-mock'
 import { PropsWithChildren, ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
+import { rest } from 'msw'
 
-import pasientNavn from '../mock/pasientNavn.json'
-import sykmelder from '../mock/sykmelder.json'
+import pasientNavn from '../mocks/mock/pasientNavn.json'
+import sykmelder from '../mocks/mock/sykmelder.json'
 import StoreProvider from '../store'
+import { server } from '../mocks/server'
+
+import { apiUrl } from './fetchUtils'
 
 export function mockLocation(oppgaveid: string | number): void {
     Object.defineProperty(window, 'location', {
@@ -15,12 +18,12 @@ export function mockLocation(oppgaveid: string | number): void {
     })
 }
 
-export function mockBehandlerinfo(mock: FetchMock): void {
-    mock.get('/api/backend/api/v1/sykmelder/:hpr', (_, res, ctx) => res(ctx.json(sykmelder)))
+export function mockBehandlerinfo(): void {
+    server.use(rest.get(apiUrl('/v1/sykmelder/:hpr'), (_, res, ctx) => res(ctx.json(sykmelder))))
 }
 
-export function mockPasientinfo(mock: FetchMock): void {
-    mock.get('/api/backend/api/v1/pasient', (_, res, ctx) => res(ctx.json(pasientNavn)))
+export function mockPasientinfo(): void {
+    server.use(rest.get(apiUrl('/v1/pasient'), (_, res, ctx) => res(ctx.json(pasientNavn))))
 }
 
 const AllTheProviders = ({ children }: PropsWithChildren<unknown>) => (

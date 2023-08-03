@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import FetchMock from 'yet-another-fetch-mock'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { rest } from 'msw'
 
 import Index from '../pages/index'
 import {
@@ -10,37 +10,32 @@ import {
 } from '../types/sykmelding/Periode'
 import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen } from '../utils/testUtils'
 import { formatDate, formatDateShorthand } from '../utils/dateUtils'
+import { server } from '../mocks/server'
+import { apiUrl } from '../utils/fetchUtils'
 
 import emptyOppgave from './testData/emptyOppgave.json'
 import fullOppgave from './testData/fullOppgave.json'
 
 describe('Mapping opppgave fetched from API', () => {
-    let mock: FetchMock
     const oppgaveid = 123
 
     beforeEach(() => {
-        mock = FetchMock.configure({
-            enableFallback: false,
-        })
-
         mockLocation(oppgaveid)
-        mockPasientinfo(mock)
-        mockBehandlerinfo(mock)
-    })
-
-    afterEach(() => {
-        mock.restore()
+        mockPasientinfo()
+        mockBehandlerinfo()
     })
 
     it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', async () => {
-        mock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`, (_, res, ctx) => res(ctx.json(fullOppgave)))
+        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (_, res, ctx) => res(ctx.json(fullOppgave))))
         render(
             <div id="root">
                 <Index />
             </div>,
         )
 
-        expect(await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }))
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
 
         // 1 Pasientopplysninger
         expect(screen.getByLabelText('1.2 Fødselsnummer (11 siffer)')).toHaveDisplayValue(fullOppgave.fnr)
@@ -203,7 +198,7 @@ describe('Mapping opppgave fetched from API', () => {
     })
 
     it('Should not map any field when "oppgave.papirSmRegistrering" is null', async () => {
-        mock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`, (_, res, ctx) => res(ctx.json(emptyOppgave)))
+        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (_, res, ctx) => res(ctx.json(emptyOppgave))))
 
         render(
             <div id="root">
@@ -211,7 +206,9 @@ describe('Mapping opppgave fetched from API', () => {
             </div>,
         )
 
-        expect(await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }))
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
 
         // 1 Pasientopplysninger
         expect(screen.getByLabelText('1.2 Fødselsnummer (11 siffer)')).toHaveDisplayValue('')

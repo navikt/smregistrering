@@ -1,43 +1,34 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import FetchMock, { SpyMiddleware } from 'yet-another-fetch-mock'
+import { rest } from 'msw'
 
 import Index from '../pages/index'
 import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen } from '../utils/testUtils'
+import { server } from '../mocks/server'
+import { apiUrl } from '../utils/fetchUtils'
 
 import fullOppgaveWithoutPeriods from './testData/fullOppgaveWithoutPeriods.json'
 
 describe('Mulighet for arbeid section', () => {
-    let mock: FetchMock
-    let spy: SpyMiddleware
-
     const oppgaveid = 123
 
     beforeEach(() => {
-        spy = new SpyMiddleware()
-        mock = FetchMock.configure({
-            enableFallback: false,
-            middleware: spy.middleware,
-        })
-
         mockLocation(oppgaveid)
-        mock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`, (req, res, ctx) =>
-            res(ctx.json(fullOppgaveWithoutPeriods)),
+        server.use(
+            rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (req, res, ctx) => res(ctx.json(fullOppgaveWithoutPeriods))),
         )
-        mockBehandlerinfo(mock)
-        mockPasientinfo(mock)
-    })
-
-    afterEach(() => {
-        mock.restore()
+        mockBehandlerinfo()
+        mockPasientinfo()
     })
 
     it('Should be able to delete periode without messing up other periods', async () => {
         let invokedBody: unknown | null = null
-        mock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/send`, (req, res, ctx) => {
-            invokedBody = req.body
-            return res(ctx.status(204))
-        })
+        server.use(
+            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/send`), (req, res, ctx) => {
+                invokedBody = req.body
+                return res(ctx.status(204))
+            }),
+        )
 
         render(
             <div id="root">
@@ -45,7 +36,9 @@ describe('Mulighet for arbeid section', () => {
             </div>,
         )
 
-        expect(await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }))
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
 
         // Add avventende periode
         await userEvent.selectOptions(await screen.findByRole('combobox', { name: 'Periodetype' }), 'avventende')

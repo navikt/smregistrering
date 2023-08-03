@@ -1,35 +1,30 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import FetchMock from 'yet-another-fetch-mock'
+import { rest } from 'msw'
+import { within } from '@testing-library/react'
 
 import Index from '../pages/index'
 import { mockBehandlerinfo, mockLocation, mockPasientinfo, render, screen } from '../utils/testUtils'
+import { server } from '../mocks/server'
+import { apiUrl } from '../utils/fetchUtils'
 
 import fullOppgave from './testData/fullOppgave.json'
 
 describe('Avvis oppgave', () => {
-    let mock: FetchMock
-
     const oppgaveid = 123
 
     beforeEach(() => {
-        mock = FetchMock.configure({
-            enableFallback: false,
-        })
-
         mockLocation(oppgaveid)
-        mock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`, (req, res, ctx) => res(ctx.json(fullOppgave)))
-        mockPasientinfo(mock)
-        mockBehandlerinfo(mock)
-    })
-
-    afterEach(() => {
-        mock.restore()
+        server.use(rest.get(apiUrl(`/v1/oppgave/${oppgaveid}`), (req, res, ctx) => res(ctx.json(fullOppgave))))
+        mockPasientinfo()
+        mockBehandlerinfo()
     })
 
     it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
-        mock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/avvis`, (req, res, ctx) =>
-            res(ctx.status(200), ctx.text('OK')),
+        server.use(
+            rest.post(apiUrl(`/v1/oppgave/${oppgaveid}/avvis`), (req, res, ctx) =>
+                res(ctx.status(200), ctx.text('OK')),
+            ),
         )
         render(
             <div id="root">
@@ -37,10 +32,17 @@ describe('Avvis oppgave', () => {
             </div>,
         )
 
-        expect(await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }))
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
         await userEvent.click(await screen.findByRole('button', { name: 'Avvis sykmeldingen' }))
         expect(await screen.findByText('Er du sikker på at du vil avvise sykmeldingen?')).toBeInTheDocument()
         await userEvent.click(await screen.findByRole('button', { name: 'AVVIS SYKMELDING' }))
-        expect(await screen.findByText('Tilbake til GOSYS')).toBeInTheDocument()
+
+        expect(
+            within(await screen.findByRole('dialog', { name: 'Oppgaven ble ferdigstilt.' })).getByRole('link', {
+                name: 'Tilbake til GOSYS',
+            }),
+        ).toBeInTheDocument()
     })
 })

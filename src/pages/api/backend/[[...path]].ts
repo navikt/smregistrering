@@ -1,4 +1,4 @@
-import { proxiedApiRouteConfig, proxyApiRouteRequest } from '@navikt/next-api-proxy'
+import { proxyApiRouteRequest } from '@navikt/next-api-proxy'
 import { logger } from '@navikt/next-logger'
 import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall'
 
@@ -59,7 +59,5 @@ const OPPGAVE_OR_HPR = /[0-9]{7,9}/
 export function cleanPath(value: string): string {
     return value?.replace(UUID, '[uuid]').replace(OPPGAVE_OR_HPR, '[id|hpr]')
 }
-
-export const config = proxiedApiRouteConfig
 
 export default handler

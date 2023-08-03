@@ -19,7 +19,7 @@ function useBehandleropplysninger(formState: FormType) {
                 setIsloading(true)
                 setSykmelder(null)
                 setErrorMessage(null)
-                const res = await apiFetch(`/api/backend/api/v1/sykmelder/${formState.hpr}`, {
+                const res = await apiFetch(`/v1/sykmelder/${formState.hpr}`, {
                     credentials: 'include',
                 })
                 if (res.ok) {
