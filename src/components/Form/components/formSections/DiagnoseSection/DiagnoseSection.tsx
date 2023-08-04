@@ -1,39 +1,39 @@
-import React from 'react';
-import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
+import React from 'react'
+import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema'
 
-import DatePicker from '../../formComponents/DatePicker';
-import Divider from '../../formComponents/Divider';
-import ExpandableField from '../../formComponents/ExpandableField';
-import SectionContainer from '../../SectionContainer';
-import Subsection from '../../formComponents/Subsection';
-import { AnnenFraverGrunn, Diagnose } from '../../../../../types/sykmelding/MedisinskVurdering';
-import { Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
-import { FormType } from '../../../Form';
-import { Section } from '../../../../../types/Section';
+import DatePicker from '../../formComponents/DatePicker'
+import Divider from '../../formComponents/Divider'
+import ExpandableField from '../../formComponents/ExpandableField'
+import SectionContainer from '../../SectionContainer'
+import Subsection from '../../formComponents/Subsection'
+import { AnnenFraverGrunn, Diagnose } from '../../../../../types/sykmelding/MedisinskVurdering'
+import { Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder'
+import { FormType } from '../../../Form'
+import { Section } from '../../../../../types/Section'
 
-import Hoveddiagnose from './Hoveddiagnose';
-import Bidiagnoser from './Bidiagnoser';
-import AnnenFraversArsak from './AnnenFraversArsak';
+import Hoveddiagnose from './Hoveddiagnose'
+import Bidiagnoser from './Bidiagnoser'
+import AnnenFraversArsak from './AnnenFraversArsak'
 
 export type MedisinskVurdering = {
-    hovedDiagnose: Partial<Diagnose> | null;
-    biDiagnoser: Partial<Diagnose>[];
-    yrkesskade: boolean;
-    yrkesskadeDato: string | null;
-    svangerskap: boolean;
-    annenFraversArsak: boolean;
-    annenFraversArsakGrunn: AnnenFraverGrunn[] | null;
-    annenFraversArsakBeskrivelse: string | null;
-    skjermesForPasient: boolean | null; // TODO: burde kanskje flyttes
-};
+    hovedDiagnose: Partial<Diagnose> | null
+    biDiagnoser: Partial<Diagnose>[]
+    yrkesskade: boolean
+    yrkesskadeDato: string | null
+    svangerskap: boolean
+    annenFraversArsak: boolean
+    annenFraversArsakGrunn: AnnenFraverGrunn[] | null
+    annenFraversArsakBeskrivelse: string | null
+    skjermesForPasient: boolean | null // TODO: burde kanskje flyttes
+}
 
 type DiagnoseSectionProps = {
-    section: Section;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
-    formState: FormType;
-    diagnosekoder: Diagnosekoder;
-};
+    section: Section
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>
+    formState: FormType
+    diagnosekoder: Diagnosekoder
+}
 
 const DiagnoseSection = ({ section, setFormState, formState, errors, diagnosekoder }: DiagnoseSectionProps) => {
     return (
@@ -85,7 +85,7 @@ const DiagnoseSection = ({ section, setFormState, formState, errors, diagnosekod
                                     : undefined
                             }
                             onChange={({ target: { value } }) => {
-                                setFormState((formState) => ({ ...formState, annenFraversArsakBeskrivelse: value }));
+                                setFormState((formState) => ({ ...formState, annenFraversArsakBeskrivelse: value }))
                             }}
                             label="3.3.2 Beskriv fravær (valgfritt)"
                             feil={errors.get('annenFraversArsakBeskrivelse')?.feilmelding}
@@ -127,7 +127,7 @@ const DiagnoseSection = ({ section, setFormState, formState, errors, diagnosekod
                         label="3.6 Eventuell skadedato"
                         value={formState.yrkesskadeDato ? formState.yrkesskadeDato : undefined}
                         onChange={(newDates) => {
-                            setFormState((formState) => ({ ...formState, yrkesskadeDato: newDates ?? null }));
+                            setFormState((formState) => ({ ...formState, yrkesskadeDato: newDates ?? null }))
                         }}
                     />
                 </ExpandableField>
@@ -148,7 +148,7 @@ const DiagnoseSection = ({ section, setFormState, formState, errors, diagnosekod
                 />
             </Subsection>
         </SectionContainer>
-    );
-};
+    )
+}
 
-export default DiagnoseSection;
+export default DiagnoseSection

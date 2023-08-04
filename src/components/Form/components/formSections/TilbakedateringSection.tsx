@@ -1,26 +1,26 @@
-import React from 'react';
-import { Checkbox, FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
+import React from 'react'
+import { Checkbox, FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema'
 
-import DatePicker from '../formComponents/DatePicker';
-import ExpandableField from '../formComponents/ExpandableField';
-import SectionContainer from '../SectionContainer';
-import Subsection from '../formComponents/Subsection';
-import { FormType } from '../../Form';
-import { Section } from '../../../../types/Section';
+import DatePicker from '../formComponents/DatePicker'
+import ExpandableField from '../formComponents/ExpandableField'
+import SectionContainer from '../SectionContainer'
+import Subsection from '../formComponents/Subsection'
+import { FormType } from '../../Form'
+import { Section } from '../../../../types/Section'
 
 export type Tilbakedatering = {
-    erTilbakedatert: boolean;
-    kontaktDato: string | null;
-    kunneIkkeIvaretaEgneInteresser: boolean;
-    begrunnelseIkkeKontakt: string | null;
-};
+    erTilbakedatert: boolean
+    kontaktDato: string | null
+    kunneIkkeIvaretaEgneInteresser: boolean
+    begrunnelseIkkeKontakt: string | null
+}
 
 type TilbakedateringSectionProps = {
-    section: Section;
-    formState: FormType;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
-};
+    section: Section
+    formState: FormType
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>
+}
 
 const TilbakedateringSection = ({ section, setFormState, formState, errors }: TilbakedateringSectionProps) => {
     return (
@@ -46,7 +46,7 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
                         label="Oppgi dato for dokumenterbar kontakt med pasienten"
                         value={formState.kontaktDato ? formState.kontaktDato : undefined}
                         onChange={(newDate) => {
-                            setFormState((formState) => ({ ...formState, kontaktDato: newDate ?? null }));
+                            setFormState((formState) => ({ ...formState, kontaktDato: newDate ?? null }))
                         }}
                         feil={errors.get('kontaktDato')?.feilmelding}
                     />
@@ -63,7 +63,7 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
                             ...formState,
                             kunneIkkeIvaretaEgneInteresser: !formState.kunneIkkeIvaretaEgneInteresser,
                             begrunnelseIkkeKontakt: null,
-                        }));
+                        }))
                     }}
                     feil={errors.get('kunneIkkeIvaretaEgneInteresser')?.feilmelding}
                 />
@@ -74,7 +74,7 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
                         maxLength={0}
                         value={formState.begrunnelseIkkeKontakt || ''}
                         onChange={({ target: { value } }) => {
-                            setFormState((formState) => ({ ...formState, begrunnelseIkkeKontakt: value }));
+                            setFormState((formState) => ({ ...formState, begrunnelseIkkeKontakt: value }))
                         }}
                         feil={errors.get('begrunnelseIkkeKontakt')?.feilmelding}
                         label="Begrunn"
@@ -82,7 +82,7 @@ const TilbakedateringSection = ({ section, setFormState, formState, errors }: Ti
                 </ExpandableField>
             </Subsection>
         </SectionContainer>
-    );
-};
+    )
+}
 
-export default TilbakedateringSection;
+export default TilbakedateringSection

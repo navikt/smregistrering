@@ -1,34 +1,45 @@
-import nock from 'nock';
-import userEvent from '@testing-library/user-event';
+import { describe, it, expect, beforeEach } from 'vitest'
+import userEvent from '@testing-library/user-event'
+import { rest } from 'msw'
 
-import Index from '../pages/index';
-import { mockLocation, render, screen, waitForElementToBeRemoved, within } from '../utils/testUtils';
+import { render, screen, within } from '../utils/testUtils'
+import { server } from '../mocks/server'
+import { apiUrl } from '../utils/fetchUtils'
+import FormView from '../components/FormView'
+import { Oppgave } from '../types/oppgave/Oppgave'
+import { getDiagnosekoder } from '../utils/dataUtils'
 
-import emptyOppgave from './testData/emptyOppgave.json';
+import emptyOppgave from './testData/emptyOppgave.json'
 
-describe('Load pasientinfo', () => {
-    const oppgaveid = 123;
-    const apiNock = nock('http://localhost');
+describe('Load pasientinfo', async () => {
+    const diagnosekoder = await getDiagnosekoder()
 
-    beforeEach(() => {
-        mockLocation(oppgaveid);
-        apiNock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`).reply(200, emptyOppgave);
-    });
+    beforeEach(() => {})
 
     it('Should display modal when clicking "Send til GOSYS"', async () => {
-        apiNock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/tilgosys`).reply(200, 'OK');
+        server.use(
+            rest.post(apiUrl(`/v1/oppgave/${emptyOppgave.oppgaveid}/tilgosys`), (req, res, ctx) =>
+                res(ctx.status(200), ctx.text('OK')),
+            ),
+        )
         render(
-            <div id="root">
-                <Index />
-            </div>,
-        );
+            <FormView
+                sykmeldingId={null}
+                aktivEnhet="test-enhet"
+                oppgave={emptyOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
+        )
 
-        await waitForElementToBeRemoved(() => screen.queryByText('Vennligst vent mens oppgaven laster'));
-        userEvent.click(await screen.findByRole('button', { name: 'Dette er ikke en sykmelding' }));
-        expect(await screen.findByText('Send til GOSYS?')).toBeInTheDocument();
-        userEvent.click(await screen.findByRole('button', { name: 'Send til GOSYS' }));
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
+        await userEvent.click(await screen.findByRole('button', { name: 'Dette er ikke en sykmelding' }))
+        expect(await screen.findByText('Send til GOSYS?')).toBeInTheDocument()
+        await userEvent.click(await screen.findByRole('button', { name: 'Send til GOSYS' }))
 
-        const dialog = within(await screen.findByRole('dialog', { name: 'Oppgaven ble sendt tilbake til GOSYS.' }));
-        expect(dialog.getByRole('link', { name: 'Tilbake til GOSYS' })).toBeInTheDocument();
-    });
-});
+        const dialog = within(await screen.findByRole('dialog', { name: 'Oppgaven ble sendt tilbake til GOSYS.' }))
+        expect(dialog.getByRole('link', { name: 'Tilbake til GOSYS' })).toBeInTheDocument()
+    })
+})

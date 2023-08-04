@@ -1,25 +1,25 @@
-import React from 'react';
-import { Element } from 'nav-frontend-typografi';
-import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema';
+import React from 'react'
+import { Element } from 'nav-frontend-typografi'
+import { FeiloppsummeringFeil, Textarea } from 'nav-frontend-skjema'
 
-import RangePicker from '../../formComponents/RangePicker';
-import { FormType } from '../../../Form';
+import RangePicker from '../../formComponents/RangePicker'
+import { FormType } from '../../../Form'
 
-import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection'
 
 export type AvventendePeriodeMFA = {
-    type: MFAOptions;
+    type: MFAOptions
     // Perioder for avventende sykmelding
-    avventendePeriode: string[] | null;
-    avventendeInnspillTilArbeidsgiver: string | null;
-};
+    avventendePeriode: string[] | null
+    avventendeInnspillTilArbeidsgiver: string | null
+}
 
 type AvventendePeriodeProps = {
-    mfaPeriode: AvventendePeriodeMFA;
-    updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    index: number;
-};
+    mfaPeriode: AvventendePeriodeMFA
+    updateMfa: (mfa: MulighetForArbeidTypes) => void
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    index: number
+}
 
 const AvventendePeriode = ({ updateMfa, mfaPeriode, index }: AvventendePeriodeProps) => {
     return (
@@ -33,9 +33,9 @@ const AvventendePeriode = ({ updateMfa, mfaPeriode, index }: AvventendePeriodePr
                     const updatedSchema = {
                         ...mfaPeriode,
                         avventendePeriode: newDates ?? null,
-                    };
+                    }
 
-                    updateMfa(updatedSchema);
+                    updateMfa(updatedSchema)
                 }}
             />
             <Textarea
@@ -46,14 +46,14 @@ const AvventendePeriode = ({ updateMfa, mfaPeriode, index }: AvventendePeriodePr
                     const updatedSchema = {
                         ...mfaPeriode,
                         avventendeInnspillTilArbeidsgiver: value,
-                    };
+                    }
 
-                    updateMfa(updatedSchema);
+                    updateMfa(updatedSchema)
                 }}
                 label={<Element>Andre innspill til arbeidsgiver</Element>}
             />
         </div>
-    );
-};
+    )
+}
 
-export default AvventendePeriode;
+export default AvventendePeriode

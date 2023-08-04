@@ -1,20 +1,20 @@
-import Flatpickr from 'react-flatpickr';
-import React from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
+import Flatpickr from 'react-flatpickr'
+import React from 'react'
+import { Normaltekst } from 'nav-frontend-typografi'
 
-import calendar from '../../../../svg/calendar.svg';
-import { formatDate, toDateString } from '../../../../utils/dateUtils';
+import calendar from '../../../../svg/calendar.svg'
+import { formatDate, toDateString } from '../../../../utils/dateUtils'
 
-import ClearButton from './ClearButton';
-import { flatpickrLocale } from './flatpickrUtils';
+import ClearButton from './ClearButton'
+import { flatpickrLocale } from './flatpickrUtils'
 
 type DatePickerProps = {
-    id: string;
-    label: string;
-    value: string | undefined;
-    onChange: (newDate: string | undefined) => void;
-    feil?: string;
-};
+    id: string
+    label: string
+    value: string | undefined
+    onChange: (newDate: string | undefined) => void
+    feil?: string
+}
 
 const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
     return (
@@ -22,8 +22,7 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
             <label className="datepicker-label" htmlFor={id}>
                 {label}
             </label>
-            <div role="region" aria-label="datovelger" className={`flatpickr-container`}>
-                {/* @ts-expect-error Weird React 18 JSX error */}
+            <div role="region" aria-label="datovelger" className="flatpickr-container">
                 <Flatpickr
                     id={id}
                     value={value ? new Date(value) : undefined} // Does not like to receive date as string
@@ -47,8 +46,8 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
                     leftSpacing
                     iconType="CircledCross"
                     onChange={(event) => {
-                        event.preventDefault();
-                        onChange(undefined);
+                        event.preventDefault()
+                        onChange(undefined)
                     }}
                     buttonText="Fjern dato"
                 />
@@ -62,7 +61,7 @@ const DatePicker = ({ id, label, value, onChange, feil }: DatePickerProps) => {
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default DatePicker;
+export default DatePicker

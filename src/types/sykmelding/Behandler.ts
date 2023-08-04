@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import { z } from 'zod';
+import { z } from 'zod'
 
 const Adresse = z.object({
     gate: z.string().nullable(),
@@ -7,7 +7,7 @@ const Adresse = z.object({
     kommune: z.string().nullable(),
     postboks: z.string().nullable(),
     land: z.string().nullable(),
-});
+})
 
 export const Behandler = z.object({
     fornavn: z.string(),
@@ -19,5 +19,5 @@ export const Behandler = z.object({
     her: z.string().nullable(),
     adresse: Adresse,
     tlf: z.string().nullable(),
-});
-export type Behandler = z.infer<typeof Behandler>;
+})
+export type Behandler = z.infer<typeof Behandler>

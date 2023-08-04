@@ -1,27 +1,29 @@
-import { Scope } from 'nock';
-import { PropsWithChildren, ReactElement } from 'react';
-import { render, RenderOptions } from '@testing-library/react';
+import { PropsWithChildren, ReactElement } from 'react'
+import { render, RenderOptions } from '@testing-library/react'
+import { rest } from 'msw'
 
-import pasientNavn from '../mock/pasientNavn.json';
-import sykmelder from '../mock/sykmelder.json';
-import StoreProvider from '../store';
+import pasientNavn from '../mocks/mock/pasientNavn.json'
+import sykmelder from '../mocks/mock/sykmelder.json'
+import StoreProvider from '../store'
+import { server } from '../mocks/server'
+
+import { apiUrl } from './fetchUtils'
 
 export function mockLocation(oppgaveid: string | number): void {
-    global.window = Object.create(window);
     Object.defineProperty(window, 'location', {
         value: {
             href: `http://localhost/?oppgaveid=${oppgaveid}`,
             search: `?oppgaveid=${oppgaveid}`,
         },
-    });
+    })
 }
 
-export function mockBehandlerinfo(nock: Scope): void {
-    nock.get(/\/backend\/api\/v1\/sykmelder\/(.*)/).reply(200, sykmelder);
+export function mockBehandlerinfo(): void {
+    server.use(rest.get(apiUrl('/v1/sykmelder/:hpr'), (_, res, ctx) => res(ctx.json(sykmelder))))
 }
 
-export function mockPasientinfo(nock: Scope): void {
-    nock.get('/api/backend/api/v1/pasient').reply(200, pasientNavn);
+export function mockPasientinfo(): void {
+    server.use(rest.get(apiUrl('/v1/pasient'), (_, res, ctx) => res(ctx.json(pasientNavn))))
 }
 
 const AllTheProviders = ({ children }: PropsWithChildren<unknown>) => (
@@ -35,10 +37,10 @@ const AllTheProviders = ({ children }: PropsWithChildren<unknown>) => (
     >
         {children}
     </StoreProvider>
-);
+)
 export const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
-    render(ui, { wrapper: AllTheProviders, ...options });
+    render(ui, { wrapper: AllTheProviders, ...options })
 
-export * from '@testing-library/react';
+export * from '@testing-library/react'
 
-export { customRender as render };
+export { customRender as render }

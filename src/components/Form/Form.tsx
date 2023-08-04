@@ -1,34 +1,34 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react'
 
-import Panel from '../Panel/Panel';
-import { Diagnosekoder } from '../../types/diagnosekoder/Diagnosekoder';
-import { Oppgave } from '../../types/oppgave/Oppgave';
-import { sections } from '../../types/Section';
-import useWarnUnsavedPopup from '../../hooks/useWarnUnsavedPopup';
+import Panel from '../Panel/Panel'
+import { Diagnosekoder } from '../../types/diagnosekoder/Diagnosekoder'
+import { Oppgave } from '../../types/oppgave/Oppgave'
+import { sections } from '../../types/Section'
+import useWarnUnsavedPopup from '../../hooks/useWarnUnsavedPopup'
 
-import FormErrorSummary from './components/FormErrorSummary';
-import FormHeader from './components/FormHeader';
-import FormReject from './components/FormReject';
-import FormSubmit from './components/FormSubmit';
-import useForm from './formUtils/useForm';
-import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection';
-import BehandlerSection, { Behandler } from './components/formSections/BehandlerSection';
-import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection/DiagnoseSection';
+import FormErrorSummary from './components/FormErrorSummary'
+import FormHeader from './components/FormHeader'
+import FormReject from './components/FormReject'
+import FormSubmit from './components/FormSubmit'
+import useForm from './formUtils/useForm'
+import ArbeidsgiverSection, { Arbeidsgiver } from './components/formSections/ArbeidsgiverSection'
+import BehandlerSection, { Behandler } from './components/formSections/BehandlerSection'
+import DiagnoseSection, { MedisinskVurdering } from './components/formSections/DiagnoseSection/DiagnoseSection'
 import MeldingTilArbeidsgiverSection, {
     MeldingTilArbeidsgiver,
-} from './components/formSections/MeldingTilArbeidsgiverSection';
-import MeldingTilNavSection, { MeldingTilNav } from './components/formSections/MeldingTilNavSection';
+} from './components/formSections/MeldingTilArbeidsgiverSection'
+import MeldingTilNavSection, { MeldingTilNav } from './components/formSections/MeldingTilNavSection'
 import MulighetForArbeidSection, {
     MulighetForArbeid,
-} from './components/formSections/MulighetForArbeidSection/MulighetForArbeidSection';
-import PasientopplysningerSection, { Pasientopplysninger } from './components/formSections/PasientopplysningerSection';
-import TilbakedateringSection, { Tilbakedatering } from './components/formSections/TilbakedateringSection';
+} from './components/formSections/MulighetForArbeidSection/MulighetForArbeidSection'
+import PasientopplysningerSection, { Pasientopplysninger } from './components/formSections/PasientopplysningerSection'
+import TilbakedateringSection, { Tilbakedatering } from './components/formSections/TilbakedateringSection'
 import UtdypendeOpplysningerSection, {
     UtdypendeOpplysninger,
-} from './components/formSections/UtdypendeOpplysningerSection';
-import { getInitialFormState } from './formUtils/formUtils';
-import { validationFunctions } from './validation';
-import FormHeaderFerdigstilt from './components/FormHeaderFerdigstilt';
+} from './components/formSections/UtdypendeOpplysningerSection'
+import { getInitialFormState } from './formUtils/formUtils'
+import { validationFunctions } from './validation'
+import FormHeaderFerdigstilt from './components/FormHeaderFerdigstilt'
 
 export interface FormType
     extends Pasientopplysninger,
@@ -40,28 +40,28 @@ export interface FormType
         MeldingTilArbeidsgiver,
         Tilbakedatering,
         Behandler {
-    syketilfelleStartDato: string | null;
+    syketilfelleStartDato: string | null
 }
 
 type FormProps = {
-    oppgave: Oppgave;
-    diagnosekoder: Diagnosekoder;
-    enhet: string | null | undefined;
-    isFerdigstilt: boolean;
-    sykmeldingId: string | null;
-};
+    oppgave: Oppgave
+    diagnosekoder: Diagnosekoder
+    enhet: string | null | undefined
+    isFerdigstilt: boolean
+    sykmeldingId: string | null
+}
 
 const Form = ({ oppgave, diagnosekoder, enhet, isFerdigstilt, sykmeldingId }: FormProps) => {
-    const errorSummaryRef = useRef<HTMLDivElement>(null);
-    const [isComplete, setIsComplete] = useState<boolean>(false);
+    const errorSummaryRef = useRef<HTMLDivElement>(null)
+    const [isComplete, setIsComplete] = useState<boolean>(false)
 
     const { formState, setFormState, errors, handleSubmit } = useForm<FormType>({
         defaultValues: getInitialFormState(oppgave, diagnosekoder),
         validationFunctions,
         errorSummaryRef,
-    });
+    })
 
-    useWarnUnsavedPopup(isComplete);
+    useWarnUnsavedPopup(isComplete)
 
     return (
         <section className="form">
@@ -144,7 +144,7 @@ const Form = ({ oppgave, diagnosekoder, enhet, isFerdigstilt, sykmeldingId }: Fo
                 isFerdigstilt={isFerdigstilt}
             />
         </section>
-    );
-};
+    )
+}
 
-export default Form;
+export default Form

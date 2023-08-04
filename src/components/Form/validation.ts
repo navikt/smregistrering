@@ -1,10 +1,10 @@
-import { AktivitetIkkeMuligPeriodeMFA } from './components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode';
-import { AvventendePeriodeMFA } from './components/formSections/MulighetForArbeidSection/AvventendePeriode';
-import { BehandlingsdagerPeriodeMFA } from './components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode';
-import { FormType } from './Form';
-import { GradertPeriodeMFA } from './components/formSections/MulighetForArbeidSection/GradertPeriode';
-import { ReisetilskuddPeriodeMFA } from './components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode';
-import { ValidationFunctions } from './formUtils/useForm';
+import { AktivitetIkkeMuligPeriodeMFA } from './components/formSections/MulighetForArbeidSection/AktivitetIkkeMuligPeriode'
+import { AvventendePeriodeMFA } from './components/formSections/MulighetForArbeidSection/AvventendePeriode'
+import { BehandlingsdagerPeriodeMFA } from './components/formSections/MulighetForArbeidSection/BehandlingsdagerPeriode'
+import { FormType } from './Form'
+import { GradertPeriodeMFA } from './components/formSections/MulighetForArbeidSection/GradertPeriode'
+import { ReisetilskuddPeriodeMFA } from './components/formSections/MulighetForArbeidSection/ReisetilskuddPeriode'
+import { ValidationFunctions } from './formUtils/useForm'
 
 export const validationFunctions: ValidationFunctions<FormType> = {
     // Other
@@ -13,92 +13,95 @@ export const validationFunctions: ValidationFunctions<FormType> = {
     // Pasientopplysninger
     pasientFnr: (schema) => {
         if (!schema.pasientFnr) {
-            return 'Pasientens fødselsnummer må være definert';
+            return 'Pasientens fødselsnummer må være definert'
         }
         if (schema.pasientFnr.length !== 11) {
-            return 'Pasientens fødselsnummer må være 11 siffer';
+            return 'Pasientens fødselsnummer må være 11 siffer'
         }
         if (!schema.pasientFnr.match('^\\+?[- _0-9]+$')) {
-            return 'Pasientens fødselsnummer er ikke på et gyldig format';
+            return 'Pasientens fødselsnummer er ikke på et gyldig format'
         }
-        return undefined;
+        return undefined
     },
 
     // Arbeidsgiver
     harArbeidsgiver: (schema) => {
         if (!schema.harArbeidsgiver) {
-            return 'Arbeidssituasjon må være definert';
+            return 'Arbeidssituasjon må være definert'
         }
-        return undefined;
+        return undefined
     },
     arbeidsgiverNavn: () => {
-        return undefined;
+        return undefined
     },
     yrkesbetegnelse: () => {
-        return undefined;
+        return undefined
     },
     stillingsprosent: (schema) => {
         if (schema.stillingsprosent && (schema.stillingsprosent > 100 || schema.stillingsprosent < 0)) {
-            return 'Stillingsprosenten må være mellom 0 og 100';
+            return 'Stillingsprosenten må være mellom 0 og 100'
         }
-        return undefined;
+        return undefined
     },
     // Diagnose
     hovedDiagnose: () => undefined,
     biDiagnoser: (schema) => {
         if (schema.biDiagnoser?.some((bidiagnose) => !bidiagnose.system || !bidiagnose.kode || !bidiagnose.tekst)) {
-            return 'En eller flere bidiagnoserader mangler utfylling';
+            return 'En eller flere bidiagnoserader mangler utfylling'
         }
+        return undefined
     },
 
     yrkesskade: () => undefined,
     yrkesskadeDato: (schema) => {
         if (schema.yrkesskade && !schema.yrkesskadeDato) {
-            return 'Yrkesskadedato må være definer når yrkesskade er krysset av';
+            return 'Yrkesskadedato må være definer når yrkesskade er krysset av'
         }
-        return undefined;
+        return undefined
     },
     svangerskap: (schema) => {
         if (schema.svangerskap === undefined) {
-            return 'Svangerskap må være definert';
+            return 'Svangerskap må være definert'
         }
-        return undefined;
+        return undefined
     },
     annenFraversArsak: () => undefined,
     annenFraversArsakGrunn: (schema) => {
         if (schema.annenFraversArsak && !schema.annenFraversArsakGrunn?.length) {
-            return 'Lovfestet fraværsgrunn må være valgt når annen lovfestet fraværsgrunn er avkrysset';
+            return 'Lovfestet fraværsgrunn må være valgt når annen lovfestet fraværsgrunn er avkrysset'
         }
+
+        return undefined
     },
     annenFraversArsakBeskrivelse: () => undefined,
     skjermesForPasient: (schema) => {
         if (schema.skjermesForPasient === undefined) {
-            return 'SkjermesForPasient er et påkrevd felt';
+            return 'SkjermesForPasient er et påkrevd felt'
         }
-        return undefined;
+        return undefined
     },
 
     // MulighetForArbeid
     mulighetForArbeid: (schema) => {
         if (!schema.mulighetForArbeid) {
-            return 'Minimum én sykmeldingsperiode må være definert';
+            return 'Minimum én sykmeldingsperiode må være definert'
         }
 
-        const definedMFA = schema.mulighetForArbeid.filter((mfa) => mfa);
+        const definedMFA = schema.mulighetForArbeid.filter((mfa) => mfa)
 
         if (definedMFA.filter((mfa) => mfa).length === 0) {
-            return 'Minimum én sykmeldingsperiode må være definert';
+            return 'Minimum én sykmeldingsperiode må være definert'
         }
 
-        const avventendeMFA = definedMFA.filter((mfa) => mfa?.type === 'avventende') as AvventendePeriodeMFA[];
-        const gradertMFA = definedMFA.filter((mfa) => mfa?.type === 'gradert') as GradertPeriodeMFA[];
+        const avventendeMFA = definedMFA.filter((mfa) => mfa?.type === 'avventende') as AvventendePeriodeMFA[]
+        const gradertMFA = definedMFA.filter((mfa) => mfa?.type === 'gradert') as GradertPeriodeMFA[]
         const aktivitetIkkeMuligMFA = definedMFA.filter(
             (mfa) => mfa?.type === 'fullsykmelding',
-        ) as AktivitetIkkeMuligPeriodeMFA[];
+        ) as AktivitetIkkeMuligPeriodeMFA[]
         const behandlingsdagerMFA = definedMFA.filter(
             (mfa) => mfa?.type === 'behandlingsdager',
-        ) as BehandlingsdagerPeriodeMFA[];
-        const reisetilskuddMFA = definedMFA.filter((mfa) => mfa?.type === 'reisetilskudd') as ReisetilskuddPeriodeMFA[];
+        ) as BehandlingsdagerPeriodeMFA[]
+        const reisetilskuddMFA = definedMFA.filter((mfa) => mfa?.type === 'reisetilskudd') as ReisetilskuddPeriodeMFA[]
 
         // Perioder for avventende sykmelding
         if (
@@ -108,11 +111,11 @@ export const validationFunctions: ValidationFunctions<FormType> = {
             )
         ) {
             // TODO: This check will never occur as RangePicker will set end date to start date if no end date is selected by the user. Currently not an issue as this allows the user to set a period of 1 day
-            return 'Periode må være definert når avventende sykmelding er valgt';
+            return 'Periode må være definert når avventende sykmelding er valgt'
         }
 
         if (avventendeMFA.some((avventendeSykmelding) => !avventendeSykmelding.avventendeInnspillTilArbeidsgiver)) {
-            return 'Innspill til arbeidsgiver om tilrettelegging må være utfylt når avventende sykmelding er krysset av';
+            return 'Innspill til arbeidsgiver om tilrettelegging må være utfylt når avventende sykmelding er krysset av'
         }
 
         // Perioder for gradert sykmelding
@@ -122,11 +125,11 @@ export const validationFunctions: ValidationFunctions<FormType> = {
                     !gradertSykmelding.gradertPeriode || gradertSykmelding.gradertPeriode.length === 1,
             )
         ) {
-            return 'Periode må være definert når gradert sykmelding er valgt';
+            return 'Periode må være definert når gradert sykmelding er valgt'
         }
 
         if (gradertMFA.some((gradertSykmelding) => !gradertSykmelding.gradertGrad)) {
-            return 'Grad for gradert periode må være definert';
+            return 'Grad for gradert periode må være definert'
         }
 
         if (
@@ -136,7 +139,7 @@ export const validationFunctions: ValidationFunctions<FormType> = {
                     (gradertSykmelding.gradertGrad < 0 || gradertSykmelding.gradertGrad > 100),
             )
         ) {
-            return 'Grad for gradert periode må være et tall mellom 0 og 100';
+            return 'Grad for gradert periode må være et tall mellom 0 og 100'
         }
 
         // Perioder for full sykmelding
@@ -147,7 +150,7 @@ export const validationFunctions: ValidationFunctions<FormType> = {
                     aktivitetIkkeMulig.aktivitetIkkeMuligPeriode.length === 1,
             )
         ) {
-            return 'Periode må være definert når aktivitet ikke er mulig';
+            return 'Periode må være definert når aktivitet ikke er mulig'
         }
 
         /*
@@ -182,11 +185,11 @@ export const validationFunctions: ValidationFunctions<FormType> = {
                     !behandlingsdager.behandlingsdagerPeriode || behandlingsdager.behandlingsdagerPeriode.length === 1,
             )
         ) {
-            return 'Periode må være definert når pasienten krever sykmelding for behandlingsdager';
+            return 'Periode må være definert når pasienten krever sykmelding for behandlingsdager'
         }
 
         if (behandlingsdagerMFA.some((behandlingsdager) => !behandlingsdager.behandlingsdagerAntall)) {
-            return 'Antall dager må være definert når pasienten krever sykmelding for behandlingsdager';
+            return 'Antall dager må være definert når pasienten krever sykmelding for behandlingsdager'
         }
 
         // Perioder for sykmelding med reisetilskudd
@@ -196,10 +199,10 @@ export const validationFunctions: ValidationFunctions<FormType> = {
                     !reisetilskudd.reisetilskuddPeriode || reisetilskudd.reisetilskuddPeriode.length === 1,
             )
         ) {
-            return 'Periode må være definert når pasienten krever sykmelding med reistilskudd';
+            return 'Periode må være definert når pasienten krever sykmelding med reistilskudd'
         }
 
-        return undefined;
+        return undefined
     },
 
     // UtdypendeOpplysninger
@@ -221,9 +224,9 @@ export const validationFunctions: ValidationFunctions<FormType> = {
     // Bekreftelse
     behandletDato: (schema) => {
         if (!schema.behandletDato) {
-            return 'Behandletdato må være definert';
+            return 'Behandletdato må være definert'
         }
-        return undefined;
+        return undefined
     },
     sykmelderFnr: () => undefined,
     aktoerId: () => undefined,
@@ -231,16 +234,16 @@ export const validationFunctions: ValidationFunctions<FormType> = {
     sykmeldersEtternavn: () => undefined,
     hpr: (schema) => {
         if (!schema.hpr) {
-            return 'Behandlers HPR-nummer må være definert';
+            return 'Behandlers HPR-nummer må være definert'
         }
         // Number must be in synch with schema.hpr.length in BekreftelseSection.ts
         if (schema.hpr.length < 7 || schema.hpr.length > 9) {
-            return 'Behandlers HPR-nummer må være mellom 7 og 9 siffer';
+            return 'Behandlers HPR-nummer må være mellom 7 og 9 siffer'
         }
         if (!schema.hpr.match('^\\+?[- _0-9]+$')) {
-            return 'Behandlers HPR-nummer er ikke på et gyldig format';
+            return 'Behandlers HPR-nummer er ikke på et gyldig format'
         }
-        return undefined;
+        return undefined
     },
     sykmelderTelefon: () => undefined,
     sykmelderGate: () => undefined,
@@ -248,4 +251,4 @@ export const validationFunctions: ValidationFunctions<FormType> = {
     sykmelderPostnummer: () => undefined,
     sykmelderPostboks: () => undefined,
     sykmelderLand: () => undefined,
-};
+}

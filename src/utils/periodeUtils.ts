@@ -1,16 +1,16 @@
-import { Periode } from '../types/sykmelding/Periode';
+import { Periode } from '../types/sykmelding/Periode'
 
 export const getAvventendePeriode = (perioder?: Periode[] | null): Periode[] | undefined =>
-    perioder?.filter((periode) => !!periode.avventendeInnspillTilArbeidsgiver);
+    perioder?.filter((periode) => !!periode.avventendeInnspillTilArbeidsgiver)
 
 export const getAktivitetIkkeMuligSykmelding = (perioder?: Periode[] | null): Periode[] | undefined =>
-    perioder?.filter((periode) => !!periode.aktivitetIkkeMulig);
+    perioder?.filter((periode) => !!periode.aktivitetIkkeMulig)
 
 export const getBehandlingsdagerSykmelding = (perioder?: Periode[] | null): Periode[] | undefined =>
-    perioder?.filter((periode) => !!periode.behandlingsdager);
+    perioder?.filter((periode) => !!periode.behandlingsdager)
 
 export const getGradertSykmelding = (perioder?: Periode[] | null): Periode[] | undefined =>
-    perioder?.filter((periode) => !!periode.gradert);
+    perioder?.filter((periode) => !!periode.gradert)
 
 export const getReisetilskuddSykmelding = (perioder?: Periode[] | null): Periode[] | undefined =>
-    perioder?.filter((periode) => periode.reisetilskudd);
+    perioder?.filter((periode) => periode.reisetilskudd)

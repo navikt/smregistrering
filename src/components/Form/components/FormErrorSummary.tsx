@@ -1,12 +1,12 @@
-import { Feiloppsummering, FeiloppsummeringFeil } from 'nav-frontend-skjema';
-import { RefObject } from 'react';
+import { Feiloppsummering, FeiloppsummeringFeil } from 'nav-frontend-skjema'
+import { RefObject } from 'react'
 
-import { FormType } from '../Form';
+import { FormType } from '../Form'
 
 type FormErrorSummaryProps = {
-    formErrors: Map<keyof FormType, FeiloppsummeringFeil>;
-    errorSummaryRef: RefObject<HTMLDivElement>;
-};
+    formErrors: Map<keyof FormType, FeiloppsummeringFeil>
+    errorSummaryRef: RefObject<HTMLDivElement>
+}
 
 const FormErrorSummary = ({ formErrors, errorSummaryRef }: FormErrorSummaryProps) => {
     if (formErrors.size > 0) {
@@ -18,10 +18,10 @@ const FormErrorSummary = ({ formErrors, errorSummaryRef }: FormErrorSummaryProps
                     innerRef={errorSummaryRef}
                 />
             </div>
-        );
+        )
     }
 
-    return null;
-};
+    return null
+}
 
-export default FormErrorSummary;
+export default FormErrorSummary

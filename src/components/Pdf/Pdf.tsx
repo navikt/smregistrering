@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
 interface PdfProps {
-    pdf: string;
+    pdf: string
 }
 
 const Pdf = ({ pdf }: PdfProps) => {
@@ -11,7 +11,7 @@ const Pdf = ({ pdf }: PdfProps) => {
                 Visning av sykmelding-pdf krever en plugin
             </object>
         </section>
-    );
-};
+    )
+}
 
-export default Pdf;
+export default Pdf

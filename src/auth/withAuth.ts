@@ -1,15 +1,15 @@
-import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next';
-import { logger } from '@navikt/next-logger';
-import { validateAzureToken } from '@navikt/next-auth-wonderwall';
+import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next'
+import { logger } from '@navikt/next-logger'
+import { validateAzureToken } from '@navikt/next-auth-wonderwall'
 
-import { isLocalOrDemo } from '../utils/env';
-import { PageSsrResult } from '../pages/_app';
+import { isLocalOrDemo } from '../utils/env'
+import { PageSsrResult } from '../pages/_app'
 
-type ApiHandler = (req: NextApiRequest, res: NextApiResponse, accessToken: string) => void | Promise<unknown>;
+type ApiHandler = (req: NextApiRequest, res: NextApiResponse, accessToken: string) => void | Promise<unknown>
 type PageHandler = (
     context: GetServerSidePropsContext,
     accessToken: string,
-) => Promise<GetServerSidePropsResult<PageSsrResult>>;
+) => Promise<GetServerSidePropsResult<PageSsrResult>>
 
 /**
  * Used to authenticate Next.JS pages. Assumes application is behind
@@ -22,30 +22,30 @@ export function withAuthenticatedPage(handler: PageHandler) {
         context: GetServerSidePropsContext,
     ): Promise<ReturnType<NonNullable<typeof handler>>> {
         if (isLocalOrDemo) {
-            logger.info('Is running locally or in demo, skipping authentication for page');
-            return handler(context, 'fake-local-token');
+            logger.info('Is running locally or in demo, skipping authentication for page')
+            return handler(context, 'fake-local-token')
         }
 
-        const request = context.req;
-        const bearerToken: string | null | undefined = request.headers['authorization'];
+        const request = context.req
+        const bearerToken: string | null | undefined = request.headers['authorization']
         if (!bearerToken) {
-            logger.info('Could not find any bearer token on the request. Redirecting to login.');
+            logger.info('Could not find any bearer token on the request. Redirecting to login.')
             return {
                 redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
-            };
+            }
         }
 
-        const validationResult = await validateAzureToken(bearerToken);
+        const validationResult = await validateAzureToken(bearerToken)
         if (validationResult !== 'valid') {
-            logger.error(`Invalid JWT token found (${validationResult.message}), redirecting to login.`);
+            logger.error(`Invalid JWT token found (${validationResult.message}), redirecting to login.`)
 
             return {
                 redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
-            };
+            }
         }
 
-        return handler(context, bearerToken.replace('Bearer ', ''));
-    };
+        return handler(context, bearerToken.replace('Bearer ', ''))
+    }
 }
 
 /**
@@ -55,16 +55,16 @@ export function withAuthenticatedPage(handler: PageHandler) {
 export function withAuthenticatedApi(handler: ApiHandler): ApiHandler {
     return async function withBearerTokenHandler(req, res) {
         if (isLocalOrDemo) {
-            logger.info('Is running locally or in demo, skipping authentication for API');
-            return handler(req, res, 'fake-local-token');
+            logger.info('Is running locally or in demo, skipping authentication for API')
+            return handler(req, res, 'fake-local-token')
         }
 
-        const bearerToken: string | null | undefined = req.headers['authorization'];
+        const bearerToken: string | null | undefined = req.headers['authorization']
         if (!bearerToken || !(await validateAzureToken(bearerToken))) {
-            res.status(401).json({ message: 'Access denied' });
-            return;
+            res.status(401).json({ message: 'Access denied' })
+            return
         }
 
-        return handler(req, res, bearerToken.replace('Bearer ', ''));
-    };
+        return handler(req, res, bearerToken.replace('Bearer ', ''))
+    }
 }

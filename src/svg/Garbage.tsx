@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Garbage = () => (
     <svg
@@ -24,6 +24,6 @@ const Garbage = () => (
             />
         </g>
     </svg>
-);
+)
 
-export default Garbage;
+export default Garbage

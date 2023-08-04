@@ -1,20 +1,20 @@
-import React, { useContext } from 'react';
-import { Select } from 'nav-frontend-skjema';
-import Image from 'next/image';
-import { Element, Undertittel } from 'nav-frontend-typografi';
+import React, { useContext } from 'react'
+import { Select } from 'nav-frontend-skjema'
+import Image from 'next/image'
+import { Element, Undertittel } from 'nav-frontend-typografi'
 
-import { ModiaContext, ModiaContextError } from '../../services/modiaService';
-import { StoreContext } from '../../store';
+import { ModiaContext, ModiaContextError } from '../../services/modiaService'
+import { StoreContext } from '../../store'
 
-import styles from './ModiaHeader.module.css';
-import navLogo from './nav-logo.svg';
+import styles from './ModiaHeader.module.css'
+import navLogo from './nav-logo.svg'
 
 interface Props {
-    modiaContext: ModiaContext | ModiaContextError | undefined;
+    modiaContext: ModiaContext | ModiaContextError | undefined
 }
 
 function ModiaHeader({ modiaContext }: Props): JSX.Element {
-    const { aktivEnhet, setAktivEnhet } = useContext(StoreContext);
+    const { aktivEnhet, setAktivEnhet } = useContext(StoreContext)
 
     return (
         <header className={styles.root}>
@@ -28,7 +28,7 @@ function ModiaHeader({ modiaContext }: Props): JSX.Element {
                         <Select
                             value={aktivEnhet}
                             onChange={(event) => {
-                                setAktivEnhet(event.target.value);
+                                setAktivEnhet(event.target.value)
                             }}
                         >
                             {modiaContext.enheter.map((it) => (
@@ -51,7 +51,7 @@ function ModiaHeader({ modiaContext }: Props): JSX.Element {
                 </>
             )}
         </header>
-    );
+    )
 }
 
-export default ModiaHeader;
+export default ModiaHeader

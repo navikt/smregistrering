@@ -1,34 +1,34 @@
-import React from 'react';
-import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema';
-import { Element } from 'nav-frontend-typografi';
+import React from 'react'
+import { Checkbox, FeiloppsummeringFeil, Input } from 'nav-frontend-skjema'
+import { Element } from 'nav-frontend-typografi'
 
-import ExpandableField from '../../formComponents/ExpandableField';
-import RangePicker from '../../formComponents/RangePicker';
-import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/sykmelding/Periode';
-import { FormType } from '../../../Form';
+import ExpandableField from '../../formComponents/ExpandableField'
+import RangePicker from '../../formComponents/RangePicker'
+import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../../../../../types/sykmelding/Periode'
+import { FormType } from '../../../Form'
 
-import MedisinskArsak from './MedisinskArsak';
-import ArbeidsrelatertArsak from './ArbeidsrelatertArsak';
-import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import MedisinskArsak from './MedisinskArsak'
+import ArbeidsrelatertArsak from './ArbeidsrelatertArsak'
+import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection'
 
 export type AktivitetIkkeMuligPeriodeMFA = {
-    type: MFAOptions;
+    type: MFAOptions
     // Perioder for full sykmelding
-    aktivitetIkkeMuligPeriode: string[] | null;
-    aktivitetIkkeMuligMedisinskArsak: boolean;
-    aktivitetIkkeMuligMedisinskArsakType: MedisinskArsakType[];
-    aktivitetIkkeMuligMedisinskArsakBeskrivelse: string | null;
-    aktivitetIkkeMuligArbeidsrelatertArsak: boolean;
-    aktivitetIkkeMuligArbeidsrelatertArsakType: ArbeidsrelatertArsakType[];
-    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: string | null;
-};
+    aktivitetIkkeMuligPeriode: string[] | null
+    aktivitetIkkeMuligMedisinskArsak: boolean
+    aktivitetIkkeMuligMedisinskArsakType: MedisinskArsakType[]
+    aktivitetIkkeMuligMedisinskArsakBeskrivelse: string | null
+    aktivitetIkkeMuligArbeidsrelatertArsak: boolean
+    aktivitetIkkeMuligArbeidsrelatertArsakType: ArbeidsrelatertArsakType[]
+    aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: string | null
+}
 
 type AktivitetIkkeMuligPeriodeProps = {
-    mfaPeriode: AktivitetIkkeMuligPeriodeMFA;
-    updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    index: number;
-};
+    mfaPeriode: AktivitetIkkeMuligPeriodeMFA
+    updateMfa: (mfa: MulighetForArbeidTypes) => void
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    index: number
+}
 
 const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: AktivitetIkkeMuligPeriodeProps) => {
     return (
@@ -42,9 +42,9 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                     const updatedSchema = {
                         ...mfaPeriode,
                         aktivitetIkkeMuligPeriode: newDates ?? null,
-                    };
+                    }
 
-                    updateMfa(updatedSchema);
+                    updateMfa(updatedSchema)
                 }}
             />
             <Checkbox
@@ -58,9 +58,9 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                         aktivitetIkkeMuligMedisinskArsak: !mfaPeriode.aktivitetIkkeMuligMedisinskArsak,
                         aktivitetIkkeMuligMedisinskArsakType: [],
                         aktivitetIkkeMuligMedisinskArsakBeskrivelse: null,
-                    };
+                    }
 
-                    updateMfa(updatedSchema);
+                    updateMfa(updatedSchema)
                 }}
             />
             <ExpandableField show={!!mfaPeriode.aktivitetIkkeMuligMedisinskArsak}>
@@ -79,9 +79,9 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                             const updatedSchema = {
                                 ...mfaPeriode,
                                 aktivitetIkkeMuligMedisinskArsakBeskrivelse: value,
-                            };
+                            }
 
-                            updateMfa(updatedSchema);
+                            updateMfa(updatedSchema)
                         }}
                         label={<Element>Beskrivelse</Element>}
                     />
@@ -98,9 +98,9 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                         aktivitetIkkeMuligArbeidsrelatertArsak: !mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsak,
                         aktivitetIkkeMuligArbeidsrelatertArsakType: [],
                         aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: null,
-                    };
+                    }
 
-                    updateMfa(updatedSchema);
+                    updateMfa(updatedSchema)
                 }}
             />
             <ExpandableField show={!!mfaPeriode.aktivitetIkkeMuligArbeidsrelatertArsak}>
@@ -119,16 +119,16 @@ const AktivitetIkkeMuligPeriode = ({ updateMfa, mfaPeriode, errors, index }: Akt
                             const updatedSchema = {
                                 ...mfaPeriode,
                                 aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: value,
-                            };
+                            }
 
-                            updateMfa(updatedSchema);
+                            updateMfa(updatedSchema)
                         }}
                         label={<Element>Beskrivelse</Element>}
                     />
                 </>
             </ExpandableField>
         </div>
-    );
-};
+    )
+}
 
-export default AktivitetIkkeMuligPeriode;
+export default AktivitetIkkeMuligPeriode

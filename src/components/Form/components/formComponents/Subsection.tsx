@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 
-import Divider from './Divider';
-import FormLabel from './FormLabel';
+import Divider from './Divider'
+import FormLabel from './FormLabel'
 
 interface SubsectionProps {
-    sectionIdentifier: string;
-    children: React.ReactNode | React.ReactChild | React.ReactChildren;
-    underline?: boolean;
+    sectionIdentifier: string
+    children: React.ReactNode | React.ReactChild | React.ReactChildren
+    underline?: boolean
 }
 
 const Subsection = ({ sectionIdentifier, children, underline = true }: SubsectionProps) => {
@@ -18,7 +18,7 @@ const Subsection = ({ sectionIdentifier, children, underline = true }: Subsectio
                 {underline && <Divider />}
             </>
         </section>
-    );
-};
+    )
+}
 
-export default Subsection;
+export default Subsection

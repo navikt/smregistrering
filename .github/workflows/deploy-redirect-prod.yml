@@ -5,7 +5,7 @@ on:
       - 'redirect-prod.yaml'
       - '.github/workflows/deploy-redirect-prod**'
     branches:
-      - 'master'
+      - 'main'
 jobs:
   deploy:
     name: deploy redirect ingress to prod

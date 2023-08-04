@@ -1,6 +1,6 @@
-import NavFrontendSpinner from 'nav-frontend-spinner';
-import React from 'react';
-import { Systemtittel } from 'nav-frontend-typografi';
+import NavFrontendSpinner from 'nav-frontend-spinner'
+import React from 'react'
+import { Systemtittel } from 'nav-frontend-typografi'
 
 const LoadingView = () => {
     return (
@@ -8,7 +8,7 @@ const LoadingView = () => {
             <NavFrontendSpinner />
             <Systemtittel>Vennligst vent mens oppgaven laster</Systemtittel>
         </div>
-    );
-};
+    )
+}
 
-export default LoadingView;
+export default LoadingView

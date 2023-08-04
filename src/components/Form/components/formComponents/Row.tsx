@@ -1,16 +1,16 @@
-import React from 'react';
+import React from 'react'
 
 type RowElementProps = {
-    children: React.ReactNode;
-};
+    children: React.ReactNode
+}
 
 const RowElement = ({ children }: RowElementProps) => {
-    return <span className="row-element">{children}</span>;
-};
+    return <span className="row-element">{children}</span>
+}
 
 type RowProps = {
-    children: React.ReactNode[];
-};
+    children: React.ReactNode[]
+}
 
 const Row = ({ children }: RowProps) => {
     return (
@@ -19,7 +19,7 @@ const Row = ({ children }: RowProps) => {
                 <RowElement key={index.toString()}>{child}</RowElement>
             ))}
         </div>
-    );
-};
+    )
+}
 
-export default Row;
+export default Row

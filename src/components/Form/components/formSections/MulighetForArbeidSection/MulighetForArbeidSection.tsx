@@ -1,49 +1,49 @@
-import React, { useEffect } from 'react';
-import { Element } from 'nav-frontend-typografi';
-import { FeiloppsummeringFeil, Select } from 'nav-frontend-skjema';
-import { Knapp } from 'nav-frontend-knapper';
+import React, { useEffect } from 'react'
+import { Element } from 'nav-frontend-typografi'
+import { FeiloppsummeringFeil, Select } from 'nav-frontend-skjema'
+import { Knapp } from 'nav-frontend-knapper'
 
-import ClearButton from '../../formComponents/ClearButton';
-import Divider from '../../formComponents/Divider';
-import SectionContainer from '../../SectionContainer';
-import { FormType } from '../../../Form';
-import { Section } from '../../../../../types/Section';
+import ClearButton from '../../formComponents/ClearButton'
+import Divider from '../../formComponents/Divider'
+import SectionContainer from '../../SectionContainer'
+import { FormType } from '../../../Form'
+import { Section } from '../../../../../types/Section'
 
-import AktivitetIkkeMuligPeriode, { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode';
-import AvventendePeriode, { AvventendePeriodeMFA } from './AvventendePeriode';
-import BehandlingsdagerPeriode, { BehandlingsdagerPeriodeMFA } from './BehandlingsdagerPeriode';
-import GradertPeriode, { GradertPeriodeMFA } from './GradertPeriode';
-import ReisetilskuddPeriode, { ReisetilskuddPeriodeMFA } from './ReisetilskuddPeriode';
+import AktivitetIkkeMuligPeriode, { AktivitetIkkeMuligPeriodeMFA } from './AktivitetIkkeMuligPeriode'
+import AvventendePeriode, { AvventendePeriodeMFA } from './AvventendePeriode'
+import BehandlingsdagerPeriode, { BehandlingsdagerPeriodeMFA } from './BehandlingsdagerPeriode'
+import GradertPeriode, { GradertPeriodeMFA } from './GradertPeriode'
+import ReisetilskuddPeriode, { ReisetilskuddPeriodeMFA } from './ReisetilskuddPeriode'
 
 export type MulighetForArbeidTypes =
     | AvventendePeriodeMFA
     | GradertPeriodeMFA
     | AktivitetIkkeMuligPeriodeMFA
     | BehandlingsdagerPeriodeMFA
-    | ReisetilskuddPeriodeMFA;
+    | ReisetilskuddPeriodeMFA
 
 export type MulighetForArbeid = {
-    mulighetForArbeid: MulighetForArbeidTypes[];
-};
+    mulighetForArbeid: MulighetForArbeidTypes[]
+}
 
-export type MFAOptions = 'fullsykmelding' | 'avventende' | 'gradert' | 'behandlingsdager' | 'reisetilskudd';
+export type MFAOptions = 'fullsykmelding' | 'avventende' | 'gradert' | 'behandlingsdager' | 'reisetilskudd'
 
 const isAvventendePeriode = (periode: MulighetForArbeidTypes): periode is AvventendePeriodeMFA =>
-    periode?.type === 'avventende';
-const isGradertPeriode = (periode: MulighetForArbeidTypes): periode is GradertPeriodeMFA => periode?.type === 'gradert';
+    periode?.type === 'avventende'
+const isGradertPeriode = (periode: MulighetForArbeidTypes): periode is GradertPeriodeMFA => periode?.type === 'gradert'
 const isAktivitetIkkeMuligPeriode = (periode: MulighetForArbeidTypes): periode is AktivitetIkkeMuligPeriodeMFA =>
-    periode?.type === 'fullsykmelding';
+    periode?.type === 'fullsykmelding'
 const isBehandlingsdagerPeriode = (periode: MulighetForArbeidTypes): periode is BehandlingsdagerPeriodeMFA =>
-    periode?.type === 'behandlingsdager';
+    periode?.type === 'behandlingsdager'
 const isReisetilskuddPeriode = (periode: MulighetForArbeidTypes): periode is ReisetilskuddPeriodeMFA =>
-    periode?.type === 'reisetilskudd';
+    periode?.type === 'reisetilskudd'
 
 type MulighetForArbeidSectionProps = {
-    section: Section;
-    formState: FormType;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    setFormState: React.Dispatch<React.SetStateAction<FormType>>;
-};
+    section: Section
+    formState: FormType
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    setFormState: React.Dispatch<React.SetStateAction<FormType>>
+}
 
 const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: MulighetForArbeidSectionProps) => {
     // Create empty period with 'fullsykmelding' selected if no periods are present
@@ -52,9 +52,9 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
             setFormState((formState) => ({
                 ...formState,
                 mulighetForArbeid: [createEmptyMFA('fullsykmelding')],
-            }));
+            }))
         }
-    }, [formState, setFormState]);
+    }, [formState, setFormState])
 
     const createEmptyMFA = (type: MFAOptions): MulighetForArbeidTypes => {
         if (type === 'avventende') {
@@ -62,19 +62,19 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                 type,
                 avventendePeriode: null,
                 avventendeInnspillTilArbeidsgiver: null,
-            };
+            }
         }
 
         if (type === 'gradert') {
-            return { type, gradertPeriode: null, gradertGrad: null, gradertReisetilskudd: false };
+            return { type, gradertPeriode: null, gradertGrad: null, gradertReisetilskudd: false }
         }
 
         if (type === 'behandlingsdager') {
-            return { type, behandlingsdagerPeriode: null, behandlingsdagerAntall: null };
+            return { type, behandlingsdagerPeriode: null, behandlingsdagerAntall: null }
         }
 
         if (type === 'reisetilskudd') {
-            return { type, reisetilskuddPeriode: null };
+            return { type, reisetilskuddPeriode: null }
         }
 
         return {
@@ -86,22 +86,22 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
             aktivitetIkkeMuligArbeidsrelatertArsak: false,
             aktivitetIkkeMuligArbeidsrelatertArsakType: [],
             aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: null,
-        };
-    };
+        }
+    }
 
     const mergeMFAAtIndex = (mfa: MulighetForArbeidTypes, state: FormType, index: number) => {
-        return [...state.mulighetForArbeid.slice(0, index), mfa, ...state.mulighetForArbeid.slice(index + 1)];
-    };
+        return [...state.mulighetForArbeid.slice(0, index), mfa, ...state.mulighetForArbeid.slice(index + 1)]
+    }
 
     const updateSubsectionMFA = (updatedMfa: MulighetForArbeidTypes, index: number) =>
         setFormState((state): FormType => {
-            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index);
+            const updatedMulighetForArbeid = mergeMFAAtIndex(updatedMfa, state, index)
 
             return {
                 ...state,
                 mulighetForArbeid: updatedMulighetForArbeid,
-            };
-        });
+            }
+        })
 
     return (
         <SectionContainer section={section} sectionError={errors.get('mulighetForArbeid')?.feilmelding}>
@@ -114,15 +114,15 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                             value={mfaPeriode && mfaPeriode.type}
                             onChange={({ target: { value } }) => {
                                 setFormState((state): FormType => {
-                                    const mfa = createEmptyMFA(value as MFAOptions);
+                                    const mfa = createEmptyMFA(value as MFAOptions)
 
-                                    const updatedMulighetForArbeid = mergeMFAAtIndex(mfa, state, index);
+                                    const updatedMulighetForArbeid = mergeMFAAtIndex(mfa, state, index)
 
                                     return {
                                         ...state,
                                         mulighetForArbeid: updatedMulighetForArbeid,
-                                    };
-                                });
+                                    }
+                                })
                             }}
                             className="form-margin-bottom half"
                             label={<Element>Periodetype</Element>}
@@ -185,18 +185,18 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                                 id={`mulighetForArbeid-clear-button-${index}`}
                                 iconType="Can"
                                 onChange={(event) => {
-                                    event.preventDefault();
+                                    event.preventDefault()
                                     setFormState((formState) => {
-                                        const mulighetForArbeid = formState.mulighetForArbeid;
+                                        const mulighetForArbeid = formState.mulighetForArbeid
                                         const withoutIndex = [
                                             ...mulighetForArbeid.slice(0, index),
                                             ...mulighetForArbeid.slice(index + 1),
-                                        ];
+                                        ]
                                         return {
                                             ...formState,
                                             mulighetForArbeid: withoutIndex,
-                                        };
-                                    });
+                                        }
+                                    })
                                 }}
                                 buttonText="Slett periode"
                             />
@@ -211,20 +211,20 @@ const MulighetForArbeidSection = ({ section, setFormState, formState, errors }: 
                     htmlType="button"
                     form="kompakt"
                     onClick={(event) => {
-                        event.preventDefault();
+                        event.preventDefault()
                         setFormState(
                             (state): FormType => ({
                                 ...state,
                                 mulighetForArbeid: [...state.mulighetForArbeid, createEmptyMFA('fullsykmelding')],
                             }),
-                        );
+                        )
                     }}
                 >
                     Legg til periode
                 </Knapp>
             </div>
         </SectionContainer>
-    );
-};
+    )
+}
 
-export default MulighetForArbeidSection;
+export default MulighetForArbeidSection

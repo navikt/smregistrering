@@ -1,8 +1,10 @@
-import { AnnenFraversArsak, Diagnose } from '../types/sykmelding/MedisinskVurdering';
-import { ArbeidsrelatertArsak, MedisinskArsak, Periode } from '../types/sykmelding/Periode';
-import { DiagnosekodeSystem } from '../types/diagnosekoder/Diagnosekoder';
-import { FormType } from '../components/Form/Form';
-import { RegistrertSykmelding } from '../types/sykmelding/RegistrertSykmelding';
+import { describe, it, expect } from 'vitest'
+
+import { AnnenFraversArsak, Diagnose } from '../types/sykmelding/MedisinskVurdering'
+import { ArbeidsrelatertArsak, MedisinskArsak, Periode } from '../types/sykmelding/Periode'
+import { DiagnosekodeSystem } from '../types/diagnosekoder/Diagnosekoder'
+import { FormType } from '../components/Form/Form'
+import { RegistrertSykmelding } from '../types/sykmelding/RegistrertSykmelding'
 import {
     buildAktivitetIkkeMuligSykmelding,
     buildAnnenFraversArsak,
@@ -16,7 +18,7 @@ import {
     buildPerioder,
     buildRegistrertSykmelding,
     buildReisetilskuddSykmelding,
-} from '../utils/registrertSykmeldingUtils';
+} from '../utils/registrertSykmeldingUtils'
 
 describe('registrertSykmeldingUtils', () => {
     describe('Perioder', () => {
@@ -28,7 +30,7 @@ describe('registrertSykmeldingUtils', () => {
                         avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
                         avventendePeriode: ['2020-10-01', '2020-10-02'],
                     },
-                ]);
+                ])
                 const expected: Periode[] = [
                     {
                         fom: '2020-10-01',
@@ -39,9 +41,9 @@ describe('registrertSykmeldingUtils', () => {
                         behandlingsdager: null,
                         aktivitetIkkeMulig: null,
                     },
-                ];
-                expect(builtAvventendeSykmelding).toEqual(expected);
-            });
+                ]
+                expect(builtAvventendeSykmelding).toEqual(expected)
+            })
 
             it('Does not return avventende sykmelding', () => {
                 const builtAvventendeSykmelding = buildAvventendeSykmelding([
@@ -51,9 +53,9 @@ describe('registrertSykmeldingUtils', () => {
                         gradertGrad: 80,
                         gradertReisetilskudd: true,
                     },
-                ]);
-                expect(builtAvventendeSykmelding).toHaveLength(0);
-            });
+                ])
+                expect(builtAvventendeSykmelding).toHaveLength(0)
+            })
 
             it('Does not return avventende sykmelding if innspill is missing', () => {
                 const builtAvventendeSykmelding = buildAvventendeSykmelding([
@@ -62,10 +64,10 @@ describe('registrertSykmeldingUtils', () => {
                         avventendePeriode: ['2020-10-01', '2020-10-02'],
                         avventendeInnspillTilArbeidsgiver: null,
                     },
-                ]);
-                expect(builtAvventendeSykmelding).toHaveLength(0);
-            });
-        });
+                ])
+                expect(builtAvventendeSykmelding).toHaveLength(0)
+            })
+        })
         describe('Gradert', () => {
             it('Returns gradert sykmelding', () => {
                 const builtGradertSykmelding = buildGradertSykmelding([
@@ -75,7 +77,7 @@ describe('registrertSykmeldingUtils', () => {
                         gradertGrad: 80,
                         gradertReisetilskudd: true,
                     },
-                ]);
+                ])
                 const expected: Periode[] = [
                     {
                         fom: '2020-10-01',
@@ -89,9 +91,9 @@ describe('registrertSykmeldingUtils', () => {
                         behandlingsdager: null,
                         avventendeInnspillTilArbeidsgiver: null,
                     },
-                ];
-                expect(builtGradertSykmelding).toEqual(expected);
-            });
+                ]
+                expect(builtGradertSykmelding).toEqual(expected)
+            })
 
             it('Does not return gradert sykmelding', () => {
                 const builtGradertSykmelding = buildGradertSykmelding([
@@ -100,43 +102,43 @@ describe('registrertSykmeldingUtils', () => {
                         avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
                         avventendePeriode: ['2020-10-01', '2020-10-02'],
                     },
-                ]);
-                expect(builtGradertSykmelding).toHaveLength(0);
-            });
-        });
+                ])
+                expect(builtGradertSykmelding).toHaveLength(0)
+            })
+        })
         describe('Aktivitet ikke mulig', () => {
             describe('Medisinsk årsak', () => {
                 it('Returns medisinsk årsak', () => {
-                    const builtMedisinskArsak = buildMedisinskArsak(true, ['TILSTAND_HINDRER_AKTIVITET'], null);
+                    const builtMedisinskArsak = buildMedisinskArsak(true, ['TILSTAND_HINDRER_AKTIVITET'], null)
                     const expected: MedisinskArsak = {
                         arsak: ['TILSTAND_HINDRER_AKTIVITET'],
                         beskrivelse: null,
-                    };
-                    expect(builtMedisinskArsak).toEqual(expected);
-                });
+                    }
+                    expect(builtMedisinskArsak).toEqual(expected)
+                })
 
                 it('Returns medisinsk årsak with beskrivelse', () => {
                     const builtMedisinskArsak = buildMedisinskArsak(
                         true,
                         ['TILSTAND_HINDRER_AKTIVITET'],
                         'dette er en beskrivelse',
-                    );
+                    )
                     const expected: MedisinskArsak = {
                         arsak: ['TILSTAND_HINDRER_AKTIVITET'],
                         beskrivelse: 'dette er en beskrivelse',
-                    };
-                    expect(builtMedisinskArsak).toEqual(expected);
-                });
+                    }
+                    expect(builtMedisinskArsak).toEqual(expected)
+                })
 
                 it('Does not return medisinsk årsak', () => {
                     const builtMedisinskArsak = buildMedisinskArsak(
                         false,
                         ['TILSTAND_HINDRER_AKTIVITET'],
                         'dette er en beskrivelse',
-                    );
-                    expect(builtMedisinskArsak).toBeNull();
-                });
-            });
+                    )
+                    expect(builtMedisinskArsak).toBeNull()
+                })
+            })
 
             describe('Arbeidsrelatert årsak', () => {
                 it('Returns arbeidsrelatert årsak', () => {
@@ -144,36 +146,36 @@ describe('registrertSykmeldingUtils', () => {
                         true,
                         ['MANGLENDE_TILRETTELEGGING'],
                         null,
-                    );
+                    )
                     const expected: ArbeidsrelatertArsak = {
                         arsak: ['MANGLENDE_TILRETTELEGGING'],
                         beskrivelse: null,
-                    };
-                    expect(builtArbeidsrelatertArsak).toEqual(expected);
-                });
+                    }
+                    expect(builtArbeidsrelatertArsak).toEqual(expected)
+                })
 
                 it('Returns arbeidsrelatert årsak with beskrivelse', () => {
                     const builtArbeidsrelatertArsak = buildArbeidsrelatertArsak(
                         true,
                         ['MANGLENDE_TILRETTELEGGING'],
                         'dette er en arbeidsrelatert beskrivelse',
-                    );
+                    )
                     const expected: ArbeidsrelatertArsak = {
                         arsak: ['MANGLENDE_TILRETTELEGGING'],
                         beskrivelse: 'dette er en arbeidsrelatert beskrivelse',
-                    };
-                    expect(builtArbeidsrelatertArsak).toEqual(expected);
-                });
+                    }
+                    expect(builtArbeidsrelatertArsak).toEqual(expected)
+                })
 
                 it('Does not return arbeidsrelatert årsak', () => {
                     const builtArbeidsrelatertArsak = buildArbeidsrelatertArsak(
                         false,
                         ['MANGLENDE_TILRETTELEGGING'],
                         'dette er en arbeidsrelatert beskrivelse',
-                    );
-                    expect(builtArbeidsrelatertArsak).toBeNull();
-                });
-            });
+                    )
+                    expect(builtArbeidsrelatertArsak).toBeNull()
+                })
+            })
 
             it('Return aktivitetIkkeMulig sykmelding', () => {
                 const builtAktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding([
@@ -187,7 +189,7 @@ describe('registrertSykmeldingUtils', () => {
                         aktivitetIkkeMuligArbeidsrelatertArsakType: ['MANGLENDE_TILRETTELEGGING'],
                         aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse: 'Kan ikke være i aktivitet pga arbeid',
                     },
-                ]);
+                ])
                 const expected: Periode[] = [
                     {
                         fom: '2020-10-01',
@@ -207,9 +209,9 @@ describe('registrertSykmeldingUtils', () => {
                         gradert: null,
                         avventendeInnspillTilArbeidsgiver: null,
                     },
-                ];
-                expect(builtAktivitetIkkeMuligSykmelding).toEqual(expected);
-            });
+                ]
+                expect(builtAktivitetIkkeMuligSykmelding).toEqual(expected)
+            })
 
             it('Does not return aktivitetIkkeMulig sykmelding', () => {
                 const builtAktivitetIkkeMuligSykmelding = buildAktivitetIkkeMuligSykmelding([
@@ -218,10 +220,10 @@ describe('registrertSykmeldingUtils', () => {
                         avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
                         avventendePeriode: ['2020-10-01', '2020-10-02'],
                     },
-                ]);
-                expect(builtAktivitetIkkeMuligSykmelding).toHaveLength(0);
-            });
-        });
+                ])
+                expect(builtAktivitetIkkeMuligSykmelding).toHaveLength(0)
+            })
+        })
 
         describe('Behandlingsdager', () => {
             it('Returns behandlingsdager sykmelding', () => {
@@ -231,7 +233,7 @@ describe('registrertSykmeldingUtils', () => {
                         behandlingsdagerPeriode: ['2020-10-01', '2020-10-02'],
                         behandlingsdagerAntall: 12,
                     },
-                ]);
+                ])
 
                 const expected: Periode[] = [
                     {
@@ -243,9 +245,9 @@ describe('registrertSykmeldingUtils', () => {
                         avventendeInnspillTilArbeidsgiver: null,
                         gradert: null,
                     },
-                ];
-                expect(builtBehandlingsdagerSykmelding).toEqual(expected);
-            });
+                ]
+                expect(builtBehandlingsdagerSykmelding).toEqual(expected)
+            })
 
             it('Does not return behandlingsdager sykmelding', () => {
                 const builtBehandlingsdagerSykmelding = buildBehandlingsdagerSykmelding([
@@ -254,16 +256,16 @@ describe('registrertSykmeldingUtils', () => {
                         avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
                         avventendePeriode: ['2020-10-01', '2020-10-02'],
                     },
-                ]);
-                expect(builtBehandlingsdagerSykmelding).toHaveLength(0);
-            });
-        });
+                ])
+                expect(builtBehandlingsdagerSykmelding).toHaveLength(0)
+            })
+        })
 
         describe('Reisetilskudd', () => {
             it('Returns reisetilskudd sykmelding', () => {
                 const builtReisetilskuddSykmelding = buildReisetilskuddSykmelding([
                     { type: 'reisetilskudd', reisetilskuddPeriode: ['2020-10-01', '2020-10-02'] },
-                ]);
+                ])
                 const expected: Periode[] = [
                     {
                         fom: '2020-10-01',
@@ -274,9 +276,9 @@ describe('registrertSykmeldingUtils', () => {
                         avventendeInnspillTilArbeidsgiver: null,
                         gradert: null,
                     },
-                ];
-                expect(builtReisetilskuddSykmelding).toEqual(expected);
-            });
+                ]
+                expect(builtReisetilskuddSykmelding).toEqual(expected)
+            })
 
             it('Does not return reisetilskudd sykmelding', () => {
                 const builtReisetilskuddSykmelding = buildReisetilskuddSykmelding([
@@ -285,10 +287,10 @@ describe('registrertSykmeldingUtils', () => {
                         avventendeInnspillTilArbeidsgiver: 'Dette er et innspill til arbeidsgiver',
                         avventendePeriode: ['2020-10-01', '2020-10-02'],
                     },
-                ]);
-                expect(builtReisetilskuddSykmelding).toHaveLength(0);
-            });
-        });
+                ])
+                expect(builtReisetilskuddSykmelding).toHaveLength(0)
+            })
+        })
 
         it('Returns array containing all periods', () => {
             const schema: FormType = {
@@ -359,17 +361,17 @@ describe('registrertSykmeldingUtils', () => {
                         reisetilskuddPeriode: ['2020-10-01', '2020-10-02'],
                     },
                 ],
-            };
+            }
 
-            const builtPerioder = buildPerioder(schema);
-            expect(builtPerioder).toHaveLength(5);
-            expect(builtPerioder.some((periode) => periode.avventendeInnspillTilArbeidsgiver)).toBeTruthy();
-            expect(builtPerioder.some((periode) => periode.gradert)).toBeTruthy();
-            expect(builtPerioder.some((periode) => periode.aktivitetIkkeMulig)).toBeTruthy();
-            expect(builtPerioder.some((periode) => periode.behandlingsdager)).toBeTruthy();
-            expect(builtPerioder.some((periode) => periode.reisetilskudd)).toBeTruthy();
-        });
-    });
+            const builtPerioder = buildPerioder(schema)
+            expect(builtPerioder).toHaveLength(5)
+            expect(builtPerioder.some((periode) => periode.avventendeInnspillTilArbeidsgiver)).toBeTruthy()
+            expect(builtPerioder.some((periode) => periode.gradert)).toBeTruthy()
+            expect(builtPerioder.some((periode) => periode.aktivitetIkkeMulig)).toBeTruthy()
+            expect(builtPerioder.some((periode) => periode.behandlingsdager)).toBeTruthy()
+            expect(builtPerioder.some((periode) => periode.reisetilskudd)).toBeTruthy()
+        })
+    })
 
     describe('Medisinsk vurdering', () => {
         describe('Diagnose', () => {
@@ -378,20 +380,20 @@ describe('registrertSykmeldingUtils', () => {
                     system: DiagnosekodeSystem.ICD10,
                     kode: 'A001',
                     tekst: 'diagnosetekst',
-                };
+                }
                 expect(buildDiagnose(diagnose)).toEqual({
                     system: '2.16.578.1.12.4.1.1.7110',
                     kode: 'A001',
                     tekst: 'diagnosetekst',
-                });
-            });
+                })
+            })
             it('Should return null if diagnose is incomplete', () => {
                 const incompleteDiagnose: Partial<Diagnose> = {
                     system: DiagnosekodeSystem.ICD10,
-                };
-                expect(buildDiagnose(incompleteDiagnose)).toBeNull();
-            });
-        });
+                }
+                expect(buildDiagnose(incompleteDiagnose)).toBeNull()
+            })
+        })
 
         describe('Diagnoser', () => {
             it('Should return diagnoser', () => {
@@ -406,7 +408,7 @@ describe('registrertSykmeldingUtils', () => {
                         kode: 'F001',
                         tekst: 'diagnosetekst',
                     },
-                ];
+                ]
                 expect(buildDiagnoser(diagnoser)).toEqual([
                     {
                         system: '2.16.578.1.12.4.1.1.7110',
@@ -418,8 +420,8 @@ describe('registrertSykmeldingUtils', () => {
                         kode: 'F001',
                         tekst: 'diagnosetekst',
                     },
-                ]);
-            });
+                ])
+            })
             it('Should only return complete diagnoser', () => {
                 const diagnoser: Partial<Diagnose>[] = [
                     {
@@ -431,20 +433,20 @@ describe('registrertSykmeldingUtils', () => {
                         kode: 'F001',
                         tekst: 'diagnosetekst',
                     },
-                ];
+                ]
                 const expected = [
                     {
                         system: '2.16.578.1.12.4.1.1.7170',
                         kode: 'F001',
                         tekst: 'diagnosetekst',
                     },
-                ];
-                expect(buildDiagnoser(diagnoser)).toEqual(expected);
-            });
+                ]
+                expect(buildDiagnoser(diagnoser)).toEqual(expected)
+            })
             it('Should return empty array if diagnoser undefined', () => {
-                expect(buildDiagnoser(undefined)).toEqual([]);
-            });
-        });
+                expect(buildDiagnoser(undefined)).toEqual([])
+            })
+        })
 
         describe('Annen fraværsårsak', () => {
             it('Should return annenFraversArsak', () => {
@@ -452,33 +454,33 @@ describe('registrertSykmeldingUtils', () => {
                     true,
                     ['ARBEIDSRETTET_TILTAK', 'BEHANDLING_STERILISERING'],
                     'Må være hjemme',
-                );
+                )
                 const expected: AnnenFraversArsak = {
                     grunn: ['ARBEIDSRETTET_TILTAK', 'BEHANDLING_STERILISERING'],
                     beskrivelse: 'Må være hjemme',
-                };
-                expect(builtAnnenFraversArsak).toEqual(expected);
-            });
+                }
+                expect(builtAnnenFraversArsak).toEqual(expected)
+            })
 
             it('Should not return annenFraversArsak', () => {
                 const builtAnnenFraversArsak = buildAnnenFraversArsak(
                     false,
                     ['ARBEIDSRETTET_TILTAK', 'BEHANDLING_STERILISERING'],
                     'Må være hjemme',
-                );
-                expect(builtAnnenFraversArsak).toBeNull();
-            });
+                )
+                expect(builtAnnenFraversArsak).toBeNull()
+            })
 
             it('Should return annenFraversArsak if beskrivelse is set and arsak-grunn is empty list', () => {
-                const builtAnnenFraversArsak = buildAnnenFraversArsak(true, [], 'Må være hjemme');
+                const builtAnnenFraversArsak = buildAnnenFraversArsak(true, [], 'Må være hjemme')
                 const expected: AnnenFraversArsak = {
                     grunn: [],
                     beskrivelse: 'Må være hjemme',
-                };
-                expect(builtAnnenFraversArsak).toEqual(expected);
-            });
-        });
-    });
+                }
+                expect(builtAnnenFraversArsak).toEqual(expected)
+            })
+        })
+    })
 
     describe('buildRegistrertSykmelding', () => {
         it('Builds complete registrert sykmelding object', () => {
@@ -565,7 +567,7 @@ describe('registrertSykmeldingUtils', () => {
                 kunneIkkeIvaretaEgneInteresser: true,
                 begrunnelseIkkeKontakt: 'Pasienten hadde omgangssjuke',
                 harUtdypendeOpplysninger: true,
-            };
+            }
 
             const expected: RegistrertSykmelding = {
                 syketilfelleStartDato: schema.syketilfelleStartDato!,
@@ -598,21 +600,21 @@ describe('registrertSykmeldingUtils', () => {
                 skjermesForPasient: schema.skjermesForPasient!,
                 perioder: [
                     {
-                        fom: schema.mulighetForArbeid[0].avventendePeriode[0],
-                        tom: schema.mulighetForArbeid[0].avventendePeriode[1],
-                        avventendeInnspillTilArbeidsgiver:
-                            schema.mulighetForArbeid[0].avventendeInnspillTilArbeidsgiver,
+                        fom: (schema.mulighetForArbeid[0] as any).avventendePeriode[0],
+                        tom: (schema.mulighetForArbeid[0] as any).avventendePeriode[1],
+                        avventendeInnspillTilArbeidsgiver: (schema.mulighetForArbeid[0] as any)
+                            .avventendeInnspillTilArbeidsgiver,
                         reisetilskudd: false,
                         aktivitetIkkeMulig: null,
                         behandlingsdager: null,
                         gradert: null,
                     },
                     {
-                        fom: schema.mulighetForArbeid[1].gradertPeriode[0],
-                        tom: schema.mulighetForArbeid[1].gradertPeriode[1],
+                        fom: (schema.mulighetForArbeid[1] as any).gradertPeriode[0],
+                        tom: (schema.mulighetForArbeid[1] as any).gradertPeriode[1],
                         gradert: {
-                            grad: schema.mulighetForArbeid[1].gradertGrad,
-                            reisetilskudd: schema.mulighetForArbeid[1].gradertReisetilskudd!,
+                            grad: (schema.mulighetForArbeid[1] as any).gradertGrad,
+                            reisetilskudd: (schema.mulighetForArbeid[1] as any).gradertReisetilskudd!,
                         },
                         reisetilskudd: false,
                         aktivitetIkkeMulig: null,
@@ -620,17 +622,18 @@ describe('registrertSykmeldingUtils', () => {
                         behandlingsdager: null,
                     },
                     {
-                        fom: schema.mulighetForArbeid[2].aktivitetIkkeMuligPeriode[0],
-                        tom: schema.mulighetForArbeid[2].aktivitetIkkeMuligPeriode[1],
+                        fom: (schema.mulighetForArbeid[2] as any).aktivitetIkkeMuligPeriode[0],
+                        tom: (schema.mulighetForArbeid[2] as any).aktivitetIkkeMuligPeriode[1],
                         aktivitetIkkeMulig: {
                             medisinskArsak: {
-                                arsak: schema.mulighetForArbeid[2].aktivitetIkkeMuligMedisinskArsakType!,
-                                beskrivelse: schema.mulighetForArbeid[2].aktivitetIkkeMuligMedisinskArsakBeskrivelse,
+                                arsak: (schema.mulighetForArbeid[2] as any).aktivitetIkkeMuligMedisinskArsakType!,
+                                beskrivelse: (schema.mulighetForArbeid[2] as any)
+                                    .aktivitetIkkeMuligMedisinskArsakBeskrivelse,
                             },
                             arbeidsrelatertArsak: {
-                                arsak: schema.mulighetForArbeid[2].aktivitetIkkeMuligArbeidsrelatertArsakType!,
-                                beskrivelse:
-                                    schema.mulighetForArbeid[2].aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
+                                arsak: (schema.mulighetForArbeid[2] as any).aktivitetIkkeMuligArbeidsrelatertArsakType!,
+                                beskrivelse: (schema.mulighetForArbeid[2] as any)
+                                    .aktivitetIkkeMuligArbeidsrelatertArsakBeskrivelse,
                             },
                         },
                         reisetilskudd: false,
@@ -639,17 +642,17 @@ describe('registrertSykmeldingUtils', () => {
                         avventendeInnspillTilArbeidsgiver: null,
                     },
                     {
-                        fom: schema.mulighetForArbeid[3].behandlingsdagerPeriode![0],
-                        tom: schema.mulighetForArbeid[3].behandlingsdagerPeriode![1],
-                        behandlingsdager: schema.mulighetForArbeid[3].behandlingsdagerAntall,
+                        fom: (schema.mulighetForArbeid[3] as any).behandlingsdagerPeriode![0],
+                        tom: (schema.mulighetForArbeid[3] as any).behandlingsdagerPeriode![1],
+                        behandlingsdager: (schema.mulighetForArbeid[3] as any).behandlingsdagerAntall,
                         reisetilskudd: false,
                         aktivitetIkkeMulig: null,
                         gradert: null,
                         avventendeInnspillTilArbeidsgiver: null,
                     },
                     {
-                        fom: schema.mulighetForArbeid[4].reisetilskuddPeriode![0],
-                        tom: schema.mulighetForArbeid[4].reisetilskuddPeriode![1],
+                        fom: (schema.mulighetForArbeid[4] as any).reisetilskuddPeriode![0],
+                        tom: (schema.mulighetForArbeid[4] as any).reisetilskuddPeriode![1],
                         reisetilskudd: true,
                         aktivitetIkkeMulig: null,
                         gradert: null,
@@ -687,10 +690,10 @@ describe('registrertSykmeldingUtils', () => {
                     },
                     tlf: schema.sykmelderTelefon,
                 },
-            };
+            }
 
             // @ts-expect-error Test data doesn't match
-            expect(buildRegistrertSykmelding(schema).data).toEqual(expected);
-        });
-    });
-});
+            expect(buildRegistrertSykmelding(schema).data).toEqual(expected)
+        })
+    })
+})

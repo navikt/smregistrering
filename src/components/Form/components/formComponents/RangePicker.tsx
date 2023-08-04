@@ -1,21 +1,21 @@
-import Flatpickr from 'react-flatpickr';
-import React from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
+import Flatpickr from 'react-flatpickr'
+import React from 'react'
+import { Normaltekst } from 'nav-frontend-typografi'
 
-import calendar from '../../../../svg/calendar.svg';
-import { formatDate, toDateString } from '../../../../utils/dateUtils';
+import calendar from '../../../../svg/calendar.svg'
+import { formatDate, toDateString } from '../../../../utils/dateUtils'
 
-import ClearButton from './ClearButton';
-import { flatpickrLocale } from './flatpickrUtils';
+import ClearButton from './ClearButton'
+import { flatpickrLocale } from './flatpickrUtils'
 
 type RangePickerProps = {
-    id?: string;
-    labelFrom: string;
-    labelTo: string;
-    value: string[];
-    onChange: (newDates: string[] | undefined) => void;
-    feil?: string;
-};
+    id?: string
+    labelFrom: string
+    labelTo: string
+    value: string[]
+    onChange: (newDates: string[] | undefined) => void
+    feil?: string
+}
 
 const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePickerProps) => {
     return (
@@ -24,7 +24,6 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                 {labelFrom} - {labelTo}
             </label>
             <div role="region" aria-label="periodevelger" className="flatpickr-container">
-                {/* @ts-expect-error Weird React 18 JSX error */}
                 <Flatpickr
                     id={id}
                     value={value.length === 2 ? [new Date(value[0]), new Date(value[1])] : value} // Does not like to receive dates as string[]
@@ -32,11 +31,11 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                     placeholder="DDMMÅÅ-DDMMÅÅ"
                     onClose={(selectedDates) => {
                         if (selectedDates.length === 0) {
-                            onChange(undefined);
+                            onChange(undefined)
                         } else if (selectedDates.length === 1) {
-                            onChange([toDateString(selectedDates[0]), toDateString(selectedDates[0])]);
+                            onChange([toDateString(selectedDates[0]), toDateString(selectedDates[0])])
                         } else {
-                            onChange([toDateString(selectedDates[0]), toDateString(selectedDates[1])]);
+                            onChange([toDateString(selectedDates[0]), toDateString(selectedDates[1])])
                         }
                     }}
                     options={{
@@ -56,8 +55,8 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                     leftSpacing
                     iconType="CircledCross"
                     onChange={(event) => {
-                        event.preventDefault();
-                        onChange(undefined);
+                        event.preventDefault()
+                        onChange(undefined)
                     }}
                     buttonText="Fjern dato"
                 />
@@ -73,7 +72,7 @@ const RangePicker = ({ id, labelFrom, labelTo, value, onChange, feil }: RangePic
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default RangePicker;
+export default RangePicker

@@ -1,41 +1,52 @@
-import nock from 'nock';
-import userEvent from '@testing-library/user-event';
+import { describe, it, expect, beforeEach } from 'vitest'
+import userEvent from '@testing-library/user-event'
+import { rest } from 'msw'
+import { within } from '@testing-library/react'
 
-import Index from '../pages/index';
-import {
-    mockBehandlerinfo,
-    mockLocation,
-    mockPasientinfo,
-    render,
-    screen,
-    waitForElementToBeRemoved,
-} from '../utils/testUtils';
+import { mockBehandlerinfo, mockPasientinfo, render, screen } from '../utils/testUtils'
+import { server } from '../mocks/server'
+import { apiUrl } from '../utils/fetchUtils'
+import FormView from '../components/FormView'
+import { Oppgave } from '../types/oppgave/Oppgave'
+import { getDiagnosekoder } from '../utils/dataUtils'
 
-import fullOppgave from './testData/fullOppgave.json';
+import fullOppgave from './testData/fullOppgave.json'
 
-describe('Avvis oppgave', () => {
-    const oppgaveid = 123;
-    const apiNock = nock('http://localhost');
+describe('Avvis oppgave', async () => {
+    const diagnosekoder = await getDiagnosekoder()
 
     beforeEach(() => {
-        mockLocation(oppgaveid);
-        apiNock.get(`/api/backend/api/v1/oppgave/${oppgaveid}`).reply(200, fullOppgave);
-        mockPasientinfo(apiNock);
-        mockBehandlerinfo(apiNock);
-    });
+        mockPasientinfo()
+        mockBehandlerinfo()
+    })
 
     it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
-        apiNock.post(`/api/backend/api/v1/oppgave/${oppgaveid}/avvis`).reply(200, 'OK');
+        server.use(
+            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/avvis`), (req, res, ctx) =>
+                res(ctx.status(200), ctx.text('OK')),
+            ),
+        )
         render(
-            <div id="root">
-                <Index />
-            </div>,
-        );
+            <FormView
+                sykmeldingId={null}
+                aktivEnhet="test-enhet"
+                oppgave={fullOppgave as Oppgave}
+                diagnosekoder={diagnosekoder}
+                isFerdigstilt={false}
+            />,
+        )
 
-        await waitForElementToBeRemoved(() => screen.queryByText('Vennligst vent mens oppgaven laster'));
-        userEvent.click(await screen.findByRole('button', { name: 'Avvis sykmeldingen' }));
-        expect(await screen.findByText('Er du sikker på at du vil avvise sykmeldingen?')).toBeInTheDocument();
-        userEvent.click(await screen.findByRole('button', { name: 'AVVIS SYKMELDING' }));
-        expect(await screen.findByText('Tilbake til GOSYS')).toBeInTheDocument();
-    });
-});
+        expect(
+            await screen.findByRole('heading', { name: 'Vennligst legg inn opplysningene fra papirsykmeldingen' }),
+        ).toBeInTheDocument()
+        await userEvent.click(await screen.findByRole('button', { name: 'Avvis sykmeldingen' }))
+        expect(await screen.findByText('Er du sikker på at du vil avvise sykmeldingen?')).toBeInTheDocument()
+        await userEvent.click(await screen.findByRole('button', { name: 'AVVIS SYKMELDING' }))
+
+        expect(
+            within(await screen.findByRole('dialog', { name: 'Oppgaven ble ferdigstilt.' })).getByRole('link', {
+                name: 'Tilbake til GOSYS',
+            }),
+        ).toBeInTheDocument()
+    })
+})

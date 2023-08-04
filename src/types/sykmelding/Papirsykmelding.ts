@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import { z } from 'zod';
+import { z } from 'zod'
 
-import { Arbeidsgiver } from './Arbeidsgiver';
-import { Behandler } from './Behandler';
-import { KontaktMedPasient } from './KontaktMedPasient';
-import { MedisinskVurdering } from './MedisinskVurdering';
-import { MeldingTilNAV } from './MeldingTilNav';
-import { Periode } from './Periode';
+import { Arbeidsgiver } from './Arbeidsgiver'
+import { Behandler } from './Behandler'
+import { KontaktMedPasient } from './KontaktMedPasient'
+import { MedisinskVurdering } from './MedisinskVurdering'
+import { MeldingTilNAV } from './MeldingTilNav'
+import { Periode } from './Periode'
 
 export const Papirsykmelding = z.object({
     fnr: z.string().nullable(),
@@ -21,5 +21,5 @@ export const Papirsykmelding = z.object({
     kontaktMedPasient: KontaktMedPasient.nullable(),
     behandletTidspunkt: z.string().nullable(),
     behandler: Behandler.nullable(),
-});
-export type Papirsykmelding = z.infer<typeof Papirsykmelding>;
+})
+export type Papirsykmelding = z.infer<typeof Papirsykmelding>

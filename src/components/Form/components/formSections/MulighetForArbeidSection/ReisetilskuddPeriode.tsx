@@ -1,23 +1,23 @@
-import React from 'react';
-import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
+import React from 'react'
+import { FeiloppsummeringFeil } from 'nav-frontend-skjema'
 
-import RangePicker from '../../formComponents/RangePicker';
-import { FormType } from '../../../Form';
+import RangePicker from '../../formComponents/RangePicker'
+import { FormType } from '../../../Form'
 
-import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection';
+import { MFAOptions, MulighetForArbeidTypes } from './MulighetForArbeidSection'
 
 export type ReisetilskuddPeriodeMFA = {
-    type: MFAOptions;
+    type: MFAOptions
     // Perioder for sykmelding med reisetilskudd
-    reisetilskuddPeriode: string[] | null;
-};
+    reisetilskuddPeriode: string[] | null
+}
 
 type ReisetilskuddPeriodeProps = {
-    mfaPeriode: ReisetilskuddPeriodeMFA;
-    updateMfa: (mfa: MulighetForArbeidTypes) => void;
-    errors: Map<keyof FormType, FeiloppsummeringFeil>;
-    index: number;
-};
+    mfaPeriode: ReisetilskuddPeriodeMFA
+    updateMfa: (mfa: MulighetForArbeidTypes) => void
+    errors: Map<keyof FormType, FeiloppsummeringFeil>
+    index: number
+}
 
 const ReisetilskuddPeriode = ({ updateMfa, mfaPeriode, index }: ReisetilskuddPeriodeProps) => {
     return (
@@ -31,13 +31,13 @@ const ReisetilskuddPeriode = ({ updateMfa, mfaPeriode, index }: ReisetilskuddPer
                     const updatedSchema = {
                         ...mfaPeriode,
                         reisetilskuddPeriode: newDates ?? null,
-                    };
+                    }
 
-                    updateMfa(updatedSchema);
+                    updateMfa(updatedSchema)
                 }}
             />
         </div>
-    );
-};
+    )
+}
 
-export default ReisetilskuddPeriode;
+export default ReisetilskuddPeriode

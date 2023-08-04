@@ -1,22 +1,22 @@
-import React from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
-import { Fareknapp } from 'nav-frontend-knapper';
-import { Select } from 'nav-frontend-skjema';
+import React from 'react'
+import { Element, Normaltekst } from 'nav-frontend-typografi'
+import { Fareknapp } from 'nav-frontend-knapper'
+import { Select } from 'nav-frontend-skjema'
 
-import Garbage from '../../../../../svg/Garbage';
-import Row from '../../formComponents/Row';
-import SearchableInput from '../../formComponents/SearchableInput';
-import { Diagnose } from '../../../../../types/sykmelding/MedisinskVurdering';
-import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder';
+import Garbage from '../../../../../svg/Garbage'
+import Row from '../../formComponents/Row'
+import SearchableInput from '../../formComponents/SearchableInput'
+import { Diagnose } from '../../../../../types/sykmelding/MedisinskVurdering'
+import { DiagnosekodeSystem, Diagnosekoder } from '../../../../../types/diagnosekoder/Diagnosekoder'
 
 type BidiagnoseRowProps = {
-    index: number;
-    updateDiagnosesystem: (index: number, system: string) => void;
-    updateDiagnosecode: (index: number, code: string, text: string) => void;
-    deleteRow: (index: number, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-    biDiagnose: Partial<Diagnose>;
-    diagnosekoder: Diagnosekoder;
-};
+    index: number
+    updateDiagnosesystem: (index: number, system: string) => void
+    updateDiagnosecode: (index: number, code: string, text: string) => void
+    deleteRow: (index: number, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+    biDiagnose: Partial<Diagnose>
+    diagnosekoder: Diagnosekoder
+}
 
 const BidiagnoseRow = ({
     index,
@@ -28,7 +28,7 @@ const BidiagnoseRow = ({
 }: BidiagnoseRowProps) => {
     return (
         <>
-            <div className={`bidiagnoserow`}>
+            <div className="bidiagnoserow">
                 <div className="bidiagnoserow__deletebutton">
                     <Fareknapp htmlType="button" kompakt onClick={(event) => deleteRow(index, event)}>
                         <Garbage />
@@ -40,7 +40,7 @@ const BidiagnoseRow = ({
                         id={'bidiagnose-' + index + '-system'}
                         value={biDiagnose.system}
                         onChange={({ target: { value } }) => {
-                            updateDiagnosesystem(index, value);
+                            updateDiagnosesystem(index, value)
                         }}
                         label={<Element>3.2.1 Kodesystem</Element>}
                     >
@@ -64,7 +64,7 @@ const BidiagnoseRow = ({
                 </Row>
             </div>
         </>
-    );
-};
+    )
+}
 
-export default BidiagnoseRow;
+export default BidiagnoseRow
