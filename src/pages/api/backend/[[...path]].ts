@@ -60,4 +60,11 @@ export function cleanPath(value: string): string {
     return value?.replace(UUID, '[uuid]').replace(OPPGAVE_OR_HPR, '[id|hpr]')
 }
 
+export const config = {
+    api: {
+        bodyParser: false,
+        externalResolver: true,
+    },
+}
+
 export default handler
