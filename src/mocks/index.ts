@@ -12,6 +12,9 @@ const onUnhandledRequest: StartOptions['onUnhandledRequest'] = (req, print): voi
 
 async function initMocks() {
     if (typeof window === 'undefined') {
+        // Don't mock server side in demo
+        if (process.env.NODE_ENV !== 'production') return
+
         const { server } = await import('./server')
         server.listen()
     } else {
