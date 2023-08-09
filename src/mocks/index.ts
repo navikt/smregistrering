@@ -1,5 +1,7 @@
 import { StartOptions } from 'msw'
 
+import { isLocalOrDemo } from '../utils/env'
+
 const whitelistRequests = ['/_next/', '/api/logger', '/teamsykmelding/smregistrering/_next', '/aksel/fonts']
 
 const onUnhandledRequest: StartOptions['onUnhandledRequest'] = (req, print): void => {
@@ -13,7 +15,7 @@ const onUnhandledRequest: StartOptions['onUnhandledRequest'] = (req, print): voi
 async function initMocks() {
     if (typeof window === 'undefined') {
         // Don't mock server side in demo
-        if (process.env.NODE_ENV !== 'production') return
+        if (isLocalOrDemo) return
 
         const { server } = await import('./server')
         server.listen()
