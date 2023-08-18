@@ -8,7 +8,7 @@ Applikasjonen har to hovedoppgaver:
 
 `client browser (next-app) --> custom express server kjørt fra next (auth/reverse-proxy) --> downstream API-er`
 
-En demoside er offentlig tilgjengelig på: https://smregistrering.ekstern.dev.nav.no/
+En demoside er offentlig tilgjengelig på: [https://smregistrering.ekstern.dev.nav.no/](https://smregistrering.ekstern.dev.nav.no/?oppgaveid=1)
 
 ## Utvikling
 
