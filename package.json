@@ -16,7 +16,7 @@
         "postinstall": "husky install && ./scripts/strip-less"
     },
     "dependencies": {
-        "@navikt/next-api-proxy": "^3.2.0",
+        "@navikt/next-api-proxy": "^3.3.0",
         "@navikt/next-auth-wonderwall": "^1.4.0",
         "@navikt/next-logger": "^1.19.0",
         "@types/react-modal": "^3.16.0",
