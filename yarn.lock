@@ -731,17 +731,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/next-auth-wonderwall@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "@navikt/next-auth-wonderwall@npm:1.4.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-auth-wonderwall%2F1.4.0%2Fec8c6949bab113f7eb7d9e4467fcb71a9b7e300b"
+"@navikt/next-auth-wonderwall@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@navikt/next-auth-wonderwall@npm:1.5.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-auth-wonderwall%2F1.5.0%2F643addd5bb139ccf885908e0e27c5cb7b4a6a44d"
   dependencies:
-    jose: ^4.11.2
+    jose: ^4.14.4
     node-cache: ^5.1.2
-    openid-client: ^5.3.1
-    zod: ^3.20.2
-  peerDependencies:
-    next: 12 || 13
-  checksum: b81a7c78325305132e5165118b1b74a7a9cab2990141a59325fb2994f2cef73b87434207ac02806bb5ac140dcb1246c06a9855c6d2ed96282a66d25db120bd5c
+    openid-client: ^5.4.3
+    zod: ^3.22.2
+  checksum: 25c61bbffea46b84f232b16dd8f9738df134ad08c7f736cff9dc3d588270387829521c30e03040a145ec585d038ba530180ad967ddceb9c4894624721df3c13b
   languageName: node
   linkType: hard
 
@@ -4374,7 +4372,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jose@npm:^4.11.2, jose@npm:^4.14.4":
+"jose@npm:^4.14.4":
   version: 4.14.4
   resolution: "jose@npm:4.14.4"
   checksum: 2d820a91a8fd97c05d8bc8eedc373b944a0cd7f5fe41063086da233d0473c73fb523912a9f026ea870782bd221f4a515f441a2d3af4de48c6f2c76dac5082377
@@ -5833,15 +5831,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openid-client@npm:^5.3.1":
-  version: 5.4.3
-  resolution: "openid-client@npm:5.4.3"
+"openid-client@npm:^5.4.3":
+  version: 5.5.0
+  resolution: "openid-client@npm:5.5.0"
   dependencies:
     jose: ^4.14.4
     lru-cache: ^6.0.0
     object-hash: ^2.2.0
     oidc-token-hash: ^5.0.3
-  checksum: 0e5a126b77dad0320e8f7023ac7ad7f5f1f82ad5f985f7ab0b42a7cf36700dfb78f0bef9b59c1fae915dce0148ef191b49921cd0a01443b64c04f862d9dc03e0
+  checksum: d2617b5bb0d9a0da338aeb7489bcbe3a79df9681189c7b61c2a3284289eee7110dfee2b04b49a9fdd4f064b7e2057ddb0becfedd9c19388e7788ae15b24c8e4c
   languageName: node
   linkType: hard
 
@@ -6996,7 +6994,7 @@ __metadata:
     "@navikt/eslint-config-teamsykmelding": ^3.0.0
     "@navikt/fnrvalidator": ^1.3.3
     "@navikt/next-api-proxy": ^3.2.0
-    "@navikt/next-auth-wonderwall": ^1.4.0
+    "@navikt/next-auth-wonderwall": ^1.5.0
     "@navikt/next-logger": ^1.19.0
     "@next/bundle-analyzer": ^13.4.12
     "@testing-library/react": ^14.0.0
@@ -8309,9 +8307,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:3.21.4, zod@npm:^3.20.2, zod@npm:^3.21.4":
+"zod@npm:3.21.4, zod@npm:^3.21.4":
   version: 3.21.4
   resolution: "zod@npm:3.21.4"
   checksum: f185ba87342ff16f7a06686767c2b2a7af41110c7edf7c1974095d8db7a73792696bcb4a00853de0d2edeb34a5b2ea6a55871bc864227dace682a0a28de33e1f
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.22.2":
+  version: 3.22.2
+  resolution: "zod@npm:3.22.2"
+  checksum: 231e2180c8eabb56e88680d80baff5cf6cbe6d64df3c44c50ebe52f73081ecd0229b1c7215b9552537f537a36d9e36afac2737ddd86dc14e3519bdbc777e82b9
   languageName: node
   linkType: hard
