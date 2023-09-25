@@ -1,19 +1,16 @@
 import React from 'react'
-import Select, { MenuListComponentProps, StylesConfig, ValueType, createFilter } from 'react-select'
+import Select, { MenuListProps, StylesConfig, OnChangeValue, createFilter } from 'react-select'
 import { FixedSizeList } from 'react-window'
 
 import { Diagnose } from '../../../../types/sykmelding/MedisinskVurdering'
 import { Diagnosekoder } from '../../../../types/diagnosekoder/Diagnosekoder'
 
 type OptionObject = { value: string; label: string; text: string }
-type OptionValueType = ValueType<OptionObject, false>
+type OptionValueType = OnChangeValue<OptionObject, false>
 
 const HEIGHT = 35
 
-const MenuList = ({ options, children, maxHeight, getValue }: MenuListComponentProps<OptionObject, false>) => {
-    // TODO: Re-write this so it doesn't require ts-ignore
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore Works, but TypeScript doesn't like it
+const MenuList = ({ options, children, maxHeight, getValue }: MenuListProps<OptionObject, false>) => {
     const [value] = getValue()
     const initialOffset = options.indexOf(value) * HEIGHT
     const childrenOptions = React.Children.toArray(children)
