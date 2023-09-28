@@ -26,6 +26,7 @@ function ModiaHeader({ modiaContext }: Props): JSX.Element {
                 <div className={styles.enhetPicker}>
                     {aktivEnhet && modiaContext.enheter.length ? (
                         <Select
+                            id="enheter-select"
                             value={aktivEnhet}
                             onChange={(event) => {
                                 setAktivEnhet(event.target.value)

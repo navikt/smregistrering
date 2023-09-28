@@ -172,6 +172,7 @@ const FormReject = ({ enhet, oppgaveid, sykmeldingId, setIsComplete, isFerdigsti
                         </Normaltekst>
                     </div>
                     <Select
+                        id="avvisningsgrunn-select"
                         className="cancelmodal__avvisningsgrunn"
                         name="avvisningsgrunn"
                         label="Hvorfor avvises sykmeldingen?"
