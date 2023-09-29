@@ -72,7 +72,7 @@
         "zod": "^3.22.2"
     },
     "devDependencies": {
-        "@navikt/eslint-config-teamsykmelding": "^3.0.0",
+        "@navikt/eslint-config-teamsykmelding": "^4.3.0",
         "@navikt/fnrvalidator": "^1.3.3",
         "@next/bundle-analyzer": "^13.5.3",
         "@testing-library/react": "^14.0.0",
