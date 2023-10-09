@@ -59,7 +59,7 @@
         "next": "13.4.12",
         "next-logger": "^3.0.2",
         "pino": "^8.15.1",
-        "pino-pretty": "^10.2.0",
+        "pino-pretty": "^10.2.3",
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
         "react-collapse": "^5.1.1",
