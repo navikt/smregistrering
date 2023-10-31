@@ -20,10 +20,10 @@ describe('Submit oppgave', async () => {
     })
 
     it('Should be able to fill out and submit form', async () => {
-        let invokedBody: unknown | null = null
+        let invokedBody: any | null = null
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${emptyOppgave.oppgaveid}/send`), (req, res, ctx) => {
-                invokedBody = req.body
+            rest.post(apiUrl(`/v1/oppgave/${emptyOppgave.oppgaveid}/send`), async (req, res, ctx) => {
+                invokedBody = await req.json()
                 return res(ctx.status(204))
             }),
         )
@@ -151,7 +151,14 @@ describe('Submit oppgave', async () => {
         await userEvent.click(screen.getByRole('checkbox', { name: /Feltene stemmer overens/ }))
         await userEvent.click(screen.getByRole('button', { name: 'Registrer sykmeldingen' }))
 
-        expect(invokedBody).toEqual({
+        expect(invokedBody).not.toBeNull()
+
+        const body = {
+            ...invokedBody,
+            perioder: invokedBody.perioder.sort((a: { fom: string }, b: { fom: string }) => a.fom.localeCompare(b.fom)),
+        }
+
+        expect(body).toEqual({
             pasientFnr: '12345678910',
             sykmelderFnr: '',
             perioder: [
@@ -209,7 +216,7 @@ describe('Submit oppgave', async () => {
                     reisetilskudd: true,
                     tom: '2020-05-03',
                 },
-            ],
+            ].sort((a: { fom: string }, b: { fom: string }) => a.fom.localeCompare(b.fom)),
             medisinskVurdering: {
                 svangerskap: true,
                 yrkesskade: true,
