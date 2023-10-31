@@ -20,10 +20,10 @@ describe('Mulighet for arbeid section', async () => {
     })
 
     it('Should be able to delete periode without messing up other periods', async () => {
-        let invokedBody: unknown | null = null
+        let invokedBody: any | null = null
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), (req, res, ctx) => {
-                invokedBody = req.body
+            rest.post(apiUrl(`/v1/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), async (req, res, ctx) => {
+                invokedBody = await req.json()
                 return res(ctx.status(204))
             }),
         )
@@ -70,7 +70,7 @@ describe('Mulighet for arbeid section', async () => {
         await userEvent.click(screen.getByText(/Feltene stemmer overens/))
         await userEvent.click(screen.getByRole('button', { name: 'Registrer sykmeldingen' }))
 
-        expect((invokedBody as any).perioder).toEqual([
+        expect(invokedBody.perioder).toEqual([
             {
                 fom: '2020-01-01',
                 tom: '2020-01-03',
