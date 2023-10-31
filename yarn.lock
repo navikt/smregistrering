@@ -6555,9 +6555,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pino@npm:^8.16.0":
-  version: 8.16.0
-  resolution: "pino@npm:8.16.0"
+"pino@npm:^8.16.1":
+  version: 8.16.1
+  resolution: "pino@npm:8.16.1"
   dependencies:
     atomic-sleep: "npm:^1.0.0"
     fast-redact: "npm:^3.1.1"
@@ -6572,7 +6572,7 @@ __metadata:
     thread-stream: "npm:^2.0.0"
   bin:
     pino: bin.js
-  checksum: f6bde350c476ca9edb5ccc50376fc02ba5c1ba7c2c67b1f76e9c24101bc6f1e799e010f3b02044952a08c617dbdfb091743754bf313197785426976ff23a66ab
+  checksum: 8f7b9bd8a2cd605b20654f15c240769e17835be93c67fd422d4ed8ab1a6b7b3806c8be9f91e94d013660fac2ca3c1dd2b625a8bc0f3ce426b465f708670124f9
   languageName: node
   linkType: hard
 
@@ -7502,7 +7502,7 @@ __metadata:
     next: "npm:13.5.4"
     next-logger: "npm:^3.0.2"
     npm-run-all: "npm:^4.1.5"
-    pino: "npm:^8.16.0"
+    pino: "npm:^8.16.1"
     pino-pretty: "npm:^10.2.3"
     prettier: "npm:^3.0.3"
     prop-types: "npm:^15.8.1"
