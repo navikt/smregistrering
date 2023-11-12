@@ -6879,9 +6879,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-select@npm:^5.7.7":
-  version: 5.7.7
-  resolution: "react-select@npm:5.7.7"
+"react-select@npm:^5.8.0":
+  version: 5.8.0
+  resolution: "react-select@npm:5.8.0"
   dependencies:
     "@babel/runtime": "npm:^7.12.0"
     "@emotion/cache": "npm:^11.4.0"
@@ -6895,7 +6895,7 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 01bdf91b60e75c763cec76de192851bfd37c72dcd2ffd8e358a4e242a2f27c72a5222b0685169be0ec49a97932e2f57d4ed16f773b4f9f51be5badd998aa403a
+  checksum: 04d3639ea1872a9e4d9080ece1947432fc595403c0a740f671a1b7f7dd2639288cb133ec7a2b1ac20fad69fd303d696c2f924763405e0e1d93b847e54df9e966
   languageName: node
   linkType: hard
 
@@ -7582,7 +7582,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-flatpickr: "npm:^3.10.13"
     react-modal: "npm:^3.16.1"
-    react-select: "npm:^5.7.7"
+    react-select: "npm:^5.8.0"
     react-window: "npm:^1.8.9"
     typescript: "npm:^5.2.2"
     vitest: "npm:^0.34.6"
