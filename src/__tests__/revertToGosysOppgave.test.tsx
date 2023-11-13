@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import { render, screen, within } from '../utils/testUtils'
 import { server } from '../mocks/server'
@@ -18,8 +18,12 @@ describe('Load pasientinfo', async () => {
 
     it('Should display modal when clicking "Send til GOSYS"', async () => {
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${emptyOppgave.oppgaveid}/tilgosys`), (req, res, ctx) =>
-                res(ctx.status(200), ctx.text('OK')),
+            http.post(
+                apiUrl(`/v1/oppgave/${emptyOppgave.oppgaveid}/tilgosys`),
+                () =>
+                    new HttpResponse('OK', {
+                        status: 200,
+                    }),
             ),
         )
         render(

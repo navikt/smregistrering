@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { rest } from 'msw'
+import { HttpResponse, http } from 'msw'
 import { within } from '@testing-library/react'
 
 import { mockBehandlerinfo, mockPasientinfo, render, screen } from '../utils/testUtils'
@@ -22,8 +22,12 @@ describe('Avvis oppgave', async () => {
 
     it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/avvis`), (req, res, ctx) =>
-                res(ctx.status(200), ctx.text('OK')),
+            http.post(
+                apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/avvis`),
+                () =>
+                    new HttpResponse('OK', {
+                        status: 200,
+                    }),
             ),
         )
         render(

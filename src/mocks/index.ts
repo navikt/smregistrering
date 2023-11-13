@@ -1,11 +1,12 @@
-import { StartOptions } from 'msw'
+import { StartOptions } from 'msw/browser'
 
 import { isLocalOrDemo } from '../utils/env'
 
 const whitelistRequests = ['/_next/', '/api/logger', '/teamsykmelding/smregistrering/_next', '/aksel/fonts']
 
 const onUnhandledRequest: StartOptions['onUnhandledRequest'] = (req, print): void => {
-    if (whitelistRequests.some((whitelisted) => req.url.pathname.startsWith(whitelisted))) {
+    const url: URL = new URL(req.url)
+    if (whitelistRequests.some((whitelisted) => url.pathname.startsWith(whitelisted))) {
         return
     }
 

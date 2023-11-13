@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import { mockBehandlerinfo, render, screen } from '../utils/testUtils'
 import { server } from '../mocks/server'
@@ -20,14 +20,12 @@ describe('Load pasientinfo', async () => {
 
     it('Should search for name of pasient when typing 11 digits in pasientFnr input field', async () => {
         server.use(
-            rest.get(apiUrl('/v1/pasient'), (req, res, ctx) =>
-                res(
-                    ctx.json({
-                        fornavn: 'Per',
-                        mellomnavn: 'Anders',
-                        etternavn: 'Persson',
-                    }),
-                ),
+            http.get(apiUrl('/v1/pasient'), () =>
+                HttpResponse.json({
+                    fornavn: 'Per',
+                    mellomnavn: 'Anders',
+                    etternavn: 'Persson',
+                }),
             ),
         )
 
@@ -49,7 +47,15 @@ describe('Load pasientinfo', async () => {
     })
 
     it('Should display error when request fails', async () => {
-        server.use(rest.get(apiUrl('/v1/pasient'), (req, res, ctx) => res(ctx.status(500))))
+        server.use(
+            http.get(
+                apiUrl('/v1/pasient'),
+                () =>
+                    new HttpResponse(null, {
+                        status: 500,
+                    }),
+            ),
+        )
         render(
             <FormView
                 sykmeldingId="test-id"

@@ -1,4 +1,4 @@
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import { apiUrl } from '../utils/fetchUtils'
 
@@ -7,12 +7,30 @@ import sykmelder from './mock/sykmelder.json'
 import pasientNavn from './mock/pasientNavn.json'
 
 export const handlers = [
-    rest.get(apiUrl('/v1/oppgave/:oppgaveid'), (req, res, ctx) => res(ctx.json(oppgave))),
-    rest.get(apiUrl('/v1/sykmelding/:sykmeldingid/ferdigstilt'), (req, res, ctx) => res(ctx.json(oppgave))),
-    rest.post(apiUrl('/v1/oppgave/:oppgaveid/send'), (req, res, ctx) => res(ctx.status(204))),
-    rest.post(apiUrl('/v1/oppgave/:oppgaveid/avvis'), (req, res, ctx) => res(ctx.status(204))),
-    rest.post(apiUrl('/v1/oppgave/:oppgaveid/tilgosys'), (req, res, ctx) => res(ctx.status(204))),
+    http.get(apiUrl('/v1/oppgave/:oppgaveid'), () => HttpResponse.json(oppgave)),
+    http.get(apiUrl('/v1/sykmelding/:sykmeldingid/ferdigstilt'), () => HttpResponse.json(oppgave)),
+    http.post(
+        apiUrl('/v1/oppgave/:oppgaveid/send'),
+        () =>
+            new HttpResponse(null, {
+                status: 204,
+            }),
+    ),
+    http.post(
+        apiUrl('/v1/oppgave/:oppgaveid/avvis'),
+        () =>
+            new HttpResponse(null, {
+                status: 204,
+            }),
+    ),
+    http.post(
+        apiUrl('/v1/oppgave/:oppgaveid/tilgosys'),
+        () =>
+            new HttpResponse(null, {
+                status: 204,
+            }),
+    ),
 
-    rest.get(apiUrl('/v1/sykmelder/:hpr'), (req, res, ctx) => res(ctx.json(sykmelder))),
-    rest.get(apiUrl('/v1/pasient'), (req, res, ctx) => res(ctx.json(pasientNavn))),
+    http.get(apiUrl('/v1/sykmelder/:hpr'), () => HttpResponse.json(sykmelder)),
+    http.get(apiUrl('/v1/pasient'), () => HttpResponse.json(pasientNavn)),
 ]

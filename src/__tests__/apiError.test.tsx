@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import { mockBehandlerinfo, mockPasientinfo, render, screen } from '../utils/testUtils'
 import { server } from '../mocks/server'
@@ -21,8 +21,12 @@ describe('Registration api errors', async () => {
 
     it('Should show received body error message when status code is 400', async () => {
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`), (req, res, ctx) =>
-                res(ctx.status(400), ctx.text('This is an error')),
+            http.post(
+                apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`),
+                () =>
+                    new HttpResponse('This is an error', {
+                        status: 400,
+                    }),
             ),
         )
 
@@ -51,8 +55,12 @@ describe('Registration api errors', async () => {
 
     it('Should show generic error message when status code is 500', async () => {
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`), (req, res, ctx) =>
-                res(ctx.status(500), ctx.text('This is an error')),
+            http.post(
+                apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`),
+                () =>
+                    new HttpResponse('This is an error', {
+                        status: 500,
+                    }),
             ),
         )
         render(
@@ -81,23 +89,25 @@ describe('Registration api errors', async () => {
     })
 
     it('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
+        const body = {
+            status: 'INVALID',
+            ruleHits: [
+                {
+                    ruleName: 'RULE_NUMBER_ONE',
+                    ruleStatus: 'INVALID',
+                    messageForSender: 'Dont break the rules, please',
+                    messageForUser: 'message for user',
+                },
+            ],
+        }
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`), (req, res, ctx) =>
-                res(
-                    ctx.status(400),
-                    ctx.set('Content-Type', 'application/json'),
-                    ctx.json({
-                        status: 'INVALID',
-                        ruleHits: [
-                            {
-                                ruleName: 'RULE_NUMBER_ONE',
-                                ruleStatus: 'INVALID',
-                                messageForSender: 'Dont break the rules, please',
-                                messageForUser: 'message for user',
-                            },
-                        ],
-                    }),
-                ),
+            http.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`), () =>
+                HttpResponse.json(body, {
+                    status: 400,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }),
             ),
         )
         render(
@@ -125,9 +135,15 @@ describe('Registration api errors', async () => {
     })
 
     it('Should show validation error when receiving wrongly structured json and status code is 400', async () => {
+        const body = { wrong: 'prop' }
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`), (req, res, ctx) =>
-                res(ctx.status(400), ctx.json({ wrong: 'prop' })),
+            http.post(apiUrl(`/v1/oppgave/${fullOppgave.oppgaveid}/send`), () =>
+                HttpResponse.json(body, {
+                    status: 400,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }),
             ),
         )
 

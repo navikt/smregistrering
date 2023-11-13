@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import { mockBehandlerinfo, mockPasientinfo, render, screen, within } from '../utils/testUtils'
 import { server } from '../mocks/server'
@@ -22,9 +22,11 @@ describe('Submit oppgave', async () => {
     it('Should be able to fill out and submit form', async () => {
         let invokedBody: any | null = null
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${emptyOppgave.oppgaveid}/send`), async (req, res, ctx) => {
-                invokedBody = await req.json()
-                return res(ctx.status(204))
+            http.post(apiUrl(`/v1/oppgave/${emptyOppgave.oppgaveid}/send`), async ({ request }) => {
+                invokedBody = await request.json()
+                return new HttpResponse(null, {
+                    status: 204,
+                })
             }),
         )
 

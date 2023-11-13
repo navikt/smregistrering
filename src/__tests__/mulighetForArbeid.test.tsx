@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import { mockBehandlerinfo, mockPasientinfo, render, screen } from '../utils/testUtils'
 import { server } from '../mocks/server'
@@ -22,9 +22,11 @@ describe('Mulighet for arbeid section', async () => {
     it('Should be able to delete periode without messing up other periods', async () => {
         let invokedBody: any | null = null
         server.use(
-            rest.post(apiUrl(`/v1/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), async (req, res, ctx) => {
-                invokedBody = await req.json()
-                return res(ctx.status(204))
+            http.post(apiUrl(`/v1/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), async ({ request }) => {
+                invokedBody = await request.json()
+                return new HttpResponse(null, {
+                    status: 204,
+                })
             }),
         )
 

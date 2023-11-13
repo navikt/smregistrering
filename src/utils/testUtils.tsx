@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactElement } from 'react'
 import { render, RenderOptions } from '@testing-library/react'
-import { rest } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import pasientNavn from '../mocks/mock/pasientNavn.json'
 import sykmelder from '../mocks/mock/sykmelder.json'
@@ -19,11 +19,11 @@ export function mockLocation(oppgaveid: string | number): void {
 }
 
 export function mockBehandlerinfo(): void {
-    server.use(rest.get(apiUrl('/v1/sykmelder/:hpr'), (_, res, ctx) => res(ctx.json(sykmelder))))
+    server.use(http.get(apiUrl('/v1/sykmelder/:hpr'), () => HttpResponse.json(sykmelder)))
 }
 
 export function mockPasientinfo(): void {
-    server.use(rest.get(apiUrl('/v1/pasient'), (_, res, ctx) => res(ctx.json(pasientNavn))))
+    server.use(http.get(apiUrl('/v1/pasient'), () => HttpResponse.json(pasientNavn)))
 }
 
 const AllTheProviders = ({ children }: PropsWithChildren<unknown>) => (
