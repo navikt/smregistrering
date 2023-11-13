@@ -75,6 +75,6 @@ export function apiFetch(...args: Parameters<typeof fetch>) {
     return fetch(apiUrl(url), ...rest)
 }
 
-export function apiUrl(path: RequestInfo | URL): string {
+export function apiUrl(path: Parameters<typeof fetch>[0]): string {
     return `${browserEnv.NEXT_PUBLIC_ENVIRONMENT === 'test' ? 'http://localhost' : ''}/api/backend/api${path}`
 }
