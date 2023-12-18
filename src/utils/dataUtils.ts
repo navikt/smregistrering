@@ -16,9 +16,10 @@ export class UnauthorizedError extends Error {}
 
 export const getDiagnosekoder = async (): Promise<Diagnosekoder> => {
     try {
+        const { ICD10, ICPC2 } = await import('@navikt/diagnosekoder')
         const diagnosekoderRaw = {
-            [DiagnosekodeSystem.ICD10]: (await import('../data/icd10.json')).default,
-            [DiagnosekodeSystem.ICPC2]: (await import('../data/icpc2.json')).default,
+            [DiagnosekodeSystem.ICD10]: ICD10,
+            [DiagnosekodeSystem.ICPC2]: ICPC2,
         }
         return Diagnosekoder.parse(diagnosekoderRaw)
     } catch (error: any) {
