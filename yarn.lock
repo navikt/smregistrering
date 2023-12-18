@@ -855,6 +855,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@navikt/diagnosekoder@npm:1.2023.0":
+  version: 1.2023.0
+  resolution: "@navikt/diagnosekoder@npm:1.2023.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fdiagnosekoder%2F1.2023.0%2F5a183052f0676e45a88cb9ebb8696d85452f54e6"
+  checksum: d178d6dace566a6e9e99f36bed500a3825c82c3059c4c9e687846a56527f1a9552c9608975fa5e3498291c98b8925d9674a2e87b7a5b2897d5cef83193eaa3d8
+  languageName: node
+  linkType: hard
+
 "@navikt/eslint-config-teamsykmelding@npm:^5.0.0":
   version: 5.0.0
   resolution: "@navikt/eslint-config-teamsykmelding@npm:5.0.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Feslint-config-teamsykmelding%2F5.0.0%2Fb3752bb5dd90111eb0971b7836d5a2eb4c62dd87"
@@ -7707,6 +7714,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "smregistrering@workspace:."
   dependencies:
+    "@navikt/diagnosekoder": "npm:1.2023.0"
     "@navikt/eslint-config-teamsykmelding": "npm:^5.0.0"
     "@navikt/fnrvalidator": "npm:^1.3.3"
     "@navikt/next-api-proxy": "npm:^3.4.0"
