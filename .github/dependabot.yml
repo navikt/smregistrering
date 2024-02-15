@@ -66,7 +66,7 @@ updates:
       testing:
         patterns:
           - 'vitest'
-          - 'vitest-dom'
+          - '@testing-library/jest-dom'
           - 'vitest-axe'
           - '@vitejs/plugin-react'
           - 'open'

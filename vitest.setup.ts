@@ -1,13 +1,9 @@
-import 'vitest-dom/extend-expect'
-
-import * as matchers from 'vitest-dom/matchers'
-import { vi, expect, afterEach, beforeAll, afterAll } from 'vitest'
+import '@testing-library/jest-dom/vitest';
+import { vi, afterEach, beforeAll, afterAll } from 'vitest'
 import { cleanup } from '@testing-library/react'
 import Modal from 'nav-frontend-modal'
 
 import { server } from './src/mocks/server'
-
-expect.extend(matchers)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const dirtyGlobal = global as any
