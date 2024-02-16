@@ -84,8 +84,8 @@ const Index = () => {
     )
 }
 
-export const getServerSideProps = withAuthenticatedPage(async (_, accessToken) => {
-    const modiaContext = await getModiaContext(accessToken)
+export const getServerSideProps = withAuthenticatedPage(async (ctx) => {
+    const modiaContext = await getModiaContext(ctx.req)
 
     return {
         props: {
