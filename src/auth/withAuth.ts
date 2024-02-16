@@ -1,15 +1,26 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next'
 import { logger } from '@navikt/next-logger'
-import { validateAzureToken } from '@navikt/next-auth-wonderwall'
+import { makeSession, SessionWithOboProvider } from '@navikt/oasis'
+import { azure } from '@navikt/oasis/identity-providers'
+import { azure as azureOboProvider, withInMemoryCache } from '@navikt/oasis/obo-providers'
 
 import { isLocalOrDemo } from '../utils/env'
 import { PageSsrResult } from '../pages/_app'
 
-type ApiHandler = (req: NextApiRequest, res: NextApiResponse, accessToken: string) => void | Promise<unknown>
+type ApiHandler = (
+    req: NextApiRequest,
+    res: NextApiResponse,
+    session: SessionWithOboProvider,
+) => void | Promise<unknown>
 type PageHandler = (
     context: GetServerSidePropsContext,
-    accessToken: string,
+    session: SessionWithOboProvider,
 ) => Promise<GetServerSidePropsResult<PageSsrResult>>
+
+export const getSession = makeSession({
+    identityProvider: azure,
+    oboProvider: withInMemoryCache(azureOboProvider),
+})
 
 /**
  * Used to authenticate Next.JS pages. Assumes application is behind
@@ -23,28 +34,18 @@ export function withAuthenticatedPage(handler: PageHandler) {
     ): Promise<ReturnType<NonNullable<typeof handler>>> {
         if (isLocalOrDemo) {
             logger.info('Is running locally or in demo, skipping authentication for page')
-            return handler(context, 'fake-local-token')
+            return handler(context, { token: 'fake-local-token', expiresIn: 6900, apiToken: async () => 'fake' })
         }
 
-        const request = context.req
-        const bearerToken: string | null | undefined = request.headers['authorization']
-        if (!bearerToken) {
+        const session = await getSession(context.req)
+        if (!session) {
             logger.info('Could not find any bearer token on the request. Redirecting to login.')
             return {
                 redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
             }
         }
 
-        const validationResult = await validateAzureToken(bearerToken)
-        if (validationResult !== 'valid') {
-            logger.error(`Invalid JWT token found (${validationResult.message}), redirecting to login.`)
-
-            return {
-                redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
-            }
-        }
-
-        return handler(context, bearerToken.replace('Bearer ', ''))
+        return handler(context, session)
     }
 }
 
@@ -56,15 +57,20 @@ export function withAuthenticatedApi(handler: ApiHandler): ApiHandler {
     return async function withBearerTokenHandler(req, res) {
         if (isLocalOrDemo) {
             logger.info('Is running locally or in demo, skipping authentication for API')
-            return handler(req, res, 'fake-local-token')
+            return handler(req, res, { token: 'fake-local-token', expiresIn: 6900, apiToken: async () => 'fake' })
         }
 
-        const bearerToken: string | null | undefined = req.headers['authorization']
-        if (!bearerToken || !(await validateAzureToken(bearerToken))) {
+        try {
+            const session = await getSession(req)
+            if (!session) {
+                res.status(401).json({ message: 'Access denied' })
+                return
+            }
+            return handler(req, res, session)
+        } catch (e) {
+            logger.error(new Error('Unable to validate session for API', { cause: e }))
             res.status(401).json({ message: 'Access denied' })
             return
         }
-
-        return handler(req, res, bearerToken.replace('Bearer ', ''))
     }
 }

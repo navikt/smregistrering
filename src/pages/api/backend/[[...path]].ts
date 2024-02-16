@@ -1,6 +1,5 @@
 import { proxyApiRouteRequest } from '@navikt/next-api-proxy'
 import { logger } from '@navikt/next-logger'
-import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall'
 
 import { withAuthenticatedApi } from '../../../auth/withAuth'
 import { getServerEnv, isLocalOrDemo } from '../../../utils/env'
@@ -16,7 +15,7 @@ const allowedAPIs = [
     'POST /api/v1/sykmelding/[uuid]',
 ]
 
-const handler = withAuthenticatedApi(async (req, res, accessToken) => {
+const handler = withAuthenticatedApi(async (req, res, session) => {
     if (isLocalOrDemo) {
         logger.info('Skipping setting up proxy for local or demo')
         return
@@ -31,26 +30,23 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
         return
     }
 
-    const bearerToken = await grantAzureOboToken(accessToken, getServerEnv().SMREGISTRERING_BACKEND_SCOPE)
+    try {
+        const bearerToken = await session.apiToken(getServerEnv().SMREGISTRERING_BACKEND_SCOPE)
 
-    if (isInvalidTokenSet(bearerToken)) {
-        if (bearerToken.error instanceof Error) {
-            logger.error(new Error(bearerToken.message, { cause: bearerToken.error }))
-        } else {
-            logger.error(`${bearerToken.errorType}: ${bearerToken.message}`)
-        }
+        logger.info(`Proxying request for path ${getServerEnv().SMREGISTRERING_BACKEND_HOST}${rewrittenPath}`)
+        await proxyApiRouteRequest({
+            path: rewrittenPath,
+            req,
+            res,
+            bearerToken,
+            hostname: getServerEnv().SMREGISTRERING_BACKEND_HOST,
+            https: false,
+        })
+    } catch (e) {
+        logger.error('Unable to proxy request to smregistrering-backend', { cause: e })
+        res.status(500)
         return
     }
-
-    logger.info(`Proxying request for path ${getServerEnv().SMREGISTRERING_BACKEND_HOST}${rewrittenPath}`)
-    await proxyApiRouteRequest({
-        path: rewrittenPath,
-        req,
-        res,
-        bearerToken,
-        hostname: getServerEnv().SMREGISTRERING_BACKEND_HOST,
-        https: false,
-    })
 })
 
 const UUID = /\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b/g

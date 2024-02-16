@@ -1,8 +1,10 @@
+import { IncomingMessage } from 'node:http'
+
 import { z } from 'zod'
 import { logger } from '@navikt/next-logger'
-import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall'
 
 import { getServerEnv, isLocalOrDemo } from '../utils/env'
+import { getSession } from '../auth/withAuth'
 
 export interface ClientError<T> {
     errorType: T
@@ -18,7 +20,7 @@ export interface ModiaContext {
 
 export type ModiaContextError = ClientError<'MODIA_ERROR' | 'PARSE_ERROR' | 'FETCH_ERROR'>
 
-export async function getModiaContext(userAccessToken: string): Promise<ModiaContext | ModiaContextError> {
+export async function getModiaContext(req: IncomingMessage): Promise<ModiaContext | ModiaContextError> {
     if (isLocalOrDemo) {
         logger.warn('Using mocked modia context for local development (or demo)')
         return {
@@ -32,13 +34,15 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
         }
     }
 
-    const modiaOboToken = await grantAzureOboToken(userAccessToken, getServerEnv().MODIACONTEXTHOLDER_SCOPE)
-    if (isInvalidTokenSet(modiaOboToken)) {
-        throw new Error(`Unable to get modia obo token: ${modiaOboToken.errorType} ${modiaOboToken.message}`, {
-            cause: modiaOboToken.error instanceof Error ? modiaOboToken.error : undefined,
-        })
+    const session = await getSession(req)
+    if (!session) {
+        return {
+            errorType: 'FETCH_ERROR',
+            message: 'User not logged in',
+        }
     }
 
+    const modiaOboToken = await session.apiToken(getServerEnv().MODIACONTEXTHOLDER_SCOPE)
     const [veileder, aktivEnhet] = await Promise.allSettled([getVeileder(modiaOboToken), getAktivEnhet(modiaOboToken)])
 
     if (veileder.status === 'rejected' || aktivEnhet.status === 'rejected') {
