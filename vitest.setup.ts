@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom/vitest';
+import '@testing-library/jest-dom/vitest'
 import { vi, afterEach, beforeAll, afterAll } from 'vitest'
 import { cleanup } from '@testing-library/react'
 import Modal from 'nav-frontend-modal'
@@ -19,8 +19,8 @@ dirtyGlobal.scrollTo = vi.fn().mockImplementation(() => 0)
 // @ts-expect-error Difficult to type :))
 HTMLCanvasElement.prototype.getContext = vi.fn()
 
-vi.mock('@navikt/next-auth-wonderwall', () => ({
-    validateAzureToken: () => Promise.resolve(true),
+vi.mock('@navikt/next-oasis', () => ({
+    validateToken: () => ({ ok: true, token: 'fake-token' }),
 }))
 
 beforeAll(() => server.listen())
