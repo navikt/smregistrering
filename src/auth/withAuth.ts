@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next'
 import { logger } from '@navikt/next-logger'
-import { validateAzureToken } from '@navikt/next-auth-wonderwall'
+import { getToken, validateToken } from '@navikt/oasis'
 
 import { isLocalOrDemo } from '../utils/env'
 import { PageSsrResult } from '../pages/_app'
@@ -26,25 +26,26 @@ export function withAuthenticatedPage(handler: PageHandler) {
             return handler(context, 'fake-local-token')
         }
 
-        const request = context.req
-        const bearerToken: string | null | undefined = request.headers['authorization']
-        if (!bearerToken) {
+        const token = getToken(context.req)
+        if (!token) {
             logger.info('Could not find any bearer token on the request. Redirecting to login.')
             return {
                 redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
             }
         }
 
-        const validationResult = await validateAzureToken(bearerToken)
-        if (validationResult !== 'valid') {
-            logger.error(`Invalid JWT token found (${validationResult.message}), redirecting to login.`)
+        const validationResult = await validateToken(token)
+        if (!validationResult.ok) {
+            if (validationResult.errorType !== 'token expired') {
+                logger.error(`Invalid JWT token found (${validationResult.error.message}), redirecting to login.`)
+            }
 
             return {
                 redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
             }
         }
 
-        return handler(context, bearerToken.replace('Bearer ', ''))
+        return handler(context, token)
     }
 }
 
@@ -59,12 +60,21 @@ export function withAuthenticatedApi(handler: ApiHandler): ApiHandler {
             return handler(req, res, 'fake-local-token')
         }
 
-        const bearerToken: string | null | undefined = req.headers['authorization']
-        if (!bearerToken || !(await validateAzureToken(bearerToken))) {
+        const token = getToken(req)
+        if (token == null) {
             res.status(401).json({ message: 'Access denied' })
             return
         }
 
-        return handler(req, res, bearerToken.replace('Bearer ', ''))
+        const validationResult = await validateToken(token)
+        if (!validationResult.ok) {
+            if (validationResult.errorType !== 'token expired') {
+                logger.error(`Invalid JWT token found (${validationResult.error.message}), denying access.`)
+            }
+            res.status(401).json({ message: 'Access denied' })
+            return
+        }
+
+        return handler(req, res, token)
     }
 }

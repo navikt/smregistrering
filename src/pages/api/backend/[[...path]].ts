@@ -1,6 +1,6 @@
 import { proxyApiRouteRequest } from '@navikt/next-api-proxy'
 import { logger } from '@navikt/next-logger'
-import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall'
+import { requestOboToken } from '@navikt/oasis'
 
 import { withAuthenticatedApi } from '../../../auth/withAuth'
 import { getServerEnv, isLocalOrDemo } from '../../../utils/env'
@@ -31,14 +31,11 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
         return
     }
 
-    const bearerToken = await grantAzureOboToken(accessToken, getServerEnv().SMREGISTRERING_BACKEND_SCOPE)
-
-    if (isInvalidTokenSet(bearerToken)) {
-        if (bearerToken.error instanceof Error) {
-            logger.error(new Error(bearerToken.message, { cause: bearerToken.error }))
-        } else {
-            logger.error(`${bearerToken.errorType}: ${bearerToken.message}`)
-        }
+    const oboResult = await requestOboToken(accessToken, getServerEnv().SMREGISTRERING_BACKEND_SCOPE)
+    if (!oboResult.ok) {
+        logger.error(new Error(`Unable to exchange token: ${oboResult.error.message}`, { cause: oboResult.error }))
+        res.status(500)
+        res.send(null)
         return
     }
 
@@ -47,7 +44,7 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
         path: rewrittenPath,
         req,
         res,
-        bearerToken,
+        bearerToken: oboResult.token,
         hostname: getServerEnv().SMREGISTRERING_BACKEND_HOST,
         https: false,
     })
