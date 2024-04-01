@@ -58,7 +58,7 @@
         "nav-frontend-typografi": "^4.0.2",
         "nav-frontend-typografi-style": "^2.0.2",
         "next": "14.0.2",
-        "next-logger": "^3.0.2",
+        "next-logger": "^4.0.0",
         "pino": "^8.16.1",
         "pino-pretty": "^10.2.3",
         "prop-types": "^15.8.1",
