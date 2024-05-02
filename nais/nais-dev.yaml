@@ -16,6 +16,10 @@ spec:
     path: /api/internal/is_alive
   readiness:
     path: /api/internal/is_ready
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
   resources:
     limits:
       cpu: 500m
