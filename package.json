@@ -68,7 +68,7 @@
         "react-flatpickr": "^3.10.13",
         "react-modal": "^3.16.1",
         "react-select": "^5.8.0",
-        "react-window": "^1.8.9",
+        "react-window": "^1.8.10",
         "typescript": "^5.2.2",
         "zod": "^3.22.4"
     },
