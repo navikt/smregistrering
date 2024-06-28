@@ -87,6 +87,18 @@ const Index = () => {
 export const getServerSideProps = withAuthenticatedPage(async (_, accessToken) => {
     const modiaContext = await getModiaContext(accessToken)
 
+    if ('errorType' in modiaContext) {
+        logger.warn(
+            `SSR-ing of modia context failed, reason: ${modiaContext.errorType}, cause: ${modiaContext.message}`,
+        )
+    } else {
+        logger.info(
+            `User ${modiaContext.ident} has ${modiaContext.enheter.length} enheter (${modiaContext.enheter.map(
+                (it) => it.enhetId,
+            )})`,
+        )
+    }
+
     return {
         props: {
             modiaContext,
