@@ -36,7 +36,15 @@ function getDefaultSelectValue(modiaContext: ModiaContext | ModiaContextError | 
     }
 
     const { aktivEnhet, enheter } = modiaContext
-    if (!aktivEnhet || !enheter || enheter.length === 0) return null
+
+    // Users without aktiv enhet but still has a valid list needs to default to the first enhet, this doesn't happen very often
+    if (aktivEnhet == null && enheter.length > 0) {
+        return enheter[0].enhetId
+    }
+
+    if (aktivEnhet == null || enheter == null || enheter.length === 0) {
+        return null
+    }
 
     return enheter.some((it) => it.enhetId === aktivEnhet) ? aktivEnhet : enheter[0].enhetId
 }
