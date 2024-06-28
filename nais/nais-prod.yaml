@@ -44,6 +44,8 @@ spec:
     outbound:
       rules:
         - application: smregistrering-backend
+        - application: modiacontextholder
+          namespace: personoversikt
       external:
         - host: modiacontextholder.prod-fss-pub.nais.io
   env:
@@ -52,6 +54,6 @@ spec:
     - name: SMREGISTRERING_BACKEND_HOST
       value: smregistrering-backend
     - name: MODIACONTEXTHOLDER_SCOPE
-      value: api://prod-fss.personoversikt.modiacontextholder/.default
+      value: api://prod-gcp.personoversikt.modiacontextholder/.default
     - name: MODIACONTEXTHOLDER_HOST
-      value: modiacontextholder.prod-fss-pub.nais.io
+      value: modiacontextholder.personoversikt
