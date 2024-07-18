@@ -94,6 +94,8 @@ async function getVeileder(accessToken: string): Promise<Veileder | ModiaContext
             }
         }
 
+        const textResponse = await response.text()
+        logger.info(`Response from modia context: ${textResponse}`)
         const maybeVeileder = Veileder.safeParse(await response.json())
 
         if (maybeVeileder.success) {
