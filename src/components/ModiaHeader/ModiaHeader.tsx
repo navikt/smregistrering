@@ -42,7 +42,9 @@ function ModiaHeader({ modiaContext }: Props): JSX.Element {
                         <Element>Fant ingen enheter</Element>
                     )}
                     <Undertittel>|</Undertittel>
-                    <div>{modiaContext.navn}</div>
+                    <div>
+                        {modiaContext.fornavn} {modiaContext.etternavn}
+                    </div>
                 </div>
             )}
             {(!modiaContext || 'errorType' in modiaContext) && (

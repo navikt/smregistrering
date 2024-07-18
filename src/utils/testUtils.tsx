@@ -31,7 +31,8 @@ const AllTheProviders = ({ children }: PropsWithChildren<unknown>) => (
         modiaContext={{
             aktivEnhet: '0314',
             enheter: [{ enhetId: '0314', navn: 'Testlamoen' }],
-            navn: 'Test S. Testsson',
+            fornavn: 'Test S.',
+            etternavn: 'Testsson',
             ident: 'test-s-testsson',
         }}
     >
