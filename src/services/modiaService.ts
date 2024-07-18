@@ -10,7 +10,8 @@ export interface ClientError<T> {
 }
 
 export interface ModiaContext {
-    navn: string
+    fornavn: string
+    etternavn: string
     ident: string
     aktivEnhet: string | null
     enheter: { enhetId: string; navn: string }[]
@@ -22,7 +23,8 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
     if (isLocalOrDemo) {
         logger.warn('Using mocked modia context for local development (or demo)')
         return {
-            navn: 'Johan J. Johansson',
+            fornavn: 'Johan J.',
+            etternavn: 'Johansson',
             ident: '0129381203',
             enheter: [
                 { enhetId: '0312', navn: 'NAV Sagene' },
@@ -66,7 +68,8 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
 
     return {
         aktivEnhet: aktivEnhet.value.aktivEnhet,
-        navn: veileder.value.navn,
+        fornavn: veileder.value.fornavn,
+        etternavn: veileder.value.etternavn,
         ident: veileder.value.ident,
         enheter: veileder.value.enheter,
     }
@@ -94,8 +97,6 @@ async function getVeileder(accessToken: string): Promise<Veileder | ModiaContext
             }
         }
 
-        const textResponse = await response.text()
-        logger.info(`Response from modia context: ${textResponse}`)
         const maybeVeileder = Veileder.safeParse(await response.json())
 
         if (maybeVeileder.success) {
@@ -155,7 +156,8 @@ async function getAktivEnhet(oboToken: string): Promise<AktivEnhet | ModiaContex
 
 const Veileder = z.object({
     ident: z.string(),
-    navn: z.string(),
+    fornavn: z.string(),
+    etternavn: z.string(),
     enheter: z.array(
         z.object({
             enhetId: z.string(),
