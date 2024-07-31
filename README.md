@@ -1,5 +1,8 @@
 # Manuell registrering av papirsykmelding 🧾
 
+> [!WARNING]
+> smregistrering har blitt migrert inn i [syk-dig](https://github.com/navikt/syk-dig)
+
 Saksbehandlerfrontend for manuell kontroll og utfylling av papirsykmeldinger som ikke lar seg tolke automatisk via OCR-skanning.
 
 Applikasjonen har to hovedoppgaver:

@@ -8,6 +8,8 @@ on:
       - 'main'
 jobs:
   deploy:
+    # disabled as app will be deprecated in favor of navikt/syk-dig
+    if: false
     name: deploy redirect ingress to prod
     runs-on: ubuntu-latest
     steps:
