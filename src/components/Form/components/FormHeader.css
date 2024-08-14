@@ -3,3 +3,11 @@
     width: 100%;
     background-color: #f1f6f8;
 }
+
+.form-header-deprecated-warning {
+    margin-top: 2rem;
+}
+
+.form-header-deprecated-warning p:not(:first-child) {
+    margin-top: 1rem;
+}

@@ -67,7 +67,11 @@ const Form = ({ oppgave, diagnosekoder, enhet, isFerdigstilt, sykmeldingId }: Fo
         <section className="form">
             <form autoComplete="off">
                 <Panel ariaLabel="skjemapanel">
-                    {isFerdigstilt ? <FormHeaderFerdigstilt /> : <FormHeader />}
+                    {isFerdigstilt ? (
+                        <FormHeaderFerdigstilt sykmeldingId={sykmeldingId ?? ''} />
+                    ) : (
+                        <FormHeader oppgaveId={oppgave.oppgaveid} />
+                    )}
 
                     <PasientopplysningerSection
                         section={sections.PASIENTOPPLYSNINGER}
